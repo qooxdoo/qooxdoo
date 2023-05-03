@@ -17,28 +17,34 @@
     this.getMyProp();`, you can use the first-class nature of the
     property, `let value = myProp;`
 
-  - Properties can now be initialized with reference values, use the
-    new `initFunction` feature instead of `init`. This eliminates the
-    need to assign initial values of properties storing reference
-    types in the constructor. They can now be specified within the
-    definition of the property, and the `initFunction` will be called
-    to initialize the value each time a new instance of the class is
-    instantiated.
+  - Properties can now be initialized with reference values, using the
+    new `initFunction` feature instead of `init`. `initFunction` must
+    point to, as its name implies, a function. That function is called
+    with each new instantiation of the class, so it may return a new
+    reference type for each instance. (With `init`, the reference is
+    evaluated when the class is created, so there is one and only one
+    reference object shared among all instances of the class. Using
+    `initFunction` eliminates the need to assign initial values of
+    properties storing reference types in the constructor. They can
+    now be specified within the definition of the property, and the
+    `initFunction` will be called to initialize the value each time a
+    new instance of the class is instantiated.
 
-  - Properties can be immutable in two different ways.
+  - Properties can be configured as immutable. There are two types of
+    immutability:
     - Any property's configuration can specify `immutable :
-      "readonly"` so that its value is set by the `init` key and can
-      not otherwise be altered. 
+      "readonly"` so that its value is set by its `init` or
+      `initFunction` and can not otherwise be altered.
     - Properties with `check : "Array"` or `check : "Object"` can be
       marked as `immutable : "replace"`. Doing so will ensure that the
-      initially allocated array or object continues to be used, so
-      that when a new array or object is provided to the setter, the
-      *values* in the original array or object are replaced by those
-      in the array or object passed to the setter, rather than
-      replacing the actual array with what's specified in the setter.
-      In other words, the base array or object becomes immutable, and
-      its values are replaced by those in the argument to a setter
-      call.
+      initially allocated array or object, created in the property's
+      `initFunction`, continues to be used, so that when a new array
+      or object is provided to the setter, the *values* in the
+      original array or object are replaced by those in the array or
+      object passed to the setter, rather than replacing the entire
+      array with what's specified in the setter. In other words, the
+      initialized array or object becomes immutable, and its values
+      are replaced by those in the argument to a setter call.
 
   - Storage of property values can be completely replaced. In addition
     to developers being able to create their own storage mechanism,
