@@ -58,6 +58,9 @@ qx.Class.define("qx.tool.cli.Cli", {
     /** @type {String} the compile.json filename, if there is one */
     _compileJsonFilename: null,
 
+    /** @type {Boolean} whether compile.js exists */
+    __compileJsExists: false,
+
     /** @type {Object} Parsed arguments */
     __parsedArgs: null,
 

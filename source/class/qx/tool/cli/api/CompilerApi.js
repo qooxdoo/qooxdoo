@@ -56,6 +56,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
   },
 
   members: {
+    __compileJsonExists: true,
     __libraryApis: null,
 
     /**
