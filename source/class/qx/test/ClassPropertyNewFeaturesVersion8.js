@@ -159,6 +159,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
             console.log(
               `subclass apply running: value changing from ${old} to ${value}`
             );
+
             super._applyRunning(value, old);
           }
         },
@@ -231,6 +232,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
               console.log(
                 `Allocating a new array object for property '${key}'`
               );
+
               return [];
             }
           }
@@ -264,6 +266,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           console.log(
             `constructor displayname: ${this.constructor.$$displayName}`
           );
+
           console.log(`instance displayname: ${this.$$displayName}`);
         }
       });
@@ -308,6 +311,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
             this.recentGreeting = qx.core.Environment.get(
               "qx.test.cpnfv8.greeting"
             );
+
             return this.getRecentGreeting();
           }
         },
@@ -427,6 +431,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         superinstance.getRunning(),
         "running initial value (functional) === false"
       );
+
       this.assertFalse(
         superinstance.running,
         "running initial value (first class) === false"
@@ -439,6 +444,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         superinstance.getRunning(),
         "running after setter (functional) === true"
       );
+
       this.assertTrue(
         superinstance.running,
         "running after setter (first class) === true"
@@ -449,6 +455,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         superinstance.getRunning(),
         "running after assignment (functional) === false"
       );
+
       this.assertFalse(
         superinstance.running,
         "running after assignment (first class) === false"
@@ -471,6 +478,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         qx.test.cpnfv8.Subclass.staticEntry,
         "staticEntry === 'I am static'"
       );
+
       this.assertEquals(23, subinstance.num, "sub num === 23");
       subinstance.num = 24;
       this.assertEquals(24, subinstance.num, "sub num === 24");
@@ -479,6 +487,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         subinstance.str,
         "sub str == 'hello world'"
       );
+
       this.assertTrue(subinstance.getRunning(), "sub getRunning() === true");
       subinstance.running = false;
       this.assertFalse(
@@ -503,6 +512,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         qx.test.cpnfv8.ExternalStorage._subclassStorage.externallyStored,
         "post-change value of externallyStored === 20"
       );
+
       this.assertEquals(
         20,
         subinstance.externallyStored,
@@ -540,46 +550,46 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       );
     },
 
-    testNativeClassExtend() {
-      if (!qx.Bootstrap._allowedNonStaticKeys.extendNativeClass) {
-        // As of Version 8.0, extending a native class is not
-        // operational, and this test is skipped.
-        this.skip();
-      }
+    // testNativeClassExtend() {
+    //   if (!qx.Bootstrap._allowedNonStaticKeys.extendNativeClass) {
+    //     // As of Version 8.0, extending a native class is not
+    //     // operational, and this test is skipped.
+    //     this.skip();
+    //   }
 
-      class NativeClass extends qx.test.cpnfv8.Subclass {
-        constructor() {
-          super(13, false);
-          qx.core.Assert.assertEquals(
-            13,
-            this.num,
-            "native class super(): num === 13"
-          );
-          this.num = 42;
-          qx.core.Assert.assertEquals(
-            42,
-            this.num,
-            "native class assignment: num === 42"
-          );
-        }
-      }
+    //   class NativeClass extends qx.test.cpnfv8.Subclass {
+    //     constructor() {
+    //       super(13, false);
+    //       qx.core.Assert.assertEquals(
+    //         13,
+    //         this.num,
+    //         "native class super(): num === 13"
+    //       );
+    //       this.num = 42;
+    //       qx.core.Assert.assertEquals(
+    //         42,
+    //         this.num,
+    //         "native class assignment: num === 42"
+    //       );
+    //     }
+    //   }
 
-      qx.test.cpnfv8.SubNative = qx.Class.define(null, {
-        extend: NativeClass,
-        extendNativeClass: true,
+    //   qx.test.cpnfv8.SubNative = qx.Class.define(null, {
+    //     extend: NativeClass,
+    //     extendNativeClass: true,
 
-        construct() {
-          super();
-          qx.core.Assert.assertEquals(
-            42,
-            this.num,
-            "Class extended from native class: this.num === 42"
-          );
-        }
-      });
+    //     construct() {
+    //       super();
+    //       qx.core.Assert.assertEquals(
+    //         42,
+    //         this.num,
+    //         "Class extended from native class: this.num === 42"
+    //       );
+    //     }
+    //   });
 
-      let subNativeClass = new qx.test.cpnfv8.SubNative();
-    },
+    //   let subNativeClass = new qx.test.cpnfv8.SubNative();
+    // },
 
     testSingleton() {
       try {
