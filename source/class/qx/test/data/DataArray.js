@@ -115,6 +115,24 @@ qx.Class.define("qx.test.data.DataArray", {
       );
     },
 
+    testGetItemNative() {
+      // check the getvalue function
+      this.assertEquals(
+        "one",
+        this.__a[0],
+        "[] getter does not work at position 0"
+      );
+
+      this.assertEquals("two", this.__a[1], "[] does not work at position 1");
+
+      this.assertEquals("three", this.__a[2], "[] does not work at position 2");
+
+      // try some wrong inputs
+      this.assertUndefined(this.__a[-1], "There should be no element at -1");
+
+      this.assertUndefined(this.__a[3], "There should be no element at 3");
+    },
+
     testSetItem() {
       this.__a.setItem(0, "eins");
       this.assertEquals(
@@ -124,6 +142,22 @@ qx.Class.define("qx.test.data.DataArray", {
       );
 
       this.__a.setItem(3, "drei");
+      this.assertEquals(
+        "drei",
+        this.__a.getItem(3),
+        "IndexAt does not work at position 0"
+      );
+    },
+
+    testSetItemNative() {
+      this.__a[0] = "eins";
+      this.assertEquals(
+        "eins",
+        this.__a.getItem(0),
+        "IndexAt does not work at position 0"
+      );
+
+      this.__a[3] = "drei";
       this.assertEquals(
         "drei",
         this.__a.getItem(3),
@@ -569,6 +603,14 @@ qx.Class.define("qx.test.data.DataArray", {
       this.assertEquals("two", removed, "no return type");
       this.assertEquals("one", this.__a.getItem(0), "removeAt does not work");
       this.assertEquals("three", this.__a.getItem(1), "removeAt does not work");
+    },
+
+    testRemoveAtNative() {
+      delete this.__a[1];
+
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "delete does not work");
+      this.assertEquals("three", this.__a.getItem(1), "delete does not work");
     },
 
     testRemoveAll() {

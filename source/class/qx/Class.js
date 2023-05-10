@@ -236,8 +236,9 @@ qx.Bootstrap.define("qx.Class", {
      *         <th>delegate</th>
      *         <td>Map</td>
      *         <td>
-     *           Special-use-case handling of storage setters/getters for non-properties.
-     *           See the developer documentation.
+     *           EXPERIMENTAL: Special-use-case handling of storage
+     *           setters/getters for non-properties. See the developer
+     *           documentation.
      *         </td>
      *       </tr>
      *     </table>
@@ -1118,12 +1119,19 @@ qx.Bootstrap.define("qx.Class", {
                 return true;
               },
 
-              getPrototypeOf(target) {
-                return Reflect.getPrototypeOf(target);
+              deleteProperty(obj, prop) {
+                if (config.delegate && config.delegate.delete) {
+                  return config.delegate.delete.call(obj, prop);
+                }
+                return Reflect.deleteProperty(obj, prop);
               },
 
-              defineProperty(target, key, descriptor) {
-                return Reflect.defineProperty(target, key, descriptor);
+              getPrototypeOf(obj) {
+                return Reflect.getPrototypeOf(obj);
+              },
+
+              defineProperty(obj, key, descriptor) {
+                return Reflect.defineProperty(obj, key, descriptor);
               }
             };
 

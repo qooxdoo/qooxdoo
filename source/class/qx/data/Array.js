@@ -32,6 +32,51 @@ qx.Class.define("qx.data.Array", {
   implement: [qx.data.IListData],
 
   /**
+   * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
+   * array. Instead of using the provided API to retrieve an indexed item
+   * (`getItem()`), store a value in an indexed item (`setItem()`), or remove
+   * an indexed item (`remove()`), this delegate allows thsoe operations to
+   * use normal array operators, e.g., `value = arr[2]`, `arr[2] = 42;`,
+   * `delete arr[2]`.
+   *
+   * @EXPERIMENTAL
+   */
+  delegate: {
+    get(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for retrieving an item
+        return this.getItem(property);
+      } else {
+        // otherwise, use the default action
+        return this[property];
+      }
+    },
+
+    set(property, value) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for modifying an item
+        this.setItem(property, value);
+      } else {
+        // otherwise, use the default action
+        this[property] = value;
+      }
+    },
+
+    delete(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for removing an item
+        this.removeAt(property);
+      } else {
+        // otherwise, use the default action
+        delete this[property];
+      }
+    }
+  },
+
+  /**
    * Creates a new instance of an array.
    *
    * @param param {var} The parameter can be some types.<br/>
@@ -78,11 +123,6 @@ qx.Class.define("qx.data.Array", {
 
     // update the length at startup
     this.__updateLength();
-
-    // work against the console printout of the array
-    if (qx.core.Environment.get("qx.debug")) {
-      this[0] = "Please use 'toArray()' to see the content.";
-    }
   },
 
   /*

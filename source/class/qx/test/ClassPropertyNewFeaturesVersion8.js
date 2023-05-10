@@ -208,21 +208,29 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         // Show how qx.data.Array could be indexed rather than getItem()
         delegate: {
           get(prop) {
+            // If the property is a number or string representing a number...
             if (+prop === +prop) {
-              // is a number or string representing a number
+              // ... then use the method for retrieving an item
               return this.getItem(prop);
             } else {
+              // otherwise, use the default action
               return this[prop];
             }
           },
 
           set(prop, value) {
+            // If the property is a number or string representing a number...
             if (+prop === +prop) {
-              // is a number or string representing a number
+              // ... then use the method for modifying an item
               this.setItem(prop, value);
             } else {
+              // otherwise, use the default action
               this[prop] = value;
             }
+          },
+
+          delete(prop) {
+            this.remove(prop);
           }
         },
 
@@ -251,8 +259,18 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           },
 
           setItem(i, value) {
-            console.log(`setItem ${i} to ${value}`);
             this.getArr()[i] = value;
+          },
+
+          remove(i) {
+            var index = i in this.getArr() ? i : -1;
+
+            if (index != -1) {
+              this.getArr().splice(index, 1);
+              return i;
+            }
+
+            return undefined;
           }
         }
       });
@@ -547,6 +565,14 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         "Item 0,Item 1,Item 2,23",
         arr.getArr().toString(),
         "arr.getArr() === 'Item 0,Item 1,Item 2,23'"
+      );
+
+      console.log("\nAbout to delete arr[2]");
+      delete arr[2];
+      this.assertEquals(
+        "Item 0,Item 1,23",
+        arr.getArr().toString(),
+        "arr.getArr() === 'Item 0,Item 1,23'"
       );
     },
 
