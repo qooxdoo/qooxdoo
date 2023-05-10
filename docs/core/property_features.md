@@ -16,8 +16,6 @@ explanation of how to define and use properties.
 >   (always use an instanceof operation - a real classname is not available
 >   anymore)
 > - Custom check method by simply attaching a function to the declaration
-> - Custom check defined by a string which will be compiled into the resulting
->   setters (faster than the above variant)
 > - Define multiple possible (primitive) values using an array
 
 ## Validation
