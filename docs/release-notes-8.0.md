@@ -75,17 +75,21 @@
   - Async properties can now provide a `get` function, in addition to
     the `apply` function.
 
-  - A class can specify a delegate which intercepts attempts to set or
-    get values on an instance that are not properties. This can allow
-    in the future, for example, a class like `qx.data.Array` to
-    intercept setting numeric properties, so that the following code
-    would work as intuitively expected:
+  - A class can specify an (experimental) `delegate` which intercepts
+    attempts to set or get values on an instance that are not
+    properties.
+
+- `qx.data.Array` has expermental support, using the new class
+  `delegate` feature, for native access to array items. An instance of
+  `qx.data.Array` now intercepts access to numeric properties, so that
+  the following code would work as intuitively expected:
 
     ```
     let arr = new qx.data.Array( [ 10, 11, 12 ] );
     
     arr.setItem(0, 20); // traditional way to change values
-    arr[1] = 21;        // new potential way to change values
+    arr[1] = 21;        // new expermental way to change values
+    delete arr[1];      // identical to arr.removeAt(1)
     ```
 
 ## Breaking changes in v8.0
@@ -105,6 +109,9 @@
   because, with first-class properties, it conflicts with the commonly
   used property name `name`. Use `instance.classname` instead.
   
+- Defining a property `check` pseudo-function as a string is no longer
+  supported. Doing so will now generate an error at class load time.
+
 - It was formerly technically possible to define the same class twice,
   and have the configurations merged. That could only be done by
   defining classes within classes, since otherwise, it is required

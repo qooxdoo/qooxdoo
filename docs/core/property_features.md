@@ -57,11 +57,12 @@ explanation of how to define and use properties.
 
 ## Initialization
 
-Qooxdoo automatically correctly initializes properties. This is true for both,
-properties which have defined an `init` value and also for the other properties
-which are `nullable`. This means that after you have created an instance the
-properties correctly reflect the applied value. Default values assigned by
-`init` also execute the configured `apply` methods and dispatch configured
+Qooxdoo automatically correctly initializes properties. This is true
+for properties which have defined an `init` or `initFunction` value,
+and also for the properties which are `nullable`. This means that
+after you have created an instance, the properties correctly reflect
+the applied value. Default values assigned by `init` or `initFunction`
+also execute the configured `apply` methods and dispatch configured
 events to inform already added listeners.
 
 ## Performance

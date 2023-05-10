@@ -178,6 +178,29 @@ provide the following convenience methods:
 - `isPropertyName()`: Identical to `getPropertyName()`.
 - `togglePropertyName()`: Toggles between true and false.
 
+## First-class nature of properties
+Properties are first-class members of a class. They can be manipulated
+as if they were declared in the `member` section of the configuration
+-- they can be assigned to, or their value read as if it were a member
+variable -- but they are treated as if the functional setter or
+getter, were called. All operations desscribed below, that would occur
+as a result of calling the functional setter, are also called by
+assigning to the property as a variable.
+
+By way of example, for property `myProp`, these two getter statements are equivalent:
+
+```
+value = this.getMyProp();
+value = this.myProp;
+```
+
+Similarly, these two setter statements are equivalent:
+
+```
+this.setMyProp(value);
+this.myProp = value;
+```
+
 ## Property Groups
 
 Property groups is a layer above the property system explained in the last
@@ -249,7 +272,7 @@ properties : {
 ...
 ```
 
-You should define at least one of the attributes `init`, `nullable` or
+You should define at least one of the attributes `init`, `initFunction`, `nullable` or
 `inheritable`. Otherwise, the first call to the getter would stop with an
 exception because the computed value is not (yet) defined.
 
@@ -342,21 +365,45 @@ when property values are being reset.
 
 There are two ways to set an init value of a property.
 
-#### Init value in declaration
-
-The _preferred_ way for regular init values is to simply declare them by an
-`init` key in the property configuration map. You can use this key standalone or
-in combination with `nullable` and/or `inheritable`.
+#### Init value, calculated at class instantiation time
+The _preferred_ way for reference vaues such as objects or arrays,
+which are not expected to be shared between instances of the class, is
+to provide a function to the `initFunction` key in the property
+configuration map. The function will be called each time the class is
+instantiated, and should return the initial value for the property in
+that instance. You can use this key standalone or in combination with
+`nullable` and/or `inheritable`.
 
 ```javascript
 properties : {
-  myProperty : { init : "hello" }
+  myProperty : {
+    initFunction : function() { return [ 1, 2, 4, 8 ]; }
+}
+```
+
+#### Init value, calculated at class load time
+
+The `initFunction` key can be used for all initial values. A slightly
+simpler mechanism is available, however, for simple (non-reference)
+values. In this case, declare them using the `init` key in the
+property configuration map. You can use this key standalone or in
+combination with `nullable` and/or `inheritable`.
+
+```javascript
+properties : {
+  myProperty : { init : 42 },
+  myOtherProperty : { initFunction : () => 42 }
 }
 ```
 
 #### Init value in constructor
 
-Alternatively, you could set the init value of the property in the constructor
+Before the introduction of the `initFunction` key in qooxdoo version
+8.0, it was necessary to initialize reference types in the
+constructor. The following remains as an available option, although it
+should be rarely necessary any longer, for use in new code.
+
+You could set the init value of the property in the constructor
 of the class. This is only recommended for cases where a declaration of an init
 value as explained above is not sufficient.
 
@@ -366,26 +413,16 @@ types" like `Array`, `Object`) that should not be shared among instances, but be
 unique on instance level.
 
 Another scenario would be to use a localizable init value when
-internationalizing your application (development/internationalization): Because
-`this.tr()` cannot be used in the property definition, you may either use the
-static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the call of
-the initializing function in the constructor.
-
-> :memo: You need to add a `deferredInit:true` to the property configuration to allow
-> for a deferred initialization for reference types as mentioned above.
-
-```javascript
-qx.Class.define("qx.MyClass", {
-  construct() {
-    this.initMyProperty([1, 2, 4, 8]);
-  },
-  properties : {
-    myProperty : { deferredInit : true}
-  }
-};
-```
+[internationalizing your application](../development/howto/internationalization):
+Because `this.tr()` cannot be used in the property definition, you may either
+use the static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the
+call of the initializing function in the constructor.
 
 ### Applying an init value
+
+The following applies if using the methodology describe immediately
+above, in 'Init value in constructor'. It is not necessary when using
+the `initFunction` key.
 
 It is possible to apply the init value using a user-defined apply method. To do
 this call the init method `this.initMyProperty(value)` somewhere in your
@@ -473,17 +510,19 @@ members :
 }
 ```
 
-In the above example you can see the different usage possibilities regarding
-properties and their init values. If you do not want to share "reference types"
-(like `Array`, `Object`) between instances, the init values of these have to be
-declared in the constructor and not in the property definition.
-
-If an `init` value is given in the property declaration, the init method does
-not accept any parameters. The init methods always use the predefined init
-values. In cases where there is no `init` value given in the property
-declaration, it is possible to call the init method with one parameter, which
-represents the init value. This may be useful to apply reference types to each
-instance. Thus, they would not be shared between instances.
+In the above example you can see the different usage possibilities
+regarding properties and their init values. If you do not want to
+share "reference types" (like `Array`, `Object`) between instances,
+the init values of these should be provided via the `initFunction` key
+instead of the `init` key. Alternatively (and before qooxdoo 8.0),
+they would have to be declared in the constructor. If an `init` or
+`initFunction` value is given in the property declaration, the init
+method does not accept any parameters. The init methods always use the
+predefined init values. In cases where there is no `init` or
+`initFunction` value given in the property declaration, it is possible
+to call the init method with one parameter, which represents the init
+value. This may be useful to apply reference types to each instance.
+Thus, they would not be shared between instances.
 
 > :memo: Please remember that init values are not for incoming user values. Please use
 > `init` only for class defined things, not for user values. Otherwise, you
@@ -491,11 +530,12 @@ instance. Thus, they would not be shared between instances.
 
 ### Refining init values
 
-Derived classes can refine the init value of a property defined by their super
-class. This is however the only modification which is allowed through
-inheritance. To refine a property just define two keys inside the property
-(re-)definition: `init` and `refine`. `refine` is a simple boolean flag which
-must be configured to true.
+Derived classes can refine the init value of a property defined by
+their super class. This is however the only modification which is
+allowed through inheritance. To refine a property just define two keys
+inside the property (re-)definition: either `init` or `initFunction`;
+and `refine`. `refine` is a simple boolean flag which must be
+configured to true.
 
 Normally properties could not be overridden. This is the reason for the `refine`
 flag. The flag informs the implementation that the developer is aware of the
@@ -525,11 +565,34 @@ property validation, take a look at the [validation section](?id=validation-of-i
 
 You can check against one of these predefined types:
 
-- `Boolean`, `String`, `Number`, `Integer`, `Float`, `Double`
-- `Object`, `Array`, `Map`
-- `Class`, `Mixin`, `Interface`, `Theme`
-- `Error`, `RegExp`, `Function`, `Date`, `Node`, `Element`, `Document`,
-  `Window`, `Event`
+- `Boolean`
+- `String`
+- `Number`
+- `Integer`
+- `Float`
+- `Double`
+- `PositiveNumber`
+- `PositiveInteger`
+- `Object`
+- `Array`
+- `Map`
+- `Class`
+- `Mixin`
+- `Interface`
+- `Theme`
+- `Decorator`
+- `Font`
+- `Color`
+- `Error`
+- `RegExp`
+- `Function`
+- `Date`
+- `Node`
+- `Element`
+- `Document`
+- `Window`
+- `Event`
+- `Promise`
 
 Due to the fact that JavaScript only supports the `Number` data type, `Float`
 and `Double` are handled identically to `Number`. Both are still useful, though,
@@ -605,27 +668,6 @@ This example demonstrates how to handle numeric values which only accept a given
 range of numbers (here 0 .. 100). The possibilities for custom checks are only
 limited by the developer's imagination. ;-)
 
-#### Alternative solution
-
-As an alternative to the custom check _function_, you may also define a _string_
-which will directly be incorporated into the setters and used in a very
-efficient way. The above example could be coded like this:
-
-```javascript
-properties :
-{
-  progress :
-  {
-    init : 0,
-    check : "!isNaN(value) && value >= 0 && value <= 100"
-  }
-}
-```
-
-This is more efficient, particularly for checks involving rather small tests, as
-it omits the function call that would be needed in the variant above. But make
-sure the identifier you are using is named ** value**, otherwise you will not be
-checking the incoming property value.
 
 ## Transforming incoming values
 
@@ -869,6 +911,110 @@ support inheritance may be a good orientation:
 > :memo: This list of CSS properties is only meant for orientation and does not reflect
 > any of Qooxdoo widget properties.
 
+## Establishing immutability of properties
+
+Properties can be configured using the `immutable` key. There are two
+types of immutability:
+
+### Readonly properties
+
+Any property's configuration can specify `immutable : "readonly"` so
+that its value is set by its `init` or `initFunction` and can not
+otherwise be altered.
+
+### Immutability of reference types
+
+Properties with `check : "Array"` or `check : "Object"` can be marked
+as `immutable : "replace"`. Doing so will ensure that the initially
+allocated array or object, created in the property's `initFunction`,
+continues to be used, so that when a new array or object is provided
+to the setter, the *values* in the original array or object are
+replaced by those in the array or object passed to the setter, rather
+than replacing the entire array with what's specified in the setter.
+In other words, the initialized array or object becomes immutable, and
+its values are replaced by those in the argument to a setter call.
+
+## Defining own property storage
+
+Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.propertystorage.Default`. 
+
+It is possible to define an alternative storage methodology. Defining
+storage requires creating a map containing four keys: `init`, `set`,
+`get`, and `dereference`.
+
+### init
+
+A storage implementation's `init` key defines how to initialize the
+property's value in its storage. The default storage implementation
+uses the property's `init` value (or `undefined` if the property
+doesn't define an `init` key) and stores it into the instance. The
+default storage's `init` function looks something like this:
+
+```
+init(propertyName, property, clazz)
+{
+  // Create the storage for this property's current value
+  Object.defineProperty(
+    clazz.prototype,
+    propertyName,
+    {
+      value        : property.init,
+      writable     : true, // must be true for possible initFunction
+      configurable : false,
+      enumerable   : false
+    });
+}
+```
+
+### set
+A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
+
+```
+set(prop, value)
+{
+  let             variant = this[`$$variant_${prop}`];
+
+  // Don't go through the whole setter process; just save the value
+  this[`$$variant_${prop}`] = "immediate";
+  this[prop] = value;
+  this[`$$variant_${prop}`] = variant;
+},
+```
+
+Note the `variant` handling. This pertains to internals of the Class
+implementation. The key point here is that when
+`this[`$$variant_${prop}`]` is not `immediate`, all of the property
+handling such as validation, transform, etc., may occur if
+`this[prop]` is changed. To ensure that no overhead of additional
+processing is incurred, the default storage implementation saves the
+current variant, temporarily sets the variant to "immediate", saves
+the value in its storage location, and then restores the variant.
+
+### get
+
+A storage implementation's `get` key defines how to retrieve the
+property's value from its storage. The default storage implementation
+simply retrieves the instance object's value of the given property
+name:
+
+```
+get(prop)
+{
+  return this[prop];
+}
+```
+
+### dereference
+
+If the property configuration includes `dereference : true`, then the storage implementation's `dereference` function is called just before the instance's destructor. The default storage implementation deletes the property from the instance:
+
+```
+dereference(prop, property)
+{
+  delete this[prop];
+}
+```
+
 ## Internal methods
 
 The property documentation in the user manual explains the public, non-internal
@@ -950,3 +1096,40 @@ critical, it might be better not to use Qooxdoo's dynamic properties in those
 cases. You might instead want to create your own setters and getters (if needed)
 and store the value just as a hidden private variable (e.g. `__varName`) inside
 your object.
+
+## Property Descriptors
+
+A property descriptor contains the definition of the methods which can
+manipulate and retrieve values from a property. Each of the property
+methods is actually a reference to a function in the property
+descriptor, so, for example, on property `myProp`, the methods
+`setMyProp`, `getMyProp`, `resetMyProp`, etc., are methods held in the
+property descriptor for property `myProp`.
+
+You can access properties through the instance object to which the
+properties are attached, as has been discussed throughout this
+description of properites. Alteratively, though, if many property
+manipulations on a given property are to be made, you may prefer to
+obtain and keep a reference to the property descriptor for that
+property to manipulate it, rather than manipulating it through the
+instance object.
+
+The property descriptor for a property can be obtained, through the
+instance object, by calling the `getPropertyDescriptor` method, and
+passing as an argument, the name of the property for which the
+property descriptor is desired. For example, to obtain the property
+descriptor for the property `myProp`:
+
+```
+let propDesc = myClassInstance.getPropertyDescriptor("myProp");
+```
+
+With that property descriptor in hand, you can now manipulate the
+property with it, e.g.:
+
+```
+propDesc.set(2);
+```
+
+For more details of using property descriptors, see the API
+documentation for class `qx.core.PropertyDescriptorRegistry`.
