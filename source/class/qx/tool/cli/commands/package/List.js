@@ -135,7 +135,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       }
       catch (ex){
         qx.tool.compiler.Console.error(
-          `Cannot determine a qooxdoo version to show packages only for this version`
+          `Cannot determine a qooxdoo version to show packages only for this version, because you are not in a project directory.`
         );
         process.exit(1);
       }
