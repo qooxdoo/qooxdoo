@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.Class", {
        * Whether to warn if a member variable is assigned without
        * being declared in the "members" section
        */
-      "Warn member not declared": true,
+      "Warn member not declared": false,
 
       /**
        * Allow all private and internal-use properties methods -- e.g.,
