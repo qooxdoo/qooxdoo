@@ -946,14 +946,6 @@ qx.Bootstrap.define("qx.Class", {
                   }
                 }
 
-                if (prop == 3)
-                  console.log(
-                    "before storage call, prop=",
-                    prop,
-                    ", storage=",
-                    storage
-                  );
-
                 // If this is not a property being set, or is a
                 // storage call, just immediately set value
                 if (!property || proxy[`$$variant_${prop}`] == "immediate") {
@@ -961,7 +953,6 @@ qx.Bootstrap.define("qx.Class", {
                   return true;
                 }
 
-                if (prop == 3) console.log(`${prop} is a property`);
                 //
                 // Anything from here on, is a property
                 //

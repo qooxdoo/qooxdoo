@@ -182,18 +182,22 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
             init: 0,
             async: true,
             get: async () => {
-              return new qx.Promise((resolve, reject) => {
+              let p;
+              p = new qx.Promise((resolve, reject) => {
                 setTimeout(() => {
                   resolve(true);
                 }, 1200);
               });
+              return p;
             },
             apply: async () => {
-              return new qx.Promise((resolve, reject) => {
+              let p;
+              p = new qx.Promise((resolve, reject) => {
                 setTimeout(() => {
                   resolve(true);
                 }, 1200);
               });
+              return p;
             }
           }
         }
@@ -363,7 +367,8 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           a: {
             check: "Object",
             initFunction: () => {
-              return {};
+              let ret = {};
+              return ret;
             },
             immutable: "replace"
             // storage : qx.core.propertystorage.ImmutableObject // same as immutable:"replace"
