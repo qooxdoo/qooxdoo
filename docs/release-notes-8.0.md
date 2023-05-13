@@ -79,7 +79,7 @@
     attempts to set or get values on an instance that are not
     properties.
 
-- `qx.data.Array` has expermental support, using the new class
+- `qx.data.Array` has experimental support, using the new class
   `delegate` feature, for native access to array items. An instance of
   `qx.data.Array` now intercepts access to numeric properties, so that
   the following code would work as intuitively expected:
