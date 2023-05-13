@@ -13,6 +13,7 @@
 
    Authors:
      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
@@ -20,6 +21,9 @@ const fs = require("fs");
 const path = require("upath");
 const chokidar = require("chokidar");
 
+/**
+ * @ignore(setImmediate)
+ */
 qx.Class.define("qx.tool.cli.Watch", {
   extend: qx.core.Object,
 
@@ -102,11 +106,9 @@ qx.Class.define("qx.tool.cli.Watch", {
         }
         config._process = null;
       }
-
       console.log(
         "Starting application: " + config._cmd + " " + config._args.join(" ")
       );
-
       config._processPromise = new qx.Promise((resolve, reject) => {
         let child = (config._process = require("child_process").spawn(
           config._cmd,
@@ -221,32 +223,34 @@ qx.Class.define("qx.tool.cli.Watch", {
             `DEBUG: confirmed=${JSON.stringify(confirmed, 2)}`
           );
         }
-
-        var watcher = (this._watcher = chokidar.watch(confirmed, {
-          //ignored: /(^|[\/\\])\../
-        }));
-        watcher.on("change", filename =>
-          this.__onFileChange("change", filename)
-        );
-
-        watcher.on("add", filename => this.__onFileChange("add", filename));
-        watcher.on("unlink", filename =>
-          this.__onFileChange("unlink", filename)
-        );
-
-        watcher.on("ready", () => {
-          this.__watcherReady = true;
-          this.__make();
-        });
-        watcher.on("error", err => {
-          qx.tool.compiler.Console.print(
-            err.code == "ENOSPC"
-              ? "qx.tool.cli.watch.enospcError"
-              : "qx.tool.cli.watch.watchError",
-            err
+        this.__make().then(() => {
+          var watcher = (this._watcher = chokidar.watch(confirmed, {
+            //ignored: /(^|[\/\\])\../
+          }));
+          watcher.on("change", filename =>
+            this.__onFileChange("change", filename)
           );
+          watcher.on("add", filename => this.__onFileChange("add", filename));
+          watcher.on("unlink", filename =>
+            this.__onFileChange("unlink", filename)
+          );
+          watcher.on("ready", () => {
+            qx.tool.compiler.Console.log(`Start watching ...`);
+            this.__watcherReady = true;
+          });
+          watcher.on("error", err => {
+            qx.tool.compiler.Console.print(
+              err.code == "ENOSPC"
+                ? "qx.tool.cli.watch.enospcError"
+                : "qx.tool.cli.watch.watchError",
+              err
+            );
+          });
         });
       });
+      process.on("beforeExit", this.__onStop.bind(this));
+      process.on("exit", this.__onStop.bind(this));
+      return this.__runningPromise;
     },
 
     async stop() {
@@ -350,8 +354,8 @@ qx.Class.define("qx.tool.cli.Watch", {
           }
           return null;
         });
-
-      return (this.__making = runIt());
+      this.__making = runIt();
+      return this.__making;
     },
 
     __scheduleMake() {

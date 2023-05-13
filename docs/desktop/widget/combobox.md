@@ -16,13 +16,13 @@ The items in a ComboBox supports plain text and/or icons.
 
 ## Description
 
-A ComboBox is like a textfield with a drop down of predefined values. The main
-difference to the selectbox is that the user can enter individual values or
+A ComboBox is like a TextField with a drop-down of predefined values. The main
+difference to the SelectBox is that the user can enter individual values or
 choose from the predefined ones. The items in the predefined list supports plain
 text and/or icons. The items which can be added to the list are
 `qx.ui.form.ListItem` items.
 
-Please note that the ComboBox supports no auto- completion.
+Please note that the ComboBox does not support autocompletion.
 
 ## Demos
 

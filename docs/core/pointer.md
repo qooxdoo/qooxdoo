@@ -35,4 +35,4 @@ The following events are available in all of Qooxdoo's GUI toolkits:
 Note that not all events mentioned in the specification are listed here. We
 chose to only implement the event types required for Qooxdoo's widgets, which is
 one reason why we don't like to call this implementation a polyfill, even if in
-most areas it conforms to the the spec and is quite broad in scope.
+most areas it conforms to the spec and is quite broad in scope.

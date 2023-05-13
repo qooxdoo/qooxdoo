@@ -18,14 +18,14 @@ mobile, 7'' tablets), class tablet or device class desktop.
 The device type is accessible by the environment variable `device.type` . It is
 able to detect 3 classes: `mobile`, `tablet` and `desktop`.
 
-```
-var deviceType = qx.core.Environment.get("device.type");
+```javascript
+const deviceType = qx.core.Environment.get("device.type");
 ```
 
 ### Device type mapping table :
 
 The device type is detected by resolving user agent strings. Device class
-mapping is done by searching a specific hardware class, an operation system or a
+mapping is done by searching a specific hardware class, an operating system or a
 browser type.
 
 **Tablets** (returns `tablet`)
@@ -59,16 +59,16 @@ The device-based layouting is handled by `qx.ui.mobile.page.Manager`. In our
 examples at mobile playground and the tutorial, we always make usage of this
 manager to create a Mobile application.
 
-```
-var isTablet = false;
-var manager = new qx.ui.mobile.page.Manager(isTablet);
-var page = new qx.ui.mobile.page.NavigationPage();
+```javascript
+let isTablet = false;
+const manager = new qx.ui.mobile.page.Manager(isTablet);
+const page = new qx.ui.mobile.page.NavigationPage();
 manager.addDetail(page);
 page.show();
 ```
 
 The manager has an optional constructor parameter `isTablet`. It indicates
-whether the page manager uses the mobile or the tablet layouting mode. In this
+whether the page manager uses the mobile or the tablet layouting mode. In these
 examples, we deactivated tablet layout mode with `isTablet=false`.
 
 If parameter `isTablet` is not defined in the constructor, the page manager
@@ -82,13 +82,13 @@ The class `qx.ui.mobile.page.Manager` works with instances of
 `qx.ui.mobile.page.NavigationPage`. The manager arranges the pages on screen,
 based on flag `isTablet` and device orientation.
 
-An device/window orientation change is detected by %{Mobile} and fires an
+A device/window orientation change is detected by %{Mobile} and fires an
 `orientationchange` event, which is handled by page manager.
 
 ### MasterPages and DetailPages
 
 When page manager is on tablet mode, it arranges the NavigationPages in a
-different order than on mobile mode. For this arrangement it needs to know,
+different order than on mobile mode. For this arrangement it needs to know
 whether a NavigationPage is important for the application flow, or not.
 
 For this arrangement logic the instances of `qx.ui.mobile.page.NavigationPage`
@@ -141,12 +141,12 @@ MasterButton. The caption of the MasterButton and the title of
 Now, that you gained this knowledge about Mobile tablet support, you surely want
 to create an application using this feature.
 
-```
-var manager = new qx.ui.mobile.page.Manager();
+```javascript
+const manager = new qx.ui.mobile.page.Manager();
 
-var masterPage = new qx.ui.mobile.page.NavigationPage();
-var detailPage1 = new qx.ui.mobile.page.NavigationPage();
-var detailPage2 = new qx.ui.mobile.page.NavigationPage();
+const masterPage = new qx.ui.mobile.page.NavigationPage();
+const detailPage1 = new qx.ui.mobile.page.NavigationPage();
+const detailPage2 = new qx.ui.mobile.page.NavigationPage();
 
 manager.addMaster(masterPage);
 manager.addDetail([detailPage1,detailPage2]);
@@ -161,7 +161,7 @@ In the example above, we first create a page manager. To this manager we add
 This MasterPage could be used as a menu or overview page to control visibility
 of DetailPages. The DetailPages can be added as an array, for convenience.
 
-Finally you have to define which pages are visible at startup.
+Finally, you have to define which pages are visible at startup.
 
 Page manager does not manage startup visibility, because this gives you full
 control about the application flow.

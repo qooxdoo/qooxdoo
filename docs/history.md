@@ -3,7 +3,7 @@
 Qooxdoo has a long history. Originally developed by a dedicated
 team at [1&1](https://www.1und1.de/), its version 0.1 is from [May
 2005](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-legacy/0.1/).
-Up to version 2, qooxdoo was developed in a SVN repository
+Up to version 2, qooxdoo was developed in an SVN repository
 at sourceforge.net, were the source code for versions
 [0.1-0.7](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-legacy/) and
 [1.0-5.0](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-current/)
@@ -13,11 +13,11 @@ In 2015, Qooxdoo was transformed to an open source project led by a team of
 volunteer developers and managed by a foundation under Swiss law. 
 
 ## Version history
-- v7.0 (Feb 2022) [Release notes](/release-notes.7.0.md) 
+- v7.0 (Feb 2022) [Release notes](release-notes.7.0.md) 
   | [Documentation](https://qooxdoo.org/documentation/v7.0/#/)
   | [API Viewer](https://qooxdoo.org/qxl.apiviewer/v7.0/)
 
-- v6.0 (Feb 2021) [Release notes](/release-notes.md) 
+- v6.0 (Feb 2021) [Release notes](release-notes.6.0.md) 
   | [Documentation](https://qooxdoo.org/documentation/6.0/#/)
   | [API Viewer](https://qooxdoo.org/qxl.apiviewer/6.0/)
   

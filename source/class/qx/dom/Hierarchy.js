@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy", {
      * "nextSibling" is not good enough as it might return a text or comment element
      *
      * @param element {Element} Starting element node
-     * @return {Element | null} Next element node
+     * @return {Element|null} Next element node
      */
     getNextElementSibling(element) {
       while (
@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy", {
      * "previousSibling" is not good enough as it might return a text or comment element
      *
      * @param element {Element} Starting element node
-     * @return {Element | null} Previous element node
+     * @return {Element|null} Previous element node
      */
     getPreviousElementSibling(element) {
       while (

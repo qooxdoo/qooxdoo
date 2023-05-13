@@ -16,7 +16,7 @@ The SlideBar is a container widget, which provides scrolling in one dimension
 
 The SlideBar widget can be used as a replacement for a scroll container if
 scrolling is only needed in one direction. In contrast to the Scroll container
-the SlideBar uses RepeatButtons (repeatbutton) instead of scroll bars to do the
+the SlideBar uses [RepeatButtons](repeatbutton.md) instead of scroll bars to do the
 scrolling. It is used e.g. in tab views (tabview).
 
 ## Demos

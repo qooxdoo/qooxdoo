@@ -1366,7 +1366,7 @@
   		 *
   		 * This does __not__ work for line script element.
   		 *
-  		 * @returns {HTMLScriptElement | null}
+  		 * @returns {HTMLScriptElement|null}
   		 */
   		currentScript: function () {
   			if (typeof document === 'undefined') {

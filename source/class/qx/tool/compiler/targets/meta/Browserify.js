@@ -30,8 +30,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
   construct(appMeta) {
     super(appMeta, `${appMeta.getApplicationRoot()}commonjs-browserify.js`);
-    this.__commonjsModules = [];
-    this.__references = {};
     this.setNeedsWriteToDisk(true);
   },
 
@@ -40,33 +38,40 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     __references: null,
 
     __getCommonjsModules() {
-      let commonjsModules = new Set();
-      let references = {};
-      const db = this.getAppMeta().getAnalyser().getDatabase();
-      const localModules =
-        this.getAppMeta().getApplication().getLocalModules() || {};
-      // Get a Set of unique `require`d CommonJS module names from
-      // all classes
-      for (let className in db.classInfo) {
-        let classInfo = db.classInfo[className];
-        if (classInfo.commonjsModules) {
-          Object.keys(classInfo.commonjsModules).forEach(moduleName => {
-            // Ignore this found `require()` if its a local modules
-            if (!(moduleName in localModules)) {
-              // Add this module name to the set of module names
-              commonjsModules.add(moduleName);
-            }
-            // Add the list of references from which this module was require()d
-            if (!references[moduleName]) {
-              references[moduleName] = new Set();
-            }
-            references[moduleName].add([
-              ...classInfo.commonjsModules[moduleName]
-            ]);
-          });
+      if (this.__commonjsModules === null) {
+        let commonjsModules = new Set();
+        let references = {};
+        const db = this.getAppMeta().getAnalyser().getDatabase();
+        const localModules =
+          this.getAppMeta().getApplication().getLocalModules() || {};
+        // Get a Set of unique `require`d CommonJS module names from
+        // all classes
+        for (let className in db.classInfo) {
+          let classInfo = db.classInfo[className];
+          if (classInfo.commonjsModules) {
+            Object.keys(classInfo.commonjsModules).forEach(moduleName => {
+              // Ignore this found `require()` if its a local modules
+              if (!(moduleName in localModules)) {
+                // Add this module name to the set of module names
+                commonjsModules.add(moduleName);
+              }
+              // Add the list of references from which this module was require()d
+              if (!references[moduleName]) {
+                references[moduleName] = new Set();
+              }
+              references[moduleName].add([
+                ...classInfo.commonjsModules[moduleName]
+              ]);
+            });
+          }
         }
+        this.__commonjsModules = [...commonjsModules];
+        this.__references = references;
       }
-      return { commonjsModules: [...commonjsModules], references: references };
+      return {
+        commonjsModules: this.__commonjsModules,
+        references: this.__references
+      };
     },
 
     /**
@@ -75,7 +80,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     async writeToDisk() {
       const localModules = this.getAppMeta().getApplication().getLocalModules();
       let db = this.getAppMeta().getAnalyser().getDatabase();
-      const { commonjsModules, references } = this.__getCommonjsModules();
+      const { commonjsModules } = this.__getCommonjsModules();
 
       let modules = [];
       let modulesInfo = {};
@@ -108,8 +113,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       if (doIt) {
         db.modulesInfo = modulesInfo;
         await this.getAppMeta().getAnalyser().saveDatabase();
-        this.__commonjsModules = commonjsModules;
-        this.__references = references;
       }
       this.setNeedsWriteToDisk(doIt);
       return super.writeToDisk();
@@ -129,10 +132,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         const localModules = this.getAppMeta()
           .getApplication()
           .getLocalModules();
-        if (this.__commonjsModules || localModules) {
+        const { commonjsModules, references } = this.__getCommonjsModules();
+        if (commonjsModules.length > 0 || localModules) {
           await this.__browserify(
-            this.__commonjsModules,
-            this.__references,
+            commonjsModules,
+            references,
             localModules,
             ws
           );
@@ -143,7 +147,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       });
     },
 
-    async __browserify(commonjsModules, references, localModules, ws) {
+    __browserify(commonjsModules, references, localModules, ws) {
       const babelify = require("babelify");
       const preset = require("@babel/preset-env");
       const browserify = require("browserify");
@@ -153,7 +157,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // Make them equivalent.
       builtins.process = builtins._process;
 
-      return new Promise(async resolve => {
+      return new Promise((resolve, reject) => {
         let b = browserify([], {
           builtins: builtins,
           ignoreMissing: true,
@@ -196,19 +200,29 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           global: true
         });
 
-        b.bundle((e, output) => {
+        b.bundle(function (e, output) {
           if (e) {
-            // We've already handled the case of missing module. This is something else.
+            // THIS IS A HACK!
+            // In case of error dependency walker never returns from
+            // ```if (self.inputPending > 0) return setTimeout(resolve);```
+            // because inputPending is not decremented anymore.
+            // so set it to 0 here.
+            let d = b.pipeline.get("deps");
+            d.get(0).inputPending = 0;
             qx.tool.compiler.Console.error(
-              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify: ${e.message}`
+              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify:\n${e.message}`
             );
 
-            // Do not throw an error here, otherwise a problem in the users code will kill the watch with pages of error
-            resolve(null);
+            setTimeout(() => {
+              this.emit("end");
+            });
             return;
           }
-
-          ws.write(output);
+          // in case of end event output can not be writen.
+          // so catch the error and ignore it
+          try {
+            ws.write(output);
+          } catch (err) {}
           resolve(null);
         });
       });

@@ -28,7 +28,9 @@ var path = require("path");
 var xml2js = require("xml2js");
 const CLDR = require("cldr");
 const { promisify } = require("util");
+const process = require("process");
 const readFile = promisify(fs.readFile);
+const readDir = promisify(fs.readdir);
 
 var log = qx.tool.utils.LogManager.createLog("cldr");
 
@@ -59,9 +61,39 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
       }
       log.debug("Loading CLDR " + cldrPath);
 
-      return readFile(path.join(cldrPath, data_path, locale + ".xml"), {
-        encoding: "utf-8"
-      })
+      const fullDir = path.join(cldrPath, data_path);
+
+      return readDir(fullDir)
+        .then(
+          names =>
+            new Promise((resolve, reject) => {
+              const searchedName = locale.toLowerCase() + ".xml";
+              const realName = names.find(
+                name => name.toLowerCase() === searchedName
+              );
+
+              if (realName) {
+                resolve(realName);
+              } else {
+                reject(
+                  new Error(
+                    'Cannot find XML file for locale "' +
+                      locale +
+                      '" in CLDR folder'
+                  )
+                );
+              }
+            })
+        )
+        .then(fileName =>
+          readFile(path.join(fullDir, fileName), {
+            encoding: "utf-8"
+          })
+        )
+        .catch(err => {
+          qx.tool.compiler.Console.error(err);
+          process.exit(1);
+        })
         .then(data =>
           qx.tool.utils.Utils.promisifyThis(parser.parseString, parser, data)
         )
@@ -564,30 +596,35 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
             });
 
             var monthContext = get("months[0].monthContext", cal);
-            find(monthContext, "type", "format", function (row) {
-              find(row.monthWidth, "type", "abbreviated", function (row) {
-                for (var i = 0; i < row.month.length; i++) {
-                  var m = row.month[i];
-                  cldr["cldr_month_format_abbreviated_" + m["$"].type] =
-                    getText(m);
-                }
-              });
-            });
-            find(monthContext, "type", "format", function (row) {
-              find(row.monthWidth, "type", "wide", function (row) {
-                for (var i = 0; i < row.month.length; i++) {
-                  var m = row.month[i];
-                  cldr["cldr_month_format_wide_" + m["$"].type] = getText(m);
-                }
-              });
-            });
-            find(monthContext, "type", "stand-alone", function (row) {
-              for (var i = 0; i < row.monthWidth[0].month.length; i++) {
-                var m = row.monthWidth[0].month[i];
-                cldr["cldr_month_stand-alone_narrow_" + m["$"].type] =
-                  getText(m);
+
+            const parseMonth = (months, cldrProperty) => {
+              if (!months) {
+                return;
               }
-            });
+              months.forEach(month => {
+                cldr[cldrProperty + "_" + month["$"].type] = getText(month);
+              });
+            };
+
+            const parseMonthContext = sectionNameInLocaleFile => {
+              find(monthContext, "type", "format", row =>
+                find(row.monthWidth, "type", sectionNameInLocaleFile, row =>
+                  parseMonth(
+                    row.month,
+                    "cldr_month_format_" + sectionNameInLocaleFile
+                  )
+                )
+              );
+            };
+
+            parseMonthContext("abbreviated");
+            parseMonthContext("wide");
+            find(monthContext, "type", "stand-alone", row =>
+              parseMonth(
+                row.monthWidth[0].month,
+                "cldr_month_stand-alone_narrow"
+              )
+            );
 
             function getTimeFormatPattern(row) {
               return row.timeFormat.pattern;

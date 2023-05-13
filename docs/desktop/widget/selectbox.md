@@ -1,11 +1,11 @@
 # SelectBox
 
-The SelectBox has the same act like the ComboBox, but the SelectBox doesn't
+The SelectBox has the same act as the ComboBox, but the SelectBox doesn't
 allow user input only selection is allowed.
 
 ## Preview Image
 
-![SelectBox](selectbox.png%0A%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../selectbox.png)
+![SelectBox](selectbox.png)
 
 ## Features
 
@@ -16,7 +16,7 @@ allow user input only selection is allowed.
 
 ## Description
 
-The SelectBox has the same act like the ComboBox, but the SelectBox doesn't
+The SelectBox has the same act as the ComboBox, but the SelectBox doesn't
 allow user input only selection is allowed.
 
 For more details about ComboBox see: combobox

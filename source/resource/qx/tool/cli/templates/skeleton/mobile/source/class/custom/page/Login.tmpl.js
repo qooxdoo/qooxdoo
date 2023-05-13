@@ -15,9 +15,9 @@ qx.Class.define("${namespace}.page.Login",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function()
+  construct()
   {
-    this.base(arguments);
+    super();
     this.setTitle("Login");
   },
 
@@ -28,22 +28,22 @@ qx.Class.define("${namespace}.page.Login",
 
 
     // overridden
-    _initialize: function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       // Username
-      var user = new qx.ui.mobile.form.TextField();
+      const user = new qx.ui.mobile.form.TextField();
       user.setRequired(true);
 
       // Password
-      var pwd = new qx.ui.mobile.form.PasswordField();
+      const pwd = new qx.ui.mobile.form.PasswordField();
       pwd.setRequired(true);
 
       // Login Button
-      var loginButton = new qx.ui.mobile.form.Button("Login");
+      const loginButton = new qx.ui.mobile.form.Button("Login");
       loginButton.addListener("tap", this._onButtonTap, this);
 
-      var loginForm = this.__form = new qx.ui.mobile.form.Form();
+      const loginForm = this.__form = new qx.ui.mobile.form.Form();
       loginForm.add(user, "Username");
       loginForm.add(pwd, "Password");
 
@@ -56,7 +56,7 @@ qx.Class.define("${namespace}.page.Login",
     /**
      * Event handler for <code>tap</code> on the login button.
      */
-    _onButtonTap: function() {
+    _onButtonTap() {
       // use form validation
       if (this.__form.validate()) {
         qx.core.Init.getApplication().getRouting().executeGet("/overview");

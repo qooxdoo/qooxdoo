@@ -133,6 +133,27 @@ qx.Class.define("qx.data.Array", {
     __array: null,
 
     /**
+     * Returns an iterator, ie an object which follows the "Iterator Protocol" so that
+     * arrays can be used natively in `for...of`.  See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+     *
+     * @returns {Iterator}
+     */
+    iterator() {
+      let index = 0;
+      let array = this;
+      return {
+        next: () => {
+          if (index >= this.getLength()) {
+            return { done: true };
+          }
+          return {
+            value: this.getItem(index++)
+          };
+        }
+      };
+    },
+
+    /**
      * Concatenates the current and the given array into a new one.
      *
      * @param array {qx.data.Array|Array} The javaScript array which should be concatenated
@@ -922,7 +943,7 @@ qx.Class.define("qx.data.Array", {
      * Returns the highest value in the given array.
      * Supports numeric values only.
      *
-     * @return {Number | null} The highest of all values or undefined if the
+     * @return {Number|null} The highest of all values or undefined if the
      *   array is empty.
      */
     max() {
@@ -941,7 +962,7 @@ qx.Class.define("qx.data.Array", {
      * Returns the lowest value in the array. Supports
      * numeric values only.
      *
-     * @return {Number | null} The lowest of all values or undefined
+     * @return {Number|null} The lowest of all values or undefined
      *   if the array is empty.
      */
     min() {
@@ -1017,7 +1038,7 @@ qx.Class.define("qx.data.Array", {
      *   <li><code>index</code>: the index of the current item</li>
      *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
      * @param self {var?undefined} The context of the callback.
-     * @return {var | undefined} The found item.
+     * @return {var|undefined} The found item.
      */
     find(callback, self) {
       return this.__array.find(callback, self);
@@ -1133,5 +1154,11 @@ qx.Class.define("qx.data.Array", {
     }
 
     this.__array = null;
+  },
+
+  defer(statics) {
+    statics.prototype[Symbol.iterator] = function () {
+      return this.iterator();
+    };
   }
 });

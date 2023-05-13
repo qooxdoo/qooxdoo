@@ -28,7 +28,7 @@ this category.
 A coherent set of these conventions taken together is usually referred to as a
 [locale](http://en.wikipedia.org/wiki/Locale), and they are signified by a
 country code or some derivative thereof. `en`, `en_US` and `en_UK` for example
-signify three distinct locales that are used in English speaking countries. The
+signify three distinct locales that are used in English-speaking countries. The
 understanding is that there is a sort of inheritance relation between more
 general and more specific locales, so that e.g. `en_US` only needs to specify
 the items in which it deviates from the more general `en` locale, and relies on
@@ -36,7 +36,7 @@ the `en` settings for all other on which they agree. For historical reasons
 there is a common "ancestor" to all locales which is called `C`. If not
 specified all locale settings fall back to those given in `C` (which is mostly a
 copy of `en`). Qooxdoo supports this fall-back chain of locale settings by
-looking up a specific item e.g first in `en_US` (if that were the current
+looking up a specific item e.g. first in `en_US` (if that were the current
 locale), then `en` and then in `C`.
 
 To support such regional settings, Qooxdoo uses data from the CLDR project, the
@@ -106,8 +106,7 @@ let button = new qx.ui.form.Button(this.tr("Hello World"));
 `tr` marks the string `"Hello World"` for translation (This string
 is often referred to as the `message id`, as it serves as the
 lookup key for any provided translation). This means that the string
-itself will be extracted when the compilation is run (see further
-internationalization.md#extract*the_messages). 
+itself will be extracted when the compilation is run (see [further](internationalization.md#extract-the-messages)). 
 
 During application run time, `tr` returns the translation of the given string
 under the current locale. That means, the actual string you get at this
@@ -124,7 +123,7 @@ If the string given to `tr` does not have a translation under the current
 locale, the string itself will be returned.
 
 If the string given to `tr` is the empty string, the header of the .po file is
-returned (which can be a bit confusing if done accidentally, but is correct
+returned which can be a bit confusing if done accidentally, but is correct
 according to the
 [PO specs](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files).
 
@@ -133,8 +132,7 @@ by wrapping them in an appropriate `this.tr()` function call: If init values of
 dynamic properties (core/understanding_properties) are meant to be localizable,
 the init value has either to be set in the class constructor using `this.tr()`,
 or `qx.locale.Manager.tr()` has to be used inside the property declaration. See
-documentation on Defining an init value
-defining_properties.md#defining_an_init_value for details.
+documentation on [Defining an init value](../../core/defining_properties.md#defining-an-init-value) for details.
 
 #### trn
 
@@ -204,13 +202,13 @@ Since sentences in different languages can have different structures, it is
 always better to prefer a format string over string concatenation to compose
 messages. This is why the methods above all support format strings like
 `Copied %1 files` as messages and a variable number of additional arguments. The
-additional arguments are converted to strings and inserted into the original
+additional arguments are converted into strings and inserted into the original
 message. `%` is used as an escape character and the number following `%`
 references the corresponding additional argument.
 
 You can use, if you prefer, named arguments in your string. We use the `%`
 symbol to begin an argument and we use curly braces to indicate the name like
-this : `Copied %{numberOfCopy} files. %{myName}`. With this type of formating
+this : `Copied %{numberOfCopy} files. %{myName}`. With this type of formatting
 you should give to your translation function an object, with your named argument
 as key. Example:
 
@@ -252,14 +250,13 @@ If such a file already exists, the newly extracted strings will be merged with
 this file, retaining all existing translations. Therefore, you can re-run
 `npx qx compile -u` as often as you want. You should re-run it at least whenever
 you introduced new translatable strings into the source code, so they will be
-added to the .po files (see further
-internationalization.md#update_the_application).
+added to the .po files (see [further](internationalization.md#update-the-application)).
 
 ### Translate the Messages
 
-These `.po` files are the actual files you - or your translator) - would have to
+These `.po` files are the actual files you - or your translator - would have to
 edit. Since Qooxdoo internally uses well-established tools and formats for
-internationalization ([GNU gettext](http://en.wikipedia.org/wiki/GNU_gettext),
+internationalization ([GNU gettext](http://en.wikipedia.org/wiki/GNU_gettext)),
 any "po"-aware editor or even a simple text editor can be used.
 
 ### Update the Application
@@ -280,7 +277,7 @@ strings, it can be merged with the existing translation files just by calling
 
 ### Run the translated Application
 
-By default Qooxdoo tries to use the browser's default language as its locale.
+By default, Qooxdoo tries to use the browser's default language as its locale.
 You can change the language of the application by using
 [`qx.locale.Manager`](apps://apiviewer/#qx.locale.Manager). For example, the
 following sets the language of the application to French:

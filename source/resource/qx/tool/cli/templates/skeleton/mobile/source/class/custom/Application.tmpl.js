@@ -25,10 +25,10 @@ qx.Class.define("${namespace}.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    main : function()
+    main()
     {
       // Call super class
-      this.base(arguments);
+      super.main();
 
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
@@ -47,11 +47,11 @@ qx.Class.define("${namespace}.Application",
       -------------------------------------------------------------------------
       */
 
-      var login = new ${namespace}.page.Login();
-      var overview = new ${namespace}.page.Overview();
+      const login = new ${namespace}.page.Login();
+      const overview = new ${namespace}.page.Overview();
 
       // Add the pages to the page manager.
-      var manager = new qx.ui.mobile.page.Manager(false);
+      const manager = new qx.ui.mobile.page.Manager(false);
       manager.addDetail([
         login,
         overview
@@ -69,7 +69,7 @@ qx.Class.define("${namespace}.Application",
      * Default behaviour when a route matches. Displays the corresponding page on screen.
      * @param data {Map} the animation properties
      */
-    _show : function(data) {
+    _show(data) {
       this.show(data.customData);
     }
   }

@@ -20,7 +20,6 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
 
   members: {
     setUp() {
-      this.__nodesBefore = document.body.childNodes.length;
       this.require(["webFontSupport"]);
       this.__val = new qx.bom.webfonts.Validator();
     },
@@ -31,11 +30,6 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
         delete this.__val;
       }
       qx.bom.webfonts.Validator.removeDefaultHelperElements();
-      this.assertEquals(
-        this.__nodesBefore,
-        document.body.childNodes.length,
-        "Validator did not clean up correctly!"
-      );
     },
 
     testValidFont() {

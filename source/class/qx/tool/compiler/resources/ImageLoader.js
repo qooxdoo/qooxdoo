@@ -27,8 +27,13 @@ var log = qx.tool.utils.LogManager.createLog("resource-manager");
 qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
   extend: qx.tool.compiler.resources.ResourceLoader,
 
-  construct() {
-    super([".png", ".gif", ".jpg", ".jpeg", ".svg"]);
+  /**
+   * Constructor
+   *
+   * @param {qx.tool.compiler.resources.Manager} manager resource manager
+   */
+  construct(manager) {
+    super([".png", ".gif", ".jpg", ".jpeg", ".svg"], manager);
   },
 
   members: {
@@ -50,16 +55,18 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
      * @Override
      */
     matches(filename, library) {
-      if (filename.endsWith("svg")) {
-        let isWebFont =
-          library.getWebFonts() &&
-          library
-            .getWebFonts()
-            .find(webFont =>
-              webFont.getResources().find(resource => resource == filename)
-            );
+      if (library.isFontAsset(filename)) {
+        return false;
+      }
 
-        if (isWebFont) {
+      if (filename.endsWith(".svg")) {
+        let withoutExt = filename.substring(0, filename.length - 3);
+        let manager = this.getManager();
+        if (
+          ["eot", "woff2", "woff", "ttf"].find(
+            ext => !!manager.findLibraryForResource(withoutExt + ext)
+          )
+        ) {
           return false;
         }
       }
@@ -79,7 +86,10 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
         fileInfo.width = dimensions.width;
         fileInfo.height = dimensions.height;
       } catch (ex) {
-        log.warn("Cannot get image size of " + filename + ": " + ex);
+        // When we can't get the image size, we don't report it because there are SVG types
+        //  that have no size (eg fonts) and it's proved quite hard (or impossible) to
+        //  suppress the warning accurately in those cases.  Ultimately, if the image is
+        //  corrupt it will be found.
         delete fileInfo.width;
         delete fileInfo.height;
       }

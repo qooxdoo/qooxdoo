@@ -8,10 +8,10 @@ application.
 - [`qx.lang.Json.stringify()`](apps://apiviewer/#qx.lang.Json~stringify)
 - [`qx.dev.Debug()`](apps://apiviewer/#qx.dev.Debug)
 
-Included in the latter is qx.dev.Debug.debugObject() which will print out a
+Included in the latter is `qx.dev.Debug.debugObject()` which will print out a
 complete recursive hierarchy (or up to some max level) of an object.
 
-This is taken from a interactive javascript console session:
+This is taken from an interactive javascript console session:
 
 ```text
 >>> var myTest = {a:1, b:[2,3], c:4}
@@ -35,9 +35,9 @@ them at _programming time_.
 ### this.debug()
 
 With `this.debug()` you can print out any string you want to see in the console
-during execution of your application. Of course you might want to interpolate
+during execution of your application. Of course, you might want to interpolate
 variable values in the output. If you pass an entire object reference, the whole
-object will by stringified and printed. So beware: for big objects you get the
+object will be stringified and printed. So beware: for big objects you get the
 entire instantiation in code printed out!
 
 Example:
@@ -54,7 +54,7 @@ follow to inspect the object in a structured way. This is much easier to
 navigate than to skim through pages of source output.
 
 ```javascript
-var b = new qx.ui.form.Button();
+const b = new qx.ui.form.Button();
 console.log(b);
 ```
 

@@ -27,15 +27,15 @@ automatically being disposed as well.
 
 For more information on widgets, see the following pages:
 
-- [Introduction](/desktop/widget/)
+- [Introduction](../widget/README.md)
 - [Custom widgets](customwidgets.md)
 - [Interaction](interaction.md)
 - [Resources](resources.md)
 - [Selection](selection.md)
 - [Drag'n'Drop](dragdrop.md)
 - [Forms](forms.md)
-- [Menus](menu.md)
-- [Window Managment](window_management.md)
+- [Menus](menus.md)
+- [Window Management](window_management.md)
 - [Table Styling](table_styling.md)
 
 ## Composites
@@ -47,13 +47,13 @@ for inheritance. To allow the creation of structures in applications, the
 
 [Composite](apps://apiviewer/#qx.ui.container.Composite) extends `Widget` and
 publishes the whole children and layout management of the `Widget` to the
-public. Typically it is used as a container for other widgets. Children can be
+public. Typically, it is used as a container for other widgets. Children can be
 managed through the methods `add()` , `remove()`, etc. In application code
 Composites are used to structure the interface.
 
 ## Roots
 
-A special category of widgets are the root widgets. These basically do the
+A special category of widgets is the root widgets. These basically do the
 connection between the classic DOM and the Qooxdoo widget system. There are
 different types of roots, each individually tuned for the requirements in the
 covered use case.
@@ -115,12 +115,12 @@ There are different applications which can be used as a starting point for a
 custom application:
 
 - [Standalone](apps://apiviewer/#qx.application.Standalone): Uses the
-  `Application` root to build full blown standalone Qooxdoo applications
+  `Application` root to build full-blown standalone Qooxdoo applications
 - [Inline](apps://apiviewer/#qx.application.Inline): Uses the `Page` root to
   build traditional web page based application which are embedded into isles in
   the classic HTML page.
 - [Native](apps://apiviewer/#qx.application.Native): This class is used for
-  applications that do not involve Qooxdoo's GUI toolkit. Typically they make
+  applications that do not involve Qooxdoo's GUI toolkit. Typically, they make
   only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the
   existing DOM).
 

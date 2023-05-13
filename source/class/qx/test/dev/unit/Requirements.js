@@ -57,30 +57,30 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
     },
 
     testEnvironmentPass() {
-      qx.core.Environment.add("qx.test.requirement.syncTrue", function () {
+      qx.core.Environment.add("qx.test.dev.unit.Requirements.syncTrue", function () {
         return true;
       });
 
       try {
-        this.require(["fulfilledReq", "qx.test.requirement.syncTrue"]);
+        this.require(["fulfilledReq", "qx.test.dev.unit.Requirements.syncTrue"]);
       } catch (ex) {
         this.fail("Check for environment key failed!");
       }
 
-      delete qx.core.Environment.getChecks()["qx.test.requirement.syncTrue"];
+      delete qx.core.Environment.getChecks()["qx.test.dev.unit.Requirements.syncTrue"];
     },
 
     testEnvironmentFail() {
-      qx.core.Environment.add("qx.test.requirement.syncFalse", function () {
+      qx.core.Environment.add("qx.test.dev.unit.Requirements.syncFalse", function () {
         return false;
       });
 
       var self = this;
       this.assertException(function () {
-        self.require(["fulfilledReq", "qx.test.requirement.syncFalse"]);
+        self.require(["fulfilledReq", "qx.test.dev.unit.Requirements.syncFalse"]);
       }, qx.dev.unit.RequirementError);
 
-      delete qx.core.Environment.getChecks()["qx.test.requirement.syncFalse"];
+      delete qx.core.Environment.getChecks()["qx.test.dev.unit.Requirements.syncFalse"];
     },
 
     testEnvironmentAsync() {

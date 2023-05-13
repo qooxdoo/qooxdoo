@@ -17,10 +17,10 @@ The window widget is similar to Windows' MDI child windows.
 
 ## Description
 
-The window widget can be used to show dialogs or to realize a MDI (Multiple
+The window widget can be used to show dialogs or to realize an MDI (Multiple
 Document Interface) Application.
 
-The widgets implements all known metaphors from a window:
+The widgets implement all known metaphors from a window:
 
 - minimize
 - maximize
@@ -29,7 +29,7 @@ The widgets implements all known metaphors from a window:
 - and so on
 
 The package `qx.ui.window` contains two other classes that can be used to create
-a MDI Application:
+an MDI Application:
 
 - The [Desktop](apps://apiviewer/#qx.ui.window.Desktop) can act as container for
   windows. It can be used to define a clipping region for internal windows.

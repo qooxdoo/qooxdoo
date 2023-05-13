@@ -1,10 +1,32 @@
 # Qooxdoo Release Notes
 
+## New features in v7.6
+improved support for webfonts:
+
+- Manifest.json's `provides.webfonts` is deprecated and now `provides.fonts` is preferred
+- The entries in `provides.fonts` are declaring available font "IDs", which could be reusable private names (eg `qx.theme.monospace`) or ones which follow the well-known name (eg `MaterialIcons`)
+- Classes declare that they need a font by using `@usefont(FontIdFromManifest)`
+- The font can be defined with URLs (for use with a CDN) and/or with sources
+- The compiler decides which font files (if any) to include in the application build, and the user can decide whether to use the CDN or compile fonts into the app (via command line and `compile.json` configuration)
+- Glyphs are manually extracted via `qx export-glyphs`, instead of on every compile
+
+The benefits of all this is faster compiles, with smaller build targets - and no space consumed by the `materialicon` fonts if they are not used (as this was the case in the earlier 7.x releases).
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-02-21&until==2023-04-13
+
+
+## Fixes for v7.5.1
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-01-17&until==2023-02-20
+
+## New features in v7.5
+- add Indigo dark theme to qooxdoo
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-11-27&until==2023-01-16
+
 ## New features in v7.4
 - compile.json: localModules can now be used in the root of the file. So you can address the modules for all applications.
                 Application modules will be merged with global ones.
-- browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really neccesary.
-It's neccesary when:
+- browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really necessary.
+It's necessary when:
     - commonjs-browserify.js does not exits
     - The list of modules has changed
     - One or more of the localModules are newer compared to the last run                
@@ -22,12 +44,12 @@ For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-07-11&until=2022-10-26
 
 
-## Noteable changes in v7.2
+## Notable changes in v7.2
  - To supplement the ability to bundle CommonJS modules that was added
 in v7.1, it is now additionally possible to bundle local (in the local
 tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
 documented [here](development/compiler/configuration/README.md).
- - We introduce 2 new widgets: qx.ui.form.FileSelectorButton and qx.ui.toolbar.FileSelectorButton.
+ - We introduce 2 new widgets: `qx.ui.form.FileSelectorButton` and `qx.ui.toolbar.FileSelectorButton`.
  
 
 
@@ -37,10 +59,10 @@ documented [here](development/compiler/configuration/README.md).
 
 
 
-## Noteable changes and new features in v7.0
+## Notable changes and new features in v7.0
  - qx es6ify
  - allow super()
- - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental)". Documention is found [here](communication/README.md)
+ - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental). Documentation is found [here](communication/README.md)
  - Accessibility is an important topic in modern web development in order to allow assistive technologies to better help people with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility.
 Documentation is found [here](development/howto/accessibility.md)
 
@@ -78,7 +100,7 @@ where we have published policies and rules on contributing; We actively encourag
 submit Pull Requests to contribute to the project.
 
 We chat in public on [Gitter](https://gitter.im/qooxdoo/qooxdoo) and answer questions
-on [StackOverflow](https://stackoverflow.com/questions/tagged/qooxdoo)
+on [Stack Overflow](https://stackoverflow.com/questions/tagged/qooxdoo).
 
 And we have [exciting plans for the future](http://qooxdoo.org/documentation/#/roadmap)!
 

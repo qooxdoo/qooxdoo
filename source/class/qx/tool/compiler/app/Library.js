@@ -93,7 +93,10 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       check: "String"
     },
 
-    /** {WebFont[]} List of webfonts provided */
+    /**
+     * {WebFont[]} List of webfonts provided
+     * @deprecated
+     */
     webFonts: {
       init: null,
       nullable: true,
@@ -121,6 +124,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     __sourceFileExtensions: null,
     __promiseLoadManifest: null,
     __environmentChecks: null,
+    __fontsData: null,
 
     /**
      * Transform for rootDir; converts it to an absolute path
@@ -238,13 +242,19 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         this.setTranslationPath(data.provides.translation);
       }
       if (data.provides.webfonts) {
-        var fonts = [];
+        let fonts = [];
+        if (data.provides.webfonts.length) {
+          qx.tool.compiler.Console.print(
+            "qx.tool.compiler.webfonts.deprecated"
+          );
+        }
         data.provides.webfonts.forEach(wf => {
           var font = new qx.tool.compiler.app.WebFont(this).set(wf);
           fonts.push(font);
         });
         this.setWebFonts(fonts);
       }
+      this.__fontsData = data.provides.fonts || {};
       if (data.externalResources) {
         if (data.externalResources.script) {
           this.setAddScript(data.externalResources.script);
@@ -262,6 +272,15 @@ qx.Class.define("qx.tool.compiler.app.Library", {
           rootDir
         );
       }
+    },
+
+    /**
+     * Returns the provides.fonts data from the manifest
+     *
+     * @returns {Array}
+     */
+    getFontsData() {
+      return this.__fontsData;
     },
 
     /**
@@ -364,6 +383,36 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       scanDir(rootDir, "", function (err) {
         cb(err, classes);
       });
+    },
+
+    /**
+     * Detects whether the filename is one of the library's fonts
+     *
+     * @param {String} filename
+     * @returns {Boolean}
+     */
+    isFontAsset(filename) {
+      let isWebFont = false;
+      if (filename.endsWith("svg")) {
+        let fonts = this.getWebFonts() || [];
+        isWebFont = fonts.find(webFont =>
+          webFont.getResources().find(resource => resource == filename)
+        );
+
+        if (!isWebFont) {
+          for (let fontId in this.__fontsData) {
+            let fontData = this.__fontsData[fontId];
+            isWebFont = (fontData.fontFaces || []).find(fontFace =>
+              (fontFace.paths || []).find(resource => resource == filename)
+            );
+
+            if (isWebFont) {
+              break;
+            }
+          }
+        }
+      }
+      return isWebFont;
     },
 
     /**

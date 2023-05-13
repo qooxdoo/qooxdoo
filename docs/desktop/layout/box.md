@@ -12,10 +12,10 @@ vertical box layout lays out widgets in a vertical column, from top to bottom.
 
 - Respects Minimum and maximum dimensions
 - Prioritized growing/shrinking (flex)
-- Margins with horizontal (HBox) resp. vertical (VBox) collapsing)
+- Margins with horizontal (HBox) resp. vertical (VBox) collapsing
 - Auto sizing (ignoring percent values)
 - Percent widths (not size hint relevant)
-- Alignment (Children property {@link qx.ui.core.LayoutItem#alignX} is ignored)
+- Alignment (Children property [alignX](apps://apiviewer/#qx.ui.core.LayoutItem~alignX) is ignored)
 - Horizontal (HBox) resp. vertical (VBox) spacing (collapsed with margins)
 - Property to reverse children ordering (starting from last to first)
 - Vertical (HBox) resp. horizontal (VBox) children stretching (respecting size
@@ -29,7 +29,7 @@ layout applies equally to the vertical box layout just with a vertical
 orientation.
 
 In addition to the child widget's own preferred width the width of a child can
-also be defined as percent ui_layouting.md#percent values. The percent value is
+also be defined as [percent](README.md#percent) values. The percent value is
 relative to the inner width of the parent widget without any spacings. This
 means a horizontal box layout with two children of width `50%` and with a
 spacing will fit exactly in the parent.
@@ -51,7 +51,7 @@ layout has a spacing of `10` pixel and two consecutive child widgets A and B - A
 with a right margin of `15` and B with a left margin of `5` - than the spacing
 between these widgets would be `15`, the maximum of these values.
 
-The preferred height of an horizontal box layout is determined by the highest
+The preferred height of a horizontal box layout is determined by the highest
 child widget. The preferred with is the sum of the widths of each child plus the
 spacing resulting from margins and the `spacing` property.
 

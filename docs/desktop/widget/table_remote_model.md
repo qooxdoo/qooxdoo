@@ -26,11 +26,11 @@ qx.Class.define("myApplication.table.RemoteDataModel",
   members :
   {
      // overridden - called whenever the table requests the row count
-    _loadRowCount : function()
+    _loadRowCount()
     {
       // Call the backend service (example) - using XmlHttp
-      var url  = "http://localhost/services/getTableCount.php";
-      var req = new qx.io.remote.Request(url, "GET", "application/json");
+      const url  = "http://localhost/services/getTableCount.php";
+      const req = new qx.io.remote.Request(url, "GET", "application/json");
 
       // Add listener
       req.addListener("completed", this._onRowCountCompleted, this);
@@ -40,9 +40,9 @@ qx.Class.define("myApplication.table.RemoteDataModel",
     },
 
     // Listener for request of "_loadRowCount" method
-    _onRowCountCompleted : function(response)
+    _onRowCountCompleted(response)
     {
-       var result = response.getContent();
+       const result = response.getContent();
        if (result != null)
        {
           // Apply it to the model - the method "_onRowCountLoaded" has to be called
@@ -51,13 +51,13 @@ qx.Class.define("myApplication.table.RemoteDataModel",
     },
 
     // overridden - called whenever the table requests new data
-    _loadRowData : function(firstRow, lastRow)
+    _loadRowData(firstRow, lastRow)
     {
        // Call the backend service (example) - using XmlHttp
-       var baseUrl  = "http://localhost/services/getTableRowData.php";
-       var parameters = "?from=" + firstRow + "&to=" + lastRow;
-       var url = baseUrl + parameters;
-       var req = new qx.io.remote.Request(url, "GET", "application/json");
+       const baseUrl  = "http://localhost/services/getTableRowData.php";
+       const parameters = "?from=" + firstRow + "&to=" + lastRow;
+       const url = baseUrl + parameters;
+       const req = new qx.io.remote.Request(url, "GET", "application/json");
 
        // Add listener
        req.addListener("completed", this._onLoadRowDataCompleted, this);
@@ -67,9 +67,9 @@ qx.Class.define("myApplication.table.RemoteDataModel",
     },
 
      // Listener for request of "_loadRowData" method
-    _onLoadRowDataCompleted : function(response)
+    _onLoadRowDataCompleted(response)
     {
-        var result = response.getContent();
+       const result = response.getContent();
        if (result != null)
        {
           // Apply it to the model - the method "_onRowDataLoaded" has to be called
@@ -84,8 +84,8 @@ qx.Class.define("myApplication.table.RemoteDataModel",
 
 Now that you've set up the remote table model the table component can use it.
 
-```
-var remoteTableModelInstance = new myApplication.table.RemoteDataModel();
+```javascript
+const remoteTableModelInstance = new myApplication.table.RemoteDataModel();
 yourTableInstance.setTableModel(remoteTableModelInstance);
 ```
 
@@ -99,23 +99,23 @@ to pull the data into the table yourself you have to update the table data once
 the user changes the sorting criteria. You have to enhance the `_loadRowData`
 method with this information to inform your backend how to sort the data.
 
-```
+```javascript
 // "_loadRowData" with sorting support
-_loadRowData : function(firstRow, lastRow)
+_loadRowData(firstRow, lastRow)
 {
     // Call the backend service (example) - using XmlHttp
-    var baseUrl  = "http://localhost/services/getTableRowData.php";
-    var parameters = "?from=" + firstRow + "&to=" + lastRow;
+    const baseUrl  = "http://localhost/services/getTableRowData.php";
+    let parameters = "?from=" + firstRow + "&to=" + lastRow;
 
     // get the column index to sort and the order
-    var sortIndex = this.getSortColumnIndex();
-    var sortOrder =  this.isSortAscending() ? "asc" : "desc";
+    const sortIndex = this.getSortColumnIndex();
+    const sortOrder =  this.isSortAscending() ? "asc" : "desc";
 
     // setting the sort parameters - assuming the backend knows these
     parameters += "&sortOrder=" + sortOrder + "&sortIndex=" + sortIndex;
 
-    var url = baseUrl + parameters;
-    var req = new qx.io.remote.Request(url, "GET", "application/json");
+    const url = baseUrl + parameters;
+    const req = new qx.io.remote.Request(url, "GET", "application/json");
 
     // Add listener
     req.addListener("completed", this._onLoadRowDataCompleted, this);
@@ -133,8 +133,8 @@ remote table model instance at the client-side.
 
 For example
 
-```
-var remoteModel = new myApplication.table.RemoteDataModel();
+```javascript
+const remoteModel = new myApplication.table.RemoteDataModel();
 
 // first param: displayed names, second param: IDs
 remoteModel.setColumns( [ "First name", "Last name" ], [ "first", "last" ] );
@@ -151,7 +151,7 @@ result = {[
 ]};
 ```
 
-Moreover, the backend has to deliver the row count, i. e. the number of rows the
+Moreover, the backend has to deliver the row count, i.e. the number of rows the
 table contains. This is what the `_loadRowCount` function of your subclass
 expects to get. Please make sure that the URLs
 `http://localhost/services/getTableCount.php` and

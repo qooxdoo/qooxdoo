@@ -15,7 +15,7 @@ used directly.
 
 ## Features
 
-- Fully themable scroll bar (Qooxdoo scroll bar)
+- Fully themeable scroll bar (Qooxdoo scroll bar)
 - Size of the scroll bar knob can be adjusted
 
 ## Demos

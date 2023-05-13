@@ -26,7 +26,7 @@ application, we encourage you to review the following points.
 **Compiler and CLI**
 
 Read this more detailed [introduction to the compiler and the CLI](./compiler/README.md)
-and [in-depth information on the CLI commands](./cli/commands.md).
+and [in-depth information on the CLI commands](cli/commands.md).
 
 **Development tools**
 
@@ -42,11 +42,11 @@ necessary for the tool chain to work properly. See the
 
 **Code compilation and transpilation**
 
-In general you need to invoke Qooxdoo's tool chain, particularly
-the [Compiler](compiler/), before you can run your application.
+In general, you need to invoke Qooxdoo's tool chain, particularly
+the [Compiler](compiler/README.md), before you can run your application.
 Qooxdoo has a Java-like approach to source code, in that it just
 "sits around" like a bunch of resources. With the help of its
-[configuration](compiler/configuration/), the Compiler casts all these
+[configuration](compiler/configuration/README.md), the Compiler casts all these
 resources in a runnable application, e.g. by creating a specific loader
 that loads all necessary class code. Using [Babel](https://babeljs.io/)
 and its own [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
@@ -54,8 +54,8 @@ parser, it compiles your source code into a state that is optimized
 and [polyfilled](https://en.wikipedia.org/wiki/Polyfill_(programming))
 for the target runtime environment.
 
-To help you with this requrired intermediate step, Qooxdoo provides
-[continuous compilation in the background](compiler/?id=creating-your-first-application)
+To help you with this required intermediate step, Qooxdoo provides
+[continuous compilation in the background](compiler/README.md#creating-your-first-application)
 and a [built-in web server](cli/commands?id=mini-web-server).
 
 **'source', 'build', and 'deploy' targets**
@@ -79,7 +79,7 @@ files that are used to speed up compilation.
 
 If you follow Qooxdoo's API source code documentation rules, you get Qooxdoo's
 attractive [API Viewer](apps://apiviewer/) for your own code, free of charge.
-See [our guide on how to write API documentation](apidoc/).
+See [our guide on how to write API documentation](apidoc/README.md).
 
 **Testing your code**
 
@@ -87,17 +87,17 @@ Qooxdoo supports a Test-Driven-Development paradigm as unit tests can be easily
 added as normal Qooxdoo classes alongside your library classes. It comes with a
 testrunner application which executes these tests either on the command line or
 in a browser. See the  
-[documentation on testing](testing/).
+[documentation on testing](testing/README.md).
 
 **Solving common app development requirements**
 
-See [the HOWTO](howto/) for a list of tasks that typically need to be solved
+See [the HOWTO](howto/README.md) for a list of tasks that typically need to be solved
 during the development of a Qooxdoo application.
 
 **Dos and Donts**
 
 Once you have a good sense on how to work with Qooxdoo, review the notes on
-[Best Practices](best_practices.md) and [Antipatterns](antipatterns.md) which
+[Best Practices](best_practices.md) and [Anti-patterns](antipatterns.md) which
 might help you to avoid common pitfalls.
 
 **Debugging**

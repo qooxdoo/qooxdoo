@@ -557,7 +557,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
     /**
      * Returns the currently selected color.
      *
-     * @return {String | null} The HEX value of the color of if not color
+     * @return {String|null} The HEX value of the color of if not color
      *   is set, null.
      */
     getValue() {

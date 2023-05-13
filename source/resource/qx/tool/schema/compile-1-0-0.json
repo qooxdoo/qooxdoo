@@ -4,11 +4,7 @@
   "$id": "https://qooxdoo.org/schema/compile-1-0-0.json",
   "description": "compile.json controls the qx compile command, and while you can use command line parameters to compile an application, most applications will require one.",
   "type": "object",
-  "required": [
-    "applications",
-    "targets",
-    "$schema"
-  ],
+  "required": ["applications", "targets", "$schema"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
@@ -21,7 +17,7 @@
     },
     "run": {
       "type": "object",
-      "required": [ "application" ],
+      "required": ["application"],
       "properties": {
         "application": {
           "description": "The name of the application, as specified in the applications[] array",
@@ -54,18 +50,15 @@
       }
     },
     "applications": {
-      "type":"array",
+      "type": "array",
       "description": "Each entry describes an application to be compiled.",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "class",
-          "name"
-        ],
+        "required": ["class", "name"],
         "additionalProperties": false,
         "properties": {
-          "class" : {
+          "class": {
             "description": "The class name of the main application class (it typically inherits from `qx.application.Standalone` for web applications)",
             "type": "string"
           },
@@ -122,7 +115,7 @@
           },
           "environment": {
             "$ref": "#/properties/environment"
-           },
+          },
           "outputPath": {
             "description": "The directory to place the application files (e.g. index.js and resource.js), relative to the target output directory",
             "type": "string"
@@ -136,9 +129,7 @@
             "description": "An array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly). Wildcards are supported by adding a *.",
             "type": "array",
             "uniqueItems": true,
-            "examples": [
-              "qx.util.format.*"
-            ],
+            "examples": ["qx.util.format.*"],
             "items": {
               "type": "string"
             }
@@ -147,9 +138,7 @@
             "description": "An array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed. Wildcards are supported by adding a *. Note that exclude takes priority over include",
             "type": "array",
             "uniqueItems": true,
-            "examples": [
-              "qx.util.format.NumberFormat"
-            ],
+            "examples": ["qx.util.format.NumberFormat"],
             "items": {
               "type": "string"
             }
@@ -166,9 +155,7 @@
           "runWhenWatching": {
             "description": "If provided then the compiler will run this command every time this application is compiled, killing any previous instance if necessary",
             "type": "object",
-            "required": [
-              "command"
-            ],
+            "required": ["command"],
             "properties": {
               "command": {
                 "description": "The command line to run",
@@ -185,15 +172,12 @@
         }
       }
     },
-    "targets" : {
+    "targets": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "type",
-          "outputPath"
-        ],
+        "required": ["type", "outputPath"],
         "additionalProperties": false,
         "properties": {
           "type": {
@@ -240,7 +224,7 @@
           },
           "uri": {
             "description": "this sets the URI used to access the target output directory, i.e. the directory which will contain resources/ and transpiled/",
-            "type":"string"
+            "type": "string"
           },
           "environment": {
             "$ref": "#/properties/environment"
@@ -252,21 +236,34 @@
               "type": "string"
             }
           },
+          "fonts": {
+            "local": {
+              "description": "Whether to prefer local fonts over CDNs",
+              "type": "boolean"
+            },
+            "types": {
+              "description": "Types of fonts (ttf, woff, etc) to allow, default is ttf",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
           "addTimestampsToUrls": {
             "description": "if true (default), the target will add the files timestamp to each URL to allow for strong caching parameters",
-            "type":"boolean"
+            "type": "boolean"
           },
           "writeCompileInfo": {
             "description": "if true, the target will write a compile-info.json and resources.json into the application's output directory, containing the data structures required to generate an application",
-            "type":"boolean"
+            "type": "boolean"
           },
           "typescript": {
-            "type": ["boolean","string"],
+            "type": ["boolean", "string"],
             "description": "When true, output the typescript definition into ``./compiled/source/qooxdoo.d.ts`. If you use a string instead of true, the string is the name of the file which is generated inside the target output directory"
           },
           "mangle-privates": {
             "description": " Whether and how to mangle private identifiers.",
-            "type": ["boolean","string"],
+            "type": ["boolean", "string"],
             "pattern": "^(off|readable|unreadable)$"
           },
           "minify": {
@@ -274,10 +271,10 @@
             "type": "string",
             "pattern": "^(off|minify|mangle|beautify)$"
           },
-		      "deploy-source-maps": {
+          "deploy-source-maps": {
             "description": "If true, the source maps will be deployed.",
             "type": "boolean"
-		      },
+          },
           "save-source-in-map": {
             "description": "If true, the source file will be saved in the map file if the target supports it.",
             "type": "boolean"
@@ -323,9 +320,7 @@
       "description": "An array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly). Wildcards are supported by adding a *.",
       "type": "array",
       "uniqueItems": true,
-      "examples": [
-        "qx.util.format.*"
-      ],
+      "examples": ["qx.util.format.*"],
       "items": {
         "type": "string"
       }
@@ -334,9 +329,7 @@
       "description": "An array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed. Wildcards are supported by adding a *. Note that exclude takes priority over include",
       "type": "array",
       "uniqueItems": true,
-      "examples": [
-        "qx.util.format.NumberFormat"
-      ],
+      "examples": ["qx.util.format.NumberFormat"],
       "items": {
         "type": "string"
       }
@@ -346,9 +339,7 @@
       "type": "object",
       "patternProperties": {
         "^\\S+$": {
-          "required": [
-            "include"
-          ],
+          "required": ["include"],
           "additionalProperties": false,
           "properties": {
             "include": {
@@ -371,16 +362,14 @@
     },
     "path-mappings": {
       "description": " generic means to locate files on disk inside the URI address space of the application",
-      "type":"object",
+      "type": "object",
       "patternProperties": {
         "^\\S+$": {
           "description": "virtual path as seen from the browser",
           "type": "string"
         }
       },
-      "examples": [
-        { "../qooxdoo": "/some/virtual/uri/path/qooxdoo"}
-      ]
+      "examples": [{ "../qooxdoo": "/some/virtual/uri/path/qooxdoo" }]
     },
     "locales": {
       "description": "Include other translations than 'en'",
@@ -420,9 +409,7 @@
       "description": "An array of names which the compiler should ignore. Same as @ignore in source code",
       "type": "array",
       "uniqueItems": true,
-      "examples": [
-        "modules.*"
-      ],
+      "examples": ["modules.*"],
       "items": {
         "type": "string"
       }
@@ -438,7 +425,7 @@
           "type": "object",
           "description": "List of additional babel plugins to enable, eg TC39 proposals; note that some proposals will work out of the box and some will require upgrades to QxCompiler before they work properly - your mileage may vary.  Each key in this object is the NPM name of the plugin, and the value is either true (enabled), false (ignore), or an object which is options to pass to the preset",
           "additionalProperties": {
-            "type": [ "boolean", "object" ]
+            "type": ["boolean", "object"]
           }
         }
       }
@@ -462,14 +449,14 @@
       "properties": {
         "include": {
           "description": "An array of namespaces to include in the bundle. Can contain wildcards.",
-          "type": ["array","string"],
+          "type": ["array", "string"],
           "items": {
             "type": "string"
           }
         },
         "exclude": {
           "description": "An array of namespaces to exclude from the bundle. Can contain wildcards.",
-          "type": ["array","string"],
+          "type": ["array", "string"],
           "items": {
             "type": "string"
           }

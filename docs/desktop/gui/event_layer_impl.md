@@ -16,4 +16,4 @@ The following features work in all supported browsers:
 - Unified key events. For a full list of available key identifiers see the
   [getKeyIdentifier()](apps://apiviewer/#qx.event.type.KeySequence~getKeyIdentifier)
   method documentation of the `qx.event.type.KeySequence` class.
-- Unified [pointer events](pointer.md#pointer_events)
+- Unified [pointer events](pointer.md#pointer-events)

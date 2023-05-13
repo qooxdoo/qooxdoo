@@ -16,8 +16,7 @@ The buttons are positioned on one of the tab view's edges.
   - top
   - bottom
   - left
-
-  \* right
+  - right
 
 - Overflow handling for tabs
 

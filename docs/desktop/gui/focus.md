@@ -68,11 +68,11 @@ stop the user from being able to select any text.
 
 The only thing needed for the focus handler, here, is to add an attribute
 `qxSelectable` with the value `off`, to the node which should not be
-selectable..
+selectable.
 
 Behind the scenes Qooxdoo dynamically applies styles like `user-select` or
 attributes like `unselectable`. There are a lot of bugs in the browser when
-keeping these attributes or styles statically applied to the nodes so they are
+keeping these attributes or styles statically applied to the nodes, so they are
 applied as needed dynamically which works surprisingly well. In Internet
 Explorer the handler stops the event `selectstart` for the affected elements.
 
@@ -112,7 +112,7 @@ images, for example, which is often not wanted in a GUI toolkit. These native
 top of them. To stop this, Qooxdoo applies styles like `user-drag` on browsers
 that support it, or prevents the native `draggesture` event where available.
 
-Other then this, most needed preventions are implemented internally through a
+Other than this, most needed preventions are implemented internally through a
 `preventDefault` call on the global `pointerdown` event, when a specific target
 is detected. This has some side effects though. When preventing such a core
 event, it means that most browsers also stop any type of selection happening
@@ -120,8 +120,8 @@ through the pointer. This also stops them from focusing the DOM node natively.
 The Qooxdoo code uses some explicit `focus` calls on the DOM nodes to fix this.
 
 Please note that some settings may have side effects on other things. For
-example, to make a text region selectable but not activateable is not possible
-with the current implementation. This tends not to be a hinderance in real-world
+example, to make a text region selectable but not activatable is not possible
+with the current implementation. This tends not to be a hindrance in real-world
 applications, but may be still interesting to know about.
 
 ## Finally

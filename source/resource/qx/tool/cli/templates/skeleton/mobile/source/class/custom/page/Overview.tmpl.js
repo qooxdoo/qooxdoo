@@ -15,9 +15,9 @@ qx.Class.define("${namespace}.page.Overview",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function()
+  construct()
   {
-    this.base(arguments);
+    super();
     this.setTitle("Overview");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -27,16 +27,16 @@ qx.Class.define("${namespace}.page.Overview",
   members :
   {
     // overridden
-    _initialize : function()
+    _initialize()
     {
-      this.base(arguments);
+      super._initialize(arguments);
 
       this.getContent().add(new qx.ui.mobile.basic.Label("Your first app."));
     },
 
 
     // overridden
-    _back : function(triggeredByKeyEvent)
+    _back(triggeredByKeyEvent)
     {
       qx.core.Init.getApplication().getRouting().back();
     }

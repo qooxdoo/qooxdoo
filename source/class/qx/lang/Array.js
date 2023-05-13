@@ -420,7 +420,7 @@ qx.Bootstrap.define("qx.lang.Array", {
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number | null} The highest of all values or undefined if array is empty.
+     * @return {Number|null} The highest of all values or undefined if array is empty.
      */
     max(arr) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -446,7 +446,7 @@ qx.Bootstrap.define("qx.lang.Array", {
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number | null} The lowest of all values or undefined if array is empty.
+     * @return {Number|null} The lowest of all values or undefined if array is empty.
      */
     min(arr) {
       if (qx.core.Environment.get("qx.debug")) {

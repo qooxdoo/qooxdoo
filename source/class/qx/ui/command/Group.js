@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.command.Group", {
      *
      * @param key {String} Key which addresses the command
      *
-     * @return {qx.ui.command.Command | null} Corresponding command instance or null
+     * @return {qx.ui.command.Command|null} Corresponding command instance or null
      */
     get(key) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.command.Group", {
      *
      * @param key {String} Key which addresses the command
      *
-     * @return {qx.ui.command.Command | null} Corresponding command instance or null
+     * @return {qx.ui.command.Command|null} Corresponding command instance or null
      */
     remove(key) {
       if (qx.core.Environment.get("qx.debug")) {
