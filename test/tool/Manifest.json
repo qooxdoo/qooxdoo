@@ -30,6 +30,6 @@
     "translation": "source/translation"
   },
   "requires": {
-    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
+    "@qooxdoo/framework": "^8.0.0-beta"
   }
 }
