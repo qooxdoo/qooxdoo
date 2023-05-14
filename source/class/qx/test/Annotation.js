@@ -168,14 +168,8 @@ qx.Class.define("qx.test.Annotation", {
         qx.Annotation.getProperty(clazzMiddle, "bravo")
       );
 
-      //
-      // BC break for qooxdoo v8:
-      //
-      // Refining a property in a subclass used to modify it in place.
-      // It now adds it to the subclass' prototype, so it ends up in
-      // the prototype chain twice.
       this.assertArrayEquals(
-        ["bravo", "bravo"],
+        ["bravo"],
         qx.Annotation.getPropertiesByAnnotation(
           clazzBottom,
           "property-bravo-anno"

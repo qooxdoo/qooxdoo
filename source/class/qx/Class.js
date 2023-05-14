@@ -3920,7 +3920,8 @@ qx.Bootstrap.define("qx.Class", {
      * @return {String[]} List of all property names
      */
     getProperties(clazz) {
-      var list = [];
+      let list = [];
+      let unique = {};
 
       while (clazz) {
         if (clazz.$$properties) {
@@ -3930,6 +3931,11 @@ qx.Bootstrap.define("qx.Class", {
         clazz = clazz.superclass;
       }
 
+      list.reduce((accumulator, current) => {
+        unique[current] = true;
+        return unique;
+      }, unique);
+      list = Object.keys(unique);
       return list;
     },
 
