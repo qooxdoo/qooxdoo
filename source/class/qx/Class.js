@@ -3921,7 +3921,7 @@ qx.Bootstrap.define("qx.Class", {
      */
     getProperties(clazz) {
       let list = [];
-      let unique = {};
+      let unique;
 
       while (clazz) {
         if (clazz.$$properties) {
@@ -3931,12 +3931,12 @@ qx.Bootstrap.define("qx.Class", {
         clazz = clazz.superclass;
       }
 
-      list.reduce((accumulator, current) => {
-        unique[current] = true;
-        return unique;
-      }, unique);
-      list = Object.keys(unique);
-      return list;
+      // Since refined properties add a new entry to the prototype
+      // chain, and we only want a list of unique properties returned,
+      // convert the list to a Set and then back to an array, to get
+      // only an array of the unique property names.
+      unique = new Set(list);
+      return [...unique];
     },
 
     /**
