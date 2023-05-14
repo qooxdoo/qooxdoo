@@ -26,6 +26,19 @@ qx.Class.define("qx.test.compiler.ClassFile", {
   },
 
   members: {
+    async "test issue 10591"() {
+      var classFile = new qx.tool.compiler.ClassFile(
+        this.__analyser,
+        "classIssue10591",
+        this.__lib
+      );
+
+      await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
+      var dbClassInfo = {};
+      classFile.writeDbInfo(dbClassInfo);
+      this.assert(!dbClassInfo.unresolved);
+    },
+
     async "test issue 633"() {
       var classFile = new qx.tool.compiler.ClassFile(
         this.__analyser,
