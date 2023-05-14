@@ -1,10 +1,26 @@
 # Upcoming
 
+# v8.0.0-beta
+
 ## Breaking changes
 
-- (>=v8.0.0) Setting model data for a `qx.ui.table.Table` when the table is still editing will
+- Setting model data for a `qx.ui.table.Table` when the table is still editing will
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
+
+- Properties and members are now in the same namespace. Formerly, a class could have a member variable and a property with the same name, and there was no conflict. Now, since properties are first-class and can be manipulated as normal members, the properties and members use the same namespace, so a single name can not be defined in both.
+
+- Refining a property in a subclass used to modify it in place. It now adds it to the subclass' prototype, so it ends up in the prototype chain twice.
+
+- The predefined instance.name variable is no longer predefined because, with first-class properties, it conflicts with the commonly used property name name. Use instance.classname instead.
+
+- Defining a property check pseudo-function as a string is no longer supported. Doing so will now generate an error at class load time.
+
+- It was formerly technically possible to define the same class twice, and have the configurations merged. That could only be done by defining classes within classes, since otherwise, it is required that the path name match the class name. Merging of configurations is no longer supported. Each class must be defined only once. A class can be redefined by undefining it and then redefining it.
+
+- Fixed an inconsistency where setting an appearance and then setting a font color, in some cases, would continue to use the appearance's font color. Now, setting a font after setting an appearance uses the specified font's color.
+
+- Because the entire class and property system was rewritten, there may be other obscure backward-compatibility changes that pop up. Those listed above are the only ones that reared their heads while confirming that the entire qooxdoo test suite successfully runs to completion.
 
 # v7.0.0
 
