@@ -1,12 +1,12 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.6.0",
+  "version": "8.0.0-beta",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "@qooxdoo/framework",
-      "version": "7.6.0",
+      "version": "8.0.0-beta",
       "hasInstallScript": true,
       "license": "MIT",
       "dependencies": {
@@ -55,6 +55,7 @@
         "glob": "^7.1.6",
         "image-size": "^0.8.3",
         "inquirer": "^7.3.3",
+        "jsdoctypeparser": "^9.0.0",
         "json-stable-stringify": "^1.0.1",
         "jstransformer-dot": "^0.1.2",
         "metalsmith": "^2.4.3",
@@ -2306,6 +2307,17 @@
         "url": "https://github.com/sponsors/sindresorhus"
       }
     },
+    "node_modules/@qooxdoo/eslint-config-jsdoc-disable/node_modules/jsdoctypeparser": {
+      "version": "5.1.1",
+      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
+      "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A==",
+      "bin": {
+        "jsdoctypeparser": "bin/jsdoctypeparser"
+      },
+      "engines": {
+        "node": ">=6"
+      }
+    },
     "node_modules/@qooxdoo/eslint-config-jsdoc-disable/node_modules/semver": {
       "version": "6.3.0",
       "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
@@ -2434,6 +2446,17 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/@qooxdoo/eslint-config-qx/node_modules/jsdoctypeparser": {
+      "version": "5.1.1",
+      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
+      "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A==",
+      "bin": {
+        "jsdoctypeparser": "bin/jsdoctypeparser"
+      },
+      "engines": {
+        "node": ">=6"
       }
     },
     "node_modules/@qooxdoo/eslint-config-qx/node_modules/semver": {
@@ -7319,14 +7342,14 @@
       }
     },
     "node_modules/jsdoctypeparser": {
-      "version": "5.1.1",
-      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
-      "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A==",
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-9.0.0.tgz",
+      "integrity": "sha512-jrTA2jJIL6/DAEILBEh2/w9QxCuwmvNXIry39Ay/HVfhE3o2yVV0U44blYkqdHA/OKloJEqvJy0xU+GSdE2SIw==",
       "bin": {
         "jsdoctypeparser": "bin/jsdoctypeparser"
       },
       "engines": {
-        "node": ">=6"
+        "node": ">=10"
       }
     },
     "node_modules/jsesc": {
@@ -12630,6 +12653,11 @@
             "type-fest": "^0.8.1"
           }
         },
+        "jsdoctypeparser": {
+          "version": "5.1.1",
+          "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
+          "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A=="
+        },
         "semver": {
           "version": "6.3.0",
           "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
@@ -12727,6 +12755,11 @@
           "requires": {
             "type-fest": "^0.8.1"
           }
+        },
+        "jsdoctypeparser": {
+          "version": "5.1.1",
+          "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
+          "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A=="
         },
         "semver": {
           "version": "6.3.0",
@@ -16432,9 +16465,9 @@
       "integrity": "sha512-sUuj2j48wxrEpbFjDp1sAesAxPiLT+z0SWVmMafyIINs6Lj5gIPKh3VrkBZu4E/Dv+wHpOot0m6H8zlHQjwqeQ=="
     },
     "jsdoctypeparser": {
-      "version": "5.1.1",
-      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-5.1.1.tgz",
-      "integrity": "sha512-APGygIJrT5bbz5lsVt8vyLJC0miEbQf/z9ZBfTr4RYvdia8AhWMRlYgivvwHG5zKD/VW3d6qpChCy64hpQET3A=="
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/jsdoctypeparser/-/jsdoctypeparser-9.0.0.tgz",
+      "integrity": "sha512-jrTA2jJIL6/DAEILBEh2/w9QxCuwmvNXIry39Ay/HVfhE3o2yVV0U44blYkqdHA/OKloJEqvJy0xU+GSdE2SIw=="
     },
     "jsesc": {
       "version": "2.5.2",

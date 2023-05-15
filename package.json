@@ -99,6 +99,7 @@
     "glob": "^7.1.6",
     "image-size": "^0.8.3",
     "inquirer": "^7.3.3",
+    "jsdoctypeparser": "^9.0.0",
     "json-stable-stringify": "^1.0.1",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.4.3",

@@ -16,10 +16,6 @@
 
 ************************************************************************ */
 
-// To be implemented in the future
-let FUTURE = false;
-
-// The opposite
 let BROKEN = false;
 
 qx.Bootstrap.define("qx.Class", {
@@ -1287,7 +1283,7 @@ qx.Bootstrap.define("qx.Class", {
             "Expected value to implement " + property.check
           );
         } else {
-          if (FUTURE) {
+          if (qx.core.Environment.get("qx.future.checkjsdoc")) {
             // Next  try to parse the check string as JSDoc
             let bJSDocParsed = false;
             try {
