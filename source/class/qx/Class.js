@@ -260,7 +260,7 @@ qx.Bootstrap.define("qx.Class", {
       // Process environment
       let environment = config.environment || {};
       for (let key in environment) {
-        qx["core"]["Environment"].add(key, environment[key]);
+        qx.core.Environment.add(key, environment[key]);
       }
 
       // Normalize include to array
@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.Class", {
       if (config.extend === null) {
         config.extend = Object;
       } else if (!config.extend) {
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (config.type && config.type != "static") {
             throw new Error(
               `${className}: ` +
@@ -315,7 +315,7 @@ qx.Bootstrap.define("qx.Class", {
           return Reflect.construct(orig, ...args, this);
         };
       } else if (
-        qx["core"]["Environment"].get("qx.debug") &&
+        qx.core.Environment.get("qx.debug") &&
         config.extend.toString()?.includes("_classCallCheck(this")
       ) {
         console.warn(
@@ -330,7 +330,7 @@ qx.Bootstrap.define("qx.Class", {
         );
       }
 
-      if (qx["core"]["Environment"].get("qx.debug")) {
+      if (qx.core.Environment.get("qx.debug")) {
         Object.keys(config).forEach(key => {
           let allowedKeys =
             config.type == "static"
@@ -401,7 +401,7 @@ qx.Bootstrap.define("qx.Class", {
       for (let key in config.statics || {}) {
         let staticFuncOrVar;
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (key.charAt(0) === "@") {
             if (config.statics[key.substring(1)] === undefined) {
               throw new Error(
@@ -432,7 +432,7 @@ qx.Bootstrap.define("qx.Class", {
         staticFuncOrVar = config.statics[key];
 
         if (typeof staticFuncOrVar == "function") {
-          if (qx["core"]["Environment"].get("qx.aspects")) {
+          if (qx.core.Environment.get("qx.aspects")) {
             staticFuncOrVar = qx.core.Aspect.wrap(
               className,
               staticFuncOrVar,
@@ -547,7 +547,7 @@ qx.Bootstrap.define("qx.Class", {
           config.implement.forEach(iface => this.addInterface(clazz, iface));
         }
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.validateAbstractInterfaces(clazz);
         }
       }
@@ -559,7 +559,7 @@ qx.Bootstrap.define("qx.Class", {
       //
       let destruct = config.destruct || function () {};
 
-      if (qx["core"]["Environment"].get("qx.aspects")) {
+      if (qx.core.Environment.get("qx.aspects")) {
         destruct = qx.core.Aspect.wrap(className, destruct, "destructor");
       }
 
@@ -916,7 +916,7 @@ qx.Bootstrap.define("qx.Class", {
 
                 // Require that members be declared in the "members"
                 // section of the configuration passed to qx.Class.define
-                if (qx["core"]["Environment"].get("qx.debug")) {
+                if (qx.core.Environment.get("qx.debug")) {
                   if (
                     !property &&
                     qx.Class.$$options["Warn member not declared"] &&
@@ -1391,7 +1391,7 @@ qx.Bootstrap.define("qx.Class", {
         let member = members[key];
         let proto = clazz.prototype;
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (key.charAt(0) === "@") {
             var annoKey = key.substring(1);
             if (
@@ -1463,7 +1463,7 @@ qx.Bootstrap.define("qx.Class", {
             `prototype.${key}`
           );
 
-          if (qx["core"]["Environment"].get("qx.aspects")) {
+          if (qx.core.Environment.get("qx.aspects")) {
             member = qx.core.Aspect.wrap(clazz.classname, member, key);
           }
 
@@ -2225,7 +2225,7 @@ qx.Bootstrap.define("qx.Class", {
         let storage;
         const proto = clazz.prototype;
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (
             proto[key] !== undefined &&
             key.charAt(0) === "_" &&
@@ -2296,7 +2296,7 @@ qx.Bootstrap.define("qx.Class", {
           }
         }
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (
             typeof property.storage.init != "function" ||
             typeof property.storage.get != "function" ||
@@ -2759,7 +2759,7 @@ qx.Bootstrap.define("qx.Class", {
         let propertyFirstUp = qx.Bootstrap.firstUp(key);
         let allProperties = clazz.$$allProperties;
 
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           // Validate that group contains only existing properties, and if
           // themeable contains only themeable properties
           for (let prop of property.group) {
@@ -2896,7 +2896,7 @@ qx.Bootstrap.define("qx.Class", {
     addEvents(clazz, events, patch) {
       let key;
 
-      if (qx["core"]["Environment"].get("qx.debug")) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (
           typeof events !== "object" ||
           qx.Bootstrap.getClass(events) === "Array"
@@ -3560,7 +3560,7 @@ qx.Bootstrap.define("qx.Class", {
         let properties = config.properties || {};
 
         // Ensure they're not passing a qx.core.Object descendent as property map
-        if (qx["core"]["Environment"].get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (
             config.properties !== undefined &&
             qx.Bootstrap.isQxCoreObject(config.properties)
@@ -3576,7 +3576,7 @@ qx.Bootstrap.define("qx.Class", {
           let property = properties[prop];
 
           // Ensure they're not passing a qx.core.Object descendent as a property
-          if (qx["core"]["Environment"].get("qx.debug")) {
+          if (qx.core.Environment.get("qx.debug")) {
             if (qx.Bootstrap.isQxCoreObject(property)) {
               throw new Error(
                 `${prop} in ${className}: ` +
