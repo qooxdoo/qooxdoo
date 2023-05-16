@@ -94,6 +94,12 @@
 
 ## Breaking changes in v8.0
 
+- The new class/property system is implemented using the JavaScript
+  feature `Proxy`, so a new requirement of the JavaScript engine being
+  used, with qooxdoo 8.0+, is that it supports `Proxy`. This,
+  unfortunately, means that support for the Rhino runtime is no longer
+  available.
+
 - Properties and members are now in the same namespace. Formerly, a
   class could have a member variable and a property with the same
   name, and there was no conflict. Now, since properties are
