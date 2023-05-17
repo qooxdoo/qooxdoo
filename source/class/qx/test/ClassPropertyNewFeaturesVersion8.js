@@ -581,46 +581,49 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       );
     },
 
-    // testNativeClassExtend() {
-    //   if (!qx.Bootstrap._allowedNonStaticKeys.extendNativeClass) {
-    //     // As of Version 8.0, extending a native class is not
-    //     // operational, and this test is skipped.
-    //     this.skip();
-    //   }
+    testNativeClassExtend() {
+      class NativeClass extends qx.test.cpnfv8.Subclass {
+        constructor(num = 13) {
+          super(num, false);
+          qx.core.Assert.assertEquals(
+            num,
+            this.num,
+            `native class super(): num === ${num}`
+          );
 
-    //   class NativeClass extends qx.test.cpnfv8.Subclass {
-    //     constructor() {
-    //       super(13, false);
-    //       qx.core.Assert.assertEquals(
-    //         13,
-    //         this.num,
-    //         "native class super(): num === 13"
-    //       );
-    //       this.num = 42;
-    //       qx.core.Assert.assertEquals(
-    //         42,
-    //         this.num,
-    //         "native class assignment: num === 42"
-    //       );
-    //     }
-    //   }
+          this.num = 42;
+          qx.core.Assert.assertEquals(
+            42,
+            this.num,
+            "native class assignment: num === 42"
+          );
+        }
+      }
 
-    //   qx.test.cpnfv8.SubNative = qx.Class.define(null, {
-    //     extend: NativeClass,
-    //     extendNativeClass: true,
+      let native = new NativeClass(23);
 
-    //     construct() {
-    //       super();
-    //       qx.core.Assert.assertEquals(
-    //         42,
-    //         this.num,
-    //         "Class extended from native class: this.num === 42"
-    //       );
-    //     }
-    //   });
+      // if (!qx.Bootstrap._allowedNonStaticKeys.extendNativeClass) {
+      //   // As of Version 8.0, extending a native class is not
+      //   // operational, and this test is skipped.
+      //   this.skip();
+      // }
 
-    //   let subNativeClass = new qx.test.cpnfv8.SubNative();
-    // },
+      // qx.test.cpnfv8.SubNative = qx.Class.define(null, {
+      //   extend: NativeClass,
+      //   extendNativeClass: true,
+
+      //   construct() {
+      //     super();
+      //     qx.core.Assert.assertEquals(
+      //       42,
+      //       this.num,
+      //       "Class extended from native class: this.num === 42"
+      //     );
+      //   }
+      // });
+
+      // let subNativeClass = new qx.test.cpnfv8.SubNative();
+    },
 
     testSingleton() {
       try {

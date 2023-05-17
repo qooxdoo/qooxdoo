@@ -819,6 +819,10 @@
  *     <tr>
  *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>
+ *     <tr>
+ *       <td>qx.future.checkjsdoc</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>module</b></td>
@@ -887,6 +891,7 @@ qx.Bootstrap.define("qx.core.Environment", {
       "qx.dynlocale": true,
       "qx.dyntheme": true,
       "qx.blankpage": "qx/static/blank.html",
+      "qx.future.checkjsdoc": false,
       "qx.debug.databinding": false,
       "qx.debug.dispose": false,
       "qx.debug.startupTimings": false,

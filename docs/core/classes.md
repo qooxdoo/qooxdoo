@@ -9,9 +9,9 @@ during the build process.
 The class system has been part of qooxdoo since 2005, when JavaScript had no 
 [`class` keyword](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 (it was introduced with ECMAScript 2015). At the moment, it is not possible 
-to mix Qooxdoo classes and ECMAScript 2015 classes; this is planned for a
-future release. In any case, as shown below, the Qooxdoo class system is still
-much more powerful than the native classes. 
+to extend a native class as a Qooxdoo class, although the opposite is possible: 
+you can create a native class that extends a Qooxdoo class. In any case, as shown below,
+the Qooxdoo class system is still much more powerful than the native classes. 
 
 ## Declaration
 
