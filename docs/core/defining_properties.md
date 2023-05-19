@@ -157,7 +157,7 @@ properties : {
 
 Before the introduction of the `initFunction` key in qooxdoo version
 8.0, it was necessary to initialize reference types in the
-constructor. The following remains as an available option, although it
+constructor. This can still be done, although it
 should be rarely necessary any longer, for use in new code.
 
 You could set the init value of the property in the constructor
