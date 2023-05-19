@@ -74,7 +74,7 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
       let expected = {
         jsonrpc: "2.0",
         id: 1,
-        error: {
+        errorDetail: {
           code: 5,
           message: "error!"
         }
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
       let expected = {
         jsonrpc: "2.0",
         id: 1,
-        error: {
+        errorDetail: {
           code: 5,
           message: "error!"
         }

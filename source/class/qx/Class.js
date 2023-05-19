@@ -49,6 +49,16 @@ qx.Bootstrap.define("qx.Class", {
       propsAccessible: true
     },
 
+    /** Properties that are predefined in Object */
+    objectProperties: new Set([
+      "hasOwnProperty",
+      "isPrototypeOf",
+      "propertyIsEnumerable",
+      "toLocaleString",
+      "toString",
+      "valueOf"
+    ]),
+
     /** The global object registry */
     $$registry: qx.Bootstrap.$$registry,
 
@@ -650,6 +660,7 @@ qx.Bootstrap.define("qx.Class", {
       const customProxyHandler = config.proxyHandler;
       const _this = this;
       let allProperties = superclass.$$allProperties || {};
+      let superProperties = superclass.$$superProperties || {};
       let initFunctions = [];
       let subclass;
       let initialConstruct = config.construct;
@@ -709,7 +720,11 @@ qx.Bootstrap.define("qx.Class", {
       for (let property in properties) {
         let refined = false;
 
-        if (property in allProperties && !properties[property].refine) {
+        if (
+          property in superProperties &&
+          !qx.Class.objectProperties.has(property) &&
+          !properties[property].refine
+        ) {
           throw new Error(
             `${className}: ` +
               `Overwriting property "${property}" without "refine: true"`
@@ -821,6 +836,14 @@ qx.Bootstrap.define("qx.Class", {
       // Save this object's properties
       Object.defineProperty(subclass, "$$properties", {
         value: properties || {},
+        writable: qx.Class.$$options.propsAccessible || false,
+        configurable: qx.Class.$$options.propsAccessible || false,
+        enumerable: qx.Class.$$options.propsAccessible || false
+      });
+
+      // Save the super properties for this class
+      Object.defineProperty(subclass, "$$superProperties", {
+        value: allProperties,
         writable: qx.Class.$$options.propsAccessible || false,
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
@@ -1423,7 +1446,13 @@ qx.Bootstrap.define("qx.Class", {
               );
             }
 
-            if (patch !== true && proto.hasOwnProperty(key)) {
+            if (
+              patch !== true &&
+              (proto.hasOwnProperty(key) ||
+                (key in proto &&
+                  key in clazz.$$allProperties &&
+                  !qx.Class.objectProperties.has(key)))
+            ) {
               throw new Error(
                 `Overwriting member or property "${key}" ` +
                   `of Class "${clazz.classname}" ` +
@@ -2238,7 +2267,12 @@ qx.Bootstrap.define("qx.Class", {
             );
           }
 
-          if (patch !== true && proto.hasOwnProperty(key)) {
+          if (
+            patch !== true &&
+            (proto.hasOwnProperty(key) ||
+              qx.Class.objectProperties.has(key) ||
+              (key in proto && !(key in clazz.$$superProperties)))
+          ) {
             throw new Error(
               `Overwriting member or property "${key}" ` +
                 `of Class "${clazz.classname}" ` +

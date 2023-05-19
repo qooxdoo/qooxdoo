@@ -130,6 +130,13 @@
   font color. Now, setting a font after setting an appearance uses the
   specified font's color.
   
+- The following properties have been renamed to avoid conflicts with
+  members of the same names, now that properties and members are in
+  the same namespace:
+  - `qx.event.handler.Focus`, property `focus`, renamed to `focusedElement`
+  - `qx.ui.form.Button`, property `capture`, renamed to `captureCamera`
+  - `qx.io.jsonrpc.protocol.Error`, property `error`, renamed to `errorDetail`
+
 - Because the entire class and property system was rewritten, there
   may be other obscure backward-compatibility changes that pop up.
   Those listed above are the only ones that reared their heads while

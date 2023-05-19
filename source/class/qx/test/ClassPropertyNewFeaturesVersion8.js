@@ -802,6 +802,150 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         superinstance.positive,
         "property descriptor set works"
       );
+    },
+
+    testMemberDetectSameClassProperty() {
+      try {
+        let clazz = qx.Class.define(null, {
+          extend: qx.core.Object,
+          members: {
+            x: 23
+          },
+
+          properties: {
+            x: { init: 42 }
+          }
+        });
+
+        // class definition should have have thrown; should not get here
+        throw new Error("Failed to detect same name in member and property");
+      } catch (e) {
+        this.assertEquals(
+          'Error: null: Overwriting member "x" with property "x"',
+          e.toString(),
+          "Property and member of same name in same class not detected"
+        );
+      }
+    },
+
+    testMemberDetectSuperclassProperty() {
+      try {
+        let clazzA = qx.Class.define(null, {
+          extend: qx.core.Object,
+          properties: {
+            x: { init: 42 }
+          }
+        });
+
+        let clazzB = qx.Class.define(null, {
+          extend: clazzA,
+          members: {
+            x: 23
+          }
+        });
+
+        // class definition should have have thrown; should not get here
+        throw new Error(
+          "Failed to detect same name in member and superclass property"
+        );
+      } catch (e) {
+        this.assertEquals(
+          'Error: Overwriting member or property "x" of Class "null" is not allowed. ' +
+            "(Members and properties are in the same namespace.)",
+          e.toString(),
+          "Member of same name as property in superclass not detected"
+        );
+      }
+    },
+
+    testPropertyDetectSuperclassMember() {
+      try {
+        let clazzA = qx.Class.define(null, {
+          extend: qx.core.Object,
+          members: {
+            x: 23
+          }
+        });
+
+        let clazzB = qx.Class.define(null, {
+          extend: clazzA,
+          properties: {
+            x: { init: 42 }
+          }
+        });
+
+        // class definition should have have thrown; should not get here
+        throw new Error(
+          "Failed to detect same name in member and superclass property"
+        );
+      } catch (e) {
+        this.assertEquals(
+          'Error: Overwriting member or property "x" of Class "null" is not allowed. ' +
+            "(Members and properties are in the same namespace.)",
+          e.toString(),
+          "Member of same name as property in superclass not detected"
+        );
+      }
+    },
+
+    testMemberOverloadObjectName() {
+      try {
+        let clazzA = qx.Class.define(null, {
+          extend: qx.core.Object,
+          members: {
+            toString() {
+              return "clazzA";
+            }
+          }
+        });
+
+        let instance = new clazzA();
+        this.assertEquals("clazzA", instance.toString());
+      } catch (e) {
+        throw new Error("Failed to allow  member overload of Object method");
+      }
+    },
+
+    testPropertyOverloadObjectNameNoRefine() {
+      try {
+        let clazzA = qx.Class.define(null, {
+          extend: qx.core.Object,
+          properties: {
+            toString: { init: () => "clazzA" }
+          }
+        });
+
+        // class definition should have have thrown; should not get here
+        throw new Error("Failed to detect Object method name in properties");
+      } catch (e) {
+        this.assertEquals(
+          'Error: Overwriting member or property "toString" of Class "null" is not allowed. ' +
+            "(Members and properties are in the same namespace.)",
+          e.toString(),
+          "Property of same name as Object method"
+        );
+      }
+    },
+
+    testPropertyOverloadObjectNameWithRefine() {
+      try {
+        let clazzA = qx.Class.define(null, {
+          extend: qx.core.Object,
+          properties: {
+            toString: { refine: true, init: () => "clazzA" }
+          }
+        });
+
+        // class definition should have have thrown; should not get here
+        throw new Error("Failed to detect Object method name in properties");
+      } catch (e) {
+        this.assertEquals(
+          'Error: Overwriting member or property "toString" of Class "null" is not allowed. ' +
+            "(Members and properties are in the same namespace.)",
+          e.toString(),
+          "Property of same name as Object method"
+        );
+      }
     }
   }
 });
