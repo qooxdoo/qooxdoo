@@ -377,7 +377,7 @@ that instance. You can use this key standalone or in combination with
 ```javascript
 properties : {
   myProperty : {
-    initFunction : function() { return [ 1, 2, 4, 8 ]; }
+    initFunction : () => { return [ 1, 2, 4, 8 ]; }
 }
 ```
 
