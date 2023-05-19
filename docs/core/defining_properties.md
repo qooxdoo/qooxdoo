@@ -306,7 +306,7 @@ inside the property (re-)definition: either `init` or `initFunction`;
 and `refine`. `refine` is a simple boolean flag which must be
 configured to true.
 
-Normally properties could not be overridden. This is the reason for the `refine`
+Normally properties cannot be overridden. This is the reason for the `refine`
 flag. The flag informs the implementation that the developer is aware of the
 feature and the modification which should be applied.
 
