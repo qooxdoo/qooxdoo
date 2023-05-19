@@ -100,5 +100,5 @@ Because only in that scenario, one of the buttons need to be disabled.
 
 Currently, we don't plan to change it because it can have some hard to track side
 effects as seen in the example above and we don't have any deprecation strategy.
-Maybe it can be changed on a major version, but currently there are no
-plans to do so.
+We are not aware of a way to change this behavior in a backward compatible way, so
+for now, it is up to you to be aware of the problem and work around it.
