@@ -183,7 +183,7 @@ Properties are first-class members of a class. They can be manipulated
 as if they were declared in the `member` section of the configuration
 -- they can be assigned to, or their value read as if it were a member
 variable -- but they are treated as if the functional setter or
-getter, were called. All operations desscribed below, that would occur
+getter, were called. All operations described below, that would occur
 as a result of calling the functional setter, are also called by
 assigning to the property as a variable.
 
