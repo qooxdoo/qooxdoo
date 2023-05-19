@@ -160,10 +160,6 @@ Before the introduction of the `initFunction` key in qooxdoo version
 constructor. This can still be done, although it
 only makes sense when the property values are dependent on arguments provided to the constructor at instantiation time.
 
-You could set the init value of the property in the constructor
-of the class. This is only recommended for cases where a declaration of an init
-value as explained above is not sufficient.
-
 Using an initializing function `this.initMyProperty(value)` in the constructor
 would allow you to assign complex non-primitive types (so-called "reference
 types" like `Array`, `Object`) that should not be shared among instances, but be
