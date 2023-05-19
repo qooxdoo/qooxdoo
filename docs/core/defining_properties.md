@@ -295,6 +295,7 @@ instance. Thus, they would not be shared between instances.
 > `init` only for class defined things, not for user values. Otherwise, you torpedo
 the multi-value idea behind the dynamic properties.
 
+If you are using an `initFunction` as described above, any apply function will be called automatically.
 
 ### Refining init values
 
