@@ -880,7 +880,7 @@ property descriptor for property `myProp`.
 
 You can access properties through the instance object to which the
 properties are attached, as has been discussed throughout this
-description of properites. Alteratively, though, if many property
+description of properites. Alternatively, though, if many property
 manipulations on a given property are to be made, you may prefer to
 obtain and keep a reference to the property descriptor for that
 property to manipulate it, rather than manipulating it through the
