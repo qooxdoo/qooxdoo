@@ -757,8 +757,7 @@ Note the `variant` handling. This pertains to internals of the Class
 implementation. The key point here is that when
 `this[`$$variant_${prop}`]` is not `immediate`, all of the property
 handling such as validation, transform, etc., may occur if
-`this[prop]` is changed. To ensure that no overhead of additional
-processing is incurred, the default storage implementation saves the
+`this[prop]` is changed. For optimal efficiency, the default storage implementation saves the
 current variant, temporarily sets the variant to "immediate", saves
 the value in its storage location, and then restores the variant.
 
