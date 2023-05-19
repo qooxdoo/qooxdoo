@@ -149,7 +149,7 @@ combination with `nullable` and/or `inheritable`.
 ```javascript
 properties : {
   myProperty : { init : 42 },
-  myOtherProperty : { initFunction : () => 42 }
+  myOtherProperty : { initFunction : () => { return { answer: 42 } } }
 }
 ```
 
