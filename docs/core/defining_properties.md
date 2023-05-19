@@ -123,7 +123,7 @@ when property values are being reset.
 There are two ways to set an init value of a property.
 
 #### Init value, calculated at class instantiation time
-The _preferred_ way for reference vaues such as objects or arrays,
+The _preferred_ way for reference values such as objects or arrays,
 which are not expected to be shared between instances of the class, is
 to provide a function to the `initFunction` key in the property
 configuration map. The function will be called each time the class is
