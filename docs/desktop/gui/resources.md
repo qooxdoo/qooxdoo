@@ -32,7 +32,7 @@ you will shadow the file of the same resource id in the framework.
 
 You have to declare the resources you wish to use in your application code in a jsdoc
 `@asset` compiler hint near the top of your source file. Note that the comment
-must start with a slash and two starts (`/**`) or the jsdoc parser will ignore it 
+must start with a slash and two stars (`/**`) or the jsdoc parser will ignore it 
 – neither `/*` nor `/***` will work! This problem can be hard to find, since all assets
 declared in such an inactive comment will simply be ignored
 there won't be a warning or anything.
