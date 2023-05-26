@@ -45,7 +45,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
       window.setTimeout(function () {
         that.__val.validate();
       }, 0);
-      this.wait(30000);
+      this.wait(10000);
     },
 
     testInvalidFont() {
@@ -62,7 +62,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
       window.setTimeout(function () {
         that.__val.validate();
       }, 0);
-      this.wait(30000);
+      this.wait(500);
     }
   }
 });

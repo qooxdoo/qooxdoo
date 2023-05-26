@@ -203,9 +203,23 @@ qx.Class.define("qx.bom.webfonts.Validator", {
         return;
       }
 
+      const setValidImpl = valid => {
+        if (this.__checkTimer) {
+          this.__checkTimer.stop();
+        }
+        this._reset();
+        this.__promiseValid.resolve(valid);
+        this.fireDataEvent("changeStatus", {
+          family: this.getFontFamily(),
+          valid: valid
+        });
+      };
+
       if (document.fonts && typeof document.fonts.load == "function") {
         this.__checkStarted = new Date().getTime();
-        let fontExpr = `${this.getFontStyle()} ${this.getFontWeight()} 12px ${this.getFontFamily()}`;
+        let fontExpr = `${this.getFontStyle() || "normal"} ${
+          this.getFontWeight() || "normal"
+        } 14px ${this.getFontFamily()}`;
 
         const loadImpl = async () => {
           try {
@@ -218,31 +232,19 @@ qx.Class.define("qx.bom.webfonts.Validator", {
               fontWeight: this.getFontWeight()
             });
 
-            setTimeout(() => {
-              this.__promiseValid.resolve(true);
-              this.fireDataEvent("changeStatus", {
-                family: this.getFontFamily(),
-                valid: true
-              });
-            }, 100);
+            setTimeout(() => setValidImpl(this._isFontValid()), 100);
           } catch (ex) {
             this.warn(`Exception while loading font ${fontExpr}: ` + ex);
+            setValidImpl(false);
           }
         };
         loadImpl();
       } else {
         this.__checkStarted = new Date().getTime();
 
-        let fontExpr = `${this.getFontStyle()} ${this.getFontWeight()} 14px ${this.getFontFamily()}`;
-        const setValidImpl = valid => {
-          this.__checkTimer.stop();
-          this._reset();
-          this.__promiseValid.resolve(valid);
-          this.fireDataEvent("changeStatus", {
-            family: this.getFontFamily(),
-            valid: valid
-          });
-        };
+        let fontExpr = `${this.getFontStyle() || "normal"} ${
+          this.getFontWeight() || "normal"
+        } 14px ${this.getFontFamily()}`;
 
         const timerCheck = () => {
           if (this._isFontValid()) {
