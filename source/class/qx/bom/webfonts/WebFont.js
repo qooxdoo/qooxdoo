@@ -63,6 +63,23 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     __families: null,
     __allValidPromise: null,
 
+    toString() {
+      let fontWeight = this.isBold() ? "bold" : "normal";
+      if (this.getWeight() !== null) {
+        fontWeight = this.getWeight();
+      }
+      let fontStyle = this.isItalic() ? "italic" : "normal";
+      return (
+        this.getFamily().join(",") +
+        "[" +
+        fontWeight +
+        "::" +
+        fontStyle +
+        "] " +
+        this.toHashCode()
+      );
+    },
+
     /**
      * @override
      */
@@ -77,15 +94,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
           }
           let fontStyle = this.isItalic() ? "italic" : "normal";
 
-          let validator = new qx.bom.webfonts.Validator(
-            fontFamily,
-            this.getComparisonString(),
-            fontWeight,
-            fontStyle
-          );
-
-          validator.setTimeout(qx.bom.webfonts.WebFont.VALIDATION_TIMEOUT);
-          validator.validate();
+          let validator = loader.getValidator(fontWeight, fontStyle);
           promises.push(validator.isValid());
         }
       }
