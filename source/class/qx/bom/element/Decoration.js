@@ -145,6 +145,7 @@ qx.Class.define("qx.bom.element.Decoration", {
         var styles = qx.lang.Object.clone(font.getStyles());
         styles["width"] = style.width;
         styles["height"] = style.height;
+        styles["lineHeight"] = style.height;
         styles["fontSize"] =
           parseInt(style.width) > parseInt(style.height)
             ? style.height
@@ -156,8 +157,10 @@ qx.Class.define("qx.bom.element.Decoration", {
         var css = "";
         for (var _style in styles) {
           if (styles.hasOwnProperty(_style)) {
-            css +=
-              qx.bom.Style.getCssName(_style) + ": " + styles[_style] + ";";
+            let value = styles[_style];
+            if (value !== null) {
+              css += qx.bom.Style.getCssName(_style) + ": " + value + ";";
+            }
           }
         }
 

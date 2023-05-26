@@ -164,14 +164,6 @@ qx.Class.define("qx.test.ui.form.Field", {
           paths: [
             qx.util.ResourceManager.getInstance().toUri(
               "qx/test/webfonts/fineliner_script-webfont.woff"
-            ),
-
-            qx.util.ResourceManager.getInstance().toUri(
-              "qx/test/webfonts/fineliner_script-webfont.ttf"
-            ),
-
-            qx.util.ResourceManager.getInstance().toUri(
-              "qx/test/webfonts/fineliner_script-webfont.eot"
             )
           ]
         },
