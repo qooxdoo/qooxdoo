@@ -722,7 +722,7 @@ uses the property's `init` value (or `undefined` if the property
 doesn't define an `init` key) and stores it into the instance. The
 default storage's `init` function looks something like this:
 
-```
+```javascript
 init(propertyName, property, clazz)
 {
   // Create the storage for this property's current value
