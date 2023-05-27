@@ -12,7 +12,7 @@ that the table edits are completed or cancelled before refreshing table model da
 
 - Refining a property in a subclass used to modify it in place. It now adds it to the subclass' prototype, so it ends up in the prototype chain twice.
 
-- The predefined instance.name variable is no longer predefined because, with first-class properties, it conflicts with the commonly used property name name. Use instance.classname instead.
+- The predefined instance.name variable is no longer predefined because, with first-class properties, it conflicts with the commonly used property name "name". Use `instance.classname` instead.
 
 - Defining a property check pseudo-function as a string is no longer supported. Doing so will now generate an error at class load time.
 
