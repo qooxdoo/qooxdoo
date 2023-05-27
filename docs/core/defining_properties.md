@@ -744,7 +744,7 @@ A storage implementation's `set` key defines how to store a value for the proper
 ```
 set(prop, value)
 {
-  let             variant = this[`$$variant_${prop}`];
+  let variant = this[`$$variant_${prop}`];
 
   // Don't go through the whole setter process; just save the value
   this[`$$variant_${prop}`] = "immediate";
