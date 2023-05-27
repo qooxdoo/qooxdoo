@@ -899,7 +899,7 @@ let propDesc = myClassInstance.getPropertyDescriptor("myProp");
 With that property descriptor in hand, you can now manipulate the
 property with it, e.g.:
 
-```
+```javascript
 propDesc.set(2);
 ```
 
