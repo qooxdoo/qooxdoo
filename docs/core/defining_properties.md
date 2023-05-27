@@ -741,7 +741,7 @@ init(propertyName, property, clazz)
 ### set
 A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
 
-```
+```javascript
 set(prop, value)
 {
   let variant = this[`$$variant_${prop}`];
