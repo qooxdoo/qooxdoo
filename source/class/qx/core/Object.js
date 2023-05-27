@@ -482,30 +482,5 @@ qx.Class.define("qx.core.Object", {
 
     // Cleanup user data
     this.__userData = null;
-
-    // // only of properties are available
-    // if (qx.core.Environment.get("module.property")) {
-    //   // Cleanup properties
-    //   var clazz = this.constructor;
-    //   var properties;
-
-    //   while (clazz) {
-    //     properties = clazz.$$properties;
-    //     if (properties) {
-    //       for (let name in properties) {
-    //         if (properties[name].dereference) {
-    //           this[storeUser[name]] =
-    //             this[storeTheme[name]] =
-    //             this[storeInherit[name]] =
-    //             this[storeUseinit[name]] =
-    //             this[storeInit[name]] =
-    //               undefined;
-    //         }
-    //       }
-    //     }
-
-    //     clazz = clazz.superclass;
-    //   }
-    // }
   }
 });

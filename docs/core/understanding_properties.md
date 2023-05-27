@@ -189,14 +189,14 @@ assigning to the property as a variable.
 
 By way of example, for property `myProp`, these two getter statements are equivalent:
 
-```
+```javascript
 value = this.getMyProp();
 value = this.myProp;
 ```
 
 Similarly, these two setter statements are equivalent:
 
-```
+```javascript
 this.setMyProp(value);
 this.myProp = value;
 ```
@@ -830,7 +830,7 @@ higher priority than the init value. The `setThemed` and `resetThemed` methods
 are part of Qooxdoo's theme layer and should not be invoked by the user
 directly.
 
-```
+```javascript
 setter                                    value                   resetter
 
 setProperty(value)            ^           user           |        resetProperty()
@@ -950,7 +950,7 @@ uses the property's `init` value (or `undefined` if the property
 doesn't define an `init` key) and stores it into the instance. The
 default storage's `init` function looks something like this:
 
-```
+```javascript
 init(propertyName, property, clazz)
 {
   // Create the storage for this property's current value
@@ -969,7 +969,7 @@ init(propertyName, property, clazz)
 ### set
 A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
 
-```
+```javascript
 set(prop, value)
 {
   let             variant = this[`$$variant_${prop}`];
@@ -997,7 +997,7 @@ property's value from its storage. The default storage implementation
 simply retrieves the instance object's value of the given property
 name:
 
-```
+```javascript
 get(prop)
 {
   return this[prop];
@@ -1008,7 +1008,7 @@ get(prop)
 
 If the property configuration includes `dereference : true`, then the storage implementation's `dereference` function is called just before the instance's destructor. The default storage implementation deletes the property from the instance:
 
-```
+```javascript
 dereference(prop, property)
 {
   delete this[prop];
@@ -1120,14 +1120,14 @@ passing as an argument, the name of the property for which the
 property descriptor is desired. For example, to obtain the property
 descriptor for the property `myProp`:
 
-```
+```javascript
 let propDesc = myClassInstance.getPropertyDescriptor("myProp");
 ```
 
 With that property descriptor in hand, you can now manipulate the
 property with it, e.g.:
 
-```
+```javascript
 propDesc.set(2);
 ```
 
