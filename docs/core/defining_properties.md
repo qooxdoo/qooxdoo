@@ -768,7 +768,7 @@ property's value from its storage. The default storage implementation
 simply retrieves the instance object's value of the given property
 name:
 
-```
+```javascript
 get(prop)
 {
   return this[prop];
