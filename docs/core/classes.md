@@ -437,7 +437,7 @@ To allow this, the `delegate` key of the class configuration can be
 provided. The `delegate` key should have, as its value, an object with
 two or three keys. At a minimum, the `get` and `set` keys must be
 provided. Optionally, a `delete` key can also be provided. Each is a
-function that replaces the default operation on the objec. `get`
+function that replaces the default operation on the object. `get`
 accepts one argument, the instance's `property` being retrieved. `set`
 accepts two arguments, the `property` being set, and the `value` that
 property of the instance it to be set to. `delete` accepts one
