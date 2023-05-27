@@ -779,7 +779,7 @@ get(prop)
 
 If the property configuration includes `dereference : true`, then the storage implementation's `dereference` function is called just before the instance's destructor. The default storage implementation deletes the property from the instance:
 
-```
+```javascript
 dereference(prop, property)
 {
   delete this[prop];
