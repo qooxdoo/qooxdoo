@@ -892,7 +892,7 @@ passing as an argument, the name of the property for which the
 property descriptor is desired. For example, to obtain the property
 descriptor for the property `myProp`:
 
-```
+```javascript
 let propDesc = myClassInstance.getPropertyDescriptor("myProp");
 ```
 
