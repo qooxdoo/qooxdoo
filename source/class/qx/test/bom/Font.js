@@ -117,7 +117,7 @@ qx.Class.define("qx.test.bom.Font", {
 
       var styles = this.__font.getStyles();
       this.assertEquals(
-        '"Times New Roman"',
+        "'Times New Roman'",
         styles.fontFamily,
         "Wrong style value for 'family' property!"
       );

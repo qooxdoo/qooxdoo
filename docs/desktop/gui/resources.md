@@ -30,12 +30,15 @@ you will shadow the file of the same resource id in the framework.
 
 ## Declaring resources in the code
 
-You have to declare the resources you wish to use in your application code in an
-`@asset` compiler hint near the top of your source file.
+You have to declare the resources you wish to use in your application code in a jsdoc
+`@asset` compiler hint near the top of your source file. Note that the comment
+must start with a slash and two stars (`/**`) or the jsdoc parser will ignore it 
+– neither `/*` nor `/***` will work! This problem can be hard to find, since all assets
+declared in such an inactive comment will simply be ignored
+there won't be a warning or anything.
 
 ```javascript
 /**
- *
  * @asset(myapp/icons/16/folder-open.png)
  */
 ```
@@ -49,7 +52,6 @@ use simple (shell) wildcards to specify a whole set of resources:
 
 ```javascript
 /**
- *
  * @asset(myapp/icons/16/*)
  */
 ```
