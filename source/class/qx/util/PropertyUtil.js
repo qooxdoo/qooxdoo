@@ -95,7 +95,10 @@ qx.Class.define("qx.util.PropertyUtil", {
       // Do an immediate save of the property; no apply handling, etc.
       variant = object["$$variant" + propertyName];
       object["$$variant" + propertyName] = "immediate";
+
+      // Debugging hint: this will trap into setter code.
       object[propertyName] = value;
+
       object["$$variant" + propertyName] = variant;
     },
 
