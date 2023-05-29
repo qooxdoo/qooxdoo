@@ -458,8 +458,14 @@ qx.Class.define("qx.bom.webfonts.Validator", {
     if (this.__onceTimer) {
       this.__onceTimer.stop();
     }
-    this.__checkTimer.stop();
-    this.__checkTimer.removeListener("interval", this.__onTimerInterval, this);
+    if (this.__checkTimer) {
+      this.__checkTimer.stop();
+      this.__checkTimer.removeListener(
+        "interval",
+        this.__onTimerInterval,
+        this
+      );
+    }
     this._disposeObjects("__checkTimer");
   }
 });
