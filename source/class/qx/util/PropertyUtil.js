@@ -199,7 +199,7 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param value {var} The value to set
      */
     setThemed(object, propertyName, value) {
-      let             propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
       object[`setThemed${propertyFirstUp}`](value);
     },
 
@@ -210,7 +210,7 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param propertyName {String} The name of the property
      */
     resetThemed(object, propertyName) {
-      let             propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
       object[`resetThemed${propertyFirstUp}`]();
     }
   }

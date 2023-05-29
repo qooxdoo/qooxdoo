@@ -136,6 +136,16 @@
   - `qx.event.handler.Focus`, property `focus`, renamed to `focusedElement`
   - `qx.ui.form.Button`, property `capture`, renamed to `captureCamera`
   - `qx.io.jsonrpc.protocol.Error`, property `error`, renamed to `errorDetail`
+  - `qx.ui.form.SplitButton`, property `show`, renamed to `showFeatures`
+  - `qx.ui.menubar.Button`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.FleSelectorButton`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.Part`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.CheckBox`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.Button`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.ToolBar`, property `show`, renamed to `showFeatures`
+  - `qx.ui.toolbar.PartContainer`, property `show`, renamed to `showFeatures`
+  - `qx.ui.basic.Atom`, property `show`, renamed to `showFeatures`
+  - `qx.ui.mobile.basic.Atom`, property `show`, renamed to `showFeatures`
 
 - Because the entire class and property system was rewritten, there
   may be other obscure backward-compatibility changes that pop up.
