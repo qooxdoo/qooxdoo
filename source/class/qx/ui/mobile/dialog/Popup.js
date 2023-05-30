@@ -223,9 +223,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
 
           this.placeTo(computedPopupPosition.left, computedPopupPosition.top);
         }
-      } else if (this.__childrenContainer) {
-        // No Anchor
-        this._positionToCenter();
+      } else if (this.__childrenContainer && !this.__placed) {
+          // No Anchor and not placed to point manually
+          this._positionToCenter();
       }
     },
 
@@ -238,9 +238,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
         qx.core.Init.getApplication().fireEvent("popup");
 
         this.__registerEventListener();
-
-        // Move outside of viewport
-        this.placeTo(-1000, -1000);
 
         // Needs to be added to screen, before rendering position, for calculating
         // objects height.
@@ -323,6 +320,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
      * @param top {Integer} - the value the will be set to container's top style property
      */
     placeTo(left, top) {
+      this.__placed = true;
+      var container = this.getContainerElement();
+      container.style.marginLeft = "0px";
+      container.style.marginTop = "0px";
       this._setStyle("left", left + "px");
       this._setStyle("top", top + "px");
     },
