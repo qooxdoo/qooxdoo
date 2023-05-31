@@ -40,9 +40,6 @@ qx.Bootstrap.define("qx.core.propertystorage.ImmutableDataArray", {
       // Otherwise, they're providing a new value. Instead of
       // replacing the qx.data.Array itself, we replace the contents
       // of the existing qx.data.Array.
-      //
-      // FIXME: Is this the correct way to replace the contents of a
-      // data array???
       this[prop].replace(value);
     },
 

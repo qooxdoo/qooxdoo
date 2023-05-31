@@ -715,8 +715,7 @@ qx.Bootstrap.define("qx.Class", {
 
       // Ensure there are no properties defined that overwrite
       // superclasses' properties, unless "refine : true" is
-      // specified. For now, we allow a property to be entirely
-      // overwritten if refine: true is specified.
+      // specified.
       for (let property in properties) {
         let refined = false;
 
@@ -1020,14 +1019,13 @@ qx.Bootstrap.define("qx.Class", {
                   );
                 }
 
-                // Yup. Does it have a transform method?
+                // Does it have a transform method?
                 if (property.transform) {
                   // It does. Call it. It returns the new value.
                   if (typeof property.transform == "function") {
                     value = property.transform.call(proxy, value, old);
-                  }
-                  // otherwise it's a string
-                  else {
+                  } else {
+                    // It's a string (function name) rather than a function reference
                     value = obj[property.transform].call(proxy, value, old);
                   }
                 }
@@ -1045,9 +1043,8 @@ qx.Bootstrap.define("qx.Class", {
                   // validation failure
                   if (typeof property.validate == "function") {
                     property.validate.call(proxy, value);
-                  }
-                  // otherwise it's a string
-                  else {
+                  } else {
+                    // It's a string (function name) rather than a function reference
                     obj[property.validate].call(proxy, value);
                   }
                 }
