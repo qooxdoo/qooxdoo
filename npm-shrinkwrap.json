@@ -77,7 +77,8 @@
         "upath": "^1.2.0",
         "update-notifier": "^6.0.2",
         "xml2js": "^0.5.0",
-        "yargs": "^15.4.1"
+        "yargs": "^15.4.1",
+        "yauzl-promise": "^4.0.0"
       },
       "bin": {
         "qx": "bin/deploy/qx"
@@ -2032,6 +2033,228 @@
         "supports-color": {
           "optional": true
         }
+      }
+    },
+    "node_modules/@node-rs/crc32": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32/-/crc32-1.7.0.tgz",
+      "integrity": "sha512-cEvvgaA+amK2LO54E3eHFlXg9kqXR27qTRaQjJyW0Ra2x+aAdbio7CICy7JughiYv6f/79FrTpYdtmsW9jkHjA==",
+      "engines": {
+        "node": ">= 10"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/Brooooooklyn"
+      },
+      "optionalDependencies": {
+        "@node-rs/crc32-android-arm-eabi": "1.7.0",
+        "@node-rs/crc32-android-arm64": "1.7.0",
+        "@node-rs/crc32-darwin-arm64": "1.7.0",
+        "@node-rs/crc32-darwin-x64": "1.7.0",
+        "@node-rs/crc32-freebsd-x64": "1.7.0",
+        "@node-rs/crc32-linux-arm-gnueabihf": "1.7.0",
+        "@node-rs/crc32-linux-arm64-gnu": "1.7.0",
+        "@node-rs/crc32-linux-arm64-musl": "1.7.0",
+        "@node-rs/crc32-linux-x64-gnu": "1.7.0",
+        "@node-rs/crc32-linux-x64-musl": "1.7.0",
+        "@node-rs/crc32-win32-arm64-msvc": "1.7.0",
+        "@node-rs/crc32-win32-ia32-msvc": "1.7.0",
+        "@node-rs/crc32-win32-x64-msvc": "1.7.0"
+      }
+    },
+    "node_modules/@node-rs/crc32-android-arm-eabi": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-android-arm-eabi/-/crc32-android-arm-eabi-1.7.0.tgz",
+      "integrity": "sha512-a0ligyBGOUT3xcVPo9Ozt2KdrmHFu9jYj2dxqxWFndEM+R6576tOAq2xBIotmpRgKK30KObPz83FFyul1rksbQ==",
+      "cpu": [
+        "arm"
+      ],
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-android-arm64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-android-arm64/-/crc32-android-arm64-1.7.0.tgz",
+      "integrity": "sha512-UU0vc7mERSd+SbuKU1uuB3t+t2PS89Z2ehmSwqMfFewIPTLno5OkO7VeNdDSp+qrOv0f/mbB+j2LMhYOIxAU9Q==",
+      "cpu": [
+        "arm64"
+      ],
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-darwin-arm64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-darwin-arm64/-/crc32-darwin-arm64-1.7.0.tgz",
+      "integrity": "sha512-VJVi5VSihwXz2fwkYaxypR+WaqTtNGJlC3UEN+R41ftvpZ8U/tp48hjLGnWcPApAfnhBEOrEvnpH2Tv4+XVW/Q==",
+      "cpu": [
+        "arm64"
+      ],
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-darwin-x64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-darwin-x64/-/crc32-darwin-x64-1.7.0.tgz",
+      "integrity": "sha512-6W6mPsUB5612A3VIOIVOiWsjtV34Efo4DC7+/Hg/l14F0xVh2agJA8wMpq8jByPZNZ+LV3kunCR7HB2hGY68YQ==",
+      "cpu": [
+        "x64"
+      ],
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-freebsd-x64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-freebsd-x64/-/crc32-freebsd-x64-1.7.0.tgz",
+      "integrity": "sha512-Roua2jhneDWnKMRoJI7ruHeiimkrbd6U2c0+S42AgL4Io4177B7+DVZoebHvW0ozuAQFqYj9WE8R/uXU88mcpA==",
+      "cpu": [
+        "x64"
+      ],
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-linux-arm-gnueabihf": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm-gnueabihf/-/crc32-linux-arm-gnueabihf-1.7.0.tgz",
+      "integrity": "sha512-6jB+NWDnlcA3tuo9cLCmj2h53btYBurdkHfbcg6RasP0i1c7azE5+J7NXXZyZhUHmzmbf7P+ce6gG3PRQl8ncA==",
+      "cpu": [
+        "arm"
+      ],
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-linux-arm64-gnu": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm64-gnu/-/crc32-linux-arm64-gnu-1.7.0.tgz",
+      "integrity": "sha512-ZrlmD+sEyuDNQ+SibtwCy1dUn0hD7AM2YYovL5qw7sX6moqodloaipAAlDTyah2YGnhPKZMklgR2dxxj5Um1ag==",
+      "cpu": [
+        "arm64"
+      ],
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-linux-arm64-musl": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm64-musl/-/crc32-linux-arm64-musl-1.7.0.tgz",
+      "integrity": "sha512-81s43ZWAB9xxn4lyyjUlLSXKov1iMkS1RBrfgKXGtaVQLHB0c39qYL4rPvSwicEO3DvZsmHKASlGDgTctl5oag==",
+      "cpu": [
+        "arm64"
+      ],
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-linux-x64-gnu": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-x64-gnu/-/crc32-linux-x64-gnu-1.7.0.tgz",
+      "integrity": "sha512-MpMThABlKf0WDKnJdJ26mUGYTnMOnupNiGKessH93UgyEjq9gZBpbtuXE/9N8PoAl5ItyjjmCsg1g4ZVjuqb6w==",
+      "cpu": [
+        "x64"
+      ],
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-linux-x64-musl": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-x64-musl/-/crc32-linux-x64-musl-1.7.0.tgz",
+      "integrity": "sha512-9EvPtWTLCsxyuNBz7/uLKDlSowgIHZeQRN/lQhw4ez/r6vKE5VQpS8ZtXlAUcSGoloXNxpZ/6zIcv21J7KWhzQ==",
+      "cpu": [
+        "x64"
+      ],
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-win32-arm64-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-arm64-msvc/-/crc32-win32-arm64-msvc-1.7.0.tgz",
+      "integrity": "sha512-i/IC2TrEBJ3tr44leBUejLbfK22EY7s6AWngspLejh81obvC4GUAUPn13HaNBcTtngjWwLX+V+Q97ibmCNEshA==",
+      "cpu": [
+        "arm64"
+      ],
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-win32-ia32-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-ia32-msvc/-/crc32-win32-ia32-msvc-1.7.0.tgz",
+      "integrity": "sha512-nI5MiJfPDX0elHE/sDJGNWNlIYLORKRxhPTLvMp3Z+IdiUHu+6BrH21ymCN5ap+k45acUKAUOb7d9ctjN+9jBg==",
+      "cpu": [
+        "ia32"
+      ],
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@node-rs/crc32-win32-x64-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-x64-msvc/-/crc32-win32-x64-msvc-1.7.0.tgz",
+      "integrity": "sha512-TdRNLPQ7DCt401nKU0c9ZbG8ITRO9WG7bV3Xgwgd8eK/jvfuqNC0Oy1o8uTzuagUqqAMXuSNbZ2nsDKARTzvHQ==",
+      "cpu": [
+        "x64"
+      ],
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10"
       }
     },
     "node_modules/@octokit/auth-token": {
@@ -6294,6 +6517,20 @@
         "node": ">=4"
       }
     },
+    "node_modules/globalthis": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/globalthis/-/globalthis-1.0.3.tgz",
+      "integrity": "sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==",
+      "dependencies": {
+        "define-properties": "^1.1.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
     "node_modules/got": {
       "version": "7.1.0",
       "resolved": "https://registry.npmjs.org/got/-/got-7.1.0.tgz",
@@ -7027,6 +7264,18 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/is-it-type": {
+      "version": "5.1.2",
+      "resolved": "https://registry.npmjs.org/is-it-type/-/is-it-type-5.1.2.tgz",
+      "integrity": "sha512-q/gOZQTNYABAxaXWnBKZjTFH4yACvWEFtgVOj+LbgxYIgAJG1xVmUZOsECSrZPIemYUQvaQWVilSFVbh4Eyt8A==",
+      "dependencies": {
+        "@babel/runtime": "^7.16.7",
+        "globalthis": "^1.0.2"
+      },
+      "engines": {
+        "node": ">=12"
       }
     },
     "node_modules/is-map": {
@@ -9605,6 +9854,14 @@
         }
       ]
     },
+    "node_modules/simple-invariant": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/simple-invariant/-/simple-invariant-2.0.1.tgz",
+      "integrity": "sha512-1sbhsxqI+I2tqlmjbz99GXNmZtr6tKIyEgGGnJw/MKGblalqk/XoOYYFJlBzTKZCxx8kLaD3FD5s9BEEjx5Pyg==",
+      "engines": {
+        "node": ">=10"
+      }
+    },
     "node_modules/slice-ansi": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/slice-ansi/-/slice-ansi-2.1.0.tgz",
@@ -11085,10 +11342,23 @@
     "node_modules/yauzl": {
       "version": "2.10.0",
       "resolved": "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz",
-      "integrity": "sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=",
+      "integrity": "sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==",
       "dependencies": {
         "buffer-crc32": "~0.2.3",
         "fd-slicer": "~1.1.0"
+      }
+    },
+    "node_modules/yauzl-promise": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/yauzl-promise/-/yauzl-promise-4.0.0.tgz",
+      "integrity": "sha512-/HCXpyHXJQQHvFq9noqrjfa/WpQC2XYs3vI7tBiAi4QiIU1knvYhZGaO1QPjwIVMdqflxbmwgMXtYeaRiAE0CA==",
+      "dependencies": {
+        "@node-rs/crc32": "^1.7.0",
+        "is-it-type": "^5.1.2",
+        "simple-invariant": "^2.0.1"
+      },
+      "engines": {
+        "node": ">=16"
       }
     }
   },
@@ -12427,6 +12697,104 @@
           }
         }
       }
+    },
+    "@node-rs/crc32": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32/-/crc32-1.7.0.tgz",
+      "integrity": "sha512-cEvvgaA+amK2LO54E3eHFlXg9kqXR27qTRaQjJyW0Ra2x+aAdbio7CICy7JughiYv6f/79FrTpYdtmsW9jkHjA==",
+      "requires": {
+        "@node-rs/crc32-android-arm-eabi": "1.7.0",
+        "@node-rs/crc32-android-arm64": "1.7.0",
+        "@node-rs/crc32-darwin-arm64": "1.7.0",
+        "@node-rs/crc32-darwin-x64": "1.7.0",
+        "@node-rs/crc32-freebsd-x64": "1.7.0",
+        "@node-rs/crc32-linux-arm-gnueabihf": "1.7.0",
+        "@node-rs/crc32-linux-arm64-gnu": "1.7.0",
+        "@node-rs/crc32-linux-arm64-musl": "1.7.0",
+        "@node-rs/crc32-linux-x64-gnu": "1.7.0",
+        "@node-rs/crc32-linux-x64-musl": "1.7.0",
+        "@node-rs/crc32-win32-arm64-msvc": "1.7.0",
+        "@node-rs/crc32-win32-ia32-msvc": "1.7.0",
+        "@node-rs/crc32-win32-x64-msvc": "1.7.0"
+      }
+    },
+    "@node-rs/crc32-android-arm-eabi": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-android-arm-eabi/-/crc32-android-arm-eabi-1.7.0.tgz",
+      "integrity": "sha512-a0ligyBGOUT3xcVPo9Ozt2KdrmHFu9jYj2dxqxWFndEM+R6576tOAq2xBIotmpRgKK30KObPz83FFyul1rksbQ==",
+      "optional": true
+    },
+    "@node-rs/crc32-android-arm64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-android-arm64/-/crc32-android-arm64-1.7.0.tgz",
+      "integrity": "sha512-UU0vc7mERSd+SbuKU1uuB3t+t2PS89Z2ehmSwqMfFewIPTLno5OkO7VeNdDSp+qrOv0f/mbB+j2LMhYOIxAU9Q==",
+      "optional": true
+    },
+    "@node-rs/crc32-darwin-arm64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-darwin-arm64/-/crc32-darwin-arm64-1.7.0.tgz",
+      "integrity": "sha512-VJVi5VSihwXz2fwkYaxypR+WaqTtNGJlC3UEN+R41ftvpZ8U/tp48hjLGnWcPApAfnhBEOrEvnpH2Tv4+XVW/Q==",
+      "optional": true
+    },
+    "@node-rs/crc32-darwin-x64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-darwin-x64/-/crc32-darwin-x64-1.7.0.tgz",
+      "integrity": "sha512-6W6mPsUB5612A3VIOIVOiWsjtV34Efo4DC7+/Hg/l14F0xVh2agJA8wMpq8jByPZNZ+LV3kunCR7HB2hGY68YQ==",
+      "optional": true
+    },
+    "@node-rs/crc32-freebsd-x64": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-freebsd-x64/-/crc32-freebsd-x64-1.7.0.tgz",
+      "integrity": "sha512-Roua2jhneDWnKMRoJI7ruHeiimkrbd6U2c0+S42AgL4Io4177B7+DVZoebHvW0ozuAQFqYj9WE8R/uXU88mcpA==",
+      "optional": true
+    },
+    "@node-rs/crc32-linux-arm-gnueabihf": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm-gnueabihf/-/crc32-linux-arm-gnueabihf-1.7.0.tgz",
+      "integrity": "sha512-6jB+NWDnlcA3tuo9cLCmj2h53btYBurdkHfbcg6RasP0i1c7azE5+J7NXXZyZhUHmzmbf7P+ce6gG3PRQl8ncA==",
+      "optional": true
+    },
+    "@node-rs/crc32-linux-arm64-gnu": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm64-gnu/-/crc32-linux-arm64-gnu-1.7.0.tgz",
+      "integrity": "sha512-ZrlmD+sEyuDNQ+SibtwCy1dUn0hD7AM2YYovL5qw7sX6moqodloaipAAlDTyah2YGnhPKZMklgR2dxxj5Um1ag==",
+      "optional": true
+    },
+    "@node-rs/crc32-linux-arm64-musl": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-arm64-musl/-/crc32-linux-arm64-musl-1.7.0.tgz",
+      "integrity": "sha512-81s43ZWAB9xxn4lyyjUlLSXKov1iMkS1RBrfgKXGtaVQLHB0c39qYL4rPvSwicEO3DvZsmHKASlGDgTctl5oag==",
+      "optional": true
+    },
+    "@node-rs/crc32-linux-x64-gnu": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-x64-gnu/-/crc32-linux-x64-gnu-1.7.0.tgz",
+      "integrity": "sha512-MpMThABlKf0WDKnJdJ26mUGYTnMOnupNiGKessH93UgyEjq9gZBpbtuXE/9N8PoAl5ItyjjmCsg1g4ZVjuqb6w==",
+      "optional": true
+    },
+    "@node-rs/crc32-linux-x64-musl": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-linux-x64-musl/-/crc32-linux-x64-musl-1.7.0.tgz",
+      "integrity": "sha512-9EvPtWTLCsxyuNBz7/uLKDlSowgIHZeQRN/lQhw4ez/r6vKE5VQpS8ZtXlAUcSGoloXNxpZ/6zIcv21J7KWhzQ==",
+      "optional": true
+    },
+    "@node-rs/crc32-win32-arm64-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-arm64-msvc/-/crc32-win32-arm64-msvc-1.7.0.tgz",
+      "integrity": "sha512-i/IC2TrEBJ3tr44leBUejLbfK22EY7s6AWngspLejh81obvC4GUAUPn13HaNBcTtngjWwLX+V+Q97ibmCNEshA==",
+      "optional": true
+    },
+    "@node-rs/crc32-win32-ia32-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-ia32-msvc/-/crc32-win32-ia32-msvc-1.7.0.tgz",
+      "integrity": "sha512-nI5MiJfPDX0elHE/sDJGNWNlIYLORKRxhPTLvMp3Z+IdiUHu+6BrH21ymCN5ap+k45acUKAUOb7d9ctjN+9jBg==",
+      "optional": true
+    },
+    "@node-rs/crc32-win32-x64-msvc": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@node-rs/crc32-win32-x64-msvc/-/crc32-win32-x64-msvc-1.7.0.tgz",
+      "integrity": "sha512-TdRNLPQ7DCt401nKU0c9ZbG8ITRO9WG7bV3Xgwgd8eK/jvfuqNC0Oy1o8uTzuagUqqAMXuSNbZ2nsDKARTzvHQ==",
+      "optional": true
     },
     "@octokit/auth-token": {
       "version": "2.5.0",
@@ -15734,6 +16102,14 @@
       "resolved": "https://registry.npmjs.org/globals/-/globals-11.12.0.tgz",
       "integrity": "sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA=="
     },
+    "globalthis": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/globalthis/-/globalthis-1.0.3.tgz",
+      "integrity": "sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==",
+      "requires": {
+        "define-properties": "^1.1.3"
+      }
+    },
     "got": {
       "version": "7.1.0",
       "resolved": "https://registry.npmjs.org/got/-/got-7.1.0.tgz",
@@ -16252,6 +16628,15 @@
       "requires": {
         "global-dirs": "^3.0.0",
         "is-path-inside": "^3.0.2"
+      }
+    },
+    "is-it-type": {
+      "version": "5.1.2",
+      "resolved": "https://registry.npmjs.org/is-it-type/-/is-it-type-5.1.2.tgz",
+      "integrity": "sha512-q/gOZQTNYABAxaXWnBKZjTFH4yACvWEFtgVOj+LbgxYIgAJG1xVmUZOsECSrZPIemYUQvaQWVilSFVbh4Eyt8A==",
+      "requires": {
+        "@babel/runtime": "^7.16.7",
+        "globalthis": "^1.0.2"
       }
     },
     "is-map": {
@@ -18155,6 +18540,11 @@
       "resolved": "https://registry.npmjs.org/simple-concat/-/simple-concat-1.0.1.tgz",
       "integrity": "sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q=="
     },
+    "simple-invariant": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/simple-invariant/-/simple-invariant-2.0.1.tgz",
+      "integrity": "sha512-1sbhsxqI+I2tqlmjbz99GXNmZtr6tKIyEgGGnJw/MKGblalqk/XoOYYFJlBzTKZCxx8kLaD3FD5s9BEEjx5Pyg=="
+    },
     "slice-ansi": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/slice-ansi/-/slice-ansi-2.1.0.tgz",
@@ -19366,10 +19756,20 @@
     "yauzl": {
       "version": "2.10.0",
       "resolved": "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz",
-      "integrity": "sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=",
+      "integrity": "sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==",
       "requires": {
         "buffer-crc32": "~0.2.3",
         "fd-slicer": "~1.1.0"
+      }
+    },
+    "yauzl-promise": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/yauzl-promise/-/yauzl-promise-4.0.0.tgz",
+      "integrity": "sha512-/HCXpyHXJQQHvFq9noqrjfa/WpQC2XYs3vI7tBiAi4QiIU1knvYhZGaO1QPjwIVMdqflxbmwgMXtYeaRiAE0CA==",
+      "requires": {
+        "@node-rs/crc32": "^1.7.0",
+        "is-it-type": "^5.1.2",
+        "simple-invariant": "^2.0.1"
       }
     }
   }

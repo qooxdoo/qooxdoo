@@ -21,6 +21,10 @@ let BROKEN = false;
 qx.Bootstrap.define("qx.Class", {
   type: "static",
 
+  environment: {
+    "qx.Class.futureCheckJsDoc": false
+  },
+
   statics: {
     /**
      * Options configured mostly by unit tests
@@ -1303,7 +1307,7 @@ qx.Bootstrap.define("qx.Class", {
             "Expected value to implement " + property.check
           );
         } else {
-          if (qx.core.Environment.get("qx.future.checkjsdoc")) {
+          if (qx.core.Environment.get("qx.Class.futureCheckJsDoc")) {
             // Next  try to parse the check string as JSDoc
             let bJSDocParsed = false;
             try {

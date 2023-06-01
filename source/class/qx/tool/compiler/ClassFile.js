@@ -796,7 +796,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           t.__classMeta._topLevel.keyName == "members" &&
           path.parentPath.parentPath.parentPath == t.__classMeta._topLevel.path;
         if (idNode) {
-          t.addDeclaration(idNode.name);
+          t.addDeclaration(idNode.name, null, node.loc);
         }
         t.pushScope(idNode ? idNode.name : null, node, isClassMember);
 
@@ -804,9 +804,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           if (param.type == "AssignmentPattern") {
             addDecl(param.left);
           } else if (param.type == "RestElement") {
-            t.addDeclaration(param.argument.name);
+            t.addDeclaration(param.argument.name, null, node.loc);
           } else if (param.type == "Identifier") {
-            t.addDeclaration(param.name);
+            t.addDeclaration(param.name, null, node.loc);
           } else if (param.type == "ArrayPattern") {
             param.elements.forEach(elem => addDecl(elem));
           } else if (param.type == "ObjectPattern") {
@@ -2268,15 +2268,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     value = "this";
                   }
                 }
-                t.addDeclaration(decl.id.name, value);
+                t.addDeclaration(decl.id.name, value, path.node.loc);
 
                 // Object destructuring `var {a,b} = {...}`
               } else if (decl.id.type == "ObjectPattern") {
                 decl.id.properties.forEach(prop => {
                   if (prop.value.type == "AssignmentPattern") {
-                    t.addDeclaration(prop.value.left.name);
+                    t.addDeclaration(prop.value.left.name, null, path.node.loc);
                   } else {
-                    t.addDeclaration(prop.value.name);
+                    t.addDeclaration(prop.value.name, null, path.node.loc);
                   }
                 });
 
@@ -2285,11 +2285,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 decl.id.elements.forEach(prop => {
                   if (prop) {
                     if (prop.type == "AssignmentPattern") {
-                      t.addDeclaration(prop.left.name);
+                      t.addDeclaration(prop.left.name, null, path.node.loc);
                     } else if (prop.type == "RestElement") {
-                      t.addDeclaration(prop.argument.name);
+                      t.addDeclaration(prop.argument.name, null, path.node.loc);
                     } else {
-                      t.addDeclaration(prop.name);
+                      t.addDeclaration(prop.name, null, path.node.loc);
                     }
                   }
                 });
@@ -2299,7 +2299,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ClassDeclaration(path) {
-          t.addDeclaration(path.node.id.name);
+          t.addDeclaration(path.node.id.name, null, path.node.loc);
         },
 
         // Note that AST Explorer calls this MethodDefinition, not ClassMethod
@@ -2315,7 +2315,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         CatchClause: {
           enter(path) {
             t.pushScope(null, path.node);
-            t.addDeclaration(path.node.param.name);
+            t.addDeclaration(path.node.param.name, null, path.node.loc);
           },
           exit(path) {
             t.popScope(path.node);
@@ -2438,9 +2438,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      *
      * @param name {String} the name of the variabvle being declared
      * @param valueName {String} the value to assign to the variable
+     * @param location {*} Location of the variable declaration from babel
      */
-    addDeclaration(name, valueName) {
+    addDeclaration(name, valueName, location) {
       if (this.__scope.vars[name] === undefined) {
+        if (name == "arguments") {
+          this.addMarker("class.reservedWordDecl", location, name);
+        }
         this.__scope.vars[name] = valueName || true;
         var unresolved = this.__scope.unresolved;
         delete unresolved[name];

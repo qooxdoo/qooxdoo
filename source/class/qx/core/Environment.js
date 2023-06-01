@@ -891,7 +891,6 @@ qx.Bootstrap.define("qx.core.Environment", {
       "qx.dynlocale": true,
       "qx.dyntheme": true,
       "qx.blankpage": "qx/static/blank.html",
-      "qx.future.checkjsdoc": false,
       "qx.debug.databinding": false,
       "qx.debug.dispose": false,
       "qx.debug.startupTimings": false,
