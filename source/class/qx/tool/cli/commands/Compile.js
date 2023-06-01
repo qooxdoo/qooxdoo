@@ -862,6 +862,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       let versionManager = new qx.tool.utils.QooxdooVersions();
+      if (this.argv.clean) {
+        versionManager.clean();
+      }
       let qxVersion = qxLib.getVersion();
       let qxLibrariesByVersionNumber = {};
       qxLibrariesByVersionNumber[qxVersion] = qxLib;

@@ -28,7 +28,11 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
   },
 
   members: {
+    /** @type{*} saee GitHub API */
     __githubTags: null,
+
+    /** @type{*} database of best matches */
+    __db: null,
 
     /**
      * Gets the tags from Github so we can find releases
@@ -42,6 +46,68 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
         );
       }
       return this.__githubTags;
+    },
+
+    /**
+     * Returns the filename for the cache database
+     *
+     * @returns {String}
+     */
+    __getFilename() {
+      return path.join(
+        qx.tool.cli.ConfigDb.getDirectory(),
+        "versions",
+        "versions.txt"
+      );
+    },
+
+    /**
+     * Opens the cache database if there is one
+     */
+    async _open() {
+      if (this.__db) {
+        return this.__db;
+      }
+
+      try {
+        let data = await fs.promises.readFile(this.__getFilename(), "utf8");
+        this.__db = JSON.parse(data);
+      } catch (ex) {
+        if (ex.errno !== "ENOENT") {
+          throw ex;
+        }
+        this.__db = {};
+      }
+    },
+
+    /**
+     * Saves the database
+     */
+    async save() {
+      if (!this.__db) {
+        await fs.promises.unlink(this.__getFilename());
+      } else {
+        await fs.promises.writeFile(
+          this.__getFilename(),
+          JSON.stringify(this.__db, null, 2),
+          "utf8"
+        );
+      }
+    },
+
+    /**
+     * Erases the database
+     */
+    async clean() {
+      this.__db = {};
+      await fs.promises.rm(this.__getFilename());
+      await fs.promises.rm(
+        path.join(qx.tool.cli.ConfigDb.getDirectory(), "versions"),
+        {
+          recursive: true,
+          force: true
+        }
+      );
     },
 
     /**
@@ -60,6 +126,15 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
         return qxpath;
       }
 
+      await this._open();
+      if (this.__db.versions[versionToMatch]) {
+        let dirname = this.__db.versions[versionToMatch];
+        if (fs.existsSync(dirname)) {
+          return dirname;
+        }
+        delete this.__db.versions[versionToMatch];
+      }
+
       await this._getTags();
       for (let tag of this.__githubTags) {
         let match = tag.name.match(/^v([0-9]+\.[0-9]+\.[0-9]+)$/);
@@ -68,6 +143,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
           if (semver.satisfies(version, versionToMatch)) {
             let dirname = path.join(
               qx.tool.cli.ConfigDb.getDirectory(),
+              "versions",
               "v" + version
             );
 
@@ -100,6 +176,8 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
                 "utf-8"
               );
             }
+            this.__db.versions[versionToMatch] = path.resolve(dirname);
+            await this.save();
             return dirname;
           }
         }
