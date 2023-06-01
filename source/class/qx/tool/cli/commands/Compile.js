@@ -867,7 +867,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       qxLibrariesByVersionNumber[qxVersion] = qxLib;
       for (let targetConfig of targetConfigs) {
         if (targetConfig.qooxdooVersion) {
-          let dirname = versionManager.findBestVersion(
+          let dirname = await versionManager.findBestVersion(
             targetConfig.qooxdooVersion
           );
 

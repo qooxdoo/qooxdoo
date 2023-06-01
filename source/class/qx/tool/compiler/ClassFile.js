@@ -1427,6 +1427,18 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               });
             }
             path.traverse(VISITOR);
+          } else if (keyName == "environment") {
+            path.skip();
+            if (prop.value.properties) {
+              prop.value.properties.forEach(function (node) {
+                var keyName = getKeyName(node.key);
+                var meta = makeMeta("environment", keyName, node);
+                meta.name = keyName;
+                meta.type = collectJson(node.value);
+                t.__environmentChecks.provided[keyName] = true;
+              });
+            }
+            path.traverse(VISITOR);
           } else if (keyName == "aliases") {
             path.skip();
             if (!prop.value.properties) {
@@ -3209,7 +3221,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,
       "qx.promise.warnings": true,
-      "qx.promise.longStackTraces": true
+      "qx.promise.longStackTraces": true,
+      "qx.Class.futureCheckJsDoc": false
     },
 
     SYSTEM_CHECKS: null

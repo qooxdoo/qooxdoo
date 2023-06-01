@@ -1,3 +1,25 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2023 Zenesis Limited https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (@johnspackman)
+
+************************************************************************ */
+
+const semver = require("semver");
+const path = require("upath");
+const fs = qx.tool.utils.Promisify.fs;
+
 qx.Class.define("qx.tool.utils.QooxdooVersions", {
   extend: qx.core.Object,
 
@@ -15,7 +37,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      */
     async _getTags() {
       if (!this.__githubTags) {
-        this.__githubTags = qxGithubTags = await qx.tool.utils.Http.getJson(
+        this.__githubTags = await qx.tool.utils.Http.getJson(
           "https://api.github.com/repos/qooxdoo/qooxdoo/tags"
         );
       }
@@ -30,12 +52,15 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      * @returns {String} the directory where the Qooxdoo installation is
      */
     async findBestVersion(versionToMatch) {
+      const Console = qx.tool.compiler.Console.getInstance();
+
       let defaultVersion = await qx.tool.config.Utils.getQxVersion();
-      if (semver.satisfies(version, versionToMatch)) {
+      if (semver.satisfies(defaultVersion, versionToMatch)) {
         let qxpath = await this.getQxPath();
         return qxpath;
       }
 
+      await this._getTags();
       for (let tag of this.__githubTags) {
         let match = tag.name.match(/^v([0-9]+\.[0-9]+\.[0-9]+)$/);
         if (match) {
