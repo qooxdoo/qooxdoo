@@ -1072,12 +1072,13 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testPromises() {
-      const promiseDelay = (delay, fn) => new qx.Promise(resolve => {
-        setTimeout(async () => {
-          await fn();
-          resolve();
-        }, delay);
-      });
+      const promiseDelay = (delay, fn) =>
+        new qx.Promise(resolve => {
+          setTimeout(async () => {
+            await fn();
+            resolve();
+          }, delay);
+        });
 
       qx.Class.define("qxl.TestPromises", {
         extend: qx.core.Object,
@@ -1173,6 +1174,90 @@ qx.Class.define("qx.test.core.Property", {
       };
       testImpl().then(() => this.resume());
       this.wait(1000);
+    },
+
+    testPseudoProperties() {
+      let classPseudoProperty = qx.Class.define(null, {
+        extend: qx.core.Object,
+
+        events: {
+          changePseudoProp: "qx.event.type.Data"
+        },
+
+        members: {
+          __pseudoProp: 23,
+
+          getPseudoProp() {
+            return this.__pseudoProp;
+          },
+
+          setPseudoProp(value) {
+            this.__pseudoProp = value;
+          }
+        }
+      });
+
+      let classPseudoPropertyNoEvent = qx.Class.define(null, {
+        extend: qx.core.Object,
+
+        members: {
+          __pseudoProp: 23,
+
+          getPseudoProp() {
+            return this.__pseudoProp;
+          },
+
+          setPseudoProp(value) {
+            this.__pseudoProp = value;
+          }
+        }
+      });
+
+      let classPseudoPropertyNoGetter = qx.Class.define(null, {
+        extend: qx.core.Object,
+
+        events: {
+          changePseudoProp: "qx.event.type.Data"
+        },
+
+        members: {
+          __pseudoProp: 23,
+
+          setPseudoProp(value) {
+            this.__pseudoProp = value;
+          }
+        }
+      });
+
+      let classPseudoPropertyNoSetter = qx.Class.define(null, {
+        extend: qx.core.Object,
+
+        events: {
+          changePseudoProp: "qx.event.type.Data"
+        },
+
+        members: {
+          __pseudoProp: 23,
+
+          getPseudoProp() {
+            return this.__pseudoProp;
+          }
+        }
+      });
+
+      let pp = new classPseudoProperty();
+      this.assertEquals(23, pp.pseudoProp);
+      pp.pseudoProp = 42;
+      this.assertEquals(42, pp.pseudoProp);
+
+      pp = new classPseudoPropertyNoEvent();
+      this.assertUndefined(pp.pseudoProp);
+
+      pp = new classPseudoPropertyNoGetter();
+      this.assertUndefined(pp.pseudoProp);
+
+      pp = new classPseudoPropertyNoSetter();
+      this.assertUndefined(pp.pseudoProp);
     }
   }
 });

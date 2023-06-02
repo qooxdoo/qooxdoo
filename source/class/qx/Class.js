@@ -661,7 +661,6 @@ qx.Bootstrap.define("qx.Class", {
       const type = config.type || "class";
       const superclass = config.extend || Object;
       const properties = config.properties;
-      const customProxyHandler = config.proxyHandler;
       const _this = this;
       let allProperties = superclass.$$allProperties || {};
       let superProperties = superclass.$$superProperties || {};
@@ -914,14 +913,61 @@ qx.Bootstrap.define("qx.Class", {
 
                 value = storage.get.call(obj, prop);
 
-                // If it's a property and the value is undefined,
-                // there are some property characteristics that
-                // can give it a known replacement value.
-                if (property && value === undefined) {
-                  if (property.nullable || property.inheritable) {
-                    value = null;
-                  } else if (property.check == "Boolean") {
-                    value = false;
+                // If the value is undefined...
+                if (value === undefined) {
+                  if (property) {
+                    // If it's a property, there are some property
+                    // characteristics that can give it a known
+                    // replacement value.
+                    if (property.nullable || property.inheritable) {
+                      value = null;
+                    } else if (property.check == "Boolean") {
+                      value = false;
+                    }
+                  } else if (
+                    typeof prop == "string" &&
+                    subclass.prototype.constructor.$$events
+                  ) {
+                    // Otherwise if it's a pseudo-property that we haven't seen...
+                    let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+
+                    // Pseudo-properties have getter and setter, and and a change event
+                    if (
+                      typeof obj[`get${propertyFirstUp}`] == "function" &&
+                      typeof obj[`set${propertyFirstUp}`] == "function" &&
+                      subclass.prototype.constructor.$$events[
+                        `change${propertyFirstUp}`
+                      ]
+                    ) {
+                      // Warn them they're using a pseudo-property
+                      console.warn(
+                        "Deprecated use of pseudo-property. " +
+                          `Found first-class "get" of pseudo-property '${prop}' in ${className}. ` +
+                          `Please create an actual property, and use the "storage" key.`
+                      );
+
+                      // set up dynamic storage so that next time, we
+                      // won't need to sniff; we'll know it's a
+                      // pseudo-property.
+
+                      subclass.$$allProperties[prop] = property = {
+                        isEqual: (a, b) => a === b,
+
+                        storage: {
+                          init() {},
+                          get(prop) {
+                            return obj[`get${propertyFirstUp}`]();
+                          },
+                          set(prop, value) {
+                            return obj[`set${propertyFirstUp}`](value);
+                          },
+                          dereference() {}
+                        }
+                      };
+
+                      // Now call the pseudo-property getter
+                      value = property.storage.get.call(obj, prop);
+                    }
                   }
                 }
 
@@ -933,7 +979,7 @@ qx.Bootstrap.define("qx.Class", {
                 let old = Reflect.get(obj, prop);
                 let oldForCallback;
                 let property = subclass.$$allProperties[prop];
-                const storage =
+                let storage =
                   property && property.storage
                     ? property.storage
                     : config.delegate
@@ -968,11 +1014,60 @@ qx.Bootstrap.define("qx.Class", {
                   }
                 }
 
-                // If this is not a property being set, or is a
-                // storage call, just immediately set value
-                if (!property || proxy[`$$variant_${prop}`] == "immediate") {
+                // If this is a storage call, immediately set value
+                if (proxy[`$$variant_${prop}`] == "immediate") {
                   storage.set.call(obj, prop, value);
                   return true;
+                }
+
+                // If this is not a property being set, see if it's a
+                // pseudo property that we haven't seen. If not, then
+                // just set its value.
+                if (!property) {
+                  let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+
+                  // Pseudo-properties have getter and setter, and and a change event
+                  if (
+                    typeof obj[`get${propertyFirstUp}`] == "function" &&
+                    typeof obj[`set${propertyFirstUp}`] == "function" &&
+                    subclass.prototype.constructor.$$events[
+                      `change${propertyFirstUp}`
+                    ]
+                  ) {
+                    // Warn them they're using a pseudo-property
+                    console.warn(
+                      "Deprecated use of pseudo-property. " +
+                        `Found first-class "set" of pseudo-property '${prop}' in ${className}. ` +
+                        `Please create an actual property, and use the "storage" key.`
+                    );
+
+                    // set up dynamic storage so that next time, we
+                    // won't need to sniff; we'll know it's a
+                    // pseudo-property.
+                    subclass.$$allProperties[prop] = property = {
+                      isEqual: (a, b) => a === b,
+
+                      storage: {
+                        init() {},
+                        get(prop) {
+                          return obj[`get${propertyFirstUp}`]();
+                        },
+                        set(prop, value) {
+                          return obj[`set${propertyFirstUp}`](value);
+                        },
+                        dereference() {}
+                      }
+                    };
+
+                    // It's now a property and we have new storage for it
+                    storage = property.storage;
+
+                    // Fall through to property handling code,
+                    // below.
+                  } else {
+                    storage.set.call(obj, prop, value);
+                    return true;
+                  }
                 }
 
                 //
