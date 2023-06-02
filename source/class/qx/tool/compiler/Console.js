@@ -183,6 +183,8 @@ qx.Class.define("qx.tool.compiler.Console", {
           "Unexpected property %2 in %1 definition",
         "qx.tool.compiler.compiler.wrongClassName":
           "Wrong class name or filename - expected to find at least %1 but only found [%2]",
+        "qx.tool.compiler.class.reservedWordDecl":
+          "Do not use the reserved word '%1' as a variable name",
 
         // Application errors (@see {Application})
         "qx.tool.compiler.application.partRecursive":
