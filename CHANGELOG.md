@@ -8,11 +8,11 @@
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
-- Properties and members are now in the same namespace. Formerly, a class could have a member variable and a property with the same name, and there was no conflict. Now, since properties are first-class and can be manipulated as normal members, the properties and members use the same namespace, so a single name can not be defined in both.
+- Properties and members are now in the same namespace. Formerly, a class could have a member variable and a property with the same name, and there was no conflict. Now, since properties are native and can be manipulated as normal members, the properties and members use the same namespace, so a single name can not be defined in both.
 
 - Refining a property in a subclass used to modify it in place. It now adds it to the subclass' prototype, so it ends up in the prototype chain twice.
 
-- The predefined instance.name variable is no longer predefined because, with first-class properties, it conflicts with the commonly used property name "name". Use `instance.classname` instead.
+- The predefined instance.name variable is no longer predefined because, with native properties, it conflicts with the commonly used property name "name". Use `instance.classname` instead.
 
 - Defining a property check pseudo-function as a string is no longer supported. Doing so will now generate an error at class load time.
 
@@ -32,7 +32,7 @@ source, add the path to `compile.json`'s `libraries` array.
 
 - `qx.ui.form.Slider` now works correctly in vertical orientation.
 The maximum value is at the top of the slider and the minimal value
-at the bottom. Before that, the 2 values were reversed 
+at the bottom. Before that, the 2 values were reversed
 
 - all flash supporting classes are removed - flash is dead since January 2020.
 
@@ -40,12 +40,12 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
-- `qx.theme.tangible` fixed typo `focussed` -> `focused`. If inheriting from 
+- `qx.theme.tangible` fixed typo `focussed` -> `focused`. If inheriting from
 the theme make sure to update colors to `primary-focused` or `error-focused`.
 
 ## Deprecations:
 
-- `qx package migrate` has been deprecated in favor of `qx migrate` 
+- `qx package migrate` has been deprecated in favor of `qx migrate`
 
 # v6.0.0
 
@@ -60,8 +60,8 @@ https://qooxdoo.org/documentation/#/development/compiler/migration .
 
 ## Breaking changes
 
-- `qx.ui.core.scroll.AbstractScrollArea`: The width and height are now fixed. 
-    To reenable dynamic growing, the width or height can be set to null. 
+- `qx.ui.core.scroll.AbstractScrollArea`: The width and height are now fixed.
+    To reenable dynamic growing, the width or height can be set to null.
 
 - `qx.bom.Cookie`: Previous versions of qooxoo use `escape()` and `unescape()`
 functions. Since those functions are deprecated, then now qooxdoo use
@@ -93,7 +93,7 @@ visibility of the whole splitte widget (no change from v5.0.x).
 
 - `qx.ui.basic.Image` adds a new scaling feature to preserve the size ratio of the image (ie scaling without stretching); if you enable scaling, the ratio is now preserved by default - if you actually want to stretch an image, you will have to set the image's `forceRatio` setting to `disabled`
 
-- `qxWeb` is now build through the compiler with `qx deploy`. The old bootstrap code 
+- `qxWeb` is now build through the compiler with `qx deploy`. The old bootstrap code
 ```
     q.ready(function() {
     });

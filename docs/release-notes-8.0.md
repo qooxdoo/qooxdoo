@@ -6,7 +6,7 @@
   debugging into internals of properties when unexpected behavior is
   anticipated, and some new, exciting property features:
 
-  - Properties are now first-class citizens. Whereas previously you
+  - Properties are now native. Whereas previously you
     would assign a new value to a property with a setter function,
     e.g., for property `myProp`, `this.setMyProp(23);`, and you can
     still do that, you can now also simply assign to the property as
@@ -14,7 +14,7 @@
     still having all of the capabilities of properties, such as the
     `check`, `validate`, and `apply` methods, etc. Similarly, in
     addition too the traditional getter, `let value =
-    this.getMyProp();`, you can use the first-class nature of the
+    this.getMyProp();`, you can use the native nature of the
     property, `let value = myProp;`
 
   - Properties can now be initialized with reference values, using the
@@ -103,7 +103,7 @@
 - Properties and members are now in the same namespace. Formerly, a
   class could have a member variable and a property with the same
   name, and there was no conflict. Now, since properties are
-  first-class and can be manipulated as normal members, the properties
+  native and can be manipulated as normal members, the properties
   and members use the same namespace, so a single name can not be
   defined in both.
   
@@ -112,7 +112,7 @@
   chain twice.
   
 - The predefined `instance.name` variable is no longer predefined
-  because, with first-class properties, it conflicts with the commonly
+  because, with native properties, it conflicts with the commonly
   used property name `name`. Use `instance.classname` instead.
   
 - Defining a property `check` pseudo-function as a string is no longer
