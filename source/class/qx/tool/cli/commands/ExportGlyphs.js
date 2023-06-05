@@ -48,13 +48,8 @@ qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
           /^font\/(ttf|svg|eot|woff|woff2)$/
         );
       }
-      /*
-      let font = await qx.tool.utils.Promisify.call(cb =>
-        fontkit.open(filename, null, cb)
-      );
-      */
+      
       let font = fontkit.openSync(filename);
-
       if (!font.GSUB) {
         qx.tool.compiler.Console.error(
           `The webfont in ${filename} does not have any ligatures`
