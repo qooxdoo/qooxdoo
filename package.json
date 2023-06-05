@@ -68,7 +68,6 @@
     "@babel/preset-typescript": "^7.12.7",
     "@babel/traverse": "^7.12.12",
     "@babel/types": "^7.12.12",
-    "@foliojs-fork/fontkit": "^1.9.1",
     "@metalsmith/layouts": "^2.5.1",
     "@metalsmith/markdown": "^1.5.0",
     "@octokit/rest": "^18.0.15",
