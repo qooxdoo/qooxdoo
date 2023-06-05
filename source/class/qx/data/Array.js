@@ -35,7 +35,7 @@ qx.Class.define("qx.data.Array", {
    * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
    * array. Instead of using the provided API to retrieve an indexed item
    * (`getItem()`), store a value in an indexed item (`setItem()`), or remove
-   * an indexed item (`remove()`), this delegate allows thsoe operations to
+   * an indexed item (`removeAt()`), this delegate allows those operations to
    * use normal array operators, e.g., `value = arr[2]`, `arr[2] = 42;`,
    * `delete arr[2]`.
    *
