@@ -93,6 +93,7 @@
     "eslint-formatter-codeframe": "^7.32.1",
     "eslint-plugin-jsdoc": "37.0.3",
     "express": "^4.17.1",
+    "fontkit": "^2.0.2",
     "gauge": "^2.7.4",
     "get-value": "^3.0.1",
     "github-api": "^3.4.0",

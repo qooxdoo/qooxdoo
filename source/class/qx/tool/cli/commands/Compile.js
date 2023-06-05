@@ -537,8 +537,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
-      if (!this.getCompilerApi().compileJsonExists() && !qx.tool.cli.Cli.getInstance().compileJsExists()) {
-        qx.tool.compiler.Console.error("Cannot find either compile.json nor compile.js");
+      if (
+        !this.getCompilerApi().compileJsonExists() &&
+        !qx.tool.cli.Cli.getInstance().compileJsExists()
+      ) {
+        qx.tool.compiler.Console.error(
+          "Cannot find either compile.json nor compile.js"
+        );
         process.exit(1);
       }
       var config = this.getCompilerApi().getConfiguration();
@@ -833,15 +838,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       let libraries = (this.__libraries = {});
-      await qx.Promise.all(
-        data.libraries.map(async libPath => {
-          var library = await qx.tool.compiler.app.Library.createLibrary(
-            libPath
-          );
+      let librariesArray = [];
+      for (let libPath of data.libraries) {
+        let library = await qx.tool.compiler.app.Library.createLibrary(libPath);
 
-          libraries[library.getNamespace()] = library;
-        })
-      );
+        libraries[library.getNamespace()] = library;
+        librariesArray.push(library);
+      }
 
       // Search for Qooxdoo library if not already provided
       var qxLib = libraries["qx"];
@@ -1202,8 +1205,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           maker.getAnalyser().setAddCreatedAt(true);
         }
 
-        for (let ns in libraries) {
-          maker.getAnalyser().addLibrary(libraries[ns]);
+        for (let library of librariesArray) {
+          maker.getAnalyser().addLibrary(library);
         }
 
         let allApplicationTypes = {};

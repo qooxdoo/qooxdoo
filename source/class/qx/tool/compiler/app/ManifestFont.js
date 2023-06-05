@@ -122,7 +122,9 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
           let glyph = glyphsData[key];
           this.__fontData["@" + name + "/" + key] = [
             // width
-            Math.ceil((defaultSize * glyph.advanceWidth) / glyph.advanceHeight),
+            Math.ceil(
+              (defaultSize * glyph.advanceWidth) / glyph.advanceHeight
+            ) || defaultSize,
 
             // height
             defaultSize,
