@@ -31,6 +31,10 @@ qx.Class.define("qx.data.Array", {
   include: qx.data.marshal.MEventBubbling,
   implement: [qx.data.IListData],
 
+  environment: {
+    "qx.data.Array.deleteAsRemoveAt": false
+  },
+
   /**
    * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
    * array. Instead of using the provided API to retrieve an indexed item
@@ -67,8 +71,19 @@ qx.Class.define("qx.data.Array", {
     delete(property) {
       // If the property is a number or string representing a number...
       if (typeof property != "symbol" && +property === +property) {
-        // ... then use the method for removing an item
-        this.removeAt(property);
+        // ... then use the method for removing an item, if so
+        // enabled; otherwise throw an error
+        if (qx.core.Environment.get("qx.data.Array.deleteAsRemoveAt")) {
+          this.removeAt(property);
+        } else {
+          throw new Error(
+            "qx.data.Array does not support deleting an array elelment " +
+              "like native arrays allow (leaving a hole). " +
+              "If you choose, you may set environment variable " +
+              "`qx.data.Array.deleteAsRemoveAt : true` to enable " +
+              "`delete` to be implemented as a call to `removeAt`."
+          );
+        }
       } else {
         // otherwise, use the default action
         delete this[property];
