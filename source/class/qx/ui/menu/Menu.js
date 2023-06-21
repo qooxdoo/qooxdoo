@@ -205,16 +205,14 @@ qx.Class.define("qx.ui.menu.Menu", {
     openInterval: {
       check: "Integer",
       themeable: true,
-      init: 250,
-      apply: "_applyOpenInterval"
+      init: 250
     },
 
     /** Interval in ms after which sub menus should be closed  */
     closeInterval: {
       check: "Integer",
       themeable: true,
-      init: 250,
-      apply: "_applyCloseInterval"
+      init: 250
     },
 
     /** Blocks the background if value is <code>true<code> */
