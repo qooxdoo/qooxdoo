@@ -64,7 +64,7 @@ To run browser based test you have to
 
 ```json
   "environment": {
-    "testtapper.testNameSpace": "myapp.test"
+    "qxl.testtapper.testNameSpace": "myapp.test"
   },
 ```
 
