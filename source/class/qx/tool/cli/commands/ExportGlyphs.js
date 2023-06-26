@@ -48,9 +48,9 @@ qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
           /^font\/(ttf|svg|eot|woff|woff2)$/
         );
       }
-      
-      let font = fontkit.openSync(filename);
-      if (!font.GSUB) {
+      let font = await fontkit.open(filename);
+
+      if (!font.GSUB?.lookupList?.toArray()?.length) {
         qx.tool.compiler.Console.error(
           `The webfont in ${filename} does not have any ligatures`
         );
@@ -70,7 +70,7 @@ qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
       lookupListIndexes.forEach(index => {
         let subTable = lookupList[index].subTables[0];
         let leadingCharacters = [];
-        if (subTable.coverage.rangeRecords) {
+        if (subTable?.coverage?.rangeRecords) {
           subTable.coverage.rangeRecords.forEach(coverage => {
             for (let i = coverage.start; i <= coverage.end; i++) {
               let character = font.stringsForGlyph(i)[0];
@@ -78,7 +78,7 @@ qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
             }
           });
         }
-        let ligatureSets = subTable.ligatureSets.toArray();
+        let ligatureSets = subTable?.ligatureSets?.toArray() || [];
         ligatureSets.forEach((ligatureSet, ligatureSetIndex) => {
           let leadingCharacter = leadingCharacters[ligatureSetIndex];
           ligatureSet.forEach(ligature => {
@@ -102,7 +102,14 @@ qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
 
       font.characterSet.forEach(codePoint => {
         let glyph = font.glyphForCodePoint(codePoint);
-        if (glyph.path.commands.length < 1 && !glyph.layers) {
+        let commands = null;
+        try {
+          // This can throw an exception if the font does not support ligatures
+          commands = glyph?.path?.commands;
+        } catch (ex) {
+          commands = null;
+        }
+        if (!commands?.length && !glyph.layers) {
           return;
         }
 

@@ -124,11 +124,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @return {Map<String,String>} mapping of glyphs to codepoints
      */
     async __processFontFile(filename) {
-      let fn = qx.tool.utils.Promisify.promisify(cb =>
-        fontkit.open(filename, null, cb)
-      );
-
-      let font = await fn();
+      let font = await fontkit.open(filename);
       let resources = {};
 
       // If we have a mapping file, take qx.tool.compiler.Console.information instead
@@ -172,7 +168,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
         return resources;
       }
 
-      if (!font.GSUB) {
+      if (!font.GSUB?.lookupList?.toArray()?.length) {
         qx.tool.compiler.Console.error(
           `The webfont in ${filename} does not have any ligatures`
         );
@@ -190,7 +186,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
       lookupListIndexes.forEach(index => {
         let subTable = lookupList[index].subTables[0];
         let leadingCharacters = [];
-        if (subTable.coverage.rangeRecords) {
+        if (subTable?.coverage?.rangeRecords) {
           subTable.coverage.rangeRecords.forEach(coverage => {
             for (let i = coverage.start; i <= coverage.end; i++) {
               let character = font.stringsForGlyph(i)[0];
@@ -198,7 +194,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
             }
           });
         }
-        let ligatureSets = subTable.ligatureSets.toArray();
+        let ligatureSets = subTable?.ligatureSets?.toArray() || [];
         ligatureSets.forEach((ligatureSet, ligatureSetIndex) => {
           let leadingCharacter = leadingCharacters[ligatureSetIndex];
           ligatureSet.forEach(ligature => {
@@ -223,7 +219,14 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
       let defaultSize = this.getDefaultSize();
       font.characterSet.forEach(codePoint => {
         let glyph = font.glyphForCodePoint(codePoint);
-        if (glyph.path.commands.length < 1 && !glyph.layers) {
+        let commands = null;
+        try {
+          // This can throw an exception if the font does not support ligatures
+          commands = glyph?.path?.commands;
+        } catch (ex) {
+          commands = null;
+        }
+        if (!commands?.length && !glyph.layers) {
           return;
         }
 
