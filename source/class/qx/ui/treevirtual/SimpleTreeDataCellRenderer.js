@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer", {
 
       // Add the node's icon
       var imageUrl =
-        bSelected && node.iconSelected ? node.iconSelected : node.icon;
+        node.bSelected && node.iconSelected ? node.iconSelected : node.icon;
 
       if (!imageUrl) {
         if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) {
