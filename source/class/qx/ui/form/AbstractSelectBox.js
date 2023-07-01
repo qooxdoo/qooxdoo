@@ -144,7 +144,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
           );
 
           control.addListener("pointerdown", this._onListPointerDown, this);
-          control.getChildControl("pane").addListener("tap", this.close, this);
+          control
+            .getChildControl("pane")
+            .addListener("mousedown", this.close, this);
           break;
         }
         case "popup":
