@@ -297,7 +297,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         var absFilename = path.resolve(filename);
 
         // Search
-        for (var fromFile in this.__pathMappings) {
+        for (let fromFile in this.__pathMappings) {
           if (absFilename.startsWith(fromFile)) {
             var toUri = this.__pathMappings[fromFile];
             filename = toUri + absFilename.substring(fromFile.length);
@@ -599,7 +599,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
           await font.generateForTarget(this);
           let resources = await font.generateForApplication(this, application);
-          for (var key in resources) {
+          for (let key in resources) {
             appMeta.addResource(key, resources[key]);
           }
           var code = font.getBootstrapCode(this, application);
@@ -642,7 +642,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           return;
         }
         let resources = font.getApplicationFontData();
-        for (var key in resources) {
+        for (let key in resources) {
           appMeta.addResource(key, resources[key]);
         }
         let fontFaces = font.getFontFaces() || [];
@@ -786,7 +786,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
             if (!combinedCldr) {
               combinedCldr = cldr;
             } else {
-              for (var name in cldr) {
+              for (let name in cldr) {
                 var value = combinedCldr[name];
                 if (value === null || value === undefined) {
                   combinedCldr[name] = cldr[name];
@@ -837,7 +837,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
               var id = library.getNamespace() + ":" + localeId;
               translations[id] = translation;
               var entries = translation.getEntries();
-              for (var msgid in entries) {
+              for (let msgid in entries) {
                 pkg.addTranslationEntry(localeId, entries[msgid]);
               }
             });
