@@ -1459,10 +1459,10 @@ qx.Class.define("qx.test.data.DataArray", {
         self.assertString(item);
         self.assertNumber(index);
         self.assertEquals(self.__a.toArray(), array);
-        return item == "tree";
+        return item == "three";
       }, this);
 
-      this.assertEquals("tree", found);
+      this.assertEquals("three", found);
     },
 
     testFindNonExistingElement() {
