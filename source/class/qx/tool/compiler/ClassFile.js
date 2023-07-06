@@ -1287,23 +1287,26 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ObjectMethod(path) {
+          let functionNode = path.node;
           if (path.parentPath.parentPath != this.classDefPath) {
             path.skip();
+            enterFunction(path, functionNode);
             path.traverse(VISITOR);
+            exitFunction(path, functionNode);
             return;
           }
           var keyName = getKeyName(path.node.key);
           checkValidTopLevel(path);
-          handleTopLevelMethods(path, keyName, path.node);
+          handleTopLevelMethods(path, keyName, functionNode);
         },
 
         ObjectProperty(path) {
+          var prop = path.node;
           if (path.parentPath.parentPath != this.classDefPath) {
             path.skip();
             path.traverse(VISITOR);
             return;
           }
-          var prop = path.node;
           var keyName = getKeyName(prop.key);
           checkValidTopLevel(path);
 

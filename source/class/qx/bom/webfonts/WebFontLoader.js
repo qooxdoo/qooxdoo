@@ -22,6 +22,7 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
   construct(fontFamily) {
     super();
     this.setFontFamily(fontFamily);
+    this.__validators = {};
   },
 
   properties: {
@@ -86,6 +87,27 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
   members: {
     __fontFacesQueue: null,
     __fontFacesCreatedPromise: null,
+
+    _validators: null,
+
+    getValidator(fontWeight, fontStyle) {
+      fontWeight = fontWeight || "normal";
+      fontStyle = fontStyle || "normal";
+      let id = fontWeight + "::" + fontStyle;
+      let validator = this.__validators[id];
+      if (!validator) {
+        validator = this.__validators[id] = new qx.bom.webfonts.Validator(
+          this.getFontFamily(),
+          this.getComparisonString(),
+          fontWeight,
+          fontStyle
+        );
+
+        validator.setTimeout(qx.bom.webfonts.WebFont.VALIDATION_TIMEOUT);
+        validator.validate();
+      }
+      return validator;
+    },
 
     /**
      * Called to load the font details into the browser

@@ -311,7 +311,7 @@ qx.Class.define("qx.bom.Font", {
         // in FireFox 2 and WebKit fonts like 'serif' or 'sans-serif' must
         // not be quoted!
         if (value[i].indexOf(" ") > 0) {
-          family += '"' + value[i] + '"';
+          family += "'" + value[i] + "'";
         } else {
           family += value[i];
         }
