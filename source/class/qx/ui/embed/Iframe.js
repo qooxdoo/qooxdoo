@@ -400,6 +400,11 @@ qx.Class.define("qx.ui.embed.Iframe", {
 
     // overridden
     setLayoutParent(parent) {
+      if (parent === null) {
+        this.getLayoutParent()
+          .getContentElement()
+          .remove(this.__blockerElement);
+      }
       super.setLayoutParent(parent);
       if (parent) {
         this.getLayoutParent().getContentElement().add(this.__blockerElement);
