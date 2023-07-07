@@ -544,6 +544,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         qx.tool.compiler.Console.error(
           "Cannot find either compile.json nor compile.js"
         );
+
         process.exit(1);
       }
       var config = this.getCompilerApi().getConfiguration();
@@ -852,6 +853,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let qxPath = await qx.tool.config.Utils.getQxPath();
         var library = await qx.tool.compiler.app.Library.createLibrary(qxPath);
         libraries[library.getNamespace()] = library;
+        librariesArray.push(library);
         qxLib = libraries["qx"];
       }
       if (this.argv.verbose) {
