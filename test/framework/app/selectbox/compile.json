@@ -25,6 +25,11 @@
       "name": "issue-9569"
     },
     {
+      "class": "selectbox.Issue10136Application",
+      "theme": "qx.theme.Simple",
+      "name": "issue-10136"
+    },
+    {
       "class": "selectbox.ListDemoApplication",
       "theme": "qx.theme.Simple",
       "name": "listdemo"
