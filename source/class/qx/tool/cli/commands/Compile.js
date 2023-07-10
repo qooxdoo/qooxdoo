@@ -537,8 +537,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
-      if (!this.getCompilerApi().compileJsonExists() && !qx.tool.cli.Cli.getInstance().compileJsExists()) {
-        qx.tool.compiler.Console.error("Cannot find either compile.json nor compile.js");
+      if (
+        !this.getCompilerApi().compileJsonExists() &&
+        !qx.tool.cli.Cli.getInstance().compileJsExists()
+      ) {
+        qx.tool.compiler.Console.error(
+          "Cannot find either compile.json nor compile.js"
+        );
+
         process.exit(1);
       }
       var config = this.getCompilerApi().getConfiguration();
@@ -671,7 +677,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             }
           });
           if (this.argv["watch-debug"]) {
-            watch.setDebug(true);
+            watch.setDebuging(true);
           }
 
           watch.addListener("making", () => {
@@ -701,10 +707,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
-     * Processes the configuration from a JSON data structure and creates a Maker
+     * Processes the configuration from a JSON data structure and creates Makers
      *
      * @param data {Map}
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker[]}
      */
     async createMakersFromConfig(data) {
       const Console = qx.tool.compiler.Console.getInstance();
@@ -854,6 +860,30 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       if (this.argv.verbose) {
         Console.log("Qooxdoo found in " + qxLib.getRootDir());
       }
+
+      let versionManager = new qx.tool.utils.QooxdooVersions();
+      if (this.argv.clean) {
+        versionManager.clean();
+      }
+      let qxVersion = qxLib.getVersion();
+      let qxLibrariesByVersionNumber = {};
+      qxLibrariesByVersionNumber[qxVersion] = qxLib;
+      for (let targetConfig of targetConfigs) {
+        if (targetConfig.qooxdooVersion) {
+          let dirname = await versionManager.findBestVersion(
+            targetConfig.qooxdooVersion
+          );
+
+          if (path.resolve(dirname) == path.resolve(qxLib.getRootDir())) {
+            qxLibrariesByVersionNumber[targetConfig.qooxdooVersion] = qxLib;
+          } else {
+            let lib = (qxLibrariesByVersionNumber[targetConfig.qooxdooVersion] =
+              new qx.tool.compiler.app.Library());
+            await lib.loadManifest(dirname);
+          }
+        }
+      }
+
       let errors = await this.__checkDependencies(
         Object.values(libraries),
         data.packages
@@ -1203,7 +1233,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
 
         for (let ns in libraries) {
-          maker.getAnalyser().addLibrary(libraries[ns]);
+          let lib = libraries[ns];
+          if (ns == "qx" && targetConfig.qooxdooVersion) {
+            lib = qxLibrariesByVersionNumber[targetConfig.qooxdooVersion];
+          }
+          maker.getAnalyser().addLibrary(lib);
         }
 
         let allApplicationTypes = {};

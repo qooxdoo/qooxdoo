@@ -456,6 +456,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
 
     // [BUG #2088]
     testDeepSelection() {
+      qx.Class.undefine("qx.demo.Kid");
       qx.Class.define("qx.demo.Kid", {
         extend: qx.core.Object,
 
@@ -468,6 +469,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         }
       });
 
+      qx.Class.undefine("qx.demo.Parent");
       qx.Class.define("qx.demo.Parent", {
         extend: qx.core.Object,
         construct() {

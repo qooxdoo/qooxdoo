@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
      * @return {String|null} Event type of the given event.
      */
     getEventType(clazz, name) {
-      var clazz = clazz.constructor;
+      clazz = clazz.constructor;
 
       while (clazz.superclass) {
         if (clazz.$$events && clazz.$$events[name] !== undefined) {

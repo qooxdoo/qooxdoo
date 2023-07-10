@@ -33,6 +33,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     this.setNeedsWriteToDisk(true);
   },
 
+  statics: {
+    nodePath: null
+  },
+
   members: {
     __commonjsModules: null,
     __references: null,
@@ -152,6 +156,34 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       const preset = require("@babel/preset-env");
       const browserify = require("browserify");
       const builtins = require("browserify/lib/builtins.js");
+      const fs = require("fs");
+      const path = require("path");
+      const clazz = qx.tool.compiler.targets.meta.Browserify;
+      let extraOptions = {};
+
+      // Find the node_modules directory for the qooxdoo compiler.
+      // We'll add it to the browserify node_modules path, so that
+      // `jsdoctypeparser`, used by `Class.js`, can be found even if
+      // there's no node_modules directory in the user's application.
+      if (!clazz.nodePath) {
+        let pathComponents = __dirname.split("/");
+        for (
+          let currentPath = path.join("/", ...pathComponents, "node_modules");
+          pathComponents.length > 1;
+          pathComponents.pop(),
+            currentPath = path.join("/", ...pathComponents, "node_modules")
+        ) {
+          if (fs.existsSync(currentPath)) {
+            clazz.nodePath = currentPath;
+            break;
+          }
+        }
+
+        // Make sure we found it
+        if (!clazz.nodePath) {
+          throw new Error("Could not find qooxdoo's `node_modules` directory");
+        }
+      }
 
       // For some reason, `process` is not require()able, but `_process` is.
       // Make them equivalent.
@@ -162,7 +194,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           builtins: builtins,
           ignoreMissing: true,
           insertGlobals: true,
-          detectGlobals: true
+          detectGlobals: true,
+          paths: [clazz.nodePath]
         });
 
         b._mdeps.on("missing", (id, parent) => {

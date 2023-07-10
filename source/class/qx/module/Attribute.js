@@ -22,6 +22,8 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Attribute", {
+  extend: qx.core.Object,
+
   members: {
     /**
      * Returns the HTML content of the first item in the collection

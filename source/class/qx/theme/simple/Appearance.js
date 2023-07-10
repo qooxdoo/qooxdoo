@@ -1865,7 +1865,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
       style(states) {
         var result = {
           width: 17,
-          show: "icon",
+          showFeatures: "icon",
           cursor: states.disabled ? undefined : "pointer"
         };
 

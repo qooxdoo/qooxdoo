@@ -68,6 +68,7 @@ qx.Class.define("qx.theme.manager.Font", {
   */
 
   members: {
+    _dynamic: undefined,
     _manifestFonts: null,
 
     /**

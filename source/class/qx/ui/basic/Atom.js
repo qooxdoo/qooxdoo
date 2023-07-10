@@ -134,13 +134,13 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, label, icon
      */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       themeable: true,
       inheritable: true,
-      apply: "_applyShow",
-      event: "changeShow"
+      apply: "_applyShowFeatures",
+      event: "changeShowFeatures"
     },
 
     /**
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control.setRich(this.getRich());
           control.setSelectable(this.getSelectable());
           this._add(control);
-          if (this.getLabel() == null || this.getShow() === "icon") {
+          if (this.getLabel() == null || this.getShowFeatures() === "icon") {
             control.exclude();
           }
           break;
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAnonymous(true);
           this._addAt(control, 0);
-          if (this.getIcon() == null || this.getShow() === "label") {
+          if (this.getIcon() == null || this.getShowFeatures() === "label") {
             control.exclude();
           }
           break;
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the label
      */
     _handleLabel() {
-      if (this.getLabel() == null || this.getShow() === "icon") {
+      if (this.getLabel() == null || this.getShowFeatures() === "icon") {
         this._excludeChildControl("label");
       } else {
         this._showChildControl("label");
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the icon
      */
     _handleIcon() {
-      if (this.getIcon() == null || this.getShow() === "label") {
+      if (this.getIcon() == null || this.getShowFeatures() === "label") {
         this._excludeChildControl("icon");
       } else {
         this._showChildControl("icon");
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyShow(value, old) {
+    _applyShowFeatures(value, old) {
       this._handleLabel();
       this._handleIcon();
     },

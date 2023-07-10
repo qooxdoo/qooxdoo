@@ -458,6 +458,7 @@ qx.Class.define("qx.test.data.store.Json", {
 
     testOwnSuperclassWithout() {
       // define a test class
+      qx.Class.undefine("qx.test.O");
       qx.Class.define("qx.test.O", {
         extend: qx.core.Object
       });
@@ -545,7 +546,7 @@ qx.Class.define("qx.test.data.store.Json", {
       // define a test class
       qx.Mixin.define("qx.test.M", {
         members: {
-          a() {
+          c() {
             return true;
           }
         }
@@ -562,13 +563,13 @@ qx.Class.define("qx.test.data.store.Json", {
       this.__store.addListener("loaded", () => {
         this.resume(function () {
           var model = this.__store.getModel();
-          this.assertTrue(model.a(), "Mixin not included.");
+          this.assertTrue(model.c(), "Mixin not included.");
           this.assertNotNull(
             model.getO(),
             "The model is not created how it should!"
           );
 
-          this.assertTrue(model.getO().a(), "Mixin not included.");
+          this.assertTrue(model.getO().c(), "Mixin not included.");
           this.assertEquals(
             "a",
             model.getO().getA(),
@@ -596,7 +597,7 @@ qx.Class.define("qx.test.data.store.Json", {
       // define a test class
       qx.Mixin.define("qx.test.M1", {
         members: {
-          a() {
+          c() {
             return true;
           }
         }
@@ -604,7 +605,7 @@ qx.Class.define("qx.test.data.store.Json", {
 
       qx.Mixin.define("qx.test.M2", {
         members: {
-          b() {
+          d() {
             return true;
           }
         }
@@ -621,14 +622,14 @@ qx.Class.define("qx.test.data.store.Json", {
       this.__store.addListener("loaded", () => {
         this.resume(function () {
           var model = this.__store.getModel();
-          this.assertTrue(model.a(), "Mixin not included.");
-          this.assertTrue(model.b(), "Mixin not included.");
+          this.assertTrue(model.c(), "Mixin not included.");
+          this.assertTrue(model.d(), "Mixin not included.");
           this.assertNotNull(
             model.getO(),
             "The model is not created how it should!"
           );
 
-          this.assertTrue(model.getO().a(), "Mixin not included.");
+          this.assertTrue(model.getO().c(), "Mixin not included.");
           this.assertEquals(
             "a",
             model.getO().getA(),

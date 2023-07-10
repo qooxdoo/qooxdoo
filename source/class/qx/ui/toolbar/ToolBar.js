@@ -80,12 +80,12 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     },
 
     /** Whether icons, labels, both or none should be shown. */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       inheritable: true,
-      apply: "_applyShow",
-      event: "changeShow"
+      apply: "_applyShowFeatures",
+      event: "changeShowFeatures"
     },
 
     /** The spacing between every child of the toolbar */
@@ -461,11 +461,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     },
 
     // property apply
-    _applyShow(value) {
+    _applyShowFeatures(value) {
       var children = this._getChildren();
       for (var i = 0; i < children.length; i++) {
-        if (children[i].setShow) {
-          children[i].setShow(value);
+        if (children[i].setShowFeatures) {
+          children[i].setShowFeatures(value);
         }
       }
     },
@@ -479,8 +479,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _add(child, options) {
       super._add(child, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures &&
+          !qx.util.PropertyUtil.getUserValue(child, "showFeatures")) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
       var newWidth =
@@ -494,8 +495,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAt(child, index, options) {
       super._addAt(child, index, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures &&
+          !qx.util.PropertyUtil.getUserValue(child, "showFeatures")) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
       var newWidth =
@@ -509,8 +511,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addBefore(child, before, options) {
       super._addBefore(child, before, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures &&
+          !qx.util.PropertyUtil.getUserValue(child, "showFeatures")) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
       var newWidth =
@@ -524,8 +527,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAfter(child, after, options) {
       super._addAfter(child, after, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures &&
+          !qx.util.PropertyUtil.getUserValue(child, "showFeatures")) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
       var newWidth =

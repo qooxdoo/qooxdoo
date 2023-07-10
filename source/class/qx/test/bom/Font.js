@@ -192,12 +192,20 @@ qx.Class.define("qx.test.bom.Font", {
       this.getRoot().add(label);
       this.flush();
 
-      var checkValue = "blue";
       var color = label.getContentElement().getDomElement().style["color"];
+      var checkValue;
 
-      // the current implementation has a higher priority for the color which is
-      // set using the color theme. So this default color should show up and not
-      // the defined color of the font.
+      if (false) {
+        // BC BREAK
+        // The following comment from the v7 implementation indicates that the appearance has priority over a set font. I don't see how that worked, and it makes no sense. If I set the font after having set the appearance, I expect the font to override the appearance...
+        //
+        //   // the current implementation has a higher priority for the color which is
+        //   // set using the color theme. So this default color should show up and not
+        // // the defined color of the font.
+        checkValue = "blue";
+      } else {
+        checkValue = "black";
+      }
       this.assertEquals(
         checkValue,
         color,

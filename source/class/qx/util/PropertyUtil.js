@@ -77,14 +77,29 @@ qx.Class.define("qx.util.PropertyUtil", {
     },
 
     /**
-     * Sets the user value of the given property
+     * Sets the user value of the given property. Do not pass go, do
+     * not collect $200. Do not do any normal property handling such
+     * as calling the `apply` method, etc. Simply save the value both
+     * as the designated `$$user` value, and as the current value of
+     * the property.
      *
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @param value {var} The value to set
      */
     setUserValue(object, propertyName, value) {
+      var variant;
+
       object["$$user_" + propertyName] = value;
+
+      // Do an immediate save of the property; no apply handling, etc.
+      variant = object["$$variant" + propertyName];
+      object["$$variant" + propertyName] = "immediate";
+
+      // Debugging hint: this will trap into setter code.
+      object[propertyName] = value;
+
+      object["$$variant" + propertyName] = variant;
     },
 
     /**
@@ -187,8 +202,8 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param value {var} The value to set
      */
     setThemed(object, propertyName, value) {
-      var styler = qx.core.Property.$$method.setThemed;
-      object[styler[propertyName]](value);
+      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      object[`setThemed${propertyFirstUp}`](value);
     },
 
     /**
@@ -198,8 +213,8 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param propertyName {String} The name of the property
      */
     resetThemed(object, propertyName) {
-      var unstyler = qx.core.Property.$$method.resetThemed;
-      object[unstyler[propertyName]]();
+      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      object[`resetThemed${propertyFirstUp}`]();
     }
   }
 });

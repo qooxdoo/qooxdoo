@@ -559,6 +559,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
 
     testNullWithConverter() {
       // create a test class
+      qx.Class.undefine("qx.Test");
       qx.Class.define("qx.Test", {
         extend: qx.core.Object,
         members: {
@@ -775,10 +776,10 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       qx.data.SingleValueBinding.removeAllBindingsForObject(b);
       a.dispose();
       b.dispose();
-      qx.Class.undefine("qx.test.SVB");
     },
 
     testResetNotNullInit() {
+      qx.Class.undefine("qx.test.SVB");
       qx.Class.define("qx.test.SVB", {
         extend: qx.core.Object,
         properties: {
@@ -804,16 +805,17 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
 
       a.dispose();
       b.dispose();
-      qx.Class.undefine("qx.test.SVB");
     },
 
     testChangeEventMissing() {
+      qx.Class.undefine("qx.test.SVB");
       qx.Class.define("qx.test.SVB", {
         extend: qx.core.Object,
         properties: {
           x: {
             nullable: true,
-            init: "affe"
+            init: "affe",
+            event: null
           }
         }
       });
@@ -834,7 +836,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
 
       a.dispose();
       b.dispose();
-      qx.Class.undefine("qx.test.SVB");
     },
 
     testConverterParam() {

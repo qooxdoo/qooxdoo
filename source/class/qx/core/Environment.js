@@ -819,6 +819,10 @@
  *     <tr>
  *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>
+ *     <tr>
+ *       <td>qx.future.checkjsdoc</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>module</b></td>
@@ -829,10 +833,6 @@
  *     </tr>
  *     <tr>
  *       <td>module.logger</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
- *       <td>module.property</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
@@ -904,7 +904,6 @@ qx.Bootstrap.define("qx.core.Environment", {
       // qooxdoo modules
       "module.databinding": true,
       "module.logger": true,
-      "module.property": true,
       "module.events": true,
       "module.objectid": true,
       "qx.nativeScrollBars": false,

@@ -162,7 +162,7 @@ qx.Class.define("qx.html.Element", {
       if (!qx.core.Environment.get("qx.headless")) {
         // blur elements, which will be removed
         var focusHandler = this.__getFocusHandler();
-        var focusedDomElement = focusHandler.getFocus();
+        var focusedDomElement = focusHandler.getFocusedElement();
         if (
           focusedDomElement &&
           this.__willBecomeInvisible(focusedDomElement)
@@ -480,6 +480,8 @@ qx.Class.define("qx.html.Element", {
   */
 
   members: {
+    __childrenHaveChanged: undefined,
+
     /*
     ---------------------------------------------------------------------------
       PROTECTED HELPERS/DATA

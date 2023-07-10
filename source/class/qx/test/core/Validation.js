@@ -95,6 +95,8 @@ qx.Class.define("qx.test.core.Validation", {
   },
 
   members: {
+    __model: undefined,
+
     testNumber() {
       var model = this.__model;
       // test for some false inputs

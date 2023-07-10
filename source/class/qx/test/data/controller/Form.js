@@ -654,6 +654,13 @@ qx.Class.define("qx.test.data.controller.Form", {
       var model = c.createModel();
 
       // check the init value of the model selection
+
+// This test is BROKEN: `model` is based on the initial values of the
+// form. The listController has nothing to do with the form yet. The
+// initial value will be the first item in the `listModel` list, which
+// is 'a', item 0, not 'b', item 1. This *should* and now does throw
+// an error. The question is, why didn't it throw an error previously?
+// What is causing the difference in behavior?
       this.assertEquals(listModel.getItem(1), model.getSb());
 
       // set the selection

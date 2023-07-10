@@ -299,6 +299,10 @@
             "type": "object",
             "description": "Options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: <https://babeljs.io/docs/en/babel-preset-env#options>. They can be overridden per target."
           },
+          "qooxdooVersion": {
+            "type": "string",
+            "description": "The semver that must be satisifed when selecting the Qooxdoo version to compile against; compiler will download a version automatically if the default Qooxdoo does not satisfy this semver"
+          },
           "parts": {
             "$ref": "#/properties/parts"
           }

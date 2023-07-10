@@ -6,6 +6,7 @@ qx.Class.define("qx.test.performance.Property", {
     SET_ITERATIONS: 10000,
 
     testPropertySet() {
+      qx.Class.undefine("demo.MyClass");
       var Clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         properties: {
@@ -42,6 +43,7 @@ qx.Class.define("qx.test.performance.Property", {
           "Long Stack Traces are enabled - this will significantly slow down the test"
         );
       }
+      qx.Class.undefine("demo.MyClass");
       var Clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         properties: {
@@ -50,7 +52,9 @@ qx.Class.define("qx.test.performance.Property", {
             nullable: true,
             check: "String",
             event: "changeAlpha",
-            async: true
+            async: true,
+            apply: () => {},
+            get: () => null
           }
         }
       });

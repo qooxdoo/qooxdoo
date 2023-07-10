@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.menubar.Button", {
       init: "menubar-button"
     },
 
-    show: {
+    showFeatures: {
       refine: true,
       init: "inherit"
     }

@@ -1647,6 +1647,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         return true;
       }
 
+      // And Qooxdoo version (this can differ from the compiler version when cross compiling)
+      if (db.libraries.qx !== this.findLibrary("qx").getVersion()) {
+        return true;
+      }
+
       return false;
     },
 

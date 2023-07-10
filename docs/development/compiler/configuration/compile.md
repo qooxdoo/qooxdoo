@@ -206,6 +206,13 @@ be compiled. Each object can contain:
   a hidden property called `$$createdAt` which points to an object containing
   `filename`, `lineNumber`, and `column` properties
 
+- `qooxdooVersion` - (**optional**) if provided, this is a semver requirement expression that
+  describes the version of Qooxdoo to use for this target.  If the default Qooxdoo (ie the
+  one that ships with the compiler) is not compatible, the best release will be downloaded from
+  GitHub and cached.  This effectively allows the compiler to cross-compile, eg if you specify
+  `qooxdooVersion: "^7.6.0"` the Qooxdoo version 8.0.0 compiler will build your target using
+  v7.
+
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With these
   options the output type of babel can be defined. For details see here:
   <https://babeljs.io/docs/en/babel-preset-env#options> When setting

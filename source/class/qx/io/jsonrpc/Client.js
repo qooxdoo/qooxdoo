@@ -324,7 +324,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         // resolve the individual promise
         request.getPromise().resolve(message.getResult());
       } else if (message instanceof qx.io.jsonrpc.protocol.Error) {
-        let error = message.getError();
+        let error = message.getErrorDetail();
         let ex = new qx.io.exception.Protocol(
           error.message,
           error.code,

@@ -1505,7 +1505,7 @@ qx.Theme.define("qx.theme.classic.Appearance", {
       style(states) {
         var result = {
           width: 17,
-          show: "icon"
+          showFeatures: "icon"
         };
 
         if (states.lastYear) {
