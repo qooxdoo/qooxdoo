@@ -839,7 +839,11 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       if (Math.abs(delta) > 1 && Math.abs(delta) < rowHeight) {
         delta =
           delta < 0 ? e.getOldData() - rowHeight : e.getOldData() + rowHeight;
-        if (delta >= 0 && delta <= scrollbar.getMaximum()) {
+        if (
+          delta >= 0 &&
+          delta <= scrollbar.getMaximum() &&
+          Math.abs(scrollbar.getPosition() - delta) > rowHeight
+        ) {
           scrollbar.setPosition(delta);
         }
       }
@@ -2037,12 +2041,13 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
 
       if (pageY >= panePos.top && pageY <= panePos.bottom) {
         // This event is in the pane -> Get the row
-        var rowHeight = this.__tablePane.getRenderedRowHeight()
+        var rowHeight = this.__tablePane.getRenderedRowHeight();
 
         var scrollY = this.__verScrollBar.getPosition();
 
         if (this.getTable().getKeepFirstVisibleRowComplete()) {
-          scrollY = Math.floor(scrollY / this.getTable().getRowHeight()) * rowHeight;
+          scrollY =
+            Math.floor(scrollY / this.getTable().getRowHeight()) * rowHeight;
         }
 
         var tableY = scrollY + pageY - panePos.top;
