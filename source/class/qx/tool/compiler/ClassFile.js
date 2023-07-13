@@ -3094,6 +3094,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "Uint16Array",
       "Uint32Array",
       "URIError",
+      "URL",
       "WeakMap",
       "WeakSet",
       "arguments",
