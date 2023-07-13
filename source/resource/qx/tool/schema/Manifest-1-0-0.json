@@ -12,7 +12,7 @@
       "description": "the json schema of the version of Manifest.json",
       "enum": [
         "https://qooxdoo.org/schema/Manifest-1-0-0.json",
-        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
+        "https://raw.githubusercontent.com/qooxdoo/qooxdoo/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
         "./source/resource/qx/tool/schema/Manifest-1-0-0.json"
       ]
     },

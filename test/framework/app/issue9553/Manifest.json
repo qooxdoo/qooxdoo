@@ -1,31 +1,29 @@
 {
- "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
-  "info" :
-  {
-    "name" : "issue9553",
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "info": {
+    "name": "issue9553",
 
-    "summary" : "Issue 9553",
-    "description" : "Issue 9553",
+    "summary": "Issue 9553",
+    "description": "Issue 9553",
 
-    "homepage" : "Issue 9553",
+    "homepage": "Issue 9553",
 
-    "license" : "MIT license",
-    "authors" : [],
+    "license": "MIT license",
+    "authors": [],
 
-    "version" : "1.0.0"
+    "version": "1.0.0"
   },
 
-  "provides" :
-  {
-    "namespace"   : "issue9553",
-    "encoding"    : "utf-8",
-    "class"       : "source/class",
-    "resource"    : "source/resource",
-    "translation" : "source/translation"
+  "provides": {
+    "namespace": "issue9553",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
   },
 
   "requires": {
     "@qooxdoo/framework": "^6.0.0-beta",
-    "@qooxdoo/compiler" : "^1.0.0-beta"
+    "@qooxdoo/compiler": "^1.0.0-beta"
   }
 }
