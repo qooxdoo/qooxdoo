@@ -1452,6 +1452,32 @@ qx.Class.define("qx.test.data.DataArray", {
       b.dispose();
     },
 
+    testFind() {
+      var self = this;
+      var found = this.__a.find(function (item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "three";
+      }, this);
+
+      this.assertEquals("three", found);
+    },
+
+    testFindNonExistingElement() {
+      var self = this;
+      var found = this.__a.find(function (item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "four";
+      }, this);
+
+      this.assertUndefined(found);
+    },
+
     testMap() {
       var self = this;
       var b = this.__a.map(function (item, index, array) {
