@@ -203,6 +203,8 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
             "data-qx-created-by",
             qx.bom.webfonts.WebFontLoader.classname
           );
+
+          styleSheet.ownerNode.$$qxObject = this;
         }
       }
 
@@ -247,14 +249,20 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
         a.fontFormat == "embedded-opentype" ? -1 : 0;
       });
 
-      let strSources = "";
+      let strSources = "src: ";
       for (let i = 0; i < fontFaceSrcRules.length; i++) {
-        strSources += "src: url('" + fontFaceSrcRules[i].url + "')";
+        if (i > 0) {
+          strSources += ", ";
+        }
+        strSources +=
+          "url('" +
+          new URL(fontFaceSrcRules[i].url, document.baseURI).href +
+          "')";
         if (i > 0) {
           strSources += " format('" + fontFaceSrcRules[i].format + "')";
         }
-        strSources += ";";
       }
+      strSources += ";\n";
 
       let rule = "font-family: " + fontFamily + ";\n";
       rule += strSources + "\n";
