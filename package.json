@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.6.0",
+  "version": "7.6.1",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "keywords": [
@@ -68,7 +68,6 @@
     "@babel/preset-typescript": "^7.12.7",
     "@babel/traverse": "^7.12.12",
     "@babel/types": "^7.12.12",
-    "@foliojs-fork/fontkit": "^1.9.1",
     "@metalsmith/layouts": "^2.5.1",
     "@metalsmith/markdown": "^1.5.0",
     "@octokit/rest": "^18.0.15",
@@ -93,6 +92,7 @@
     "eslint-formatter-codeframe": "^7.32.1",
     "eslint-plugin-jsdoc": "37.0.3",
     "express": "^4.17.1",
+    "fontkit": "^2.0.2",
     "gauge": "^2.7.4",
     "get-value": "^3.0.1",
     "github-api": "^3.4.0",
