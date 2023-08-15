@@ -12,7 +12,7 @@
   overflow: hidden;
 
   color: $toolbar-text-color;
-  border: rem(1) solid $toolbar-border-color;
+  border: px-to-rem(1) solid $toolbar-border-color;
 
   cursor: pointer;
   font-weight: $toolbar-font-weight;
@@ -31,7 +31,7 @@
 }
 
 .toolbar-separator {
-  width: rem(4);
+  width: px-to-rem(4);
 }
 
 .toolbar {
@@ -39,9 +39,9 @@
 
   z-index: 1;
   padding: $toolbar-padding;
-  height: rem(50);
+  height: px-to-rem(50);
 
-  height: -moz-calc(rem(50) + $toolbar-padding);
+  height: -moz-calc(px-to-rem(50) + $toolbar-padding);
 }
 
 .toolbar-button img {
@@ -54,7 +54,7 @@
 
 .toolbar-button .label {
   height: auto;
-  padding-top:rem(2);
+  padding-top:px-to-rem(2);
   text-align:center;
   // For displaying ellipsis correctly.
   max-width:100%;

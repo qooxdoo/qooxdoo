@@ -17,11 +17,11 @@
 .list-item {
   @include background($list-background);
   list-style-type: none;
-  padding: rem(10) rem(25) rem(10) rem(10);
+  padding: px-to-rem(10) px-to-rem(25) px-to-rem(10) px-to-rem(10);
   position: relative;
   color: $list-title-text-color;
-  border: rem(1) solid $list-border-color;
-  margin-top: rem(-1);
+  border: px-to-rem(1) solid $list-border-color;
+  margin-top: px-to-rem(-1);
   z-index:0;
 }
 
@@ -50,7 +50,7 @@
   height: $list-arrow-size*2;
 
   position: absolute;
-  right: rem(16);
+  right: px-to-rem(16);
   top: 50%;
   margin-top: -1.5*($list-arrow-size);
 }
@@ -61,7 +61,7 @@
 
 .list-item:first-child, .list-item:first-child a {
   @include border-radius-top($list-border-radius);
-  border-top: rem(1) solid $list-border-color;
+  border-top: px-to-rem(1) solid $list-border-color;
 }
 
 .list-item:last-child, .list-item:last-child a {
@@ -81,7 +81,7 @@
 }
 
 .list-item-image {
-  margin-right: rem(8);
+  margin-right: px-to-rem(8);
 }
 
 .group-item {
@@ -90,7 +90,7 @@
   @include background-clip(padding-box);
   @include sticky(0px);
 
-  padding: rem(5) rem(25) rem(5) rem(10);
+  padding: px-to-rem(5) px-to-rem(25) px-to-rem(5) px-to-rem(10);
   height: $list-group-header-height;
   line-height: $list-group-header-height;
   color: $list-group-header-color;
@@ -103,7 +103,7 @@
 }
 
 .group-item-image {
-  margin-right: rem(8);
+  margin-right: px-to-rem(8);
 }
 
 // Special treatment of first group-item because of border-radius and sticky position.

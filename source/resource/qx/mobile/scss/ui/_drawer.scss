@@ -10,7 +10,7 @@
 
 .drawer.below {
   @include background($drawer-below-background);
-  @include box-inset-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.35));
+  @include box-inset-shadow(0px 0px px-to-rem(10) px-to-rem(5) rgba(0,0,0,0.35));
   z-index:-1;
 }
 
@@ -63,23 +63,23 @@
 }
 
 .drawer.above:not(.master-detail-master):not(.hidden) {
-  @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
+  @include box-shadow(0px 0px px-to-rem(10) px-to-rem(5) rgba(0,0,0,0.5));
 }
 
 .drawer.top:not(.master-detail-master) {
-  border-bottom:rem(1) solid $drawer-border-color;
+  border-bottom:px-to-rem(1) solid $drawer-border-color;
 }
 
 .drawer.left:not(.master-detail-master) {
-  border-right:rem(1) solid $drawer-border-color;
+  border-right:px-to-rem(1) solid $drawer-border-color;
 }
 
 .drawer.right:not(.master-detail-master) {
-  border-left:rem(1) solid $drawer-border-color;
+  border-left:px-to-rem(1) solid $drawer-border-color;
 }
 
 .drawer.bottom:not(.master-detail-master) {
-  border-top:rem(1) solid $drawer-border-color;
+  border-top:px-to-rem(1) solid $drawer-border-color;
 }
 
 // Hide drawer when NavigationPage is animated

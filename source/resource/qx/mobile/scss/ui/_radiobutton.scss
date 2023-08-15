@@ -9,14 +9,14 @@
   height: $radiobutton-size;
   min-width: $radiobutton-size;
   min-height: $radiobutton-size;
-  border: rem(1) solid $radiobutton-border-color;
+  border: px-to-rem(1) solid $radiobutton-border-color;
 
   text-align: center;
   position: relative;
 
   z-index: 1;
 
-  margin: rem(2) auto;
+  margin: px-to-rem(2) auto;
 
   box-sizing: border-box;
 }
@@ -24,7 +24,7 @@
 // Color dot
 .radio:after {
   @include border-radius($radiobutton-size);
-  @include box-shadow(rem(1) rem(1)  rem(1) 0 $radiobutton-dot-shadow);
+  @include box-shadow(px-to-rem(1) px-to-rem(1)  px-to-rem(1) 0 $radiobutton-dot-shadow);
 
   position: absolute;
   display: block;
