@@ -155,7 +155,7 @@ For customization, please follow these steps:
 
     ![image](gradient-green.png)
 
-    > scale  
+    > scale
     > 50%
 
 That is all you need to know to get started customizing the theme of your
@@ -231,15 +231,22 @@ If you are not familiar with the CSS unit `rem`, please have a look at
 [MDN CSS Units](https://developer.mozilla.org/en-US/docs/Web/CSS/length) .
 
 Thinking in `rem` units might be difficult, and that is why we added a SCSS
-function named `rem()`. This function gives you the possibility to continue to
-think in `px`, but converts the `px` value to a corresponding `rem` on SCSS
+function named `px-to-rem()`. This function gives you the possibility to continue
+to think in `px`, but converts the `px` value to a corresponding `rem` on SCSS
 compilation. As you certainly want to keep the feature of resolution
 independence in your custom theme, always avoid `px` and use this function
 inside your `_styles.scss`.
+
+> Notice: the `px-to-rem()` function replaces the `rem()` function, which is now
+> deprecated due to a name conflict with new CSS features; Sass version 1.65.0
+> added support for the CSS `rem()` function.
 
 Example:
 
 ```scss
 // text size should be about 32px, this gets converted to 2rem.
-$navigationbar-text-size:  rem(32);
+$navigationbar-text-size:  px-to-rem(32);
+// The second paramater is the scaling factor. This is optional (and usually not needed), and may
+// be a number or percentage.
+$navigationbar-text-size:  px-to-rem(32, 150%); /* 50% bigger ~48px */
 ```
