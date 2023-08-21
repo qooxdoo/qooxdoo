@@ -2,7 +2,7 @@
 // POPUP
 //
 
-$dialog-arrow-space: rem(2);
+$dialog-arrow-space: px-to-rem(2);
 
 .popup {
   @include background($dialog-background);
@@ -11,7 +11,7 @@ $dialog-arrow-space: rem(2);
 
   position: absolute;
   width: auto;
-  padding: rem(6);
+  padding: px-to-rem(6);
   max-width: 90%;
   z-index: 101;
   clear: both;
@@ -19,8 +19,8 @@ $dialog-arrow-space: rem(2);
   // Fallback if no gradient could be set.
   background-color: nth($dialog-background,1);
 
-  border: rem(2) solid $dialog-border-color;
-  color: $dialog-title-text-color; 
+  border: px-to-rem(2) solid $dialog-border-color;
+  color: $dialog-title-text-color;
 }
 
 .anchor-target {
@@ -28,18 +28,18 @@ $dialog-arrow-space: rem(2);
 }
 
 .root.ios .popup {
-  -webkit-filter: drop-shadow(0 rem(2) rem(7) rgba(0,0,0,0.5));
+  -webkit-filter: drop-shadow(0 px-to-rem(2) px-to-rem(7) rgba(0,0,0,0.5));
 }
 
 .root:not(.ios) .popup {
-  @include box-shadow(0px rem(2) rem(7) 0px rgba(0,0,0,0.5));
+  @include box-shadow(0px px-to-rem(2) px-to-rem(7) 0px rgba(0,0,0,0.5));
 }
 
 .popup-title {
   font-weight: $dialog-font-weight;
-  font-size: rem(16);
-  margin-bottom: rem(3);
-} 
+  font-size: px-to-rem(16);
+  margin-bottom: px-to-rem(3);
+}
 
 .popup-content {
   height : 100%;
@@ -87,7 +87,7 @@ $dialog-arrow-space: rem(2);
 }
 
 .anchor.top.left:before {
-  top:-($dialog-arrow-size + rem(3));
+  top:-($dialog-arrow-size + px-to-rem(3));
   left: $dialog-arrow-position-offset;
 }
 
@@ -97,7 +97,7 @@ $dialog-arrow-space: rem(2);
 }
 
 .anchor.bottom.left:before {
-  bottom:-($dialog-arrow-size + rem(3));
+  bottom:-($dialog-arrow-size + px-to-rem(3));
   left: $dialog-arrow-position-offset;
 }
 
@@ -108,7 +108,7 @@ $dialog-arrow-space: rem(2);
 
 .anchor.top.right:before {
   right: $dialog-arrow-position-offset;
-  top:-($dialog-arrow-size + rem(3));
+  top:-($dialog-arrow-size + px-to-rem(3));
 }
 
 .anchor.top.right:after {
@@ -117,11 +117,11 @@ $dialog-arrow-space: rem(2);
 }
 
 .anchor.bottom.right:before {
-  bottom:-($dialog-arrow-size + rem(3));
+  bottom:-($dialog-arrow-size + px-to-rem(3));
   right: $dialog-arrow-position-offset;
 }
 
 .anchor.bottom.right:after {
   bottom: -($dialog-arrow-size);
   right: $dialog-arrow-position-offset + $dialog-arrow-space;
-} 
+}

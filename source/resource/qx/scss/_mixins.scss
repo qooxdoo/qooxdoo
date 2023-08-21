@@ -1,6 +1,33 @@
 @use "sass:math";
 
+/// @deprecated Please use `px-to-rem()` instead.
 @function rem($value, $factor: 1.0) {
+  @if ($value != 0 and $value != auto) {
+    @if (unitless($value)) {
+      $value: $value * 1px;
+    }
+
+    @if (unit($factor) == "%") {
+      $factor: math.div($factor, $factor * 0 + 1) * 0.01;
+    }
+
+    $value: $factor*math.div($value, 16px) * 1rem;
+  }
+
+  @return $value;
+}
+
+/// Think in pixels; style with rems.
+///
+/// Converts pixel units & unitless numbers to rems.
+///
+/// @param {number} $value - The value to convert. May be a number or a pixel
+///   unit
+/// @param {number} [$factor=1] - The factor to multiply the value with. Most
+///   use cases will not set this.
+///
+/// @return {length} The converted value in rems
+@function px-to-rem($value, $factor: 1.0) {
   @if ($value != 0 and $value != auto) {
     @if (unitless($value)) {
       $value: $value * 1px;

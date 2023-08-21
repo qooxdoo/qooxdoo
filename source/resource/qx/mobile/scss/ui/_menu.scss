@@ -1,10 +1,10 @@
 //
 // MENU
-// 
+//
 
 .menu {
   @extend .popup;
-  min-width: rem(140);
+  min-width: px-to-rem(140);
 }
 
 

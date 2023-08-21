@@ -15,11 +15,11 @@
   cursor:pointer;
 
   vertical-align:middle;
-  height: rem(32);
+  height: px-to-rem(32);
 
-  text-indent: rem(5);
+  text-indent: px-to-rem(5);
 
-  border: rem(1) solid $selectbox-border-color;
+  border: px-to-rem(1) solid $selectbox-border-color;
   color: $selectbox-text-color;
 }
 

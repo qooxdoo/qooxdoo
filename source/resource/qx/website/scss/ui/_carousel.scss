@@ -1,11 +1,11 @@
-$carousel-pagination-size: rem(17);
+$carousel-pagination-size: px-to-rem(17);
 $carousel-pagination-background: rgba($background-color,0.6);
 $carousel-pagination-background-disabled: desaturate($highlight-color, 100%);
 $carousel-pagination-border-color: rgba($background-color,0.6);
 $carousel-pagination-active-background: $highlight-color;
 $carousel-pagination-active-border-color: $background-color;
 $carousel-pagination-border-radius: $carousel-pagination-size;
-$carousel-pagination-font-size:  rem(1);
+$carousel-pagination-font-size:  px-to-rem(1);
 
 .qx-carousel {
   overflow: hidden;
@@ -33,7 +33,7 @@ $carousel-pagination-font-size:  rem(1);
   transition: transform 2s;
 
   position: relative;
-  margin-top: -$carousel-pagination-size - rem(10);
+  margin-top: -$carousel-pagination-size - px-to-rem(10);
   padding-bottom: $carousel-pagination-size*0.5;
   width: 100%;
   white-space: nowrap;
@@ -50,7 +50,7 @@ $carousel-pagination-font-size:  rem(1);
   @include box-sizing(border-box);
   @include flex(0 0);
 
-  border: rem(1) solid $carousel-pagination-border-color;
+  border: px-to-rem(1) solid $carousel-pagination-border-color;
   text-align: center;
 
   display:inline-block;
@@ -72,6 +72,6 @@ $carousel-pagination-font-size:  rem(1);
 
 .qx-carousel-pagination-label.active {
   @include background($carousel-pagination-active-background);
-  border: rem(1) solid $carousel-pagination-active-border-color;
+  border: px-to-rem(1) solid $carousel-pagination-active-border-color;
   color: $carousel-pagination-active-background;
 }
