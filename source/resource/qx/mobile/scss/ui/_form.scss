@@ -4,7 +4,7 @@
 
 .form {
   @include background-clip(padding-box);
-  margin-bottom: rem(10);
+  margin-bottom: px-to-rem(10);
   background-color:transparent;
   border: none;
   padding: 0;
@@ -13,10 +13,10 @@
 
 .form-row {
   list-style-type: none;
-  padding: rem(5) rem(0) rem(5) rem(0);
+  padding: px-to-rem(5) px-to-rem(0) px-to-rem(5) px-to-rem(0);
 
   label {
-    padding-right: rem(10);
+    padding-right: px-to-rem(10);
   }
 
   * {
@@ -38,22 +38,22 @@
 }
 
 .form-row.qx-vbox * + * {
-  margin-top: rem(10);
+  margin-top: px-to-rem(10);
 }
 
 .text-area {
   @include background-clip(padding-box);
   @include background($input-background);
   @include border-radius($input-border-radius);
-  border: rem(1) solid $input-border-color;
+  border: px-to-rem(1) solid $input-border-color;
   resize: none;
   outline: none;
 
   width:100%;
-  height: rem(150);
-  min-height: rem(150);
+  height: px-to-rem(150);
+  min-height: px-to-rem(150);
 
-  padding:rem(10);
+  padding:px-to-rem(10);
   box-sizing:border-box;
 
   color:  $input-text-color;
@@ -61,10 +61,10 @@
 
 .form-row-scroll {
   @include border-radius($input-border-radius);
-  border: rem(1) solid $input-border-color;
+  border: px-to-rem(1) solid $input-border-color;
 
   overflow:hidden !important;
-  height: rem(150);
+  height: px-to-rem(150);
   width: 100%;
 
   .text-area {
@@ -83,24 +83,24 @@
 .form-title {
   color: $group-title-text-color;
   font-weight: normal;
-  line-height: rem(20);
-  font-size: rem(16);
-  text-indent: rem(5);
-  margin-top: rem(10);
-  margin-bottom: rem(10);
+  line-height: px-to-rem(20);
+  font-size: px-to-rem(16);
+  text-indent: px-to-rem(5);
+  margin-top: px-to-rem(10);
+  margin-bottom: px-to-rem(10);
 }
 
 .form-separation-row {
   padding: 0px;
   background-color: $form-border-color;
-  height: rem(1);
+  height: px-to-rem(1);
 }
 
 .form-element-error {
   color: red;
   text-align: right;
   border-top: 0;
-  padding: 0px rem(10) rem(10) rem(10);
+  padding: 0px px-to-rem(10) px-to-rem(10) px-to-rem(10);
 }
 
 .form-row-group-title {
@@ -112,18 +112,18 @@
 .form.single-placeholder {
   @include background($form-background);
   @include border-radius($form-border-radius);
-  border:rem(1) solid $form-border-color;
-  padding: rem(10);
+  border:px-to-rem(1) solid $form-border-color;
+  padding: px-to-rem(10);
 
   .form-row-group-title {
     font-weight: $form-font-weight;
-    padding: rem(0) rem(0) rem(10) rem(0);
+    padding: px-to-rem(0) px-to-rem(0) px-to-rem(10) px-to-rem(0);
   }
 
   .form-row {
     .slider  {
       width: 50%;
-      margin-left: rem(20);
+      margin-left: px-to-rem(20);
     }
   }
 }
@@ -137,13 +137,13 @@
   }
 
   .form-row-group-title {
-    padding: rem(10) rem(10) rem(10) rem(10);
+    padding: px-to-rem(10) px-to-rem(10) px-to-rem(10) px-to-rem(10);
   }
 
   .form-row-content, .form-element-error {
     @include background($form-background);
-    border-left:rem(1) solid $form-border-color;
-    border-right:rem(1) solid $form-border-color;
+    border-left:px-to-rem(1) solid $form-border-color;
+    border-right:px-to-rem(1) solid $form-border-color;
   }
 
   .form-row-content .label {
@@ -152,7 +152,7 @@
 
   .form-row-content {
     border-top: 0;
-    padding: rem(10) rem(10) rem(10) rem(10);
+    padding: px-to-rem(10) px-to-rem(10) px-to-rem(10) px-to-rem(10);
   }
 
   .form-row-content + .form-row-content {
@@ -166,30 +166,30 @@
 }
 
 .form-row-group-title:nth-child(n+2) {
-  margin-top: rem(20);
+  margin-top: px-to-rem(20);
 }
 
 .form-row-group-first,
 .form-row-group-last {
   @include background($form-background);
   height: 0px;
-  padding: rem(2);
+  padding: px-to-rem(2);
   position: relative;
 }
 
 .form-row-group-first {
   @include border-radius-top($form-border-radius);
-  border-top: rem(1) solid $form-border-color;
-  border-left: rem(1) solid $form-border-color;
-  border-right: rem(1) solid $form-border-color;
-  top: rem(2);
+  border-top: px-to-rem(1) solid $form-border-color;
+  border-left: px-to-rem(1) solid $form-border-color;
+  border-right: px-to-rem(1) solid $form-border-color;
+  top: px-to-rem(2);
 }
 
 .form-row-group-last {
   @include border-radius-bottom($form-border-radius);
   border-top: 0px transparent;
-  border-bottom: rem(1) solid $form-border-color;
-  border-left: rem(1) solid $form-border-color;
-  border-right: rem(1) solid $form-border-color;
-  top: rem(-2);
+  border-bottom: px-to-rem(1) solid $form-border-color;
+  border-left: px-to-rem(1) solid $form-border-color;
+  border-right: px-to-rem(1) solid $form-border-color;
+  top: px-to-rem(-2);
 }

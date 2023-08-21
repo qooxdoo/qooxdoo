@@ -15,21 +15,21 @@
 }
 
 .master-detail-master.right {
-  border-left: rem(1) solid $navigationpage-border-color;
+  border-left: px-to-rem(1) solid $navigationpage-border-color;
 }
 
 .master-detail-master.left {
-  border-right: rem(1) solid $navigationpage-border-color;
+  border-right: px-to-rem(1) solid $navigationpage-border-color;
 }
 
 .master-detail-master.top {
-  border-bottom: rem(1) solid $navigationpage-border-color;
+  border-bottom: px-to-rem(1) solid $navigationpage-border-color;
 }
 
 .master-detail-master.bottom {
-  border-top: rem(1) solid $navigationpage-border-color;
+  border-top: px-to-rem(1) solid $navigationpage-border-color;
 }
 
 .root.portrait .master-detail-master:not(.hidden) {
-  @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
+  @include box-shadow(0px 0px px-to-rem(10) px-to-rem(5) rgba(0,0,0,0.5));
 }

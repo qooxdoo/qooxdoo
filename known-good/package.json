@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@qooxdoo/framework": "^7.0.0"
+    "@qooxdoo/framework": "~7.3.0"
   }
 }
