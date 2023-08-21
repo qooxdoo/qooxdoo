@@ -1,14 +1,14 @@
 .qx-datepicker {
-  font-size: rem(14);
-  height: rem(16);
+  font-size: px-to-rem(14);
+  height: px-to-rem(16);
 }
 
 .qx-datepicker-icon {
   cursor: pointer;
   vertical-align: top;
-  margin-left: rem(4);
-  width: rem(22);
-  height: rem(22);
+  margin-left: px-to-rem(4);
+  width: px-to-rem(22);
+  height: px-to-rem(22);
 }
 
 .qx-datepicker[disabled] + .qx-datepicker-icon {

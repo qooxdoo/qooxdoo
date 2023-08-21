@@ -4,13 +4,13 @@ $rating-background-off: 270deg, #eee, #cfcfcf;
 $rating-color-off: #cfcfcf;
 
 .qx-rating-item {
-  font-size: rem(22);
+  font-size: px-to-rem(22);
   background-image: -webkit-linear-gradient($rating-background);
   color: #E3B64A;
   @include background-clip(text);
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: rem(1) #BB6718;
-  margin-right: rem(10);
+  -webkit-text-stroke: px-to-rem(1) #BB6718;
+  margin-right: px-to-rem(10);
   cursor: pointer;
 }
 
@@ -19,17 +19,17 @@ $rating-color-off: #cfcfcf;
   color: $rating-color-off;
   @include background-clip(text);
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: rem(1) $rating-color-off;
+  -webkit-text-stroke: px-to-rem(1) $rating-color-off;
 }
 
 .qx-rating-item[disabled] {
   background-image: -webkit-linear-gradient($rating-background-disabled);
-  -webkit-text-stroke: rem(1) desaturate(#BB6718, 100%);
+  -webkit-text-stroke: px-to-rem(1) desaturate(#BB6718, 100%);
   color: desaturate(#D5771D, 100%);
 }
 
 .qx-rating-item.qx-rating-item-off[disabled] {
   background-image: -webkit-linear-gradient($rating-background-off);
-  -webkit-text-stroke: rem(1) desaturate($rating-color-off, 100%);
+  -webkit-text-stroke: px-to-rem(1) desaturate($rating-color-off, 100%);
   color: $rating-color-off;
 }

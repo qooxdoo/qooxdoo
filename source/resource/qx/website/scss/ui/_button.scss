@@ -1,5 +1,5 @@
 .qx-button[disabled] {
-  border: rem(1) solid $border-color;
+  border: px-to-rem(1) solid $border-color;
   color: $highlight-color-disabled;
 }
 
@@ -9,26 +9,26 @@
 
 .qx-button {
   display: inline-block;
-  padding: rem(8) rem(12);
-  margin: rem(3);
-  border: rem(1) solid $border-color;
+  padding: px-to-rem(8) px-to-rem(12);
+  margin: px-to-rem(3);
+  border: px-to-rem(1) solid $border-color;
   @include background-clip(padding-box);
-  @include border-radius(rem(2));
+  @include border-radius(px-to-rem(2));
   cursor: pointer;
-  font-size: rem(14);
+  font-size: px-to-rem(14);
   outline: none;
   background: $background-color;
   color: $highlight-color;
   line-height: normal;
-  min-height: rem(35);
+  min-height: px-to-rem(35);
 }
 
 .qx-button:hover {
-  border: rem(1) solid $highlight-color;
+  border: px-to-rem(1) solid $highlight-color;
 }
 
 .qx-button:active {
-  border: rem(1) solid darken($highlight-color, 20%);
+  border: px-to-rem(1) solid darken($highlight-color, 20%);
   background: darken($background-color, 10%);
 }
 
@@ -37,7 +37,7 @@
 }
 
 .qx-button img {
-  margin-left: rem(3);
+  margin-left: px-to-rem(3);
 }
 
 .qx-button img,span {

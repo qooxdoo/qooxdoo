@@ -1,5 +1,5 @@
 //
-// NAVIGATIONBAR 
+// NAVIGATIONBAR
 //
 
 .navigationbar {
@@ -9,16 +9,16 @@
 
   min-height: $navigationbar-height;
   height: $navigationbar-height;
-  color: $navigationbar-text-color; 
+  color: $navigationbar-text-color;
 
-  padding-left: rem(16);
-  padding-right: rem(16);
+  padding-left: px-to-rem(16);
+  padding-right: px-to-rem(16);
   position: relative;
 
   z-index:1;
 }
 
-// Fix for WP8 rendering problem on drawer. 
+// Fix for WP8 rendering problem on drawer.
 .root:not(.android):not(.ios) {
   outline: 1px solid rgba(0,0,0,0);
 }
@@ -43,20 +43,20 @@
   display:block;
 
   color: $navigationbarbutton-text-color;
-  border: rem(1) solid $navigationbarbutton-border-color;
+  border: px-to-rem(1) solid $navigationbarbutton-border-color;
 
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
   font-weight: $navigationbarbutton-font-weight;
-  font-size: rem(12);
+  font-size: px-to-rem(12);
 
-  padding-left: rem(5);
-  padding-right: rem(5);
+  padding-left: px-to-rem(5);
+  padding-right: px-to-rem(5);
 
   height: $navigationbar-height - $navigationbar-padding * 2;
 
-  min-width: rem(50);
+  min-width: px-to-rem(50);
 }
 
 .left-container, .right-container {
@@ -71,6 +71,6 @@
 .navigationbar-button.active, .navigationbar-backbutton.active {
   @include background($navigationbarbutton-active-background);
   color: $navigationbarbutton-active-text-color;
-  border: rem(1) solid $navigationbarbutton-active-border-color;
+  border: px-to-rem(1) solid $navigationbarbutton-active-border-color;
 }
 

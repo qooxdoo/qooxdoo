@@ -4,12 +4,12 @@
 
 .mobile {
   input.invalid {
-    border: rem(1) solid $input-invalid-border-color !important;
+    border: px-to-rem(1) solid $input-invalid-border-color !important;
   }
 
   input:focus
   {
-    @include box-shadow(rem(0) rem(0) rem(2) rem(1) $input-active-border-color);
+    @include box-shadow(px-to-rem(0) px-to-rem(0) px-to-rem(2) px-to-rem(1) $input-active-border-color);
   }
 
   input, select {
@@ -18,27 +18,27 @@
 
   input, select, .text-area {
     font-family: $application-font;
-    font-size: rem(15);
+    font-size: px-to-rem(15);
   }
 }
 
 .text-field, .number-field, .password-field {
   @include background-clip(padding-box);
   @include box-sizing(border-box);
-  text-indent: rem(4);
-  height: rem(26);
+  text-indent: px-to-rem(4);
+  height: px-to-rem(26);
 }
 
 .text-field, .password-field, .number-field {
   @include border-radius($input-border-radius);
   @include background($input-background);
 
-  border: rem(1) solid $input-border-color;
+  border: px-to-rem(1) solid $input-border-color;
   color:  $input-text-color;
   width: 100%;
   outline: none;
 }
 
 .text-field.invalid, .checkbox.invalid, .radio.invalid, .password-field.invalid, .text-area.invalid {
-  border: rem(1) solid $input-invalid-border-color !important;
+  border: px-to-rem(1) solid $input-invalid-border-color !important;
 }
