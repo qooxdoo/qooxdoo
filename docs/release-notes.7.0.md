@@ -1,5 +1,8 @@
 # Qooxdoo Release Notes
 
+## Fixes for v7.6.2
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-07-29&until==2023-10-04
+
 ## Fixes for v7.6.1
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-04-13&until==2023-07-28
 
