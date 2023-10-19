@@ -131,7 +131,9 @@ qx.Class.define("qx.ui.form.AbstractField", {
     // since ios allows no other html engines, checking for ios should do
     if (qx.core.Environment.get("os.name") == "ios") {
       el.addListener("blur", () => {
-        this._onChangeContent(new qx.event.type.Data(this.getValue()));
+        let ev = new qx.event.type.Data();
+        ev.init(el.getDomElement().value);
+        this._onChangeContent(ev);
       }, this);
     }
     else {
