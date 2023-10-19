@@ -126,12 +126,13 @@ qx.Class.define("qx.ui.form.AbstractField", {
       this.setValue(value);
     }
     let el = this.getContentElement();
+    // change does not fire on ios webkit when just the keyboard is closed
+    // blur does fire though ... 
     // since ios allows no other html engines, checking for ios should do
-    // also the blur trick should work on other browsers too, but lets not rock the boat.
     if (qx.core.Environment.get("os.name") == "ios") {
-      el.addListener("blur", (e) => {
+      el.addListener("blur", () => {
         this._onChangeContent(new qx.event.type.Data(this.getValue()));
-      });
+      }, this);
     }
     else {
       el.addListener("change", this._onChangeContent, this);
