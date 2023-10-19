@@ -125,9 +125,17 @@ qx.Class.define("qx.ui.form.AbstractField", {
     if (value != null) {
       this.setValue(value);
     }
-
-    this.getContentElement().addListener("change", this._onChangeContent, this);
-
+    let el = this.getContentElement();
+    // since ios allows no other html engines, checking for ios should do
+    // also the blur trick should work on other browsers too, but lets not rock the boat.
+    if (qx.core.Environment.get("os.name") == "ios") {
+      el.addListener("blur", (e) => {
+        this._onChangeContent(new qx.event.type.Data(this.getValue()));
+      });
+    }
+    else {
+      el.addListener("change", this._onChangeContent, this);
+    }
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
