@@ -260,13 +260,14 @@ qx.Class.define("qx.ui.basic.Image", {
       var element = this.getContentElement();
       if (this.__wrapper) {
         element.getChild(0).setStyles({
-          top: this.getPaddingTop() || 0,
-          left: this.getPaddingLeft() || 0
+          top: (this.getPaddingTop() || 0) + "px",
+          left: (this.getPaddingLeft() || 0) + "px"
         });
       } else if (this.__getMode() === "font") {
+        let bounds = this.getBounds() || {};
         element.setStyles({
-          top: this.getPaddingTop() || 0,
-          left: this.getPaddingLeft() || 0
+          top: (bounds.top || 0) + (this.getPaddingTop() || 0) + "px",
+          left: (bounds.left || 0) + (this.getPaddingLeft() || 0) + "px"
         });
       } else {
         element.setPadding(
