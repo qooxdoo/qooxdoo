@@ -224,8 +224,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
           this.placeTo(computedPopupPosition.left, computedPopupPosition.top);
         }
       } else if (this.__childrenContainer && !this.__placed) {
-          // No Anchor and not placed to point manually
-          this._positionToCenter();
+        // No Anchor and not placed to point manually
+        this._positionToCenter();
       }
     },
 
@@ -321,9 +321,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
      */
     placeTo(left, top) {
       this.__placed = true;
-      let style  = this.getContainerElement().style;
-      style.marginLeft = "0px";
-      style.marginTop = "0px";
       this._setStyle("left", left + "px");
       this._setStyle("top", top + "px");
     },
