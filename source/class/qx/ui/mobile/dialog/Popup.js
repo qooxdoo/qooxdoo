@@ -133,6 +133,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
 
   members: {
     __isShown: false,
+    __isPlaced: false,
     __childrenContainer: null,
     __percentageTop: null,
     __anchor: null,
@@ -223,7 +224,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
 
           this.placeTo(computedPopupPosition.left, computedPopupPosition.top);
         }
-      } else if (this.__childrenContainer && !this.__placed) {
+      } else if (this.__childrenContainer && !this.__isPlaced) {
         // No Anchor and not placed to point manually
         this._positionToCenter();
       }
@@ -320,7 +321,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
      * @param top {Integer} - the value the will be set to container's top style property
      */
     placeTo(left, top) {
-      this.__placed = true;
+      this.__isPlaced = true;
       this._setStyle("left", left + "px");
       this._setStyle("top", top + "px");
     },
@@ -579,6 +580,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
     this._disposeObjects("__childrenContainer");
 
     this.__isShown =
+      this.__isPlaced =
       this.__percentageTop =
       this._anchor =
       this.__widget =
