@@ -46,7 +46,7 @@
   @include background($carousel-pagination-background);
   @include box-sizing(border-box);
 
-  border: rem(1) solid $carousel-pagination-border-color;
+  border: px-to-rem(1) solid $carousel-pagination-border-color;
   text-align: center;
 
   display:inline-block;
@@ -62,5 +62,5 @@
 
 .carousel-pagination-label.active {
   @include background($carousel-pagination-active-background);
-  border: rem(1) solid $carousel-pagination-active-border-color;
+  border: px-to-rem(1) solid $carousel-pagination-active-border-color;
 }

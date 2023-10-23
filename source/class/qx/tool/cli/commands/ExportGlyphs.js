@@ -18,7 +18,7 @@
 
 const fs = require("fs");
 const path = require("upath");
-const fontkit = require("@foliojs-fork/fontkit");
+const fontkit = require("fontkit");
 const tmp = require("tmp");
 
 /**

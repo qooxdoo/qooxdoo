@@ -27,8 +27,8 @@
   outline: none;
   cursor: pointer;
   background-color: transparent;
-  padding: rem(8) rem(12);
-  font-size: rem(13);
+  padding: px-to-rem(8) px-to-rem(12);
+  font-size: px-to-rem(13);
 }
 
 .qx-tabs .qx-tabs-button > button:focus,
@@ -58,7 +58,7 @@
 
 .qx-tabs .qx-tabs-page,
 .qx-accordion .qx-accordion-page {
-  padding: rem(10);
+  padding: px-to-rem(10);
   @include user-select(text);
   background-color: white;
 }
@@ -66,43 +66,43 @@
 // horizontal orientation:
 
 .qx-tabs-horizontal > ul > .qx-tabs-button:first-child {
-  margin-left: rem(0);
+  margin-left: px-to-rem(0);
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button {
-  margin-bottom: rem(-1);
-  margin-left: rem(3);
-  border: rem(1) solid transparent;
+  margin-bottom: px-to-rem(-1);
+  margin-left: px-to-rem(3);
+  border: px-to-rem(1) solid transparent;
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button-active {
-  border: rem(1) solid $border-color;
-  @include border-radius(rem(2) rem(2) 0 0);
+  border: px-to-rem(1) solid $border-color;
+  @include border-radius(px-to-rem(2) px-to-rem(2) 0 0);
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button-active:after {
   display: block;
   position: relative;
-  top: rem(1);
+  top: px-to-rem(1);
   content: " ";
   background-color: $background-color;
   width: 100%;
-  height: rem(1);
+  height: px-to-rem(1);
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button:hover {
-  border-bottom: rem(1) solid $border-color;
-  @include border-radius(rem(2) rem(2) 0 0);
+  border-bottom: px-to-rem(1) solid $border-color;
+  @include border-radius(px-to-rem(2) px-to-rem(2) 0 0);
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button-active:hover {
-  border: rem(1) solid $border-color;
-  border-bottom: rem(1) solid $background-color;
+  border: px-to-rem(1) solid $border-color;
+  border-bottom: px-to-rem(1) solid $background-color;
 }
 
 .qx-tabs-horizontal > .qx-tabs-container {
   clear: both;
-  border: rem(1) solid $border-color;
+  border: px-to-rem(1) solid $border-color;
 }
 
 .qx-tabs-horizontal > ul > .qx-tabs-button.qx-flex1 {
@@ -124,7 +124,7 @@
   text-align: center;
   border-bottom-color: transparent;
   position: relative;
-  @include transform(translate(0,rem(1.2)));
+  @include transform(translate(0,px-to-rem(1.2)));
 }
 
 .qx-tabs-horizontal.qx-tabs-justify > ul > .qx-tabs-button {
@@ -140,15 +140,15 @@
 
 .qx-tabs-vertical,
 .qx-accordion-vertical {
-  border-right: rem(1) solid $border-color;
-  border-bottom: rem(1) solid $border-color;
-  border-left: rem(1) solid $border-color;
+  border-right: px-to-rem(1) solid $border-color;
+  border-bottom: px-to-rem(1) solid $border-color;
+  border-left: px-to-rem(1) solid $border-color;
 }
 
 .qx-tabs-vertical .qx-tabs-button,
 .qx-accordion-vertical .qx-accordion-button {
   margin-left: 0;
-  border-top: rem(1) solid $border-color;
+  border-top: px-to-rem(1) solid $border-color;
 }
 
 .qx-tabs-vertical .qx-tabs-button > button,
@@ -163,6 +163,6 @@
 .qx-accordion-vertical .qx-accordion-page {
   overflow: hidden;
   @include box-sizing(border-box);
-  padding: rem(8) rem(12);
+  padding: px-to-rem(8) px-to-rem(12);
   @include transition(height 500ms, padding-top 500ms, padding-bottom 500ms, margin-top 500ms, margin-bottom 500ms);
 }

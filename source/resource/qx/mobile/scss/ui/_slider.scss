@@ -11,10 +11,10 @@
   overflow: visible;
 
   margin-bottom: $slider-knob-height;
-  margin-left: ($slider-knob-width*0.5); 
+  margin-left: ($slider-knob-width*0.5);
   margin-right: ($slider-knob-width*0.5);
 
-  border: rem(1) solid $slider-border-color;
+  border: px-to-rem(1) solid $slider-border-color;
 }
 
 // Extended touch area
@@ -41,9 +41,9 @@
 }
 
 // Knob
-.slider > div:after { 
+.slider > div:after {
   @include border-radius($slider-knob-border-radius);
-  @include box-shadow(0 0 rem(3) $slider-shadow);
+  @include box-shadow(0 0 px-to-rem(3) $slider-shadow);
   @include background($slider-knob-background);
   @include pointer-none();
 
@@ -52,7 +52,7 @@
   text-align: center;
   content: "";
 
-  border: rem(1) solid $slider-knob-border-color;
+  border: px-to-rem(1) solid $slider-knob-border-color;
 
   height: $slider-knob-height;
   width: $slider-knob-width;
@@ -62,7 +62,7 @@
   text-overflow: ellipsis;
   font-weight:normal;
 
-  top: -($slider-knob-height*0.5) + ($slider-height*0.5) - rem(1);
+  top: -($slider-knob-height*0.5) + ($slider-height*0.5) - px-to-rem(1);
   right: -1*$slider-knob-width*0.5;
 }
 
@@ -75,7 +75,7 @@
 }
 
 // Fix for IE [BUG #7814]
-.root.win .slider > div:after { 
+.root.win .slider > div:after {
   line-height: calc(unquote("#{$slider-knob-height} - 0px"));
 }
 
