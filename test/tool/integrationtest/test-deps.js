@@ -85,7 +85,6 @@ async function createMaker() {
   analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary(qxPath));
   analyser.setBabelConfig({
     plugins: {
-      "@babel/plugin-proposal-optional-chaining": true
     }
   });
 

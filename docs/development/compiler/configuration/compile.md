@@ -234,7 +234,7 @@ You can also add plugins and global options to babel (at the top level only), fo
 ```json5
   "babel": {
     "plugins": {
-      "@babel/plugin-proposal-optional-chaining": true
+      "@babel/plugin-transform-optional-chaining": true
     },
     "options": {
         "targets": "node >= 12"
