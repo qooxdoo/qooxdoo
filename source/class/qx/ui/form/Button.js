@@ -83,10 +83,16 @@ qx.Class.define("qx.ui.form.Button", {
 
     // it seem that touching a button (at least on ios and android)
     // does not immediately focus it before triggering the tap event
-    // this causes problem with change events for input fields that
-    // previously held focus, as they will arive AFTER the button has
-    // already executed.
-    this.addListener("touchstart", () => { this.focus() }, this);
+    // this causes problem with change events for any input field that
+    // previously held focus, as their change event will arrive AFTER
+    // the execute event on the button ... only by going 'lowlevel'
+    // we seem to get the order right. When using the qx events, it
+    // only works when tapping 'slowly' ... 
+    this.addListenerOnce('appear',() => {
+      let el = this.getContentElement().getDomElement();
+      el.addEventListener('touchstart', () => { el.focus();  });
+    });
+
     this.addListener("tap", this._onTap);
 
     this.addListener("keydown", this._onKeyDown);
