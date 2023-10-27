@@ -24,6 +24,16 @@
  * attach the listener yourself.
  */
 qx.Mixin.define("qx.ui.core.scroll.MRoll", {
+  /**
+   * A possibility to scroll an area by dragging the area. If the property has false value then drag and drog works and if true doesn't.
+   */
+  properties: {
+    onlyRoll: {
+      init: false,
+      check: "Boolean"
+    }
+  },
+
   members: {
     _cancelRoll: null,
 
@@ -59,7 +69,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll", {
      */
     _onRoll(e) {
       // only wheel and touch
-      if (e.getPointerType() == "mouse") {
+      if (e.getPointerType() == "mouse" && !this.getOnlyRoll()) {
         return;
       }
 
