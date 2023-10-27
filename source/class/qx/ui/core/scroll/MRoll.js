@@ -25,7 +25,7 @@
  */
 qx.Mixin.define("qx.ui.core.scroll.MRoll", {
   /**
-   * A possibility to scroll an area by dragging the area. If the property has false value then drag and drog works and if true doesn't.
+   * Allow scrolling by dragging the area. CAUTION: Enabling this property disallows the capability of drag&drop.
    */
   properties: {
     scrollByDrag: {
