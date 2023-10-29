@@ -126,19 +126,8 @@ qx.Class.define("qx.ui.form.AbstractField", {
       this.setValue(value);
     }
     let el = this.getContentElement();
-    // change does not fire on ios webkit when just the keyboard is closed
-    // blur does fire though ... 
-    // since ios allows no other html engines, checking for ios should do
-    if (qx.core.Environment.get("os.name") == "ios") {
-      el.addListener("blur", () => {
-        let ev = new qx.event.type.Data();
-        ev.init(el.getDomElement().value);
-        this._onChangeContent(ev);
-      }, this);
-    }
-    else {
-      el.addListener("change", this._onChangeContent, this);
-    }
+    el.addListener("change", this._onChangeContent, this);
+    
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
