@@ -26,15 +26,40 @@ qx.Class.define("qx.html.Factory", {
   construct() {
     super();
     this.__factoriesByTagName = {};
-    this.registerFactory("#text", function (tagName, attributes, styles) {
+    this.registerFactory("#text", function (tagName, styles, attributes) {
       return new qx.html.Text("");
     });
     this.registerFactory("img", qx.html.Image);
-    this.registerFactory("iframe", function (tagName, attributes, styles) {
-      return new qx.html.Iframe(attributes.src, attributes, styles);
+    this.registerFactory("iframe", function (tagName, styles, attributes) {
+      return new qx.html.Iframe(attributes.src, styles, attributes);
     });
-    this.registerFactory("input", function (tagName, attributes, styles) {
-      return new qx.html.Input(attributes.type || "text", attributes, styles);
+    this.registerFactory("input", function (tagName, styles, attributes) {
+      return new qx.html.Input(attributes.type || "text", styles, attributes);
+    });
+
+    this.registerFactory("slot", (tagName, styles, attributes) => {
+      // if tagName not slot, throw
+      if (tagName !== "slot") {
+        throw new Error(
+          `Cannot create slot with tag <${tagName}> - only <slot> is supported`
+        );
+      }
+      // if styles not empty, throw
+      if (Object.keys(styles).length > 0) {
+        throw new Error(
+          `Cannot create slot with attribute "style" - only the "name" attribute is supported`
+        );
+      }
+
+      // if any attrs other than name, throw
+      Object.keys(attributes).forEach(key => {
+        if (key !== "name") {
+          throw new Error(
+            `Cannot create slot with attribute "${key}" - only the "name" attribute is supported`
+          );
+        }
+      });
+      return new qx.html.Slot(attributes.name);
     });
   },
 
