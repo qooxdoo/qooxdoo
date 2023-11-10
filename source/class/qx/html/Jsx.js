@@ -63,11 +63,10 @@ qx.Class.define("qx.html.Jsx", {
           delete attributes[key];
         }
       }
-      attributes.style =
-        Object.entries(cssCustomProperties).reduce(
-          (acc, [prop, val]) => acc + `${prop}:${val};`,
-          ""
-        ) + (attributes.style ?? "");
+      const customStyle = Object.entries(cssCustomProperties).reduce(
+        (acc, [prop, val]) => acc + `${prop}:${val};`,
+        ""
+      );
 
       // ANONYMOUS FRAGMENT
       if (tagname == qx.html.Jsx.FRAGMENT) {
@@ -88,12 +87,21 @@ qx.Class.define("qx.html.Jsx", {
       // CUSTOM ELEMENT
       if (typeof tagname === "function") {
         // handle constructors and plain functions
-        const element = qx.Class.isClass(tagname)
+        let element = qx.Class.isClass(tagname)
           ? new tagname(attributes)
           : tagname(attributes);
 
         if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertTrue(element instanceof qx.html.Node);
+        }
+
+        let realElement = element;
+        if (customStyle.length) {
+          realElement = new qx.html.Element("div", null, {
+            style: customStyle
+          });
+
+          realElement.add(element);
         }
 
         element.setIsCustomElement(true);
@@ -119,7 +127,7 @@ qx.Class.define("qx.html.Jsx", {
         if (attributes?.slot) {
           element.setAttributes({ slot: attributes.slot });
         }
-        return element;
+        return realElement;
       }
 
       var newAttrs = {};
