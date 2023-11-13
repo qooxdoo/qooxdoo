@@ -1,16 +1,13 @@
-# QxJsx
+# Server Side Rendering
 
-QxJsx is qooxdoo's own flavor of the popular JSX syntax for declaratively
-creating DOM and VDOM elements.
+Server Side Rendering (SSR) is increasingly important when building 
+applictaions for the web. Jsx has been around as part of Qooxdoo for
+some time, and has matured into a powerful and easy to serialise 
+syntax for SSR systems to utilise.
 
-```jsx
-const color = "red";
-const myQxJsx = (
-  <header>
-    <h1 style={`color: ${color};`}>Hello, QxJsx!</h1>
-  </header>
-);
-```
+QxJsx is a small yet powerful extension te the Jsx syntax, taking 
+proven concepts from popular frameworks such as Svelte and React and 
+integrating them into Qooxdoo's own Jsx.
 
 ## Custom elements
 
@@ -151,16 +148,15 @@ used, such as `for`, or `class`, and have workarounds such as `htmlFor` or
 
 (AKA CSS Variables)
 
-Styling the DOM directly is a necessity when working with HTML via JSX, however
-this can be difficult via the theme system. In cases where the element which
-needs to be styled is deeper inside a hierarchy of [custom elements](#custom-elements),
-this becomes an increasing issue.
+Styling the DOM directly is a necessity when working with HTML via Jsx In cases 
+where the element which needs to be styled is deeper inside a hierarchy of 
+[custom elements](#custom-elements), this becomes an increasing issue.
 
 To control the style of a deeply nested custom element, the custom element can
 provide an API of CSS variables which may be set anywhere higher in the cascade.
 The main advantage of using CSS variables over JavaScript values is a drastic
-increase in rendering performance, however there is nothing to prevent the use
-of JavaScript values when they are needed.
+increase in rendering performance both in the browser and in SSR, however there 
+is nothing to prevent the use of JavaScript values when they are needed.
 
 To pass CSS Custom Properties to an element, attributes prefixed with a double
 underscore can be used.
