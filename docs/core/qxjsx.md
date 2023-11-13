@@ -149,14 +149,33 @@ used, such as `for`, or `class`, and have workarounds such as `htmlFor` or
 
 ### CSS Custom Properties
 
+(AKA CSS Variables)
+
+Styling the DOM directly is a necessity when working with HTML via JSX, however
+this can be difficult via the theme system. In cases where the element which
+needs to be styled is deeper inside a hierarchy of [custom elements](#custom-elements),
+this becomes an increasing issue.
+
+To control the style of a deeply nested custom element, the custom element can
+provide an API of CSS variables which may be set anywhere higher in the cascade.
+The main advantage of using CSS variables over JavaScript values is a drastic
+increase in rendering performance, however there is nothing to prevent the use
+of JavaScript values when they are needed.
+
 To pass CSS Custom Properties to an element, attributes prefixed with a double
 underscore can be used.
 
 ```jsx
-const myElem = (
-  <div __my-custom-property="red">
-    {/* deeper in the custom element chain... */}
-    <p style="color: var(--my-custom-property);">This is red!</p>
-  </div>
+/**
+ * @css {Color} [color=blue] the color applied to the default slot
+ *
+ * @slot default - paragraph content
+ */
+const SomeText = () => (
+  <p style="color: var(--my-custom-property, blue);">
+    <slot/>
+  </p>
 );
+
+const myElem = <SomeText __my-custom-property="red">This is red!</SomeText>;
 ```
