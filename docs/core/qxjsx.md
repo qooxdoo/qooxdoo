@@ -167,7 +167,7 @@ underscore can be used.
 
 ```jsx
 /**
- * @css {Color} [color=blue] the color applied to the default slot
+ * @css {Color} [my-custom-property=blue] the color applied to the default slot
  *
  * @slot default - paragraph content
  */
