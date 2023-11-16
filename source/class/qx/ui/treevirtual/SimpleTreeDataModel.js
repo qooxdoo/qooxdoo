@@ -809,10 +809,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      *   has completed building or modifying a tree by issuing a series of
      *   calls to {@link #addBranch} and/or {@link #addLeaf}.
      *
+     * @param bRerender {Boolean?true}
+     *  Rerender the tree data after setting the data. If set false it becomes the caller's responsibility to
+     *    call setData() subsequently to cause a redraw.
      *
      * @throws {Error} If the parameter has the wrong type.
      */
-    setData(nodeArr) {
+    setData(nodeArr, bRerender = true) {
       this._checkEditing();
       if (nodeArr instanceof Array) {
         // Save the user-supplied data.
@@ -825,8 +828,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
         );
       }
 
-      // Re-render the row array
-      this.__render();
+      // Re-render the row array, if so requested
+      if (bRerender) {
+        this.__render();
+      }
 
       // Set selections in the selection model now
       var selectionModel = this.getTree().getSelectionModel();
@@ -859,11 +864,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
     /**
      * Clears the tree of all nodes
      *
+     * @param bRerender {Boolean?true}
+     *   Rerender the tree data after clearing. If set false it becomes the caller's responsibility to
+     *    call setData() subsequently to cause a redraw.
      */
-    clearData() {
+    clearData(bRerender = true) {
       this._checkEditing();
       this._clearSelections();
-      this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()]);
+      this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()], bRerender);
     },
 
     /**
