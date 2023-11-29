@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
     _createQxObjectImpl(id) {
       switch (id) {
         case "arrowButton":
-          const layout = new qx.ui.layout.HBox().set({ alignY: "middle" });
+          var layout = new qx.ui.layout.HBox().set({ alignY: "middle" });
           return new qx.ui.container.Composite(layout).set({
             allowGrowY: true,
             appearance: "selectbox-arrow-button"
