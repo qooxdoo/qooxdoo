@@ -317,7 +317,6 @@ qx.Class.define("qx.ui.basic.Atom", {
     // property apply
     _applyCenter(value) {
       if (value === undefined) return;
-      this._getLayout().setCenter(value);
       const layout = this._getLayout();
       if (layout.setCenter) layout.setCenter(value);
       else if (qx.core.Environment.get("qx.debug")) {
