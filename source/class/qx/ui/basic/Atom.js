@@ -277,8 +277,19 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyGap(value, old) {
-      this._getLayout().setGap(value);
+    _applyGap(value) {
+      if (value === undefined) return;
+      const layout = this._getLayout();
+      if (layout.setGap) layout.setGap(value);
+      else if (qx.core.Environment.get("qx.debug")) {
+        this.warn(
+          `The \`gap\` property of a ${
+            this.classname
+          } was set, but the layout ${
+            this._getLayout().classname
+          } does not support a \`gap\` property.`
+        );
+      }
     },
 
     // property apply
@@ -288,13 +299,36 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyIconPosition(value, old) {
-      this._getLayout().setIconPosition(value);
+    _applyIconPosition(value) {
+      if (value === undefined) return;
+      const layout = this._getLayout();
+      if (layout.setIconPosition) layout.setIconPosition(value);
+      else if (qx.core.Environment.get("qx.debug")) {
+        this.warn(
+          `The \`iconPosition\` property of a ${
+            this.classname
+          } was set, but the layout ${
+            this._getLayout().classname
+          } does not support a \`iconPosition\` property.`
+        );
+      }
     },
 
     // property apply
-    _applyCenter(value, old) {
+    _applyCenter(value) {
+      if (value === undefined) return;
       this._getLayout().setCenter(value);
+      const layout = this._getLayout();
+      if (layout.setCenter) layout.setCenter(value);
+      else if (qx.core.Environment.get("qx.debug")) {
+        this.warn(
+          `The \`center\` property of a ${
+            this.classname
+          } was set, but the layout ${
+            this._getLayout().classname
+          } does not support a \`center\` property.`
+        );
+      }
     },
 
     // overridden
