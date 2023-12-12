@@ -277,66 +277,43 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyGap(value) {
-      if (value === undefined) {
-        return;
-      }
-      const layout = this._getLayout();
-      if (layout.setGap) {
-        layout.setGap(value);
-      } else if (qx.core.Environment.get("qx.debug")) {
-        this.warn(
-          `The \`gap\` property of a ${
-            this.classname
-          } was set, but the layout ${
-            this._getLayout().classname
-          } does not support a \`gap\` property.`
-        );
-      }
-    },
-
-    // property apply
     _applyShow(value, old) {
       this._handleLabel();
       this._handleIcon();
     },
 
-    // property apply
-    _applyIconPosition(value) {
+    __safeSetPropertyOnLayout(value, propertyName) {
       if (value === undefined) {
         return;
       }
       const layout = this._getLayout();
-      if (layout.setIconPosition) {
-        layout.setIconPosition(value);
+      const propertyGetter = `get${qx.lang.String.firstUp(propertyName)}`;
+      if (layout[propertyGetter]) {
+        layout[propertyGetter](value);
       } else if (qx.core.Environment.get("qx.debug")) {
         this.warn(
-          `The \`iconPosition\` property of a ${
+          `The \`${propertyName}\` property of a ${
             this.classname
           } was set, but the layout ${
             this._getLayout().classname
-          } does not support a \`iconPosition\` property.`
+          } does not support a \`${propertyName}\` property.`
         );
       }
     },
 
     // property apply
+    _applyGap(value) {
+      this.__safeSetPropertyOnLayout(value, "gap");
+    },
+
+    // property apply
+    _applyIconPosition(value) {
+      this.__safeSetPropertyOnLayout(value, "iconPosition");
+    },
+
+    // property apply
     _applyCenter(value) {
-      if (value === undefined) {
-        return;
-      }
-      const layout = this._getLayout();
-      if (layout.setCenter) {
-        layout.setCenter(value);
-      } else if (qx.core.Environment.get("qx.debug")) {
-        this.warn(
-          `The \`center\` property of a ${
-            this.classname
-          } was set, but the layout ${
-            this._getLayout().classname
-          } does not support a \`center\` property.`
-        );
-      }
+      this.__safeSetPropertyOnLayout(value, "center");
     },
 
     // overridden
