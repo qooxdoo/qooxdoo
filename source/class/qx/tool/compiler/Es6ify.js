@@ -285,14 +285,18 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
 
     __pluginSingleLineBlocks() {
       function loopStatement(path) {
-        if (path.node.body.type == "BlockStatement") return;
+        if (path.node.body.type == "BlockStatement") {
+          return;
+        }
         let block = types.blockStatement([path.node.body]);
         path.node.body = block;
       }
       return {
         visitor: {
           IfStatement(path) {
-            if (path.node.consequent.type == "BlockStatement") return;
+            if (path.node.consequent.type == "BlockStatement") {
+              return;
+            }
             let block = types.blockStatement([path.node.consequent]);
             path.node.consequent = block;
           },
