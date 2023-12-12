@@ -26,16 +26,23 @@ qx.Class.define("qx.html.Factory", {
   construct() {
     super();
     this.__factoriesByTagName = {};
-    this.registerFactory("#text", function (tagName, styles, attributes) {
-      return new qx.html.Text("");
-    });
+    this.registerFactory(
+      "#text",
+      (tagName, styles, attributes) => new qx.html.Text("")
+    );
+
     this.registerFactory("img", qx.html.Image);
-    this.registerFactory("iframe", function (tagName, styles, attributes) {
-      return new qx.html.Iframe(attributes.src, styles, attributes);
-    });
-    this.registerFactory("input", function (tagName, styles, attributes) {
-      return new qx.html.Input(attributes.type || "text", styles, attributes);
-    });
+    this.registerFactory(
+      "iframe",
+      (tagName, styles, attributes) =>
+        new qx.html.Iframe(attributes.src, styles, attributes)
+    );
+
+    this.registerFactory(
+      "input",
+      (tagName, styles, attributes) =>
+        new qx.html.Input(attributes.type || "text", styles, attributes)
+    );
 
     this.registerFactory("slot", (tagName, styles, attributes) => {
       // if tagName not slot, throw

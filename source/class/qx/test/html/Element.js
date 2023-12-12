@@ -159,6 +159,7 @@ qx.Class.define("qx.test.html.Element", {
     testText() {
       var el1 = new qx.html.Element();
       el1.setAttribute("id", "el1");
+      el1.setAttribute("class", "el1");
       var txt1 = new qx.html.Text();
       txt1.setText("Hello");
       var txt2 = new qx.html.Text();
@@ -178,43 +179,73 @@ qx.Class.define("qx.test.html.Element", {
       txt1.setText("Hello Again", true);
       this.assertEquals(pa.textContent, "Hello Again World");
 
-      var buffer = "";
-      function writer() {
-        var args = qx.lang.Array.fromArguments(arguments);
-        buffer += args.join("");
-      }
-      el1.serialize(writer);
+      var serialized = el1.serialize();
       this.assertEquals(
-        '<div id="el1" data-qx-object-id="qx.html.Element" >Hello Again World</div>',
-        buffer
+        '<div id="el1" class="el1">\nHello Again World</div>\n',
+        serialized
       );
 
       el1.setAttribute("abc", 123);
       el1.setAttribute("def", true);
       el1.setAttribute("checked", true);
-      buffer = "";
-      el1.serialize(writer);
+      serialized = el1.serialize();
       this.assertEquals(
-        '<div id="el1" abc="123" def="true" checked=checked data-qx-object-id="qx.html.Element" >Hello Again World</div>',
-        buffer
+        '<div id="el1" class="el1" abc="123" def="true" checked="checked">\nHello Again World</div>\n',
+        serialized
       );
 
       var el2 = new qx.html.Element();
       el2.setAttribute("id", "el2");
       el1.addAt(el2, 1);
-      buffer = "";
-      el1.serialize(writer);
+      serialized = el1.serialize();
       this.assertEquals(
-        '<div id="el1" abc="123" def="true" checked=checked data-qx-object-id="qx.html.Element" >Hello Again<div id="el2" ></div> World</div>',
-        buffer
+        '<div id="el1" class="el1" abc="123" def="true" checked="checked">\nHello Again  <div id="el2"></div>\n World</div>\n',
+        serialized
+      );
+    },
+
+    testNestedSerialize() {
+      const parseHtml = raw => {
+        let el = document.createElement("div");
+        el.innerHTML = raw;
+        let res = el.querySelector("*");
+        res.remove();
+        return res;
+      };
+
+      let levelOne = new qx.test.html.ExampleLevelOneElement().set({
+        qxObjectId: "rootExample"
+      });
+
+      let html = levelOne.serialize();
+      let dom = parseHtml(html);
+      let tmp;
+
+      levelOne.useNode(dom);
+      this.assertTrue(dom === levelOne.getDomElement(false));
+
+      tmp = dom.querySelector('div[id="my-levelOne-twoAlpha"]');
+      this.assertTrue(
+        tmp && tmp === levelOne.getQxObject("levelOne-twoAlpha").getDomElement()
       );
 
-      /*
-      el2._setProperty("innerHtml", "<b>Test</b>");
-      buffer = "";
-      el1.serialize(writer);
-      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked data-qx-object-id=\"qx.html.Element\">Hello Again<div id=\"el2\"><b>Test</b></div> World</div>", buffer);
-      */
+      tmp = dom.querySelector('div[id="my-levelOne-element"]');
+      this.assertTrue(
+        tmp && tmp === levelOne.getQxObject("levelOne-element").getDomElement()
+      );
+
+      let tmpLevelTwo_elementAlpha = dom.querySelector(
+        'div[id="my-levelTwo-elementAlpha"]'
+      );
+
+      this.assertTrue(
+        tmpLevelTwo_elementAlpha &&
+          tmpLevelTwo_elementAlpha ===
+            levelOne
+              .getQxObject("levelOne-twoAlpha")
+              .getQxObject("levelTwo-elementAlpha")
+              .getDomElement()
+      );
     },
 
     testBasics() {

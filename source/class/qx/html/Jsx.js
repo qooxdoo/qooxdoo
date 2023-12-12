@@ -139,7 +139,7 @@ qx.Class.define("qx.html.Jsx", {
           let prop = key;
           if (reactWorkaroundProps.includes(prop)) {
             if (qx.core.Environment.get("qx.debug")) {
-              qx.log.logger.warn(
+              qx.log.Logger.warn(
                 `The attribute "${prop}" was recognised as a ReactJSX workaround, it is not needed in QxJSX. Consider using "${alt[prop]}" instead.`
               );
             }
@@ -153,7 +153,7 @@ qx.Class.define("qx.html.Jsx", {
             ) {
               refs.push(attributes.ref);
             } else {
-              qx.log.logger.warn(
+              qx.log.Logger.warn(
                 `Unsupported type of "ref" argument: ${typeof attributes.ref}`
               );
             }
