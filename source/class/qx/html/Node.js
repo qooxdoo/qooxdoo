@@ -407,9 +407,12 @@ qx.Class.define("qx.html.Node", {
      * @return {Boolean}
      */
     isInDocument() {
-      if (!this._domNode) return false;
-      if (this._domNode.isConnected !== undefined)
+      if (!this._domNode) {
+        return false;
+      }
+      if (this._domNode.isConnected !== undefined) {
         return this._domNode.isConnected;
+      }
 
       if (document.body) {
         for (
@@ -431,11 +434,12 @@ qx.Class.define("qx.html.Node", {
     updateObjectId() {
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
-        if (this._domNode)
+        if (this._domNode) {
           qx.bom.element.Attribute.set(
             "data-qx-object-id",
             this._getApplicableQxObjectId()
           );
+        }
       }
     },
 
@@ -939,8 +943,6 @@ qx.Class.define("qx.html.Node", {
               console.error(
                 `Tried to add a child of ${child} to ${self.classname}`
               );
-
-              debugger;
             }
             child = new qx.html.Text(`[${child}]`);
           }

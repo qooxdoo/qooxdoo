@@ -65,7 +65,7 @@ qx.Class.define("qx.html.Slot", {
       );
     }
 
-    super("slot", {}, { name: slotName ?? qx.html.Slot.DEFAULT_SLOT });
+    super("slot", {}, { name: slotName ?? qx.html.Slot.DEFAULT });
     this._defaultChildren = [];
   },
 
@@ -89,7 +89,9 @@ qx.Class.define("qx.html.Slot", {
       serializer.pushQxObject(this);
 
       let id = serializer.getQxObjectIdFor(this);
-      if (id) serializer.setAttribute("data-qx-object-id", `"${id}"`);
+      if (id) {
+        serializer.setAttribute("data-qx-object-id", `"${id}"`);
+      }
 
       // Children
       if (this._children?.length) {
@@ -112,6 +114,13 @@ qx.Class.define("qx.html.Slot", {
     */
 
     _defaultChildren: null,
+
+    /**
+     * @returns {ReadonlyArray<qx.html.Node>} The default children of this slot
+     */
+    getDefaultChildren() {
+      return this._defaultChildren;
+    },
 
     addDefaultChild(child) {
       try {
@@ -138,6 +147,6 @@ qx.Class.define("qx.html.Slot", {
   *****************************************************************************
   */
   statics: {
-    DEFAULT_SLOT: "$$default"
+    DEFAULT: Symbol("qx.html.Slot.DEFAULT")
   }
 });

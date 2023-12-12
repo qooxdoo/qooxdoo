@@ -120,11 +120,12 @@ qx.Class.define("qx.html.Serializer", {
      * @param {String?} value teh attribite value, if null the attribute will be deleted
      */
     setAttribute(key, value) {
-      let tagData = this.__peekTagData();
-      if (tagData.openTagWritten)
+      const tagData = this.__peekTagData();
+      if (tagData.openTagWritten) {
         throw new Error(
           "Cannot modify attributes after the opening tag has been written"
         );
+      }
 
       tagData.attributes[key] = value;
     },
@@ -145,41 +146,54 @@ qx.Class.define("qx.html.Serializer", {
      * @param {Boolean} closeTag if we are flushing because the tag is being closed
      */
     __flush(closeTag) {
-      let tagData = this.__peekTagData();
-      if (!tagData) return;
+      const tagData = this.__peekTagData();
+      if (!tagData) {
+        return;
+      }
 
       const indent = () => {
         if (this.isPrettyPrint()) {
-          for (let i = 0; i < tagData.indent; i++) this.write("  ");
+          for (let i = 0; i < tagData.indent; i++) {
+            this.write("  ");
+          }
         }
       };
 
       if (!tagData.openTagWritten) {
         indent();
-        let tmp = ["<" + tagData.tagName];
-        for (let key in tagData.attributes) {
-          let value = tagData.attributes[key];
-          if (value !== null && value !== undefined)
+        const tmp = ["<" + tagData.tagName];
+        for (const key in tagData.attributes) {
+          const value = tagData.attributes[key];
+          if (value !== null && value !== undefined) {
             tmp.push(`${key}=${value}`);
+          }
         }
         this.write(tmp.join(" "));
 
         if (closeTag) {
-          if (qx.html.Serializer.__SELF_CLOSING_TAGS[tagData.tagName])
+          if (qx.html.Serializer.__SELF_CLOSING_TAGS[tagData.tagName]) {
             this.write("/>");
-          else this.write("></" + tagData.tagName + ">");
+          } else {
+            this.write("></" + tagData.tagName + ">");
+          }
           tagData.openTagWritten = true;
           tagData.closeTagWritten = true;
-          if (this.isPrettyPrint()) this.write("\n");
+          if (this.isPrettyPrint()) {
+            this.write("\n");
+          }
         } else {
           this.write(">");
-          if (this.isPrettyPrint()) this.write("\n");
+          if (this.isPrettyPrint()) {
+            this.write("\n");
+          }
           tagData.openTagWritten = true;
         }
       } else if (closeTag && !tagData.closeTagWritten) {
         indent();
         this.write(`</${tagData.tagName}>`);
-        if (this.isPrettyPrint()) this.write("\n");
+        if (this.isPrettyPrint()) {
+          this.write("\n");
+        }
         tagData.closeTagWritten = true;
       }
     },
@@ -236,14 +250,16 @@ qx.Class.define("qx.html.Serializer", {
      * @returns {String?}
      */
     getQxObjectIdFor(obj) {
-      if (!obj.getQxObjectId()) return null;
+      if (!obj.getQxObjectId()) {
+        return null;
+      }
 
       // If we can make the ID relative to it's parent, then just use the shorter version.  This is
       //  not strictly necessary because we could use absolute paths everywhere, but it's a lot
       //  easier to read and understand, and consumes less bytes in the output
-      let top = this.peekQxObject();
+      const top = this.peekQxObject();
       if (top === obj) {
-        let superTop =
+        const superTop =
           this.__objectStack[this.__objectStack.length - 2] || null;
         if (superTop === obj.getQxOwner()) {
           return obj.getQxObjectId();
@@ -251,10 +267,11 @@ qx.Class.define("qx.html.Serializer", {
       }
 
       // Calculate the absolute path, relative to the top of the stack
-      let ids = [];
-      let topMost = this.__objectStack[0];
-      for (let tmp = obj; tmp; tmp = tmp.getQxOwner()) {
-        let owner = tmp.getQxOwner();
+      const ids = [];
+      const topMost = this.__objectStack[0];
+      let tmp = obj;
+      do {
+        const owner = tmp.getQxOwner();
 
         // If it is the top, or not listed, then stop
         if (
@@ -265,12 +282,11 @@ qx.Class.define("qx.html.Serializer", {
           ids.unshift("??");
           break;
         }
-        let id = tmp.getQxObjectId();
+        const id = tmp.getQxObjectId();
         ids.unshift(id);
-      }
+      } while ((tmp = tmp.getQxOwner()));
 
-      let id = "/" + ids.join("/");
-      return id;
+      return "/" + ids.join("/");
     }
   },
 

@@ -548,7 +548,9 @@ qx.Class.define("qx.html.Element", {
       }
 
       let id = serializer.getQxObjectIdFor(this);
-      if (id) serializer.setAttribute("data-qx-object-id", `"${id}"`);
+      if (id) {
+        serializer.setAttribute("data-qx-object-id", `"${id}"`);
+      }
 
       // Copy styles
       var data = this.__styleValues || {};
@@ -658,10 +660,22 @@ qx.Class.define("qx.html.Element", {
       SLOTS API
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Retrieve the slots this element contains.
+     * The Map returned is a copy of the internal Map, as such modifications to
+     * it will not effect the element.
+     * @returns {Map<string, qx.html.Slot>} A `Map` of slots, keyed by slot name. The default slot, if it exists, is keyed as `qx.html.Slot.DEFAULT`
+     */
+    getSlots() {
+      if (!this.getIsCustomElement()) return null;
+      return new Map(this.__slots);
+    },
+
     /**
      * Returns whether the element has slot(s) matching the given projection.
      *
-     * @param projection {true|String?} `true` to check for the default slot, a string to check for a slot with the given name, or `null|undefined` to check for any slot(s)
+     * @param projection {true | String?} `true` to check for the default slot, a string to check for a slot with the given name, or `null|undefined` to check for any slot(s)
      * @return {Boolean} Indicates whether the projected slot exists, or if any slots exist if no projection was specified
      * @example
      * ```js
@@ -672,12 +686,11 @@ qx.Class.define("qx.html.Element", {
      */
     hasSlots(projection) {
       if (projection === null || projection === undefined) {
-        return !!this.__slots.size;
+        return this.__slots.size > 0;
       }
 
-      // check for literal `true`, NOT truthiness!
-      if (projection === true) {
-        projection = qx.html.Slot.DEFAULT_SLOT;
+      if (projection === true || projection === qx.html.Slot.DEFAULT) {
+        return this.__slots.has(qx.html.Slot.DEFAULT);
       }
 
       if (typeof projection === "string") {
@@ -699,12 +712,12 @@ qx.Class.define("qx.html.Element", {
       if (!this.hasSlots(slotName)) {
         if (qx.core.Environment.get("qx.debug")) {
           const what =
-            slotName === qx.html.Slot.DEFAULT_SLOT
+            slotName === qx.html.Slot.DEFAULT
               ? "default slot"
               : `slot named "${slotName}"`;
           const slotsList = Array.from(this.__slots.keys())
             .join(", ")
-            .replace(qx.html.Slot.DEFAULT_SLOT, "(default)");
+            .replace(qx.html.Slot.DEFAULT, "(default)");
           console.warn(`No ${what} found! Available slots are: ${slotsList}`);
         }
         return false;
@@ -737,7 +750,7 @@ qx.Class.define("qx.html.Element", {
       const slotName =
         childNode.getAttribute?.("slot") ??
         slotNameOverride ??
-        qx.html.Slot.DEFAULT_SLOT;
+        qx.html.Slot.DEFAULT;
 
       if (!this.__injectionSlotCheck(slotName)) {
         return;
@@ -1862,7 +1875,7 @@ qx.Class.define("qx.html.Element", {
       }
 
       // therefore currently `false` and trying to set `true`; re-grab all slots
-      this.getChildren().forEach(child => this._slotScanAdd(child));
+      this.getChildren()?.forEach(child => this._slotScanAdd(child));
     },
 
     /*

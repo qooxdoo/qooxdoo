@@ -13,6 +13,7 @@
 
    Authors:
      * John Spackman (https://github.com/johnspackman)
+     * Will Johnson (WillsterJohnson)
      * Alexander Lopez (https://github.com/alecsgone)
 
    This class includes work from on https://github.com/alecsgone/jsx-render; at the time of writing,
@@ -63,23 +64,19 @@ qx.Class.define("qx.html.Jsx", {
           delete attributes[key];
         }
       }
-      const customStyle = Object.entries(cssCustomProperties).reduce(
-        (acc, [prop, val]) => acc + `${prop}:${val};`,
-        ""
-      );
 
       // ANONYMOUS FRAGMENT
       if (tagname == qx.html.Jsx.FRAGMENT) {
-        var arr = new qx.data.Array();
-        function addChildrenFragment(children) {
-          children.forEach(function (child) {
+        const arr = new qx.data.Array();
+        const addChildrenFragment = children => {
+          for (const child of children) {
             if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
               addChildrenFragment(child);
             } else {
               arr.push(child);
             }
-          });
-        }
+          }
+        };
         addChildrenFragment(children);
         return arr;
       }
@@ -87,7 +84,7 @@ qx.Class.define("qx.html.Jsx", {
       // CUSTOM ELEMENT
       if (typeof tagname === "function") {
         // handle constructors and plain functions
-        let element = qx.Class.isClass(tagname)
+        const element = qx.Class.isClass(tagname)
           ? new tagname(attributes)
           : tagname(attributes);
 
@@ -95,19 +92,14 @@ qx.Class.define("qx.html.Jsx", {
           qx.core.Assert.assertTrue(element instanceof qx.html.Node);
         }
 
-        let realElement = element;
-        if (customStyle.length) {
-          realElement = new qx.html.Element("div", null, {
-            style: customStyle
-          });
-
-          realElement.add(element);
+        for (const key in cssCustomProperties) {
+          element.setStyle(key, cssCustomProperties[key], true);
         }
 
         element.setIsCustomElement(true);
         if (children) {
-          function injectChildren(children) {
-            children.forEach(function (child) {
+          const injectChildren = children => {
+            for (const child of children) {
               if (
                 child instanceof qx.data.Array ||
                 qx.lang.Type.isArray(child)
@@ -120,20 +112,20 @@ qx.Class.define("qx.html.Jsx", {
               } else {
                 element.inject(child);
               }
-            });
-          }
+            }
+          };
           injectChildren(children);
         }
         if (attributes?.slot) {
           element.setAttributes({ slot: attributes.slot });
         }
-        return realElement;
+        return element;
       }
 
-      var newAttrs = {};
-      var eventHandlers = {};
-      var innerHtml = null;
-      var refs = [];
+      const newAttrs = {};
+      const eventHandlers = {};
+      let innerHtml = null;
+      const refs = [];
 
       if (attributes) {
         const reactWorkaroundProps = ["className", "htmlFor", "xlinkHref"];
@@ -143,10 +135,11 @@ qx.Class.define("qx.html.Jsx", {
           xlinkHref: "xlink:href"
         };
 
-        Object.keys(attributes).forEach(function (prop) {
+        for (const key in attributes) {
+          let prop = key;
           if (reactWorkaroundProps.includes(prop)) {
             if (qx.core.Environment.get("qx.debug")) {
-              self.warn(
+              qx.log.logger.warn(
                 `The attribute "${prop}" was recognised as a ReactJSX workaround, it is not needed in QxJSX. Consider using "${alt[prop]}" instead.`
               );
             }
@@ -160,33 +153,55 @@ qx.Class.define("qx.html.Jsx", {
             ) {
               refs.push(attributes.ref);
             } else {
-              self.warn(
+              qx.log.logger.warn(
                 `Unsupported type of "ref" argument: ${typeof attributes.ref}`
               );
             }
           } else if (prop === "dangerouslySetInnerHTML") {
             // eslint-disable-next-line no-underscore-dangle
             innerHtml = attributes[prop].__html;
-          } else if (qx.html.Jsx.SYNTETIC_EVENTS[prop]) {
-            var eventName = prop.replace(/^on/, "").toLowerCase();
+          } else if (qx.html.Jsx.SYNTHETIC_EVENTS[prop]) {
+            const eventName = prop.replace(/^on/, "").toLowerCase();
             eventHandlers[eventName] = attributes[prop];
           } else {
             // any other prop will be set as attribute
             newAttrs[prop] = attributes[prop];
           }
-        });
+        }
       }
 
-      var element = qx.html.Factory.getInstance().createElement(
-        tagname,
-        newAttrs
-      );
+      let element;
+      if (tagname.startsWith("qx:")) {
+        switch (tagname) {
+          // TODO: add this in future - an enhanced fragment enabling features like slot targeting
+          // case "qx:fragment": {}
+
+          // TODO: add this in future - children of this element are added to the document head,
+          // eg to dynamically include assets without dirtying the DOM
+          // case "qx:head": {}
+
+          // anything we want!
+          // case "qx:...": {}
+          default: {
+            throw new Error(
+              `Unknown QX NameSpace tag: ${tagname}. The qx:* namespace is reserved for internally defined tags with special behaviors.`
+            );
+          }
+        }
+      }
+      // MAYBE: add a custom registry like the above qx:*, but for user-defined behaviors
+      else {
+        element = qx.html.Factory.getInstance().createElement(
+          tagname,
+          newAttrs
+        );
+      }
 
       // SLOT
       if (tagname === "slot") {
         if (children) {
-          function addDefaultChildren(children) {
-            children.forEach(child => {
+          const addDefaultChildren = children => {
+            for (const child of children) {
               if (
                 child instanceof qx.data.Array ||
                 qx.lang.Type.isArray(child)
@@ -199,8 +214,8 @@ qx.Class.define("qx.html.Jsx", {
               } else {
                 element.addDefaultChild(child);
               }
-            });
-          }
+            }
+          };
           addDefaultChildren(children);
           element.sealDefaultChildren();
         }
@@ -208,8 +223,8 @@ qx.Class.define("qx.html.Jsx", {
       }
 
       if (children) {
-        function addChildren(children) {
-          children.forEach(function (child) {
+        const addChildren = children => {
+          for (const child of children) {
             if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
               addChildren(child);
             } else if (typeof child == "string") {
@@ -219,8 +234,8 @@ qx.Class.define("qx.html.Jsx", {
             } else {
               element.add(child);
             }
-          });
-        }
+          }
+        };
         addChildren(children);
       }
 
@@ -243,15 +258,18 @@ qx.Class.define("qx.html.Jsx", {
       return element;
     },
 
-    /** @type {Map} map of event names, all values are `true` */
+    /** @deprecated Use {@link qx.html.Jsx.SYNTHETIC_EVENTS} instead */
     SYNTETIC_EVENTS: null,
 
-    /** @type {String} tagname for anonymous (native) fragments */
-    FRAGMENT: "$$fragment"
+    /** @type {Map} map of event names, all values are `true` */
+    SYNTHETIC_EVENTS: null,
+
+    /** @type {symbol} tagname for anonymous (native) fragments */
+    FRAGMENT: Symbol("qx.html.Jsx.FRAGMENT")
   },
 
   defer(statics) {
-    var MOUSE_EVENTS = [
+    const MOUSE_EVENTS = [
       "onClick",
       "onContextMenu",
       "onDoubleClick",
@@ -272,24 +290,24 @@ qx.Class.define("qx.html.Jsx", {
       "onMouseUp"
     ];
 
-    var TOUCH_EVENTS = [
+    const TOUCH_EVENTS = [
       "onTouchCancel",
       "onTouchEnd",
       "onTouchMove",
       "onTouchStart"
     ];
 
-    var KEYBOARD_EVENTS = ["onKeyDown", "onKeyPress", "onKeyUp"];
+    const KEYBOARD_EVENTS = ["onKeyDown", "onKeyPress", "onKeyUp"];
 
-    var FOCUS_EVENTS = ["onFocus", "onBlur"];
+    const FOCUS_EVENTS = ["onFocus", "onBlur"];
 
-    var FORM_EVENTS = ["onChange", "onInput", "onInvalid", "onSubmit"];
+    const FORM_EVENTS = ["onChange", "onInput", "onInvalid", "onSubmit"];
 
-    var UI_EVENTS = ["onScroll"];
+    const UI_EVENTS = ["onScroll"];
 
-    var IMAGE_EVENTS = ["onLoad", "onError"];
+    const IMAGE_EVENTS = ["onLoad", "onError"];
 
-    var synteticEvents = [
+    const syntheticEvents = [
       MOUSE_EVENTS,
       TOUCH_EVENTS,
       KEYBOARD_EVENTS,
@@ -299,11 +317,13 @@ qx.Class.define("qx.html.Jsx", {
       IMAGE_EVENTS
     ];
 
-    var SYNTETIC_EVENTS = (qx.html.Jsx.SYNTETIC_EVENTS = {});
-    synteticEvents.forEach(function (arr) {
-      arr.forEach(function (key) {
-        SYNTETIC_EVENTS[key] = true;
-      });
-    });
+    const SYNTHETIC_EVENTS = {};
+    for (const arr of syntheticEvents) {
+      for (const key of arr) {
+        SYNTHETIC_EVENTS[key] = true;
+      }
+    }
+    qx.html.Jsx.SYNTHETIC_EVENTS = SYNTHETIC_EVENTS;
+    /* deprecated: misspelled */ qx.html.Jsx.SYNTETIC_EVENTS = SYNTHETIC_EVENTS;
   }
 });
