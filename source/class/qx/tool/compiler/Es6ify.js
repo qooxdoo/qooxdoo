@@ -339,6 +339,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                   callee == "qx.core.Assert.assertEventFired" ||
                   (isTest && callee.endsWith(".resume"))
                 ) {
+                  return;
                 }
               }
             } else if (arrowFunctions == "careful") {
