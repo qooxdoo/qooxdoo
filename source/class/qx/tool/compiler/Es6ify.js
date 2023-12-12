@@ -117,7 +117,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       nullable: true
     },
 
-    /** Whether for forces braces around single line blocks for if, for, while, and do while */
+    /** Whether to force braces around single line bodies for if, for, while, and do while */
     singleLineBlocks: {
       init: false,
       check: "Boolean"

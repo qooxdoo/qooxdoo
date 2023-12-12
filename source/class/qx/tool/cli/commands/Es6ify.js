@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
             type: "boolean",
             default: false,
             describe:
-              "Force braces around single line blocks for if, for, while, and do while"
+              "Force braces around single line bodies for if, for, while, and do while"
           }
         }
       };
