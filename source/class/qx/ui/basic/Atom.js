@@ -287,9 +287,9 @@ qx.Class.define("qx.ui.basic.Atom", {
         return;
       }
       const layout = this._getLayout();
-      const propertyGetter = `get${qx.lang.String.firstUp(propertyName)}`;
-      if (layout[propertyGetter]) {
-        layout[propertyGetter](value);
+      const propertySetter = `set${qx.lang.String.firstUp(propertyName)}`;
+      if (layout[propertySetter]) {
+        layout[propertySetter](value);
       } else if (qx.core.Environment.get("qx.debug")) {
         this.warn(
           `The \`${propertyName}\` property of a ${
