@@ -171,7 +171,7 @@ if (foo)
 spam();
 ```
 becomes
-```
+```javascript
 if (foo) {
   bar();
 }
