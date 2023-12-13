@@ -164,7 +164,7 @@ If `--arrow-functions` is set to `careful` (the default), then functions are onl
 functions where the API is known  (e.g. `.addListener`).
 
 If `--single-line-blocks` is passed, this forces braces around single-line bodies for if, for, while, and do while. For example,
-```
+```javascript
 if (foo)
   bar();
 
