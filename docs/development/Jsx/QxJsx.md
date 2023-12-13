@@ -1,39 +1,12 @@
-# Server Side Rendering
-
-Server Side Rendering (SSR) is an incredibly powerful tool and has it's uses in
-all kinds of applications. Jsx is a great candidate for serialization due to
-it's lightweight and simplistic nature, making it perfect for generating large
-reports and other HTML documents.
-
-## Jsx and Qooxdoo - How Do They Connect?
-
-Qooxdoo Desktop is a system for, amongst other things, building user intefaces
-and Single Page Applications without using HTML or CSS - Jsx on the otherhand
-almost *is* HTML.
-
-The connection between Jsx and Qooxdoo is in their differing abilities. While a
-desktop application can be built in Qooxdoo with relative ease, it's not
-possible to create `qx.ui.*` on the server, let alone serialize that to the
-client where (for example) we can then allow the browser to paginate web content
-for printing.
-
-Enter Jsx. Jsx transpiles down to basic calls to Qooxdoo's virtual DOM mechanism
-and builds a markup document directly. This bypasses the layout system, and
-introduces a need for CSS. There are no user interface components, or anything
-for interacting with the end user in the way that a Qooxdoo Desktop (ie Single
-Page Application) would interact with the user. Instead, QxJsx's stripped back
-featureset and disconnect from `qx.ui.*` makes it ideal for representing large
-structures of data (eg, invoices or reports) as printable HTML pages.
-
-By building into a server a mechanism by which the Jsx can be pre-rendered, it
-becomes increasingly beneficial to both the developer and the user to have a
-lighter and lower-level system for building these static documents.
-
-## QxJsx - Standard Behaviors
+# QxJsx Syntax
 
 QxJsx is the name for Qooxdoo's flavor of Jsx. It is a small yet powerful
 extension to the Jsx syntax, taking proven concepts from popular frameworks such
 as Svelte and React and integrating them into Qooxdoo's own Jsx.
+
+## Standard Behaviors
+
+These features are standard across most if not all Jsx flavors.
 
 ### Custom Elements
 
@@ -63,8 +36,8 @@ const world = <MyCustomElem who="world" />;
 ```
 
 ```jsx
-qx.Class.define("ClsThing", {
-  extend: qx.html.Node,
+qx.Class.define("ElementClass", {
+  extend: qx.html.Element,
   construct(attributes) {
     super("div");
     this.add(
@@ -75,7 +48,7 @@ qx.Class.define("ClsThing", {
   }
 })
 // later...
-const myClsThing = <ClsThing attr1="val1" />;
+const myElementClass = <ElementClass attr1="val1" />;
 ```
 
 ### Spread Attributes
@@ -112,8 +85,8 @@ const myFragment = (
 );
 ```
 
-Note that a fragment is simply an array; it is not it's own form of Jsx element,
-and has limited capablities within Jsx expressions.
+Note that a fragment is simply a `qx.data.Array`; it is not it's own form of Jsx
+element, and has limited capabilities within Jsx expressions.
 
 <!-- TODO: future addition
 To use an enhanced fragment with additional behaviors, use the [`qx:fragment`](#qx-fragment)
@@ -134,7 +107,11 @@ const myElem = (
 );
 ```
 
-## QxJsx - Custom Behaviors
+## Custom Behaviors
+
+These features are custom additions to Jsx and are not standard across all Jsx
+flavors. They are inspired by popular frameworks such as Svelte and React,
+differing in logical ways to work with each other and with Qooxdoo.
 
 ### Slots
 
@@ -198,7 +175,7 @@ const usage4 = (
 
 Inspired by React.
 
-In other Jsx flavors such as ReactJsx, some attributes and tagnames cannot be
+In other Jsx flavors such as ReactJsx, some attributes and tag names cannot be
 used, such as `for`, or `class`, and have workarounds such as `htmlFor` or
 `className`.
 Such workarounds are not needed in QxJsx, though for a smoother onboarding
@@ -245,7 +222,8 @@ your page (this section is not a guide to XML namespaces). Some Jsx flavors
 don't allow the use of namespaces - QxJsx however does.
 
 The `qx:*` namespace is reserved for use by QxJsx itself for tags with unique
-custom behaviors. Currently, no such tags exist.
+custom behaviors. Currently, no such tags exist, but they may be added in the
+future.
 
 <!-- TODO: future addition
 #### Qx:Fragment
