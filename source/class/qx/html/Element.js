@@ -668,7 +668,9 @@ qx.Class.define("qx.html.Element", {
      * @returns {Map<string, qx.html.Slot>} A `Map` of slots, keyed by slot name. The default slot, if it exists, is keyed as `qx.html.Slot.DEFAULT`
      */
     getSlots() {
-      if (!this.getIsCustomElement()) return null;
+      if (!this.getIsCustomElement()) {
+        return null;
+      }
       return new Map(this.__slots);
     },
 
