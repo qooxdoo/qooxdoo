@@ -78,6 +78,39 @@ qx.Class.define("qx.test.ui.basic.Atom", {
       );
 
       a.destroy();
+    },
+
+    testLayoutOptionalProperties() {
+      let atomLayout;
+      const hasAtomLayout = new (qx.Class.define(null, {
+        extend: qx.ui.basic.Atom,
+        construct() {
+          super("test");
+          atomLayout = this._getLayout();
+        }
+      }))();
+
+      hasAtomLayout.setGap(10);
+      hasAtomLayout.setIconPosition("right");
+      hasAtomLayout.setCenter(true);
+
+      this.assertEquals(10, atomLayout.getGap());
+      this.assertEquals("right", atomLayout.getIconPosition());
+      this.assertEquals(true, atomLayout.getCenter());
+
+      const hasGridLayout = new (qx.Class.define(null, {
+        extend: qx.ui.basic.Atom,
+        construct() {
+          super("test");
+          this._getLayout().dispose();
+          this._setLayout(new qx.ui.layout.Grid());
+        }
+      }))();
+
+      // expect these to not throw an error (should log in debug env)
+      hasGridLayout.setGap(10);
+      hasGridLayout.setIconPosition("right");
+      hasGridLayout.setCenter(true);
     }
   }
 });
