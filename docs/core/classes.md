@@ -222,7 +222,7 @@ qx.Class.define("qx.test.MyForm", {
 })
 ```
 
-The code above can be rewritten like this:
+The code above can be rewritten in a much neater way like this:
 ```javascript
 qx.Class.define("qx.test.MyForm", {
   extend: qx.ui.core.Widget,
