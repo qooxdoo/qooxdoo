@@ -816,6 +816,20 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           addDecl(param);
         });
         checkNodeJsDocDirectives(node);
+
+        if (node.key?.name == "_createQxObjectImpl") {
+          const injectCode = `{
+            let object = qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments);
+            if (object) {
+              return object;
+            }
+          }`;
+
+          const injectLines = babylon.parse(injectCode, { errorRecovery: true })
+            .program.body[0].body;
+          const bodyLines = node.body.body;
+          node.body.body = injectLines.concat(bodyLines);
+        }
       }
 
       function exitFunction(path, node) {
@@ -1179,7 +1193,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             environment: "object", // Map
             events: "object", // Map
             defer: "function", // Function
-            destruct: "function" // Function
+            destruct: "function", // Function
+            objects: "object" // Map
           }
         },
 
@@ -1242,6 +1257,37 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         destruct: "$$destructor",
         defer: null
       };
+
+      function ensureCreateQxObjectImpl(membersPropertyPath) {
+        const membersPropertyNode = membersPropertyPath.node;
+        const memberNames = membersPropertyNode?.value?.properties?.map(
+          it => it.key.name
+        );
+
+        if (!memberNames) throw new Error("Members section is not an object");
+
+        if (memberNames.includes("_createQxObjectImpl")) return;
+
+        const functionBody = `{
+          return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
+        }`;
+
+        const functionBlock = babylon.parse(functionBody, {
+          errorRecovery: true
+        }).program.body[0];
+
+        membersPropertyNode.value.properties.push(
+          types.objectMethod(
+            "method",
+            types.identifier("_createQxObjectImpl"),
+            [],
+            functionBlock
+          )
+        );
+
+        membersPropertyPath.skip();
+        membersPropertyPath.traverse(VISITOR);
+      }
 
       function checkValidTopLevel(path) {
         var prop = path.node;
@@ -1357,6 +1403,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
             path.skip();
             path.traverse(VISITOR);
+            if (keyName == "members" && t.__definingType == "Class") {
+              ensureCreateQxObjectImpl(path);
+            }
             t.__classMeta._topLevel = null;
           } else if (keyName == "properties") {
             path.skip();
@@ -1844,6 +1893,21 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 });
 
                 path.skip();
+
+                const classDefPojo = path.node.arguments[1];
+                const membersNode = classDefPojo.properties.find(
+                  prop => prop.key.name == "members"
+                );
+
+                if (!membersNode) {
+                  const membersProperty = types.objectProperty(
+                    types.identifier("members"),
+                    types.objectExpression([])
+                  );
+
+                  classDefPojo.properties.push(membersProperty);
+                }
+
                 path.traverse(CLASS_DEF_VISITOR, { classDefPath: path });
                 t.__popMeta(className);
               } else if (name == "qx.core.Environment.add") {
