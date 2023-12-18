@@ -45,20 +45,16 @@ qx.Class.define("qx.html.Factory", {
     );
 
     this.registerFactory("slot", (tagName, styles, attributes) => {
-      // if tagName not slot, throw
       if (tagName !== "slot") {
         throw new Error(
           `Cannot create slot with tag <${tagName}> - only <slot> is supported`
         );
       }
-      // if styles not empty, throw
       if (Object.keys(styles).length > 0) {
         throw new Error(
           `Cannot create slot with attribute "style" - only the "name" attribute is supported`
         );
       }
-
-      // if any attrs other than name, throw
       Object.keys(attributes).forEach(key => {
         if (key !== "name") {
           throw new Error(

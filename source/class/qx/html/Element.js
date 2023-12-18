@@ -476,7 +476,6 @@ qx.Class.define("qx.html.Element", {
      */
     isCustomElement: {
       init: false,
-      nullable: false,
       check: "Boolean",
       apply: "_applyIsCustomElement"
     }
