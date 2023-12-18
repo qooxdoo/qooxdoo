@@ -1264,9 +1264,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           it => it.key.name
         );
 
-        if (!memberNames) throw new Error("Members section is not an object");
+        if (!memberNames) {
+          throw new Error("Members section is not an object");
+        }
 
-        if (memberNames.includes("_createQxObjectImpl")) return;
+        if (memberNames.includes("_createQxObjectImpl")) {
+          return;
+        }
 
         const functionBody = `{
           return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
