@@ -1899,17 +1899,23 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 path.skip();
 
                 const classDefPojo = path.node.arguments[1];
-                const membersNode = classDefPojo.properties.find(
-                  prop => prop.key.name == "members"
+                const objectsNode = classDefPojo.properties.find(
+                  prop => prop.key.name == "objects"
                 );
 
-                if (!membersNode) {
-                  const membersProperty = types.objectProperty(
-                    types.identifier("members"),
-                    types.objectExpression([])
+                if (objectsNode) {
+                  const membersNode = classDefPojo.properties.find(
+                    prop => prop.key.name == "members"
                   );
 
-                  classDefPojo.properties.push(membersProperty);
+                  if (!membersNode) {
+                    const membersProperty = types.objectProperty(
+                      types.identifier("members"),
+                      types.objectExpression([])
+                    );
+
+                    classDefPojo.properties.push(membersProperty);
+                  }
                 }
 
                 path.traverse(CLASS_DEF_VISITOR, { classDefPath: path });
