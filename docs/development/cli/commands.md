@@ -163,6 +163,21 @@ sections of your code, and test carefully.
 If `--arrow-functions` is set to `careful` (the default), then functions are only switched to arrow 
 functions where the API is known  (e.g. `.addListener`).
 
+If `--single-line-blocks` is passed, this forces braces around single-line bodies for `if`, `for`, `while`, and `do while`. For example,
+```javascript
+if (foo)
+  bar();
+
+spam();
+```
+becomes
+```javascript
+if (foo) {
+  bar();
+}
+spam();
+```
+
 The final step is that the ES6ify will use https://prettier.io/ to reformat the code, and will use
 the nearest `prettierrc.json` for configuration
 

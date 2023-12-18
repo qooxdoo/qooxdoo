@@ -117,6 +117,12 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       nullable: true
     },
 
+    /** Whether to force braces around single line bodies for if, for, while, and do while */
+    singleLineBlocks: {
+      init: false,
+      check: "Boolean"
+    },
+
     /** Whether to overwrite the original file */
     overwrite: {
       init: false,
@@ -144,6 +150,11 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       }
       plugins.push(this.__pluginRemoveUnnecessaryThis());
       plugins.push(this.__pluginSwitchToSuper());
+
+      if (this.getSingleLineBlocks()) {
+        plugins.push(this.__pluginSingleLineBlocks());
+      }
+
       var config = {
         ast: true,
         babelrc: false,
@@ -272,6 +283,30 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       return replacement;
     },
 
+    __pluginSingleLineBlocks() {
+      function loopStatement(path) {
+        if (path.node.body.type == "BlockStatement") {
+          return;
+        }
+        let block = types.blockStatement([path.node.body]);
+        path.node.body = block;
+      }
+      return {
+        visitor: {
+          IfStatement(path) {
+            if (path.node.consequent.type == "BlockStatement") {
+              return;
+            }
+            let block = types.blockStatement([path.node.consequent]);
+            path.node.consequent = block;
+          },
+          DoWhileStatement: loopStatement,
+          ForStatement: loopStatement,
+          WhileStatement: loopStatement
+        }
+      };
+    },
+
     /**
      * Tries to convert functions into arrow functions
      * @returns
@@ -281,7 +316,6 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       const isTest = this.__filename.indexOf("/test/") > -1;
       let arrowFunctions = this.getArrowFunctions();
       let knownApiFunctions = this.__knownApiFunctions;
-
       return {
         visitor: {
           CallExpression(path) {
