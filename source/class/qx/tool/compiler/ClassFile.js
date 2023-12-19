@@ -825,10 +825,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             }
           }`;
 
-          const injectLines = babylon.parse(injectCode, { errorRecovery: true })
-            .program.body[0].body;
+          const injectBlockAst = babylon.parse(injectCode, {
+            errorRecovery: true
+          }).program.body[0];
           const bodyLines = node.body.body;
-          node.body.body = injectLines.concat(bodyLines);
+          node.body.body = [injectBlockAst].concat(bodyLines);
+          path.skip();
         }
       }
 
