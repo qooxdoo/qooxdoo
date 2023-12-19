@@ -170,6 +170,53 @@ that they are protected and cannot be called by derived classes, and the same ha
 with Object IDs. If you want to denote that the ID is protected or private, 
 just use the `_` or `__` prefix in the ID, just as you would for member variables & methods.
 
+### The Objects section
+
+Object IDs can also be specified in a top-level `objects` section within your class, which is a newer alternative to defining `_createQxObjectImpl`.
+
+If a class contains both an `objects` section and an implementation of `_createQxObjectImpl`, the object ID definitions in both will be merged, with the `objects` section taking precedence.
+
+Example:
+```javascript
+qx.Class.define("qx.test.MyForm", {
+  extend: qx.ui.core.Widget,
+
+  construct() {
+    super();
+    this._setLayout(new qx.ui.layout.HBox());    
+    this._add(this.getQxObject("compTop"));
+    this._add(this.getQxObject("compBottom"));
+
+    this.getQxObject("compBottom").setBackgroundColor("red");
+  },
+
+  //The cached object generator functions are placed in a top-level section named 'objects'
+  objects: {
+    //We name the generator functions with the object's id
+    compTop() {
+      let comp = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      
+      let sp = new qx.ui.form.Spinner();
+      comp.add(sp);    
+
+      let sp1 = new qx.ui.form.Spinner();
+      comp.add(sp1);
+      return comp;
+    },
+
+    compBottom() {
+      let comp = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+    
+      let tf = new qx.ui.form.TextField();
+      comp.add(tf);
+
+      let tf1 = new qx.ui.form.TextField();
+      comp.add(tf1);
+      return comp;
+    }
+  }
+})
+```
 
 ## Finding Objects
 If you want to find an object in the `this` object, 
