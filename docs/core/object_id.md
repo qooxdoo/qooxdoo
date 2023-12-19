@@ -48,16 +48,23 @@ and normal construction/setup code.  For example:
 ```javascript
 construct() {
   super();
-  const comp = new qx.ui.container.Composite();
-  const edtLine1 = this.__edtLine1 = new qx.form.TextField();
-  this._addToGroup(comp, edtLine1, "Line 1", "line1"); 
 
+  const comp = new qx.ui.container.Composite();
+  comp.setLayout(new qx.ui.layout.HBox());
+
+  comp.add(new qx.ui.basic.Label("Line 1:"));
+  const edtLine1 = this.__edtLine1 = new qx.form.TextField();
+  comp.add(edtLine1);
+  
+  comp.add(new qx.ui.basic.Label("Line 2:"));
   const edtLine2 = this.__edtLine2 = new qx.form.TextField();
-  this._addToGroup(comp, edtLine2, "Line 2", "line2"); 
-  /* ... snip ... */
+  comp.add(edtLine2);
+/* ... snip ... */
 
   const edtPostcode = this.__edtPostcode = new qx.form.TextField();
-  this._addToGroup(comp, edtPostcode, "Postcode", "postcode"); 
+  comp.add(new qx.ui.basic.Label("Postcode"));
+  comp.add(edtPostcode);
+
   edtPostCode.addListener("changeValue", (evt) => {
     const str = evt.getData();
     const address = myapp.PostcodeValidator.lookup(str);
@@ -85,28 +92,37 @@ qx.Class.define("myapp.AddressEditor", {
     _applyParentValue(value, oldValue) {
       super._applyParentValue(value, oldValue);
       
-      // Access control is applied to objects by name
-      this._setAccessControl(value, ["edtLine1", "edtLine2", "edtLine3", "edtCity", "edtCounty", "edtPostcode", 
-        "edtCountry", "edtTelephone", "edtFax", "edtEmail" ]);
+
+      let objectIds = ["edtLine1", "edtLine2", "edtLine3", "edtCity", "edtCounty", "edtPostcode", 
+        "edtCountry", "edtTelephone", "edtFax", "edtEmail" ];
+
+      for (let objectId of objectIds) {
+        this.getQxObject(objectId).setEnabled(this.getHasEditPermission());
+      }
+
     },
 
     _createQxObjectImpl(id) {
       switch(id) {
       case "comp":
         var comp = new qx.ui.container.Composite();
-        this._addToGroup(comp, "edtLine1", "Line 1", null, "line1");
-        this._addToGroup(comp, "edtLine2", "Line 2", null, "line2");
-        this._addToGroup(comp, "edtLine3", "Line 3", null, "line3");
-        this._addToGroup(comp, "edtCity", "City", null, "city");
-        this._addToGroup(comp, "edtCounty", "County", null, "county");
-        this._addToGroup(comp, "edtPostcode", "Postcode", null, "postcode");
-        this._addToGroup(comp, "edtCountry", "Country", null, "country");
-        this._addToGroup(comp, "edtTelephone", "Main Telephone", null, "telephone");
-        this._addToGroup(comp, "edtMobile", "Mobile/Alt Telephone", null, "mobile");
-        this._addToGroup(comp, "edtFax", "Main Fax", null, "fax");
-        this._addToGroup(comp, "edtEmail", "General Email", null, "email");
-        const lay = comp.getLayout();
-        lay.set({ spacingY: 3 });
+        comp.setLayout(new qx.ui.layout.VBox());
+
+        comp.add(new qx.ui.basic.Label("Line 1"));
+        comp.add(this.getQxObject("edtLine1"));
+
+        comp.add(new qx.ui.basic.Label("Line 2"));
+        comp.add(this.getQxObject("edtLine2"));
+
+        comp.add(new qx.ui.basic.Label("City"));
+        comp.add(this.getQxObject("edtCity"));
+
+        comp.add(new qx.ui.basic.Label("County"));
+        comp.add(this.getQxObject("edtCounty"));
+
+        comp.add(new qx.ui.basic.Label("Postcode"));
+        comp.add(this.getQxObject("edtPostcode"));
+                
         return comp;
 
       case "edtLine1":
@@ -122,21 +138,10 @@ qx.Class.define("myapp.AddressEditor", {
           const str = evt.getData();
           const address = myapp.PostcodeValidator.lookup(str);
           if (address) {
-            this.getWidget("edtCountry").setValue(address.getCountry());
+            this.getQxObject("edtCountry").setValue(address.getCountry());
           }
         });
         return edt;
-
-      case "edtCountry":
-        return new qx.ui.form.TextField().set({ maxWidth: 150 });
-
-      case "edtTelephone":
-      case "edtMobile":
-      case "edtFax":
-        return new qx.ui.form.TextField().set({ maxWidth: 150 });
-
-      case "edtEmail":
-        return new qx.ui.form.TextField();
       }
 
       return super._createQxObjectImpl(id);
@@ -172,9 +177,7 @@ just use the `_` or `__` prefix in the ID, just as you would for member variable
 
 ### The Objects section
 
-Object IDs can also be specified in a top-level `objects` section within your class, which is a newer alternative to defining `_createQxObjectImpl`.
-
-If a class contains both an `objects` section and an implementation of `_createQxObjectImpl`, the object ID definitions in both will be merged, with the `objects` section taking precedence.
+Object IDs can also be specified in a top-level `objects` section within your class, which is a newer alternative to implementing `_createQxObjectImpl`.
 
 Example:
 ```javascript
@@ -190,7 +193,7 @@ qx.Class.define("qx.test.MyForm", {
     this.getQxObject("compBottom").setBackgroundColor("red");
   },
 
-  //The cached object generator functions are placed in a top-level section named 'objects'
+  //The object id generator functions are placed in a top-level section named 'objects'
   objects: {
     //We name the generator functions with the object's id
     compTop() {
@@ -217,6 +220,56 @@ qx.Class.define("qx.test.MyForm", {
   }
 })
 ```
+
+#### Inheritance and overriding
+
+Objects IDs can be inherited. The behaviour is very similar to standard OOP inheritance.
+
+If a superclass has an object with the same ID as one if its subclasses, the subclass definition overrides. We can use `super._createQxObjectImpl` to access the base class's object.
+
+Example:
+```javascript
+//SuperClass.js
+qx.Class.define("demo.SuperClass", {
+  extend: qx.core.Object,
+  objects: {
+    overriddenObject() {
+      return "overridden object in superclass";
+    },
+
+    modifiedObject() {
+      return "modified object";
+    }
+    inheritedObject() {
+      return "inherited object";
+    }
+  },
+});
+
+//SubClass.js
+qx.Class.define("demo.SubClass", {
+  extend: demo.SuperClass,
+  objects: {
+    overriddenObject() {
+      return "overridden object in subclass";
+    },
+
+    modifiedObject() {
+      return (
+        super._createQxObjectImpl("modifiedObject") + " + some changes"
+      );
+    }
+  }
+});
+
+let obj = new demo.SubClass();
+console.log(obj.getQxObject("overriddenObject")); //"overridden object in subclass"
+console.log(obj.getQxObject("inheritedObject")); //"inherited object + some changes"
+console.log(obj.getQxObject("modifiedObject")); //"modified object + some changes"
+```
+
+#### Precedence
+If a class contains both an `objects` section and an implementation of `_createQxObjectImpl`, the object ID definitions in both will be merged, with the `objects` section taking precedence.
 
 ## Finding Objects
 If you want to find an object in the `this` object, 
