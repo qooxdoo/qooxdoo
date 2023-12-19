@@ -819,7 +819,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
         if (node.key?.name == "_createQxObjectImpl") {
           const injectCode = `{
-            let object = qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments);
+            let object = qx.core.MObjectId.handleObjects(${t.__classMeta.className}, this, ...arguments);
             if (object) {
               return object;
             }
@@ -1400,6 +1400,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           } else if (
             keyName == "members" ||
             keyName == "statics" ||
+            keyName == "objects" ||
             keyName == "@"
           ) {
             t.__classMeta._topLevel = {
@@ -2298,7 +2299,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             t.__classMeta._topLevel &&
             t.__classMeta._topLevel.path == path.parentPath.parentPath
           ) {
-            t.__classMeta.functionName = getKeyName(path.node.key);
+            t.__classMeta.functionName =
+              t.__classMeta._topLevel.keyName == "objects"
+                ? "_createQxObjectImpl"
+                : getKeyName(path.node.key);
             makeMeta(
               t.__classMeta._topLevel.keyName,
               t.__classMeta.functionName,
