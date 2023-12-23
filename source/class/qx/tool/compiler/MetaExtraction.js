@@ -221,9 +221,6 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           property.key.name == "implement" ||
           property.key.name == "include"
         ) {
-          if (metaData.className == "qx.core.Object") {
-            debugger;
-          }
           let name = property.key.name == "include" ? "mixins" : "interfaces";
           metaData[name] = [];
           if (property.value.type == "ArrayExpression") {
