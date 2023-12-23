@@ -1,6 +1,3 @@
-const babelCore = require("@babel/core");
-const types = require("@babel/types");
-
 qx.Class.define("qx.tool.utils.BabelHelpers", {
   extend: qx.core.Object,
 
@@ -11,6 +8,8 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
      * @returns {string}
      */
     collapseMemberExpression(node) {
+      const types = require("@babel/types");
+
       var done = false;
       function doCollapse(node) {
         if (node.type == "ThisExpression") {

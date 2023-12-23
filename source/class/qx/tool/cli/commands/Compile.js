@@ -281,8 +281,13 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
      *
      * Note that target.getAppMeta() will return null after this event has been fired
      */
-
     writtenApplications: "qx.event.type.Data",
+
+    /**
+     * Fired after writing of all meta data; data is an object containing:
+     *   maker {qx.tool.compiler.makers.Maker}
+     */
+    writtenMetaData: "qx.event.type.Data",
 
     /**
      * Fired when a class is about to be compiled.
@@ -766,18 +771,23 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
       };
 
-      // Scan all library directories
-      for (let lib of Object.values(this.__libraries)) {
-        let dir = path.join(lib.getRootDir(), lib.getSourcePath());
-        await scanImpl(dir, "");
-      }
-
       // Do the initial scan
       qx.tool.compiler.Console.info(`Loading meta data ...`);
       let metaDb = new qx.tool.compiler.MetaDatabase().set({
         rootDir: this.__metaDir
       });
       await metaDb.load();
+
+      // Scan all library directories
+      metaDb.getDatabase().libraries = {};
+      for (let lib of Object.values(this.__libraries)) {
+        let dir = path.join(lib.getRootDir(), lib.getSourcePath());
+        metaDb.getDatabase().libraries[lib.getNamespace()] = {
+          sourceDir: dir
+        };
+        await scanImpl(dir, "");
+      }
+
       for (let filename of classFiles) {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(`Processing ${filename} ...`);
@@ -785,6 +795,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         await metaDb.addFile(filename);
       }
       await metaDb.reparseAll();
+      await metaDb.save();
+      this.fireDataEvent("writtenMetaData", metaDb);
 
       // Do the inital write
       let tsWriter = null;
@@ -827,6 +839,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (filesParsed) {
           qx.tool.compiler.Console.info(`Generating typescript output ...`);
           await metaDb.reparseAll();
+          await metaDb.save();
           if (this.argv.typescript) {
             await tsWriter.process();
           }

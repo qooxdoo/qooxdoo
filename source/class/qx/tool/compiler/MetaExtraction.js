@@ -1,7 +1,5 @@
 const fs = require("fs");
 const path = require("upath");
-const babelCore = require("@babel/core");
-const types = require("@babel/types");
 
 qx.Class.define("qx.tool.compiler.MetaExtraction", {
   extend: qx.core.Object,
@@ -38,7 +36,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
      */
     async loadMeta(filename) {
       let metaData = await qx.tool.utils.Json.loadJsonAsync(filename);
-      if (metaData.version === qx.tool.compiler.MetaExtraction.VERSION) {
+      if (metaData?.version === qx.tool.compiler.MetaExtraction.VERSION) {
         this.__metaData = metaData;
       } else {
         this.__metaData = null;
@@ -109,6 +107,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         this.__metaData.classFilename = path.resolve(classFilename);
       }
 
+      const babelCore = require("@babel/core");
       let src = await fs.promises.readFile(classFilename, "utf8");
       let babelConfig = {
         options: {
@@ -222,7 +221,10 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           property.key.name == "implement" ||
           property.key.name == "include"
         ) {
-          let name = property.key.name == "include" ? "interfaces" : "mixins";
+          if (metaData.className == "qx.core.Object") {
+            debugger;
+          }
+          let name = property.key.name == "include" ? "mixins" : "interfaces";
           metaData[name] = [];
           if (property.value.type == "ArrayExpression") {
             property.value.elements.forEach(element => {
@@ -230,7 +232,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
                 qx.tool.utils.BabelHelpers.collapseMemberExpression(element)
               );
             });
-          } else {
+          } else if (property.value.type == "MemberExpression") {
             metaData[name].push(
               qx.tool.utils.BabelHelpers.collapseMemberExpression(
                 property.value

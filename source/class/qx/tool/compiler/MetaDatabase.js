@@ -10,6 +10,7 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
     this.__metaByFilename = {};
     this.__cachedMeta = {};
     this.__dirtyClasses = {};
+    this.__database = {};
   },
 
   properties: {
@@ -27,14 +28,23 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
     /** @type{Map<String,Boolean} list of classes which need to have their second pass */
     __dirtyClasses: null,
 
+    /** The database */
+    __database: null,
+
     /**
      * Saves the database
      */
     async save() {
       await qx.tool.utils.Utils.makeDirs(this.getRootDir());
-      await qx.tool.utils.Json.saveJsonAsync(this.getRootDir() + "/db.json", {
-        classnames: Object.keys(this.__metaByClassname)
-      });
+      this.__database.classnames = Object.keys(this.__metaByClassname);
+      await qx.tool.utils.Json.saveJsonAsync(
+        this.getRootDir() + "/db.json",
+        this.__database
+      );
+    },
+
+    getDatabase() {
+      return this.__database;
     },
 
     /**
@@ -48,19 +58,22 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
       this.__metaByClassname = {};
       this.__dirtyClasses = {};
       let data = await qx.tool.utils.Json.loadJsonAsync(filename);
+      this.__database = data;
 
       for (let classname of data.classnames) {
         let filename =
           this.getRootDir() + "/" + classname.replace(/\./g, "/") + ".json";
-        await qx.tool.utils.Utils.makeParentDir(filename);
-        let meta = new qx.tool.compiler.MetaExtraction(this.getRootDir());
-        await meta.loadMeta(filename);
-        this.__metaByClassname[classname] = meta;
-        let classFilename = meta.getMetaData().classFilename;
-        classFilename = path.resolve(
-          path.join(this.getRootDir(), classFilename)
-        );
-        this.__metaByFilename[classFilename] = meta;
+        if (fs.existsSync(filename)) {
+          await qx.tool.utils.Utils.makeParentDir(filename);
+          let meta = new qx.tool.compiler.MetaExtraction(this.getRootDir());
+          await meta.loadMeta(filename);
+          this.__metaByClassname[classname] = meta;
+          let classFilename = meta.getMetaData().classFilename;
+          classFilename = path.resolve(
+            path.join(this.getRootDir(), classFilename)
+          );
+          this.__metaByFilename[classFilename] = meta;
+        }
       }
     },
 
@@ -154,8 +167,6 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
           this.getRootDir() + "/" + className.replace(/\./g, "/") + ".json";
         await meta.saveMeta(filename);
       }
-
-      await this.save();
     },
 
     /**
