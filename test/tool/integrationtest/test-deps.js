@@ -166,7 +166,19 @@ test("Checks dependencies and environment settings", assert => {
       })
       .then(() => readCompileInfo().then(tmp => compileInfo = tmp))
       .then(() => readDbJson().then(tmp => db = tmp))
-      .then(() => readJson("test-deps/transpiled/testapp/Application.json").then(tmp => meta = tmp))
+      .then(async () => {
+        try {
+          await fs.promises.mkdir("meta");
+        }catch(ex) {}
+        let metaDb = new qx.tool.compiler.MetaDatabase().set({
+          rootDir: "meta"
+        });
+
+        await metaDb.addFile("testapp/source/class/testapp/Application.js");
+        await metaDb.reparseAll();
+      })
+      .then(() => readJson("meta/testapp/Application.json")
+      .then(tmp => meta = tmp))
 
       /**
        * Text translation
@@ -194,8 +206,6 @@ test("Checks dependencies and environment settings", assert => {
        */
       .then(() => {
         assert.equal(meta.className, "testapp.Application");
-        assert.equal(meta.packageName, "testapp");
-        assert.equal(meta.name, "Application");
         assert.equal(meta.superClass, "qx.application.Standalone");
       })
 
