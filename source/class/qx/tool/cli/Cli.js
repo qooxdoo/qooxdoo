@@ -197,6 +197,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           "Lint",
           "Run",
           "Test",
+          "Typescript",
           "Serve",
           "Migrate"
         ],
@@ -358,8 +359,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
             (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
         } catch (ex) {
           // Nothing
-        } 
-        // check semver-type compatibility (i.e. compatible as long as major version stays the same)
+        } // check semver-type compatibility (i.e. compatible as long as major version stays the same)
         let schemaVersion = semver.coerce(
           qx.tool.config.Lockfile.getInstance().getVersion(),
           true
@@ -613,10 +613,10 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
 
     /**
      * Returns if the file compile.js exists
-     * 
+     *
      * @returns {Boolean}
      */
-    compileJsExists(){
+    compileJsExists() {
       return this.__compileJsExists;
     },
 

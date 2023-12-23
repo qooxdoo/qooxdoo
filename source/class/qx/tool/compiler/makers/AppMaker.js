@@ -177,18 +177,6 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         }
       }
 
-      if (this.isOutputTypescript()) {
-        analyser.getLibraries().forEach(library => {
-          var symbols = library.getKnownSymbols();
-          for (var name in symbols) {
-            var type = symbols[name];
-            if (type === "class" && name !== "q" && name !== "qxWeb") {
-              analyser.addClass(name);
-            }
-          }
-        });
-      }
-
       this.__applications.forEach(function (app) {
         app.getRequiredClasses().forEach(function (className) {
           analyser.addClass(className);
@@ -284,11 +272,6 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       }
 
       await this.fireDataEventAsync("writtenApplications", allAppInfos);
-      if (this.isOutputTypescript()) {
-        await new qx.tool.compiler.targets.TypeScriptWriter(target)
-          .set({ outputTo: this.getOutputTypescriptTo() })
-          .run();
-      }
 
       await analyser.saveDatabase();
       await this.fireEventAsync("made");

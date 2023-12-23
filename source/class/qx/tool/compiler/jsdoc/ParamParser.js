@@ -26,18 +26,21 @@ qx.Class.define("qx.tool.compiler.jsdoc.ParamParser", {
   extend: qx.tool.compiler.jsdoc.CommandParser,
 
   members: {
-    parseCommand(pdoc, classname, analyser) {
+    /**
+     * @Override
+     */
+    parseCommand(pdoc, typeResolver) {
       var m = pdoc.body.match(/^([\S]+)(\s+\{([^}]+)\}([\s\S]+))??$/);
       var type;
       if (m) {
         pdoc.paramName = m[1].trim();
-        type = this.resolveType((m[3] || "").trim(), classname, analyser);
+        type = typeResolver.resolveType((m[3] || "").trim());
         pdoc.description = m[4];
       } else {
         m = pdoc.body.match(/^(\{([^}]+)\}([\s]+))(\S+)(\s+[\s\S]*)$/);
         if (m) {
           pdoc.paramName = m[4].trim();
-          type = this.resolveType((m[2] || "").trim(), classname, analyser);
+          type = typeResolver.resolveType((m[2] || "").trim());
           pdoc.description = m[5].trim();
         }
       }

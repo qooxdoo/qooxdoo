@@ -49,6 +49,14 @@
         "type": "string"
       }
     },
+    "meta": {
+      "type": "string",
+      "description": "The output directory for meta data files for each class"
+    },
+    "typescript": {
+      "type": "string",
+      "description": "The output .d.ts file containing Typescript definitions for all known classes"
+    },
     "applications": {
       "type": "array",
       "description": "Each entry describes an application to be compiled.",
@@ -259,7 +267,7 @@
           },
           "typescript": {
             "type": ["boolean", "string"],
-            "description": "When true, output the typescript definition into ``./compiled/source/qooxdoo.d.ts`. If you use a string instead of true, the string is the name of the file which is generated inside the target output directory"
+            "description": "deprecated - please see the top level `typescript` and `meta` properties"
           },
           "mangle-privates": {
             "description": " Whether and how to mangle private identifiers.",

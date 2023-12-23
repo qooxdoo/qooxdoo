@@ -577,27 +577,27 @@ is the URI.
 It is up to you to implement the mapping inside your web server so that the
 "/some/virtual/uri/path/qooxdoo" URI is able to load the files from `../qooxdoo`
 
-## TypeScript
+## TypeScript and Meta Data
 
-** Note that this has changed: you no longer add a new target ** TypeScript can
-be output by either using the `--typescript` option to `qx compile`, or by
-modifying your target(s) to add `typescript: true` ; if you use a string instead
-of `true`, the string is the name of the file which is generated inside the
-target output directory, for example:
+To output Typescript definitions, use the `qx compile --typescript` command; this
+will generate meta dxata for every class in every library, and then use the meta
+data to create a `qxoodoo.d.ts` file.
 
-```json5
-    /** Targets */
-    "targets": [
-        {
-            "type": "source",
-            "outputPath": "compiled/source",
-            typescript: true
-        }
-        /* ... snip ... */
-    ]
+Meta Data and Typescript are closely linked - you can generate the meta data on its 
+own by just running `qx compile --meta`.  Meta data is used by applications such as
+the API Viewer
+
+You can control the directory that meta data is output to and the name of the qooxdoo.d.ts 
+file by using the `meta` and `typescript` properties in `compile.json`; these are the
+defaults:
+
+```
+  "meta": "compiled/meta",
+  "typescript": "compiled/qooxdoo.d.ts",
 ```
 
-The TypeScript definition is output into `./compiled/source/qooxdoo.d.ts`.
+** Note that this has changed: you no longer add a new target, nor do you need to add 
+`typescript: true` to one of your existing targets. **
 
 ## Eslint
 

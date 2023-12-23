@@ -134,13 +134,15 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
       return result;
     },
 
-    parseJsDoc(jsdoc, classname, analyser) {
+    /**
+     *
+     * @param {*} jsdoc POJO
+     */
+    parseJsDoc(jsdoc, typeResolver) {
       for (var key in jsdoc) {
         var parser = this.__PARSERS[key];
         if (parser) {
-          jsdoc[key].forEach(pdoc =>
-            parser.parseCommand(pdoc, classname, analyser)
-          );
+          jsdoc[key].forEach(pdoc => parser.parseCommand(pdoc, typeResolver));
         }
       }
     },

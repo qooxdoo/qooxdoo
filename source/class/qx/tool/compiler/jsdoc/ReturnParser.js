@@ -26,10 +26,13 @@ qx.Class.define("qx.tool.compiler.jsdoc.ReturnParser", {
   extend: qx.tool.compiler.jsdoc.CommandParser,
 
   members: {
-    parseCommand(pdoc, classname, analyser) {
+    /**
+     * @Override
+     */
+    parseCommand(pdoc, typeResolver) {
       var m = pdoc.body.match(/^(\{([^}]+)\}([\s\S]+)?)?$/);
       if (m) {
-        pdoc.type = this.resolveType((m[2] || "").trim(), classname, analyser);
+        pdoc.type = typeResolver.resolveType((m[2] || "").trim());
         pdoc.description = m[3] || "";
       } else {
         delete pdoc.type;

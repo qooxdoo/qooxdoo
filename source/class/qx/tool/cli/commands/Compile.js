@@ -187,9 +187,15 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         alias: "f"
       },
 
+      meta: {
+        describe: "Outputs meta data",
+        type: "boolean"
+      },
+
       typescript: {
         alias: "T",
-        describe: "Outputs typescript definitions in qooxdoo.d.ts",
+        describe:
+          "Outputs typescript definitions in qooxdoo.d.ts, implies --meta",
         type: "boolean"
       },
 
@@ -352,6 +358,12 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
     __makers: null,
     __libraries: null,
     __outputDirWasCreated: false,
+
+    /** @type{String} the path to the root of the meta files by classname */
+    __metaDir: null,
+
+    /** @type{String} the name of the typescript file to generate */
+    __typescriptFile: null,
 
     /*
      * @Override
@@ -562,6 +574,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
       };
 
+      let isFirstWatcher = true;
+
       await qx.Promise.all(
         makers.map(async maker => {
           var analyser = maker.getAnalyser();
@@ -701,9 +715,133 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
 
           watch.setConfigFilenames(arr);
+
+          if (
+            target instanceof qx.tool.compiler.targets.SourceTarget &&
+            isFirstWatcher
+          ) {
+            isFirstWatcher = false;
+            try {
+              if (this.argv.meta || this.argv.typescript) {
+                await this.__attachTypescriptWatcher(watch);
+              }
+            } catch (ex) {
+              qx.tool.compiler.Console.error(ex);
+            }
+          }
+
           return watch.start();
         })
       );
+
+      if (!this.argv.watch) {
+        try {
+          if (this.argv.meta || this.argv.typescript) {
+            await this.__attachTypescriptWatcher(null);
+          }
+        } catch (ex) {
+          qx.tool.compiler.Console.error(ex);
+        }
+      }
+    },
+
+    async __attachTypescriptWatcher(watch) {
+      let classFiles = [];
+
+      // Scans a directory recursively to find all .js files
+      const scanImpl = async filename => {
+        let basename = path.basename(filename);
+        let stat = await fs.promises.stat(filename);
+        if (stat.isFile() && basename.match(/\.js$/)) {
+          classFiles.push(filename);
+        } else if (
+          stat.isDirectory() &&
+          (basename == "." || basename[0] != ".")
+        ) {
+          let files = await fs.promises.readdir(filename);
+          for (let i = 0; i < files.length; i++) {
+            let subname = path.join(filename, files[i]);
+            await scanImpl(subname);
+          }
+        }
+      };
+
+      // Scan all library directories
+      for (let lib of Object.values(this.__libraries)) {
+        let dir = path.join(lib.getRootDir(), lib.getSourcePath());
+        await scanImpl(dir, "");
+      }
+
+      // Do the initial scan
+      qx.tool.compiler.Console.info(`Loading meta data ...`);
+      let metaDb = new qx.tool.compiler.MetaDatabase().set({
+        rootDir: this.__metaDir
+      });
+      await metaDb.load();
+      for (let filename of classFiles) {
+        if (this.argv.verbose) {
+          qx.tool.compiler.Console.info(`Processing ${filename} ...`);
+        }
+        await metaDb.addFile(filename);
+      }
+      await metaDb.reparseAll();
+
+      // Do the inital write
+      let tsWriter = null;
+      if (this.argv.typescript) {
+        qx.tool.compiler.Console.info(`Generating typescript output ...`);
+        tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
+        if (this.__typescriptFile) {
+          tsWriter.setOutputTo(this.__typescriptFile);
+        } else {
+          tsWriter.setOutputTo(path.join(this.__metaDir, "qooxdoo.d.ts"));
+        }
+        await tsWriter.process();
+      }
+
+      if (!watch) {
+        return;
+      }
+
+      // Redo the files that change, as they change
+      classFiles = {};
+      let debounce = new qx.tool.utils.Debounce(async () => {
+        let filesParsed = false;
+        qx.tool.compiler.Console.info(`Loading meta data ...`);
+        while (true) {
+          let arr = Object.keys(classFiles);
+          if (arr.length == 0) {
+            break;
+          }
+          filesParsed = true;
+          classFiles = {};
+          arr.forEach(filename => {
+            if (this.argv.verbose) {
+              qx.tool.compiler.Console.info(
+                `Processing meta for ${filename} ...`
+              );
+            }
+            metaDb.addFile(filename);
+          });
+        }
+        if (filesParsed) {
+          qx.tool.compiler.Console.info(`Generating typescript output ...`);
+          await metaDb.reparseAll();
+          if (this.argv.typescript) {
+            await tsWriter.process();
+          }
+        }
+      });
+
+      // Watch for changes
+      watch.addListener("fileChanged", evt => {
+        let data = evt.getData();
+        if (data.fileType == "source") {
+          let filename = data.library.getFilename(data.filename);
+          classFiles[filename] = true;
+          debounce.run();
+        }
+      });
     },
 
     /**
@@ -923,6 +1061,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
        */
       let targetOutputPaths = {};
       let makers = [];
+
+      this.__metaDir = data.meta;
+      if (!this.__metaDir) {
+        this.__metaDir = path.relative(
+          process.cwd(),
+          path.resolve(targetConfigs[0].outputPath, "../meta")
+        );
+      }
 
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
@@ -1151,15 +1297,22 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
 
         if (typeof targetConfig.typescript == "string") {
-          maker.set({
-            outputTypescript: true,
-            outputTypescriptTo: targetConfig.typescript
-          });
-        } else if (typeof targetConfig.typescript == "boolean") {
-          maker.set({ outputTypescript: true });
-        }
-        if (this.argv["typescript"]) {
-          maker.set({ outputTypescript: true });
+          Console.warn(
+            "The 'typescript' property inside a target definition is deprecated - please see top level 'typescript' and 'meta' properties"
+          );
+          if (this.__typescriptFile) {
+            Console.warn(
+              "Multiple conflicting locations for the Typescript output - choosing to write to " +
+                this.__typescriptFile +
+                " and NOT " +
+                targetConfig.typescript
+            );
+          } else {
+            this.__typescriptFile = path.relative(
+              process.cwd(),
+              path.resolve(targetConfig.typescript)
+            );
+          }
         }
 
         if (data.environment) {
@@ -1544,11 +1697,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
       if (type == "source") {
         return qx.tool.compiler.targets.SourceTarget;
-      }
-      if (type == "typescript") {
-        throw new qx.tool.utils.Utils.UserError(
-          "Typescript targets are no longer supported - please use `typescript: true` in source target instead"
-        );
       }
       if (type) {
         var targetClass;

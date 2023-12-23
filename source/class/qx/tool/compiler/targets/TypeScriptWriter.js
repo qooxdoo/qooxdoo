@@ -26,15 +26,20 @@ var path = require("path");
 var fs = require("fs");
 const { promisify } = require("util");
 const readFile = promisify(fs.readFile);
+
 /**
  * Generates TypeScript .d.ts files
  */
 qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
   extend: qx.core.Object,
 
-  construct(target) {
+  /**
+   *
+   * @param {qx.tool.compiler.targets.MetaDatabase} metaDb loaded database
+   */
+  construct(metaDb) {
     super();
-    this.__target = target;
+    this.__metaDb = metaDb;
   },
 
   properties: {
@@ -45,98 +50,81 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
   },
 
   members: {
-    __indent: "    ",
+    /** @type{qx.tool.compiler.MetaDatabase} */
+    __metaDb: null,
+
+    /** @type{Stream} where to write the .d.ts */
     __outputStream: null,
-    __classes: null,
-    __target: null,
-    __apiCache: null,
-    __dirname: null,
+
+    __outputStreamClosed: null,
+
+    /** @type{qx.tool.compiler.MetaExtraction} */
     __currentClass: null,
 
+    /** Current indent */
+    __indent: "    ",
+
     /**
-     * Generates the .d.ts file
-     *
-     * @param application
-     *          {qx.tool.compiler.app.Application?} the application; if not
-     *          provided, all classes are output
+     * Opens the stream to write to
      */
-    async run(application) {
-      this.__apiCache = {};
-      await new Promise((resolve, reject) => {
-        var time = new Date();
-        this.__outputStream = fs.createWriteStream(
-          path.join(this.__target.getOutputDir(), this.getOutputTo())
-        );
+    async open() {
+      var time = new Date();
+      this.__outputStream = fs.createWriteStream(this.getOutputTo());
+      this.__outputStreamClosed = new qx.Promise();
+      this.__outputStream.on("close", () =>
+        this.__outputStreamClosed.resolve()
+      );
 
-        this.write(`// Generated declaration file at ${time}\n`);
+      this.write(`// Generated declaration file at ${time}\n`);
 
-        this.writeBase()
-          .then(async () => {
-            var analyser = this.__target.getAnalyser();
-            this.__classes = new qx.tool.utils.IndexedArray();
-            if (application) {
-              application.getDependencies().forEach(classname => {
-                if (classname != "q" && classname != "qxWeb") {
-                  this.__classes.push(classname);
-                }
-              });
-            } else {
-              analyser.getLibraries().forEach(library => {
-                var symbols = library.getKnownSymbols();
-                for (var name in symbols) {
-                  var type = symbols[name];
-                  if (type === "class" && name !== "q" && name !== "qxWeb") {
-                    this.__classes.push(name);
-                  }
-                }
-              });
-            }
-            this.__classes.sort();
+      let str = qx.util.ResourceManager.getInstance().toUri(
+        "qx/tool/cli/templates/TypeScriptWriter-base_declaration.txt"
+      );
+      let baseDeclaration = await fs.promises.readFile(str, "utf8");
+      this.write(baseDeclaration);
+    },
 
-            var lastPackageName = null;
-            var classIndex = 0;
-            var next = () => {
-              if (classIndex >= this.__classes.getLength()) {
-                return undefined;
-              }
+    /**
+     * Closes the stream
+     */
+    async close() {
+      this.write("}\n");
+      await this.__outputStream.end();
+      this.__outputStream = null;
+      await this.__outputStreamClosed;
+      this.__outputStreamClosed = null;
+    },
 
-              var className = this.__classes.getItem(classIndex++);
-              var pos = className.lastIndexOf(".");
-              var packageName = "";
-              if (pos > -1) {
-                packageName = className.substring(0, pos);
-              }
-              if (lastPackageName != packageName) {
-                if (lastPackageName !== null) {
-                  this.write("}\n");
-                }
-                if (packageName) {
-                  this.write("declare module " + packageName + " {\n");
-                } else {
-                  this.write("declare {\n");
-                }
-                lastPackageName = packageName;
-              }
-              return this.loadAPIFile(className)
-                .then(meta => this.writeClass(meta))
-                .then(() => next())
-                .catch(err =>
-                  qx.tool.compiler.Console.error(
-                    "Error while processing file: " +
-                      className +
-                      " error: " +
-                      err.stack
-                  )
-                );
-            };
-
-            return next()
-              .then(() => this.write("}\n"))
-              .then(() => this.__outputStream.end());
-          })
-          .then(resolve)
-          .catch(reject);
-      });
+    /**
+     * Processes a list of filename and generates the .d.ts
+     *
+     */
+    async process() {
+      await this.open();
+      let classnames = this.__metaDb.getClassnames();
+      classnames.sort();
+      let lastPackageName = null;
+      for (let classname of classnames) {
+        let metaData = this.__metaDb.getMetaData(classname);
+        var pos = classname.lastIndexOf(".");
+        var packageName = "";
+        if (pos > -1) {
+          packageName = classname.substring(0, pos);
+        }
+        if (lastPackageName != packageName) {
+          if (lastPackageName !== null) {
+            this.write("}\n");
+          }
+          if (packageName) {
+            this.write("declare module " + packageName + " {\n");
+          } else {
+            this.write("declare {\n");
+          }
+          lastPackageName = packageName;
+        }
+        await this.writeClass(metaData);
+      }
+      await this.close();
     },
 
     /**
@@ -147,244 +135,13 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     },
 
     /**
-     * Load a single API file
-     * @async
-     */
-    loadAPIFile(classname) {
-      if (
-        classname === "Object" ||
-        classname === "Array" ||
-        classname === "Error"
-      ) {
-        return null;
-      }
-      if (this.__apiCache[classname]) {
-        return Promise.resolve(this.__apiCache[classname]);
-      }
-      var fileName = path.join(
-        this.__target.getOutputDir(),
-        "transpiled",
-        classname.replace(/\./g, "/") + ".json"
-      );
-
-      return readFile(fileName, "UTF-8")
-        .then(content => (this.__apiCache[classname] = JSON.parse(content)))
-        .catch(err =>
-          qx.tool.compiler.Console.error(
-            "Error parsing " + classname + ": " + err.stack
-          )
-        );
-    },
-
-    /**
-     * Write some util declarations out that will help with the rest
-     * @async
-     */
-    writeBase() {
-      return readFile(
-        path.join(
-          qx.tool.utils.Utils.getTemplateDir(),
-          "TypeScriptWriter-base_declaration.txt"
-        ),
-
-        "UTF-8"
-      ).then(content => this.write(content));
-    },
-
-    /**
-     * Do the mapping of types from Qooxdoo to TypeScript
-     */
-    getType(t) {
-      var defaultType = "any";
-      if (!t || t == "[[ Function ]]") {
-        return defaultType;
-      }
-      if (typeof t == "object") {
-        t = t.name;
-      }
-
-      // Check if we have a mapping for this type
-      var result = qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[t];
-      if (result) {
-        return result;
-      }
-
-      if (this.__classes.contains(t)) {
-        return t;
-      }
-
-      // We don't know the type
-      // qx.tool.compiler.Console.error("Unknown type: " + t);
-      return defaultType;
-    },
-
-    /**
-     * Write a constructor
-     */
-    writeConstructor(methodMeta) {
-      this.write(
-        this.__indent +
-          "constructor (" +
-          this.serializeParameters(methodMeta, true) +
-          ");\n"
-      );
-    },
-
-    /**
-     * Write all the methods of a type
-     */
-    writeMethods(methods, classMeta, isStatic = false) {
-      if (!methods || !Object.keys(methods).length) {
-        return;
-      }
-      var IGNORE =
-        qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
-          this.__currentClass.className
-        ];
-
-      var comment = isStatic ? "Statics" : "Members";
-      for (var name in methods) {
-        var methodMeta = methods[name];
-        if (methodMeta.type == "function") {
-          var hideMethod = IGNORE && IGNORE.indexOf(name) > -1;
-
-          var decl = "";
-          comment = "";
-
-          if (methodMeta.access) {
-            if (methodMeta.access === "protected") {
-              decl += "protected ";
-            }
-            if (methodMeta.access === "private") {
-              continue;
-            }
-          }
-          if (isStatic) {
-            decl += "static ";
-          }
-
-          if (classMeta.type != "interface" && methodMeta.abstract) {
-            decl += "abstract ";
-            comment += "Abstract ";
-          }
-          if (methodMeta.mixin) {
-            comment += "Mixin ";
-          }
-          if (methodMeta.overriddenFrom) {
-            comment += "Overridden from " + methodMeta.overriddenFrom + " ";
-          }
-          decl += this.__escapeMethodName(name) + "(";
-          decl += this.serializeParameters(methodMeta);
-          decl += ")";
-
-          var returnType = "void";
-          if (methodMeta.jsdoc && methodMeta.jsdoc["@return"]) {
-            var tag = methodMeta.jsdoc["@return"][0];
-            if (tag && tag.type) {
-              returnType = this.getType(tag.type);
-            }
-          }
-          decl += ": " + returnType;
-
-          if (comment) {
-            comment = " // " + comment;
-          }
-
-          let hasDescription =
-            methodMeta.jsdoc &&
-            methodMeta.jsdoc["@description"] &&
-            methodMeta.jsdoc["@description"][0];
-
-          if (hasDescription) {
-            this.write(this.__indent + "/**\n");
-            methodMeta.jsdoc["@description"][0].body
-              .split("\n")
-              .forEach(line => {
-                this.write(this.__indent + " * " + line + "\n");
-              });
-            this.write(this.__indent + " */\n");
-          }
-
-          this.write(
-            this.__indent +
-              (hideMethod ? "// " : "") +
-              decl +
-              ";" +
-              comment +
-              "\n"
-          );
-        }
-      }
-    },
-
-    /**
-     * Escapes the name with quote marks, only if necessary
-     *
-     * @param name
-     *          {String} the name to escape
-     * @return {String} the escaped (if necessary) name
-     */
-    __escapeMethodName(name) {
-      if (!name.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)) {
-        return '"' + name + '"';
-      }
-      return name;
-    },
-
-    /**
-     * Serializes all the arguments of a method. Once one parameter is optional,
-     * the remaining ones are also optional (is a TypeScript requirement)
-     *
-     * @return {String}
-     */
-    serializeParameters(methodMeta, optional = false) {
-      var result = "";
-      if (methodMeta && methodMeta.jsdoc) {
-        var params = methodMeta.jsdoc["@param"];
-        if (params) {
-          params.forEach((paramMeta, paramIndex) => {
-            var type = "any";
-            var paramName = paramMeta.paramName || "unnamed" + paramIndex;
-            var decl = paramName;
-            if (paramName == "varargs") {
-              optional = true;
-            }
-            if (paramMeta.optional || optional) {
-              decl += "?";
-              optional = true;
-            }
-            decl += ": ";
-            if (paramMeta.type) {
-              var tmp = null;
-              if (qx.lang.Type.isArray(paramMeta.type)) {
-                if (paramMeta.type.length == 1) {
-                  tmp = paramMeta.type[0];
-                }
-              } else {
-                tmp = paramMeta.type;
-              }
-              if (tmp) {
-                type = this.getType(tmp);
-                if (tmp.dimensions) {
-                  type += "[]";
-                }
-              }
-            }
-            decl += type;
-            if (paramIndex > 0) {
-              result += ", ";
-            }
-            result += decl;
-          });
-        }
-      }
-      return result;
-    },
-
-    /**
      * Write the class or interface declaration
      */
     async writeClass(meta) {
+      if (!meta.className) {
+        return;
+      }
+
       this.__currentClass = meta;
       // qx.tool.compiler.Console.info("Processing class " + meta.packageName + "." + meta.name);
       var extendsClause = "";
@@ -406,7 +163,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         type = "abstract " + type;
       }
       this.write("  // " + meta.className + "\n");
-      this.write("  " + type + meta.name + extendsClause);
+      let name = meta.className;
+      let pos = name.lastIndexOf(".");
+      if (pos > -1) {
+        name = name.substring(pos + 1);
+      }
+      this.write("  " + type + name + extendsClause);
 
       if (meta.interfaces && meta.interfaces.length) {
         this.write(" implements " + meta.interfaces.join(", "));
@@ -414,7 +176,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       this.write(" {\n");
 
-      if (meta.type == "class") {
+      if (meta.type == "class" && meta.construct) {
         this.writeConstructor(meta.construct);
       }
 
@@ -437,8 +199,255 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       this.writeMethods(meta.statics, meta, true);
       this.writeMethods(meta.members, meta);
+
+      if (meta.properties) {
+        this.writeProperties(meta);
+      }
+
       this.write("\n  }\n");
       this.__currentClass = null;
+    },
+
+    /**
+     * Writes the property accessors
+     *
+     * @param {*} meta
+     */
+    writeProperties(meta) {
+      for (let propertyName in meta.properties) {
+        let propertyMeta = meta.properties[propertyName];
+        let upname = qx.lang.String.firstUp(propertyName);
+        let type = propertyMeta.check || "any";
+        if (!propertyMeta.group) {
+          this.__writeMethod("get" + upname, {
+            returnType: type,
+            description: `Gets the ${propertyName} property`
+          });
+          if (type == "Boolean") {
+            this.__writeMethod("is" + upname, {
+              returnType: type,
+              description: `Gets the ${propertyName} property`
+            });
+          }
+        }
+        this.__writeMethod("set" + upname, {
+          params: [{ name: "value", type }],
+          description: `Sets the ${propertyName} property`
+        });
+        this.__writeMethod("reset" + upname, {
+          description: `Resets the ${propertyName} property`
+        });
+
+        if (propertyMeta.async) {
+          this.__writeMethod("get" + upname + "Async", {
+            returnType: type,
+            description: `Gets the ${propertyName} property, asynchronously`
+          });
+          if (type == "Boolean") {
+            this.__writeMethod("is" + upname + "Async", {
+              returnType: type,
+              description: `Gets the ${propertyName} property, asynchronously`
+            });
+          }
+          this.__writeMethod("set" + upname + "Async", {
+            params: [{ name: "value", type }],
+            description: `Sets the ${propertyName} property`
+          });
+        }
+      }
+    },
+
+    /**
+     * Do the mapping of types from Qooxdoo to TypeScript
+     *
+     * @param {String} typename the name of the type to convert
+     * @return {String} the Typescript name, if possible
+     */
+    getType(typename) {
+      var defaultType = "any";
+      if (!typename || typename == "[[ Function ]]") {
+        return defaultType;
+      }
+      if (typeof typename == "object") {
+        typename = typename.name;
+      }
+
+      // Check if we have a mapping for this type
+      var result =
+        qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[typename];
+      if (result) {
+        return result;
+      }
+
+      if (this.__metaDb.getMetaData(typename)) {
+        return typename;
+      }
+
+      // We don't know the type
+      // qx.tool.compiler.Console.error("Unknown type: " + typename);
+      return defaultType;
+    },
+
+    /**
+     * Write a constructor
+     */
+    writeConstructor(methodMeta) {
+      this.write(
+        this.__indent +
+          "constructor (" +
+          this.__serializeParameters(methodMeta.params) +
+          ");\n"
+      );
+    },
+
+    /**
+     * @typedef {Object} MethodMeta
+     * @property {Boolean} access
+     * @property {Boolean} abstract
+     * @property {Boolean} async
+     * @property {Boolean} static
+     * @property {Boolean} mixin
+     * @property {Array} parameters JSDoc parameters and types
+     * @property {*} returnType JSDoc return type
+     * @property {String} description
+     * @property {Boolean} hideMethod
+     *
+     * @param {String} methodName
+     * @param {MethodMeta} config
+     */
+    __writeMethod(methodName, config) {
+      var decl = "";
+      var comment = "";
+
+      if (config.access === "protected") {
+        decl += "protected ";
+      }
+      if (config.access === "private") {
+        return;
+      }
+      if (config.static) {
+        decl += "static ";
+      }
+
+      if (config.abstract) {
+        decl += "abstract ";
+        comment += "Abstract ";
+      }
+      if (config.mixin) {
+        comment += "Mixin ";
+      }
+      decl += this.__escapeMethodName(methodName) + "(";
+
+      if (config.parameters) {
+        decl += this.__serializeParameters(config.parameters);
+      }
+      decl += ")";
+
+      var returnType = "void";
+      if (config.returnType) {
+        returnType = this.getType(config.returnType.type);
+      }
+      decl += ": " + returnType;
+
+      if (comment) {
+        comment = " // " + comment;
+      }
+
+      if (config.description) {
+        this.write(this.__indent + "/**\n");
+        config.description.split("\n").forEach(line => {
+          this.write(this.__indent + " * " + line + "\n");
+        });
+        this.write(this.__indent + " */\n");
+      }
+
+      this.write(
+        this.__indent +
+          (config.hideMethod ? "// " : "") +
+          decl +
+          ";" +
+          comment +
+          "\n"
+      );
+    },
+
+    __serializeParameters(params) {
+      let arr = params.map(paramMeta => {
+        var decl = paramMeta.name;
+        let optional = paramMeta.optional;
+        if (paramMeta.name == "varargs") {
+          optional = true;
+        }
+        if (optional) {
+          decl += "?";
+        }
+        decl += ": ";
+        let type = "any";
+        if (paramMeta.type) {
+          var tmp = null;
+          if (qx.lang.Type.isArray(paramMeta.type)) {
+            if (paramMeta.type.length == 1) {
+              tmp = paramMeta.type[0];
+            }
+          } else {
+            tmp = paramMeta.type;
+          }
+          if (tmp) {
+            type = this.getType(tmp);
+            if (tmp.dimensions) {
+              type += "[]";
+            }
+          }
+        }
+        decl += type;
+        return decl;
+      });
+      return arr.join(", ");
+    },
+
+    /**
+     * Write all the methods of a type
+     */
+    writeMethods(methods, classMeta, isStatic = false) {
+      if (!methods || !Object.keys(methods).length) {
+        return;
+      }
+      var IGNORE =
+        qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
+          this.__currentClass.className
+        ];
+
+      var comment = isStatic ? "Statics" : "Members";
+      for (var name in methods) {
+        var methodMeta = methods[name];
+        if (methodMeta.type == "function") {
+          this.__writeMethod(name, {
+            access: methodMeta.access,
+            abstract: classMeta.type != "interface" && methodMeta.abstract,
+            async: methodMeta.async,
+            static: isStatic,
+            mixin: methodMeta.mixin,
+            parameters: methodMeta.params,
+            returnType: methodMeta.returnType,
+            description: methodMeta.jsdoc?.["@description"]?.[0]?.body,
+            hideMethod: IGNORE && IGNORE.indexOf(name) > -1
+          });
+        }
+      }
+    },
+
+    /**
+     * Escapes the name with quote marks, only if necessary
+     *
+     * @param name
+     *          {String} the name to escape
+     * @return {String} the escaped (if necessary) name
+     */
+    __escapeMethodName(name) {
+      if (!name.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)) {
+        return '"' + name + '"';
+      }
+      return name;
     },
 
     /**
