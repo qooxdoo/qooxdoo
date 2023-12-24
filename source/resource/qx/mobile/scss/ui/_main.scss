@@ -19,7 +19,7 @@
 }
 
 .content:not(.group) .form-title {
-  text-indent:rem(15);
+  text-indent:px-to-rem(15);
 }
 
 .root, .scroll {
@@ -28,30 +28,30 @@
 }
 
 .group {
-  padding: rem(10);
+  padding: px-to-rem(10);
 }
 
 .group.bordered {
   @include border-radius($group-border-radius);
   @include background($group-background);
 
-  border: rem(1) solid $group-border-color;
-  margin: rem(10);
+  border: px-to-rem(1) solid $group-border-color;
+  margin: px-to-rem(10);
 }
 
 .qx-hbox:not(.qx-flex-reverse) > .gap:not(.exclude) + .gap {
-  margin-left: rem(5);
+  margin-left: px-to-rem(5);
 }
 
 div:not(.qx-hbox):not(.qx-flex-reverse) > .gap:not(.exclude) + .gap {
-  margin-top: rem(5);
+  margin-top: px-to-rem(5);
 }
 
 .qx-hbox.qx-flex-reverse > .gap:not(.exclude) + .gap {
-  margin-right: rem(5);
+  margin-right: px-to-rem(5);
 }
 
 div:not(.qx-hbox).qx-flex-reverse > .gap:not(.exclude) + .gap {
-  margin-bottom: rem(5);
+  margin-bottom: px-to-rem(5);
 }
 

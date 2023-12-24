@@ -2927,12 +2927,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
       return info;
     },
-
     /**
      * Adds a required asset
      * @param path
-     */
-    _requireAsset(path) {
+     */ _requireAsset(path) {
       if (path.indexOf("/") < 0 && path.indexOf(".") > -1) {
         path = path.replace(/\./g, "/");
       }
@@ -2940,7 +2938,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__requiredAssets.push(path);
       }
     },
-
     /**
      * Returns the assets required by the class
      * @returns
@@ -3115,6 +3112,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "Uint16Array",
       "Uint32Array",
       "URIError",
+      "URL",
       "WeakMap",
       "WeakSet",
       "arguments",

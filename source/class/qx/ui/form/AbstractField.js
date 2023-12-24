@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.form.AbstractField", {
     if (value != null) {
       this.setValue(value);
     }
-
-    this.getContentElement().addListener("change", this._onChangeContent, this);
+    let el = this.getContentElement();
+    el.addListener("change", this._onChangeContent, this);
 
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
@@ -382,21 +382,13 @@ qx.Class.define("qx.ui.form.AbstractField", {
      */
     _renderContentElement(innerHeight, element) {
       //use it in child classes
-    },
-
-    // overridden
+    }, // overridden
     _createContentElement() {
       // create and add the input element
-      var el = this._createInputElement();
-
-      // initialize the html input
+      var el = this._createInputElement(); // initialize the html input
       el.setSelectable(this.getSelectable());
-      el.setEnabled(this.getEnabled());
-
-      // Add listener for input event
-      el.addListener("input", this._onHtmlInput, this);
-
-      // Disable HTML5 spell checking
+      el.setEnabled(this.getEnabled()); // Add listener for input event
+      el.addListener("input", this._onHtmlInput, this); // Disable HTML5 spell checking
       el.setAttribute("spellcheck", "false");
       el.addClass("qx-abstract-field");
 

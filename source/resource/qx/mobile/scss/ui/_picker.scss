@@ -10,7 +10,7 @@
 
   .list-item {
     @include border-radius(0);
-    padding: rem(10);
+    padding: px-to-rem(10);
     border-top: none;
     border-bottom: none;
     border: none;
@@ -128,9 +128,9 @@
     white-space: nowrap;
     font-size: $picker-label-font-size;
     line-height: $picker-label-height;
-    padding-left: rem(5);
-    padding-right: rem(5);
-    
+    padding-left: px-to-rem(5);
+    padding-right: px-to-rem(5);
+
     top: -$picker-label-height * 0.5;
   }
 
@@ -154,7 +154,7 @@
     background-color:transparent !important;
     background-size: 100% $picker-height;
 
-    
+
     width: 100%;
     height: 100%;
     z-index: 1000;
@@ -168,12 +168,12 @@
     border-right:  $picker-spinning-wheel-divider-width solid $picker-spinning-wheel-divider-color;
   }
 
-  // Selected Area Overlay 
+  // Selected Area Overlay
   .picker-container:before {
     @include pointer-none();
 
     content:"";
-    
+
     position:absolute;
     width:100%;
     z-index:1001;
@@ -181,7 +181,7 @@
     top: $picker-height*0.5;
     left: 0px;
 
-    height: $picker-label-height; 
+    height: $picker-label-height;
     margin-top: -($picker-label-height*0.5) - ($picker-highlight-border-width);
 
     border-top:  $picker-highlight-border-width solid $picker-highlight-color;

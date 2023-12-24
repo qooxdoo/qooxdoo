@@ -839,15 +839,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       let libraries = (this.__libraries = {});
-      await qx.Promise.all(
-        data.libraries.map(async libPath => {
-          var library = await qx.tool.compiler.app.Library.createLibrary(
-            libPath
-          );
+      let librariesArray = [];
+      for (let libPath of data.libraries) {
+        let library = await qx.tool.compiler.app.Library.createLibrary(libPath);
 
-          libraries[library.getNamespace()] = library;
-        })
-      );
+        libraries[library.getNamespace()] = library;
+        librariesArray.push(library);
+      }
 
       // Search for Qooxdoo library if not already provided
       var qxLib = libraries["qx"];
@@ -855,6 +853,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let qxPath = await qx.tool.config.Utils.getQxPath();
         var library = await qx.tool.compiler.app.Library.createLibrary(qxPath);
         libraries[library.getNamespace()] = library;
+        librariesArray.push(library);
         qxLib = libraries["qx"];
       }
       if (this.argv.verbose) {

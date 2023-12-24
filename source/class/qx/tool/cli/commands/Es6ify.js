@@ -54,6 +54,13 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
           arrowFunctions: {
             choices: ["never", "always", "careful", "aggressive"],
             default: "careful"
+          },
+
+          singleLineBlocks: {
+            type: "boolean",
+            default: false,
+            describe:
+              "Force braces around single line bodies for if, for, while, and do while"
           }
         }
       };
@@ -89,7 +96,8 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
         let ify = new qx.tool.compiler.Es6ify(filename);
         ify.set({
           arrowFunctions: this.argv.arrowFunctions,
-          overwrite: this.argv.overwrite
+          overwrite: this.argv.overwrite,
+          singleLineBlocks: this.argv.singleLineBlocks
         });
 
         await ify.transform();

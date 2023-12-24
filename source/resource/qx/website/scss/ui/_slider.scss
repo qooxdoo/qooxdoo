@@ -10,7 +10,7 @@ $slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
   overflow-y: visible;
   overflow-x: visible;
   cursor: pointer;
-  padding: 0 rem(18);
+  padding: 0 px-to-rem(18);
 }
 
 .qx-slider:before {
@@ -18,12 +18,12 @@ $slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
   content: '';
   width: 100%;
   line-height: 0.3;
-  border: rem(1) solid $slider-border;
+  border: px-to-rem(1) solid $slider-border;
   display: inline-block;
-  @include border-radius(rem(3));
+  @include border-radius(px-to-rem(3));
   @include background($slider-background);
-  top: rem(26);
-  height: rem(7);
+  top: px-to-rem(26);
+  height: px-to-rem(7);
   @include box-sizing(border-box);
 }
 
@@ -34,15 +34,15 @@ $slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
 
   @include user-select(none);
 
-  width: rem(36);
-  height: rem(36);
+  width: px-to-rem(36);
+  height: px-to-rem(36);
 
   font-weight: bold;
   text-align: center;
 
-  border: rem(1) solid $slider-border;
+  border: px-to-rem(1) solid $slider-border;
   @include background($slider-knob-background);
-  @include border-radius(rem(60));
+  @include border-radius(px-to-rem(60));
 
   line-height: 0;
   padding: 0;
@@ -54,12 +54,12 @@ $slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
 }
 
 .qx-slider[disabled]:before {
-  border: rem(1) solid lighten($slider-border, 40%);
+  border: px-to-rem(1) solid lighten($slider-border, 40%);
   @include background($slider-background-disabled);
 }
 
 .qx-slider-knob[disabled] {
-  border: rem(1) solid lighten($slider-border, 30%);
+  border: px-to-rem(1) solid lighten($slider-border, 30%);
   @include background($slider-knob-background-disabled);
   color: lighten($slider-border, 25%);
 }

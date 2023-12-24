@@ -30,7 +30,7 @@
 
   overflow-y:scroll;
   overflow-x:scroll;
-  
+
   -webkit-overflow-scrolling:touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
@@ -59,7 +59,7 @@
 .scrollbarV > div {
   @include background-clip(padding-box);
   @include box-sizing(border-box);
-  @include border-radius(rem(4));
+  @include border-radius(px-to-rem(4));
 
   background-color: #888888;
   position: absolute;
@@ -70,10 +70,10 @@
 
 .scrollbarV {
   position: absolute;
-  top: rem(2);
-  right: rem(2);
-  bottom: rem(2);
-  width: rem(6);
+  top: px-to-rem(2);
+  right: px-to-rem(2);
+  bottom: px-to-rem(2);
+  width: px-to-rem(6);
   z-index: 100;
 
   margin-top: 0 !important;

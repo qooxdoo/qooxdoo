@@ -615,15 +615,11 @@ qx.Class.define("qx.test.data.DataArray", {
         // Error was expected. All good.
       }
     },
-
     testRemoveAtNativeRemoveAtEnabled() {
       delete qx.core.Environment.getChecks()["qx.data.Array.deleteAsRemoveAt"];
       qx.core.Environment.invalidateCacheKey("qx.data.Array.deleteAsRemoveAt");
       qx.core.Environment.add("qx.data.Array.deleteAsRemoveAt", true);
-
-      delete this.__a[1];
-
-      // check the value
+      delete this.__a[1]; // check the value
       this.assertEquals("one", this.__a.getItem(0), "delete does not work");
       this.assertEquals("three", this.__a.getItem(1), "delete does not work");
     },
@@ -1507,6 +1503,32 @@ qx.Class.define("qx.test.data.DataArray", {
       this.assertEquals("three", b.getItem(1));
 
       b.dispose();
+    },
+
+    testFind() {
+      var self = this;
+      var found = this.__a.find(function (item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "three";
+      }, this);
+
+      this.assertEquals("three", found);
+    },
+
+    testFindNonExistingElement() {
+      var self = this;
+      var found = this.__a.find(function (item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "four";
+      }, this);
+
+      this.assertUndefined(found);
     },
 
     testMap() {

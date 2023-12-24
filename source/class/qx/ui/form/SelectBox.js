@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
   */
 
   properties: {
-    // overridden
+    /**@override*/
     appearance: {
       refine: true,
       init: "selectbox"
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       this.getChildControl("atom").setRich(value);
     },
 
-    // overridden
+    /**@override*/
     _defaultFormat(item) {
       if (item) {
         if (typeof item.isRich == "function" && item.isRich()) {
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       return null;
     },
 
-    // overridden
+    /**@override*/
     _createChildControlImpl(id, hash) {
       var control;
 
@@ -147,14 +147,29 @@ qx.Class.define("qx.ui.form.SelectBox", {
           control = new qx.ui.basic.Image();
           control.setAnonymous(true);
 
-          this._add(control);
+          this.getQxObject("arrowButton")._add(control);
+          this._add(this.getQxObject("arrowButton"));
           break;
       }
 
       return control || super._createChildControlImpl(id);
     },
 
-    // overridden
+    /**@overload */
+    _createQxObjectImpl(id) {
+      switch (id) {
+        case "arrowButton":
+          var layout = new qx.ui.layout.HBox().set({ alignY: "middle" });
+          return new qx.ui.container.Composite(layout).set({
+            allowGrowY: true,
+            appearance: "selectbox-arrow-button"
+          });
+      }
+
+      return super._createQxObjectImpl(id);
+    },
+
+    /**@override*/
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
@@ -306,7 +321,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       this.toggle();
     },
 
-    // overridden
+    /**@override*/
     _onKeyPress(e) {
       var iden = e.getKeyIdentifier();
       if ((iden == "Down" || iden == "Up") && e.isAltPressed()) {
@@ -341,7 +356,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       this.getChildControl("list").dispatchEvent(clone);
     },
 
-    // overridden
+    /**@override*/
     _onListPointerDown(e) {
       // Apply pre-selected item (translate quick selection to real selection)
       if (this.__preSelectedItem) {
@@ -350,7 +365,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       }
     },
 
-    // overridden
+    /**@override*/
     _onListChangeSelection(e) {
       var current = e.getData();
       var old = e.getOldData();
@@ -399,7 +414,7 @@ qx.Class.define("qx.ui.form.SelectBox", {
       }
     },
 
-    // overridden
+    /**@override*/
     _onPopupChangeVisibility(e) {
       super._onPopupChangeVisibility(e);
 

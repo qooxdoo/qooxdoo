@@ -8,7 +8,7 @@
   @include border-radius($button-border-radius);
 
   color: $button-text-color;
-  border: rem(1) solid $button-border-color;
+  border: px-to-rem(1) solid $button-border-color;
 
   cursor: pointer;
 
@@ -16,20 +16,20 @@
   font-size: $button-font-size;
   text-align: center;
 
-  padding-top: rem(2);
-  padding-bottom: rem(2);
-  padding-left: rem(20);
-  padding-right: rem(20);
+  padding-top: px-to-rem(2);
+  padding-bottom: px-to-rem(2);
+  padding-left: px-to-rem(20);
+  padding-right: px-to-rem(20);
 
-  height: rem(30);
-  line-height: rem(30);
+  height: px-to-rem(30);
+  line-height: px-to-rem(30);
   width: auto;
 }
 
 .button.active {
   @include background($button-active-background);
   color:  $button-active-text-color;
-  border: rem(1) solid $button-active-border-color;
+  border: px-to-rem(1) solid $button-active-border-color;
 }
 
 .button .label {
