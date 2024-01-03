@@ -283,9 +283,6 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     __safeSetPropertyOnLayout(value, propertyName) {
-      if (value === undefined) {
-        return;
-      }
       const layout = this._getLayout();
       const propertySetter = `set${qx.lang.String.firstUp(propertyName)}`;
       if (layout[propertySetter]) {
