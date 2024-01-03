@@ -111,6 +111,10 @@ qx.Class.define("qx.test.ui.basic.Atom", {
       hasGridLayout.setGap(10);
       hasGridLayout.setIconPosition("right");
       hasGridLayout.setCenter(true);
+      // the values will be set to the Atom, they will not be set (or attempt to be set) on the layout of the Atom
+      this.assertEquals(10, hasGridLayout.getGap());
+      this.assertEquals("right", hasGridLayout.getIconPosition());
+      this.assertEquals(true, hasGridLayout.getCenter());
     }
   }
 });
