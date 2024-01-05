@@ -49,7 +49,6 @@ qx.Class.define("qx.test.compiler.ClassFile", {
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
-      debugger;
       // due to injecting code for top-level objects, there is exactly one "unresolved" use of `qx.core.MObjectId.handleObjects`. In reality, this will be okay.
       this.assert(
         dbClassInfo.unresolved &&
