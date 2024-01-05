@@ -824,10 +824,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               return object;
             }
           }`;
-          this._requireClass("qx.core.MObjectId", {
-            location: path.node.loc,
-            usage: "dynamic"
-          });
 
           const injectBlockAst = babylon.parse(injectCode, {
             errorRecovery: true
@@ -1281,10 +1277,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         const functionBody = `{
           return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
         }`;
-        this._requireClass("qx.core.MObjectId", {
-          location: membersPropertyNode.loc,
-          usage: "dynamic"
-        });
 
         const functionBlock = babylon.parse(functionBody, {
           errorRecovery: true
@@ -3008,8 +3000,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     /**
      * Returns the assets required by the class
      * @returns
-     */
-    getAssets() {
+     */ getAssets() {
       return this.__requiredAssets;
     },
 
