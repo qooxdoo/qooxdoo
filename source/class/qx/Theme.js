@@ -170,7 +170,7 @@ qx.Bootstrap.define("qx.Theme", {
      * Returns a theme by name
      *
      * @param name {String} theme name to check
-     * @return {Object ? void} theme object
+     * @return {Object?void} theme object
      */
     getByName(name) {
       return this.$$registry[name];

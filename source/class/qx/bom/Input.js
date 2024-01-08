@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.bom.Input", {
      * select boxes but in all other cases a string.
      *
      * @param element {Element} DOM element to query
-     * @return {String|Array} The value of the given element
+     * @return {String|Array<any>} The value of the given element
      */
     getValue(element) {
       var tag = element.nodeName.toLowerCase();
