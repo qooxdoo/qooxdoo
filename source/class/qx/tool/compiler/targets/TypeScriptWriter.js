@@ -78,11 +78,11 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.write(`// Generated declaration file at ${time}\n`);
 
       let str = qx.util.ResourceManager.getInstance().toUri(
-        "qx/tool/cli/templates/TypeScriptWriter-base_declaration.txt"
+        "qx/tool/cli/templates/TypeScriptWriter-base_declaration.d.ts"
       );
 
       let baseDeclaration = await fs.promises.readFile(str, "utf8");
-      this.write(baseDeclaration);
+      this.write(baseDeclaration + "\n");
     },
 
     /**
@@ -105,8 +105,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       let classnames = this.__metaDb.getClassnames();
       classnames.sort();
       let lastPackageName = null;
+      let declared = false;
       for (let classname of classnames) {
-        let declared = false;
         let metaData = this.__metaDb.getMetaData(classname);
         var pos = classname.lastIndexOf(".");
         var packageName = "";
@@ -115,13 +115,17 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         }
         if (lastPackageName != packageName) {
           if (lastPackageName) {
-            this.write("}\n");
+            this.write("}\n\n");
           }
           if (packageName) {
             this.write("declare module " + packageName + " {\n");
             declared = true;
+          } else {
+            declared = false;
           }
           lastPackageName = packageName;
+        } else {
+          this.write("\n");
         }
         await this.writeClass(metaData, declared);
       }
@@ -152,12 +156,17 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         meta.superClass !== "Array" &&
         meta.superClass !== "Error"
       ) {
-        let superType = this.getType(meta.superClass);
-
-        if (superType != "any") {
-          // Namespace resolution defaults to finding the closest from the current namespace.
-          // Using `global.*` forces resolution to start form the topmost NS instead.
-          extendsClause = " extends global." + superType;
+        if (meta.type === "interface" && Array.isArray(meta.superClass)) {
+          let superTypes = meta.superClass.map(sup => this.getType(sup));
+          superTypes.filter(sup => sup != "any");
+          if (superTypes.length) {
+            extendsClause = " extends " + superTypes.join(", ");
+          }
+        } else {
+          let superType = this.getType(meta.superClass);
+          if (superType != "any") {
+            extendsClause = " extends " + superType;
+          }
         }
       }
       var type = "class "; // default for class and mixins
@@ -169,6 +178,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       if (!declared) {
         type = "declare " + type;
       }
+
       this.write("  // " + meta.className + "\n");
       let name = meta.className;
       let pos = name.lastIndexOf(".");
@@ -178,7 +188,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.write("  " + type + name + extendsClause);
 
       if (meta.interfaces && meta.interfaces.length) {
-        this.write(" implements " + meta.interfaces.join(", "));
+        this.write(
+          " implements " +
+            meta.interfaces.map(itf => this.getType(itf)).join(", ")
+        );
       }
 
       this.write(" {\n");
@@ -274,6 +287,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @return {String} the Typescript name, if possible
      */
     getType(typename) {
+      // TODO: use an AST parser to handle modifying complex type expressions
+
+      // handle certain cases
       var defaultType = "any";
       if (!typename || typename == "[[ Function ]]") {
         return defaultType;
@@ -282,20 +298,51 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         typename = typename.name;
       }
 
-      // Check if we have a mapping for this type
-      var result =
-        qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[typename];
-      if (result) {
-        return result;
+      // handle transformations
+
+      //mapping
+      if (typename in qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS) {
+        // TODO: warn of deprecated types
+        // if (typename === "var" || typename === "arguments" || typename === "*") {}
+        typename =
+          qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[typename];
       }
 
-      if (this.__metaDb.getMetaData(typename)) {
-        return typename;
+      //arrays
+      const arrStripped = typename.replace(/\[\]/g, "");
+      if (
+        arrStripped in qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS
+      ) {
+        typename.replace(
+          arrStripped,
+          qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[arrStripped]
+        );
       }
+
+      //nullables
+      typename = typename.replace(/\?\s*(null)?$/, " | null");
+
+      // handle global types
+      if (
+        (this.__metaDb.getMetaData(typename) && typename.indexOf(".") != -1) ||
+        (this.__metaDb.getMetaData(typename.replace(/\[\]/g, "")) &&
+          typename.replace(/\[\]/g, "").indexOf(".") != -1)
+      ) {
+        return "globalThis." + typename;
+      }
+
+      typename = typename.replace("Promise<", "globalThis.Promise<");
+      typename = typename.replace(
+        /(^|[^.a-zA-Z])(var|\*)([^.a-zA-Z]|$)/g,
+        "$1unknown$3"
+      );
+
+      // this will do for now, but it will fail on an expression like `Array<Record<string, any>>`
+      typename = typename.replace(/(?<!qx\.data\.)Array<([^>]+)>/g, "($1)[]");
 
       // We don't know the type
       // qx.tool.compiler.Console.error("Unknown type: " + typename);
-      return defaultType;
+      return typename;
     },
 
     /**
@@ -318,7 +365,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @property {Boolean} static
      * @property {Boolean} mixin
      * @property {Array} parameters JSDoc parameters and types
-     * @property {*} returnType JSDoc return type
+     * @property {any} returnType JSDoc return type
      * @property {String} description
      * @property {Boolean} hideMethod
      *
@@ -382,14 +429,16 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     },
 
     __serializeParameters(params) {
+      let forceOptional = false;
       let arr = params.map(paramMeta => {
         var decl = paramMeta.name;
         let optional = paramMeta.optional;
         if (paramMeta.name == "varargs") {
           optional = true;
         }
-        if (optional) {
+        if (optional || forceOptional) {
           decl += "?";
+          forceOptional = true;
         }
         decl += ": ";
         let type = "any";
@@ -458,26 +507,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         return '"' + name + '"';
       }
       return name;
-    },
-
-    /**
-     * Write the module declaration if any.
-     */
-    async writeModule(meta) {
-      var moduleName = meta.packageName;
-      if (moduleName) {
-        this.write("declare module " + moduleName + " {\n");
-      } else {
-        this.write("declare ");
-      }
-      await this.writeClass(meta);
-      if (moduleName) {
-        this.write("}\n");
-      }
     }
   },
 
   statics: {
+    unknownTypeType: "QxUnknownType",
+
     IGNORE: {
       "qx.ui.virtual.core.CellEvent": ["init"],
       "qx.ui.table.columnmodel.resizebehavior.Default": ["set"],
@@ -504,49 +539,39 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     },
 
     TYPE_MAPPINGS: {
-      Widget: "qx.ui.core.Widget",
-      LayoutItem: "qx.ui.core.LayoutItem",
-      AbstractTreeItem: "qx.ui.tree.core.AbstractTreeItem",
-      ILayer: "qx.ui.virtual.core.ILayer",
-      Axis: "qx.ui.virtual.core.Axis",
-      DateFormat: "qx.util.format.DateFormat",
-      LocalizedString: "qx.locale.LocalizedString",
-      Decorator: "qx.ui.decoration.Decorator",
       Event: "qx.event.type.Event",
-      CanvasRenderingContext2D: "CanvasRenderingContext2D",
+      LocalizedString: "qx.locale.LocalizedString",
+      LayoutItem: "qx.ui.core.LayoutItem",
+      Widget: "qx.ui.core.Widget",
+      Decorator: "qx.ui.decoration.Decorator",
       MWidgetController: "qx.ui.list.core.MWidgetController",
+      AbstractTreeItem: "qx.ui.tree.core.AbstractTreeItem",
+      Axis: "qx.ui.virtual.core.Axis",
+      ILayer: "qx.ui.virtual.core.ILayer",
+      Pane: "qx.ui.virtual.core.Pane",
       IDesktop: "qx.ui.window.IDesktop",
       IWindowManager: "qx.ui.window.IWindowManager",
-      Pane: "qx.ui.virtual.core.Pane",
+      DateFormat: "qx.util.format.DateFormat",
       Class: "qx.Class",
       Interface: "qx.Interface",
       Mixin: "qx.Mixin",
       Theme: "qx.Theme",
+      CanvasRenderingContext2D: "CanvasRenderingContext2D",
       Boolean: "boolean",
+      Number: "number",
       String: "string",
       Color: "string",
       Font: "string",
-      Function: "Function",
-      Date: "Date",
-      Window: "Window",
-      Document: "Document",
       document: "Document",
       Stylesheet: "StyleSheet",
-      Node: "Node",
-      "Custom check function": "Custom check function",
-      Error: "ErrorImpl",
       Element: "HTMLElement",
-      RegExp: "RegExp",
-      var: "any",
       Array: "qx.data.Array",
-      Object: "any",
+      Object: "object",
       Map: "IMap",
-      Integer: "number",
-      Number: "number",
-      Double: "number",
-      Float: "number",
-      PositiveInteger: "number",
-      PositiveNumber: "number"
+      // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
+      var: "unknown",
+      "*": "unknown",
+      arguments: "unknown"
     }
   }
 });
