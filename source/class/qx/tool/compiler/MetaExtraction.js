@@ -91,6 +91,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
       classFilename = await qx.tool.utils.files.Utils.correctCase(
         classFilename
       );
+
       let stat = await fs.promises.stat(classFilename);
       this.__metaData = {
         version: qx.tool.compiler.MetaExtraction.VERSION,
@@ -114,6 +115,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           modules: false
         }
       };
+
       let plugins = [require("@babel/plugin-syntax-jsx"), this.__plugin()];
 
       var config = {
@@ -169,6 +171,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
                 let str = qx.tool.utils.BabelHelpers.collapseMemberExpression(
                   node.expression.callee
                 );
+
                 let m = str.match(/^qx\.([a-z]+)\.define$/i);
                 let definingType = m && m[1];
                 if (definingType) {
@@ -180,6 +183,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
                   metaData.jsdoc = qx.tool.utils.BabelHelpers.getJsDoc(
                     node.leadingComments
                   );
+
                   t.__scanClassDef(path.get("expression.arguments")[1]);
                 }
               }
@@ -210,18 +214,26 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
       path.skip();
       path.get("properties").forEach(path => {
         let property = path.node;
-
+        let propertyName;
+        if (property.key.type === "Identifier") {
+          propertyName = property.key.name;
+        } else if (property.key.type === "StringLiteral") {
+          propertyName = property.key.value;
+        }
+        if (
+          metaData.className ===
+          "com.zenesis.grasshopper.production.SessionData"
+        ) {
+          debugger;
+        }
         // Extend
-        if (property.key.name == "extend") {
+        if (propertyName == "extend") {
           metaData.superClass =
             qx.tool.utils.BabelHelpers.collapseMemberExpression(property.value);
-
-          // Core
-        } else if (
-          property.key.name == "implement" ||
-          property.key.name == "include"
-        ) {
-          let name = property.key.name == "include" ? "mixins" : "interfaces";
+        }
+        // Core
+        else if (propertyName == "implement" || propertyName == "include") {
+          let name = propertyName == "include" ? "mixins" : "interfaces";
           metaData[name] = [];
           if (property.value.type == "ArrayExpression") {
             property.value.elements.forEach(element => {
@@ -236,29 +248,27 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
               )
             );
           }
-
-          // Type
-        } else if (property.key.name == "type") {
+        }
+        // Type
+        else if (propertyName == "type") {
           metaData.isSingleton = property.value.value == "singleton";
           metaData.abstract = property.value.value == "abstract";
-
-          // Methods
-        } else if (
-          property.key.name == "construct" ||
-          property.key.name == "destruct"
-        ) {
-          let memberMeta = (metaData[property.key.name] = {
+        }
+        // Methods
+        else if (propertyName == "construct" || propertyName == "destruct") {
+          let memberMeta = (metaData[propertyName] = {
             type: "function",
             params: []
           });
+
           getFunctionParams(property).forEach(param => {
             memberMeta.params.push({
               name: qx.tool.utils.BabelHelpers.collapseMemberExpression(param)
             });
           });
-
-          // Events
-        } else if (property.key.name == "events") {
+        }
+        // Events
+        else if (propertyName == "events") {
           metaData.events = {};
           property.value.properties.forEach(event => {
             let name = event.key.name;
@@ -266,38 +276,42 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
               type: null,
               jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(event.leadingComments)
             };
+
             if (event.value.type == "StringLiteral") {
               metaData.events[name].type = event.value.value;
             }
           });
-
-          // Properties
-        } else if (property.key.name == "properties") {
+        }
+        // Properties
+        else if (propertyName == "properties") {
           this.__scanProperties(path.get("value.properties"));
-
-          // Members & Statics
-        } else if (
-          property.key.name == "members" ||
-          property.key.name == "statics"
-        ) {
-          let type = property.key.name;
+        }
+        // Members & Statics
+        else if (propertyName == "members" || propertyName == "statics") {
+          let type = propertyName;
           metaData[type] = {};
           property.value.properties.forEach(member => {
-            let name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
+            const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
               member.key
             );
+
             let memberMeta = (metaData[type][name] = {
               jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(member.leadingComments)
             });
+
             memberMeta.access = name.startsWith("__")
               ? "private"
               : name.startsWith("_")
               ? "protected"
               : "public";
-            if (member.type == "ObjectMethod") {
+            if (
+              member.type === "ObjectMethod" ||
+              (member.type === "ObjectProperty" &&
+                member.value.type === "FunctionExpression")
+            ) {
               memberMeta.type = "function";
               memberMeta.params = [];
-              member.params.forEach(param => {
+              getFunctionParams(member).forEach(param => {
                 memberMeta.params.push({
                   name: qx.tool.utils.BabelHelpers.collapseMemberExpression(
                     param
@@ -327,6 +341,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         let name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
           property.key
         );
+
         metaData.properties[name] = {
           json: qx.tool.utils.BabelHelpers.collectJson(property.value, true),
           jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(property.leadingComments)
@@ -365,6 +380,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             obj.returnType = {
               type: returnDoc.type
             };
+
             if (returnDoc.optional !== undefined) {
               obj.returnType.optional = returnDoc.optional;
             }

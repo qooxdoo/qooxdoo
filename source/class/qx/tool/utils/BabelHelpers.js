@@ -26,6 +26,9 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
           node.elements.forEach(element => result.push(doCollapse(element)));
           return result;
         }
+        if (node.type === "StringLiteral") {
+          return node.value;
+        }
         if (node.type != "MemberExpression") {
           return "(" + node.type + ")";
         }
@@ -132,6 +135,7 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
             node.argument,
             isProperties
           );
+
           if (typeof tmp == "number") {
             return tmp * -1;
           }
@@ -140,6 +144,7 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
             node.argument,
             isProperties
           );
+
           if (typeof tmp == "boolean") {
             return !tmp;
           }
