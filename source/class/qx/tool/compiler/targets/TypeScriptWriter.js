@@ -80,6 +80,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       let str = qx.util.ResourceManager.getInstance().toUri(
         "qx/tool/cli/templates/TypeScriptWriter-base_declaration.txt"
       );
+
       let baseDeclaration = await fs.promises.readFile(str, "utf8");
       this.write(baseDeclaration);
     },
@@ -105,6 +106,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       classnames.sort();
       let lastPackageName = null;
       for (let classname of classnames) {
+        let declared = false;
         let metaData = this.__metaDb.getMetaData(classname);
         var pos = classname.lastIndexOf(".");
         var packageName = "";
@@ -112,17 +114,16 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           packageName = classname.substring(0, pos);
         }
         if (lastPackageName != packageName) {
-          if (lastPackageName !== null) {
+          if (lastPackageName) {
             this.write("}\n");
           }
           if (packageName) {
             this.write("declare module " + packageName + " {\n");
-          } else {
-            this.write("declare {\n");
+            declared = true;
           }
           lastPackageName = packageName;
         }
-        await this.writeClass(metaData);
+        await this.writeClass(metaData, declared);
       }
       await this.close();
     },
@@ -137,7 +138,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Write the class or interface declaration
      */
-    async writeClass(meta) {
+    async writeClass(meta, declared) {
       if (!meta.className) {
         return;
       }
@@ -161,6 +162,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         type = "interface ";
       } else if (meta.abstract) {
         type = "abstract " + type;
+      }
+      if (!declared) {
+        type = "declare " + type;
       }
       this.write("  // " + meta.className + "\n");
       let name = meta.className;
@@ -223,6 +227,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             returnType: type,
             description: `Gets the ${propertyName} property`
           });
+
           if (type == "Boolean") {
             this.__writeMethod("is" + upname, {
               returnType: type,
@@ -234,6 +239,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           params: [{ name: "value", type }],
           description: `Sets the ${propertyName} property`
         });
+
         this.__writeMethod("reset" + upname, {
           description: `Resets the ${propertyName} property`
         });
@@ -243,6 +249,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             returnType: type,
             description: `Gets the ${propertyName} property, asynchronously`
           });
+
           if (type == "Boolean") {
             this.__writeMethod("is" + upname + "Async", {
               returnType: type,
