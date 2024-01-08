@@ -153,8 +153,11 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         meta.superClass !== "Error"
       ) {
         let superType = this.getType(meta.superClass);
+
         if (superType != "any") {
-          extendsClause = " extends " + superType;
+          // Namespace resolution defaults to finding the closest from the current namespace.
+          // Using `global.*` forces resolution to start form the topmost NS instead.
+          extendsClause = " extends global." + superType;
         }
       }
       var type = "class "; // default for class and mixins
