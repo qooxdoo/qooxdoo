@@ -65,6 +65,38 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
     },
 
     /**
+     * Helper method that collapses the MemberExpression into a string
+     * @param node
+     * @returns {string}
+     */
+    collapseParam(param) {
+      switch (param.type) {
+        case "Identifier":
+          return param.name;
+
+        case "AssignmentPattern":
+          return qx.tool.utils.BabelHelpers.collapseParam(param.left);
+
+        case "RestElement":
+          return (
+            "..." + qx.tool.utils.BabelHelpers.collapseParam(param.argument)
+          );
+
+        case "ObjectPattern":
+          return "arg0";
+
+        case "ArrayPattern":
+          return "arg0";
+      }
+
+      // ...cases...
+
+      throw new Error(
+        `collapseParam: ${param.type} not useable as a parameter`
+      );
+    },
+
+    /**
      * Collects JSON data as best as possible - it will not output anything which is not valid JSON, eg it
      * will not collect function expressions
      *

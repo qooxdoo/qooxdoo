@@ -211,6 +211,16 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         throw new Error("Don't know how to get parameters from " + node.type);
       };
 
+      const collapseParamMeta = (node, meta) => {
+        getFunctionParams(node).forEach((param, i) => {
+          let name = qx.tool.utils.BabelHelpers.collapseParam(param);
+          if (name === "arg0") {
+            name = `arg${i}`;
+          }
+          meta.params.push({ name });
+        });
+      };
+
       path.skip();
       path.get("properties").forEach(path => {
         let property = path.node;
@@ -220,12 +230,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         } else if (property.key.type === "StringLiteral") {
           propertyName = property.key.value;
         }
-        if (
-          metaData.className ===
-          "com.zenesis.grasshopper.production.SessionData"
-        ) {
-          debugger;
-        }
+
         // Extend
         if (propertyName == "extend") {
           metaData.superClass =
@@ -261,11 +266,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             params: []
           });
 
-          getFunctionParams(property).forEach(param => {
-            memberMeta.params.push({
-              name: qx.tool.utils.BabelHelpers.collapseMemberExpression(param)
-            });
-          });
+          collapseParamMeta(property, memberMeta);
         }
         // Events
         else if (propertyName == "events") {
@@ -311,13 +312,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             ) {
               memberMeta.type = "function";
               memberMeta.params = [];
-              getFunctionParams(member).forEach(param => {
-                memberMeta.params.push({
-                  name: qx.tool.utils.BabelHelpers.collapseMemberExpression(
-                    param
-                  )
-                });
-              });
+              collapseParamMeta(member, memberMeta);
             }
           });
         }
