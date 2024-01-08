@@ -72,6 +72,7 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
           classFilename = path.resolve(
             path.join(this.getRootDir(), classFilename)
           );
+
           this.__metaByFilename[classFilename] = meta;
         }
       }
@@ -118,6 +119,9 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
       }
       meta = new qx.tool.compiler.MetaExtraction(this.getRootDir());
       let metaData = await meta.parse(filename);
+      if (metaData.className === undefined) {
+        return;
+      }
       this.__metaByClassname[metaData.className] = meta;
       this.__metaByFilename[filename] = meta;
       this.__dirtyClasses[metaData.className] = true;
