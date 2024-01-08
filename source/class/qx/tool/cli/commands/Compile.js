@@ -776,6 +776,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       let metaDb = new qx.tool.compiler.MetaDatabase().set({
         rootDir: this.__metaDir
       });
+
       await metaDb.load();
 
       // Scan all library directories
@@ -785,6 +786,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         metaDb.getDatabase().libraries[lib.getNamespace()] = {
           sourceDir: dir
         };
+
         await scanImpl(dir, "");
       }
 
@@ -806,7 +808,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (this.__typescriptFile) {
           tsWriter.setOutputTo(this.__typescriptFile);
         } else {
-          tsWriter.setOutputTo(path.join(this.__metaDir, "qooxdoo.d.ts"));
+          tsWriter.setOutputTo(path.join("compiled", "qooxdoo.d.ts"));
         }
         await tsWriter.process();
       }
@@ -1313,6 +1315,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           Console.warn(
             "The 'typescript' property inside a target definition is deprecated - please see top level 'typescript' and 'meta' properties"
           );
+
           if (this.__typescriptFile) {
             Console.warn(
               "Multiple conflicting locations for the Typescript output - choosing to write to " +
