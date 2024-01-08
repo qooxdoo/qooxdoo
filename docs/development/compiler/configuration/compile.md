@@ -580,7 +580,7 @@ It is up to you to implement the mapping inside your web server so that the
 ## TypeScript and Meta Data
 
 To output Typescript definitions, use the `qx compile --typescript` command; this
-will generate meta dxata for every class in every library, and then use the meta
+will generate meta data for every class in every library, and then use the meta
 data to create a `qxoodoo.d.ts` file.
 
 Meta Data and Typescript are closely linked - you can generate the meta data on its 
