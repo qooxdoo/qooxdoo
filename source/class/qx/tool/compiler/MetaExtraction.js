@@ -162,6 +162,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         visitor: {
           Program(path) {
             path.skip();
+            let found = false;
             path.get("body").forEach(path => {
               let node = path.node;
               if (
@@ -175,6 +176,14 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
                 let m = str.match(/^qx\.([a-z]+)\.define$/i);
                 let definingType = m && m[1];
                 if (definingType) {
+                  if (found) {
+                    qx.tool.compiler.Console.warn(
+                      `Ignoring class '${node.expression.arguments[0].value}' in file '${metaData.classFilename}' because a class, mixin, or interface was already found in this file.`
+                    );
+
+                    return;
+                  }
+                  found = true;
                   metaData.type = definingType.toLowerCase();
                   metaData.className = node.expression.arguments[0].value;
                   if (typeof metaData.className != "string") {
