@@ -237,6 +237,60 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
           }
         }
       }
+    },
+
+    /**
+     * Gets a flattened type hierarchy for a class
+     * @param {string|object} metaOrClassName - the classname or the meta data of the class to get the hierarchy for
+     * @returns the type hierarchy
+     *
+     */
+    getHierarchyFlat(metaOrClassName) {
+      const meta =
+        typeof metaOrClassName === "string"
+          ? this.getMetaData(metaOrClassName)
+          : metaOrClassName;
+
+      const data = {
+        className: meta.className,
+        superClasses: {},
+        mixins: {},
+        interfaces: {}
+      };
+
+      let toResolve = [meta];
+
+      while (toResolve.length) {
+        const currentMeta = toResolve.shift();
+
+        if (currentMeta.superClass) {
+          const superClassMeta = this.getMetaData(currentMeta.superClass);
+          if (superClassMeta) {
+            data.superClasses[superClassMeta.className] = superClassMeta;
+            toResolve.push(superClassMeta);
+          }
+        }
+        if (currentMeta.mixins) {
+          for (const mixin of currentMeta.mixins) {
+            const mixinMeta = this.getMetaData(mixin);
+            if (mixinMeta) {
+              data.mixins[mixinMeta.className] = mixinMeta;
+              toResolve.push(mixinMeta);
+            }
+          }
+        }
+        if (currentMeta.interfaces) {
+          for (const iface of currentMeta.interfaces) {
+            const ifaceMeta = this.getMetaData(iface);
+            if (ifaceMeta) {
+              data.interfaces[ifaceMeta.className] = ifaceMeta;
+              toResolve.push(ifaceMeta);
+            }
+          }
+        }
+      }
+
+      return data;
     }
   }
 });

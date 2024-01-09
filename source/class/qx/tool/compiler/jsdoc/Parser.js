@@ -153,6 +153,37 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
       "@throws": new qx.tool.compiler.jsdoc.ThrowsParser(),
       "@throw": new qx.tool.compiler.jsdoc.ThrowsParser(),
       "@childControl": new qx.tool.compiler.jsdoc.ChildControlParser()
+    },
+
+    getTypeExpression(text) {
+      const chars = text.split("");
+      let open = 0;
+      let firstInclude;
+      let firstExclude;
+      for (const idx in chars) {
+        const current = chars[idx];
+        if (current == "{") {
+          open++;
+          if (!firstInclude) {
+            firstInclude = idx + 1;
+          }
+        }
+        if (current == "}") {
+          open--;
+          if (open === 0 && !firstExclude) {
+            firstExclude = idx;
+            break;
+          }
+        }
+      }
+      if (!firstInclude || !firstExclude) {
+        return null;
+      }
+      return {
+        expr: text.slice(firstInclude, firstExclude),
+        start: firstInclude,
+        end: firstExclude
+      };
     }
   }
 });

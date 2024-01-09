@@ -50,16 +50,19 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
   },
 
   members: {
-    /** @type{qx.tool.compiler.MetaDatabase} */
+    /** @type {qx.tool.compiler.MetaDatabase} */
     __metaDb: null,
 
-    /** @type{Stream} where to write the .d.ts */
+    /** @type {Stream} where to write the .d.ts */
     __outputStream: null,
 
     __outputStreamClosed: null,
 
-    /** @type{qx.tool.compiler.MetaExtraction} */
+    /** @type {qx.tool.compiler.MetaExtraction} */
     __currentClass: null,
+
+    /** @type {object} */
+    __hierarchy: null,
 
     /** Current indent */
     __indent: "    ",
@@ -148,6 +151,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
 
       this.__currentClass = meta;
+      this.__hierarchy = this.__metaDb.getHierarchyFlat(meta);
       // qx.tool.compiler.Console.info("Processing class " + meta.packageName + "." + meta.name);
       var extendsClause = "";
       if (
@@ -200,6 +204,66 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         this.writeConstructor(meta.construct);
       }
 
+      this.writeClassBody(meta);
+
+      this.write("\n  }\n");
+      this.__currentClass = null;
+      this.__hierarchy = null;
+    },
+
+    /**
+     * Checks whether a class member is an override or not.
+     * @param {string} name - the name of the class member
+     * @param {"statics"|"members"|"properties"|"events"} kind - the kind of the class member
+     * @returns {boolean} `true` if the member is an override, `false` if it is not
+     */
+    checkOverride(name, kind) {
+      for (const superclass in this.__hierarchy.superClasses) {
+        const items = this.__hierarchy.superClasses[superclass][kind];
+        if (items && name in items) {
+          return true;
+        }
+      }
+
+      // if the member exist on a mixin of this class directly, it is NOT an override (this prevents mixin inclusions overriding themselves)
+      for (const localMixin of this.__currentClass.mixins ?? []) {
+        const items = this.__hierarchy.mixins[localMixin][kind];
+        if (items && name in items) {
+          return false;
+        }
+      }
+
+      for (const mixin in this.__hierarchy.mixins) {
+        const items = this.__hierarchy.mixins[mixin][kind];
+        if (items && name in items) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    /**
+     * Include the members, statics, properties of all mixins, if any.
+     */
+    includeMixins(meta) {
+      const mixins = meta.mixins
+        ? Array.isArray(meta.mixins)
+          ? meta.mixins
+          : [meta.mixins]
+        : [];
+
+      for (const mixin of mixins) {
+        // recurse: mixins can include mixins
+        this.write(this.__indent + `// Mixin: ${mixin}\n`);
+        if (!this.__hierarchy.mixins[mixin]) debugger;
+        this.writeClassBody(this.__hierarchy.mixins[mixin]);
+      }
+    },
+
+    /**
+     * Writes the body of the class (excl. constructor) and processes mixins
+     */
+    writeClassBody(meta) {
       if (meta.isSingleton) {
         this.writeMethods(
           {
@@ -216,25 +280,22 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           true
         );
       }
-
       this.writeMethods(meta.statics, meta, true);
       this.writeMethods(meta.members, meta);
-
       if (meta.properties) {
         this.writeProperties(meta);
       }
-
-      this.write("\n  }\n");
-      this.__currentClass = null;
+      this.includeMixins(meta);
     },
 
     /**
      * Writes the property accessors
-     *
-     * @param {*} meta
      */
     writeProperties(meta) {
       for (let propertyName in meta.properties) {
+        if (this.checkOverride(propertyName, "properties")) {
+          continue;
+        }
         let propertyMeta = meta.properties[propertyName];
         let upname = qx.lang.String.firstUp(propertyName);
         let type = propertyMeta.check || "any";
@@ -320,7 +381,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
 
       //nullables
-      typename = typename.replace(/\?\s*(null)?$/, " | null");
+      typename = typename.replace(/\?.+?$/, "");
 
       // handle global types
       if (
@@ -366,62 +427,93 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @property {Boolean} mixin
      * @property {Array} parameters JSDoc parameters and types
      * @property {any} returnType JSDoc return type
-     * @property {String} description
+     * @property {object} jsdoc
      * @property {Boolean} hideMethod
      *
      * @param {String} methodName
      * @param {MethodMeta} config
      */
     __writeMethod(methodName, config) {
-      var decl = "";
+      var declaration = "";
       var comment = "";
 
-      if (config.access === "protected") {
-        decl += "protected ";
-      }
-      if (config.access === "private") {
+      if (config.access === "protected" || config.access === "public") {
+        declaration += config.access + " ";
+      } else if (config.access === "private") {
         return;
       }
+
       if (config.static) {
-        decl += "static ";
+        declaration += "static ";
       }
 
       if (config.abstract) {
-        decl += "abstract ";
+        declaration += "abstract ";
         comment += "Abstract ";
       }
+
       if (config.mixin) {
         comment += "Mixin ";
       }
-      decl += this.__escapeMethodName(methodName) + "(";
+
+      declaration += this.__escapeMethodName(methodName) + "(";
 
       if (config.parameters) {
-        decl += this.__serializeParameters(config.parameters);
+        declaration += this.__serializeParameters(config.parameters);
       }
-      decl += ")";
+      declaration += ")";
 
       var returnType = "void";
       if (config.returnType) {
         returnType = this.getType(config.returnType.type);
       }
-      decl += ": " + returnType;
+      declaration += ": " + returnType;
 
       if (comment) {
         comment = " // " + comment;
       }
 
-      if (config.description) {
-        this.write(this.__indent + "/**\n");
-        config.description.split("\n").forEach(line => {
-          this.write(this.__indent + " * " + line + "\n");
-        });
-        this.write(this.__indent + " */\n");
+      if (config.jsdoc) {
+        const content = [];
+
+        const fixup = source =>
+          source
+            .replace(/<\/?p>/g, "")
+            .replace(
+              /\{@link #([^}]+)\}/g,
+              `{@link ${this.__currentClass.className}.$1}`
+            );
+
+        const description = config.jsdoc?.["@description"]?.[0]?.body;
+        if (description) {
+          content.push(...fixup(description).split("\n"));
+        }
+        const sourcePath = path.relative(
+          path.dirname(this.getOutputTo()),
+          path.join(
+            process.cwd(),
+            this.__metaDb.getRootDir(),
+            this.__currentClass.classFilename
+          )
+        );
+
+        this.write(
+          [
+            `/**`,
+            ...content.map(c => ` * ${c.trim()}`),
+            ` *`,
+            ` * [source code](${sourcePath})`,
+            ` */\n`
+          ]
+            .map(line => this.__indent + line)
+            .join("\n")
+        );
       }
 
       this.write(
         this.__indent +
           (config.hideMethod ? "// " : "") +
-          decl +
+          declaration +
           ";" +
           comment +
           "\n"
@@ -471,24 +563,27 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       if (!methods || !Object.keys(methods).length) {
         return;
       }
+      if (this.checkOverride(name, isStatic ? "statics" : "members")) {
+        return;
+      }
+
       var IGNORE =
         qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
           this.__currentClass.className
         ];
 
-      var comment = isStatic ? "Statics" : "Members";
       for (var name in methods) {
         var methodMeta = methods[name];
         if (methodMeta.type == "function") {
           this.__writeMethod(name, {
-            access: methodMeta.access,
-            abstract: classMeta.type != "interface" && methodMeta.abstract,
+            access: classMeta.type !== "interface" && methodMeta.access,
+            abstract: classMeta.type !== "interface" && methodMeta.abstract,
             async: methodMeta.async,
             static: isStatic,
             mixin: methodMeta.mixin,
             parameters: methodMeta.params,
             returnType: methodMeta.returnType,
-            description: methodMeta.jsdoc?.["@description"]?.[0]?.body,
+            jsdoc: methodMeta.jsdoc ?? {},
             hideMethod: IGNORE && IGNORE.indexOf(name) > -1
           });
         }
@@ -565,9 +660,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       document: "Document",
       Stylesheet: "StyleSheet",
       Element: "HTMLElement",
-      Array: "qx.data.Array",
       Object: "object",
-      Map: "IMap",
+      Map: "Record<string, any>",
       // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
       var: "unknown",
       "*": "unknown",

@@ -30,31 +30,10 @@ qx.Class.define("qx.tool.compiler.jsdoc.ReturnParser", {
      * @Override
      */
     parseCommand(pdoc, typeResolver) {
-      let chars = pdoc.body.split("");
-      let open = 0;
-      let firstInclude;
-      let firstExclude;
-      for (idx in chars) {
-        const current = chars[idx];
-        if (current == "{") {
-          open++;
-          if (!firstInclude) {
-            firstInclude = idx + 1;
-          }
-        }
-        if (current == "}") {
-          open--;
-          if (open === 0 && !firstExclude) {
-            firstExclude = idx;
-          }
-        }
-      }
-      if (!!firstInclude && !!firstExclude) {
-        const match = pdoc.body.slice(firstInclude, firstExclude);
-        pdoc.type = typeResolver.resolveType(match.trim());
-        pdoc.description = pdoc.body
-          .slice(firstExclude)
-          .replace(/^[\{\}\s]/, "");
+      const match = qx.tool.compiler.jsdoc.Parser.getTypeExpression(pdoc.body);
+      if (match) {
+        pdoc.type = typeResolver.resolveType(match.expr.trim());
+        pdoc.description = pdoc.body.slice(match.end + 1).replace(/^\s/, "");
       } else {
         delete pdoc.type;
         delete pdoc.description;
