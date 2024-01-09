@@ -361,27 +361,33 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       // handle transformations
 
-      //mapping
-      if (typename in qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS) {
-        // TODO: warn of deprecated types
-        // if (typename === "var" || typename === "arguments" || typename === "*") {}
-        typename =
-          qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[typename];
+      if (typename === "Array") {
+        return "any[]";
       }
 
-      //arrays
-      const arrStripped = typename.replace(/\[\]/g, "");
-      if (
-        arrStripped in qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS
-      ) {
-        typename.replace(
-          arrStripped,
-          qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[arrStripped]
+      //mapping
+      const fromTypes = Object.keys(
+        qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS
+      );
+
+      const delimiter = "[^.a-zA-Z0-9]";
+      const re = new RegExp(
+        `(^|[^.a-zA-Z0-9])(${fromTypes
+          .join("|")
+          .replace("*", "\\*")})($|[^.a-zA-Z0-9<])`
+      );
+
+      // regexp matches overlapping strings, so we need to loop
+      while (typename.match(re)) {
+        typename = typename.replace(
+          re,
+          (match, p1, p2, p3) =>
+            `${p1}${qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[p2]}${p3}`
         );
       }
 
       //nullables
-      typename = typename.replace(/\?.+?$/, "");
+      typename = typename.replace(/\?.*$/, "");
 
       // handle global types
       if (
@@ -482,7 +488,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             .replace(
               /\{@link #([^}]+)\}/g,
               `{@link ${this.__currentClass.className}.$1}`
-            );
+            )
+            .replace(
+              /<pre(\sclass=.(.+).)>(<code>)?((.|\n)*?)(<\/code>)?<\/pre>/,
+              "```$2$4```"
+            )
+            .replace(/<code>(.*?)<\/code>/, "`$1`");
 
         const description = config.jsdoc?.["@description"]?.[0]?.body;
         if (description) {
@@ -651,7 +662,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Interface: "qx.Interface",
       Mixin: "qx.Mixin",
       Theme: "qx.Theme",
-      CanvasRenderingContext2D: "CanvasRenderingContext2D",
       Boolean: "boolean",
       Number: "number",
       String: "string",
