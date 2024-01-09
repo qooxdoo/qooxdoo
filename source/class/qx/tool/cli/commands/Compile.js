@@ -863,7 +863,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * Processes the configuration from a JSON data structure and creates a Maker
      *
      * @param data {Map}
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker}
      */
     async createMakersFromConfig(data) {
       const Console = qx.tool.compiler.Console.getInstance();
@@ -1699,7 +1699,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * Resolves the target class instance from the type name; accepts "source" or "build" or
      * a class name
      * @param type {String}
-     * @returns {Maker}
+     * @returns {qx.tool.compiler.makers.Maker}
      */
     resolveTargetClass(type) {
       if (!type) {
@@ -1742,7 +1742,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * configurations.
      *
      * @deprected
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker}
      */
     getMaker() {
       if (this.__makers.length == 1) {
@@ -1759,7 +1759,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * Returns the makers for a given application name
      *
      * @param appName {String} the name of the application
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker}
      */
     getMakersForApp(appName) {
       return this.__makers.filter(maker => {

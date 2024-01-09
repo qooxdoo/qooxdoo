@@ -402,7 +402,7 @@ qx.Class.define("qx.html.Node", {
     /**
      * Called internally to complete the connection to an existing DOM node
      *
-     * @param domNode {DOMNode} the node we're syncing to
+     * @param domNode {Node} the node we're syncing to
      * @param newChildren {qx.html.Node[]} the new children
      */
     _useNodeImpl(domNode, newChildren) {
@@ -458,7 +458,7 @@ qx.Class.define("qx.html.Node", {
      * Connects a DOM element to this Node; if this Node is already connected to a Widget
      * then the Widget is also connected.
      *
-     * @param domNode {DOM} the DOM Node to associate
+     * @param domNode {Node} the DOM Node to associate
      */
     _connectDomNode(domNode) {
       if (qx.core.Environment.get("qx.debug")) {

@@ -685,7 +685,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
 
     /**
      * Returns a list of all of the assets required by all classes
-     * @param target {Target} the current target
+     * @param target {qx.tool.compiler.targets.Target} the current target
      * @param resManager  {qx.tool.compiler.resources.Manager} the resource manager
      * @param environment {Map} environment
      */

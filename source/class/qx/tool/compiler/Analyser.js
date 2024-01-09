@@ -660,7 +660,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Gets the translation for the locale and library, caching the result.
      * @param library
      * @param locale
-     * @returns {translation}
+     * @returns {qx.tool.compiler.app.Translation}
      */
     async getTranslation(library, locale) {
       var t = this;
@@ -864,7 +864,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @param {String} name
      * @param {Boolean?} create whether to create the font if it does not exist (default is false)
-     * @returns {qx.tool.app.ManifestFont?} null if it does not exist and `create` is falsey
+     * @returns {qx.tool.compiler.app.ManifestFont?} null if it does not exist and `create` is falsey
      */
     getFont(name, create) {
       let font = this.__fonts[name] || null;
@@ -894,7 +894,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     /**
      * Returns the map of all fonts, indexed by name
      *
-     * @returns {Map<String,qx.tool.app.ManifestFont>}
+     * @returns {Map<String, qx.tool.compiler.app.ManifestFont>}
      */
     getFonts() {
       return this.__fonts;
