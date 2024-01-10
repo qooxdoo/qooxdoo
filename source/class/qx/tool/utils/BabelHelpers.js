@@ -212,22 +212,15 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
       if (!comment) {
         return null;
       }
-      if (!qx.lang.Type.isArray(comment)) {
-        comment = [comment];
+      if (qx.lang.Type.isArray(comment)) {
+        comment = comment.slice(-1)[0];
       }
-      var result = {};
-      comment.forEach(comment => {
-        result.raw = [...(result.raw ?? []), comment.value];
-        var tmp = qx.tool.compiler.jsdoc.Parser.parseComment(comment.value);
-        for (var key in tmp) {
-          var value = tmp[key];
-          if (!result[key]) {
-            result[key] = value;
-          } else {
-            qx.lang.Array.append(result[key], value);
-          }
-        }
-      });
+      const result = {};
+      result.raw = [...(result.raw ?? []), comment.value];
+      const tmp = qx.tool.compiler.jsdoc.Parser.parseComment(comment.value);
+      for (const key in tmp) {
+        result[key] = tmp[key];
+      }
 
       return result;
     }

@@ -691,7 +691,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer", {
     /**
      * Determine the position in the cell of the open/close button image
      *
-     * @param table {Table}
+     * @param table {qx.ui.treevirtual.TreeVirtual}
      *   The column of indentation being requested, zero-relative
      *
      * @param node {Node}
