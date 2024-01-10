@@ -233,6 +233,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @returns metadata of a parent member which contains substantial type information
      */
     checkOverride(name, kind, meta) {
+      // can only be an override on a `class`, not on `interface`
+      const ifPossible = this.__currentClass.type !== "interface";
+
       const isSubstantial = meta =>
         meta &&
         (meta.returnType ||
@@ -270,12 +273,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             mixinMeta[kind][name] &&
             isSubstantial(mixinMeta[kind][name])
           ) {
-            return { definition: mixinMeta[kind][name], override: true };
+            return { definition: mixinMeta[kind][name], override: ifPossible };
           }
           // recurse: mixins can include mixins
           const mixinResult = this.checkOverride(name, kind, mixinMeta);
           if (mixinResult) {
-            return { definition: mixinResult.definition, override: true };
+            return { definition: mixinResult.definition, override: ifPossible };
           }
         }
       }
@@ -290,7 +293,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             superClassMeta[kind][name] &&
             isSubstantial(superClassMeta[kind][name])
           ) {
-            return { definition: superClassMeta[kind][name], override: true };
+            return {
+              definition: superClassMeta[kind][name],
+              override: ifPossible
+            };
           }
           // recurse: superclasses can include mixins, have super
           const superClassResult = this.checkOverride(
@@ -300,7 +306,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           );
 
           if (superClassResult) {
-            return { definition: superClassResult.definition, override: true };
+            return {
+              definition: superClassResult.definition,
+              override: ifPossible
+            };
           }
         }
       }
