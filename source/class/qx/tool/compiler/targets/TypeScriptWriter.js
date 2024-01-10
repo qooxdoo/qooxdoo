@@ -215,31 +215,86 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * Checks whether a class member is an override or not.
      * @param {string} name - the name of the class member
      * @param {"statics"|"members"|"properties"|"events"} kind - the kind of the class member
-     * @returns {boolean} `true` if the member is an override, `false` if it is not
+     * @param {object} meta - the metadata of the class
+     * @returns metadata of a parent member which contains substantial type information
      */
-    checkOverride(name, kind) {
-      for (const superclass in this.__hierarchy.superClasses) {
-        const items = this.__hierarchy.superClasses[superclass][kind];
-        if (items && name in items) {
-          return true;
+    checkOverride(name, kind, meta) {
+      if (!meta[kind]?.[name]) {
+        return null;
+      }
+
+      const isSubstantial = meta =>
+        meta.returnType ||
+        (meta.params && meta.params.every(param => param.type));
+
+      if (isSubstantial(meta[kind][name])) {
+        return { definition: meta[kind][name], override: false };
+      }
+
+      // check interfaces
+      if (meta.interfaces) {
+        for (const itf of meta.interfaces) {
+          const itfMeta = this.__metaDb.getMetaData(itf);
+          if (
+            itfMeta[kind] &&
+            itfMeta[kind][name] &&
+            isSubstantial(itfMeta[kind][name])
+          ) {
+            return { definition: itfMeta[kind][name], override: false };
+          }
+          // recurse: interfaces can have super
+          const itfResult = this.checkOverride(name, kind, itfMeta);
+          if (itfResult) {
+            return itfResult;
+          }
         }
       }
 
-      // if the member exist on a mixin of this class directly, it is NOT an override (this prevents mixin inclusions overriding themselves)
-      for (const localMixin of this.__currentClass.mixins ?? []) {
-        const items = this.__hierarchy.mixins[localMixin][kind];
-        if (items && name in items) {
-          return false;
+      // check mixins
+      if (meta.mixins) {
+        for (const mixin of meta.mixins) {
+          const mixinMeta = this.__metaDb.getMetaData(mixin);
+          if (
+            mixinMeta[kind] &&
+            mixinMeta[kind][name] &&
+            isSubstantial(mixinMeta[kind][name])
+          ) {
+            return { definition: mixinMeta[kind][name], override: true };
+          }
+          // recurse: mixins can include mixins
+          const mixinResult = this.checkOverride(name, kind, mixinMeta);
+          if (mixinResult) {
+            return mixinResult;
+          }
         }
       }
 
-      for (const mixin in this.__hierarchy.mixins) {
-        const items = this.__hierarchy.mixins[mixin][kind];
-        if (items && name in items) {
-          return true;
+      // check superclass
+      if (meta.superClass) {
+        const superClassMeta = this.__metaDb.getMetaData(meta.superClass);
+        // may be null if meta class extends non-qooxdoo class
+        if (superClassMeta) {
+          if (
+            superClassMeta[kind] &&
+            superClassMeta[kind][name] &&
+            isSubstantial(superClassMeta[kind][name])
+          ) {
+            return { definition: superClassMeta[kind][name], override: true };
+          }
+          // recurse: superclasses can include mixins, have super
+          const superClassResult = this.checkOverride(
+            name,
+            kind,
+            superClassMeta
+          );
+
+          if (superClassResult) {
+            return superClassResult;
+          }
         }
       }
-      return false;
+
+      return { definition: meta[kind][name], override: false };
     },
 
     /**
@@ -292,49 +347,60 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      */
     writeProperties(meta) {
       for (let propertyName in meta.properties) {
-        if (this.checkOverride(propertyName, "properties")) {
-          continue;
-        }
-        let propertyMeta = meta.properties[propertyName];
+        const { definition: propertyMeta, override } = this.checkOverride(
+          propertyName,
+          "properties",
+          meta
+        );
+
+        propertyMeta.jsdoc = meta.properties[propertyName].jsdoc;
+
         let upname = qx.lang.String.firstUp(propertyName);
         let type = propertyMeta.check || "any";
         if (!propertyMeta.group) {
           this.__writeMethod("get" + upname, {
             returnType: type,
-            description: `Gets the ${propertyName} property`
+            description: `Gets the ${propertyName} property`,
+            override
           });
 
           if (type == "Boolean") {
             this.__writeMethod("is" + upname, {
               returnType: type,
-              description: `Gets the ${propertyName} property`
+              description: `Gets the ${propertyName} property`,
+              override
             });
           }
         }
         this.__writeMethod("set" + upname, {
           params: [{ name: "value", type }],
-          description: `Sets the ${propertyName} property`
+          description: `Sets the ${propertyName} property`,
+          override
         });
 
         this.__writeMethod("reset" + upname, {
-          description: `Resets the ${propertyName} property`
+          description: `Resets the ${propertyName} property`,
+          override
         });
 
         if (propertyMeta.async) {
           this.__writeMethod("get" + upname + "Async", {
             returnType: type,
-            description: `Gets the ${propertyName} property, asynchronously`
+            description: `Gets the ${propertyName} property, asynchronously`,
+            override
           });
 
           if (type == "Boolean") {
             this.__writeMethod("is" + upname + "Async", {
               returnType: type,
-              description: `Gets the ${propertyName} property, asynchronously`
+              description: `Gets the ${propertyName} property, asynchronously`,
+              override
             });
           }
           this.__writeMethod("set" + upname + "Async", {
             params: [{ name: "value", type }],
-            description: `Sets the ${propertyName} property`
+            description: `Sets the ${propertyName} property`,
+            override
           });
         }
       }
@@ -455,6 +521,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       if (config.abstract) {
         declaration += "abstract ";
         comment += "Abstract ";
+      }
+
+      if (config.override) {
+        declaration += "override ";
       }
 
       if (config.mixin) {
@@ -587,9 +657,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       if (!methods || !Object.keys(methods).length) {
         return;
       }
-      if (this.checkOverride(name, isStatic ? "statics" : "members")) {
-        return;
-      }
 
       var IGNORE =
         qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
@@ -597,8 +664,13 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         ];
 
       for (var name in methods) {
-        var methodMeta = methods[name];
-        if (methodMeta.type == "function") {
+        const { definition: methodMeta, override } = this.checkOverride(
+          name,
+          isStatic ? "statics" : "members",
+          classMeta
+        ) ?? { definition: methods[name], override: false }; // may be null: singleton class injection edge case
+        methodMeta.jsdoc = methods[name].jsdoc;
+        if (methodMeta.type === "function") {
           this.__writeMethod(name, {
             access: classMeta.type !== "interface" && methodMeta.access,
             abstract: classMeta.type !== "interface" && methodMeta.abstract,
@@ -608,7 +680,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             parameters: methodMeta.params,
             returnType: methodMeta.returnType,
             jsdoc: methodMeta.jsdoc ?? {},
-            hideMethod: IGNORE && IGNORE.indexOf(name) > -1
+            hideMethod: IGNORE && IGNORE.indexOf(name) > -1,
+            override
           });
         }
       }
