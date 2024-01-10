@@ -136,7 +136,7 @@ qx.Class.define("qx.data.Array", {
      * Returns an iterator, ie an object which follows the "Iterator Protocol" so that
      * arrays can be used natively in `for...of`.  See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
      *
-     * @returns {Iterator<any>}
+     * @returns {Iterator}
      */
     iterator() {
       let index = 0;

@@ -756,6 +756,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Element: "HTMLElement",
       Object: "object",
       Map: "Record<string, any>",
+      Iterable: "Iterable<any>",
+      Array: "Array<any>",
+      RegEx: "RegExp",
       // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
       var: "unknown",
       "*": "unknown",

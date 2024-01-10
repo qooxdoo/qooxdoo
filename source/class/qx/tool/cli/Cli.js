@@ -43,7 +43,7 @@ qx.Class.define("qx.tool.cli.Cli", {
   },
 
   members: {
-    /** @type {import("yargs")} the current yargs instance */
+    /** @type {typeof import("yargs")} the current yargs instance */
     yargs: null,
 
     /** @type {Object} the current argv */

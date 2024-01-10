@@ -58,7 +58,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
 
     /**
      * Returns the array of applications
-     * @returns {any[]}
+     * @returns {Application[]}
      */
     getApplications() {
       return this.__applications;

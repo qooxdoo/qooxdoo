@@ -32,7 +32,7 @@ qx.Class.define("qx.tool.utils.Http", {
      * Downloads a URL into a temporary file
      *
      * @param {String} url URL to download
-     * @param {RegExp?} contentTypeRegEx optional regex for the content type
+     * @param {RegEx?} contentTypeRegEx optional regex for the content type
      * @return {String} temporary filename
      */
     async downloadToTempfile(url, contentTypeRegEx) {

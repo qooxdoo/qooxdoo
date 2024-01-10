@@ -269,7 +269,7 @@ qx.Class.define("qx.Promise", {
      * it is fulfilled; return a promise that is fulfilled as soon as count promises are fulfilled
      * in the array. The fulfillment value is an array with count values in the order they were fulfilled.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
      */
@@ -287,7 +287,7 @@ qx.Class.define("qx.Promise", {
      * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
      */
@@ -299,7 +299,7 @@ qx.Class.define("qx.Promise", {
      * Same as {@link qx.Promise.filter} except that it iterates over the value of this promise, when it is fulfilled;
      * iterates over all the values into an array and filter the array to another using the given filterer function.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
      *  <code>concurrency</code> max nuber of simultaneous filters, default is <code>Infinity</code>
@@ -322,7 +322,7 @@ qx.Class.define("qx.Promise", {
      * has items in random order, it means that .map can be used for concurrency coordination unlike
      * .all.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
      *  <code>concurrency</code> max nuber of simultaneous filters, default is <code>Infinity</code>
@@ -345,7 +345,7 @@ qx.Class.define("qx.Promise", {
      * If any promise in the input array is rejected or any promise returned by the iterator function is
      * rejected, the result will be rejected as well.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
      */
@@ -370,7 +370,7 @@ qx.Class.define("qx.Promise", {
      * qx.Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over qx.Promise.all (which awaits for the entire array before you can call Array#reduce on it).
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
      * @return {qx.Promise}
@@ -592,7 +592,7 @@ qx.Class.define("qx.Promise", {
      * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values
      * are untouched.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
     all(iterable) {
@@ -602,7 +602,7 @@ qx.Class.define("qx.Promise", {
     /**
      * Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves
      * or rejects, with the value or reason from that promise.
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
     race(iterable) {
@@ -619,7 +619,7 @@ qx.Class.define("qx.Promise", {
      * Like Promise.some, with 1 as count. However, if the promise fulfills, the fulfillment value is not an
      * array of 1 but the value directly.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
     any(iterable) {
@@ -632,7 +632,7 @@ qx.Class.define("qx.Promise", {
      * that is fulfilled as soon as count promises are fulfilled in the array. The fulfillment value is an
      * array with count values in the order they were fulfilled.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
      */
@@ -650,7 +650,7 @@ qx.Class.define("qx.Promise", {
      * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
      */
@@ -676,7 +676,7 @@ qx.Class.define("qx.Promise", {
      *   });
      * </pre>
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
      *  <code>concurrency</code> max nuber of simultaneous filters, default is <code>Infinity</code>
@@ -721,7 +721,7 @@ qx.Class.define("qx.Promise", {
      *   });
      * </pre>
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
      *  <code>concurrency</code> max nuber of simultaneous filters, default is <code>Infinity</code>
@@ -762,7 +762,7 @@ qx.Class.define("qx.Promise", {
      * }
      * </pre>
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
      */
@@ -801,7 +801,7 @@ qx.Class.define("qx.Promise", {
      * Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over Promise.all (which awaits for the entire array before you can call Array#reduce on it).
      *
-     * @param iterable {Iterable<any>} An iterable object, such as an Array
+     * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
      * @return {qx.Promise}
@@ -994,7 +994,7 @@ qx.Class.define("qx.Promise", {
      * Binds all functions in the array to the context at the end of the array;
      * the last value must be a qx.core.Object to distinguish itself from configuration
      * objects passed to some methods.
-     * @param args {any}
+     * @param args {arguments}
      * @param minArgs {Integer?} minimum number of arguments expected for the method call;
      * 	this is used to determine whether the last value is for binding (default is 1)
      * @return {Array} array of new arguments with functions bound as necessary
