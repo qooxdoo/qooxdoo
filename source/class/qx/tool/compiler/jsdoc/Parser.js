@@ -160,7 +160,7 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
       let open = 0;
       let firstInclude;
       let firstExclude;
-      for (const idx in chars) {
+      for (let idx = 0; idx < chars.length; idx++) {
         const current = chars[idx];
         if (current == "{") {
           open++;

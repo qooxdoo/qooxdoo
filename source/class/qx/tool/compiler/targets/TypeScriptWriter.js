@@ -255,7 +255,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       for (const mixin of mixins) {
         // recurse: mixins can include mixins
         this.write(this.__indent + `// Mixin: ${mixin}\n`);
-        if (!this.__hierarchy.mixins[mixin]) debugger;
         this.writeClassBody(this.__hierarchy.mixins[mixin]);
       }
     },
@@ -479,47 +478,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         comment = " // " + comment;
       }
 
-      if (config.jsdoc) {
-        const content = [];
-
-        const fixup = source =>
-          source
-            .replace(/<\/?p>/g, "")
-            .replace(
-              /\{@link #([^}]+)\}/g,
-              `{@link ${this.__currentClass.className}.$1}`
-            )
-            .replace(
-              /<pre(\sclass=.(.+).)>(<code>)?((.|\n)*?)(<\/code>)?<\/pre>/,
-              "```$2$4```"
-            )
-            .replace(/<code>(.*?)<\/code>/, "`$1`");
-
-        const description = config.jsdoc?.["@description"]?.[0]?.body;
-        if (description) {
-          content.push(...fixup(description).split("\n"));
-        }
-        const sourcePath = path.relative(
-          path.dirname(this.getOutputTo()),
-          path.join(
-            process.cwd(),
-            this.__metaDb.getRootDir(),
-            this.__currentClass.classFilename
-          )
-        );
-
-        this.write(
-          [
-            `/**`,
-            ...content.map(c => ` * ${c.trim()}`),
-            ` *`,
-            ` * [source code](${sourcePath})`,
-            ` */\n`
-          ]
-            .map(line => this.__indent + line)
-            .join("\n")
-        );
-      }
+      this.__writeJsDoc(config.jsdoc?.raw);
 
       this.write(
         this.__indent +
@@ -528,6 +487,60 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           ";" +
           comment +
           "\n"
+      );
+    },
+
+    /**
+     * Writes the JSDoc content and adds a link to the source code
+     * @param {string[]} jsdoc {}
+     */
+    __writeJsDoc(jsdoc) {
+      const fixup = source => {
+        source = source
+          // to ensure that links work correctly, include the full class path
+          .replace(
+            /\{@link #([^}]+)\}/g,
+            `{@link ${this.__currentClass.className}.$1}`
+          );
+
+        if (source.match(/@param|@return/)) {
+          const typeExpr =
+            qx.tool.compiler.jsdoc.Parser.getTypeExpression(source);
+          if (typeExpr) {
+            source =
+              source.slice(0, typeExpr.start - 1).trim() +
+              " " +
+              source.slice(typeExpr.end + 1, source.length).trim();
+          }
+        }
+        return source.trim();
+      };
+
+      jsdoc ??= [];
+      // each item may be a multiline string, joining then splitting by newline gets individual lines
+      jsdoc = jsdoc
+        .join("\n")
+        .split("\n")
+        .filter(line => line.trim().length)
+        .map(fixup);
+      if (jsdoc.length) {
+        jsdoc.push("*");
+      }
+
+      const sourceCodePath = path.relative(
+        path.dirname(this.getOutputTo()),
+        path.join(
+          process.cwd(),
+          this.__metaDb.getRootDir(),
+          this.__currentClass.classFilename
+        )
+      );
+
+      this.write(
+        `${this.__indent}/**\n` +
+          [...jsdoc, `* [source code](${sourceCodePath})`, `*/\n`]
+            .map(line => `${this.__indent} ${line}`)
+            .join("\n")
       );
     },
 
