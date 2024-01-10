@@ -134,7 +134,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
 
     /**
      *
-     * @returns @see {@link qx.tool.config.Utils#getCompilerVersion}
+     * @see {@link qx.tool.config.Utils#getCompilerVersion}
+     * @returns {String}
      */
     getCompilerVersion() {
       return qx.tool.config.Utils.getCompilerVersion();
@@ -180,7 +181,11 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @returns {String}
      */
     getTargetType() {
-      return this.argv.target || this.getCompilerApi().getConfiguration().defaultTarget || "source";
-    },
+      return (
+        this.argv.target ||
+        this.getCompilerApi().getConfiguration().defaultTarget ||
+        "source"
+      );
+    }
   }
 });

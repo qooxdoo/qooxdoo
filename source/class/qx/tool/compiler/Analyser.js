@@ -643,7 +643,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     /**
      * Returns the CLDR data for a given locale
      * @param locale {String} the locale string
-     * @returns Promise({cldr})
+     * @returns {Promise<qx.tool.compiler.app.Cldr>}
      */
     async getCldr(locale) {
       var t = this;

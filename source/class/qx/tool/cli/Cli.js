@@ -684,7 +684,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
     /**
      * Adds commands to Yargs
      *
-     * @param yargs {import("yargs")} the Yargs instance
+     * @param yargs {typeof import("yargs")} the Yargs instance
      * @param classNames {String[]} array of class names, each of which is in the `packageName` package
      * @param packageName {String} the name of the package to find each command class
      */

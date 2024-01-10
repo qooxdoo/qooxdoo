@@ -411,7 +411,7 @@ qx.Class.define("qx.html.Element", {
     /**
      * Finds the Widget for a given DOM element
      *
-     * @param domElement {DOM} the DOM element
+     * @param domElement {Node} the DOM element
      * @return {qx.ui.core.Widget} the Widget that created the DOM element
      * @deprecated {6.1} see qx.html.Node.fromDomNode
      */

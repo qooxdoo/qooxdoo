@@ -1729,7 +1729,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     /**
      * Returns the list of makers to make
      *
-     * @return  {Maker[]}
+     * @return  {qx.tool.compiler.makers.Maker[]}
      */
     getMakers() {
       return this.__makers;
@@ -1771,7 +1771,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     /**
      * Returns a list of libraries which are used
      *
-     * @return {Library[]}
+     * @return {qx.tool.compiler.app.Library[]}
      */
     getLibraries() {
       return this.__libraries;
