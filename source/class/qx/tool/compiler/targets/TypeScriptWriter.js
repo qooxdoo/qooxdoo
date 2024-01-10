@@ -678,8 +678,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Boolean: "boolean",
       Number: "number",
       String: "string",
-      Color: "string",
-      Font: "string",
       document: "Document",
       Stylesheet: "StyleSheet",
       Element: "HTMLElement",
