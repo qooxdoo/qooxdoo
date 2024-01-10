@@ -97,6 +97,20 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.__outputStream = null;
       await this.__outputStreamClosed;
       this.__outputStreamClosed = null;
+
+      // add global declaration file for tooling (eg, text editor) support
+      const globalFile = path.join("source", "global.d.ts");
+      if (!fs.existsSync(globalFile)) {
+        fs.writeFileSync(
+          globalFile,
+          [
+            "// the reference directive enables tooling to discover the generated type definitions",
+            `/// <reference path="../${this.getOutputTo()}" />`,
+            "",
+            "// add custom global declarations here"
+          ].join("\n")
+        );
+      }
     },
 
     /**
@@ -363,7 +377,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             override
           });
 
-          if (type == "Boolean") {
+          if (type.toLowerCase() === "boolean") {
             this.__writeMethod("is" + upname, {
               returnType: type,
               description: `Gets the ${propertyName} property`,
@@ -389,7 +403,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             override
           });
 
-          if (type == "Boolean") {
+          if (type.toLowerCase() === "boolean") {
             this.__writeMethod("is" + upname + "Async", {
               returnType: type,
               description: `Gets the ${propertyName} property, asynchronously`,

@@ -34,5 +34,5 @@ declare type Color = string;
 declare type Font = string;
 
 declare module qx.registry { 
-  function registerMainMethod(fn: (app: qx.application.Standalone) => void):void;
+  function registerMainMethod(fn: (app: qx.application.Standalone) => void): void;
 }
