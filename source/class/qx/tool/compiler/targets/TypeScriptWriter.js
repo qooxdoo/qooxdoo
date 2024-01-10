@@ -219,15 +219,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @returns metadata of a parent member which contains substantial type information
      */
     checkOverride(name, kind, meta) {
-      if (!meta[kind]?.[name]) {
-        return null;
-      }
-
       const isSubstantial = meta =>
-        meta.returnType ||
-        (meta.params && meta.params.every(param => param.type));
+        meta &&
+        (meta.returnType ||
+          (meta.params?.length && meta.params.every(param => param.type)));
 
-      if (isSubstantial(meta[kind][name])) {
+      if (meta[kind]?.[name] && isSubstantial(meta[kind][name])) {
         return { definition: meta[kind][name], override: false };
       }
 
@@ -245,7 +242,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           // recurse: interfaces can have super
           const itfResult = this.checkOverride(name, kind, itfMeta);
           if (itfResult) {
-            return itfResult;
+            return { definition: itfResult.definition, override: false };
           }
         }
       }
@@ -264,7 +261,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           // recurse: mixins can include mixins
           const mixinResult = this.checkOverride(name, kind, mixinMeta);
           if (mixinResult) {
-            return mixinResult;
+            return { definition: mixinResult.definition, override: true };
           }
         }
       }
@@ -289,12 +286,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           );
 
           if (superClassResult) {
-            return superClassResult;
+            return { definition: superClassResult.definition, override: true };
           }
         }
       }
 
-      return { definition: meta[kind][name], override: false };
+      if (meta[kind]?.[name]) {
+        return { definition: meta[kind][name], override: false };
+      }
     },
 
     /**
@@ -757,6 +756,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Object: "object",
       Map: "Record<string, any>",
       Iterable: "Iterable<any>",
+      Iterator: "Iterator<any>",
       Array: "Array<any>",
       RegEx: "RegExp",
       // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
