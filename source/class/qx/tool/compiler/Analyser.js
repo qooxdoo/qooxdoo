@@ -1415,14 +1415,16 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param library
      */
     addLibrary(library) {
-      if (this.__librariesByNamespace[library.getNamespace()]) {
+      const existingLibrary =
+        this.__librariesByNamespace[library.getNamespace()];
+      if (existingLibrary) {
         throw new Error(
           "Multiple libraries with namespace " +
             library.getNamespace() +
             " found " +
             library.getRootDir() +
             " and " +
-            this.__librariesByNamespace[library.getNamespace()].getRootDir()
+            existingLibrary.getRootDir()
         );
       }
       this.__libraries.push(library);
