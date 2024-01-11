@@ -2909,6 +2909,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
       return info;
     },
+    
     /**
      * Adds a required asset
      * @param path
@@ -2921,6 +2922,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__requiredAssets.push(path);
       }
     },
+    
     /**
      * Returns the assets required by the class
      * @returns
