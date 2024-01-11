@@ -92,7 +92,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * Closes the stream
      */
     async close() {
-      this.write("}\n");
       await this.__outputStream.end();
       this.__outputStream = null;
       await this.__outputStreamClosed;
@@ -197,7 +196,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         type = "declare " + type;
       }
 
-      this.__writeJsDoc(meta.jsdoc?.raw);
+      this.__writeJsDoc(meta.jsdoc?.raw, meta.location);
       this.write("  // " + meta.className + "\n");
       let name = meta.className;
       let pos = name.lastIndexOf(".");
@@ -236,13 +235,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     checkOverride(name, kind, meta) {
       // can only be an override on a `class`, not on `interface`
       const ifPossible = this.__currentClass.type !== "interface";
-
-      if (
-        !arguments[3] &&
-        this.__currentClass.className === "qx.ui.groupbox.RadioGroupBox" &&
-        name === "setValue"
-      )
-        debugger;
 
       if (
         !arguments[3] &&
@@ -376,7 +368,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
               access: "public",
               jsdoc: {
                 "@return": [{ type: meta.className }]
-              }
+              },
+
+              appearsIn: []
             }
           },
 
@@ -389,7 +383,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       if (meta.properties) {
         this.writeProperties(meta);
       }
-      this.includeMixins(meta);
     },
 
     /**
@@ -397,68 +390,90 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      */
     writeProperties(meta) {
       for (let propertyName in meta.properties) {
-        const { definition: propertyMeta, override } = this.checkOverride(
-          propertyName,
-          "properties",
-          meta
-        );
-
-        propertyMeta.jsdoc = meta.properties[propertyName].jsdoc;
+        let propertyMeta = meta.properties[propertyName];
+        if (propertyMeta.appearsIn.length) {
+          const superLikeName = propertyMeta.appearsIn.slice(-1)[0];
+          const superLikeMeta = this.__metaDb.getMetaData(superLikeName);
+          const superLikeProperty = superLikeMeta.properties[propertyName];
+          superLikeProperty.jsdoc = propertyMeta.jsdoc;
+          propertyMeta = superLikeProperty;
+        }
 
         let upname = qx.lang.String.firstUp(propertyName);
-        let type = propertyMeta.check || "any";
-        if (!propertyMeta.group) {
+        let type = propertyMeta.json?.check ?? "any";
+
+        if (Array.isArray(type)) {
+          // `[t1, t2]` -> `t1|t2`
+          type = JSON.stringify(type).replace(/,/g, "|").slice(1, -1);
+        } else if (typeof type === "string") {
+          if (
+            !type.match(/^[a-z\d\s.\|\<\>\&\(\)\[\]]+$/i) ||
+            type === "[[ ObjectMethod Function ]]"
+          ) {
+            type = "any";
+          }
+        } else {
+          type = "any";
+        }
+        if (!propertyMeta.json?.group) {
           this.__writeMethod("get" + upname, {
+            location: propertyMeta.location,
             returnType: type,
             jsdoc: { raw: [`Gets the ${propertyName} property`] },
-            override
+            override: propertyMeta.override
           });
 
-          if (type.toLowerCase() === "boolean") {
+          if (typeof type === "string" && type.toLowerCase() === "boolean") {
             this.__writeMethod("is" + upname, {
+              location: propertyMeta.location,
               returnType: type,
               jsdoc: { raw: [`Gets the ${propertyName} property`] },
-              override
+              override: propertyMeta.override
             });
           }
         }
         this.__writeMethod("set" + upname, {
+          location: propertyMeta.location,
           parameters: [{ name: "value", type }],
           returnType: type,
           jsdoc: { raw: [`Sets the ${propertyName} property`] },
-          override
+          override: propertyMeta.override
         });
 
         this.__writeMethod("reset" + upname, {
+          location: propertyMeta.location,
           jsdoc: { raw: [`Resets the ${propertyName} property`] },
-          override
+          override: propertyMeta.override
         });
 
-        if (propertyMeta.async) {
+        if (propertyMeta.json?.async) {
           this.__writeMethod("get" + upname + "Async", {
+            location: propertyMeta.location,
             returnType: "qx.Promise",
             jsdoc: {
               raw: [`Gets the ${propertyName} property, asynchronously`]
             },
 
-            override
+            override: propertyMeta.override
           });
 
-          if (type.toLowerCase() === "boolean") {
+          if (typeof type === "string" && type.toLowerCase() === "boolean") {
             this.__writeMethod("is" + upname + "Async", {
+              location: propertyMeta.location,
               returnType: "qx.Promise",
               jsdoc: {
                 raw: [`Gets the ${propertyName} property, asynchronously`]
               },
 
-              override
+              override: propertyMeta.override
             });
           }
           this.__writeMethod("set" + upname + "Async", {
+            location: propertyMeta.location,
             parameters: [{ name: "value", type }],
             returnType: "qx.Promise",
             jsdoc: { raw: [`Sets the ${propertyName} property`] },
-            override
+            override: propertyMeta.override
           });
         }
       }
@@ -523,7 +538,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       typename = typename.replace("Promise<", "globalThis.Promise<");
       typename = typename.replace(
         /(^|[^.a-zA-Z])(var|\*)([^.a-zA-Z]|$)/g,
-        "$1unknown$3"
+        "$1any$3"
       );
 
       // this will do for now, but it will fail on an expression like `Array<Record<string, any>>`
@@ -547,7 +562,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     },
 
     /**
-     * @typedef {Object} MethodMeta
+     * @typedef {Object} MethodConfig
+     * @property {object} location
      * @property {Boolean} access
      * @property {Boolean} abstract
      * @property {Boolean} async
@@ -558,7 +574,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @property {object} jsdoc
      *
      * @param {String} methodName
-     * @param {MethodMeta} config
+     * @param {MethodConfig} config
      */
     __writeMethod(methodName, config) {
       var declaration = "";
@@ -594,7 +610,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
       declaration += ": " + returnType;
 
-      this.__writeJsDoc(config.jsdoc?.raw);
+      this.__writeJsDoc(config.jsdoc?.raw, config.location);
 
       this.write(
         this.__indent +
@@ -609,8 +625,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Writes the JSDoc content and adds a link to the source code
      * @param {string[]} jsdoc
+     * @param {object} location
      */
-    __writeJsDoc(jsdoc) {
+    __writeJsDoc(jsdoc, location) {
       const fixup = source => {
         source = source
           // to ensure that links work correctly, include the full class path
@@ -628,17 +645,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
               " " +
               source.slice(typeExpr.end + 1, source.length).trim();
           }
+          if (source.trim().match(/^\*\s*(@param|@return(s?))$/)) {
+            return "";
+          }
         }
         return source.trim();
       };
 
-      jsdoc ??= [];
-      // each item may be a multiline string, joining then splitting by newline gets individual lines
-      jsdoc = jsdoc
-        .join("\n")
-        .split("\n")
-        .filter(line => line.trim().length)
-        .map(fixup);
+      jsdoc = (jsdoc ?? []).map(fixup).filter(line => line.trim().length);
       if (jsdoc.length) {
         jsdoc.push("*");
       }
@@ -652,9 +666,20 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         )
       );
 
+      // currently, VSCode does not support the use of `%file:%line:%column` in
+      // in-file links, though it supports them in all other contexts.
+      // TODO: find/create issue at microsoft/vscode regarding the above
+      const locationSpecifier = ""; // location?.start
+      //   ? `:${location.start.line}:${location.start.column}`
+      //   : "";
+
       this.write(
         `${this.__indent}/**\n` +
-          [...jsdoc, `* [source code](${sourceCodePath})`, `*/\n`]
+          [
+            ...jsdoc,
+            `* [source code](${sourceCodePath}${locationSpecifier})`,
+            `*/\n`
+          ]
             .map(line => `${this.__indent} ${line}`)
             .join("\n")
       );
@@ -704,15 +729,21 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         return;
       }
 
+      const access = isStatic ? "statics" : "members";
+
       for (var name in methods) {
-        const { definition: methodMeta, override } = this.checkOverride(
-          name,
-          isStatic ? "statics" : "members",
-          classMeta
-        ) ?? { definition: methods[name], override: false }; // may be null: singleton class injection edge case
-        methodMeta.jsdoc = methods[name].jsdoc;
+        let methodMeta = methods[name];
+        if (methodMeta.appearsIn.length) {
+          const superLikeName = methodMeta.appearsIn.slice(-1)[0];
+          const superLikeMeta = this.__metaDb.getMetaData(superLikeName);
+          const superLikeMember = superLikeMeta[access][name];
+          superLikeMember.jsdoc = methodMeta.jsdoc;
+          methodMeta = superLikeMember;
+        }
+
         if (methodMeta.type === "function") {
           this.__writeMethod(name, {
+            location: methodMeta.location,
             access: classMeta.type !== "interface" && methodMeta.access,
             abstract: classMeta.type !== "interface" && methodMeta.abstract,
             async: methodMeta.async,
@@ -721,7 +752,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             parameters: methodMeta.params,
             returnType: methodMeta.returnType,
             jsdoc: methodMeta.jsdoc ?? {},
-            override
+            override: methodMeta.override
           });
         }
       }
@@ -774,9 +805,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Array: "Array<any>",
       RegEx: "RegExp",
       // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
-      var: "unknown",
-      "*": "unknown",
-      arguments: "unknown"
+      var: "any",
+      "*": "any",
+      arguments: "any"
     }
   }
 });

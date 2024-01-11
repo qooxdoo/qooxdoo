@@ -185,6 +185,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
                   }
                   found = true;
                   metaData.type = definingType.toLowerCase();
+                  metaData.location = {
+                    start: node.loc.start,
+                    end: node.loc.end
+                  };
+
                   metaData.className = node.expression.arguments[0].value;
                   if (typeof metaData.className != "string") {
                     metaData.className = null;
@@ -272,7 +277,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         else if (propertyName == "construct" || propertyName == "destruct") {
           let memberMeta = (metaData[propertyName] = {
             type: "function",
-            params: []
+            params: [],
+            location: {
+              start: path.node.loc.start,
+              end: path.node.loc.end
+            }
           });
 
           collapseParamMeta(property, memberMeta);
@@ -289,6 +298,10 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
             if (event.value.type == "StringLiteral") {
               metaData.events[name].type = event.value.value;
+              metaData.events[name].location = {
+                start: event.loc.start,
+                end: event.loc.end
+              };
             }
           });
         }
@@ -314,6 +327,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
               : name.startsWith("_")
               ? "protected"
               : "public";
+            memberMeta.location = {
+              start: member.loc.start,
+              end: member.loc.end
+            };
+
             if (
               member.type === "ObjectMethod" ||
               (member.type === "ObjectProperty" &&
@@ -347,6 +365,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         );
 
         metaData.properties[name] = {
+          location: {
+            start: path.node.loc.start,
+            end: path.node.loc.end
+          },
+
           json: qx.tool.utils.BabelHelpers.collectJson(property.value, true),
           jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(property.leadingComments)
         };

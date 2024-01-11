@@ -215,8 +215,10 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
       if (qx.lang.Type.isArray(comment)) {
         comment = comment.slice(-1)[0];
       }
-      const result = {};
-      result.raw = [...(result.raw ?? []), comment.value];
+      const result = {
+        raw: comment.value?.split("\n")
+      };
+
       const tmp = qx.tool.compiler.jsdoc.Parser.parseComment(comment.value);
       for (const key in tmp) {
         result[key] = tmp[key];
