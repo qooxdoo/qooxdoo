@@ -132,7 +132,13 @@ qx.Bootstrap.define("qx.event.handler.OrientationCore", {
           this.__emitter.emit("orientationchange", domEvent);
         }
       }
-    }
+    },
+
+    // ------------------------------------------------------------------------
+    /**
+     * no-op implementation.
+     */
+    dispose() {}
   },
 
   /*
