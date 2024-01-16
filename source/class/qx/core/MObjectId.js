@@ -57,6 +57,12 @@ qx.Mixin.define("qx.core.MObjectId", {
    * MEMBERS
    * ****************************************************************************
    */
+  statics: {
+    handleObjects(clazz, instance, id, ...args) {
+      const objectsDef = clazz.$$objects;
+      return objectsDef?.[id]?.call(instance, ...args) ?? null;
+    }
+  },
 
   members: {
     __ownedQxObjects: null,
