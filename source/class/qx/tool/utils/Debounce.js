@@ -116,7 +116,7 @@ qx.Class.define("qx.tool.utils.Debounce", {
       this.__timerId = null;
       let promise = this.__runPromise;
       try {
-        let result = undefined;
+        let result = null;
         while (true) {
           result = await this._runImpl();
           if (this.__queuedRepeat) {

@@ -66,30 +66,28 @@ qx.Class.define("qx.tool.utils.BabelHelpers", {
 
     /**
      * Helper method that collapses the MemberExpression into a string
-     * @param node
+     * @param param
+     * @param {number} idx
      * @returns {string}
      */
-    collapseParam(param) {
+    collapseParam(param, idx) {
       switch (param.type) {
         case "Identifier":
           return param.name;
 
         case "AssignmentPattern":
-          return qx.tool.utils.BabelHelpers.collapseParam(param.left);
+          return qx.tool.utils.BabelHelpers.collapseParam(param.left, idx);
 
         case "RestElement":
           return (
-            "..." + qx.tool.utils.BabelHelpers.collapseParam(param.argument)
+            "..." +
+            qx.tool.utils.BabelHelpers.collapseParam(param.argument, idx)
           );
 
         case "ObjectPattern":
-          return "arg0";
-
         case "ArrayPattern":
-          return "arg0";
+          return `arg${idx}`;
       }
-
-      // ...cases...
 
       throw new Error(
         `collapseParam: ${param.type} not useable as a parameter`

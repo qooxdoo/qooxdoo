@@ -165,12 +165,9 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
         meta.fixupJsDoc(typeResolver);
 
         this.__fixupMembers(metaData);
+
         this.__fixupEntries(metaData, "members");
-
-        // this.__fixupStatics(metaData);
         this.__fixupEntries(metaData, "statics");
-
-        // this.__fixupProperties(metaData);
         this.__fixupEntries(metaData, "properties");
 
         let filename =
@@ -290,20 +287,6 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
         }
       }
     },
-
-    // /**
-    //  * Discovers data about the statics in the hierarchy
-    //  *
-    //  * @param {*} metaData
-    //  */
-    // __fixupStatics(metaData) {},
-
-    // /**
-    //  * Discovers data about the properties in the hierarchy
-    //  *
-    //  * @param {*} metaData
-    //  */
-    // __fixupProperties(metaData) {},
 
     /**
      * Detects the superlike (class/mixin/interface) appearances and includes the

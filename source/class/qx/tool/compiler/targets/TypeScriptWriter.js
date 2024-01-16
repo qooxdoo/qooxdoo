@@ -145,6 +145,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         }
         await this.writeClass(metaData, declared);
       }
+      if (lastPackageName) this.write("}\n");
       await this.close();
     },
 
@@ -276,7 +277,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     writeProperties(meta) {
       for (let propertyName in meta.properties) {
         let propertyMeta = meta.properties[propertyName];
-        if (propertyMeta.appearsIn.length) {
+        if (propertyMeta.appearsIn?.length) {
           const superLikeName = propertyMeta.appearsIn.slice(-1)[0];
           const superLikeMeta = this.__metaDb.getMetaData(superLikeName);
           const superLikeProperty = superLikeMeta.properties[propertyName];
@@ -618,7 +619,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       for (var name in methods) {
         let methodMeta = methods[name];
-        if (methodMeta.appearsIn.length) {
+        if (methodMeta.appearsIn?.length) {
           const superLikeName = methodMeta.appearsIn.slice(-1)[0];
           const superLikeMeta = this.__metaDb.getMetaData(superLikeName);
           const superLikeMember = superLikeMeta[access][name];
