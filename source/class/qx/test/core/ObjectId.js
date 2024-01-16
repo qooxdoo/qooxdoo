@@ -18,6 +18,9 @@
 
 /**
  * @ignore(demo.MyClass)
+ * @ignore(demo.SuperClass)
+ * @ignore(demo.SubClass)
+ * @ignore(demo.ObjectOnly)
  */
 /* global demo */
 
@@ -66,6 +69,112 @@ qx.Class.define("qx.test.core.ObjectId", {
 
       Id.unregister("test");
       this.assertTrue(!Id.getQxObject("test"));
+    },
+
+    testObjectsSection() {
+      const SuperClass = qx.Class.define("demo.SuperClass", {
+        extend: qx.core.Object,
+        objects: {
+          overriddenObject() {
+            return "overridden object in superclass";
+          },
+
+          inheritedObject() {
+            return "inherited object";
+          },
+
+          modifiedObject() {
+            return "modified object";
+          }
+        },
+
+        members: {
+          _createQxObjectImpl(id) {
+            switch (id) {
+              case "superCreateQxObjectImpl":
+                return "superCreateQxObjectImpl";
+            }
+
+            return super._createQxObjectImpl(id);
+          }
+        }
+      });
+
+      const SubClass = qx.Class.define("demo.SubClass", {
+        extend: SuperClass,
+        include: [qx.core.MAssert],
+        objects: {
+          commonObject() {
+            return "common object in objects section";
+          },
+
+          overriddenObject() {
+            return "overridden object in subclass";
+          },
+
+          modifiedObject() {
+            return (
+              super._createQxObjectImpl("modifiedObject") + " + some changes"
+            );
+          }
+        },
+
+        members: {
+          _createQxObjectImpl(id) {
+            switch (id) {
+              case "commonObject":
+                return "common object in _createQxObjectImpl";
+              case "onlyInQxObjectImpl":
+                return "onlyInQxObjectImpl";
+            }
+
+            return super._createQxObjectImpl(id);
+          }
+        }
+      });
+
+      const obj = new SubClass();
+
+      this.assertEquals(
+        "common object in objects section",
+        obj.getQxObject("commonObject")
+      );
+
+      this.assertEquals(
+        "onlyInQxObjectImpl",
+        obj.getQxObject("onlyInQxObjectImpl")
+      );
+
+      this.assertEquals(
+        "overridden object in subclass",
+        obj.getQxObject("overriddenObject")
+      );
+
+      this.assertEquals("inherited object", obj.getQxObject("inheritedObject"));
+      this.assertEquals(
+        "modified object + some changes",
+        obj.getQxObject("modifiedObject")
+      );
+
+      this.assertEquals(
+        "superCreateQxObjectImpl",
+        obj.getQxObject("superCreateQxObjectImpl")
+      );
+
+      const ObjectOnlyClass = qx.Class.define("demo.ObjectOnly", {
+        extend: qx.core.Object,
+        objects: {
+          onlyInQxObjectImpl() {
+            return "onlyInQxObjectImpl";
+          }
+        }
+      });
+
+      const objectsOnlyObject = new ObjectOnlyClass();
+      this.assertEquals(
+        "onlyInQxObjectImpl",
+        objectsOnlyObject.getQxObject("onlyInQxObjectImpl")
+      );
     }
   }
 });
