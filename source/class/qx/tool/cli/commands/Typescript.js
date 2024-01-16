@@ -48,10 +48,11 @@ qx.Class.define("qx.tool.cli.commands.Typescript", {
           }
         }
       };
+
       if (qx.core.Environment.get("qx.debug")) {
         config.builder["meta-debug"] = {
           describe:
-            "Debug metdata output to console, implies --verbose and only one file"
+            "Debug metadata output to console, implies --verbose and only one file"
         };
       }
       return config;
@@ -104,6 +105,7 @@ qx.Class.define("qx.tool.cli.commands.Typescript", {
           let manifest = await qx.tool.utils.Json.loadJsonAsync(
             "Manifest.json"
           );
+
           let tmp = manifest?.provides?.class;
           if (tmp) {
             files.push(tmp);

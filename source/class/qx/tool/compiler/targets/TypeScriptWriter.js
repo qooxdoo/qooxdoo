@@ -145,6 +145,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         }
         await this.writeClass(metaData, declared);
       }
+      if (lastPackageName) this.write("}\n");
       await this.close();
     },
 

@@ -227,10 +227,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
       const collapseParamMeta = (node, meta) => {
         getFunctionParams(node).forEach((param, i) => {
-          let name = qx.tool.utils.BabelHelpers.collapseParam(param);
-          if (name === "arg0") {
-            name = `arg${i}`;
-          }
+          let name = qx.tool.utils.BabelHelpers.collapseParam(param, i);
           meta.params.push({ name });
         });
       };
