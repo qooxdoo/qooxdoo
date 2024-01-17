@@ -545,13 +545,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         jsdoc.push("*");
       }
 
-      const sourceCodePath = path.relative(
-        path.dirname(this.getOutputTo()),
-        path.join(
-          process.cwd(),
-          this.__metaDb.getRootDir(),
-          this.__currentClass.classFilename
-        )
+      const sourceCodePath = path.join(
+        process.cwd(),
+        this.__metaDb.getRootDir(),
+        this.__currentClass.classFilename
       );
 
       // currently, VSCode does not support the use of `%file:%line:%column` in
