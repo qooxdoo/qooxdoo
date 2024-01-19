@@ -822,6 +822,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       let debounce = new qx.tool.utils.Debounce(async () => {
         let filesParsed = false;
         qx.tool.compiler.Console.info(`Loading meta data ...`);
+        let addFilePromises = [];
         while (true) {
           let arr = Object.keys(classFiles);
           if (arr.length == 0) {
@@ -835,11 +836,12 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 `Processing meta for ${filename} ...`
               );
             }
-            metaDb.addFile(filename);
+            addFilePromises.push(metaDb.addFile(filename));
           });
         }
         if (filesParsed) {
           qx.tool.compiler.Console.info(`Generating typescript output ...`);
+          await Promise.all(addFilePromises);
           await metaDb.reparseAll();
           await metaDb.save();
           if (this.argv.typescript) {

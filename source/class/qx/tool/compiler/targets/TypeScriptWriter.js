@@ -98,7 +98,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.__outputStreamClosed = null;
 
       // add global declaration file for tooling (eg, text editor) support
-      const globalFile = path.join("source", "global.d.ts");
+      const globalFile = path.join(process.cwd(), "source", "global.d.ts");
       if (!fs.existsSync(globalFile)) {
         fs.writeFileSync(
           globalFile,
@@ -229,22 +229,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     },
 
     /**
-     * Include the members, statics, properties of all mixins, if any.
-     */
-    includeMixins(meta) {
-      const mixins = meta.mixins
-        ? Array.isArray(meta.mixins)
-          ? meta.mixins
-          : [meta.mixins]
-        : [];
-
-      for (const mixin of mixins) {
-        this.write(this.__indent + `// Mixin: ${mixin}\n`);
-        this.writeClassBody(this.__hierarchy.mixins[mixin]);
-      }
-    },
-
-    /**
      * Writes the body of the class (excl. constructor) and processes mixins
      */
     writeClassBody(meta) {
@@ -277,7 +261,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * Writes the property accessors
      */
     writeProperties(meta) {
+      const names = [];
+      const types = [];
       for (let propertyName in meta.properties) {
+        names.push(propertyName);
         let propertyMeta = meta.properties[propertyName];
         if (propertyMeta.appearsIn?.length) {
           const superLikeName = propertyMeta.appearsIn.slice(-1)[0];
@@ -289,6 +276,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
         let upname = qx.lang.String.firstUp(propertyName);
         let type = propertyMeta.json?.check ?? "any";
+        types.push(type);
 
         if (Array.isArray(type)) {
           // `[t1, t2]` -> `t1|t2`
@@ -365,6 +353,34 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           });
         }
       }
+      let objType = "{";
+      for (let i = 0; i < Math.min(names.length, types.length); i++) {
+        objType += `\n${this.__indent}  ${names[i]}: ${types[i]};`;
+      }
+      objType += `\n${this.__indent}}`;
+      const valueType = new Set([...types]).map(n => `"${n}"`).join("|");
+
+      this.__writeMethod("set", {
+        parameters: [{ name: "data", type: objType }],
+        returnType: "this",
+        jsdoc: { raw: [`Sets several properties at once`] },
+        override: true
+      });
+
+      // overload
+      this.__writeMethod("set", {
+        parameters: [
+          { name: "\nprop", type: names.map(n => `"${n}"`).join("|") },
+          {
+            name: "\nvalue",
+            type: valueType + "\n"
+          }
+        ],
+
+        returnType: valueType,
+        jsdoc: { raw: [`Sets the named property`] },
+        override: true
+      });
     },
 
     /**
@@ -454,6 +470,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @property {object} location
      * @property {Boolean} access
      * @property {Boolean} abstract
+     * @property {Boolean} override
      * @property {Boolean} async
      * @property {Boolean} static
      * @property {Boolean} mixin
