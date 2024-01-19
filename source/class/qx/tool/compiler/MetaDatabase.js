@@ -154,6 +154,21 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
     async reparseAll() {
       let classnames = Object.keys(this.__dirtyClasses);
       this.__dirtyClasses = {};
+
+      let derivedClassLookup = this.__createDerivedClassLookup();
+
+      for (let i = 0; i < classnames.length; i++) {
+        const className = classnames[i];
+        const derived = derivedClassLookup[className];
+        for (const derivedClass of derived.values()) {
+          if (!classnames.includes(derivedClass)) {
+            classnames.push(derivedClass);
+          }
+        }
+      }
+
+      debugger;
+
       for (let className of classnames) {
         let meta = this.__metaByClassname[className];
         let metaData = meta.getMetaData();
@@ -174,6 +189,31 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
           this.getRootDir() + "/" + className.replace(/\./g, "/") + ".json";
         await meta.saveMeta(filename);
       }
+    },
+
+    __createDerivedClassLookup() {
+      const lookup = {};
+
+      const add = (key, item) => {
+        lookup[key] ??= new Set();
+        lookup[key].add(item);
+      };
+
+      for (let classname in this.__metaByClassname) {
+        lookup[classname] ??= new Set(); // ensuring this makes operations with the lookup simpler
+        let metaData = this.__metaByClassname[classname].getMetaData();
+        if (metaData.superClass) {
+          add(metaData.superClass, classname);
+        }
+        for (let mixin of metaData.mixins ?? []) {
+          add(mixin, classname);
+        }
+        for (let iface of metaData.interfaces ?? []) {
+          add(iface, classname);
+        }
+      }
+
+      return lookup;
     },
 
     /**
