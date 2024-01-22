@@ -167,8 +167,6 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
         }
       }
 
-      debugger;
-
       for (let className of classnames) {
         let meta = this.__metaByClassname[className];
         let metaData = meta.getMetaData();

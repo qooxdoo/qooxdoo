@@ -787,14 +787,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           sourceDir: dir
         };
 
-        await scanImpl(dir, "");
+        await scanImpl(dir);
       }
 
       for (let filename of classFiles) {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(`Processing ${filename} ...`);
         }
-        await metaDb.addFile(filename);
+        await metaDb.addFile(filename, !!this.argv.clean);
       }
       await metaDb.reparseAll();
       await metaDb.save();
