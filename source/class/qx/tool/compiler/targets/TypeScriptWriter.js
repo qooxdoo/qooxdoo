@@ -238,10 +238,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             getInstance: {
               type: "function",
               access: "public",
-              jsdoc: {
-                "@return": [{ type: meta.className }]
-              },
-
+              returnType: meta.className,
               appearsIn: []
             }
           },
@@ -359,15 +356,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         return;
       }
 
-      let objType = "{";
+      let objType = `{\n${this.__indent}  [key: string]: any;`;
       for (let i = 0; i < Math.min(names.length, types.length); i++) {
-        if (Array.isArray(types[i])) {
-          objType += `\n${this.__indent}  ${names[i]}: ${types[i]
-            .map(n => (typeof n === "string" ? `"${n}"` : n))
-            .join("|")};`;
-        } else {
-          objType += `\n${this.__indent}  ${names[i]}: ${types[i]};`;
-        }
+        objType += `\n${this.__indent}  ${names[i]}?: ${types[i]};`;
       }
       objType += `\n${this.__indent}}`;
       const valueType = [...new Set(types)]
