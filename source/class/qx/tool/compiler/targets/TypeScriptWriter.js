@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
   /**
    *
-   * @param {qx.tool.compiler.targets.MetaDatabase} metaDb loaded database
+   * @param {qx.tool.compiler.MetaDatabase} metaDb loaded database
    */
   construct(metaDb) {
     super();
@@ -276,7 +276,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
         let upname = qx.lang.String.firstUp(propertyName);
         let type = propertyMeta.json?.check ?? "any";
-        types.push(type);
 
         if (Array.isArray(type)) {
           // `[t1, t2]` -> `t1|t2`
@@ -291,6 +290,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         } else {
           type = "any";
         }
+        types.push(type);
+
         if (!propertyMeta.json?.group) {
           this.__writeMethod("get" + upname, {
             location: propertyMeta.location,
@@ -353,13 +354,26 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           });
         }
       }
+
+      if (!names.length) {
+        return;
+      }
+
       let objType = "{";
       for (let i = 0; i < Math.min(names.length, types.length); i++) {
-        objType += `\n${this.__indent}  ${names[i]}: ${types[i]};`;
+        if (Array.isArray(types[i])) {
+          objType += `\n${this.__indent}  ${names[i]}: ${types[i]
+            .map(n => (typeof n === "string" ? `"${n}"` : n))
+            .join("|")};`;
+        } else {
+          objType += `\n${this.__indent}  ${names[i]}: ${types[i]};`;
+        }
       }
       objType += `\n${this.__indent}}`;
-      const valueType = new Set([...types]).map(n => `"${n}"`).join("|");
-
+      const valueType = [...new Set(types)]
+        .map(n => `"${n}"`)
+        .join("|")
+        .replace(/"+/g, '"');
       this.__writeMethod("set", {
         parameters: [{ name: "data", type: objType }],
         returnType: "this",
@@ -370,10 +384,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       // overload
       this.__writeMethod("set", {
         parameters: [
-          { name: "\nprop", type: names.map(n => `"${n}"`).join("|") },
           {
-            name: "\nvalue",
-            type: valueType + "\n"
+            name: `\n${this.__indent}  prop`,
+            type: names.map(n => `"${n}"`).join("|")
+          },
+
+          {
+            name: `\n${this.__indent}  value`,
+            type: `${valueType}\n${this.__indent}`
           }
         ],
 
