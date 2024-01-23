@@ -734,12 +734,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             );
 
             const paramaterList =
-              memberMeta.jsdoc["@param"]?.map(p => {
-                name, memberMeta;
-                return `${p.paramName}${p.optional ? "?" : ""}: ${this.getType(
-                  p.type
-                )}`;
-              }) ?? [];
+              memberMeta.jsdoc["@param"]?.map(
+                p =>
+                  `${p.paramName}${p.optional ? "?" : ""}: ${this.getType(
+                    p.type
+                  )}`
+              ) ?? [];
             type = `((${paramaterList.join(", ")}) => ${returnType})`;
           } else if (!!memberMeta.jsdoc?.["@type"]) {
             type = this.getType(memberMeta.jsdoc["@type"][0].type);
