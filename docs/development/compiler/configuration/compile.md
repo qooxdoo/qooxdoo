@@ -599,7 +599,8 @@ defaults:
 A file called `global.d.ts` is also created and placed under your application's
 `source` directory. This file may be useful for tooling and text editors when
 discovering types. Depending on your text editor, it may be beneficial to keep
-the `global.d.ts` file open.
+the `global.d.ts` file open, or to create a `jsconfig.json` or `tsconfig.json`
+file in your project root.
 
 ** Note that this has changed: you no longer add a new target, nor do you need to add 
 `typescript: true` to one of your existing targets. **
