@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.core.property.SimpleProperty", {
       }
       let value = this.__getInitValue(thisObj);
       if (value !== undefined) {
-        thisObj["$$propertyValues"][this.__propertyName] = value;]
+        thisObj["$$propertyValues"][this.__propertyName] = value;
       }
     },
 
