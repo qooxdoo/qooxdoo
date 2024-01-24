@@ -361,33 +361,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         objType += `\n${this.__indent}  ${names[i]}?: ${types[i]};`;
       }
       objType += `\n${this.__indent}}`;
-      const valueType = [...new Set(types)]
-        .map(n => `"${n}"`)
-        .join("|")
-        .replace(/"+/g, '"');
       this.__writeMethod("set", {
         parameters: [{ name: "data", type: objType }],
         returnType: "this",
         jsdoc: { raw: [`Sets several properties at once`] },
-        override: true
-      });
-
-      // overload
-      this.__writeMethod("set", {
-        parameters: [
-          {
-            name: `\n${this.__indent}  prop`,
-            type: names.map(n => `"${n}"`).join("|")
-          },
-
-          {
-            name: `\n${this.__indent}  value`,
-            type: `${valueType}\n${this.__indent}`
-          }
-        ],
-
-        returnType: valueType,
-        jsdoc: { raw: [`Sets the named property`] },
         override: true
       });
     },
