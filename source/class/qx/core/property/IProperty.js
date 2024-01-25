@@ -45,7 +45,7 @@ qx.Interface.define("qx.core.property.IProperty", {
     reset(thisObj) {},
 
     /**
-     * Gets a property value
+     * Gets a property value; will raise an error if the property is not initialized
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @return {*}
@@ -53,13 +53,31 @@ qx.Interface.define("qx.core.property.IProperty", {
     get(thisObj) {},
 
     /**
-     * Sets a property value.  Note that this does not fire any events, call apply, or
-     * transform the value.
+     * Gets a property value; if not initialized and the property is async, it will
+     * wait for the underlying storage to resolve but will throw an error if the underlying
+     * storage cannot provide a value which is not `undefined`
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @return {*}
+     */
+    getAsync(thisObj) {},
+
+    /**
+     * Sets a property value.
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @param {*} value the value to set
      */
     set(thisObj, value) {},
+
+    /**
+     * Sets a property value asynchronously
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @param {*} value the value to set
+     * @return {qx.Promise<Void>}
+     */
+    setAsync(thisObj, value) {},
 
     /**
      * Returns the `qx.core.property.Check` instance that can be used to verify property value compatibility
@@ -76,15 +94,6 @@ qx.Interface.define("qx.core.property.IProperty", {
     dereference(thisObj) {},
 
     /**
-     * Fires a change event for the property
-     *
-     * @param {qx.core.Object} thisObj the object on which the property is defined
-     * @param {*} value
-     * @param {*} oldValue
-     */
-    fireEvent(thisObj, value, oldValue) {},
-
-    /**
      * Compares two property values for equality, used to determine whether to apply
      * and fire change events
      *
@@ -94,12 +103,27 @@ qx.Interface.define("qx.core.property.IProperty", {
     compare(value, oldValue) {},
 
     /**
+     * Promise that resolves when the property is ready, or when it has finished mutating
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     */
+    promiseReady(thisObj) {},
+
+    /**
      * Whether the property is initialized
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @return {Boolean}
      */
     isInited(thisObj) {},
+
+    /**
+     * Whether the property is mutating (asynchronously or recursively)
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @return {Boolean}
+     */
+    isMutating(thisObj) {},
 
     /**
      * Whether the property supports async
