@@ -49,7 +49,7 @@ qx.Class.define("qx.io.transport.Websocket", {
     async send(message) {
       qx.core.Assert.assertString(message);
       let ws = this.getTransportImpl();
-      if (!ws.readyState !== WebSocket.OPEN) {
+      if (ws.readyState !== WebSocket.OPEN) {
         await new Promise(resolve => ws.addEventListener("open", resolve));
       }
       ws.send(message);
