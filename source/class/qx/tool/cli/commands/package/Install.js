@@ -538,6 +538,9 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @return {Promise<Boolean>} Wether any libraries were installed
      */
     async __installDependenciesFromManifest(manifest) {
+      if (!manifest.requires) {
+        return false;
+      }
       for (let lib_uri of Object.getOwnPropertyNames(manifest.requires)) {
         let lib_range = manifest.requires[lib_uri];
         switch (lib_uri) {
