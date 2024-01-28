@@ -2390,7 +2390,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         CatchClause: {
           enter(path) {
             t.pushScope(null, path.node);
-            t.addDeclaration(path.node.param.name);
+            if (path.node.param) {
+              t.addDeclaration(path.node.param.name);
+            }
           },
           exit(path) {
             t.popScope(path.node);
