@@ -18,6 +18,7 @@
         - [Classes](/core/class_quickref.md)
         - [Interfaces](/core/interface_quickref.md)
         - [Mixins](/core/mixin_quickref.md)
+    - [Object IDs](/core/object_id.md)
   - [Properties](/core/understanding_properties.md)
     - [Defining properties](/core/defining_properties.md)
     - [Behavior](/core/property_behavior.md)
