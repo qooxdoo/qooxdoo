@@ -250,9 +250,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   },
 
   members: {
-    __privateMangling: undefined,
-    __usesJsx: undefined,
-
     __analyser: null,
     __className: null,
     __numClassesDefined: 0,
@@ -796,7 +793,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           t.__classMeta._topLevel.keyName == "members" &&
           path.parentPath.parentPath.parentPath == t.__classMeta._topLevel.path;
         if (idNode) {
-          t.addDeclaration(idNode.name, null, node.loc);
+          t.addDeclaration(idNode.name);
         }
         t.pushScope(idNode ? idNode.name : null, node, isClassMember);
 
@@ -804,9 +801,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           if (param.type == "AssignmentPattern") {
             addDecl(param.left);
           } else if (param.type == "RestElement") {
-            t.addDeclaration(param.argument.name, null, node.loc);
+            t.addDeclaration(param.argument.name);
           } else if (param.type == "Identifier") {
-            t.addDeclaration(param.name, null, node.loc);
+            t.addDeclaration(param.name);
           } else if (param.type == "ArrayPattern") {
             param.elements.forEach(elem => addDecl(elem));
           } else if (param.type == "ObjectPattern") {
@@ -819,6 +816,22 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           addDecl(param);
         });
         checkNodeJsDocDirectives(node);
+
+        if (node.key?.name == "_createQxObjectImpl") {
+          const injectCode = `{
+            let object = qx.core.MObjectId.handleObjects(${t.__classMeta.className}, this, ...arguments);
+            if (object) {
+              return object;
+            }
+          }`;
+
+          const injectBlockAst = babylon.parse(injectCode, {
+            errorRecovery: true
+          }).program.body[0];
+          const bodyLines = node.body.body;
+          node.body.body = [injectBlockAst].concat(bodyLines);
+          path.skip();
+        }
       }
 
       function exitFunction(path, node) {
@@ -1173,7 +1186,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             "@destruct": "object",
             type: "string", // String
             extend: "function", // Function
-            // extendNativeClass: "boolean", // Boolean - Does not work yet
             implement: "object", // Interface[]
             include: "object", // Mixin[]
             construct: "function", // Function
@@ -1182,9 +1194,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             members: "object", // Map
             environment: "object", // Map
             events: "object", // Map
-            delegate: "object", // Map
             defer: "function", // Function
-            destruct: "function" // Function
+            destruct: "function", // Function
+            objects: "object" // Map
           }
         },
 
@@ -1247,6 +1259,41 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         destruct: "$$destructor",
         defer: null
       };
+
+      function ensureCreateQxObjectImpl(membersPropertyPath) {
+        const membersPropertyNode = membersPropertyPath.node;
+        const memberNames = membersPropertyNode?.value?.properties?.map(
+          it => it.key.name
+        );
+
+        if (!memberNames) {
+          throw new Error("Members section is not an object");
+        }
+
+        if (memberNames.includes("_createQxObjectImpl")) {
+          return;
+        }
+
+        const functionBody = `{
+          return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
+        }`;
+
+        const functionBlock = babylon.parse(functionBody, {
+          errorRecovery: true
+        }).program.body[0];
+
+        membersPropertyNode.value.properties.push(
+          types.objectMethod(
+            "method",
+            types.identifier("_createQxObjectImpl"),
+            [],
+            functionBlock
+          )
+        );
+
+        membersPropertyPath.skip();
+        membersPropertyPath.traverse(VISITOR);
+      }
 
       function checkValidTopLevel(path) {
         var prop = path.node;
@@ -1353,6 +1400,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           } else if (
             keyName == "members" ||
             keyName == "statics" ||
+            keyName == "objects" ||
             keyName == "@"
           ) {
             t.__classMeta._topLevel = {
@@ -1362,6 +1410,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
             path.skip();
             path.traverse(VISITOR);
+            if (keyName == "members" && t.__definingType == "Class") {
+              ensureCreateQxObjectImpl(path);
+            }
             t.__classMeta._topLevel = null;
           } else if (keyName == "properties") {
             path.skip();
@@ -1424,18 +1475,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 var meta = makeMeta("events", eventName, eventNode);
                 meta.name = eventName;
                 meta.type = collectJson(eventNode.value);
-              });
-            }
-            path.traverse(VISITOR);
-          } else if (keyName == "environment") {
-            path.skip();
-            if (prop.value.properties) {
-              prop.value.properties.forEach(function (node) {
-                var keyName = getKeyName(node.key);
-                var meta = makeMeta("environment", keyName, node);
-                meta.name = keyName;
-                meta.type = collectJson(node.value);
-                t.__environmentChecks.provided[keyName] = true;
               });
             }
             path.traverse(VISITOR);
@@ -1861,6 +1900,27 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 });
 
                 path.skip();
+
+                const classDefPojo = path.node.arguments[1];
+                const objectsNode = classDefPojo.properties.find(
+                  prop => prop.key.name == "objects"
+                );
+
+                if (objectsNode) {
+                  const membersNode = classDefPojo.properties.find(
+                    prop => prop.key.name == "members"
+                  );
+
+                  if (!membersNode) {
+                    const membersProperty = types.objectProperty(
+                      types.identifier("members"),
+                      types.objectExpression([])
+                    );
+
+                    classDefPojo.properties.push(membersProperty);
+                  }
+                }
+
                 path.traverse(CLASS_DEF_VISITOR, { classDefPath: path });
                 t.__popMeta(className);
               } else if (name == "qx.core.Environment.add") {
@@ -2239,7 +2299,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             t.__classMeta._topLevel &&
             t.__classMeta._topLevel.path == path.parentPath.parentPath
           ) {
-            t.__classMeta.functionName = getKeyName(path.node.key);
+            t.__classMeta.functionName =
+              t.__classMeta._topLevel.keyName == "objects"
+                ? "_createQxObjectImpl"
+                : getKeyName(path.node.key);
             makeMeta(
               t.__classMeta._topLevel.keyName,
               t.__classMeta.functionName,
@@ -2280,15 +2343,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     value = "this";
                   }
                 }
-                t.addDeclaration(decl.id.name, value, path.node.loc);
+                t.addDeclaration(decl.id.name, value);
 
                 // Object destructuring `var {a,b} = {...}`
               } else if (decl.id.type == "ObjectPattern") {
                 decl.id.properties.forEach(prop => {
                   if (prop.value.type == "AssignmentPattern") {
-                    t.addDeclaration(prop.value.left.name, null, path.node.loc);
+                    t.addDeclaration(prop.value.left.name);
                   } else {
-                    t.addDeclaration(prop.value.name, null, path.node.loc);
+                    t.addDeclaration(prop.value.name);
                   }
                 });
 
@@ -2297,11 +2360,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 decl.id.elements.forEach(prop => {
                   if (prop) {
                     if (prop.type == "AssignmentPattern") {
-                      t.addDeclaration(prop.left.name, null, path.node.loc);
+                      t.addDeclaration(prop.left.name);
                     } else if (prop.type == "RestElement") {
-                      t.addDeclaration(prop.argument.name, null, path.node.loc);
+                      t.addDeclaration(prop.argument.name);
                     } else {
-                      t.addDeclaration(prop.name, null, path.node.loc);
+                      t.addDeclaration(prop.name);
                     }
                   }
                 });
@@ -2311,7 +2374,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ClassDeclaration(path) {
-          t.addDeclaration(path.node.id.name, null, path.node.loc);
+          t.addDeclaration(path.node.id.name);
         },
 
         // Note that AST Explorer calls this MethodDefinition, not ClassMethod
@@ -2327,7 +2390,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         CatchClause: {
           enter(path) {
             t.pushScope(null, path.node);
-            t.addDeclaration(path.node.param.name, null, path.node.loc);
+            if (path.node.param) {
+              t.addDeclaration(path.node.param.name);
+            }
           },
           exit(path) {
             t.popScope(path.node);
@@ -2450,13 +2515,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      *
      * @param name {String} the name of the variabvle being declared
      * @param valueName {String} the value to assign to the variable
-     * @param location {*} Location of the variable declaration from babel
      */
-    addDeclaration(name, valueName, location) {
+    addDeclaration(name, valueName) {
       if (this.__scope.vars[name] === undefined) {
-        if (name == "arguments") {
-          this.addMarker("class.reservedWordDecl", location, name);
-        }
         this.__scope.vars[name] = valueName || true;
         var unresolved = this.__scope.unresolved;
         delete unresolved[name];
@@ -2941,8 +3002,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     /**
      * Returns the assets required by the class
      * @returns
-     */
-    getAssets() {
+     */ getAssets() {
       return this.__requiredAssets;
     },
 
@@ -3219,8 +3279,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,
       "qx.promise.warnings": true,
-      "qx.promise.longStackTraces": true,
-      "qx.Class.futureCheckJsDoc": false
+      "qx.promise.longStackTraces": true
     },
 
     SYSTEM_CHECKS: null

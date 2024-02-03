@@ -691,9 +691,11 @@ qx.Class.define("qx.ui.basic.Image", {
           newEl.tagNameHint = hint;
           newEl.setAttribute("class", currentEl.getAttribute("class"));
 
-          // Flush elements to make sure the DOM elements are created.
-          qx.html.Element.flush();
           var currentDomEl = currentEl.getDomElement();
+          if (currentDomEl && !elementToAdd.getDomElement()) {
+            // Flush elements to make sure the DOM elements are created.
+            qx.html.Element.flush();
+          }
           var newDomEl = elementToAdd.getDomElement();
 
           // copy event listeners

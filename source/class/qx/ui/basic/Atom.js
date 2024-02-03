@@ -134,13 +134,13 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, label, icon
      */
-    showFeatures: {
+    show: {
       init: "both",
       check: ["both", "label", "icon"],
       themeable: true,
       inheritable: true,
-      apply: "_applyShowFeatures",
-      event: "changeShowFeatures"
+      apply: "_applyShow",
+      event: "changeShow"
     },
 
     /**
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control.setRich(this.getRich());
           control.setSelectable(this.getSelectable());
           this._add(control);
-          if (this.getLabel() == null || this.getShowFeatures() === "icon") {
+          if (this.getLabel() == null || this.getShow() === "icon") {
             control.exclude();
           }
           break;
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAnonymous(true);
           this._addAt(control, 0);
-          if (this.getIcon() == null || this.getShowFeatures() === "label") {
+          if (this.getIcon() == null || this.getShow() === "label") {
             control.exclude();
           }
           break;
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the label
      */
     _handleLabel() {
-      if (this.getLabel() == null || this.getShowFeatures() === "icon") {
+      if (this.getLabel() == null || this.getShow() === "icon") {
         this._excludeChildControl("label");
       } else {
         this._showChildControl("label");
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the icon
      */
     _handleIcon() {
-      if (this.getIcon() == null || this.getShowFeatures() === "label") {
+      if (this.getIcon() == null || this.getShow() === "label") {
         this._excludeChildControl("icon");
       } else {
         this._showChildControl("icon");
@@ -277,24 +277,40 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyGap(value, old) {
-      this._getLayout().setGap(value);
-    },
-
-    // property apply
-    _applyShowFeatures(value, old) {
+    _applyShow(value, old) {
       this._handleLabel();
       this._handleIcon();
     },
 
-    // property apply
-    _applyIconPosition(value, old) {
-      this._getLayout().setIconPosition(value);
+    __safeSetPropertyOnLayout(value, propertyName) {
+      const layout = this._getLayout();
+      const propertySetter = `set${qx.lang.String.firstUp(propertyName)}`;
+      if (layout[propertySetter]) {
+        layout[propertySetter](value);
+      } else if (qx.core.Environment.get("qx.debug")) {
+        this.warn(
+          `The \`${propertyName}\` property of a ${
+            this.classname
+          } was set, but the layout ${
+            this._getLayout().classname
+          } does not support a \`${propertyName}\` property.`
+        );
+      }
     },
 
     // property apply
-    _applyCenter(value, old) {
-      this._getLayout().setCenter(value);
+    _applyGap(value) {
+      this.__safeSetPropertyOnLayout(value, "gap");
+    },
+
+    // property apply
+    _applyIconPosition(value) {
+      this.__safeSetPropertyOnLayout(value, "iconPosition");
+    },
+
+    // property apply
+    _applyCenter(value) {
+      this.__safeSetPropertyOnLayout(value, "center");
     },
 
     // overridden

@@ -183,7 +183,7 @@ them "incorrectly." In the build version, however, _private_ member names are
 obfuscated, so they are not easily accessible outside of their own class. _Be
 aware that programs where private members are accessed from outside of their own
 class will work in the source version, but will fail to work in the build
-version!_
+version!
 
 ### Special Types of Classes
 
