@@ -19,7 +19,7 @@
 /**
  * Provider of checks for property values, cached by expression
  */
-qx.Class.define("qx.core.check.CheckFactory", {
+qx.Bootstrap.define("qx.core.check.CheckFactory", {
   extend: qx.core.Object,
   type: "singleton",
 
@@ -126,12 +126,21 @@ qx.Class.define("qx.core.check.CheckFactory", {
         } else {
           classname = expr;
         }
-        let clazz = qx.Class.getByName(classname);
-        if (clazz) {
-          check = new qx.core.check.ClassInstanceCheck(clazz, nullable);
+        if (qx.Class.isDefined(classname)) {
+          check = new qx.core.check.ClassInstanceCheck(
+            qx.Class.getByName(classname),
+            nullable
+          );
+        } else if (qx.Interface && qx.Interface.isDefined(classname)) {
+          check = new qx.core.check.InterfaceImplementCheck(
+            qx.Interface.getByName(classname),
+            nullable
+          );
+        }
+        if (check) {
           this.__checks[expr] = check;
         } else {
-          throw new Error("Unknown class for check: " + expr);
+          return null;
         }
       }
       return check;

@@ -19,7 +19,7 @@
 /**
  * Base class for properties, shared between individual properties and property groups
  */
-qx.Class.define("qx.core.property.AbstractProperty", {
+qx.Bootstrap.define("qx.core.property.AbstractProperty", {
   extend: qx.core.Object,
 
   construct(propertyName, clazz) {

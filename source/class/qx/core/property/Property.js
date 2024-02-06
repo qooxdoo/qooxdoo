@@ -18,6 +18,16 @@
 
 /**
  * Property implementation for actual properties
+ *
+ * TODO:
+ *
+ * `validate` implementation
+ * `delegate` implementation
+ * `inheritable` implementation (pass onto `obj._getChildren`; check for special `inherit` value)
+ * Array check
+ * FunctionCheck
+ *
+ * how does init of property values work?  `init` per class and `initFunction` per instance?
  */
 qx.Bootstrap.define("qx.core.property.Property", {
   extend: qx.core.Object,
@@ -69,6 +79,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
     /** @type{Boolean} whether the property needs to be dereferenced */
     __needsDereference: false,
+
+    isRefineAllowed(def) {},
 
     /**
      * @Override
@@ -161,12 +173,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
           }
         }
       }
+
       if (def.event) {
         this.__eventName = def.event;
       } else if (def.event !== null) {
         this.__eventName =
           "change" + qx.lang.String.firstUp(this.__propertyName);
       }
+
       if (def.isEqual) {
         if (def.isEqual instanceof Function) {
           this.__isEqual = def.isEqual;
@@ -174,6 +188,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           this.__isEqual = new Function("a", "b", "return " + def.isEqual);
         }
       }
+
       if (def.init) {
         this.__initValue = def.init;
       }
@@ -181,25 +196,59 @@ qx.Bootstrap.define("qx.core.property.Property", {
         this.__initFunction = def.initFunction;
       }
       this.__needsDereference = def.dereference;
+
       let newCheck = qx.core.check.CheckFactory.getCheck(def.check || "any");
-      if (def.nullable !== undefined) {
+      if (newCheck) {
         if (def.nullable && !newCheck.isNullable()) {
           newCheck = qx.core.check.CheckFactory.getCheck(
             (def.check || "any") + "?"
           );
+        } else {
+          throw new Error(
+            "Property " +
+              this +
+              " has invalid check because the definition is not compatible with the nullable setting"
+          );
         }
-        throw new Error(
-          "Property " +
-            this +
-            " has invalid check because the definition is not compatible with the nullable setting"
-        );
       }
-      if (!this.__check.isCompatible(newCheck)) {
-        throw new Error(
-          `Property ${this} has invalid check because the definition in the superclass ${this.__superClass} is not compatible`
-        );
+      if (!newCheck && def.check instanceof String) {
+        if (qx.core.Environment.get("qx.Class.futureCheckJsDoc")) {
+          // Next  try to parse the check string as JSDoc
+          let bJSDocParsed = false;
+          try {
+            newCheck = new qx.core.check.JsDocCheck(def.check, !!def.nullable);
+          } catch (e) {
+            // Couldn't parse JSDoc so the check string is not a JSDoc one. Fall through to next
+            // possible use of the check string.
+            //
+            // FALL THROUGH
+          }
+        }
+
+        if (!newCheck) {
+          let fn = null;
+          try {
+            fn = new Function("value", `return (${def.check});`);
+          } catch (ex) {
+            throw new Error(
+              `${this}: ` +
+                "Error creating check function: " +
+                `${def.check}: ` +
+                ex
+            );
+          }
+          newCheck = new qx.core.check.SimpleCheck(fn, !!def.nullable, false);
+        }
       }
-      this.__check = newCheck;
+
+      if (newCheck) {
+        if (this.__check && !this.__check.isCompatible(newCheck)) {
+          throw new Error(
+            `Property ${this} has invalid check because the definition in the superclass ${this.__superClass} is not compatible`
+          );
+        }
+        this.__check = newCheck;
+      }
       if (this.__check instanceof qx.core.check.SimpleCheck) {
         this.__needsDereference =
           def.dereference || this.__check.needsDereference();
@@ -321,21 +370,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
         qx.Bootstrap.setDisplayName(func, clazz.classname, "prototype." + name);
       };
 
-      // Create the storage for this property's current value
-      let initValue = this.__getInitValue(thisObj);
-      if (initValue !== undefined) {
-        Object.defineProperty(propertyValues, "initValue", {
-          value: initValue,
-          writable: true, // must be true for possible initFunction
-          configurable: false,
-          enumerable: false
-        });
-      }
-
       patch && delete clazz.prototype[`$$init_${propertyName}`];
       Object.defineProperty(clazz.prototype, `$$init_${propertyName}`, {
         get: function () {
-          return propertyValues.initValue;
+          return self.__getInitValue(this);
         },
         writable: qx.Class.$$options.propsAccessible || false,
         configurable: qx.Class.$$options.propsAccessible || false,
@@ -467,13 +505,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj the object on which the property is defined
      */
     init(thisObj) {
-      if (thisObj["$$propertyValues"] === undefined) {
-        thisObj["$$propertyValues"] = {};
-      }
       let value = this.__getInitValue(thisObj);
-      if (value !== undefined) {
-        this.__storage.set(thisObj, this, value);
-      }
+      this.__storage.set(thisObj, this, value);
     },
 
     /**

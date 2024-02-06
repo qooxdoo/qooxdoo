@@ -19,8 +19,8 @@
 /**
  * Immutable storage for native arrays
  */
-qx.Class.define("qx.core.property.ImmutableArrayStorage", {
-  extend: qx.core.property.PropertyStorage,
+qx.Bootstrap.define("qx.core.property.ImmutableArrayStorage", {
+  extend: qx.core.property.SimplePropertyStorage,
 
   members: {
     /**

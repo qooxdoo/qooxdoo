@@ -19,16 +19,21 @@
 /**
  * Implementation of check for any value
  */
-qx.Bootstrap.define("qx.core.check.Any", {
+qx.Bootstrap.define("qx.core.check.JsDocCheck", {
   extend: qx.core.Object,
   implement: qx.core.check.ICheck,
 
-  construct(nullable) {
+  construct(jsdoc, nullable) {
     super();
+    const { parse } = require("jsdoctypeparser");
+    this.__ast = parse(jsdoc);
     this.__nullable = nullable;
   },
 
   members: {
+    /** @type{*} the AST from jsdoctypeparser */
+    __ast: null,
+
     /** @type{Boolean} whether null is allowed */
     __nullable: null,
 
@@ -36,6 +41,8 @@ qx.Bootstrap.define("qx.core.check.Any", {
      * @override
      */
     matches(value) {
+      console.log(`JSDoc type checking is not yet implemented`);
+
       return true;
     },
 

@@ -19,7 +19,7 @@
 /**
  * Property storage for properties which have explicit getter/setter methods in the property definition
  */
-qx.Class.define("qx.core.property.ExplicitPropertyStorage", {
+qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
   extend: qx.core.Object,
   implement: qx.core.property.IPropertyStorage,
 

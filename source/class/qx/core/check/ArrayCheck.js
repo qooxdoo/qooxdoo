@@ -19,16 +19,20 @@
 /**
  * Implementation of check for any value
  */
-qx.Bootstrap.define("qx.core.check.Any", {
+qx.Bootstrap.define("qx.core.check.ArrayCheck", {
   extend: qx.core.Object,
   implement: qx.core.check.ICheck,
 
-  construct(nullable) {
+  construct(values, nullable) {
     super();
+    this.__values = values;
     this.__nullable = nullable;
   },
 
   members: {
+    /** @type{Array} list of allowed values */
+    __values: null,
+
     /** @type{Boolean} whether null is allowed */
     __nullable: null,
 
@@ -36,7 +40,21 @@ qx.Bootstrap.define("qx.core.check.Any", {
      * @override
      */
     matches(value) {
-      return true;
+      if (value === null) {
+        return this.__nullable;
+      }
+
+      if (value instanceof String) {
+        value = value.valueOf();
+      }
+
+      if (this.__values.indexOf(value) !== -1) {
+        return true;
+      }
+
+      throw new Error(
+        "Expected value to be one of: " + JSON.stringify(this.__values)
+      );
     },
 
     /**
@@ -50,6 +68,13 @@ qx.Bootstrap.define("qx.core.check.Any", {
      * @override
      */
     isCompatible(check) {
+      if (check instanceof qx.core.check.ArrayCheck) {
+        for (let i = 0; i < this.__values.length; i++) {
+          if (check.__values.indexOf(this.__values[i]) === -1) {
+            return false;
+          }
+        }
+      }
       return true;
     },
 

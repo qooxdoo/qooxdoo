@@ -30,10 +30,7 @@
  * * user friendly OO interfaces like {@link #self} or {@link #base}
  *
  * @require(qx.core.ObjectRegistry)
- * @require(qx.core.propertystorage.Default)
- * @require(qx.core.propertystorage.ImmutableArray)
- * @require(qx.core.propertystorage.ImmutableDataArray)
- * @require(qx.core.propertystorage.ImmutableObject)
+ * @require(qx.core.property.Property)
  */
 qx.Class.define("qx.core.Object", {
   extend: Object,

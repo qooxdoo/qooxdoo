@@ -19,7 +19,7 @@
 /**
  * Implementation of check for class instances
  */
-qx.Bootstrap.define("qx.core.check.ClassInstanceCheck", {
+qx.Bootstrap.define("qx.core.check.InterfaceImplementCheck", {
   extend: qx.core.Object,
   implement: qx.core.check.ICheck,
 
@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.core.check.ClassInstanceCheck", {
   },
 
   members: {
-    /** @type{qx.Class} the class to check against */
+    /** @type{qx.Class} the interface to check for */
     __clazz: null,
 
     /** @type{Boolean} whether null is allowed */
@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.core.check.ClassInstanceCheck", {
       }
       let tmp = value;
       while (tmp) {
-        if (tmp === this.__clazz) {
+        if (qx.Class.implementsInterface(tmp, this.__clazz)) {
           return true;
         }
         tmp = tmp.superclass;
@@ -76,7 +76,7 @@ qx.Bootstrap.define("qx.core.check.ClassInstanceCheck", {
       let tmp = this.__clazz;
       let requiredSuperclass = check.__clazz;
       while (tmp) {
-        if (tmp === requiredSuperclass) {
+        if (qx.Class.hasInterface(tmp, requiredSuperclass)) {
           return true;
         }
         tmp = tmp.superclass;

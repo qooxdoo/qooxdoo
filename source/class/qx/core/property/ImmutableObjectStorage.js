@@ -19,8 +19,8 @@
 /**
  * Immutable storage for native objects
  */
-qx.Class.define("qx.core.property.ImmutableObjectStorage", {
-  extend: qx.core.property.PropertyStorage,
+qx.Bootstrap.define("qx.core.property.ImmutableObjectStorage", {
+  extend: qx.core.property.SimplePropertyStorage,
 
   members: {
     /**

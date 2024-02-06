@@ -230,7 +230,7 @@ window.qx = Object.assign(window.qx || {}, {
       return clazz;
     },
 
-    _extend(className, config) {
+    _extend(classname, config) {
       const type = config.type || "class";
       const superclass = config.extend || Object;
       let initFunctions = [];
@@ -257,6 +257,28 @@ window.qx = Object.assign(window.qx || {}, {
         subclass = function (...args) {
           let ret;
 
+          // add abstract and singleton checks
+          if (type === "abstract") {
+            if (this.classname === classname) {
+              throw new Error(
+                "The class '," +
+                  classname +
+                  "' is abstract! It is not possible to instantiate it."
+              );
+            }
+          }
+
+          if (type === "singleton") {
+            if (!this.$$allowconstruct) {
+              throw new Error(
+                "The class '" +
+                  classname +
+                  "' is a singleton! It is not possible to instantiate it " +
+                  "directly. Use the static getInstance() method instead."
+              );
+            }
+          }
+
           // At the time this function is called, config.construct, even
           // if undefined in the configuration, will have been set to a
           // trivial function. We therefore look at its initial value to
@@ -267,20 +289,29 @@ window.qx = Object.assign(window.qx || {}, {
             ret = superclass.apply(this, args);
           }
 
+          // Call any initFunctions defined for properties of this class
+          this.$$initFunctions.forEach(prop => {
+            let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+
+            // Initialize this property
+            this[`init${propertyFirstUp}`]();
+            this[`$$variant_${prop}`] = "init";
+          });
+
           return ret;
         };
       } else {
         subclass = function () {
-          throw new Error(`${className}: can not instantiate a static class`);
+          throw new Error(`${classname}: can not instantiate a static class`);
         };
       }
 
       // Allow easily identifying this class
-      qx.Bootstrap.setDisplayName(subclass, className);
+      qx.Bootstrap.setDisplayName(subclass, classname);
 
       // This is a class
       subclass.$$type = "Class";
-      subclass.classname = className;
+      subclass.classname = classname;
 
       // If its class type was specified, save it
       if (config.type) {
@@ -309,7 +340,7 @@ window.qx = Object.assign(window.qx || {}, {
       // Create the subclass' prototype as a copy of the superclass'
       // prototype
       subclass.prototype = Object.create(superclass.prototype);
-      subclass.prototype.classname = className;
+      subclass.prototype.classname = classname;
 
       // Save any init functions that need to be called upon instantiation
       Object.defineProperty(subclass, "$$initFunctions", {
@@ -318,85 +349,6 @@ window.qx = Object.assign(window.qx || {}, {
         configurable: false,
         enumerable: allEnumerable || false
       });
-
-      // Proxy the subclass so we can watch for property changes
-      subclass.constructor = subclass.prototype.constructor = new Proxy(
-        subclass,
-        {
-          construct(target, args) {
-            let proxy;
-            let handler;
-            let obj = Object.create(subclass.prototype);
-
-            // add abstract and singleton checks
-            if (type === "abstract") {
-              if (target.classname === className) {
-                throw new Error(
-                  "The class '," +
-                    className +
-                    "' is abstract! It is not possible to instantiate it."
-                );
-              }
-            }
-
-            if (type === "singleton") {
-              if (!target.$$allowconstruct) {
-                throw new Error(
-                  "The class '" +
-                    className +
-                    "' is a singleton! It is not possible to instantiate it " +
-                    "directly. Use the static getInstance() method instead."
-                );
-              }
-            }
-
-            // Create the proxy handler
-            handler = {
-              get(obj, prop) {
-                const storage = qx.core.propertystorage.Default;
-                return storage.get.call(obj, prop);
-              },
-
-              set(obj, prop, value) {
-                let origValue = value;
-                const storage = qx.core.propertystorage.Default;
-
-                storage.set.call(obj, prop, value);
-                return true;
-              },
-
-              getPrototypeOf(target) {
-                return Reflect.getPrototypeOf(target);
-              }
-            };
-
-            // Create the instance proxy which manages properties, etc.
-            proxy = new Proxy(obj, handler);
-
-            // Call any initFunctions defined for properties of this class
-            target.$$initFunctions.forEach(prop => {
-              let propertyFirstUp = qx.Bootstrap.firstUp(prop);
-
-              // Initialize this property
-              obj[`init${propertyFirstUp}`]();
-              obj[`$$variant_${prop}`] = "init";
-            });
-
-            this.apply(target, proxy, args);
-
-            return proxy;
-          },
-
-          apply(target, _this, args) {
-            // Call the constructor
-            return subclass.apply(_this, args);
-          },
-
-          getPrototypeOf(target) {
-            return Reflect.getPrototypeOf(target);
-          }
-        }
-      );
 
       return subclass.prototype.constructor;
     },
@@ -415,9 +367,6 @@ window.qx = Object.assign(window.qx || {}, {
 
       // Delete the class from the registry
       delete qx.Bootstrap.$$registry[name];
-
-      // Delete the class' property descriptors
-      qx.core.PropertyDescriptorRegistry.unregister(name);
 
       // Delete the class reference from the namespaces and all
       // empty namespaces
@@ -1206,12 +1155,12 @@ qx.Bootstrap.define("qx.Bootstrap", {
         typeof Object.keys === "function"
           ? "ES5"
           : (function () {
-              for (let key in { toString: 1 }) {
-                return key;
-              }
-            })() !== "toString"
-          ? "BROKEN_IE"
-          : "default"
+                for (let key in { toString: 1 }) {
+                  return key;
+                }
+              })() !== "toString"
+            ? "BROKEN_IE"
+            : "default"
       ],
 
       /*
