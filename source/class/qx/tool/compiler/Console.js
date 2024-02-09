@@ -183,6 +183,10 @@ qx.Class.define("qx.tool.compiler.Console", {
           "Unexpected property %2 in %1 definition",
         "qx.tool.compiler.compiler.wrongClassName":
           "Wrong class name or filename - expected to find at least %1 but only found [%2]",
+        "qx.tool.compiler.compiler.membersNotAnObject":
+          "The members property of class %1 is not an object",
+        "qx.tool.compiler.compiler.anonymousMixinTopLevelObjects":
+          "Anonymous Mixins cannot contain top-level objects",
 
         // Application errors (@see {Application})
         "qx.tool.compiler.application.partRecursive":

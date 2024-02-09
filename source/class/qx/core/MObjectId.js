@@ -58,9 +58,9 @@ qx.Mixin.define("qx.core.MObjectId", {
    * ****************************************************************************
    */
   statics: {
-    handleObjects(clazz, instance, id, ...args) {
+    handleObjects(clazz, instance, id) {
       const objectsDef = clazz.$$objects;
-      return objectsDef?.[id]?.call(instance, ...args) ?? null;
+      return objectsDef?.[id]?.call(instance) ?? null;
     }
   },
 

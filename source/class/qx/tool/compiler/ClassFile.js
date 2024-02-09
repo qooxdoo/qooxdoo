@@ -817,9 +817,16 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         });
         checkNodeJsDocDirectives(node);
 
-        if (node.key?.name == "_createQxObjectImpl") {
+        const isAnonMixin = !t.__className && t.__definingType === "Mixin";
+        if (
+          !isAnonMixin &&
+          !t.__definingType === "Interface" &&
+          node.key?.name == "_createQxObjectImpl"
+        ) {
           const injectCode = `{
-            let object = qx.core.MObjectId.handleObjects(${t.__classMeta.className}, this, ...arguments);
+            let object = qx.core.MObjectId.handleObjects(${
+              t.__className ?? "this.constructor"
+            }, this, ...arguments);
             if (object) {
               return object;
             }
@@ -1267,15 +1274,35 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         );
 
         if (!memberNames) {
-          throw new Error("Members section is not an object");
+          t.addMarker(
+            "compiler.membersNotAnObject",
+            membersPropertyPath.loc,
+            t.__classMeta.type
+          );
+
+          return;
         }
 
         if (memberNames.includes("_createQxObjectImpl")) {
           return;
         }
 
+        // this.__className may be null - which is fine, and the only time this would be an issue is if there
+        //  is a mixin with null name; we try to use the classname if we have one so that we can add the function
+        //  to mixins, but for classes we can fall back to `this.constructor`
+        if (!t.__className && t.__definingType === "Mixin") {
+          t.addMarker(
+            "compiler.anonymousMixinTopLevelObjects",
+            membersPropertyPath.loc
+          );
+
+          return;
+        }
+
         const functionBody = `{
-          return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
+          return qx.core.MObjectId.handleObjects(${
+            t.__classMeta.className ?? "this.constructor"
+          }, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
         }`;
 
         const functionBlock = babylon.parse(functionBody, {
@@ -1290,9 +1317,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             functionBlock
           )
         );
-
-        membersPropertyPath.skip();
-        membersPropertyPath.traverse(VISITOR);
       }
 
       function checkValidTopLevel(path) {
@@ -1312,6 +1336,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           );
         }
       }
+
       function handleTopLevelMethods(path, keyName, functionNode) {
         if (keyName == "defer") {
           t.__hasDefer = true;
@@ -1409,10 +1434,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             };
 
             path.skip();
-            path.traverse(VISITOR);
-            if (keyName == "members" && t.__definingType == "Class") {
+            if (keyName == "members" && t.__definingType !== "Interface") {
               ensureCreateQxObjectImpl(path);
             }
+            path.traverse(VISITOR);
             t.__classMeta._topLevel = null;
           } else if (keyName == "properties") {
             path.skip();
