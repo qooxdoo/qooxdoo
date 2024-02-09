@@ -114,6 +114,16 @@ qx.Class.define("qx.ui.form.ToggleButton", {
       apply: "_applyTriState",
       nullable: true,
       init: null
+    },
+
+    /**
+     * The behavior when the button is executed (e.g. clicked). Only useful for tri-state checkboxes.
+     * If "cycle" is set, the button cycles through the states "disabled", "undetermined", and "enabled"
+     * If "toggle" is set, the button toggles between "disabled" and "enabled".
+     */
+    executeBehavior: {
+      check: ["cycle", "toggle"],
+      init: "toggle"
     }
   },
 
@@ -173,7 +183,20 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute(e) {
-      this.toggleValue();
+      if (this.isTriState() && this.getExecuteBehavior() === "cycle") {
+        let newValue;
+        let currentValue = this.getValue();
+        if (currentValue === null) {
+          newValue = true;
+        } else if (currentValue === true) {
+          newValue = false;
+        } else {
+          newValue = null;
+        }
+        this.setValue(newValue);
+      } else {
+        this.toggleValue();
+      }
     },
 
     /**
