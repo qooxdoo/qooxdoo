@@ -293,69 +293,165 @@ qx.Class.define("qx.html.Node", {
      * @param domNode {Node} DOM Node to reuse
      */
     useNode(domNode) {
-      if (this._domNode) {
-        throw new Error("Could not overwrite existing element!");
+      var id = domNode.getAttribute("data-qx-object-id");
+      if (id) {
+        this.setQxObjectId(id);
+      }
+      var temporaryQxObjectId = !this.getQxObjectId();
+      if (temporaryQxObjectId) {
+        this.setQxObjectId(this.classname);
+      }
+      var id = qx.core.Id.getAbsoluteIdOf(this, true);
+      var isIdRoot = !id;
+      if (isIdRoot) {
+        qx.core.Id.getInstance().register(this);
       }
 
-      const removeAllChildren = parentElement => {
-        if (parentElement._children) {
-          qx.lang.Array.clone(parentElement._children).forEach(node => {
-            parentElement._removeChildImpl(node);
-            node._disconnectDomNode();
-          });
-          parentElement._children = null;
-        }
-      };
+      /*
+       * When merging children, we want to keep the original DOM nodes in
+       * domNode no matter what - however, where the DOM nodes have a qxObjectId
+       * we must reuse the original instances.
+       *
+       * The crucial thing is that the qxObjectId hierarchy and the DOM hierarchy
+       * are not the same (although they are often similar, the DOM will often have
+       * extra Nodes).
+       *
+       * However, because the objects in the qxObjectId space will typically already
+       * exist (eg accessed via the constructor) we do not want to discard the original
+       * instance of qx.html.Element because there are probably references to them in
+       * code.
+       *
+       * In the code below, we map the DOM heirarchy into a temporary Javascript
+       * hierarchy, where we can either use existing qx.html.Element instances (found
+       * by looking up the qxObjectId) or fabricate new ones.
+       *
+       * Once the temporary hierarchy is ready, we go back and synchronise each
+       * qx.html.Element with the DOM node and our new array of children.
+       *
+       * The only rule to this is that if you are going to call this `useNode`, then
+       * you must not keep references to objects *unless* you also access them via
+       * the qxObjectId mechanism.
+       */
 
-      const scanDomNode = (parentElement, domNode) => {
-        if (domNode.nodeType == window.Node.TEXT_NODE) {
-          let newChild = qx.html.Factory.getInstance().createElement("#text");
-          newChild._useNodeImpl(domNode);
-          parentElement._addChildImpl(newChild);
-          parentElement._children.push(newChild);
-          return;
-        }
-
-        let id = domNode.getAttribute("data-qx-object-id");
-        let element = null;
-        if (id) {
-          try {
-            element = this.getQxObject(id);
-          } catch (ex) {
-            element = null;
+      var self = this;
+      function convert(domNode) {
+        var children = qx.lang.Array.fromCollection(domNode.childNodes);
+        children = children.map(function (domChild) {
+          var child = null;
+          if (domChild.nodeType == window.Node.ELEMENT_NODE) {
+            var id = domChild.getAttribute("data-qx-object-id");
+            if (id) {
+              var owningQxObjectId = null;
+              var qxObjectId = null;
+              var owningQxObject = null;
+              var pos = id.lastIndexOf("/");
+              if (pos > -1) {
+                owningQxObjectId = id.substring(0, pos);
+                qxObjectId = id.substring(pos + 1);
+                owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
+                child = owningQxObject.getQxObject(qxObjectId);
+              } else {
+                qxObjectId = id;
+                owningQxObject = self;
+                child = self.getQxObject(id);
+              }
+            }
           }
-        }
-        if (!element) {
-          element = qx.html.Factory.getInstance().createElement(
-            domNode.nodeName,
-            domNode.attributes
-          );
-        }
+          if (!child) {
+            child = qx.html.Factory.getInstance().createElement(
+              domChild.nodeName,
+              domChild.attributes
+            );
+          }
+          return {
+            htmlNode: child,
+            domNode: domChild,
+            children: convert(domChild)
+          };
+        });
+        return children;
+      }
 
-        if (element._parent !== parentElement) {
-          parentElement._addChildImpl(element);
-          parentElement._children.push(element);
-        }
-        element._connectDomNode(domNode);
-        element._copyData(true, true);
+      function install(map) {
+        var htmlChildren = map.children.map(function (mapEntry) {
+          install(mapEntry);
+          return mapEntry.htmlNode;
+        });
+        map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
+      }
 
-        qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
-          scanDomNode(element, childDomNode)
-        );
-        parentElement._scheduleChildrenUpdate();
+      var rootMap = {
+        htmlNode: this,
+        domNode: domNode,
+        children: convert(domNode)
       };
 
-      removeAllChildren(this);
-      this._connectDomNode(domNode);
-      this._copyData(true, true);
-      qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
-        scanDomNode(this, childDomNode)
-      );
+      install(rootMap);
 
       this.flush();
       this._insertChildren();
 
-      this._scheduleChildrenUpdate();
+      if (isIdRoot) {
+        qx.core.Id.getInstance().unregister(this);
+      }
+      if (temporaryQxObjectId) {
+        this.setQxObjectId(null);
+      }
+    },
+
+    /**
+     * Called internally to complete the connection to an existing DOM node
+     *
+     * @param domNode {Node} the node we're syncing to
+     * @param newChildren {qx.html.Node[]} the new children
+     */
+    _useNodeImpl(domNode, newChildren) {
+      if (this._domNode) {
+        throw new Error("Could not overwrite existing element!");
+      }
+
+      // Use incoming element
+      this._connectDomNode(domNode);
+
+      // Copy currently existing data over to element
+      this._copyData(true, true);
+
+      // Add children
+      var lookup = {};
+      var oldChildren = this._children
+        ? qx.lang.Array.clone(this._children)
+        : null;
+      newChildren.forEach(function (child) {
+        lookup[child.toHashCode()] = child;
+      });
+      this._children = newChildren;
+
+      // Make sure that unused children are disconnected
+      if (oldChildren) {
+        oldChildren.forEach(function (child) {
+          if (!lookup[child.toHashCode()]) {
+            if (child._domNode && child._domNode.parentElement) {
+              child._domNode.parentElement.removeChild(child._domNode);
+            }
+            child._parent = null;
+          }
+        });
+      }
+
+      var self = this;
+      this._children.forEach(function (child) {
+        child._parent = self;
+        if (child._domNode && child._domNode.parentElement !== self._domNode) {
+          child._domNode.parentElement.removeChild(child._domNode);
+          if (this._domNode) {
+            this._domNode.appendChild(child._domNode);
+          }
+        }
+      });
+
+      if (this._domNode) {
+        this._scheduleChildrenUpdate();
+      }
     },
 
     /**
@@ -384,24 +480,11 @@ qx.Class.define("qx.html.Node", {
     },
 
     /**
-     * Disconnects the DOM node
-     */
-    _disconnectDomNode() {
-      if (this._domNode && this._domNode.parentElement) {
-        this._domNode.parentElement.removeChild(this._domNode);
-      }
-      this._domNode = null;
-    },
-
-    /**
      * Detects whether the DOM node has been created and is in the document
      *
      * @return {Boolean}
      */
     isInDocument() {
-      if (!this._domNode) {
-        return false;
-      }
       if (document.body) {
         for (
           var domNode = this._domNode;
@@ -1265,11 +1348,14 @@ qx.Class.define("qx.html.Node", {
     _applyVisible(value) {
       // Nothing - to be overridden
     },
+
     /*
     ---------------------------------------------------------------------------
-    PROPERTY SUPPORT
+      PROPERTY SUPPORT
     ---------------------------------------------------------------------------
-    */ /**
+    */
+
+    /**
      * Registers a property and the implementations used to read the property value
      * from the DOM and to set the property value onto the DOM.  This allows the element
      * to have a simple `setProperty` method that knows how to read and write the value.
@@ -1285,7 +1371,8 @@ qx.Class.define("qx.html.Node", {
      * @param getter {Function?} function to read from the DOM
      * @param setter {Function?} function to copy to the DOM
      * @param serialize {Function?} function to serialize the value to HTML
-     */ registerProperty(key, get, set, serialize) {
+     */
+    registerProperty(key, get, set, serialize) {
       if (!this._properties) {
         this._properties = {};
       }
@@ -1340,6 +1427,7 @@ qx.Class.define("qx.html.Node", {
     _applyProperty(name, value) {
       // empty implementation
     },
+
     /**
      * Set up the given property.
      *
@@ -1348,14 +1436,18 @@ qx.Class.define("qx.html.Node", {
      * @param direct {Boolean?false} Whether the value should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */ _setProperty(key, value, direct) {
+     */
+    _setProperty(key, value, direct) {
       if (!this._properties || !this._properties[key]) {
         this.registerProperty(key, null, null);
       }
+
       if (this._properties[key].value == value) {
         return this;
       }
+
       this._properties[key].value = value;
+
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
