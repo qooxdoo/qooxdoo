@@ -49,12 +49,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
-      // due to injecting code for top-level objects, there is exactly one "unresolved" use of `qx.core.MObjectId.handleObjects`. In reality, this will be okay.
-      this.assert(
-        dbClassInfo.unresolved &&
-          dbClassInfo.unresolved.length === 1 &&
-          dbClassInfo.unresolved[0].name === "qx.core.MObjectId.handleObjects"
-      );
+      this.assert(!dbClassInfo.unresolved);
     },
 
     async "test issue 519"() {
@@ -80,12 +75,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
-      // due to injecting code for top-level objects, there is exactly one "unresolved" use of `qx.core.MObjectId.handleObjects`. In reality, this will be okay.
-      this.assert(
-        dbClassInfo.unresolved &&
-          dbClassInfo.unresolved.length === 1 &&
-          dbClassInfo.unresolved[0].name === "qx.core.MObjectId.handleObjects"
-      );
+      this.assert(!dbClassInfo.unresolved);
     },
 
     async "test issue 726"() {
@@ -98,12 +88,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
-      // due to injecting code for top-level objects, there is exactly one "unresolved" use of `qx.core.MObjectId.handleObjects`. In reality, this will be okay.
-      this.assert(
-        dbClassInfo.unresolved &&
-          dbClassInfo.unresolved.length === 1 &&
-          dbClassInfo.unresolved[0].name === "qx.core.MObjectId.handleObjects"
-      );
+      this.assert(!dbClassInfo.unresolved);
     },
 
     __lib: null,

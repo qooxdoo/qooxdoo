@@ -100,9 +100,21 @@ qx.Class.define("qx.test.core.ObjectId", {
         }
       });
 
+      const Mixin = qx.Mixin.define("demo.Mixin", {
+        objects: {
+          mixedObject() {
+            return "mixed object";
+          },
+
+          mixedOverriddenObject() {
+            return "mixed object";
+          }
+        }
+      });
+
       const SubClass = qx.Class.define("demo.SubClass", {
         extend: SuperClass,
-        include: [qx.core.MAssert],
+        include: [qx.core.MAssert, Mixin],
         objects: {
           commonObject() {
             return "common object in objects section";
@@ -116,6 +128,10 @@ qx.Class.define("qx.test.core.ObjectId", {
             return (
               super._createQxObjectImpl("modifiedObject") + " + some changes"
             );
+          },
+
+          mixedOverriddenObject() {
+            return "mixed overridden object";
           }
         },
 
@@ -159,6 +175,13 @@ qx.Class.define("qx.test.core.ObjectId", {
       this.assertEquals(
         "superCreateQxObjectImpl",
         obj.getQxObject("superCreateQxObjectImpl")
+      );
+
+      this.assertEquals("mixed object", obj.getQxObject("mixedObject"));
+
+      this.assertEquals(
+        "mixed overridden object",
+        obj.getQxObject("mixedOverriddenObject")
       );
 
       const ObjectOnlyClass = qx.Class.define("demo.ObjectOnly", {
