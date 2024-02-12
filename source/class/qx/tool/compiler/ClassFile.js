@@ -817,15 +817,23 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         });
         checkNodeJsDocDirectives(node);
 
-        const isAnonMixin = !t.__className && t.__definingType === "Mixin";
         if (
-          !isAnonMixin &&
-          t.__definingType !== "Interface" &&
-          node.key?.name == "_createQxObjectImpl"
+          node.key?.name === "_createQxObjectImpl" &&
+          t.__classMeta.type !== "interface"
         ) {
+          if (t.__classMeta.type === "mixin") {
+            if (t.__classMeta.className === "qx.core.MObjectId") {
+              return;
+            }
+            qx.tool.compiler.Console.print(
+              "qx.tool.compiler.compiler.mixinQxObjectImpl",
+              t.__classMeta.className
+            );
+          }
+
           const injectCode = `{
             let object = qx.core.MObjectId.handleObjects(${
-              t.__className ?? "this.constructor"
+              t.__classMeta.className ?? "this.constructor"
             }, this, ...arguments);
             if (object) {
               return object;
@@ -1221,7 +1229,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           properties: "object", // Map
           events: "object", // Map
           destruct: "function", // Function
-          construct: "function" // Function
+          construct: "function", // Function
+          objects: "object" // Map
         },
         theme: {
           title: "string", // String
@@ -1268,6 +1277,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       };
 
       function ensureCreateQxObjectImpl(membersPropertyPath) {
+        // if we are in a class with no top-level properties, don't bother creating _createQxObjectImpl
+        if (
+          !membersPropertyPath.parent.properties.some(
+            p => p.key?.name === "objects"
+          )
+        ) {
+          return;
+        }
+
         const membersPropertyNode = membersPropertyPath.node;
         const memberNames = membersPropertyNode?.value?.properties?.map(
           it => it.key.name
@@ -1287,22 +1305,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           return;
         }
 
-        // this.__className may be null - which is fine, and the only time this would be an issue is if there
-        //  is a mixin with null name; we try to use the classname if we have one so that we can add the function
-        //  to mixins, but for classes we can fall back to `this.constructor`
-        if (!t.__className && t.__definingType === "Mixin") {
-          t.addMarker(
-            "compiler.anonymousMixinTopLevelObjects",
-            membersPropertyPath.loc
-          );
-
-          return;
-        }
-
         const functionBody = `{
-          return qx.core.MObjectId.handleObjects(${
-            t.__classMeta.className ?? "this.constructor"
-          }, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
+          return super._createQxObjectImpl(...arguments);
         }`;
 
         const functionBlock = babylon.parse(functionBody, {
@@ -1434,7 +1438,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             };
 
             path.skip();
-            if (keyName == "members" && t.__definingType !== "Interface") {
+            if (keyName === "members" && t.__classMeta.type === "class") {
               ensureCreateQxObjectImpl(path);
             }
             path.traverse(VISITOR);
