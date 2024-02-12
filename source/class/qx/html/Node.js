@@ -261,119 +261,70 @@ qx.Class.define("qx.html.Node", {
      * @param domNode {Node} DOM Node to reuse
      */
     useNode(domNode) {
-      const loadNode = (domNode, lastElement) => {
+      if (this._domNode) {
+        throw new Error("Could not overwrite existing element!");
+      }
+
+      const removeAllChildren = parentElement => {
+        if (parentElement._children) {
+          qx.lang.Array.clone(parentElement._children).forEach(node => {
+            parentElement._removeChildImpl(node);
+            node._disconnectDomNode();
+          });
+          parentElement._children = null;
+        }
+      };
+
+      const scanDomNode = (parentElement, domNode) => {
         if (domNode.nodeType == window.Node.TEXT_NODE) {
           let newChild = qx.html.Factory.getInstance().createElement("#text");
           newChild._useNodeImpl(domNode);
-          return newChild;
+          parentElement._addChildImpl(newChild);
+          parentElement._children.push(newChild);
+          return;
         }
 
         let id = domNode.getAttribute("data-qx-object-id");
-        let owned = null;
-
+        let element = null;
         if (id) {
-          if (lastElement === this && id == lastElement.getQxObjectId()) {
-            owned = this;
-          } else {
-            let owner = null;
-            if (id[0] == "/") {
-              id = id.substring(1);
-              let pos = id.indexOf("/");
-              let isFromRoot = id.startsWith("??/");
-              if (pos > -1) {
-                id = id.substring(pos + 1);
-                owned = this.getQxObject(id);
-                owner = this;
-              }
-            } else {
-              owner = lastElement;
-              owned = owner.getQxObject(id);
-            }
-          }
-        } else {
-          if (lastElement === this) {
-            owned = this;
+          try {
+            element = this.getQxObject(id);
+          } catch (ex) {
+            element = null;
           }
         }
-
-        if (!owned) {
-          owned = qx.html.Factory.getInstance().createElement(
+        if (!element) {
+          element = qx.html.Factory.getInstance().createElement(
             domNode.nodeName,
             domNode.attributes
           );
         }
 
-        let nextElement = owned.getQxObjectId() ? owned : lastElement;
-        let htmlChildren = qx.lang.Array.fromCollection(domNode.childNodes).map(
-          domChild => loadNode(domChild, nextElement)
+        if (element._parent !== parentElement) {
+          parentElement._addChildImpl(element);
+          parentElement._children.push(element);
+        }
+        element._connectDomNode(domNode);
+        element._copyData(true, true);
+
+        qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
+          scanDomNode(element, childDomNode)
         );
 
-        owned._useNodeImpl(domNode, htmlChildren);
-        return owned;
+        parentElement._scheduleChildrenUpdate();
       };
 
-      loadNode(domNode, this);
+      removeAllChildren(this);
+      this._connectDomNode(domNode);
+      this._copyData(true, true);
+      qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
+        scanDomNode(this, childDomNode)
+      );
 
       this.flush();
       this._insertChildren();
-      if (qx.core.Environment.get("module.objectid")) {
-        this.updateObjectId();
-      }
-    },
 
-    /**
-     * Called internally to complete the connection to an existing DOM node
-     *
-     * @param domNode {DOMNode} the node we're syncing to
-     * @param newChildren {qx.html.Node[]} the new children
-     */
-    _useNodeImpl(domNode, newChildren) {
-      if (this._domNode) {
-        throw new Error("Could not overwrite existing element!");
-      }
-
-      // Use incoming element
-      this._connectDomNode(domNode);
-
-      // Copy currently existing data over to element
-      this._copyData(true, true);
-
-      // Add children
-      var lookup = {};
-      var oldChildren = this._children
-        ? qx.lang.Array.clone(this._children)
-        : null;
-      newChildren.forEach(function (child) {
-        lookup[child.toHashCode()] = child;
-      });
-      this._children = newChildren;
-
-      // Make sure that unused children are disconnected
-      if (oldChildren) {
-        oldChildren.forEach(function (child) {
-          if (!lookup[child.toHashCode()]) {
-            if (child._domNode && child._domNode.parentElement) {
-              child._domNode.parentElement.removeChild(child._domNode);
-            }
-            child._parent = null;
-          }
-        });
-      }
-
-      var self = this;
-      this._children.forEach(function (child) {
-        child._parent = self;
-        if (child._domNode && child._domNode.parentElement !== self._domNode) {
-          child._domNode.parentElement.removeChild(child._domNode);
-          if (this._domNode) {
-            this._domNode.appendChild(child._domNode);
-          }
-        }
-      });
-
-      if (this._domNode) {
-        this._scheduleChildrenUpdate();
-      }
+      this._scheduleChildrenUpdate();
     },
 
     /**
@@ -402,6 +353,16 @@ qx.Class.define("qx.html.Node", {
     },
 
     /**
+     * Disconnects the DOM node
+     */
+    _disconnectDomNode() {
+      if (this._domNode && this._domNode.parentElement) {
+        this._domNode.parentElement.removeChild(this._domNode);
+      }
+      this._domNode = null;
+    },
+
+    /**
      * Detects whether the DOM node has been created and is in the document
      *
      * @return {Boolean}
@@ -410,10 +371,6 @@ qx.Class.define("qx.html.Node", {
       if (!this._domNode) {
         return false;
       }
-      if (this._domNode.isConnected !== undefined) {
-        return this._domNode.isConnected;
-      }
-
       if (document.body) {
         for (
           var domNode = this._domNode;
@@ -1391,13 +1348,10 @@ qx.Class.define("qx.html.Node", {
       if (!this._properties || !this._properties[key]) {
         this.registerProperty(key, null, null);
       }
-
       if (this._properties[key].value == value) {
         return this;
       }
-
       this._properties[key].value = value;
-
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
