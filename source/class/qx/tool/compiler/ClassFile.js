@@ -820,7 +820,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         const isAnonMixin = !t.__className && t.__definingType === "Mixin";
         if (
           !isAnonMixin &&
-          !t.__definingType === "Interface" &&
+          t.__definingType !== "Interface" &&
           node.key?.name == "_createQxObjectImpl"
         ) {
           const injectCode = `{
