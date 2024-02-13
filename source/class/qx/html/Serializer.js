@@ -246,47 +246,41 @@ qx.Class.define("qx.html.Serializer", {
      *
      * The return is null if the object does not have an ID
      *
-     * @param {qx.html.Element} obj
+     * @param {qx.html.Element} target
      * @returns {String?}
      */
-    getQxObjectIdFor(obj) {
-      if (!obj.getQxObjectId()) {
+    getQxObjectIdFor(target) {
+      if (!target.getQxObjectId()) {
         return null;
       }
 
       // If we can make the ID relative to it's parent, then just use the shorter version.  This is
       //  not strictly necessary because we could use absolute paths everywhere, but it's a lot
       //  easier to read and understand, and consumes less bytes in the output
-      const top = this.peekQxObject();
-      if (top === obj) {
-        const superTop =
-          this.__objectStack[this.__objectStack.length - 2] || null;
-        if (superTop === obj.getQxOwner()) {
-          return obj.getQxObjectId();
+      const stackTop = this.peekQxObject();
+      if (stackTop === target) {
+        const secondTop = this.__objectStack.slice(-2)[0] || null;
+        if (secondTop === target.getQxOwner()) {
+          return target.getQxObjectId();
         }
       }
 
-      // Calculate the absolute path, relative to the top of the stack
-      const ids = [];
-      const topMost = this.__objectStack[0];
-      let tmp = obj;
+      // Calculate the relative path between the stack top and the target object
+      const ids = [target.getQxObjectId()];
+      const stackFirst = this.__objectStack[0];
+      let tmp = target;
       do {
         const owner = tmp.getQxOwner();
-
-        // If it is the top, or not listed, then stop
-        if (
-          owner === topMost ||
-          this.__objectStack.indexOf(tmp.getQxOwner()) < 0
-        ) {
-          ids.unshift(tmp.getQxObjectId());
-          ids.unshift("??");
+        if (this.__objectStack.indexOf(owner) < 0) {
           break;
+        } else if (owner === stackFirst) {
+          ids.unshift("..");
+        } else {
+          ids.unshift(tmp.getQxObjectId());
         }
-        const id = tmp.getQxObjectId();
-        ids.unshift(id);
       } while ((tmp = tmp.getQxOwner()));
 
-      return "/" + ids.join("/");
+      return ids.join("/");
     }
   },
 

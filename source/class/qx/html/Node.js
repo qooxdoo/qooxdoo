@@ -234,10 +234,12 @@ qx.Class.define("qx.html.Node", {
     /**
      * Serializes the virtual DOM element to a string
      *
+     * @param pretty {Boolean?} whether to pretty print the output. Defaults to `false`
      * @return {String} the serialised version
      */
-    serialize() {
+    serialize(pretty = false) {
       let serializer = new qx.html.Serializer();
+      serializer.setPrettyPrint(!!pretty);
       this._serializeImpl(serializer);
       return serializer.getOutput();
     },
@@ -275,12 +277,16 @@ qx.Class.define("qx.html.Node", {
         }
       };
 
-      const scanDomNode = (parentElement, domNode) => {
+      const scanDomNode = (parentElement, domNode, idx) => {
         if (domNode.nodeType == window.Node.TEXT_NODE) {
           let newChild = qx.html.Factory.getInstance().createElement("#text");
           newChild._useNodeImpl(domNode);
           parentElement._addChildImpl(newChild);
-          parentElement._children.push(newChild);
+          if (parentElement._children[idx]?.classname === "qx.html.Text") {
+            parentElement._children[idx] = newChild;
+          } else {
+            parentElement._children.push(newChild);
+          }
           return;
         }
 
@@ -288,7 +294,7 @@ qx.Class.define("qx.html.Node", {
         let element = null;
         if (id) {
           try {
-            element = this.getQxObject(id);
+            element = parentElement.getQxObject(id);
           } catch (ex) {
             element = null;
           }
@@ -307,8 +313,8 @@ qx.Class.define("qx.html.Node", {
         element._connectDomNode(domNode);
         element._copyData(true, true);
 
-        qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
-          scanDomNode(element, childDomNode)
+        qx.lang.Array.fromCollection(domNode.childNodes).forEach(
+          (childDomNode, idx) => scanDomNode(element, childDomNode, idx)
         );
 
         parentElement._scheduleChildrenUpdate();
@@ -317,8 +323,8 @@ qx.Class.define("qx.html.Node", {
       removeAllChildren(this);
       this._connectDomNode(domNode);
       this._copyData(true, true);
-      qx.lang.Array.fromCollection(domNode.childNodes).forEach(childDomNode =>
-        scanDomNode(this, childDomNode)
+      qx.lang.Array.fromCollection(domNode.childNodes).forEach(
+        (childDomNode, idx) => scanDomNode(this, childDomNode, idx)
       );
 
       this.flush();

@@ -147,16 +147,21 @@ qx.Mixin.define("qx.core.MObjectId", {
 
       // Handle paths
       if (id.indexOf("/") > -1) {
-        var segs = id.split("/");
+        var segments = id.split("/");
         var target = this;
-        var found = segs.every(function (seg) {
-          if (!seg.length) {
+        var found = segments.every(segment => {
+          if (!segment.length) {
             return true;
           }
           if (!target) {
             return false;
           }
-          var tmp = target.getQxObject(seg);
+          var tmp;
+          if (segment === "..") {
+            tmp = target.getQxOwner();
+          } else {
+            tmp = target.getQxObject(segment);
+          }
           if (tmp !== undefined) {
             target = tmp;
             return true;
