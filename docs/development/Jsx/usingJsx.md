@@ -17,35 +17,37 @@ qx.Class.define("qxjsx.page.SimplePage", {
     super("main"); // use the `<main />` tag for this page's root element.
 
     this.add(
-      <header>
-        <h1>Important Business Report</h1>
-      </header>
-      <table>
-        <thead>
-          <tr>
-            <th>Business</th>
-            <th>More Business</th>
-            <th>Somewhat Less Business</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Business</td>
-            <td>Business</td>
-            <td>Business</td>
-          </tr>
-          <tr>
-            <td>Business</td>
-            <td>Business</td>
-            <td>Business</td>
-          </tr>
-          <tr>
-            <td>Business</td>
-            <td>Business</td>
-            <td>Business</td>
-          </tr>
-        </tbody>
-      </table>
+      <section>
+        <header>
+          <h1>Important Business Report</h1>
+        </header>
+        <table>
+          <thead>
+            <tr>
+              <th>Business</th>
+              <th>More Business</th>
+              <th>Somewhat Less Business</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Business</td>
+              <td>Business</td>
+              <td>Business</td>
+            </tr>
+            <tr>
+              <td>Business</td>
+              <td>Business</td>
+              <td>Business</td>
+            </tr>
+            <tr>
+              <td>Business</td>
+              <td>Business</td>
+              <td>Business</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     );
   }
 });
