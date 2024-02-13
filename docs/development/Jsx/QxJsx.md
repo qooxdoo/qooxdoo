@@ -13,7 +13,7 @@ These features are standard across most if not all Jsx flavors.
 Any function (including constructor functions) may be used as a custom element
 tag, the restrictions are;
 
-1. The return value must be an instance of [qx.html.Node](apps://apiviewer/#qx.html.Node).
+1. The return value must be an instance of [qx.html.Node](apps://apiviewer/#qx.html.Node) (eg, any Jsx expression).
 2. The 'tag' name must be a property access (eg, `foo.bar`), or must start with
    a capital letter (eg, `Foo`).
 
@@ -31,7 +31,7 @@ names. Slots are only passed to the component they are an immediate child of.
  */
 const MyCustomElem = ({ who = "nobody :(" }) => {
   return <p>Hello, {who}</p>;
-}
+};
 const world = <MyCustomElem who="world" />;
 ```
 
@@ -40,13 +40,9 @@ qx.Class.define("ElementClass", {
   extend: qx.html.Element,
   construct(attributes) {
     super("div");
-    this.add(
-      <>
-        {/* some Jsx here */}
-      </>
-    );
+    this.add(<>{/* some Jsx here */}</>);
   }
-})
+});
 // later...
 const myElementClass = <ElementClass attr1="val1" />;
 ```
@@ -60,10 +56,14 @@ existing POJO, they can be passed down using the spread operator.
 const attrs = {
   id: "my-id",
   class: "my-class",
-  style: "color: red;",
+  style: "color: red;"
 };
 
-const dontDoThis = <h1 id={attrs.id} class={attrs.class} style={attrs.style}>Lorem ipsum</h1>;
+const dontDoThis = (
+  <h1 id={attrs.id} class={attrs.class} style={attrs.style}>
+    Lorem ipsum
+  </h1>
+);
 
 const justDoThis = <h1 {...attrs}>Lorem ipsum</h1>;
 ```
@@ -107,6 +107,72 @@ const myElem = (
 );
 ```
 
+### Event Listeners
+
+The events fired by Jsx elements are the native events fired by html elements.
+These events can be listened to in a traditional way...
+
+```jsx
+const elem = <button>Click me</button>;
+elem.addListener("click", () => console.log("clicked"));
+```
+
+...or they can be listened to inline.
+
+```jsx
+const elem = <button onClick={() => console.log("clicked")}>Click me</button>;
+```
+
+Note that this is only implicitly supported on plain html elements; custom
+elements will need to include some mechanism to connect the event to one or more
+of it's html elements.
+
+```jsx
+const MyCustomElem = ({ onClick }) => {
+  return <button onClick={onClick}>Click me</button>;
+};
+
+const elem = <MyCustomElem onClick={() => console.log("clicked")} />;
+```
+
+<details>
+  <summary>Currently supported event listener attributes</summary>
+  <code>onBlur</code><br/>
+  <code>onChange</code><br/>
+  <code>onClick</code><br/>
+  <code>onContextMenu</code><br/>
+  <code>onDoubleClick</code><br/>
+  <code>onDrag</code><br/>
+  <code>onDragEnd</code><br/>
+  <code>onDragEnter</code><br/>
+  <code>onDragExit</code><br/>
+  <code>onDragLeave</code><br/>
+  <code>onDragOver</code><br/>
+  <code>onDragStart</code><br/>
+  <code>onDrop</code><br/>
+  <code>onError</code><br/>
+  <code>onFocus</code><br/>
+  <code>onInput</code><br/>
+  <code>onInvalid</code><br/>
+  <code>onKeyDown</code><br/>
+  <code>onKeyPress</code><br/>
+  <code>onKeyUp</code><br/>
+  <code>onLoad</code><br/>
+  <code>onMouseDown</code><br/>
+  <code>onMouseEnter</code><br/>
+  <code>onMouseLeave</code><br/>
+  <code>onMouseMove</code><br/>
+  <code>onMouseOut</code><br/>
+  <code>onMouseOver</code><br/>
+  <code>onMouseUp</code><br/>
+  <code>onScroll</code><br/>
+  <code>onSubmit</code><br/>
+  <code>onTouchCancel</code><br/>
+  <code>onTouchEnd</code><br/>
+  <code>onTouchMove</code><br/>
+  <code>onTouchStart</code>
+</details>
+
 ## Custom Behaviors
 
 These features are custom additions to Jsx and are not standard across all Jsx
@@ -143,7 +209,7 @@ const MyCustomElem = ({ who = "nobody :(" }) => {
       <slot name="subheading" />
     </header>
   );
-}
+};
 
 // default heading, no subheading
 const usage1 = <MyCustomElem />;
@@ -208,7 +274,7 @@ will not work on native elements or custom shadow DOM elements.
  */
 const SomeText = () => (
   <p style="color: var(--my-custom-property, blue);">
-    <slot/>
+    <slot />
   </p>
 );
 
