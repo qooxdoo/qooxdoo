@@ -31,6 +31,7 @@
  *
  * @require(qx.core.ObjectRegistry)
  * @require(qx.core.property.Property)
+ * @require(qx.core.property.PropertyStorageFactory)
  */
 qx.Class.define("qx.core.Object", {
   extend: Object,

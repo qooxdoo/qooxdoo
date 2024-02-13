@@ -620,6 +620,13 @@ qx.Bootstrap.define("qx.Class", {
         clazz.prototype.basename = clazz.basename;
       }
 
+      if (config.properties) {
+        // Install properties
+        qx.Bootstrap.addPendingDefer(clazz, () =>
+          this.addProperties(clazz, config.properties)
+        );
+      }
+
       // Now that the class has been defined, arrange to call its
       // (optional) defer function
       if (config.defer) {
@@ -639,11 +646,7 @@ qx.Bootstrap.define("qx.Class", {
     _extend(className, config) {
       const type = config.type || "class";
       const superclass = config.extend || Object;
-      const properties = config.properties;
       const _this = this;
-      let allProperties = superclass.$$allProperties || {};
-      let superProperties = superclass.$$superProperties || {};
-      let initFunctions = [];
       let subclass;
       let initialConstruct = config.construct;
 
@@ -669,10 +672,10 @@ qx.Bootstrap.define("qx.Class", {
 
           // add abstract and singleton checks
           if (type === "abstract") {
-            if (this.classname === classname) {
+            if (this.classname === className) {
               throw new Error(
                 "The class '," +
-                  classname +
+                  className +
                   "' is abstract! It is not possible to instantiate it."
               );
             }
@@ -682,7 +685,7 @@ qx.Bootstrap.define("qx.Class", {
             if (!this.$$allowconstruct) {
               throw new Error(
                 "The class '" +
-                  classname +
+                  className +
                   "' is a singleton! It is not possible to instantiate it " +
                   "directly. Use the static getInstance() method instead."
               );
@@ -726,89 +729,6 @@ qx.Bootstrap.define("qx.Class", {
         };
       }
 
-      // Ensure there are no properties defined that overwrite
-      // superclasses' properties, unless "refine : true" is
-      // specified.
-      for (let property in properties) {
-        let refined = false;
-
-        if (
-          property in superProperties &&
-          !qx.Class.objectProperties.has(property) &&
-          !properties[property].refine
-        ) {
-          throw new Error(
-            `${className}: ` +
-              `Overwriting property "${property}" without "refine: true"`
-          );
-        }
-
-        // Allow only changing the init or initFunction values if
-        // refine is true
-        if (properties[property].refine) {
-          let redefinitions = Object.keys(properties[property]).filter(
-            key => !["refine", "init", "initFunction", "@"].includes(key)
-          );
-
-          if (redefinitions.length > 0) {
-            throw new Error(
-              `${className}: ` +
-                `Property "${property}" ` +
-                `redefined with other than "init", "initFunction", "@"`
-            );
-          }
-
-          // Create a modified property definition using the prior
-          // definition (if one exists) as the basis, and adding
-          // properties provided in the redefinition (except for "refine")
-          delete properties[property].refine;
-          properties[property] = Object.assign(
-            {},
-            allProperties[property] || {},
-            properties[property]
-          );
-
-          // We only get here if `refine : true` was in the configuration.
-          // That doesn't say whether there was actually a superclass
-          // property for it to refine. It's not an error to refine a
-          // non-existing property. Keep track of whether we actually
-          // refined a property.
-          refined = property in allProperties;
-        }
-
-        // Ensure that this property isn't attempting to override a
-        // method name from within this configuration. (Never acceptable)
-        if ("members" in config && property in config.members) {
-          throw new Error(
-            `${className}: ` +
-              `Overwriting member "${property}" ` +
-              `with property "${property}"`
-          );
-        }
-
-        // Ensure that this property isn't attempting to override a
-        // member name from the superclass prototype chain that
-        // isn't a refined property.
-        if (
-          superclass &&
-          "property" in superclass &&
-          property in superclass.prototype &&
-          !refined
-        ) {
-          throw new Error(
-            `${className}: ` +
-              `Overwriting superclass member "${property}" ` +
-              `with property "${property}"`
-          );
-        }
-
-        // Does this property have an initFunction?
-        if (properties[property].initFunction) {
-          // Yup. Keep track of it.
-          initFunctions.push(property);
-        }
-      }
-
       // Allow easily identifying this class
       qx.Bootstrap.setDisplayName(subclass, className);
 
@@ -845,15 +765,41 @@ qx.Bootstrap.define("qx.Class", {
       subclass.prototype = Object.create(superclass.prototype);
       subclass.prototype.classname = className;
 
-      // Save any init functions that need to be called upon instantiation
-      Object.defineProperty(subclass, "$$initFunctions", {
-        value: initFunctions,
+      let superProperties = superclass.$$allProperties || {};
+
+      // Save this object's properties
+      Object.defineProperty(subclass.prototype, "$$properties", {
+        value: {},
         writable: qx.Class.$$options.propsAccessible || false,
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
       });
 
-      return subclass.prototype.constructor;
+      // Save the super properties for this class
+      Object.defineProperty(subclass.prototype, "$$superProperties", {
+        value: superProperties,
+        writable: qx.Class.$$options.propsAccessible || false,
+        configurable: qx.Class.$$options.propsAccessible || false,
+        enumerable: qx.Class.$$options.propsAccessible || false
+      });
+
+      // Save the full chain of properties for this class
+      Object.defineProperty(subclass.prototype, "$$allProperties", {
+        value: Object.assign({}, superProperties),
+        writable: qx.Class.$$options.propsAccessible || false,
+        configurable: qx.Class.$$options.propsAccessible || false,
+        enumerable: qx.Class.$$options.propsAccessible || false
+      });
+
+      // Save any init functions that need to be called upon instantiation
+      Object.defineProperty(subclass.prototype, "$$initFunctions", {
+        value: [],
+        writable: qx.Class.$$options.propsAccessible || false,
+        configurable: qx.Class.$$options.propsAccessible || false,
+        enumerable: qx.Class.$$options.propsAccessible || false
+      });
+
+      return subclass;
     },
 
     /**
@@ -910,21 +856,6 @@ qx.Bootstrap.define("qx.Class", {
                 `Overwriting private member "${key}" ` +
                   `of Class "${clazz.classname}" ` +
                   "is not allowed"
-              );
-            }
-
-            if (
-              patch !== true &&
-              (proto.hasOwnProperty(key) ||
-                (key in proto &&
-                  key in clazz.$$allProperties &&
-                  !qx.Class.objectProperties.has(key)))
-            ) {
-              throw new Error(
-                `Overwriting member or property "${key}" ` +
-                  `of Class "${clazz.classname}" ` +
-                  "is not allowed. " +
-                  "(Members and properties are in the same namespace.)"
               );
             }
           }
@@ -1001,19 +932,6 @@ qx.Bootstrap.define("qx.Class", {
      *   new properties)
      */
     addProperties(clazz, properties, patch) {
-      const findSuperProperty = name => {
-        let current = clazz;
-        while (current) {
-          if (current.$$allProperties && current.$$allProperties[name]) {
-            return current.$$allProperties[name];
-          }
-          current = current.superclass;
-        }
-        return null;
-      };
-
-      clazz.prototype.$$allProperties = {};
-
       const addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];
@@ -1024,20 +942,41 @@ qx.Bootstrap.define("qx.Class", {
             return;
           }
 
-          let superProperty = findSuperProperty(propertyName);
-          let property = null;
+          let superProperty = clazz.prototype.$$superProperties
+            ? clazz.prototype.$$superProperties[propertyName]
+            : null;
+          let property;
           if (superProperty) {
-            property = superProperty.clone();
-          } else {
-            if (def.group) {
-              property = new qx.core.property.GroupProperty(
-                propertyName,
-                clazz
+            if (!def.refine) {
+              throw new Error(
+                `${clazz.classname}: ` +
+                  `Overwriting property "${propertyName}" without "refine: true"`
               );
-            } else {
-              property = new qx.core.property.Property(propertyName, clazz);
             }
+            property = superProperty.clone(clazz);
+          } else if (def.group) {
+            property = new qx.core.property.GroupProperty(propertyName, clazz);
+          } else {
+            property = new qx.core.property.Property(propertyName, clazz);
           }
+
+          // Ensure that this property isn't attempting to override a
+          // method name from within this configuration. (Never acceptable)
+          if (clazz.prototype[propertyName] !== undefined) {
+            throw new Error(
+              `${clazz.classname}: ` +
+                `Overwriting member "${propertyName}" ` +
+                `with property "${propertyName}"`
+            );
+          }
+
+          // Does this property have an initFunction?
+          if (properties[propertyName].initFunction) {
+            // Yup. Keep track of it.
+            clazz.prototype.$$initFunctions.push(propertyName);
+          }
+
+          clazz.prototype.$$properties[propertyName] = property;
           clazz.prototype.$$allProperties[propertyName] = property;
           property.configure(def);
           property.defineProperty(clazz, patch);

@@ -290,13 +290,15 @@ window.qx = Object.assign(window.qx || {}, {
           }
 
           // Call any initFunctions defined for properties of this class
-          this.$$initFunctions.forEach(prop => {
-            let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+          if (this.$$initFunctions) {
+            this.$$initFunctions.forEach(prop => {
+              let propertyFirstUp = qx.Bootstrap.firstUp(prop);
 
-            // Initialize this property
-            this[`init${propertyFirstUp}`]();
-            this[`$$variant_${prop}`] = "init";
-          });
+              // Initialize this property
+              this[`init${propertyFirstUp}`]();
+              this[`$$variant_${prop}`] = "init";
+            });
+          }
 
           return ret;
         };
@@ -350,7 +352,7 @@ window.qx = Object.assign(window.qx || {}, {
         enumerable: allEnumerable || false
       });
 
-      return subclass.prototype.constructor;
+      return subclass;
     },
 
     /**

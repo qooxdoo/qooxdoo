@@ -28,13 +28,14 @@
  * FunctionCheck
  *
  * how does init of property values work?  `init` per class and `initFunction` per instance?
+ *
  */
 qx.Bootstrap.define("qx.core.property.Property", {
-  extend: qx.core.Object,
+  //extend: qx.core.Object,
   implement: qx.core.property.IProperty,
 
   construct(propertyName, clazz) {
-    super();
+    //super();
     this.__propertyName = propertyName;
     this.__clazz = clazz;
   },
@@ -86,7 +87,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @Override
      */
     configure(def) {
-      let upname = qx.lang.String.firstUp(this.__propertyName);
+      let upname = qx.Bootstrap.firstUp(this.__propertyName);
       let methodNames = {};
       for (let tmp = this.__clazz; tmp; tmp = tmp.superclass) {
         for (let methodName in tmp.prototype) {
@@ -177,8 +178,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (def.event) {
         this.__eventName = def.event;
       } else if (def.event !== null) {
-        this.__eventName =
-          "change" + qx.lang.String.firstUp(this.__propertyName);
+        this.__eventName = "change" + qx.Bootstrap.firstUp(this.__propertyName);
       }
 
       if (def.isEqual) {
@@ -303,7 +303,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         scopePrefix = "_";
         propertyName = propertyName.substring(1);
       }
-      let upname = qx.lang.String.firstUp(propertyName);
+      let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
       if (clazz.prototype.$$propertyValues === undefined) {
@@ -379,6 +379,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
       });
+      clazz.prototype.$$initFunctions.push(propertyName);
 
       if (
         this.__initValue !== undefined ||

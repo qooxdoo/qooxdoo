@@ -25,7 +25,7 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
 
   construct(property, clazz) {
     super();
-    let upname = qx.lang.String.firstUp(property.getPropertyName());
+    let upname = qx.Bootstrap.firstUp(property.getPropertyName());
     this.__get = clazz.prototype["get" + upname];
     this.__getAsync = clazz.prototype["get" + upname + "Async"] || this.__get;
     this.__set = clazz.prototype["set" + upname];

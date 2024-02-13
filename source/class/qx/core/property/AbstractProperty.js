@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.core.property.AbstractProperty", {
      * @param {*} def the property definition as written by the user
      */
     configure(def, clazz) {
-      let upname = qx.lang.String.firstUp(this.__propertyName);
+      let upname = qx.Bootstrap.firstUp(this.__propertyName);
       let methodNames = {};
       for (let tmp = clazz; tmp; tmp = tmp.superclass) {
         for (let methodName in tmp.prototype) {
@@ -173,8 +173,7 @@ qx.Bootstrap.define("qx.core.property.AbstractProperty", {
       if (def.event) {
         this.__eventName = def.event;
       } else if (def.event !== null) {
-        this.__eventName =
-          "change" + qx.lang.String.firstUp(this.__propertyName);
+        this.__eventName = "change" + qx.Bootstrap.firstUp(this.__propertyName);
       }
       if (def.isEqual) {
         if (def.isEqual instanceof Function) {
@@ -265,7 +264,7 @@ qx.Bootstrap.define("qx.core.property.AbstractProperty", {
         scopePrefix = "_";
         propertyName = propertyName.substring(1);
       }
-      let upname = qx.lang.String.firstUp(propertyName);
+      let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
       if (clazz.prototype.$$propertyValues === undefined) {

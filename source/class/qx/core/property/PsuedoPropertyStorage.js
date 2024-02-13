@@ -25,7 +25,7 @@ qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
 
   construct(property, clazz) {
     super();
-    let upname = qx.lang.String.firstUp(property.getPropertyName());
+    let upname = qx.Bootstrap.firstUp(property.getPropertyName());
     let def = property.getDefinition();
     this.__get = def.get;
     this.__getAsync = def.getAsync || def.get;

@@ -89,7 +89,7 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
         scopePrefix = "_";
         propertyName = propertyName.substring(1);
       }
-      let upname = qx.lang.String.firstUp(propertyName);
+      let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
       let propertyValues = clazz.prototype.$$propertyValues[propertyName];
