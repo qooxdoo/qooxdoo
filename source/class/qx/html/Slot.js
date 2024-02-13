@@ -147,6 +147,6 @@ qx.Class.define("qx.html.Slot", {
   *****************************************************************************
   */
   statics: {
-    DEFAULT: Symbol("qx.html.Slot.DEFAULT")
+    DEFAULT: "qx.html.Slot.DEFAULT"
   }
 });

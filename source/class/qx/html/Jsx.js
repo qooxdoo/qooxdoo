@@ -53,7 +53,6 @@ qx.Class.define("qx.html.Jsx", {
      */
     createElement(tagname, attributes) {
       const children = qx.lang.Array.fromArguments(arguments, 2);
-      const self = this;
       attributes ??= {};
 
       // CSS CUSTOM PROPERTIES
@@ -264,8 +263,8 @@ qx.Class.define("qx.html.Jsx", {
     /** @type {Map} map of event names, all values are `true` */
     SYNTHETIC_EVENTS: null,
 
-    /** @type {symbol} tagname for anonymous (native) fragments */
-    FRAGMENT: Symbol("qx.html.Jsx.FRAGMENT")
+    /** @type {string} tagname for anonymous (native) fragments */
+    FRAGMENT: "qx.html.Jsx.FRAGMENT"
   },
 
   defer(statics) {
