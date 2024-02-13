@@ -26,8 +26,8 @@ names. Slots are only passed to the component they are an immediate child of.
 
 ```jsx
 /**
- * @param {object} arg0
- * @param {string} arg0.who
+ * @param {object} attrs
+ * @param {string} attrs.who
  */
 const MyCustomElem = ({ who = "nobody :(" }) => {
   return <p>Hello, {who}</p>;
@@ -58,14 +58,15 @@ const attrs = {
   class: "my-class",
   style: "color: red;"
 };
+const attrs2 = {
+  "data-my-thing": "value"
+};
 
-const dontDoThis = (
-  <h1 id={attrs.id} class={attrs.class} style={attrs.style}>
+const spreadAttribute = (
+  <h1 id="overriden" {...attrs} class="override" {...attrs2}>
     Lorem ipsum
   </h1>
 );
-
-const justDoThis = <h1 {...attrs}>Lorem ipsum</h1>;
 ```
 
 Spread attributes can be combined with key-value attributes to override spread
@@ -85,8 +86,8 @@ const myFragment = (
 );
 ```
 
-Note that a fragment is simply a `qx.data.Array`; it is not it's own form of Jsx
-element, and has limited capabilities within Jsx expressions.
+Note that a fragment is an array, not is not it's own form of Jsx element, and
+has limited capabilities within Jsx expressions.
 
 <!-- TODO: future addition
 To use an enhanced fragment with additional behaviors, use the [`qx:fragment`](#qx-fragment)
@@ -107,17 +108,10 @@ const myElem = (
 );
 ```
 
-### Event Listeners
+### Event Handlers
 
 The events fired by Jsx elements are the native events fired by html elements.
-These events can be listened to in a traditional way...
-
-```jsx
-const elem = <button>Click me</button>;
-elem.addListener("click", () => console.log("clicked"));
-```
-
-...or they can be listened to inline.
+These events can be listened to inline.
 
 ```jsx
 const elem = <button onClick={() => console.log("clicked")}>Click me</button>;
@@ -194,8 +188,8 @@ child JSX content.
 
 ```jsx
 /**
- * @param {object} arg0
- * @param {string} arg0.who
+ * @param {object} attrs
+ * @param {string} attrs.who
  *
  * @slot default - the heading. If omitted, is an `h1` displaying "Hello, {who}"
  * @slot name="subheading" - a subheading
