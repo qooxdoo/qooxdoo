@@ -72,8 +72,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      * Error that can be thrown to indicate wrong user input  and which doesn't
      * need a stack trace
      *
-     * @param {string} message
-     * @returns {Error}
+     * @type {new (message: string) => Error}
      */
     UserError: class extends Error {
       constructor(message) {

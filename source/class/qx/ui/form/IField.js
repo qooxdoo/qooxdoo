@@ -68,7 +68,7 @@ qx.Interface.define("qx.ui.form.IField", {
      * Sets the field model value. Should also update the UI.
      *
      * @param value {var|null} Updates the field with the new model value.
-     * @return {void|Error} Should return an error when the type of
+     * @return {var} Should return an error when the type of
      *  model value is not compatible with the implementing class (the concrete field).
      */
     setValue(value) {
