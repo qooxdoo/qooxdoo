@@ -90,6 +90,28 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
         return type;
       }
 
+      // in certain limited circumstances, the code at the end of this method will break usage of vanilla JS types
+      // for example, usage of `String` within a class `qx.bom.*` will instead resolve to `qx.bom.String`
+      // to prevent this, the following object traps the most common vanilla JS types
+      const plainJsTypes = {
+        string: "string",
+        number: "number",
+        boolean: "boolean",
+        object: "object",
+        array: "array",
+        function: "function",
+        map: "Map",
+        set: "Set",
+        regexp: "RegExp",
+        date: "Date",
+        error: "Error",
+        promise: "Promise"
+      };
+
+      if (plainJsTypes[type.toLowerCase()]) {
+        return plainJsTypes[type.toLowerCase()];
+      }
+
       let pos = currentClassMeta.className.lastIndexOf(".");
       let packageName =
         pos > -1 ? currentClassMeta.className.substring(0, pos) : null;

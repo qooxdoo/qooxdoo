@@ -712,7 +712,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       const access = isStatic ? "statics" : "members";
 
       for (var name in body) {
-        let memberMeta = body[name];
+        let memberMeta = Object.getOwnPropertyDescriptor(body, name).value;
         if (memberMeta.appearsIn?.length) {
           const superLikeName = memberMeta.appearsIn.slice(-1)[0];
           const superLikeMeta = this.__metaDb.getMetaData(superLikeName);
