@@ -76,13 +76,6 @@ qx.Class.define("qx.html.Text", {
     /*
      * @Override
      */
-    _useNode(domNode) {
-      this.setText(domNode.nodeValue);
-    },
-
-    /*
-     * @Override
-     */
     _useNodeImpl(domNode) {
       this.setText(domNode.nodeValue);
     },
@@ -99,10 +92,8 @@ qx.Class.define("qx.html.Text", {
     /*
      * @Override
      */
-    _serializeImpl(writer) {
-      if (this.__text !== null) {
-        writer(this.__text);
-      }
+    _serializeImpl(serializer) {
+      serializer.rawTextInBody(this.__text);
     },
 
     /**
