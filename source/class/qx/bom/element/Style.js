@@ -300,7 +300,11 @@ qx.Bootstrap.define("qx.bom.element.Style", {
       if (smart !== false && this.__special[name]) {
         this.__special[name].set(element, value);
       } else {
-        element.style[name] = value !== null ? value : "";
+        if (typeof value === "string" && name.startsWith("--")) {
+          element.style.setProperty(name, value);
+        } else {
+          element.style[name] = value !== null ? value : "";
+        }
       }
     },
 

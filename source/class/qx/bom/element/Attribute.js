@@ -321,20 +321,19 @@ qx.Bootstrap.define("qx.bom.element.Attribute", {
      * Serializes an HTML attribute into a writer; the `writer` function accepts
      *  an varargs, which can be joined with an empty string or streamed.
      *
-     * @param writer {Function} The writer to serialize to
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
      */
-    serialize(writer, name, value) {
+    serialize(name, value) {
       if (typeof value === "undefined") {
-        return;
+        return null;
       }
 
       var hints = this.__hints;
 
       // Skip serialization of hidden Qooxdoo state properties
       if (hints.qxProperties[name]) {
-        return;
+        return null;
       }
 
       // respect booleans
@@ -348,11 +347,17 @@ qx.Bootstrap.define("qx.bom.element.Attribute", {
         name.indexOf("data-") !== 0
       ) {
         if (value === true) {
-          writer(name, "=", name);
+          let result = {};
+          result[name] = `"${name}"`;
+          return result;
         }
       } else if (value !== null) {
-        writer(name, '="', value, '"');
+        let result = {};
+        result[name] = '"' + value + '"';
+        return result;
       }
+
+      return null;
     },
 
     /**

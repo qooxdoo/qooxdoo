@@ -63,6 +63,8 @@ qx.Class.define("qx.html.Element", {
 
     this.__styleValues = styles || null;
     this.__attribValues = attributes || null;
+    this.__slots = new Map();
+
     if (attributes) {
       for (var key in attributes) {
         if (!key) {
@@ -80,10 +82,8 @@ qx.Class.define("qx.html.Element", {
           this._domNode.innerHTML = value;
         }
       },
-      function (writer, property, name) {
-        if (property.value) {
-          writer(property.value);
-        }
+      (serializer, property, name) => {
+        serializer.rawTextInBody(property.value);
       }
     );
   },
@@ -128,8 +128,6 @@ qx.Class.define("qx.html.Element", {
     __focusHandler: null,
 
     __mouseCapture: null,
-
-    __SELF_CLOSING_TAGS: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -470,6 +468,16 @@ qx.Class.define("qx.html.Element", {
       nullable: true,
       check: "String",
       apply: "_applyCssClass"
+    },
+
+    /**
+     * Used by the {@link qx.html.Slot}-related mechanisms to determine if an
+     * element is the top-level of a custom tag function.
+     */
+    isCustomElement: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyIsCustomElement"
     }
   },
 
@@ -501,6 +509,13 @@ qx.Class.define("qx.html.Element", {
     __styleValues: null,
     __attribValues: null,
 
+    /**
+     * This is a {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map | Map},
+     * not a POJO
+     * @type {Map<string, qx.html.Slot>}
+     */
+    __slots: null,
+
     /*
      * @Override
      */
@@ -511,28 +526,29 @@ qx.Class.define("qx.html.Element", {
     /*
      * @Override
      */
-    serialize(writer) {
-      if (this.__childrenHaveChanged) {
-        this.importQxObjectIds();
-        this.__childrenHaveChanged = false;
-      }
-      return super.serialize(writer);
-    },
-
-    /*
-     * @Override
-     */
-    _serializeImpl(writer) {
-      writer("<", this._nodeName);
+    _serializeImpl(serializer) {
+      serializer.openTag(this._nodeName);
+      serializer.pushQxObject(this);
 
       // Copy attributes
-      var data = this.__attribValues;
-      if (data) {
-        var Attribute = qx.bom.element.Attribute;
-        for (var key in data) {
-          writer(" ");
-          Attribute.serialize(writer, key, data[key]);
+      if (this.__attribValues) {
+        for (var key in this.__attribValues) {
+          let result = qx.bom.element.Attribute.serialize(
+            key,
+            this.__attribValues[key]
+          );
+
+          for (let key in result) {
+            if (key != "data-qx-object-id") {
+              serializer.setAttribute(key, result[key]);
+            }
+          }
         }
+      }
+
+      let id = serializer.getQxObjectIdFor(this);
+      if (id) {
+        serializer.setAttribute("data-qx-object-id", `"${id}"`);
       }
 
       // Copy styles
@@ -545,7 +561,7 @@ qx.Class.define("qx.html.Element", {
         var Style = qx.bom.element.Style;
         var css = Style.compile(data);
         if (css) {
-          writer(' style="', css, '"');
+          serializer.setAttribute("style", `"${css}"`);
         }
       }
 
@@ -555,30 +571,22 @@ qx.Class.define("qx.html.Element", {
         for (var key in this._properties) {
           let property = this._properties[key];
           if (property.serialize) {
-            writer(" ");
-            property.serialize.call(this, writer, key, property);
+            property.serialize.call(this, serializer, key, property);
           } else if (property.value !== undefined && property.value !== null) {
-            writer(" ");
             let value = JSON.stringify(property.value);
-            writer(key, "=", value);
+            serializer.setAttribute(key, value);
           }
         }
       }
 
       // Children
-      if (!this._children || !this._children.length) {
-        if (qx.html.Element.__SELF_CLOSING_TAGS[this._nodeName]) {
-          writer(">");
-        } else {
-          writer("></", this._nodeName, ">");
-        }
-      } else {
-        writer(">");
+      if (this._children) {
         for (var i = 0; i < this._children.length; i++) {
-          this._children[i]._serializeImpl(writer);
+          this._children[i]._serializeImpl(serializer);
         }
-        writer("</", this._nodeName, ">");
       }
+      serializer.closeTag();
+      serializer.popQxObject(this);
     },
 
     /**
@@ -607,6 +615,12 @@ qx.Class.define("qx.html.Element", {
      * @Override
      */
     _addChildImpl(child) {
+      if (this.getIsCustomElement()) {
+        throw new Error(
+          `Cannot add children to Custom Elements! (use ${this.classname}.inject and <slot> tags instead)`
+        );
+      }
+
       super._addChildImpl(child);
       this.__childrenHaveChanged = true;
     },
@@ -615,111 +629,168 @@ qx.Class.define("qx.html.Element", {
      * @Override
      */
     _removeChildImpl(child) {
+      if (this.getIsCustomElement()) {
+        throw new Error(`Cannot remove children from Custom Elements!`);
+      }
+
       super._removeChildImpl(child);
       this.__childrenHaveChanged = true;
     },
 
-    /*
-     * @Override
+    /**
+     * Works out the object ID to use on an actual DOM node
+     *
+     * @returns {String}
      */
-    getQxObject(id) {
-      if (this.__childrenHaveChanged) {
-        this.importQxObjectIds();
-        this.__childrenHaveChanged = false;
+    _getApplicableQxObjectId() {
+      if (qx.core.Environment.get("module.objectid")) {
+        let target = this.getQxObjectId() ? this : this._qxObject;
+        let id = target ? qx.core.Id.getAbsoluteIdOf(target, true) : null;
+        return id;
+      } else {
+        throw new Error(
+          "Cannot get qxObjectId because module.objectid is false"
+        );
       }
-      return super.getQxObject(id);
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      SLOTS API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Retrieve the slots this element contains.
+     * The Map returned is a copy of the internal Map, as such modifications to
+     * it will not effect the element.
+     * @returns {Map<string, qx.html.Slot>} A `Map` of slots, keyed by slot name. The default slot, if it exists, is keyed as `qx.html.Slot.DEFAULT`
+     */
+    getSlots() {
+      if (!this.getIsCustomElement()) {
+        return null;
+      }
+      return new Map(this.__slots);
     },
 
     /**
-     * When a tree of virtual dom is loaded via JSX code, the paths in the `data-qx-object-id`
-     * attribute are relative to the JSX, and these attribuite values need to be loaded into the
-     * `qxObjectId` property - while resolving the parent parts of the path.
+     * Returns whether the element has slot(s) matching the given projection.
      *
-     * EG
-     *  <div data-qx-object-id="root">
-     *    <div>
-     *      <div data-qx-object-id="root/child">
-     *
-     * The root DIV has to take on the qxObjectId of "root", and the third DIV has to have the
-     * ID "child" and be owned by the first DIV.
-     *
-     * This function imports and resolves those IDs
+     * @param projection {true | String?} `true` to check for the default slot, a string to check for a slot with the given name, or `null|undefined` to check for any slot(s)
+     * @return {Boolean} Indicates whether the projected slot exists, or if any slots exist if no projection was specified
+     * @example
+     * ```js
+     * myNode.hasSlots();             // `true` if there are any slots                 `false` if there are none
+     * myNode.hasSlots(true);         // `true` if there is a default (unnamed) slot   `false` if there is not
+     * myNode.hasSlots("mySlotName"); // `true` if there is a slot named `mySlotName`  `false` if there is not
+     * ```
      */
-    importQxObjectIds() {
-      let thisId = this.getQxObjectId();
-      let thisAttributeId = this.getAttribute("data-qx-object-id");
-      if (thisId) {
-        this.setAttribute("data-qx-object-id", thisId, true);
-      } else if (thisAttributeId) {
-        this.setQxObjectId(thisAttributeId);
+    hasSlots(projection) {
+      if (projection === null || projection === undefined) {
+        return this.__slots.size > 0;
       }
 
-      const resolveImpl = node => {
-        if (!(node instanceof qx.html.Element)) {
-          return;
+      if (projection === true || projection === qx.html.Slot.DEFAULT) {
+        return this.__slots.has(qx.html.Slot.DEFAULT);
+      }
+
+      if (typeof projection === "string") {
+        return this.__slots.has(projection);
+      }
+
+      throw new Error(
+        `Cannot lookup slot for projection: ${JSON.stringify(
+          projection
+        )} ! (expected: string, true, or null/undefined)`
+      );
+    },
+
+    /**
+     * Provides devtime debugging assistance for invalid slot usage.
+     * @return {Boolean} `false` if no such slot, `true` otherwise
+     */
+    __injectionSlotCheck(slotName) {
+      if (!this.hasSlots(slotName)) {
+        if (qx.core.Environment.get("qx.debug")) {
+          const what =
+            slotName === qx.html.Slot.DEFAULT
+              ? "default slot"
+              : `slot named "${slotName}"`;
+          const slotsList = Array.from(this.__slots.keys())
+            .join(", ")
+            .replace(qx.html.Slot.DEFAULT, "(default)");
+          console.warn(`No ${what} found! Available slots are: ${slotsList}`);
         }
-        let id = node.getQxObjectId();
-        let attributeId = node.getAttribute("data-qx-object-id");
-        if (id) {
-          if (attributeId && !attributeId.endsWith(id)) {
-            this.warn(
-              `Attribute ID ${attributeId} is not compatible with the qxObjectId ${id}; the qxObjectId will take prescedence`
-            );
-          }
-          node.setAttribute("data-qx-object-id", id, true);
-        } else if (attributeId) {
-          let segs = attributeId ? attributeId.split("/") : [];
+        return false;
+      }
+      return true;
+    },
 
-          // Only one segment is easy, add directly to the parent
-          if (segs.length == 1) {
-            let parentNode = this;
-            parentNode.addOwnedQxObject(node, attributeId);
+    /**
+     * Inject a child into a slot descendant of this element.
+     *
+     * @param childNode {qx.html.Element} element to insert. Use a fragment to inject many elements.
+     * @param slotNameOverride {String?} name of the slot to inject into. If not provided, the slot name will be read from the `slot` attribute of `childNode`. This may be useful when injecting fragments.
+     * @return {this} this object (for chaining support)
+     *
+     * @example
+     * ```js
+     * myElem.inject(<p>Hello World</p>);                   // inject one child to the default slot
+     * myElem.inject(<p slot="mySlotName">Hello World</p>); // inject one child to the slot named "mySlotName" (declarative syntax)
+     * myElem.inject(<p>Hello World</p>, "mySlotName");     // inject one child to the slot named "mySlotName" (functional syntax)
+     * myElem.inject((
+     *   <>
+     *     <p>Hello World</p>
+     *     <p>Hello Qooxdoo</p>
+     *   </>
+     * ), "mySlotName");                                    // inject a fragment of children to the slot named "mySlotName"
+     *
+     * ```
+     */
+    inject(childNode, slotNameOverride) {
+      const slotName =
+        childNode.getAttribute?.("slot") ??
+        slotNameOverride ??
+        qx.html.Slot.DEFAULT;
 
-            // Lots of segments
-          } else if (segs.length > 1) {
-            let parentNode = null;
+      if (!this.__injectionSlotCheck(slotName)) {
+        return;
+      }
 
-            // If the first segment is the outer parent
-            if (segs[0] == thisAttributeId || segs[0] == thisId) {
-              // Only two segments, means that the parent is the outer and the last segment
-              //  is the ID of the node being examined
-              if (segs.length == 2) {
-                parentNode = this;
+      this.__slots.get(slotName).add(childNode);
 
-                // Otherwise resolve it further
-              } else {
-                // Extract the segments, exclude the first and last, and that leaves us with a relative ID path
-                let subId = qx.lang.Array.clone(segs);
-                subId.shift();
-                subId.pop();
-                subId = subId.join("/");
-                parentNode = this.getQxObject(subId);
-              }
+      // Chaining support
+      return this;
+    },
 
-              // Not the outer node, then resolve as a global.
-            } else {
-              parentNode = qx.core.Id.getQxObject(attributeId);
-            }
+    __slotScan(element) {
+      // recursively iterate children. if any are instanceof qx.html.Slot, append to local slots, if any are `.getIscustomElement() === true`, do not look at their children
+      const slots = [];
 
-            if (!parentNode) {
-              throw new Error(
-                `Cannot resolve object id ancestors, id=${attributeId}`
-              );
-            }
+      if (element.getIsCustomElement?.()) {
+        return slots;
+      }
 
-            parentNode.addOwnedQxObject(node, segs[segs.length - 1]);
-          }
-        }
+      if (element instanceof qx.html.Slot) {
+        slots.push(element);
+      }
 
-        let children = node.getChildren();
-        if (children) {
-          children.forEach(resolveImpl);
-        }
-      };
+      element
+        .getChildren()
+        ?.forEach(child => slots.push(...this.__slotScan(child)));
 
-      let children = this.getChildren();
-      if (children) {
-        children.forEach(resolveImpl);
+      return slots;
+    },
+
+    _slotScanAdd(element) {
+      for (const slot of this.__slotScan(element)) {
+        this.__slots.set(slot.getName(), slot);
+      }
+    },
+
+    _slotScanRemove(child) {
+      for (const slot of this.__slotScan(child)) {
+        this.__slots.delete(slot.getName());
       }
     },
 
@@ -743,8 +814,8 @@ qx.Class.define("qx.html.Element", {
 
       // Copy attributes
       var data = this.__attribValues;
+      var Attribute = qx.bom.element.Attribute;
       if (data) {
-        var Attribute = qx.bom.element.Attribute;
         if (fromMarkup) {
           var str;
           let classes = {};
@@ -777,6 +848,8 @@ qx.Class.define("qx.html.Element", {
           Attribute.set(elem, key, data[key]);
         }
       }
+
+      Attribute.set(elem, "data-qx-object-id", this._getApplicableQxObjectId());
 
       // Copy styles
       var data = this.__styleValues;
@@ -909,20 +982,9 @@ qx.Class.define("qx.html.Element", {
 
       // Extract first element
       helper.innerHTML = html;
-      this.useElement(helper.firstChild);
+      this.useNode(helper.firstChild);
 
       return this._domNode;
-    },
-
-    /**
-     * Uses an existing element instead of creating one. This may be interesting
-     * when the DOM element is directly needed to add content etc.
-     *
-     * @param elem {Element} Element to reuse
-     * @deprecated {6.1} see useNode
-     */
-    useElement(elem) {
-      this.useNode(elem);
     },
 
     /**
@@ -1801,6 +1863,22 @@ qx.Class.define("qx.html.Element", {
       this.setAttribute("class", this.__combineClasses(classes));
     },
 
+    _applyIsCustomElement(value, oldValue) {
+      // if currently `true` and trying to set `false`, throw an error
+      if (!value && oldValue) {
+        throw new Error(
+          `Cannot change isCustomElement property of ${this.classname} after it has been set`
+        );
+      }
+      // if no change, return
+      if (value === oldValue) {
+        return;
+      }
+
+      // therefore currently `false` and trying to set `true`; re-grab all slots
+      this.getChildren()?.forEach(child => this._slotScanAdd(child));
+    },
+
     /*
     ---------------------------------------------------------------------------
       SIZE AND POSITION SUPPORT
@@ -1896,7 +1974,7 @@ qx.Class.define("qx.html.Element", {
       }
 
       if (key == "data-qx-object-id") {
-        this.setQxObjectId(value);
+        throw new Error("Cannot set the data-qx-object-id attribute directly");
       }
 
       // Uncreated elements simply copy all data
@@ -1973,25 +2051,6 @@ qx.Class.define("qx.html.Element", {
 
   defer(statics) {
     statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
-    statics.__SELF_CLOSING_TAGS = {};
-    [
-      "area",
-      "base",
-      "br",
-      "col",
-      "embed",
-      "hr",
-      "img",
-      "input",
-      "link",
-      "meta",
-      "param",
-      "source",
-      "track",
-      "wbr"
-    ].forEach(function (tagName) {
-      statics.__SELF_CLOSING_TAGS[tagName] = true;
-    });
   },
 
   /*
