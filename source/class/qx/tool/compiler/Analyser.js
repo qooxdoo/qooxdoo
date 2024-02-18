@@ -1206,14 +1206,12 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @returns Promise({cldr})
      */
     async getCldr(locale) {
-      var t = this;
       var cldr = this.__cldrs[locale];
       if (cldr) {
         return cldr;
       }
-      return qx.tool.compiler.app.Cldr.loadCLDR(locale).then(
-        cldr => (t.__cldrs[locale] = cldr)
-      );
+      this.__cldrs[locale] = {};
+      return cldr;
     },
 
     /**

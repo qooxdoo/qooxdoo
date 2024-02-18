@@ -22,7 +22,7 @@
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
  *
- * @cldr()
+ * @ignore(Intl.DateTimeFormat)
  */
 qx.Class.define("qx.locale.Date", {
   statics: {
@@ -40,7 +40,19 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated AM marker.
      */
     getAmMarker(locale) {
-      return this.__mgr.localize("cldr_am", [], locale);
+      locale = locale.replace("_", "-");
+      const date = new Date();
+      date.setHours(1);
+      const timeOptions = {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      };
+      const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
+      return new qx.locale.LocalizedString(
+        time.substring(time.length - 2),
+        "cldr_am"
+      );
     },
 
     /**
@@ -50,7 +62,19 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated PM marker.
      */
     getPmMarker(locale) {
-      return this.__mgr.localize("cldr_pm", [], locale);
+      locale = locale.replace("_", "-");
+      const date = new Date();
+      date.setHours(12);
+      const timeOptions = {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      };
+      const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
+      return new qx.locale.LocalizedString(
+        time.substring(time.length - 2),
+        "cldr_pm"
+      );
     },
 
     /**

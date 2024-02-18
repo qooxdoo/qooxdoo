@@ -796,11 +796,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
                 }
               }
             }
-            var parentLocaleId =
-              qx.tool.compiler.app.Cldr.getParentLocale(localeId);
-            if (parentLocaleId) {
-              return accumulateCldr(parentLocaleId);
-            }
             return combinedCldr;
           });
         }

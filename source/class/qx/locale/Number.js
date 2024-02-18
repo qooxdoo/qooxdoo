@@ -23,6 +23,7 @@
  * separator).
  *
  * @cldr()
+ * @ignore(Intl.NumberFormat)
  */
 
 qx.Class.define("qx.locale.Number", {
@@ -34,10 +35,12 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} decimal separator.
      */
     getDecimalSeparator(locale) {
-      return qx.locale.Manager.getInstance().localize(
-        "cldr_number_decimal_separator",
-        [],
-        locale
+      locale = locale.replace("_", "-");
+      const f = new Intl.NumberFormat(locale);
+      const value = f.format(1.1).charAt(1);
+      return new qx.locale.LocalizedString(
+        value,
+        "cldr_number_decimal_separator"
       );
     },
 
@@ -48,10 +51,12 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} group separator.
      */
     getGroupSeparator(locale) {
-      return qx.locale.Manager.getInstance().localize(
-        "cldr_number_group_separator",
-        [],
-        locale
+      locale = locale.replace("_", "-");
+      const f = new Intl.NumberFormat(locale);
+      const value = f.format(1000).charAt(1);
+      return new qx.locale.LocalizedString(
+        value,
+        "cldr_number_group_separator"
       );
     },
 
