@@ -20,7 +20,7 @@
  * Provider of checks for property values, cached by expression
  */
 qx.Bootstrap.define("qx.core.check.CheckFactory", {
-  extend: qx.core.Object,
+  extend: Object,
   type: "singleton",
 
   /**
@@ -84,7 +84,6 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
     for (let key in CHECKS) {
       let code = CHECKS[key];
       let needsDereference = NEEDS_DEREFERENCE[key];
-      key in qx.core.property.Property.__NEEDS_DEREFERENCE;
       let check = new qx.core.check.SimpleCheck(
         new Function("value", code),
         false,
@@ -116,8 +115,11 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
      * @return {qx.core.check.Check}
      */
     getCheck(expr) {
+      if (typeof expr == "function") {
+        return new qx.core.check.SimpleCheck(expr, false);
+      }
       let check = this.__checks[expr];
-      if (check == null) {
+      if (check === null) {
         let nullable = false;
         let classname;
         if (expr.endsWith("?")) {
@@ -126,6 +128,7 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
         } else {
           classname = expr;
         }
+
         if (qx.Class.isDefined(classname)) {
           check = new qx.core.check.ClassInstanceCheck(
             qx.Class.getByName(classname),

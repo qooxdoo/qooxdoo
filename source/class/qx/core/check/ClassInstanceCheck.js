@@ -20,7 +20,7 @@
  * Implementation of check for class instances
  */
 qx.Bootstrap.define("qx.core.check.ClassInstanceCheck", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.check.ICheck,
 
   construct(clazz, nullable) {

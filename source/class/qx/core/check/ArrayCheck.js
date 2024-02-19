@@ -20,7 +20,7 @@
  * Implementation of check for any value
  */
 qx.Bootstrap.define("qx.core.check.ArrayCheck", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.check.ICheck,
 
   construct(values, nullable) {

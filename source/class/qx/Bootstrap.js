@@ -230,6 +230,51 @@ window.qx = Object.assign(window.qx || {}, {
       return clazz;
     },
 
+    /**
+     * Inherit a clazz from a super class.
+     *
+     * This function differentiates between class and constructor because the
+     * constructor written by the user might be wrapped and the <code>base</code>
+     * property has to be attached to the constructor, while the <code>superclass</code>
+     * property has to be attached to the wrapped constructor.
+     *
+     * @param clazz {Function} The class's wrapped constructor
+     * @param construct {Function} The unwrapped constructor
+     * @param superClass {qx.Class} The super class
+     * @param name {String} fully qualified class name
+     */
+    extendClass(clazz, construct, superClass, name) {
+      var superproto = superClass ? superClass.prototype : null;
+
+      // Use helper function/class to save the unnecessary constructor call while
+      // setting up inheritance.
+      var helper = new Function();
+      helper.prototype = superproto;
+      var proto = new helper();
+
+      // Apply prototype to new helper instance
+      clazz.prototype = proto;
+
+      // Store names in prototype
+      // proto.name was set in v7 and earlier, but is excluded here because it causes conflicts with common
+      //  property names
+      /*proto.name =*/ proto.classname = name;
+
+      /*
+        - Store base constructor to constructor-
+        - Store reference to extend class
+      */
+      construct.base = superClass;
+      clazz.superclass = superClass;
+
+      /*
+        - Store statics/constructor onto constructor/prototype
+        - Store correct constructor
+        - Store statics onto prototype
+      */
+      construct.self = clazz.constructor = proto.constructor = clazz;
+    },
+
     _extend(classname, config) {
       const type = config.type || "class";
       const superclass = config.extend || Object;
@@ -259,7 +304,7 @@ window.qx = Object.assign(window.qx || {}, {
 
           // add abstract and singleton checks
           if (type === "abstract") {
-            if (this.classname === classname) {
+            if (subclass.classname === classname) {
               throw new Error(
                 "The class '," +
                   classname +
@@ -269,7 +314,7 @@ window.qx = Object.assign(window.qx || {}, {
           }
 
           if (type === "singleton") {
-            if (!this.$$allowconstruct) {
+            if (!subclass.$$allowconstruct) {
               throw new Error(
                 "The class '" +
                   classname +
@@ -300,7 +345,7 @@ window.qx = Object.assign(window.qx || {}, {
             });
           }
 
-          return ret;
+          return this;
         };
       } else {
         subclass = function () {
@@ -313,36 +358,27 @@ window.qx = Object.assign(window.qx || {}, {
 
       // This is a class
       subclass.$$type = "Class";
-      subclass.classname = classname;
 
       // If its class type was specified, save it
       if (config.type) {
         subclass.$$classtype = config.type;
       }
 
-      // Provide access to the superclass for base calls
-      subclass.base = superclass;
-
       // Ensure there's something unique to compare constructors to.
       if (!config.construct) {
         config.construct = function () {};
       }
 
-      // We need to point to the superclass from it so that `base()`
-      // calls work
-      config.construct.base = subclass.base;
-
       // Keep track of the original constructor so we know when to
       // construct mixins
       subclass.$$originalConstructor = config.construct;
 
-      // Some internals require that `superclass` be defined too
-      subclass.superclass = superclass;
-
-      // Create the subclass' prototype as a copy of the superclass'
-      // prototype
-      subclass.prototype = Object.create(superclass.prototype);
-      subclass.prototype.classname = classname;
+      qx.Bootstrap.extendClass(
+        subclass,
+        config.construct,
+        superclass,
+        classname
+      );
 
       // Save any init functions that need to be called upon instantiation
       Object.defineProperty(subclass, "$$initFunctions", {

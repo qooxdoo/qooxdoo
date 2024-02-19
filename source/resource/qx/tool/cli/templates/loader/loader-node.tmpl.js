@@ -38,6 +38,7 @@
   } else {
     window.document = document = {
         readyState: "ready",
+        nodeType: 9,
         currentScript: {
           src: new (require('url').URL)('file:' + __filename).href
         },

@@ -134,13 +134,13 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, label, icon
      */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       themeable: true,
       inheritable: true,
-      apply: "_applyShow",
-      event: "changeShow"
+      apply: "_applyShowFeatures",
+      event: "changeShowFeatures"
     },
 
     /**
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.basic.Atom", {
     },
 
     // property apply
-    _applyShow(value, old) {
+    _applyShowFeatures(value, old) {
       this._handleLabel();
       this._handleIcon();
     },

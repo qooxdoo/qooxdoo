@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.Mixin", {
 
       // Add basics
       mixin.$$type = "Mixin";
-      mixin.name = name;
+      mixin.mixinName = name;
 
       // Attach toString
       mixin.toString = this.genericToString;

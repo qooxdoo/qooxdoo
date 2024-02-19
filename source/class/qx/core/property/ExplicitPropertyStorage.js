@@ -20,7 +20,7 @@
  * Property storage for properties which have explicit getter/setter methods in the property definition
  */
 qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.property.IPropertyStorage,
 
   construct(property, clazz) {

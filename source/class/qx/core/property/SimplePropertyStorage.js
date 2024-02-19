@@ -20,7 +20,7 @@
  * Implementation of property storage for ordinary, non-async properties
  */
 qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.property.IPropertyStorage,
 
   members: {

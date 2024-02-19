@@ -1,5 +1,5 @@
 qx.Bootstrap.define("qx.core.property.PropertyStorageFactory", {
-  extend: qx.core.Object,
+  extend: Object,
 
   statics: {
     /** @type{Object<String,qx.core.property.IPropertyStorage} the cached instances */

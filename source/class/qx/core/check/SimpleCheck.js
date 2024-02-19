@@ -20,7 +20,7 @@
  * Type checking for basic, native types
  */
 qx.Bootstrap.define("qx.core.check.SimpleCheck", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.check.ICheck,
 
   construct(matches, nullable, needsDereference) {

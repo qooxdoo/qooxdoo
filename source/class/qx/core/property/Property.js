@@ -31,7 +31,7 @@
  *
  */
 qx.Bootstrap.define("qx.core.property.Property", {
-  //extend: qx.core.Object,
+  //extend: Object,
   implement: qx.core.property.IProperty,
 
   construct(propertyName, clazz) {
@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     __storage: null,
 
     /** @type{Boolean} whether the property can be set */
-    __readOnly: true,
+    __readOnly: false,
 
     /** @type{String} the name of the change event */
     __eventName: null,
@@ -149,7 +149,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             );
           } else {
             throw new Error(
-              `${this.getPropertyName()}: ` +
+              `${this.__propertyName}: ` +
                 "only `check : 'Array'` and `check : 'Object'` " +
                 "properties may have `immutable : 'replace'`."
             );
@@ -175,9 +175,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      if (def.event) {
+      if (def.event !== undefined) {
         this.__eventName = def.event;
-      } else if (def.event !== null) {
+      } else if (!this.__superClazz) {
         this.__eventName = "change" + qx.Bootstrap.firstUp(this.__propertyName);
       }
 
@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      if (def.init) {
+      if (def.init !== undefined) {
         this.__initValue = def.init;
       }
       if (def.initFunction) {
@@ -197,47 +197,55 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       this.__needsDereference = def.dereference;
 
-      let newCheck = qx.core.check.CheckFactory.getCheck(def.check || "any");
-      if (newCheck) {
-        if (def.nullable && !newCheck.isNullable()) {
-          newCheck = qx.core.check.CheckFactory.getCheck(
+      let newCheck = null;
+
+      if (typeof def.check == "function") {
+        newCheck = new qx.core.check.SimpleCheck(
+          def.check,
+          !!def.nullable,
+          false
+        );
+      } else if (def.check) {
+        newCheck = qx.core.check.CheckFactory.getInstance().getCheck(
+          def.check || "any"
+        );
+        if (newCheck && def.nullable && !newCheck.isNullable()) {
+          newCheck = qx.core.check.CheckFactory.getInstance().getCheck(
             (def.check || "any") + "?"
           );
-        } else {
-          throw new Error(
-            "Property " +
-              this +
-              " has invalid check because the definition is not compatible with the nullable setting"
-          );
-        }
-      }
-      if (!newCheck && def.check instanceof String) {
-        if (qx.core.Environment.get("qx.Class.futureCheckJsDoc")) {
-          // Next  try to parse the check string as JSDoc
-          let bJSDocParsed = false;
-          try {
-            newCheck = new qx.core.check.JsDocCheck(def.check, !!def.nullable);
-          } catch (e) {
-            // Couldn't parse JSDoc so the check string is not a JSDoc one. Fall through to next
-            // possible use of the check string.
-            //
-            // FALL THROUGH
-          }
         }
 
-        if (!newCheck) {
-          let fn = null;
-          try {
-            fn = new Function("value", `return (${def.check});`);
-          } catch (ex) {
-            throw new Error(
-              `${this}: ` +
-                "Error creating check function: " +
-                `${def.check}: ` +
-                ex
-            );
+        if (!newCheck && def.check instanceof String) {
+          if (qx.core.Environment.get("qx.Class.futureCheckJsDoc")) {
+            // Next  try to parse the check string as JSDoc
+            let bJSDocParsed = false;
+            try {
+              newCheck = new qx.core.check.JsDocCheck(
+                def.check,
+                !!def.nullable
+              );
+            } catch (e) {
+              // Couldn't parse JSDoc so the check string is not a JSDoc one. Fall through to next
+              // possible use of the check string.
+              //
+              // FALL THROUGH
+            }
           }
-          newCheck = new qx.core.check.SimpleCheck(fn, !!def.nullable, false);
+
+          if (!newCheck) {
+            let fn = null;
+            try {
+              fn = new Function("value", `return (${def.check});`);
+            } catch (ex) {
+              throw new Error(
+                `${this}: ` +
+                  "Error creating check function: " +
+                  `${def.check}: ` +
+                  ex
+              );
+            }
+            newCheck = new qx.core.check.SimpleCheck(fn, !!def.nullable, false);
+          }
         }
       }
 
@@ -282,7 +290,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
       clone.__initFunction = this.__initFunction;
       clone.__check = this.__check;
       clone.__isEqual = this.__isEqual;
-      clone.__annotations = qx.lang.Array.clone(this.__annotations);
+      clone.__annotations = this.__annotations
+        ? qx.lang.Array.clone(this.__annotations)
+        : null;
       clone.__needsDereference = this.__needsDereference;
       return clone;
     },
@@ -294,7 +304,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {Boolean?} patch whether patching an existing class
      */
     defineProperty(clazz, patch) {
-      let propertyName = this.getPropertyName();
+      let propertyName = this.__propertyName;
       let scopePrefix = "";
       if (propertyName.startsWith("__")) {
         scopePrefix = "__";
@@ -338,7 +348,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (qx.core.Environment.get("qx.debug")) {
         if (
-          proto[propertyName] !== undefined &&
+          clazz.prototype.$$superProperties[propertyName] &&
           propertyName.charAt(0) === "_" &&
           propertyName.charAt(1) === "_"
         ) {
@@ -354,7 +364,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           (proto.hasOwnProperty(propertyName) ||
             qx.Class.objectProperties.has(propertyName) ||
             (propertyName in proto &&
-              !(propertyName in clazz.$$superProperties)))
+              !(propertyName in clazz.prototype.$$superProperties)))
         ) {
           throw new Error(
             `Overwriting member or property "${propertyName}" ` +
@@ -375,7 +385,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         get: function () {
           return self.__getInitValue(this);
         },
-        writable: qx.Class.$$options.propsAccessible || false,
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
       });
@@ -400,7 +409,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         get: function () {
           return self.get(this);
         },
-        writable: false,
         configurable: false
       });
 
@@ -411,7 +419,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
           get: function () {
             return self.getThemed(this);
           },
-          writable: false,
           configurable: false
         });
 
@@ -436,7 +443,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
           : null;
       Object.defineProperty(clazz.prototype, `$$variant_${propertyName}`, {
         get: new Function("return " + variant),
-        writable: false,
         configurable: false
       });
 
@@ -455,17 +461,19 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       // Native property value
-      Object.defineProperty(clazz.prototype, propertyName, {
+      let propertyConfig = {
         get: function () {
           return self.get(this);
         },
-        set: function (value) {
-          self.set(this, value);
-        },
-        writable: !this.__readOnly,
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
-      });
+      };
+      if (!this.__readOnly) {
+        propertyConfig.set = function (value) {
+          self.set(this, value);
+        };
+      }
+      Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       addMethod("get" + upname, function () {
         return self.get(this);
@@ -508,6 +516,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
     init(thisObj) {
       let value = this.__getInitValue(thisObj);
       this.__storage.set(thisObj, this, value);
+
+      /*
+                  this[`init${propertyFirstUp}`]();
+                  this[`$$variant_${prop}`] = "init";
+*/
     },
 
     /**
@@ -530,9 +543,27 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let value = undefined;
       if (this.__initFunction !== undefined) {
         value = this.__initFunction.call(thisObj, this);
-      }
-      if (value === undefined) {
+      } else if (value === undefined) {
         value = this.__initValue;
+      } else if (this.__definition.check == "Boolean") {
+        value = false;
+      }
+      return value;
+    },
+
+    /**
+     * Gets the current value from the storage, does not throw exceptions if nothing has
+     * been initialized yet.  This does not support async storage.
+     *
+     * @param {qx.core.Object} thisObj
+     * @returns {*}
+     */
+    __getSafe(thisObj) {
+      let value = this.__storage.get(thisObj, this);
+      if (value === undefined) {
+        if (this.isThemeable()) {
+          value = this.__storage.get(thisObj, this, "theme");
+        }
       }
       return value;
     },
@@ -546,14 +577,19 @@ qx.Bootstrap.define("qx.core.property.Property", {
     get(thisObj) {
       let value = this.__storage.get(thisObj, this);
       if (value === undefined) {
-        if (this.__storage.isAsyncStorage()) {
-          throw new Error(
-            "Property " +
-              this +
-              " has not been initialized - try using getAsync() instead"
-          );
+        if (this.isThemeable()) {
+          value = this.__storage.get(thisObj, this, "theme");
         }
-        throw new Error("Property " + this + " has not been initialized");
+        if (value === undefined) {
+          if (this.__storage.isAsyncStorage()) {
+            throw new Error(
+              "Property " +
+                this +
+                " has not been initialized - try using getAsync() instead"
+            );
+          }
+          throw new Error("Property " + this + " has not been initialized");
+        }
       }
       return value;
     },
@@ -567,11 +603,51 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     async getAsync(thisObj) {
+      throw new Error("TODO - inherited and theme values.  ");
       let value = await this.__storage.getAsync(thisObj, this);
       if (value === undefined) {
-        throw new Error("Property " + this + " has not been initialized");
+        if (this.isInheritable()) {
+          value = this.__storage.get(thisObj, this, "inherited");
+        }
+        if (value === undefined) {
+          if (this.isThemeable()) {
+            value = this.__storage.get(thisObj, this, "theme");
+          }
+          if (value === undefined) {
+            throw new Error("Property " + this + " has not been initialized");
+          }
+        }
       }
       return value;
+    },
+
+    __applyValue(thisObj, value, oldValue) {
+      if (!this.isEqual(value, oldValue)) {
+        this._setMutating(thisObj, true);
+        try {
+          this.__storage.set(thisObj, this, value);
+          if (this.__apply) {
+            this.__apply.call(thisObj, value, oldValue, this.__propertyName);
+          }
+          if (this.__eventName) {
+            thisObj.fireDataEvent(this.__eventName, value, oldValue);
+          }
+          this.__applyValueToInheritedChildren(thisObj, value, oldValue);
+        } finally {
+          this._setMutating(thisObj, false);
+        }
+      }
+    },
+
+    __applyValueToInheritedChildren(thisObj, value, oldValue) {
+      if (this.isInheritable() && typeof thisObj._getChildren == "function") {
+        for (let child of thisObj._getChildren()) {
+          let property = child.constructor.$$allProperties[this.__propertyName];
+          if (property && property.isInheritable()) {
+            property.setInheritedValue(thisObj, value);
+          }
+        }
+      }
     },
 
     /**
@@ -588,20 +664,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error("Property " + this + " is currently mutating");
       }
       let oldValue = this.__storage.get(thisObj, this);
-      if (!this.isEqual(value, oldValue)) {
-        this.__storage.setMutating(true);
-        try {
-          this.__storage.set(thisObj, this, value);
-          if (this.__apply) {
-            this.__apply.call(thisObj, value, oldValue, this.getPropertyName());
-          }
-          if (this.__eventName) {
-            thisObj.fireDataEvent(this.__eventName, value, oldValue);
-          }
-        } finally {
-          this.__storage.setMutating(false);
-        }
-      }
+      this.__applyValue(thisObj, value, oldValue);
     },
 
     /**
@@ -626,21 +689,83 @@ qx.Bootstrap.define("qx.core.property.Property", {
             thisObj,
             value,
             oldValue,
-            this.getPropertyName()
+            this.__propertyName
           );
         }
         if (this.__eventName) {
           await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
         }
+        this.__applyValueToInheritedChildren(thisObj, value, oldValue);
       };
 
       let oldValue = await this.__storage.getAsync(thisObj, this);
       if (!this.isEqual(value, oldValue)) {
         let promise = setAsyncImpl();
-        promise = promise.finally(() => {
-          this.__storage.setMutating(null);
-        });
-        this.__storage.setMutating(promise);
+        this._setMutating(thisObj, promise);
+        await promise;
+      }
+    },
+
+    setThemed(thisObj, value) {
+      // Get the current value
+      let oldValue = this.__getSafe(thisObj);
+
+      // Save the provided themed value
+      this.__storage.set(thisObj, this, value, "theme");
+
+      // What's the new value
+      value = this.__getSafe(thisObj);
+
+      this.__applyValue(thisObj, value, oldValue);
+
+      return value;
+    },
+
+    resetThemed(thisObj) {
+      let oldValue = this.__getSafe(thisObj);
+      this.__storage.set(thisObj, this, undefined, "theme");
+      let value = this.__getSafe(thisObj);
+
+      this.__applyValue(thisObj, value, oldValue);
+    },
+
+    refresh(thisObj) {
+      let oldValue = this.__storage.get(thisObj, this);
+
+      // If there's a user value, it takes precedence
+      if (oldValue != undefined) {
+        return;
+      }
+
+      // If there's a layout parent and if it has a property (not
+      // a member!) of this name, ...
+      let layoutParent =
+        typeof this.getLayoutParent == "function"
+          ? this.getLayoutParent()
+          : undefined;
+      let propertyName = this.__propertyName;
+      if (
+        layoutParent &&
+        propertyName in layoutParent.constructor.$$allProperties
+      ) {
+        // ... then retrieve its value
+        let inheritedValue = layoutParent[propertyName];
+
+        // If we found a value to inherit...
+        if (typeof inheritedValue != "undefined") {
+          // ... then save the inherited value, ...
+          this[`$$inherit_${propertyName}`] = inheritedValue;
+
+          // ... and also use the inherited value as the
+          // property value
+          // Debugging hint: this will trap into setter code.
+          this[propertyName] = inheritedValue;
+
+          // The setter code (incorrectly, in this case)
+          // saved the value as the $$user value. Reset
+          // it to its original value.
+          this[`$$user_${propertyName}`] = userValue;
+        }
       }
     },
 
@@ -655,20 +780,58 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Called internally to set the mutating state for a property
+     *
+     * @param {qx.core.Object} thisObj
+     * @param {Boolean} mutating
+     */
+    _setMutating(thisObj, mutating) {
+      if (thisObj.$$propertyMutating === undefined) {
+        thisObj.$$propertyMutating = {};
+      }
+      if (mutating) {
+        if (thisObj.$$propertyMutating[this.__propertyName]) {
+          throw new Error(`Property ${this} of ${thisObj} is already mutating`);
+        }
+
+        thisObj.$$propertyMutating[this.__propertyName] = mutating;
+        if (qx.lang.Type.isPromise(mutating)) {
+          mutating.then(
+            () => delete thisObj.$$propertyMutating[this.__propertyName]
+          );
+        }
+      } else {
+        if (!thisObj.$$propertyMutating[this.__propertyName]) {
+          throw new Error(`Property ${this} of ${thisObj} is not mutating`);
+        }
+        let promise = thisObj.$$propertyMutating[this.__propertyName];
+        delete thisObj.$$propertyMutating[this.__propertyName];
+        if (typeof promise != "boolean") {
+          promise.resolve();
+        }
+      }
+    },
+
+    /**
      * Resolves when the property has finished mutating
      *
      * @param {qx.core.Object} thisObj
      * @returns {Promise<>}
      */
     async resolveMutating(thisObj) {
-      await qx.Promise.resolve(this.__storage.isMutating(thisObj));
+      if (
+        thisObj.$$propertyMutating === undefined ||
+        !thisObj.$$propertyMutating[this.__propertyName]
+      ) {
+        return qx.Promise.resolve();
+      }
+      let promise = thisObj.$$propertyMutating[this.__propertyName];
+      if (typeof promise == "boolean") {
+        promise = new qx.Promise();
+        thisObj.$$propertyMutating[this.__propertyName] = promise;
+      }
+      await promise;
     },
-
-    setThemed(thisObj, value) {},
-
-    resetThemed(thisObj) {},
-
-    refresh(thisObj) {},
 
     /**
      * Returns the `qx.core.check.Check` instance that can be used to verify property value compatibility
@@ -737,12 +900,21 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Tests whether the property needs to be initialized
+     *
+     * @returns {Boolean}
+     */
+    needsInit() {
+      return this.__initFunction || this.__initValue !== undefined;
+    },
+
+    /**
      * Whether the property supports async
      *
      * @return {Boolean}
      */
     isAsync() {
-      return !!this._definition.async;
+      return !!this.__definition.async;
     },
 
     /**
@@ -751,7 +923,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isThemeable() {
-      return !!this._definition.themable;
+      return !!this.__definition.themeable;
     },
 
     /**
@@ -760,7 +932,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isInheritable() {
-      return !!this._definition.inheritable;
+      return !!this.__definition.inheritable;
     },
 
     /**
@@ -770,6 +942,24 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     getAnnotations() {
       return this.__annotations;
+    },
+
+    /**
+     * Returns the property name
+     *
+     * @returns {String}
+     */
+    getPropertyName() {
+      return this.__propertyName;
+    },
+
+    /**
+     * Returns the event name
+     *
+     * @returns {String?}
+     */
+    getEventName() {
+      return this.__eventName;
     },
 
     /**

@@ -20,7 +20,7 @@
  * Implementation of check for any value
  */
 qx.Bootstrap.define("qx.core.check.JsDocCheck", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.check.ICheck,
 
   construct(jsdoc, nullable) {

@@ -20,7 +20,7 @@
  * Implementation of property storage for psuedo properties
  */
 qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.property.IPropertyStorage,
 
   construct(property, clazz) {

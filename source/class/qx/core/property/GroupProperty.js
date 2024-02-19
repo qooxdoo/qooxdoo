@@ -20,7 +20,7 @@
  * Property implementation for property groups
  */
 qx.Bootstrap.define("qx.core.property.GroupProperty", {
-  extend: qx.core.Object,
+  extend: Object,
   implement: qx.core.property.IProperty,
 
   construct(propertyName, clazz) {
@@ -39,34 +39,46 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
     /**
      * @Override
      */
-    configure(def, clazz) {
+    clone(clazz) {
+      let clone = new qx.core.property.GroupProperty(this.__propertyName);
+      clone.__clazz = clazz;
+      return clone;
+    },
+
+    /**
+     * @Override
+     */
+    configure(def) {
       this.__definition = def;
 
       if (qx.core.Environment.get("qx.debug")) {
-        let allProperties = clazz.prototype.$$properties;
+        let allProperties = this.__clazz.prototype.$$properties;
 
         // Validate that group contains only existing properties, and if
         // themeable contains only themeable properties
         for (let propertyName of def.group) {
           if (!(propertyName in allProperties)) {
             throw new Error(
-              `Class ${clazz.classname}: ` +
+              `Class ${this.__clazz.classname}: ` +
                 `Property group '${this.__propertyName}': ` +
                 `property '${propertyName}' does not exist`
             );
           }
 
-          if (allProperties[propertyName].group) {
+          if (
+            allProperties[propertyName] instanceof
+            qx.core.property.GroupProperty
+          ) {
             throw new Error(
-              `Class ${clazz.classname}: ` +
+              `Class ${this.__clazz.classname}: ` +
                 `Property group '${this.__propertyName}': ` +
                 `can not add group '${propertyName}' to a group`
             );
           }
 
-          if (def.themeable && !allProperties[propertyName].themeable) {
+          if (def.themeable && !allProperties[propertyName].isThemeable()) {
             throw new Error(
-              `Class ${clazz.classname}: ` +
+              `Class ${this.__clazz.classname}: ` +
                 `Property group '${this.__propertyName}': ` +
                 `can not add themeable property '${propertyName}' to ` +
                 "non-themeable group"
@@ -118,7 +130,6 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
         set: function (value) {
           self.set(this, value);
         },
-        writable: !this.__readOnly,
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
       });
@@ -229,6 +240,28 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
         // Reset the property
         thisObj[`resetThemed${propertyFirstUp}`]();
       }
+    },
+
+    needsInit() {
+      return false;
+    },
+
+    /**
+     * Returns the property name
+     *
+     * @returns {String}
+     */
+    getPropertyName() {
+      return this.__propertyName;
+    },
+
+    /**
+     * Returns the event name
+     *
+     * @returns {String?}
+     */
+    getEventName() {
+      return null;
     },
 
     /**

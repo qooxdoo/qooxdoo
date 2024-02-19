@@ -57,8 +57,6 @@ qx.Interface.define("qx.core.property.IPropertyStorage", {
      */
     async setAsync(thisObj, property, value) {},
 
-    setMutating(thisObj, property, value) {},
-
     /**
      * Deletes the value
      *

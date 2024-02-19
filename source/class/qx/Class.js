@@ -516,6 +516,17 @@ qx.Bootstrap.define("qx.Class", {
 
         // Add properties
         if (config.properties) {
+          if (config.members) {
+            for (let propertyName in config.properties) {
+              // Ensure that this property isn't attempting to override a
+              // method name from within this configuration. (Never acceptable)
+              if (config.members[propertyName] !== undefined) {
+                throw new Error(
+                  `${clazz.classname}: Overwriting member "${propertyName}" with property`
+                );
+              }
+            }
+          }
           qx.Class.addProperties(clazz, config.properties, false);
         }
 
@@ -620,13 +631,6 @@ qx.Bootstrap.define("qx.Class", {
         clazz.prototype.basename = clazz.basename;
       }
 
-      if (config.properties) {
-        // Install properties
-        qx.Bootstrap.addPendingDefer(clazz, () =>
-          this.addProperties(clazz, config.properties)
-        );
-      }
-
       // Now that the class has been defined, arrange to call its
       // (optional) defer function
       if (config.defer) {
@@ -643,7 +647,7 @@ qx.Bootstrap.define("qx.Class", {
       return clazz;
     },
 
-    _extend(className, config) {
+    _extend(classname, config) {
       const type = config.type || "class";
       const superclass = config.extend || Object;
       const _this = this;
@@ -670,22 +674,24 @@ qx.Bootstrap.define("qx.Class", {
         subclass = function (...args) {
           let ret;
 
+          if (this.classname == "qx.html.Root") debugger;
+
           // add abstract and singleton checks
           if (type === "abstract") {
-            if (this.classname === className) {
+            if (this.classname === classname) {
               throw new Error(
                 "The class '," +
-                  className +
+                  classname +
                   "' is abstract! It is not possible to instantiate it."
               );
             }
           }
 
           if (type === "singleton") {
-            if (!this.$$allowconstruct) {
+            if (!this.constructor.$$allowconstruct) {
               throw new Error(
                 "The class '" +
-                  className +
+                  classname +
                   "' is a singleton! It is not possible to instantiate it " +
                   "directly. Use the static getInstance() method instead."
               );
@@ -713,59 +719,46 @@ qx.Bootstrap.define("qx.Class", {
           }
 
           // Call any initFunctions defined for properties of this class
-          this.$$initFunctions.forEach(prop => {
-            let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+          subclass.constructor.prototype.$$initFunctions.forEach(propertyName =>
+            this.$$allProperties[propertyName].init(this)
+          );
 
-            // Initialize this property
-            this[`init${propertyFirstUp}`]();
-            this[`$$variant_${prop}`] = "init";
-          });
-
-          return ret;
+          return this;
         };
       } else {
         subclass = function () {
-          throw new Error(`${className}: can not instantiate a static class`);
+          throw new Error(`${classname}: can not instantiate a static class`);
         };
       }
 
       // Allow easily identifying this class
-      qx.Bootstrap.setDisplayName(subclass, className);
+      qx.Bootstrap.setDisplayName(subclass, classname);
 
       // This is a class
       subclass.$$type = "Class";
-      subclass.classname = className;
 
       // If its class type was specified, save it
       if (config.type) {
         subclass.$$classtype = config.type;
       }
 
-      // Provide access to the superclass for base calls
-      subclass.base = superclass;
-
       // Ensure there's something unique to compare constructors to.
       if (!config.construct) {
         config.construct = function () {};
       }
 
-      // We need to point to the superclass from it so that `base()`
-      // calls work
-      config.construct.base = subclass.base;
-
       // Keep track of the original constructor so we know when to
       // construct mixins
       subclass.$$originalConstructor = config.construct;
 
-      // Some internals require that `superclass` be defined too
-      subclass.superclass = superclass;
+      qx.Bootstrap.extendClass(
+        subclass,
+        config.construct,
+        superclass,
+        classname
+      );
 
-      // Create the subclass' prototype as a copy of the superclass'
-      // prototype
-      subclass.prototype = Object.create(superclass.prototype);
-      subclass.prototype.classname = className;
-
-      let superProperties = superclass.$$allProperties || {};
+      let superProperties = superclass.prototype.$$allProperties || {};
 
       // Save this object's properties
       Object.defineProperty(subclass.prototype, "$$properties", {
@@ -932,6 +925,11 @@ qx.Bootstrap.define("qx.Class", {
      *   new properties)
      */
     addProperties(clazz, properties, patch) {
+      if (
+        clazz.classname == "qx.html.Root" ||
+        clazz.classname == "qx.core.Object"
+      )
+        debugger;
       const addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];
@@ -939,7 +937,7 @@ qx.Bootstrap.define("qx.Class", {
             (groupProperties && !def.group) ||
             (!groupProperties && def.group)
           ) {
-            return;
+            continue;
           }
 
           let superProperty = clazz.prototype.$$superProperties
@@ -960,18 +958,8 @@ qx.Bootstrap.define("qx.Class", {
             property = new qx.core.property.Property(propertyName, clazz);
           }
 
-          // Ensure that this property isn't attempting to override a
-          // method name from within this configuration. (Never acceptable)
-          if (clazz.prototype[propertyName] !== undefined) {
-            throw new Error(
-              `${clazz.classname}: ` +
-                `Overwriting member "${propertyName}" ` +
-                `with property "${propertyName}"`
-            );
-          }
-
           // Does this property have an initFunction?
-          if (properties[propertyName].initFunction) {
+          if (property.needsInit()) {
             // Yup. Keep track of it.
             clazz.prototype.$$initFunctions.push(propertyName);
           }

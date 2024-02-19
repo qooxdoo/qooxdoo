@@ -41,15 +41,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
      * @return {Map|null} whether the object support the given event.
      */
     getPropertyDefinition(clazz, name) {
-      while (clazz) {
-        if (clazz.$$properties && clazz.$$properties[name]) {
-          return clazz.$$properties[name];
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return null;
+      return clazz.prototype.$$allProperties[name] || null;
     },
 
     /**

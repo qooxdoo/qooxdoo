@@ -32,6 +32,23 @@
  * @require(qx.core.ObjectRegistry)
  * @require(qx.core.property.Property)
  * @require(qx.core.property.PropertyStorageFactory)
+ * @require(qx.core.property.SimplePropertyStorage)
+ * @require(ExplicitPropertyStorage)
+ * @require(GroupProperty)
+ * @require(ImmutableArrayStorage)
+ * @require(ImmutableDataArrayStorage)
+ * @require(ImmutableObjectStorage)
+ * @require(Property)
+ * @require(PropertyStorageFactory)
+ * @require(PsuedoPropertyStorage)
+ * @require(SimplePropertyStorage)
+ * @require(qx.core.check.Any)
+ * @require(qx.core.check.ArrayCheck)
+ * @require(qx.core.check.CheckFactory)
+ * @require(qx.core.check.ClassInstanceCheck)
+ * @require(qx.core.check.InterfaceImplementsCheck)
+ * @require(qx.core.check.JsDocCheck)
+ * @require(qx.core.check.SimpleCheck)
  */
 qx.Class.define("qx.core.Object", {
   extend: Object,
