@@ -198,6 +198,29 @@ qx.Class.define("qx.test.core.ObjectId", {
         "onlyInQxObjectImpl",
         objectsOnlyObject.getQxObject("onlyInQxObjectImpl")
       );
+    },
+
+    ensureNullPermissible() {
+      const Clazz = qx.Clazz.define("demo.NullPermissible", {
+        objects: {
+          objects() {
+            return null;
+          }
+        },
+
+        members: {
+          _createQxObjectImpl(id) {
+            if (id === "members") {
+              return null;
+            }
+          }
+        }
+      });
+
+      const newClazz = new Clazz();
+
+      this.assertTrue(newClazz.getQxObject("objects") === null);
+      this.assertTrue(newClazz.getQxObject("members") === null);
     }
   }
 });

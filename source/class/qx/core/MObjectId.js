@@ -61,7 +61,8 @@ qx.Mixin.define("qx.core.MObjectId", {
     handleObjects(clazz, instance, id) {
       const objectsDef = clazz.$$objects;
       const clazzObject = objectsDef?.[id]?.call(instance) ?? null;
-      if (clazzObject) {
+
+      if (clazzObject !== undefined) {
         return clazzObject;
       }
 
@@ -72,7 +73,7 @@ qx.Mixin.define("qx.core.MObjectId", {
           id
         );
 
-        if (mixinObject) {
+        if (mixinObject !== undefined) {
           return mixinObject;
         }
       }
