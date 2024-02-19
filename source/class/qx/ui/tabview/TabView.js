@@ -644,11 +644,9 @@ qx.Class.define("qx.ui.tabview.TabView", {
         page.removeState("firstTab");
         page.removeState("lastTab");
       }
-      firstPage?.addState("firstTab");
-      firstPage?.removeState("lastTab");
 
+      firstPage?.addState("firstTab");
       lastPage?.addState("lastTab");
-      lastPage?.removeState("firstTab");
     }
   },
 
