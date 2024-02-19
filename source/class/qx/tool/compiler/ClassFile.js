@@ -835,7 +835,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             let object = qx.core.MObjectId.handleObjects(${
               t.__classMeta.className ?? "this.constructor"
             }, this, ...arguments);
-            if (object) {
+            if (object !== undefined) {
               return object;
             }
           }`;
