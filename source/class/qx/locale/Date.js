@@ -90,6 +90,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized day names starting with sunday.
      */
     getDayNames(length, locale, context, withFallback) {
+      locale = locale.replace("_", "-");
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -99,8 +100,29 @@ qx.Class.define("qx.locale.Date", {
 
       var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-      var names = [];
+      var weekday = "";
+      if (context === "format" && length === "abbreviated") {
+        weekday = "short";
+      } else if (context === "format" && length === "wide") {
+        weekday = "long";
+      } else if (context === "stand-alone" && length === "narrow") {
+        weekday = "short";
+      }
+      if (weekday) {
+        var { format } = new Intl.DateTimeFormat(locale, { weekday });
+        var intlDays = [...Array(7).keys()].map(day =>
+          format(new Date(Date.UTC(2021, 10, day)))
+        );
+        return intlDays.map(
+          (day, index) =>
+            new qx.locale.LocalizedString(
+              day,
+              "cldr_day_" + context + "_" + length + "_" + days[index]
+            )
+        );
+      }
 
+      var names = [];
       for (var i = 0; i < days.length; i++) {
         var key = "cldr_day_" + context + "_" + length + "_" + days[i];
         names.push(
