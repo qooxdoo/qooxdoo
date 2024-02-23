@@ -97,15 +97,15 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
         string: "string",
         number: "number",
         boolean: "boolean",
-        object: "object",
-        array: "Array",
-        function: "Function",
-        map: "Map",
-        set: "Set",
+        object: "Record<any, any>",
+        array: "Array<any>",
+        function: "((...args: any[]) => any)",
+        map: "Map<any, any>",
+        set: "Set<any>",
         regexp: "RegExp",
         date: "Date",
         error: "Error",
-        promise: "Promise"
+        promise: "Promise<any>"
       };
 
       if (plainJsTypes[type.toLowerCase()]) {
