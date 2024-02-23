@@ -18,13 +18,6 @@
 
 ************************************************************************ */
 
-function transformLocale(locale) {
-  if (locale === "C") {
-    return "en";
-  }
-  return locale.replace("_", "-");
-}
-
 /**
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
@@ -47,7 +40,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated AM marker.
      */
     getAmMarker(locale) {
-      locale = transformLocale(locale);
+      locale = this.__transformLocale(locale);
       const date = new Date();
       date.setHours(1);
       const timeOptions = {
@@ -69,7 +62,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated PM marker.
      */
     getPmMarker(locale) {
-      locale = transformLocale(locale);
+      locale = this.__transformLocale(locale);
       const date = new Date();
       date.setHours(12);
       const timeOptions = {
@@ -97,9 +90,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized day names starting with sunday.
      */
     getDayNames(length, locale, context, withFallback) {
-      if (locale) {
-        locale = transformLocale(locale);
-      }
+      locale = this.__transformLocale(locale);
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -543,6 +534,16 @@ qx.Class.define("qx.locale.Date", {
       } else {
         return localizedString;
       }
+    },
+
+    __transformLocale(locale) {
+      if (!locale) {
+        locale = this.__mgr.getLocale();
+      }
+      if (locale === "C") {
+        return "en";
+      }
+      return locale.replace("_", "-");
     }
   }
 });
