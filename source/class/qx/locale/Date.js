@@ -115,7 +115,7 @@ qx.Class.define("qx.locale.Date", {
       } else if (context === "format" && length === "wide") {
         weekday = "long";
       } else if (context === "stand-alone" && length === "narrow") {
-        weekday = "short";
+        weekday = "narrow";
       }
       if (weekday) {
         var { format } = new Intl.DateTimeFormat(locale, { weekday });
