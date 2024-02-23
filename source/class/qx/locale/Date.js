@@ -172,17 +172,9 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-
-      var key = "cldr_day_" + context + "_" + length + "_" + days[day];
-      return withFallback
-        ? this.__localizeWithFallback(
-            context,
-            context === "format" ? "stand-alone" : "format",
-            key,
-            locale
-          )
-        : this.__mgr.localize(key, [], locale);
+      return qx.locale.Date.getDayNames(length, locale, context, withFallback)[
+        day
+      ];
     },
 
     /**
