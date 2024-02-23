@@ -51,7 +51,9 @@ qx.Class.define("qx.locale.Date", {
       const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
       return new qx.locale.LocalizedString(
         time.substring(time.length - 2),
-        "cldr_am"
+        "cldr_am",
+        [],
+        true
       );
     },
 
@@ -73,7 +75,9 @@ qx.Class.define("qx.locale.Date", {
       const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
       return new qx.locale.LocalizedString(
         time.substring(time.length - 2),
-        "cldr_pm"
+        "cldr_pm",
+        [],
+        true
       );
     },
 
@@ -117,7 +121,9 @@ qx.Class.define("qx.locale.Date", {
           (day, index) =>
             new qx.locale.LocalizedString(
               day,
-              "cldr_day_" + context + "_" + length + "_" + days[index]
+              "cldr_day_" + context + "_" + length + "_" + days[index],
+              [],
+              true
             )
         );
       }
@@ -205,7 +211,12 @@ qx.Class.define("qx.locale.Date", {
         for (var month = 0; month < 12; month++) {
           var testDate = new Date(Date.UTC(2000, month, 1, 0, 0, 0));
           var id = "cldr_month_" + context + "_" + length + "_" + (month + 1);
-          var name = new qx.locale.LocalizedString(format(testDate), id);
+          var name = new qx.locale.LocalizedString(
+            format(testDate),
+            id,
+            [],
+            true
+          );
           names.push(name);
         }
         return names;

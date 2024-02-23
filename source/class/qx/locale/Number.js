@@ -39,7 +39,9 @@ qx.Class.define("qx.locale.Number", {
       const value = f.format(1.1).charAt(1);
       return new qx.locale.LocalizedString(
         value,
-        "cldr_number_decimal_separator"
+        "cldr_number_decimal_separator",
+        [],
+        true
       );
     },
 
@@ -55,7 +57,9 @@ qx.Class.define("qx.locale.Number", {
       const value = f.format(1000).charAt(1);
       return new qx.locale.LocalizedString(
         value,
-        "cldr_number_group_separator"
+        "cldr_number_group_separator",
+        [],
+        true
       );
     },
 
