@@ -181,6 +181,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized month names starting with january.
      */
     getMonthNames(length, locale, context, withFallback) {
+      locale = this.__transformLocale(locale);
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -188,7 +189,27 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
+      var month = "";
+      if (context === "format" && length === "abbreviated") {
+        month = "short";
+      } else if (context === "format" && length === "wide") {
+        month = "long";
+      } else if (context === "stand-alone" && length === "narrow") {
+        month = "narrow";
+      }
+
       var names = [];
+
+      if (month) {
+        var { format } = new Intl.DateTimeFormat(locale, { month });
+        for (var month = 0; month < 12; month++) {
+          var testDate = new Date(Date.UTC(2000, month, 1, 0, 0, 0));
+          var id = "cldr_month_" + context + "_" + length + "_" + (month + 1);
+          var name = new qx.locale.LocalizedString(format(testDate), id);
+          names.push(name);
+        }
+        return names;
+      }
 
       for (var i = 0; i < 12; i++) {
         var key = "cldr_month_" + context + "_" + length + "_" + (i + 1);
@@ -228,15 +249,7 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      var key = "cldr_month_" + context + "_" + length + "_" + (month + 1);
-      return withFallback
-        ? this.__localizeWithFallback(
-            context,
-            context === "format" ? "stand-alone" : "format",
-            key,
-            locale
-          )
-        : this.__mgr.localize(key, [], locale);
+      return this.getMonthNames(length, locale, context, withFallback)[month];
     },
 
     /**
