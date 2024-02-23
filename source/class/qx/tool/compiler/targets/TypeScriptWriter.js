@@ -388,17 +388,17 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     __propertiesInHierarchy(meta) {
       const firstpass = arguments[1] ?? true;
       if (!firstpass) {
-        if (Object.keys(meta.properties).length) {
+        if (Object.keys(meta?.properties ?? {}).length) {
           return true;
         }
-        if (meta.mixins) {
+        if (meta?.mixins) {
           return meta.mixins.some(mixin => {
             const mixinMeta = this.__metaDb.getMetaData(mixin);
             return this.__propertiesInHierarchy(mixinMeta, false);
           });
         }
       }
-      if (meta.superClass) {
+      if (meta?.superClass) {
         const superClassMeta = this.__metaDb.getMetaData(meta.superClass);
         return this.__propertiesInHierarchy(superClassMeta, false);
       }
