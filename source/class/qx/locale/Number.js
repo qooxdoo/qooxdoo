@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+function transformLocale(locale) {
+  if (locale === "C") {
+    return "en";
+  }
+  return locale.replace("_", "-");
+}
+
 /**
  * Provides information about locale-dependent number formatting (like the decimal
  * separator).
@@ -35,7 +42,7 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} decimal separator.
      */
     getDecimalSeparator(locale) {
-      locale = locale.replace("_", "-");
+      locale = transformLocale(locale);
       const f = new Intl.NumberFormat(locale);
       const value = f.format(1.1).charAt(1);
       return new qx.locale.LocalizedString(
@@ -51,7 +58,7 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} group separator.
      */
     getGroupSeparator(locale) {
-      locale = locale.replace("_", "-");
+      locale = transformLocale(locale);
       const f = new Intl.NumberFormat(locale);
       const value = f.format(1000).charAt(1);
       return new qx.locale.LocalizedString(
@@ -67,6 +74,7 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} percent format string.
      */
     getPercentFormat(locale) {
+      locale = transformLocale(locale);
       return qx.locale.Manager.getInstance().localize(
         "cldr_number_percent_format",
         [],
