@@ -90,7 +90,9 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized day names starting with sunday.
      */
     getDayNames(length, locale, context, withFallback) {
-      locale = locale.replace("_", "-");
+      if (locale) {
+        locale = locale.replace("_", "-");
+      }
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
