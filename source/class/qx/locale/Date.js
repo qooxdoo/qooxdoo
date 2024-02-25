@@ -279,7 +279,7 @@ qx.Class.define("qx.locale.Date", {
 
       const parts = new Intl.DateTimeFormat(locale, {
         dateStyle: size
-      }).formatToParts(new Date(2000, 1, 15));
+      }).formatToParts(new Date(2000, 1, 1));
       var result = [];
 
       for (let part of parts) {
@@ -288,24 +288,47 @@ qx.Class.define("qx.locale.Date", {
           if (value.length === 4) {
             result.push("y");
           }
+          if (value.length === 2) {
+            result.push("yy");
+          }
         }
         if (part.type === "month") {
-          if (value.length > 3) {
-            result.push("MMMM");
-          }
-          if (value.length === 3) {
+          let monthShort = new Intl.DateTimeFormat(locale, {
+            month: "short"
+          }).format(new Date(2000, 1, 1));
+
+          if (monthShort === value) {
             result.push("MMM");
-          }
-          if (value.length <= 2) {
-            result.push("M");
+          } else {
+            let monthLong = new Intl.DateTimeFormat(locale, {
+              month: "long"
+            }).format(new Date(2000, 1, 1));
+            if (monthLong === value) {
+              result.push("MMMM");
+            } else {
+              let monthNarrow = new Intl.DateTimeFormat(locale, {
+                month: "narrow"
+              }).format(new Date(2000, 1, 1));
+              if (monthNarrow === value) {
+                result.push("M");
+              } else {
+                if (value.length === 2) {
+                  result.push("MM");
+                } else if (value.length === 1) {
+                  result.push("M");
+                }
+              }
+            }
           }
         }
         if (part.type === "literal") {
           result.push(value);
         }
         if (part.type === "day") {
-          if (value.length <= 2) {
+          if (value.length === 1) {
             result.push("d");
+          } else if (value.length === 2) {
+            result.push("dd");
           }
         }
         if (part.type === "weekday") {
