@@ -284,7 +284,6 @@ qx.Class.define("qx.locale.Date", {
 
       for (let part of parts) {
         let value = part.value;
-        console.log(part, part.value, part.type);
         if (part.type === "year") {
           if (value.length === 4) {
             result.push("y");
