@@ -275,9 +275,49 @@ qx.Class.define("qx.locale.Date", {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
+      locale = this.__transformLocale(locale);
 
-      var key = "cldr_date_format_" + size;
-      return this.__mgr.localize(key, [], locale);
+      const parts = new Intl.DateTimeFormat(locale, {
+        dateStyle: size
+      }).formatToParts(new Date(2000, 1, 15));
+      var result = [];
+
+      for (let part of parts) {
+        let value = part.value;
+        console.log(part, part.value, part.type);
+        if (part.type === "year") {
+          if (value.length === 4) {
+            result.push("y");
+          }
+        }
+        if (part.type === "month") {
+          if (value.length > 3) {
+            result.push("MMMM");
+          }
+          if (value.length === 3) {
+            result.push("MMM");
+          }
+          if (value.length <= 2) {
+            result.push("M");
+          }
+        }
+        if (part.type === "literal") {
+          result.push(value);
+        }
+        if (part.type === "day") {
+          if (value.length <= 2) {
+            result.push("d");
+          }
+        }
+        if (part.type === "weekday") {
+          if (value.length > 2) {
+            result.push("EEEE");
+          }
+        }
+      }
+
+      var id = "cldr_date_format_" + size;
+      return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
 
     /**
