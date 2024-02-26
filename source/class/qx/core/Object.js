@@ -70,7 +70,12 @@ qx.Class.define("qx.core.Object", {
   /**
    * Create a new instance
    */
-  construct() {},
+  construct() {
+    // Call any initFunctions defined for properties of this class
+    this.constructor.prototype.$$initFunctions.forEach(propertyName =>
+      this.$$allProperties[propertyName].init(this)
+    );
+  },
 
   /*
   *****************************************************************************

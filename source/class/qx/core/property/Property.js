@@ -764,7 +764,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           // The setter code (incorrectly, in this case)
           // saved the value as the $$user value. Reset
           // it to its original value.
-          this[`$$user_${propertyName}`] = userValue;
+          this[`$$user_${propertyName}`] = inheritedValue;
         }
       }
     },

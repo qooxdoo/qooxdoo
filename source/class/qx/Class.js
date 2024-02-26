@@ -718,11 +718,6 @@ qx.Bootstrap.define("qx.Class", {
             });
           }
 
-          // Call any initFunctions defined for properties of this class
-          subclass.constructor.prototype.$$initFunctions.forEach(propertyName =>
-            this.$$allProperties[propertyName].init(this)
-          );
-
           return this;
         };
       } else {
@@ -958,15 +953,16 @@ qx.Bootstrap.define("qx.Class", {
             property = new qx.core.property.Property(propertyName, clazz);
           }
 
+          clazz.prototype.$$properties[propertyName] = property;
+          clazz.prototype.$$allProperties[propertyName] = property;
+          property.configure(def);
+
           // Does this property have an initFunction?
           if (property.needsInit()) {
             // Yup. Keep track of it.
             clazz.prototype.$$initFunctions.push(propertyName);
           }
 
-          clazz.prototype.$$properties[propertyName] = property;
-          clazz.prototype.$$allProperties[propertyName] = property;
-          property.configure(def);
           property.defineProperty(clazz, patch);
           let eventName = property.getEventName();
           if (eventName) {
@@ -1072,6 +1068,7 @@ qx.Bootstrap.define("qx.Class", {
      *   Overwrite existing fields, functions and properties
      */
     addMixin(clazz, mixin, patch) {
+      if (clazz.classname == "qx.core.Object") debugger;
       if (qx.core.Environment.get("qx.debug")) {
         if (!clazz || !mixin) {
           throw new Error("Incomplete parameters!");
