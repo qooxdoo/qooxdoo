@@ -71,10 +71,38 @@ qx.Class.define("qx.locale.Number", {
      */
     getPercentFormat(locale) {
       locale = this.__transformLocale(locale);
-      return qx.locale.Manager.getInstance().localize(
+
+      var n = 0.00001;
+
+      var option = {
+        style: 'percent',
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
+      };
+
+      var formatter = new Intl.NumberFormat(locale, option);
+      var parts = formatter.formatToParts(n);
+
+      var result = [];
+
+      for (var part of parts){
+        var t = part.type;
+        var value = part.value;
+        if (t === "decimal" || t === "percentSign" || t === "literal"){
+          result.push(value);
+        } else if (t === "integer"){
+          result.push("#".repeat(value.length));
+        } else if (t === "fraction"){
+          result.push("#".repeat(value.length - 1));
+          result.push("0");
+        }
+      }
+
+      return new qx.locale.LocalizedString(
+        result.join(""),
         "cldr_number_percent_format",
         [],
-        locale
+        true
       );
     },
 
