@@ -356,6 +356,42 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} best matching format string
      */
     getDateTimeFormat(canonical, fallback, locale) {
+      locale = this.__transformLocale(locale);
+
+      if (canonical === "d") {
+        return qx.locale.Canonical.getDay(locale);
+      }
+
+      if (canonical === "y") {
+        return qx.locale.Canonical.getYear(locale);
+      }
+
+      //@TODO
+      var table = {
+        MMMd: "",
+        Md: "",
+        Hm: "",
+        Hms: "",
+        ms: "",
+        hm: "",
+        hms: "",
+        yM: "",
+        yMEd: "",
+        yMMM: "",
+        yMMMEd: "",
+        yMMMd: "",
+        yMd: "",
+        MEd: "",
+        MMM: "",
+        MMMEd: "",
+        Ed: "",
+        M: "L",
+        d: "d", // done
+        y: "y", //done
+        yQ: "",
+        "QQQ y": "QQQ y"
+      };
+
       var key = "cldr_date_time_format_" + canonical;
       var localizedFormat = this.__mgr.localize(key, [], locale);
 
