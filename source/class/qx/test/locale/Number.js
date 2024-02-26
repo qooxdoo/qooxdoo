@@ -28,6 +28,31 @@ qx.Class.define("qx.test.locale.Number", {
         qx.locale.Manager.getInstance().resetLocale();
       },
 
+      testGetDecimalSeparator() {
+        var entries = [
+            { locale: "de_DE", expected: "," },
+            { locale: "en", expected: "." }
+        ];
+
+        for (var entry of entries){
+            var result = qx.locale.Number.getDecimalSeparator(entry.locale).toString();
+            this.assertEquals(entry.expected, result);
+        }
+      },
+
+      testGetGroupSeparator() {
+        var entries = [
+            { locale: "de_DE", expected: "." },
+            { locale: "en", expected: "," },
+            { locale: "ru", expected: " " },
+        ];
+
+        for (var entry of entries){
+            var result = qx.locale.Number.getGroupSeparator(entry.locale).toString();
+            this.assertEquals(entry.expected, result);
+        }
+      },
+
       testGetPercentFormat() {
         var entries = [
             { locale: "tr", expected: "%#,##0" },
