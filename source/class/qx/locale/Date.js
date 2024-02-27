@@ -101,9 +101,28 @@ qx.Class.define("qx.locale.Date", {
         weekday = "short";
       } else if (context === "format" && length === "wide") {
         weekday = "long";
-      } else if (context === "stand-alone" && length === "narrow") {
+      } else if (context === "format" && length === "narrow") {
         weekday = "narrow";
+      } else if (context === "stand-alone" && length === "narrow") {
+        var dtFormat = new Intl.DateTimeFormat(locale, {
+          day: "numeric",
+          weekday: "short"
+        });
+        var intlDays = [...Array(7).keys()].map(day => {
+          var parts = dtFormat.formatToParts(new Date(Date.UTC(2021, 10, day)));
+          return parts.find(part => part.type === "weekday")?.value;
+        });
+        return intlDays.map(
+          (day, index) =>
+            new qx.locale.LocalizedString(
+              day,
+              "cldr_day_" + context + "_" + length + "_" + days[index],
+              [],
+              true
+            )
+        );
       }
+
       if (weekday) {
         var { format } = new Intl.DateTimeFormat(locale, { weekday });
         var intlDays = [...Array(7).keys()].map(day =>
