@@ -30,18 +30,30 @@ qx.Class.define("qx.test.locale.Date", {
 
     testGetAmMarker() {
       var Date = qx.locale.Date;
+      var items = [
+        { locale: "ko", expected: "오전" },
+        { locale: "fr", expected: "AM" },
+        { locale: "af", expected: "vm." }
+      ];
 
-      this.assertEquals("vm.", Date.getAmMarker("af"));
-      this.assertEquals("AM", Date.getAmMarker("fr"));
-      this.assertEquals("오전", Date.getPmMarker("ko"));
+      items.forEach(item => {
+        var result = Date.getAMMarker(item.locale);
+        this.assertEquals(item.expected, result);
+      });
     },
 
     testGetPMMarker() {
       var Date = qx.locale.Date;
+      var items = [
+        { locale: "ko", expected: "오후" },
+        { locale: "fr", expected: "PM" },
+        { locale: "af", expected: "nm." }
+      ];
 
-      this.assertEquals("nm.", Date.getAmMarker("af"));
-      this.assertEquals("PM", Date.getAmMarker("fr"));
-      this.assertEquals("오후", Date.getPmMarker("ko"));
+      items.forEach(item => {
+        var result = Date.getPmMarker(item.locale);
+        this.assertEquals(item.expected, result);
+      });
     },
 
     testDayNames() {
