@@ -440,7 +440,7 @@ qx.Class.define("qx.locale.Date", {
         d: "d", // done
         y: "y", //done
         yQ: "",
-        "QQQ y": "QQQ y"
+        yQQQ: "QQQ y"
       };
 
       var localizedFormat = this.__mgr.localize(key, [], locale);
