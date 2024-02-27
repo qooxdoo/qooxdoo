@@ -377,15 +377,54 @@ qx.Class.define("qx.locale.Date", {
         return qx.locale.Canonical.getYear(locale);
       }
 
+      if (canonical === "hm") {
+        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true
+        });
+      }
+
+      if (canonical === "Hm") {
+        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      }
+
+      if (canonical === "ms") {
+        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+          minute: "2-digit",
+          second: "2-digit"
+        });
+      }
+
+      if (canonical === "hms") {
+        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+      }
+
+      if (canonical === "Hms") {
+        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        });
+      }
+
       //@TODO
       var table = {
         MMMd: "",
         Md: "",
-        Hm: "",
-        Hms: "",
-        ms: "",
-        hm: "",
-        hms: "",
+        Hm: "", // done
+        Hms: "", // done
+        ms: "", // done
+        hm: "", // done
+        hms: "", //done
         yM: "",
         yMEd: "",
         yMMM: "",
@@ -427,9 +466,15 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
-      const parts = new Intl.DateTimeFormat(locale, {
+      return this.__parseTime("cldr_time_format_" + size, locale, {
         timeStyle: size
-      }).formatToParts(new Date(2000, 1, 1, 1, 1, 1));
+      });
+    },
+
+    __parseTime(id, locale, options) {
+      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+        new Date(2000, 1, 1, 1, 1, 1)
+      );
       let result = [];
       parts.forEach(part => {
         if (part.type === "literal") {
@@ -468,7 +513,6 @@ qx.Class.define("qx.locale.Date", {
         }
       });
 
-      var id = "cldr_time_format_" + size;
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
 
