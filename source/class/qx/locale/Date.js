@@ -97,13 +97,13 @@ qx.Class.define("qx.locale.Date", {
       var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       var weekday = "";
-      if (context === "format" && length === "abbreviated") {
+      if (context === "format" && length === "short") {
         weekday = "short";
       } else if (context === "format" && length === "wide") {
         weekday = "long";
-      } else if (context === "format" && length === "narrow") {
-        weekday = "narrow";
       } else if (context === "stand-alone" && length === "narrow") {
+        weekday = "narrow";
+      } else if (context === "format" && length === "abbreviated") {
         var dtFormat = new Intl.DateTimeFormat(locale, {
           day: "numeric",
           weekday: "short"
