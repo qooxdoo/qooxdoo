@@ -37,7 +37,7 @@ qx.Class.define("qx.test.locale.Date", {
       ];
 
       items.forEach(item => {
-        var result = Date.getAMMarker(item.locale);
+        var result = Date.getAmMarker(item.locale);
         this.assertEquals(item.expected, result);
       });
     },
