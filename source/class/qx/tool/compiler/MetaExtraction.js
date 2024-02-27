@@ -251,18 +251,54 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
         else if (propertyName == "implement" || propertyName == "include") {
           let name = propertyName == "include" ? "mixins" : "interfaces";
           metaData[name] = [];
+          // eg: `include: [qx.my.first.MMixin, qx.my.next.MMixin, ..., qx.my.last.MMixin]`
           if (property.value.type == "ArrayExpression") {
             property.value.elements.forEach(element => {
               metaData[name].push(
                 qx.tool.utils.BabelHelpers.collapseMemberExpression(element)
               );
             });
-          } else if (property.value.type == "MemberExpression") {
+          }
+          // eg: `include: qx.my.MMixin`
+          else if (property.value.type == "MemberExpression") {
             metaData[name].push(
               qx.tool.utils.BabelHelpers.collapseMemberExpression(
                 property.value
               )
             );
+          }
+          // eg, `include: qx.core.Environment.filter({...})`
+          else if (property.value.type === "CallExpression") {
+            let calleeLiteral = "";
+            let current = property.value.callee;
+            while (current) {
+              let suffix = calleeLiteral ? `.${calleeLiteral}` : "";
+              if (current.type === "MemberExpression") {
+                calleeLiteral = current.property.name + suffix;
+                current = current.object;
+                continue;
+              } else if (current.type === "Identifier") {
+                calleeLiteral = current.name + suffix;
+                break;
+              }
+              throw new Error(
+                `${metaData.className}: error parsing mixin types: cannot resolve ${property.value.callee.type} in CallExpression`
+              );
+            }
+            if (calleeLiteral === "qx.core.Environment.filter") {
+              const properties = property.value.arguments[0]?.properties;
+              properties?.forEach(prop =>
+                metaData[name].push(
+                  qx.tool.utils.BabelHelpers.collapseMemberExpression(
+                    prop.value
+                  )
+                )
+              );
+            } else {
+              this.warn(
+                `${metaData.className}: could not determine mixin types from call \`${calleeLiteral}\`. Type support for this class may be limited.`
+              );
+            }
           }
         }
         // Type
