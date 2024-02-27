@@ -40,21 +40,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated AM marker.
      */
     getAmMarker(locale) {
-      locale = this.__transformLocale(locale);
-      const date = new Date();
-      date.setHours(1);
-      const timeOptions = {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true
-      };
-      const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
-      return new qx.locale.LocalizedString(
-        time.substring(time.length - 2),
-        "cldr_am",
-        [],
-        true
-      );
+      return this.__getMarker("am", 1, locale);
     },
 
     /**
@@ -64,21 +50,27 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated PM marker.
      */
     getPmMarker(locale) {
+      return this.__getMarker("pm", 12, locale);
+    },
+
+    __getMarker(id, monthNumber, locale) {
       locale = this.__transformLocale(locale);
       const date = new Date();
-      date.setHours(12);
+      date.setHours(monthNumber);
       const timeOptions = {
         hour: "numeric",
         minute: "numeric",
         hour12: true
       };
-      const time = Intl.DateTimeFormat(locale, timeOptions).format(date);
-      return new qx.locale.LocalizedString(
-        time.substring(time.length - 2),
-        "cldr_pm",
-        [],
-        true
+      const timeParts = Intl.DateTimeFormat(locale, timeOptions).formatToParts(
+        date
       );
+      const found = timeParts.find(part => part.type === "dayPeriod");
+      let value;
+      if (found) {
+        value = found.value;
+      }
+      return new qx.locale.LocalizedString(value, "cldr_" + id, [], true);
     },
 
     /**

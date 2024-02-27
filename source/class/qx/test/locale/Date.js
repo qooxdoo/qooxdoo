@@ -28,6 +28,22 @@ qx.Class.define("qx.test.locale.Date", {
       qx.locale.Manager.getInstance().resetLocale();
     },
 
+    testGetAmMarker() {
+      var Date = qx.locale.Date;
+
+      this.assertEquals("vm.", Date.getAmMarker("af"));
+      this.assertEquals("AM", Date.getAmMarker("fr"));
+      this.assertEquals("오전", Date.getPmMarker("ko"));
+    },
+
+    testGetPMMarker() {
+      var Date = qx.locale.Date;
+
+      this.assertEquals("nm.", Date.getAmMarker("af"));
+      this.assertEquals("PM", Date.getAmMarker("fr"));
+      this.assertEquals("오후", Date.getPmMarker("ko"));
+    },
+
     testDayNames() {
       var Date = qx.locale.Date;
       var useLocale = "C";
