@@ -369,6 +369,7 @@ qx.Class.define("qx.locale.Date", {
     getDateTimeFormat(canonical, fallback, locale) {
       locale = this.__transformLocale(locale);
 
+      var key = "cldr_date_time_format_" + canonical;
       if (canonical === "d") {
         return qx.locale.Canonical.getDay(locale);
       }
@@ -378,7 +379,7 @@ qx.Class.define("qx.locale.Date", {
       }
 
       if (canonical === "hm") {
-        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+        return this.__parseTime(key, locale, {
           hour: "numeric",
           minute: "numeric",
           hour12: true
@@ -386,21 +387,21 @@ qx.Class.define("qx.locale.Date", {
       }
 
       if (canonical === "Hm") {
-        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+        return this.__parseTime(key, locale, {
           hour: "2-digit",
           minute: "2-digit"
         });
       }
 
       if (canonical === "ms") {
-        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+        return this.__parseTime(key, locale, {
           minute: "2-digit",
           second: "2-digit"
         });
       }
 
       if (canonical === "hms") {
-        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+        return this.__parseTime(key, locale, {
           hour: "numeric",
           minute: "2-digit",
           second: "2-digit",
@@ -409,7 +410,7 @@ qx.Class.define("qx.locale.Date", {
       }
 
       if (canonical === "Hms") {
-        return this.__parseTime("cldr_date_time_format_" + canonical, locale, {
+        return this.__parseTime(key, locale, {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit"
@@ -442,7 +443,6 @@ qx.Class.define("qx.locale.Date", {
         "QQQ y": "QQQ y"
       };
 
-      var key = "cldr_date_time_format_" + canonical;
       var localizedFormat = this.__mgr.localize(key, [], locale);
 
       if (localizedFormat == key) {
