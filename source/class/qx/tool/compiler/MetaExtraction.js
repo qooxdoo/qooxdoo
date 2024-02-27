@@ -448,9 +448,6 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
               obj.returnType.defaultValue = returnDoc.defaultValue;
             }
           }
-          if (obj.jsdoc["@throws"]?.length) {
-            obj.returnType = obj.jsdoc["@throws"][0]?.type;
-          }
         }
       };
 
