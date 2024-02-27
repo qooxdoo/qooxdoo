@@ -422,31 +422,54 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} localized time format string
      */
     getTimeFormat(size, locale) {
+      locale = this.__transformLocale(locale);
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
-      var key = "cldr_time_format_" + size;
-      var localizedFormat = this.__mgr.localize(key, [], locale);
+      const parts = new Intl.DateTimeFormat(locale, {
+        timeStyle: size
+      }).formatToParts(new Date(2000, 1, 1, 1, 1, 1));
+      let result = [];
+      parts.forEach(part => {
+        if (part.type === "literal") {
+          result.push(part.value);
+        } else if (part.type === "dayPeriod") {
+          result.push("a");
+        } else if (part.type === "hour") {
+          if (part.value.length === 1) {
+            result.push("h");
+          } else if (part.value.length === 2) {
+            result.push("HH");
+          }
+        } else if (part.type === "minute") {
+          if (part.value.length === 2) {
+            result.push("mm");
+          }
+          if (part.value.length === 1) {
+            result.push("m");
+          }
+        } else if (part.type === "second") {
+          if (part.value.length === 2) {
+            result.push("ss");
+          }
+          if (part.value.length === 1) {
+            result.push("s");
+          }
+        } else if (part.type === "timeZoneName") {
+          let short = new Intl.DateTimeFormat("ak", { timeZoneName: "short" })
+            .formatToParts(new Date(2000, 1, 1, 1, 1, 1))
+            .find(part => part.type === "timeZoneName")?.value;
+          if (short === part.value) {
+            result.push("z");
+          } else {
+            result.push("zzzz");
+          }
+        }
+      });
 
-      if (localizedFormat != key) {
-        return localizedFormat;
-      }
-
-      switch (size) {
-        case "short":
-        case "medium":
-          return qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
-
-        case "long":
-          return qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
-
-        case "full":
-          return qx.locale.Date.getDateTimeFormat("HHmmsszz", "HH:mm:ss zz");
-
-        default:
-          throw new Error("This case should never happen.");
-      }
+      var id = "cldr_time_format_" + size;
+      return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
 
     /**
