@@ -125,7 +125,7 @@ qx.Class.define("qx.test.locale.Date", {
         this.assertEquals(abbrDays[i], Date.getDayName("abbreviated", i));
       }
 
-      var narrowDays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+      var narrowDays = ["S", "M", "D", "M", "D", "F", "S"];
       this.assertJsonEquals(
         narrowDays,
         Date.getDayNames("narrow", useLocale, "stand-alone").map(function (v) {
