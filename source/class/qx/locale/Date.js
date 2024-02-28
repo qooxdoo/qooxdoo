@@ -517,7 +517,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekStart(locale) {
       locale = this.__transformLocale(locale);
-      const info = new Intl.Locale(locale).getWeekInfo();
+      const info = new Intl.Locale(locale).weekInfo;
       return info.firstDay !== 7 ? info.firstDay : 0;
     },
 
@@ -531,7 +531,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekendStart(locale) {
       locale = this.__transformLocale(locale);
-      const info = new Intl.Locale(locale).getWeekInfo();
+      const info = new Intl.Locale(locale).weekInfo;
       return info.weekend[0] !== 7 ? info.weekend[0] : 0;
     },
 
@@ -545,7 +545,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekendEnd(locale) {
       locale = this.__transformLocale(locale);
-      const info = new Intl.Locale(locale).getWeekInfo();
+      const info = new Intl.Locale(locale).weekInfo;
       const end = info.weekend[info.weekend.length - 1];
       return end !== 7 ? end : 0;
     },
@@ -559,8 +559,8 @@ qx.Class.define("qx.locale.Date", {
      */
     isWeekend(day, locale) {
       locale = this.__transformLocale(locale);
-      const info = new Intl.Locale(locale).getWeekInfo();
-      return info.weekend.includes(day + 1);
+      const info = new Intl.Locale(locale).weekInfo;
+      return info.weekend.includes(day !== 0 ? day : 7);
     },
 
     /**
