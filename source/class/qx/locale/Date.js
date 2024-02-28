@@ -258,58 +258,55 @@ qx.Class.define("qx.locale.Date", {
 
       for (let part of parts) {
         let value = part.value;
+        let lexem = "";
         if (part.type === "year") {
           if (value.length === 4) {
-            result.push("y");
+            lexem = "y";
+          } else if (value.length === 2) {
+            lexem = "yy";
           }
-          if (value.length === 2) {
-            result.push("yy");
-          }
-        }
-        if (part.type === "month") {
+        } else if (part.type === "month") {
           let monthShort = new Intl.DateTimeFormat(locale, {
             month: "short"
           }).format(new Date(2000, 1, 1));
 
           if (monthShort === value) {
-            result.push("MMM");
+            lexem = "MMM";
           } else {
             let monthLong = new Intl.DateTimeFormat(locale, {
               month: "long"
             }).format(new Date(2000, 1, 1));
             if (monthLong === value) {
-              result.push("MMMM");
+              lexem = "MMMM";
             } else {
               let monthNarrow = new Intl.DateTimeFormat(locale, {
                 month: "narrow"
               }).format(new Date(2000, 1, 1));
               if (monthNarrow === value) {
-                result.push("M");
+                lexem = "M";
               } else {
                 if (value.length === 2) {
-                  result.push("MM");
+                  lexem = "MM";
                 } else if (value.length === 1) {
-                  result.push("M");
+                  lexem = "M";
                 }
               }
             }
           }
-        }
-        if (part.type === "literal") {
-          result.push(value);
-        }
-        if (part.type === "day") {
+        } else if (part.type === "literal") {
+          lexem = value;
+        } else if (part.type === "day") {
           if (value.length === 1) {
-            result.push("d");
+            lexem = "d";
           } else if (value.length === 2) {
-            result.push("dd");
+            lexem = "dd";
           }
-        }
-        if (part.type === "weekday") {
+        } else if (part.type === "weekday") {
           if (value.length > 2) {
-            result.push("EEEE");
+            lexem = "EEEE";
           }
         }
+        result.push(lexem);
       }
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
@@ -337,6 +334,12 @@ qx.Class.define("qx.locale.Date", {
 
       if (canonical === "y") {
         return this.__parseDate(key, locale, { year: "numeric" });
+      }
+
+      if (canonical === "M") {
+        return this.__parseDate(key, locale, {
+          month: "narrow"
+        });
       }
 
       if (canonical === "MMMd") {
