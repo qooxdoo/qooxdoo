@@ -432,6 +432,10 @@ qx.Class.define("qx.locale.Date", {
         });
       }
 
+      if (canonical === "yQ"){
+        return this.__getQuarterAndYear(key, locale);
+      }
+
       //@TODO
       var table = {
         MMMd: "",// done
@@ -454,7 +458,7 @@ qx.Class.define("qx.locale.Date", {
         M: "L",
         d: "d", // done
         y: "y", //done
-        yQ: "",
+        yQ: "", // done
         yQQQ: "QQQ y"
       };
 
@@ -465,6 +469,14 @@ qx.Class.define("qx.locale.Date", {
       }
 
       return localizedFormat;
+    },
+
+    __getQuarterAndYear(id, locale){
+      var result = "yQ";
+      if (locale === "cy" || locale === "cy-GB"){
+          return "Q y"
+      }
+      return new qx.locale.LocalizedString(result, id, [], true);
     },
 
     /**
