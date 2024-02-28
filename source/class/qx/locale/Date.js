@@ -95,67 +95,37 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
+      var weekFormat;
+      if (length === "abbreviated") {
+        weekFormat = "short";
+      } else if (length === "narrow") {
+        weekFormat = "narrow";
+      } else if (length === "wide") {
+        weekFormat = "long";
+      }
+
+      var options = { weekday: weekFormat };
+      if (context === "format") {
+        options.day = "numeric";
+      }
+
       var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+      return [...Array(7).keys()].map(day =>
+        this.__parseWeekday(
+          day,
+          "cldr_day_" + context + "_" + length + "_" + days[day],
+          locale,
+          options
+        )
+      );
+    },
 
-      var weekday = "";
-      if (context === "format" && length === "short") {
-        weekday = "short";
-      } else if (context === "format" && length === "wide") {
-        weekday = "long";
-      } else if (context === "stand-alone" && length === "narrow") {
-        weekday = "narrow";
-      } else if (context === "format" && length === "abbreviated") {
-        var dtFormat = new Intl.DateTimeFormat(locale, {
-          day: "numeric",
-          weekday: "short"
-        });
-        var intlDays = [...Array(7).keys()].map(day => {
-          var parts = dtFormat.formatToParts(new Date(Date.UTC(2021, 10, day)));
-          return parts.find(part => part.type === "weekday")?.value;
-        });
-        return intlDays.map(
-          (day, index) =>
-            new qx.locale.LocalizedString(
-              day,
-              "cldr_day_" + context + "_" + length + "_" + days[index],
-              [],
-              true
-            )
-        );
-      }
-
-      if (weekday) {
-        var { format } = new Intl.DateTimeFormat(locale, { weekday });
-        var intlDays = [...Array(7).keys()].map(day =>
-          format(new Date(Date.UTC(2021, 10, day)))
-        );
-        return intlDays.map(
-          (day, index) =>
-            new qx.locale.LocalizedString(
-              day,
-              "cldr_day_" + context + "_" + length + "_" + days[index],
-              [],
-              true
-            )
-        );
-      }
-
-      var names = [];
-      for (var i = 0; i < days.length; i++) {
-        var key = "cldr_day_" + context + "_" + length + "_" + days[i];
-        names.push(
-          withFallback
-            ? this.__localizeWithFallback(
-                context,
-                context === "format" ? "stand-alone" : "format",
-                key,
-                locale
-              )
-            : this.__mgr.localize(key, [], locale)
-        );
-      }
-
-      return names;
+    __parseWeekday(weekdayNumber, id, locale, options) {
+      var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+        new Date(Date.UTC(2021, 10, weekdayNumber))
+      );
+      var value = parts.find(part => part.type === "weekday")?.value;
+      return new qx.locale.LocalizedString(value, id, [], true);
     },
 
     /**
@@ -209,11 +179,11 @@ qx.Class.define("qx.locale.Date", {
       locale = this.__transformLocale(locale);
 
       var monthFormat;
-      if (length === "abbreviated"){
+      if (length === "abbreviated") {
         monthFormat = "short";
-      } else if (length === "narrow"){
+      } else if (length === "narrow") {
         monthFormat = "narrow";
-      } else if (length === "wide"){
+      } else if (length === "wide") {
         monthFormat = "long";
       }
 
@@ -231,8 +201,10 @@ qx.Class.define("qx.locale.Date", {
       return months;
     },
 
-    __parseMonth(monthNumber, id, locale, options){
-      var parts = new Intl.DateTimeFormat(locale, options).formatToParts(new Date(2000, monthNumber, 1));
+    __parseMonth(monthNumber, id, locale, options) {
+      var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+        new Date(2000, monthNumber, 1)
+      );
       var value = parts.find(part => part.type === "month")?.value;
       return new qx.locale.LocalizedString(value, id, [], true);
     },
@@ -278,8 +250,10 @@ qx.Class.define("qx.locale.Date", {
       return this.__parseDate(id, locale, { dateStyle: size });
     },
 
-    __parseDate(id, locale, options){
-      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(new Date(2000, 1, 1));
+    __parseDate(id, locale, options) {
+      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+        new Date(2000, 1, 1)
+      );
       var result = [];
 
       for (let part of parts) {
@@ -365,15 +339,15 @@ qx.Class.define("qx.locale.Date", {
         return this.__parseDate(key, locale, { year: "numeric" });
       }
 
-      if (canonical === "MMMd"){
-        return this.__parseDate(key, locale, { 
+      if (canonical === "MMMd") {
+        return this.__parseDate(key, locale, {
           day: "numeric",
-          month: "short" 
+          month: "short"
         });
       }
 
-      if (canonical === "yMMM"){
-        return this.__parseDate(key, locale, { 
+      if (canonical === "yMMM") {
+        return this.__parseDate(key, locale, {
           year: "numeric",
           month: "short"
         });
@@ -418,13 +392,13 @@ qx.Class.define("qx.locale.Date", {
         });
       }
 
-      if (canonical === "yQ"){
+      if (canonical === "yQ") {
         return this.__getQuarterAndYear(key, locale);
       }
 
       //@TODO
       var table = {
-        MMMd: "",// done
+        MMMd: "", // done
         Md: "",
         Hm: "", // done
         Hms: "", // done
@@ -457,10 +431,10 @@ qx.Class.define("qx.locale.Date", {
       return localizedFormat;
     },
 
-    __getQuarterAndYear(id, locale){
+    __getQuarterAndYear(id, locale) {
       var result = "yQ";
-      if (locale === "cy" || locale === "cy-GB"){
-          return "Q y"
+      if (locale === "cy" || locale === "cy-GB") {
+        return "Q y";
       }
       return new qx.locale.LocalizedString(result, id, [], true);
     },
