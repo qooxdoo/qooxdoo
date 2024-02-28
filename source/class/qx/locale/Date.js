@@ -22,6 +22,7 @@
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
  *
+ * @todo h and hh diff, dt formats
  * @ignore(Intl.DateTimeFormat)
  */
 qx.Class.define("qx.locale.Date", {
@@ -287,10 +288,12 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
       locale = this.__transformLocale(locale);
+      var id = "cldr_date_format_" + size;
+      return this.__parseDate(id, locale, { dateStyle: size });
+    },
 
-      const parts = new Intl.DateTimeFormat(locale, {
-        dateStyle: size
-      }).formatToParts(new Date(2000, 1, 1));
+    __parseDate(id, locale, options){
+      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(new Date(2000, 1, 1));
       var result = [];
 
       for (let part of parts) {
@@ -348,8 +351,6 @@ qx.Class.define("qx.locale.Date", {
           }
         }
       }
-
-      var id = "cldr_date_format_" + size;
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
 
@@ -371,11 +372,25 @@ qx.Class.define("qx.locale.Date", {
 
       var key = "cldr_date_time_format_" + canonical;
       if (canonical === "d") {
-        return qx.locale.Canonical.getDay(locale);
+        return this.__parseDate(key, locale, { day: "2-digit" });
       }
 
       if (canonical === "y") {
-        return qx.locale.Canonical.getYear(locale);
+        return this.__parseDate(key, locale, { year: "numeric" });
+      }
+
+      if (canonical === "MMMd"){
+        return this.__parseDate(key, locale, { 
+          day: "numeric",
+          month: "short" 
+        });
+      }
+
+      if (canonical === "yMMM"){
+        return this.__parseDate(key, locale, { 
+          year: "numeric",
+          month: "short"
+        });
       }
 
       if (canonical === "hm") {
@@ -419,7 +434,7 @@ qx.Class.define("qx.locale.Date", {
 
       //@TODO
       var table = {
-        MMMd: "",
+        MMMd: "",// done
         Md: "",
         Hm: "", // done
         Hms: "", // done
@@ -428,7 +443,7 @@ qx.Class.define("qx.locale.Date", {
         hms: "", //done
         yM: "",
         yMEd: "",
-        yMMM: "",
+        yMMM: "", // done
         yMMMEd: "",
         yMMMd: "",
         yMd: "",
