@@ -23,8 +23,8 @@
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
  *
- * @todo h and hh diff, dt formats
  * @ignore(Intl.DateTimeFormat)
+ * @ignore(Intl.Locale)
  */
 qx.Class.define("qx.locale.Date", {
   statics: {
@@ -478,15 +478,7 @@ qx.Class.define("qx.locale.Date", {
             lexem = "a";
             break;
           case "hour":
-            const hour24 = new Intl.DateTimeFormat(locale, options)
-              .formatToParts(new Date(2000, 1, 1, 13, 1, 1))
-              .find(subPart => subPart.type === "hour")
-              .value.includes("13");
-            if (hour24) {
-              lexem = "h".repeat(value.length);
-            } else {
-              lexem = "H".repeat(value.length);
-            }
+            lexem = this.__getHorh(locale, options).repeat(value.length);
             break;
           case "minute":
             lexem = "m".repeat(value.length);
@@ -495,16 +487,7 @@ qx.Class.define("qx.locale.Date", {
             lexem = "s".repeat(value.length);
             break;
           case "timeZoneName":
-            let short = new Intl.DateTimeFormat(locale, {
-              timeZoneName: "short"
-            })
-              .formatToParts(new Date(2000, 1, 1, 1, 1, 1))
-              .find(part => part.type === "timeZoneName")?.value;
-            if (short === value) {
-              lexem = "z";
-            } else {
-              lexem = "zzzz";
-            }
+            lexem = this.__getTimezone(locale);
             break;
           default:
             lexem = "";
@@ -513,6 +496,23 @@ qx.Class.define("qx.locale.Date", {
       });
 
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
+    },
+
+    __getHorh(locale, options) {
+      const hour24 = new Intl.DateTimeFormat(locale, options)
+        .formatToParts(new Date(2000, 1, 1, 13, 1, 1))
+        .find(subPart => subPart.type === "hour")
+        .value.includes("13");
+      return hour24 ? "h" : "H";
+    },
+
+    __getTimezone() {
+      let short = new Intl.DateTimeFormat(locale, {
+        timeZoneName: "short"
+      })
+        .formatToParts(new Date(2000, 1, 1, 1, 1, 1))
+        .find(part => part.type === "timeZoneName")?.value;
+      return short === value ? "z" : "zzzz";
     },
 
     /**
