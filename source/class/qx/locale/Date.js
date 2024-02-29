@@ -478,10 +478,14 @@ qx.Class.define("qx.locale.Date", {
             lexem = "a";
             break;
           case "hour":
-            if (part.value.length === 1) {
-              lexem = "h";
-            } else if (part.value.length === 2) {
-              lexem = "HH";
+            const hour24 = new Intl.DateTimeFormat(locale, options)
+              .formatToParts(new Date(2000, 1, 1, 13, 1, 1))
+              .find(subPart => subPart.type === "hour")
+              .value.includes("13");
+            if (hour24) {
+              lexem = "h".repeat(value.length);
+            } else {
+              lexem = "H".repeat(value.length);
             }
             break;
           case "minute":
