@@ -329,50 +329,29 @@ qx.Class.define("qx.locale.Date", {
       locale = this.__transformLocale(locale);
 
       var key = "cldr_date_time_format_" + canonical;
-      let options;
-      switch (canonical) {
-        case "d":
-          options = { day: "2-digit" };
-          break;
-        case "y":
-          options = { year: "numeric" };
-          break;
-        case "M":
-          options = { month: "narrow" };
-          break;
-        case "MMMd":
-          options = { day: "numeric", month: "short" };
-          break;
-        case "yMMM":
-          options = { year: "numeric", month: "short" };
-          break;
-        case "hm":
-          options = { hour: "numeric", minute: "numeric", hour12: true };
-          break;
-        case "Hm":
-          options = { hour: "2-digit", minute: "2-digit" };
-          break;
-        case "ms":
-          options = { minute: "2-digit", second: "2-digit" };
-          break;
-        case "hms":
-          options = {
-            hour: "numeric",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: true
-          };
-          break;
-        case "Hms":
-          options = {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-          };
-          break;
-      }
-      if (options) {
-        return this.__parseDate(key, locale, options);
+      let localeTable = {
+        d: { day: "2-digit" },
+        y: { year: "numeric" },
+        M: { month: "narrow" },
+        MMMd: { day: "numeric", month: "short" },
+        yMMM: { year: "numeric", month: "short" },
+        hm: { hour: "numeric", minute: "numeric", hour12: true },
+        Hm: { hour: "2-digit", minute: "2-digit" },
+        ms: { minute: "2-digit", second: "2-digit" },
+        hms: {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        },
+        Hms: {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      };
+      if (localeTable.hasOwnProperty(canonical)) {
+        return this.__parseDate(key, locale, localeTable[canonical]);
       }
 
       if (canonical === "yQ") {
