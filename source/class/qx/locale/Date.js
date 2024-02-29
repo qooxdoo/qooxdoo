@@ -427,22 +427,22 @@ qx.Class.define("qx.locale.Date", {
       let result = [];
       parts.forEach(part => {
         let lexem = "";
-        let value = part.value;
+        let length = part.value.length;
         switch (part.type) {
           case "literal":
-            lexem = value;
+            lexem = part.value;
             break;
           case "dayPeriod":
             lexem = "a";
             break;
           case "hour":
-            lexem = this.__getHorh(locale, options).repeat(value.length);
+            lexem = this.__getHorh(locale, options).repeat(length);
             break;
           case "minute":
-            lexem = "m".repeat(value.length);
+            lexem = "m".repeat(length);
             break;
           case "second":
-            lexem = "s".repeat(value.length);
+            lexem = "s".repeat(length);
             break;
           case "timeZoneName":
             lexem = this.__getTimezone(locale);
