@@ -468,40 +468,44 @@ qx.Class.define("qx.locale.Date", {
       );
       let result = [];
       parts.forEach(part => {
-        if (part.type === "literal") {
-          result.push(part.value);
-        } else if (part.type === "dayPeriod") {
-          result.push("a");
-        } else if (part.type === "hour") {
-          if (part.value.length === 1) {
-            result.push("h");
-          } else if (part.value.length === 2) {
-            result.push("HH");
-          }
-        } else if (part.type === "minute") {
-          if (part.value.length === 2) {
-            result.push("mm");
-          }
-          if (part.value.length === 1) {
-            result.push("m");
-          }
-        } else if (part.type === "second") {
-          if (part.value.length === 2) {
-            result.push("ss");
-          }
-          if (part.value.length === 1) {
-            result.push("s");
-          }
-        } else if (part.type === "timeZoneName") {
-          let short = new Intl.DateTimeFormat("ak", { timeZoneName: "short" })
-            .formatToParts(new Date(2000, 1, 1, 1, 1, 1))
-            .find(part => part.type === "timeZoneName")?.value;
-          if (short === part.value) {
-            result.push("z");
-          } else {
-            result.push("zzzz");
-          }
+        let lexem = "";
+        let value = part.value;
+        switch (part.type) {
+          case "literal":
+            lexem = value;
+            break;
+          case "dayPeriod":
+            lexem = "a";
+            break;
+          case "hour":
+            if (part.value.length === 1) {
+              lexem = "h";
+            } else if (part.value.length === 2) {
+              lexem = "HH";
+            }
+            break;
+          case "minute":
+            lexem = "m".repeat(value.length);
+            break;
+          case "second":
+            lexem = "s".repeat(value.length);
+            break;
+          case "timeZoneName":
+            let short = new Intl.DateTimeFormat(locale, {
+              timeZoneName: "short"
+            })
+              .formatToParts(new Date(2000, 1, 1, 1, 1, 1))
+              .find(part => part.type === "timeZoneName")?.value;
+            if (short === value) {
+              lexem = "z";
+            } else {
+              lexem = "zzzz";
+            }
+            break;
+          default:
+            lexem = "";
         }
+        result.push(lexem);
       });
 
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
