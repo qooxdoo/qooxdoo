@@ -529,48 +529,6 @@ qx.Class.define("qx.locale.Date", {
       return info.weekend.includes(day !== 0 ? day : 7);
     },
 
-    /**
-     * Extract the territory part from a locale
-     *
-     * @param locale {String} the locale
-     * @return {String} territory
-     */
-    _getTerritory(locale) {
-      if (locale) {
-        var territory = locale.split("_")[1] || locale;
-      } else {
-        territory = this.__mgr.getTerritory() || this.__mgr.getLanguage();
-      }
-
-      return territory.toUpperCase();
-    },
-
-    /**
-     * Provide localization (CLDR) data with fallback between "format" and "stand-alone" contexts.
-     * It is used in {@link #getDayName} and {@link #getMonthName} methods.
-     *
-     * @param context {String} intended context.
-     *       Possible values: "format", "stand-alone".
-     * @param fallbackContext {String} the context used in case no localization is found for the key.
-     * @param key {String} message id (may contain format strings)
-     * @param locale {String} the locale
-     * @return {String} localized name for the key
-     *
-     */
-    __localizeWithFallback(context, fallbackContext, key, locale) {
-      var localizedString = this.__mgr.localize(key, [], locale);
-      if (localizedString == key) {
-        var newKey = key.replace(
-          "_" + context + "_",
-          "_" + fallbackContext + "_"
-        );
-
-        return this.__mgr.localize(newKey, [], locale);
-      } else {
-        return localizedString;
-      }
-    },
-
     __transformLocale(locale) {
       if (!locale) {
         locale = this.__mgr.getLocale();
