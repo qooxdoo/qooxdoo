@@ -329,71 +329,50 @@ qx.Class.define("qx.locale.Date", {
       locale = this.__transformLocale(locale);
 
       var key = "cldr_date_time_format_" + canonical;
-      if (canonical === "d") {
-        return this.__parseDate(key, locale, { day: "2-digit" });
+      let options;
+      switch (canonical) {
+        case "d":
+          options = { day: "2-digit" };
+          break;
+        case "y":
+          options = { year: "numeric" };
+          break;
+        case "M":
+          options = { month: "narrow" };
+          break;
+        case "MMMd":
+          options = { day: "numeric", month: "short" };
+          break;
+        case "yMMM":
+          options = { year: "numeric", month: "short" };
+          break;
+        case "hm":
+          options = { hour: "numeric", minute: "numeric", hour12: true };
+          break;
+        case "Hm":
+          options = { hour: "2-digit", minute: "2-digit" };
+          break;
+        case "ms":
+          options = { minute: "2-digit", second: "2-digit" };
+          break;
+        case "hms":
+          options = {
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+          };
+          break;
+        case "Hms":
+          options = {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          };
+          break;
       }
-
-      if (canonical === "y") {
-        return this.__parseDate(key, locale, { year: "numeric" });
-      }
-
-      if (canonical === "M") {
-        return this.__parseDate(key, locale, {
-          month: "narrow"
-        });
-      }
-
-      if (canonical === "MMMd") {
-        return this.__parseDate(key, locale, {
-          day: "numeric",
-          month: "short"
-        });
-      }
-
-      if (canonical === "yMMM") {
-        return this.__parseDate(key, locale, {
-          year: "numeric",
-          month: "short"
-        });
-      }
-
-      if (canonical === "hm") {
-        return this.__parseTime(key, locale, {
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true
-        });
-      }
-
-      if (canonical === "Hm") {
-        return this.__parseTime(key, locale, {
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-      }
-
-      if (canonical === "ms") {
-        return this.__parseTime(key, locale, {
-          minute: "2-digit",
-          second: "2-digit"
-        });
-      }
-
-      if (canonical === "hms") {
-        return this.__parseTime(key, locale, {
-          hour: "numeric",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: true
-        });
-      }
-
-      if (canonical === "Hms") {
-        return this.__parseTime(key, locale, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
+      if (options) {
+        return this.__parseDate(key, locale, options);
       }
 
       if (canonical === "yQ") {
