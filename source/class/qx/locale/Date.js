@@ -394,16 +394,9 @@ qx.Class.define("qx.locale.Date", {
 
       //@TODO
       var table = {
-        MMMd: "", // done
         Md: "",
-        Hm: "", // done
-        Hms: "", // done
-        ms: "", // done
-        hm: "", // done
-        hms: "", //done
         yM: "",
         yMEd: "",
-        yMMM: "", // done
         yMMMEd: "",
         yMMMd: "",
         yMd: "",
@@ -412,9 +405,6 @@ qx.Class.define("qx.locale.Date", {
         MMMEd: "",
         Ed: "",
         M: "L",
-        d: "d", // done
-        y: "y", //done
-        yQ: "", // done
         yQQQ: "QQQ y"
       };
 
