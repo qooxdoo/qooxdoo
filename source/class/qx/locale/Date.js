@@ -42,7 +42,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated AM marker.
      */
     getAmMarker(locale) {
-      return this.__getMarker("am", 1, locale);
+      return this.__localizeMarker("am", 1, locale);
     },
 
     /**
@@ -52,13 +52,21 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} translated PM marker.
      */
     getPmMarker(locale) {
-      return this.__getMarker("pm", 12, locale);
+      return this.__localizeMarker("pm", 12, locale);
     },
 
-    __getMarker(id, monthNumber, locale) {
+    /**
+     * Localize day period/marker of a month
+     * 
+     * @param {String} id LocalizedString Id
+     * @param {Integer} month index of the month. 0=january, 1=february, ...
+     * @param {String} locale optional locale to be used
+     * @returns {qx.locale.LocalizedString} localized day marker
+     */
+    __localizeMarker(id, month, locale) {
       locale = this.__transformLocale(locale);
       const date = new Date();
-      date.setHours(monthNumber);
+      date.setHours(month);
       const timeOptions = {
         hour: "numeric",
         minute: "numeric",
@@ -111,19 +119,28 @@ qx.Class.define("qx.locale.Date", {
       }
 
       var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-      return [...Array(7).keys()].map(day =>
-        this.__parseWeekday(
-          day,
-          "cldr_day_" + context + "_" + length + "_" + days[day],
+      return days.map((day, index) =>
+        this.__getWeekdayFromDay(
+          index,
+          "cldr_day_" + context + "_" + length + "_" + day,
           locale,
           options
         )
       );
     },
 
-    __parseWeekday(weekdayNumber, id, locale, options) {
+    /**
+     * Returns weekday for day of month
+     * 
+     * @param {Integer} day day of month
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @param {object} options date/time Intl API options
+     * @returns {qx.locale.LocalizedString} localized weekday
+     */
+    __getWeekdayFromDay(day, id, locale, options) {
       var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
-        new Date(Date.UTC(2021, 10, weekdayNumber))
+        new Date(Date.UTC(2021, 10, day))
       );
       var value = parts.find(part => part.type === "weekday")?.value;
       return new qx.locale.LocalizedString(value, id, [], true);
@@ -196,15 +213,24 @@ qx.Class.define("qx.locale.Date", {
       var months = [];
       for (var i = 0; i < 12; i++) {
         var id = "cldr_month_" + context + "_" + length + "_" + (i + 1);
-        var localizedMonth = this.__parseMonth(i, id, locale, options);
+        var localizedMonth = this.__localizeMonth(i, id, locale, options);
         months.push(localizedMonth);
       }
       return months;
     },
 
-    __parseMonth(monthNumber, id, locale, options) {
+    /**
+     * Localize month
+     * 
+     * @param {Integer} month index of the month. 0=january, 1=february, ...
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @param {object} options Intl API date/time options
+     * @returns {qx.locale.LocalizedString} localized string
+     */
+    __localizeMonth(month, id, locale, options) {
       var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
-        new Date(2000, monthNumber, 1)
+        new Date(2000, month, 1)
       );
       var value = parts.find(part => part.type === "month")?.value;
       return new qx.locale.LocalizedString(value, id, [], true);
@@ -248,10 +274,18 @@ qx.Class.define("qx.locale.Date", {
       }
       locale = this.__transformLocale(locale);
       var id = "cldr_date_format_" + size;
-      return this.__parseDate(id, locale, { dateStyle: size });
+      return this.__localizeDate(id, locale, { dateStyle: size });
     },
 
-    __parseDate(id, locale, options) {
+    /**
+     * Localize date via Intl API
+     * 
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @param {object} options date/time Intl API options
+     * @returns {qx.locale.LocalizedString} localized date
+     */
+    __localizeDate(id, locale, options) {
       const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(2000, 1, 1)
       );
@@ -351,11 +385,11 @@ qx.Class.define("qx.locale.Date", {
         }
       };
       if (localeTable.hasOwnProperty(canonical)) {
-        return this.__parseDate(key, locale, localeTable[canonical]);
+        return this.__localizeDate(key, locale, localeTable[canonical]);
       }
 
       if (canonical === "yQ") {
-        return this.__getQuarterAndYear(key, locale);
+        return this.__localizeQuarterAndYear(key, locale);
       }
 
       //@TODO
@@ -393,7 +427,14 @@ qx.Class.define("qx.locale.Date", {
       return localizedFormat;
     },
 
-    __getQuarterAndYear(id, locale) {
+    /**
+     * Localize yQ format
+     * 
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @returns {qx.locale.LocalizedString} localized yQ format
+     */
+    __localizeQuarterAndYear(id, locale) {
       var result = "yQ";
       if (locale === "cy" || locale === "cy-GB") {
         return "Q y";
@@ -415,12 +456,20 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
-      return this.__parseTime("cldr_time_format_" + size, locale, {
+      return this.__localizeTime("cldr_time_format_" + size, locale, {
         timeStyle: size
       });
     },
 
-    __parseTime(id, locale, options) {
+    /**
+     * Localize time via Intl API
+     * 
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @param {object} options date/time Intl API options
+     * @returns {qx.locale.LocalizedString} localized time
+     */
+    __localizeTime(id, locale, options) {
       const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(2000, 1, 1, 1, 1, 1)
       );
@@ -436,7 +485,7 @@ qx.Class.define("qx.locale.Date", {
             lexem = "a";
             break;
           case "hour":
-            lexem = this.__getHorh(locale, options).repeat(length);
+            lexem = this.__getSmallOrBigH(locale, options).repeat(length);
             break;
           case "minute":
             lexem = "m".repeat(length);
@@ -456,7 +505,15 @@ qx.Class.define("qx.locale.Date", {
       return new qx.locale.LocalizedString(result.join(""), id, [], true);
     },
 
-    __getHorh(locale, options) {
+    /**
+     * Detects what hour format and returns small h if
+     * 24 hour format and big H if 12 hour format
+     * 
+     * @param {String} locale locale to be used
+     * @param {object} options date/time Intl API options
+     * @returns {String} h or H
+     */
+    __getSmallOrBigH(locale, options) {
       const hour24 = new Intl.DateTimeFormat(locale, options)
         .formatToParts(new Date(2000, 1, 1, 13, 1, 1))
         .find(subPart => subPart.type === "hour")
@@ -529,6 +586,13 @@ qx.Class.define("qx.locale.Date", {
       return info.weekend.includes(day !== 0 ? day : 7);
     },
 
+
+    /**
+     * Transforms an input locale into locale supported by Intl API
+     * 
+     * @param locale {String} optional locale to be used
+     * @returns {String} transformed locale
+     */
     __transformLocale(locale) {
       if (!locale) {
         locale = this.__mgr.getLocale();
