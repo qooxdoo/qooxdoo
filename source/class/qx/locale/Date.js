@@ -363,7 +363,7 @@ qx.Class.define("qx.locale.Date", {
       locale = this.__transformLocale(locale);
 
       var key = "cldr_date_time_format_" + canonical;
-      let localeTable = {
+      var localeTable = {
         d: { day: "2-digit" },
         y: { year: "numeric" },
         M: { month: "narrow" },
@@ -466,10 +466,11 @@ qx.Class.define("qx.locale.Date", {
       let result = [];
       parts.forEach(part => {
         let lexem = "";
-        let length = part.value.length;
+        let value = part.value;
+        let length = value.length;
         switch (part.type) {
           case "literal":
-            lexem = part.value;
+            lexem = value;
             break;
           case "dayPeriod":
             lexem = "a";
@@ -484,7 +485,7 @@ qx.Class.define("qx.locale.Date", {
             lexem = "s".repeat(length);
             break;
           case "timeZoneName":
-            lexem = this.__getTimezone(locale);
+            lexem = this.__getTimezoneFormat(locale, value);
             break;
           default:
             lexem = "";
@@ -511,7 +512,13 @@ qx.Class.define("qx.locale.Date", {
       return hour24 ? "h" : "H";
     },
 
-    __getTimezone() {
+    /**
+     * 
+     * @param {String} locale locale to be used
+     * @param {String} value timezone from options
+     * @returns {String} timezone format
+     */
+    __getTimezoneFormat(locale, value) {
       let short = new Intl.DateTimeFormat(locale, {
         timeZoneName: "short"
       })
