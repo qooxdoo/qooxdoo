@@ -331,13 +331,14 @@ qx.Class.define("qx.locale.Date", {
         } else if (part.type === "literal") {
           lexem = value;
         } else if (part.type === "day") {
-          if (value.length === 1) {
-            lexem = "d";
-          } else if (value.length === 2) {
-            lexem = "dd";
-          }
+          lexem = "d".repeat(value.length);
         } else if (part.type === "weekday") {
-          if (value.length > 2) {
+          if (value === this.getDayName("abbreviated", 1, locale)){
+            lexem = "EEE";
+          } else if (value === this.getDayName("narrow", 1, locale)){
+            lexem = "E";
+          }
+          else if (value === this.getDayName("wide", 1, locale)){
             lexem = "EEEE";
           }
         }
@@ -382,14 +383,20 @@ qx.Class.define("qx.locale.Date", {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit"
-        }
+        },
+        Ed: { weekday: "short", day: "numeric" }
       };
       if (localeTable.hasOwnProperty(canonical)) {
         return this.__localizeDate(key, locale, localeTable[canonical]);
       }
 
-      if (canonical === "yQ") {
-        return this.__localizeQuarterAndYear(key, locale);
+      switch (canonical){
+        case "yQ":
+          return this.__localizeQuarterAndYear(key, locale);
+        case "M":
+          return "L";
+        case "MMM":
+          return "LLL";
       }
 
       //@TODO
@@ -401,10 +408,7 @@ qx.Class.define("qx.locale.Date", {
         yMMMd: "",
         yMd: "",
         MEd: "",
-        MMM: "",
         MMMEd: "",
-        Ed: "",
-        M: "L",
         yQQQ: "QQQ y"
       };
 
