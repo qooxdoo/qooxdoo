@@ -291,16 +291,24 @@ qx.Class.define("qx.locale.Date", {
       );
       var result = [];
 
+      var nonLiteralPartCount = parts.filter(part => part.type !== "literal").length;
+
       for (let part of parts) {
         let value = part.value;
         let lexem = "";
         if (part.type === "year") {
-          if (value.length === 4) {
-            lexem = "y";
-          } else if (value.length === 2) {
-            lexem = "yy";
-          }
+          lexem = "y".repeat(value.length);
         } else if (part.type === "month") {
+          if (!isNaN(parseInt(value))){
+            var letter = "M";
+            if (nonLiteralPartCount === 1){
+              letter = "L";
+            }
+            lexem = letter.repeat(value.length);
+            result.push(lexem);
+            continue;
+          }
+
           let monthShort = new Intl.DateTimeFormat(locale, {
             month: "short"
           }).format(new Date(2000, 1, 1));
@@ -313,19 +321,6 @@ qx.Class.define("qx.locale.Date", {
             }).format(new Date(2000, 1, 1));
             if (monthLong === value) {
               lexem = "MMMM";
-            } else {
-              let monthNarrow = new Intl.DateTimeFormat(locale, {
-                month: "narrow"
-              }).format(new Date(2000, 1, 1));
-              if (monthNarrow === value) {
-                lexem = "M";
-              } else {
-                if (value.length === 2) {
-                  lexem = "MM";
-                } else if (value.length === 1) {
-                  lexem = "M";
-                }
-              }
             }
           }
         } else if (part.type === "literal") {
@@ -384,7 +379,15 @@ qx.Class.define("qx.locale.Date", {
           minute: "2-digit",
           second: "2-digit"
         },
-        Ed: { weekday: "short", day: "numeric" }
+        Ed: { weekday: "short", day: "numeric" },
+        Md: { month: "numeric", day: "numeric" },
+        yM: { year: "numeric", month: "numeric"},
+        yMEd: { year: "numeric", month: "numeric", day: "numeric", weekday: "narrow" },
+        yMMMEd: { year: "numeric", month: "short", day: "numeric", weekday: "narrow" },
+        yMMMd: { year: "numeric", month: "short", day: "numeric" },
+        yMd: { year: "numeric", month: "numeric", day: "numeric" },
+        MEd: { month: "numeric", day: "numeric", weekday: "narrow" },
+        MMMEd: { month: "short", day: "numeric", weekday: "narrow" }
       };
       if (localeTable.hasOwnProperty(canonical)) {
         return this.__localizeDate(key, locale, localeTable[canonical]);
@@ -401,14 +404,6 @@ qx.Class.define("qx.locale.Date", {
 
       //@TODO
       var table = {
-        Md: "",
-        yM: "",
-        yMEd: "",
-        yMMMEd: "",
-        yMMMd: "",
-        yMd: "",
-        MEd: "",
-        MMMEd: "",
         yQQQ: "QQQ y"
       };
 
