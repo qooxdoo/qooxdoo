@@ -57,7 +57,7 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize day period/marker of a month
-     * 
+     *
      * @param {String} id LocalizedString Id
      * @param {Integer} month index of the month. 0=january, 1=february, ...
      * @param {String} locale optional locale to be used
@@ -96,42 +96,30 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized day names starting with sunday.
      */
     getDayNames(length, locale, context, withFallback) {
-      locale = this.__transformLocale(locale);
-      var context = context ? context : "format";
+      context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      var weekFormat;
-      if (length === "abbreviated") {
-        weekFormat = "short";
-      } else if (length === "narrow") {
-        weekFormat = "narrow";
-      } else if (length === "wide") {
-        weekFormat = "long";
-      }
-
-      var options = { weekday: weekFormat };
-      if (context === "format") {
-        options.day = "numeric";
-      }
-
-      var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-      return days.map((day, index) =>
-        this.__getWeekdayFromDay(
-          index,
-          "cldr_day_" + context + "_" + length + "_" + day,
+      let days = [];
+      for (let i = 0; i < 7; i++) {
+        const localizedDay = this.getDayName(
+          length,
+          i,
           locale,
-          options
-        )
-      );
+          context,
+          withFallback
+        );
+        days.push(localizedDay);
+      }
+      return days;
     },
 
     /**
      * Returns weekday for day of month
-     * 
+     *
      * @param {Integer} day day of month
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
@@ -160,7 +148,7 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} localized day name
      */
     getDayName(length, day, locale, context, withFallback) {
-      var context = context ? context : "format";
+      context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
@@ -169,9 +157,26 @@ qx.Class.define("qx.locale.Date", {
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      return qx.locale.Date.getDayNames(length, locale, context, withFallback)[
-        day
-      ];
+      let weekFormat = "short";
+      if (length === "narrow") {
+        weekFormat = "narrow";
+      } else if (length === "wide") {
+        weekFormat = "long";
+      }
+
+      const options = { weekday: weekFormat };
+      if (context === "format") {
+        options.day = "numeric";
+      }
+
+      locale = this.__transformLocale(locale);
+      const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+      return this.__getWeekdayFromDay(
+        day,
+        "cldr_day_" + context + "_" + length + "_" + days[day],
+        locale,
+        options
+      );
     },
 
     /**
@@ -187,33 +192,22 @@ qx.Class.define("qx.locale.Date", {
      * @return {String[]} array of localized month names starting with january.
      */
     getMonthNames(length, locale, context, withFallback) {
-      var context = context ? context : "format";
+      context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      locale = this.__transformLocale(locale);
-
-      var monthFormat;
-      if (length === "abbreviated") {
-        monthFormat = "short";
-      } else if (length === "narrow") {
-        monthFormat = "narrow";
-      } else if (length === "wide") {
-        monthFormat = "long";
-      }
-
-      var options = { month: monthFormat };
-      if (context === "format") {
-        options.day = "numeric";
-      }
-
-      var months = [];
-      for (var i = 0; i < 12; i++) {
-        var id = "cldr_month_" + context + "_" + length + "_" + (i + 1);
-        var localizedMonth = this.__localizeMonth(i, id, locale, options);
+      const months = [];
+      for (let i = 0; i < 12; i++) {
+        const localizedMonth = this.getMonthName(
+          length,
+          i,
+          locale,
+          context,
+          withFallback
+        );
         months.push(localizedMonth);
       }
       return months;
@@ -221,7 +215,7 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize month
-     * 
+     *
      * @param {Integer} month index of the month. 0=january, 1=february, ...
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
@@ -229,10 +223,10 @@ qx.Class.define("qx.locale.Date", {
      * @returns {qx.locale.LocalizedString} localized string
      */
     __localizeMonth(month, id, locale, options) {
-      var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(2000, month, 1)
       );
-      var value = parts.find(part => part.type === "month")?.value;
+      const value = parts.find(part => part.type === "month")?.value;
       return new qx.locale.LocalizedString(value, id, [], true);
     },
 
@@ -250,14 +244,27 @@ qx.Class.define("qx.locale.Date", {
      * @return {String} localized month name
      */
     getMonthName(length, month, locale, context, withFallback) {
-      var context = context ? context : "format";
+      context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      return this.getMonthNames(length, locale, context, withFallback)[month];
+      let monthLength = "short";
+      if (length === "narrow") {
+        monthLength = "narrow";
+      } else if (length === "wide") {
+        monthLength = "long";
+      }
+
+      const options = { month: monthLength };
+      if (context === "format") {
+        options.day = "numeric";
+      }
+      locale = this.__transformLocale(locale);
+      const id = "cldr_month_" + context + "_" + length + "_" + (month + 1);
+      return this.__localizeMonth(month, id, locale, options);
     },
 
     /**
@@ -279,7 +286,7 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize date via Intl API
-     * 
+     *
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
      * @param {object} options date/time Intl API options
@@ -289,51 +296,50 @@ qx.Class.define("qx.locale.Date", {
       const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(2000, 1, 1)
       );
-      var result = [];
-
-      var nonLiteralPartCount = parts.filter(part => part.type !== "literal").length;
+      const nonLiteralPartCount = parts.filter(
+        part => part.type !== "literal"
+      ).length;
+      const result = [];
 
       for (let part of parts) {
         let value = part.value;
+        let type = part.type;
+        let length = value.length;
         let lexem = "";
+
         if (part.type === "year") {
-          lexem = "y".repeat(value.length);
-        } else if (part.type === "month") {
-          if (!isNaN(parseInt(value))){
-            var letter = "M";
-            if (nonLiteralPartCount === 1){
-              letter = "L";
-            }
-            lexem = letter.repeat(value.length);
-            result.push(lexem);
-            continue;
-          }
-
-          let monthShort = new Intl.DateTimeFormat(locale, {
-            month: "short"
-          }).format(new Date(2000, 1, 1));
-
-          if (monthShort === value) {
-            lexem = "MMM";
+          lexem = "y".repeat(length);
+        } else if (type === "month") {
+          if (!isNaN(parseInt(value))) {
+            let letter = nonLiteralPartCount === 1 ? "L" : "M";
+            lexem = letter.repeat(length);
           } else {
-            let monthLong = new Intl.DateTimeFormat(locale, {
-              month: "long"
-            }).format(new Date(2000, 1, 1));
-            if (monthLong === value) {
-              lexem = "MMMM";
+            let monthShort = this.getMonthName(
+              "abbreviated",
+              1,
+              locale
+            ).toString();
+            if (monthShort === value) {
+              lexem = "MMM";
+            } else {
+              let monthLong = this.getMonthName("wide", 1, locale).toString();
+              if (monthLong === value) {
+                lexem = "MMMM";
+              }
             }
           }
-        } else if (part.type === "literal") {
+        } else if (type === "literal") {
           lexem = value;
-        } else if (part.type === "day") {
+        } else if (type === "day") {
           lexem = "d".repeat(value.length);
-        } else if (part.type === "weekday") {
-          if (value === this.getDayName("abbreviated", 1, locale)){
+        } else if (type === "weekday") {
+          if (value === this.getDayName("abbreviated", 1, locale).toString()) {
             lexem = "EEE";
-          } else if (value === this.getDayName("narrow", 1, locale)){
+          } else if (
+            value === this.getDayName("narrow", 1, locale).toString()
+          ) {
             lexem = "E";
-          }
-          else if (value === this.getDayName("wide", 1, locale)){
+          } else if (value === this.getDayName("wide", 1, locale).toString()) {
             lexem = "EEEE";
           }
         }
@@ -381,9 +387,19 @@ qx.Class.define("qx.locale.Date", {
         },
         Ed: { weekday: "short", day: "numeric" },
         Md: { month: "numeric", day: "numeric" },
-        yM: { year: "numeric", month: "numeric"},
-        yMEd: { year: "numeric", month: "numeric", day: "numeric", weekday: "narrow" },
-        yMMMEd: { year: "numeric", month: "short", day: "numeric", weekday: "narrow" },
+        yM: { year: "numeric", month: "numeric" },
+        yMEd: {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          weekday: "narrow"
+        },
+        yMMMEd: {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          weekday: "narrow"
+        },
         yMMMd: { year: "numeric", month: "short", day: "numeric" },
         yMd: { year: "numeric", month: "numeric", day: "numeric" },
         MEd: { month: "numeric", day: "numeric", weekday: "narrow" },
@@ -393,7 +409,7 @@ qx.Class.define("qx.locale.Date", {
         return this.__localizeDate(key, locale, localeTable[canonical]);
       }
 
-      switch (canonical){
+      switch (canonical) {
         case "yQ":
           return this.__localizeQuarterAndYear(key, locale);
         case "M":
@@ -402,10 +418,91 @@ qx.Class.define("qx.locale.Date", {
           return "LLL";
       }
 
-      //@TODO
-      var table = {
-        yQQQ: "QQQ y"
-      };
+      if (canonical === yQQQ) {
+        switch (canonical) {
+          case "az":
+          case "bs-Cyrl":
+          case "dz":
+          case "ckb":
+          case "ii":
+          case "kok":
+          case "lt":
+          case "gu":
+          case "haw":
+          case "ml":
+          case "mni":
+          case "my":
+          case "ne":
+          case "ps":
+          case "qu":
+          case "rw":
+          case "sah":
+          case "sd":
+          case "se":
+          case "seh":
+          case "si":
+          case "sw":
+          case "tk":
+          case "to":
+          case "tr":
+          case "ug":
+          case "xh":
+          case "yi":
+            return "y QQQ";
+          case "ja":
+            return "y/QQQ";
+          case "ka":
+          case "kgp":
+          case "sq":
+            return "QQQ, y";
+          case "kk":
+            return "y 'ж'. QQQ";
+          case "ko":
+            return "y년 QQQ";
+          case "ky":
+            return "y-'ж'., QQQ";
+          case "lv":
+            return "y. 'g'. QQQ";
+          case "mk":
+          case "ru":
+          case "bg":
+            return "QQQ y 'г'.";
+          case "mn":
+            return "y 'оны' QQQ";
+          case "mt":
+            return "QQQ - y";
+          case "pt-PT":
+            return "QQQQ 'de' y";
+          case "pt":
+            return "QQQ 'de' y";
+          case "sr-Latn":
+          case "sr":
+          case "bs":
+          case "hr":
+            return "QQQ y.";
+          case "tt":
+            return "y 'ел', QQQ";
+          case "uz-Cyrl":
+          case "uz":
+            return "y, QQQ";
+          case "yue-Hans":
+          case "yue":
+          case "zh-Hant":
+            return "y年QQQ";
+          case "zh":
+            return "y年第Q季度";
+          case "eu":
+            return "y('e')'ko' QQQ";
+          case "fo":
+            return "QQQ 'í' y";
+          case "hu":
+            return "y. QQQ";
+          case "hy":
+            return "y թ. QQQ";
+          default:
+            return "QQQ y";
+        }
+      }
 
       var localizedFormat = this.__mgr.localize(key, [], locale);
 
@@ -418,13 +515,13 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize yQ format
-     * 
+     *
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
      * @returns {qx.locale.LocalizedString} localized yQ format
      */
     __localizeQuarterAndYear(id, locale) {
-      var result = "yQ";
+      const result = "yQ";
       if (locale === "cy" || locale === "cy-GB") {
         return "Q y";
       }
@@ -452,7 +549,7 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize time via Intl API
-     * 
+     *
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
      * @param {object} options date/time Intl API options
@@ -498,7 +595,7 @@ qx.Class.define("qx.locale.Date", {
     /**
      * Detects what hour format and returns small h if
      * 24 hour format and big H if 12 hour format
-     * 
+     *
      * @param {String} locale locale to be used
      * @param {object} options date/time Intl API options
      * @returns {String} h or H
@@ -512,7 +609,7 @@ qx.Class.define("qx.locale.Date", {
     },
 
     /**
-     * 
+     *
      * @param {String} locale locale to be used
      * @param {String} value timezone from options
      * @returns {String} timezone format
@@ -582,10 +679,9 @@ qx.Class.define("qx.locale.Date", {
       return info.weekend.includes(day !== 0 ? day : 7);
     },
 
-
     /**
      * Transforms an input locale into locale supported by Intl API
-     * 
+     *
      * @param locale {String} optional locale to be used
      * @returns {String} transformed locale
      */
