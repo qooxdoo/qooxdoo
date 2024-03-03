@@ -418,7 +418,7 @@ qx.Class.define("qx.locale.Date", {
           return "LLL";
       }
 
-      if (canonical === yQQQ) {
+      if (canonical === "yQQQ") {
         switch (canonical) {
           case "az":
           case "bs-Cyrl":
