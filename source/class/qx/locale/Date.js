@@ -339,13 +339,13 @@ qx.Class.define("qx.locale.Date", {
         } else if (type === "day") {
           lexem = "d";
         } else if (type === "weekday") {
-          if (value === this.getDayName("abbreviated", 1, locale).toString()) {
+          if (value === this.getDayName("abbreviated", 2, locale).toString()) {
             lexem = "EEE";
           } else if (
-            value === this.getDayName("narrow", 1, locale).toString()
+            value === this.getDayName("narrow", 2, locale).toString()
           ) {
             lexem = "E";
-          } else if (value === this.getDayName("wide", 1, locale).toString()) {
+          } else if (value === this.getDayName("wide", 2, locale).toString()) {
             lexem = "EEEE";
           }
         }
@@ -426,10 +426,6 @@ qx.Class.define("qx.locale.Date", {
           return this.__localizeYQ(id, locale);
         case "yQQQ":
           return this.__localizeYQQQ(id, locale);
-        case "M":
-          return new qx.locale.LocalizedString("L", id, [], true);
-        case "MMM":
-          return new qx.locale.LocalizedString("LLL", id, [], true);
       }
 
       let localizedFormat = this.__mgr.localize(id, [], locale);
