@@ -56,7 +56,35 @@ qx.Class.define("qx.test.locale.Date", {
       });
     },
 
-    testDateTimeFormat_GermanLocale(){
+    testGetDateFormat_GermanLocale(){
+      var items = [
+        { size: "short", expected: "dd.MM.yy" },
+        { size: "medium", expected: "dd.MM.y" },
+        { size: "long", expected: "d. MMMM y" },
+        { size: "full", expected: "EEEE, d. MMMM y" }
+      ];
+
+      items.forEach(item => {
+        var result = Date.getDateFormat(item.size, "de_DE");
+        this.assertEquals(item.expected, result);
+      });
+    },
+
+    testGetTimeFormat_GermanLocale(){
+      var items = [
+        { size: "short", expected: "hh:mm" },
+        { size: "medium", expected: "hh:mm:ss" },
+        { size: "long", expected: "hh:mm:ss z" },
+        { size: "full", expected: "hh:mm:ss zzzz" }
+      ];
+
+      items.forEach(item => {
+        var result = Date.getTimeFormat(item.size, "de_DE");
+        this.assertEquals(item.expected, result);
+      });
+    },
+
+    testGetDateTimeFormat_GermanLocale(){
       var casesTable = {
         d: "d",
         y: "y",
