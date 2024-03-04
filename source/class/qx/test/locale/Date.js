@@ -93,7 +93,7 @@ qx.Class.define("qx.test.locale.Date", {
         MMM: "LLL",
         MMMd: "d. MMM",
         yMMM: "MMM y",
-        hm: "h:mm a",
+        hm: "H:mm a",
         Hm: "HH:mm",
         ms: "mm:ss",
         hms: "h:mm:ss a",

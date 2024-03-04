@@ -318,16 +318,16 @@ qx.Class.define("qx.locale.Date", {
         } else if (type === "month") {
           let letter = nonLiteralPartCount === 1 ? "L" : "M";
           let context = (nonLiteralPartCount === 1) ? "stand-alone" : "format";
-          if (!isNaN(parseInt(value))) {
-            lexem = letter.repeat(length);
+          let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
+          if (monthShort === value) {
+            lexem = letter.repeat(3);
           } else {
-            let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
-            if (monthShort === value) {
-              lexem = letter.repeat(3);
+            let monthLong = this.getMonthName("wide", 1, locale, context).toString();
+            if (monthLong === value) {
+              lexem = letter.repeat(4);
             } else {
-              let monthLong = this.getMonthName("wide", 1, locale, context).toString();
-              if (monthLong === value) {
-                lexem = letter.repeat(4);
+              if (!isNaN(parseInt(value))) {
+                lexem = letter.repeat(length);
               }
             }
           }
