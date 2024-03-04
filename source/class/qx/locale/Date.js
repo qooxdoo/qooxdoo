@@ -411,15 +411,13 @@ qx.Class.define("qx.locale.Date", {
 
       switch (canonical) {
         case "yQ":
-          return this.__localizeQuarterAndYear(id, locale);
+          return this.__localizeYQ(id, locale);
+        case "yQQQ":
+          return this.__localizeYQQQ(id, locale);
         case "M":
           return new qx.locale.LocalizedString("L", id, [], true);
         case "MMM":
           return new qx.locale.LocalizedString("LLL", id, [], true);
-      }
-
-      if (canonical === "yQQQ"){
-        return this.__localizeLongQuarterAndYear(id, locale);
       }
 
       let localizedFormat = this.__mgr.localize(id, [], locale);
@@ -438,7 +436,7 @@ qx.Class.define("qx.locale.Date", {
      * @param {String} locale locale to be used
      * @returns {qx.locale.LocalizedString} localized yQ format
      */
-    __localizeQuarterAndYear(id, locale) {
+    __localizeYQ(id, locale) {
       const result = "yQ";
       if (locale === "cy" || locale === "cy-GB") {
         return "Q y";
@@ -446,13 +444,20 @@ qx.Class.define("qx.locale.Date", {
       return new qx.locale.LocalizedString(result, id, [], true);
     },
 
-    __localizeLongQuarterAndYear(id, canonical){
+    /**
+     * Localize yQQQ format
+     * 
+     * @param {String} id LocalizedString id
+     * @param {String} locale locale to be used
+     * @returns {qx.locale.LocalizedString}
+     */
+    __localizeYQQQ(id, locale){
       const mostCase = ["az", "bs-Cyrl", "dz", "ckb", "ii", "kok", "lt", "gu", "haw", "ml", "mni", "my", "ne", "ps", "qu", "rw", "sah", "sd", "se", "seh", "si", "sw", "tk", "to", "tr", "ug", "xh","yi"];
       let result = "QQQ y";
-      if (mostCase.includes(canonical)){
+      if (mostCase.includes(locale)){
         result = "y QQQ";
       }
-      switch (canonical) {
+      switch (locale) {
         case "ja":
           result = "y/QQQ";
           break;
