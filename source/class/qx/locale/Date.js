@@ -348,13 +348,13 @@ qx.Class.define("qx.locale.Date", {
           lexem = "d";
         } else if (type === "weekday") {
           if (value === this.getDayName("abbreviated", 2, locale).toString()) {
-            lexem = "EEE";
+            lexem = "E";
           } else if (
             value === this.getDayName("narrow", 2, locale).toString()
           ) {
-            lexem = "E";
+            lexem = "EEE";
           } else if (value === this.getDayName("wide", 2, locale).toString()) {
-            lexem = "EEEE";
+            lexem = "EE";
           }
         }
         result.push(lexem);
@@ -499,6 +499,7 @@ qx.Class.define("qx.locale.Date", {
         "xh",
         "yi"
       ];
+
       let result = "QQQ y";
       if (mostCase.includes(locale)) {
         result = "y QQQ";
