@@ -317,17 +317,18 @@ qx.Class.define("qx.locale.Date", {
           }
         } else if (type === "month") {
           let letter = nonLiteralPartCount === 1 ? "L" : "M";
-          let context = (nonLiteralPartCount === 1) ? "stand-alone" : "format";
-          let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
-          if (monthShort === value) {
-            lexem = letter.repeat(3);
+          const parsedValue = parseInt(value);
+          if (!isNaN(parsedValue) && String(parsedValue) === value) {
+            lexem = letter.repeat(length);
           } else {
-            let monthLong = this.getMonthName("wide", 1, locale, context).toString();
-            if (monthLong === value) {
-              lexem = letter.repeat(4);
+            let context = (nonLiteralPartCount === 1) ? "stand-alone" : "format";
+            let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
+            if (monthShort === value) {
+              lexem = letter.repeat(3);
             } else {
-              if (!isNaN(parseInt(value))) {
-                lexem = letter.repeat(length);
+              let monthLong = this.getMonthName("wide", 1, locale, context).toString();
+              if (monthLong === value) {
+                lexem = letter.repeat(4);
               }
             }
           }
