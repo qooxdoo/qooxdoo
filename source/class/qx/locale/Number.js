@@ -15,6 +15,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Dmitrii Zolotov (goldim)
 
 ************************************************************************ */
 
@@ -72,29 +73,31 @@ qx.Class.define("qx.locale.Number", {
     getPercentFormat(locale) {
       locale = this.__transformLocale(locale);
 
-      var n = 0.00001;
-
-      var option = {
+      const option = {
         style: 'percent',
         minimumFractionDigits: 3,
         maximumFractionDigits: 3
       };
 
-      var formatter = new Intl.NumberFormat(locale, option);
-      var parts = formatter.formatToParts(n);
+      const formatter = new Intl.NumberFormat(locale, option);
+      const n = 0.00001;
+      const parts = formatter.formatToParts(n);
 
-      var result = [];
+      const result = [];
 
-      for (var part of parts){
-        var t = part.type;
-        var value = part.value;
+      for (let part of parts){
+        const t = part.type;
+        const value = part.value;
+        let lexem;
         if (t === "decimal" || t === "percentSign" || t === "literal"){
-          result.push(value);
+          lexem = value;
         } else if (t === "integer"){
-          result.push("#".repeat(value.length));
+          lexem = "#".repeat(value.length);
         } else if (t === "fraction"){
-          result.push("#".repeat(value.length - 1));
-          result.push("0");
+          lexem = "#".repeat(value.length - 1) + "0";
+        }
+        if (lexem !== undefined){
+          result.push(lexem);
         }
       }
 
@@ -106,6 +109,12 @@ qx.Class.define("qx.locale.Number", {
       );
     },
 
+    /**
+     * Transforms an input locale into locale supported by Intl API
+     * 
+     * @param {String} locale locale to be used
+     * @returns {String} transformed locale
+     */
     __transformLocale(locale) {
       if (locale === "C") {
         return "en";

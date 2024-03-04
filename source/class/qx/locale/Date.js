@@ -127,10 +127,10 @@ qx.Class.define("qx.locale.Date", {
      * @returns {qx.locale.LocalizedString} localized weekday
      */
     __getWeekdayFromDay(day, id, locale, options) {
-      var parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(Date.UTC(2021, 10, day))
       );
-      var value = parts.find(part => part.type === "weekday")?.value;
+      const value = parts.find(part => part.type === "weekday")?.value;
       return new qx.locale.LocalizedString(value, id, [], true);
     },
 
@@ -359,13 +359,13 @@ qx.Class.define("qx.locale.Date", {
      *       Examples are "yyyyMMMM" for year + full month, or "MMMd" for abbreviated month + day.
      * @param fallback {String} fallback format string if no localized version is found
      * @param locale {String} optional locale to be used
-     * @return {String} best matching format string
+     * @return {qx.locale.LocalizedString} best matching format string
      */
     getDateTimeFormat(canonical, fallback, locale) {
       locale = this.__transformLocale(locale);
 
-      var key = "cldr_date_time_format_" + canonical;
-      var localeTable = {
+      const id = "cldr_date_time_format_" + canonical;
+      const localeTable = {
         d: { day: "2-digit" },
         y: { year: "numeric" },
         M: { month: "narrow" },
@@ -406,107 +406,25 @@ qx.Class.define("qx.locale.Date", {
         MMMEd: { month: "short", day: "numeric", weekday: "narrow" }
       };
       if (localeTable.hasOwnProperty(canonical)) {
-        return this.__localizeDate(key, locale, localeTable[canonical]);
+        return this.__localizeDate(id, locale, localeTable[canonical]);
       }
 
       switch (canonical) {
         case "yQ":
-          return this.__localizeQuarterAndYear(key, locale);
+          return this.__localizeQuarterAndYear(id, locale);
         case "M":
-          return "L";
+          return new qx.locale.LocalizedString("L", id, [], true);
         case "MMM":
-          return "LLL";
+          return new qx.locale.LocalizedString("LLL", id, [], true);
       }
 
-      if (canonical === "yQQQ") {
-        switch (canonical) {
-          case "az":
-          case "bs-Cyrl":
-          case "dz":
-          case "ckb":
-          case "ii":
-          case "kok":
-          case "lt":
-          case "gu":
-          case "haw":
-          case "ml":
-          case "mni":
-          case "my":
-          case "ne":
-          case "ps":
-          case "qu":
-          case "rw":
-          case "sah":
-          case "sd":
-          case "se":
-          case "seh":
-          case "si":
-          case "sw":
-          case "tk":
-          case "to":
-          case "tr":
-          case "ug":
-          case "xh":
-          case "yi":
-            return "y QQQ";
-          case "ja":
-            return "y/QQQ";
-          case "ka":
-          case "kgp":
-          case "sq":
-            return "QQQ, y";
-          case "kk":
-            return "y 'ж'. QQQ";
-          case "ko":
-            return "y년 QQQ";
-          case "ky":
-            return "y-'ж'., QQQ";
-          case "lv":
-            return "y. 'g'. QQQ";
-          case "mk":
-          case "ru":
-          case "bg":
-            return "QQQ y 'г'.";
-          case "mn":
-            return "y 'оны' QQQ";
-          case "mt":
-            return "QQQ - y";
-          case "pt-PT":
-            return "QQQQ 'de' y";
-          case "pt":
-            return "QQQ 'de' y";
-          case "sr-Latn":
-          case "sr":
-          case "bs":
-          case "hr":
-            return "QQQ y.";
-          case "tt":
-            return "y 'ел', QQQ";
-          case "uz-Cyrl":
-          case "uz":
-            return "y, QQQ";
-          case "yue-Hans":
-          case "yue":
-          case "zh-Hant":
-            return "y年QQQ";
-          case "zh":
-            return "y年第Q季度";
-          case "eu":
-            return "y('e')'ko' QQQ";
-          case "fo":
-            return "QQQ 'í' y";
-          case "hu":
-            return "y. QQQ";
-          case "hy":
-            return "y թ. QQQ";
-          default:
-            return "QQQ y";
-        }
+      if (canonical === "yQQQ"){
+        return this.__localizeLongQuarterAndYear(id, locale);
       }
 
-      var localizedFormat = this.__mgr.localize(key, [], locale);
+      let localizedFormat = this.__mgr.localize(id, [], locale);
 
-      if (localizedFormat == key) {
+      if (localizedFormat == id) {
         localizedFormat = fallback;
       }
 
@@ -524,6 +442,87 @@ qx.Class.define("qx.locale.Date", {
       const result = "yQ";
       if (locale === "cy" || locale === "cy-GB") {
         return "Q y";
+      }
+      return new qx.locale.LocalizedString(result, id, [], true);
+    },
+
+    __localizeLongQuarterAndYear(id, canonical){
+      const mostCase = ["az", "bs-Cyrl", "dz", "ckb", "ii", "kok", "lt", "gu", "haw", "ml", "mni", "my", "ne", "ps", "qu", "rw", "sah", "sd", "se", "seh", "si", "sw", "tk", "to", "tr", "ug", "xh","yi"];
+      let result = "QQQ y";
+      if (mostCase.includes(canonical)){
+        result = "y QQQ";
+      }
+      switch (canonical) {
+        case "ja":
+          result = "y/QQQ";
+          break;
+        case "ka":
+        case "kgp":
+        case "sq":
+          result = "QQQ, y";
+          break;
+        case "kk":
+          result = "y 'ж'. QQQ";
+          break;
+        case "ko":
+          result = "y년 QQQ";
+          break;
+        case "ky":
+          result = "y-'ж'., QQQ";
+          break;
+        case "lv":
+          result = "y. 'g'. QQQ";
+          break;
+        case "mk":
+        case "ru":
+        case "bg":
+          result = "QQQ y 'г'.";
+          break;
+        case "mn":
+          result = "y 'оны' QQQ";
+          break;
+        case "mt":
+          result = "QQQ - y";
+          break;
+        case "pt-PT":
+          result = "QQQQ 'de' y";
+          break;
+        case "pt":
+          result = "QQQ 'de' y";
+          break;
+        case "sr-Latn":
+        case "sr":
+        case "bs":
+        case "hr":
+          result = "QQQ y.";
+          break;
+        case "tt":
+          result = "y 'ел', QQQ";
+          break;
+        case "uz-Cyrl":
+        case "uz":
+          result = "y, QQQ";
+          break;
+        case "yue-Hans":
+        case "yue":
+        case "zh-Hant":
+          result = "y年QQQ";
+          break;
+        case "zh":
+          result = "y年第Q季度";
+          break;
+        case "eu":
+          result = "y('e')'ko' QQQ";
+          break;
+        case "fo":
+          result = "QQQ 'í' y";
+          break;
+        case "hu":
+          result = "y. QQQ";
+          break;
+        case "hy":
+          result = "y թ. QQQ";
+          break;
       }
       return new qx.locale.LocalizedString(result, id, [], true);
     },
