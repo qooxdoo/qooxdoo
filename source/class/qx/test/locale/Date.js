@@ -13,6 +13,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Dmitrii Zolotov (goldim)
 
 ************************************************************************ */
 
