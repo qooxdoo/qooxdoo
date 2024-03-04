@@ -522,8 +522,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       var assetUris = application.getAssetUris(t, rm, appMeta.getEnvironment()); // Save any changes that getAssets collected
       await rm.saveDatabase();
 
-      let cldr = await analyser.getCldr("en");
-      await bootPackage.addLocale("C", cldr);
+      let localeOptions = await analyser.getLocale("en");
+      await bootPackage.addLocale("C", localeOptions);
       await this._writeTranslations();
 
       var assets = {};
@@ -785,7 +785,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         var combinedCldr = null;
 
         function accumulateCldr(localeId) {
-          return analyser.getCldr(localeId).then(cldr => {
+          return analyser.getLocale(localeId).then(cldr => {
             if (!combinedCldr) {
               combinedCldr = cldr;
             } else {
@@ -804,11 +804,11 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       }
 
       var promises = t.getLocales().map(async localeId => {
-        let cldr = await loadLocaleData(localeId);
+        let localeOptions = await loadLocaleData(localeId);
         let pkg = this.isI18nAsParts()
           ? appMeta.getLocalePackage(localeId)
           : bootPackage;
-        pkg.addLocale(localeId, cldr);
+        pkg.addLocale(localeId, localeOptions);
       });
 
       await qx.Promise.all(promises);

@@ -1205,7 +1205,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param locale {String} the locale string
      * @returns Promise({cldr})
      */
-    async getCldr(locale) {
+    async getLocale(locale) {
       var cldr = this.__cldrs[locale];
       if (cldr) {
         return cldr;
