@@ -636,8 +636,6 @@ qx.Class.define("qx.locale.Date", {
     /**
      * Return the day the week starts with
      *
-     * Reference: Common Locale Data Repository (cldr) supplementalData.xml
-     *
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
      */
@@ -650,8 +648,6 @@ qx.Class.define("qx.locale.Date", {
     /**
      * Return the day the weekend starts with
      *
-     * Reference: Common Locale Data Repository (cldr) supplementalData.xml
-     *
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
      */
@@ -663,8 +659,6 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Return the day the weekend ends with
-     *
-     * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
