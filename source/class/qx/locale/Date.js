@@ -316,21 +316,21 @@ qx.Class.define("qx.locale.Date", {
             lexem = "y".repeat(length);
           }
         } else if (type === "month") {
+          let letter = nonLiteralPartCount === 1 ? "L" : "M";
+          let context = (nonLiteralPartCount) ? "stand-alone" : "format";
+          console.log(isNaN(parseInt(value)));
           if (!isNaN(parseInt(value))) {
-            let letter = nonLiteralPartCount === 1 ? "L" : "M";
             lexem = letter.repeat(length);
           } else {
-            let monthShort = this.getMonthName(
-              "abbreviated",
-              1,
-              locale
-            ).toString();
+            let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
+            console.log(monthShort, value);
             if (monthShort === value) {
-              lexem = "MMM";
+              lexem = letter.repeat(3);
             } else {
-              let monthLong = this.getMonthName("wide", 1, locale).toString();
+              let monthLong = this.getMonthName("wide", 1, locale, context).toString();
+              console.log(monthLong, value);
               if (monthLong === value) {
-                lexem = "MMMM";
+                lexem = letter.repeat(4);
               }
             }
           }
@@ -374,7 +374,8 @@ qx.Class.define("qx.locale.Date", {
       const dateLocaleTable = {
         d: { day: "2-digit" },
         y: { year: "numeric" },
-        M: { month: "narrow" },
+        M: { month: "numeric" },
+        MMM: { month: "short"},
         MMMd: { day: "numeric", month: "short" },
         yMMM: { year: "numeric", month: "short" },
         Ed: { weekday: "short", day: "numeric" },
