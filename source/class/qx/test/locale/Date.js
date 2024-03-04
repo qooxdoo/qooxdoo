@@ -124,7 +124,7 @@ qx.Class.define("qx.test.locale.Date", {
       var casesTable = {
         d: "d日",
         y: "y年",
-        M: "L",
+        M: "L月",
         MMM: "LLL",
         MMMd: "M月d日",
         yMMM: "y年M月",
