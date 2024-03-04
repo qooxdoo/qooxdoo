@@ -59,8 +59,8 @@ qx.Class.define("qx.test.locale.Date", {
 
     testGetDateFormat_GermanLocale(){
       var items = [
-        { size: "short", expected: "dd.MM.yy" },
-        { size: "medium", expected: "dd.MM.y" },
+        { size: "short", expected: "d.MM.yy" },
+        { size: "medium", expected: "d.MM.y" },
         { size: "long", expected: "d. MMMM y" },
         { size: "full", expected: "EEEE, d. MMMM y" }
       ];
@@ -122,12 +122,12 @@ qx.Class.define("qx.test.locale.Date", {
 
     testGetDateTimeFormat_ChineseLocale(){
       var casesTable = {
-        d: "dd日",
-        y: "yyyy年",
+        d: "d日",
+        y: "y年",
         M: "L",
         MMM: "LLL",
         MMMd: "M月d日",
-        yMMM: "yyyy年M月",
+        yMMM: "y年M月",
         hm: "aH:mm",
         Hm: "hh:mm",
         ms: "mm:ss",
@@ -135,11 +135,11 @@ qx.Class.define("qx.test.locale.Date", {
         Hms: "hh:mm:ss",
         Ed: "d日",
         Md: "M/d",
-        yM: "yyyy年M月",
-        yMEd: "yyyy/M/d",
-        yMMMEd: "yyyy年M月d日",
-        yMMMd: "yyyy年M月d日",
-        yMd: "yyyy/M/d",
+        yM: "y年M月",
+        yMEd: "y/M/d",
+        yMMMEd: "y年M月d日",
+        yMMMd: "y年M月d日",
+        yMd: "y/M/d",
         MEd: "M/d",
         MMMEd: "M月d日",
         yQ: "yQ",

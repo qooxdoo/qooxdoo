@@ -308,7 +308,13 @@ qx.Class.define("qx.locale.Date", {
         let lexem = "";
 
         if (part.type === "year") {
-          lexem = "y".repeat(length);
+          if (length === 4){
+            lexem = "y";
+          } else if (length === 2){
+            lexem = "yy";
+          } else {
+            lexem = "y".repeat(length);
+          }
         } else if (type === "month") {
           if (!isNaN(parseInt(value))) {
             let letter = nonLiteralPartCount === 1 ? "L" : "M";
@@ -331,7 +337,7 @@ qx.Class.define("qx.locale.Date", {
         } else if (type === "literal") {
           lexem = value;
         } else if (type === "day") {
-          lexem = "d".repeat(value.length);
+          lexem = "d";
         } else if (type === "weekday") {
           if (value === this.getDayName("abbreviated", 1, locale).toString()) {
             lexem = "EEE";
