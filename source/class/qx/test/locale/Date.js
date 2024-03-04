@@ -56,6 +56,40 @@ qx.Class.define("qx.test.locale.Date", {
       });
     },
 
+    testDateTimeFormat_GermanLocale(){
+      var casesTable = {
+        d: "d",
+        y: "y",
+        M: "L",
+        MMM: "LLL",
+        MMMd: "d. MMM",
+        yMMM: "MMM y",
+        hm: "h:mm a",
+        Hm: "HH:mm",
+        ms: "mm:ss",
+        hms: "h:mm:ss a",
+        Hms: "HH:mm:ss",
+        Ed: "E, d.",
+        Md: "d.M.",
+        yM: "M/y",
+        yMEd: "E, d.M.y",
+        yMMMEd: "E, d. MMM y",
+        yMMMd: "d. MMM y",
+        yMd: "d.M.y",
+        MEd: "E, d.M.",
+        MMMEd: "E, d. MMM",
+        yQ: "yQ",
+        yQQQ: "QQQ y"
+      };
+
+      for (var canonical in casesTable){
+        var result = qx.locale.Date.getDateTimeFormat(canonical, "", useLocale);
+
+        var expected = casesTable[canonical];
+        this.assertEquals(expected, result);
+      }
+    },
+
     testDayNames() {
       var Date = qx.locale.Date;
       var useLocale = "C";
