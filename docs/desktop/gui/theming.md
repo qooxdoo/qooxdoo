@@ -362,7 +362,7 @@ option, or adding a `fonts` object block in `compile.json`:
       "type": "source",
       "fonts": {
         "local": true,
-        "fontTypes" ["ttf"]
+        "fontTypes": ["ttf"]
       }
 ```
 
