@@ -365,26 +365,12 @@ qx.Class.define("qx.locale.Date", {
       locale = this.__transformLocale(locale);
 
       const id = "cldr_date_time_format_" + canonical;
-      const localeTable = {
+      const dateLocaleTable = {
         d: { day: "2-digit" },
         y: { year: "numeric" },
         M: { month: "narrow" },
         MMMd: { day: "numeric", month: "short" },
         yMMM: { year: "numeric", month: "short" },
-        hm: { hour: "numeric", minute: "numeric", hour12: true },
-        Hm: { hour: "2-digit", minute: "2-digit" },
-        ms: { minute: "2-digit", second: "2-digit" },
-        hms: {
-          hour: "numeric",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: true
-        },
-        Hms: {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        },
         Ed: { weekday: "short", day: "numeric" },
         Md: { month: "numeric", day: "numeric" },
         yM: { year: "numeric", month: "numeric" },
@@ -405,8 +391,28 @@ qx.Class.define("qx.locale.Date", {
         MEd: { month: "numeric", day: "numeric", weekday: "narrow" },
         MMMEd: { month: "short", day: "numeric", weekday: "narrow" }
       };
-      if (localeTable.hasOwnProperty(canonical)) {
-        return this.__localizeDate(id, locale, localeTable[canonical]);
+
+      const timeLocaleTable = {
+        hm: { hour: "numeric", minute: "numeric", hour12: true },
+        Hm: { hour: "2-digit", minute: "2-digit" },
+        ms: { minute: "2-digit", second: "2-digit" },
+        hms: {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        },
+        Hms: {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      }
+      if (dateLocaleTable.hasOwnProperty(canonical)) {
+        return this.__localizeDate(id, locale, dateLocaleTable[canonical]);
+      }
+      if (timeLocaleTable.hasOwnProperty(canonical)) {
+        return this.__localizeTime(id, locale, timeLocaleTable[canonical]);
       }
 
       switch (canonical) {

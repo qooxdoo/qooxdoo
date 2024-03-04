@@ -66,7 +66,7 @@ qx.Class.define("qx.test.locale.Date", {
       ];
 
       items.forEach(item => {
-        var result = Date.getDateFormat(item.size, "de_DE");
+        var result = qx.locale.Date.getDateFormat(item.size, "de_DE");
         this.assertEquals(item.expected, result);
       });
     },
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.locale.Date", {
       ];
 
       items.forEach(item => {
-        var result = Date.getTimeFormat(item.size, "de_DE");
+        var result = qx.locale.Date.getTimeFormat(item.size, "de_DE");
         this.assertEquals(item.expected, result);
       });
     },
@@ -111,8 +111,9 @@ qx.Class.define("qx.test.locale.Date", {
         yQQQ: "QQQ y"
       };
 
+      var useLocale = "de_DE";
       for (var canonical in casesTable){
-        var result = qx.locale.Date.getDateTimeFormat(canonical, "", "de_DE");
+        var result = qx.locale.Date.getDateTimeFormat(canonical, "", useLocale);
 
         var expected = casesTable[canonical];
         this.assertEquals(expected, result);
@@ -121,29 +122,30 @@ qx.Class.define("qx.test.locale.Date", {
 
     testGetDateTimeFormat_ChineseLocale(){
       var casesTable = {
-        d: "d",
-        y: "y",
+        d: "dd日",
+        y: "yyyy年",
         M: "L",
         MMM: "LLL",
-        MMMd: "d. MMM",
-        yMMM: "MMM y",
-        hm: "h:mm a",
-        Hm: "HH:mm",
+        MMMd: "M月d日",
+        yMMM: "yyyy年M月",
+        hm: "aH:mm",
+        Hm: "hh:mm",
         ms: "mm:ss",
-        hms: "h:mm:ss a",
-        Hms: "HH:mm:ss",
-        Ed: "E, d.",
-        Md: "d.M.",
-        yM: "M/y",
-        yMEd: "E, d.M.y",
-        yMMMEd: "E, d. MMM y",
-        yMMMd: "d. MMM y",
-        yMd: "d.M.y",
-        MEd: "E, d.M.",
-        MMMEd: "E, d. MMM",
+        hms: "aH:mm:ss",
+        Hms: "hh:mm:ss",
+        Ed: "d日",
+        Md: "M/d",
+        yM: "yyyy年M月",
+        yMEd: "yyyy/M/d",
+        yMMMEd: "yyyy年M月d日",
+        yMMMd: "yyyy年M月d日",
+        yMd: "yyyy/M/d",
+        MEd: "M/d",
+        MMMEd: "M月d日",
         yQ: "yQ",
-        yQQQ: "QQQ y"
+        yQQQ: "y年第Q季度"
       };
+      var useLocale = "zh";
 
       for (var canonical in casesTable){
         var result = qx.locale.Date.getDateTimeFormat(canonical, "", useLocale);
