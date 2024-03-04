@@ -308,9 +308,9 @@ qx.Class.define("qx.locale.Date", {
         let lexem = "";
 
         if (part.type === "year") {
-          if (length === 4){
+          if (length === 4) {
             lexem = "y";
-          } else if (length === 2){
+          } else if (length === 2) {
             lexem = "yy";
           } else {
             lexem = "y".repeat(length);
@@ -318,15 +318,25 @@ qx.Class.define("qx.locale.Date", {
         } else if (type === "month") {
           let letter = nonLiteralPartCount === 1 ? "L" : "M";
           const parsedValue = parseInt(value);
-          if (!isNaN(parsedValue) && String(parsedValue) === value) {
+          if (!isNaN(parsedValue)) {
             lexem = letter.repeat(length);
           } else {
-            let context = (nonLiteralPartCount === 1) ? "stand-alone" : "format";
-            let monthShort = this.getMonthName("abbreviated", 1, locale, context).toString();
+            let context = nonLiteralPartCount === 1 ? "stand-alone" : "format";
+            let monthShort = this.getMonthName(
+              "abbreviated",
+              1,
+              locale,
+              context
+            ).toString();
             if (monthShort === value) {
               lexem = letter.repeat(3);
             } else {
-              let monthLong = this.getMonthName("wide", 1, locale, context).toString();
+              let monthLong = this.getMonthName(
+                "wide",
+                1,
+                locale,
+                context
+              ).toString();
               if (monthLong === value) {
                 lexem = letter.repeat(4);
               }
@@ -373,7 +383,7 @@ qx.Class.define("qx.locale.Date", {
         d: { day: "2-digit" },
         y: { year: "numeric" },
         M: { month: "numeric" },
-        MMM: { month: "short"},
+        MMM: { month: "short" },
         MMMd: { day: "numeric", month: "short" },
         yMMM: { year: "numeric", month: "short" },
         Ed: { weekday: "short", day: "numeric" },
@@ -412,7 +422,7 @@ qx.Class.define("qx.locale.Date", {
           minute: "2-digit",
           second: "2-digit"
         }
-      }
+      };
       if (dateLocaleTable.hasOwnProperty(canonical)) {
         return this.__localizeDate(id, locale, dateLocaleTable[canonical]);
       }
@@ -453,15 +463,44 @@ qx.Class.define("qx.locale.Date", {
 
     /**
      * Localize yQQQ format
-     * 
+     *
      * @param {String} id LocalizedString id
      * @param {String} locale locale to be used
      * @returns {qx.locale.LocalizedString}
      */
-    __localizeYQQQ(id, locale){
-      const mostCase = ["az", "bs-Cyrl", "dz", "ckb", "ii", "kok", "lt", "gu", "haw", "ml", "mni", "my", "ne", "ps", "qu", "rw", "sah", "sd", "se", "seh", "si", "sw", "tk", "to", "tr", "ug", "xh","yi"];
+    __localizeYQQQ(id, locale) {
+      const mostCase = [
+        "az",
+        "bs-Cyrl",
+        "dz",
+        "ckb",
+        "ii",
+        "kok",
+        "lt",
+        "gu",
+        "haw",
+        "ml",
+        "mni",
+        "my",
+        "ne",
+        "ps",
+        "qu",
+        "rw",
+        "sah",
+        "sd",
+        "se",
+        "seh",
+        "si",
+        "sw",
+        "tk",
+        "to",
+        "tr",
+        "ug",
+        "xh",
+        "yi"
+      ];
       let result = "QQQ y";
-      if (mostCase.includes(locale)){
+      if (mostCase.includes(locale)) {
         result = "y QQQ";
       }
       switch (locale) {

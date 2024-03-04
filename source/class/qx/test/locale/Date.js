@@ -57,7 +57,7 @@ qx.Class.define("qx.test.locale.Date", {
       });
     },
 
-    testGetDateFormat_GermanLocale(){
+    testGetDateFormat_GermanLocale() {
       var items = [
         { size: "short", expected: "d.MM.yy" },
         { size: "medium", expected: "d.MM.y" },
@@ -71,7 +71,7 @@ qx.Class.define("qx.test.locale.Date", {
       });
     },
 
-    testGetTimeFormat_GermanLocale(){
+    testGetTimeFormat_GermanLocale() {
       var items = [
         { size: "short", expected: "hh:mm" },
         { size: "medium", expected: "hh:mm:ss" },
@@ -85,7 +85,7 @@ qx.Class.define("qx.test.locale.Date", {
       });
     },
 
-    testGetDateTimeFormat_GermanLocale(){
+    testGetDateTimeFormat_GermanLocale() {
       var casesTable = {
         d: "d",
         y: "y",
@@ -112,7 +112,7 @@ qx.Class.define("qx.test.locale.Date", {
       };
 
       var useLocale = "de_DE";
-      for (var canonical in casesTable){
+      for (var canonical in casesTable) {
         var result = qx.locale.Date.getDateTimeFormat(canonical, "", useLocale);
 
         var expected = casesTable[canonical];
@@ -120,14 +120,15 @@ qx.Class.define("qx.test.locale.Date", {
       }
     },
 
-    testGetDateTimeFormat_ChineseLocale(){
+    testGetDateTimeFormat_ChineseLocale() {
+      // calendar is gregorian
       var casesTable = {
         d: "d日",
         y: "y年",
         M: "L月",
         MMM: "LLL",
-        MMMd: "MMM月d日",
-        yMMM: "y年MMM月",
+        MMMd: "M月d日",
+        yMMM: "y年M月",
         hm: "aH:mm",
         Hm: "hh:mm",
         ms: "mm:ss",
@@ -137,17 +138,17 @@ qx.Class.define("qx.test.locale.Date", {
         Md: "M/d",
         yM: "y年M月",
         yMEd: "y/M/d",
-        yMMMEd: "y年MMM月d日E",
-        yMMMd: "y年MMM月d日",
+        yMMMEd: "y年M月d日E",
+        yMMMd: "y年M月d日",
         yMd: "y/M/d",
         MEd: "M/dE",
-        MMMEd: "MMM月d日E",
+        MMMEd: "M月d日E",
         yQ: "yQ",
         yQQQ: "y年第Q季度"
       };
       var useLocale = "zh";
 
-      for (var canonical in casesTable){
+      for (var canonical in casesTable) {
         var result = qx.locale.Date.getDateTimeFormat(canonical, "", useLocale);
 
         var expected = casesTable[canonical];
