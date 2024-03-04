@@ -354,7 +354,7 @@ qx.Class.define("qx.locale.Date", {
           ) {
             lexem = "EEE";
           } else if (value === this.getDayName("wide", 2, locale).toString()) {
-            lexem = "EE";
+            lexem = "EEEE";
           }
         }
         result.push(lexem);
