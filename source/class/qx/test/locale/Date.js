@@ -126,7 +126,7 @@ qx.Class.define("qx.test.locale.Date", {
         d: "d日",
         y: "y年",
         M: "L月",
-        MMM: "LLL",
+        MMM: "LL",
         MMMd: "M月d日",
         yMMM: "y年M月",
         hm: "aH:mm",
