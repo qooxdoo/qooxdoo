@@ -156,6 +156,49 @@ qx.Class.define("qx.test.locale.Date", {
       }
     },
 
+    testIsWeekend() {
+      this.assertFalse(
+        qx.locale.Date.isWeekend(4, "af_EG"),
+        "Thurday is not weekend for EG"
+      );
+      this.assertTrue(
+        qx.locale.Date.isWeekend(5, "af_EG"),
+        "Friday is a weekend for EG"
+      );
+
+      this.assertFalse(
+        qx.locale.Date.isWeekend(4, "de_DE"),
+        "Friday is not weekend for DE"
+      );
+      this.assertTrue(
+        qx.locale.Date.isWeekend(6, "de_DE"),
+        "Sunday is a weekend for DE"
+      );
+    },
+
+    testGetWeekendStart() {
+      this.assertEquals(5, qx.locale.Date.getWeekendStart("af_EG"));
+      this.assertEquals(6, qx.locale.Date.getWeekendStart("de_DE"));
+    },
+
+    testGetWeekendEnd() {
+      this.assertEquals(6, qx.locale.Date.getWeekendEnd("af_EG"));
+      this.assertEquals(0, qx.locale.Date.getWeekendEnd("de_DE"));
+    },
+
+    testGetWeekStart() {
+      this.assertEquals(
+        6,
+        qx.locale.Date.getWeekStart("af_EG"),
+        "Sunday is a week start for EG"
+      );
+      this.assertEquals(
+        1,
+        qx.locale.Date.getWeekStart("de_DE"),
+        "Monday is a week start for DE"
+      );
+    },
+
     testDayNames() {
       var Date = qx.locale.Date;
       var useLocale = "C";
