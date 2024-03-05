@@ -347,7 +347,11 @@ qx.Class.define("qx.locale.Date", {
         } else if (type === "day") {
           lexem = "d";
         } else if (type === "weekday") {
-          lexem = "E";
+          if (value === this.getDayName("wide", 2, locale).toString()) {
+            lexem = "EEEE";
+          } else {
+            lexem = "E";
+          }
         }
         result.push(lexem);
       }
