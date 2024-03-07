@@ -71,10 +71,22 @@ qx.Class.define("qx.core.Object", {
    * Create a new instance
    */
   construct() {
+    this.$$propertyValues = {};
     // Call any initFunctions defined for properties of this class
-    this.constructor.prototype.$$initFunctions.forEach(propertyName =>
-      this.$$allProperties[propertyName].init(this)
-    );
+    let classes = [];
+    for (
+      let clazz = this.constructor;
+      clazz != qx.core.Object.superclass;
+      clazz = clazz.superclass
+    ) {
+      classes.push(clazz);
+    }
+    for (let index = classes.length - 1; index >= 0; index--) {
+      let clazz = classes[index];
+      clazz.prototype.$$initFunctions.forEach(propertyName => {
+        this.$$allProperties[propertyName].init(this);
+      });
+    }
   },
 
   /*

@@ -27,10 +27,10 @@ qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
     super();
     let upname = qx.Bootstrap.firstUp(property.getPropertyName());
     let def = property.getDefinition();
-    this.__get = def.get;
-    this.__getAsync = def.getAsync || def.get;
-    this.__set = def.set;
-    this.__setAsync = def.setAsync || def.set;
+    this.__get = clazz["get" + upname];
+    this.__getAsync = clazz["get" + upname + "Async"] || this.__get;
+    this.__set = clazz["set" + upname];
+    this.__setAsync = clazz["set" + upname + "Async"] || this.__set;
   },
 
   members: {

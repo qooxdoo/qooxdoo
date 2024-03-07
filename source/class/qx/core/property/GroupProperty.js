@@ -104,8 +104,6 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
       let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
-      let propertyValues = clazz.prototype.$$propertyValues[propertyName];
-
       const addMethod = (name, func) => {
         clazz.prototype[scopePrefix + name] = func;
         qx.Bootstrap.setDisplayName(func, clazz.classname, "prototype." + name);
@@ -125,7 +123,7 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
       // Native property value
       Object.defineProperty(clazz.prototype, propertyName, {
         get: function () {
-          throw new Error("Group Property " + propertyName + " cannot be read");
+          return undefined;
         },
         set: function (value) {
           self.set(this, value);
@@ -240,10 +238,6 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
         // Reset the property
         thisObj[`resetThemed${propertyFirstUp}`]();
       }
-    },
-
-    needsInit() {
-      return false;
     },
 
     /**

@@ -674,7 +674,7 @@ qx.Bootstrap.define("qx.Class", {
         subclass = function (...args) {
           let ret;
 
-          if (this.classname == "qx.html.Root") debugger;
+          if (classname == "qx.html.Root") debugger;
 
           // add abstract and singleton checks
           if (type === "abstract") {
@@ -920,11 +920,7 @@ qx.Bootstrap.define("qx.Class", {
      *   new properties)
      */
     addProperties(clazz, properties, patch) {
-      if (
-        clazz.classname == "qx.html.Root" ||
-        clazz.classname == "qx.core.Object"
-      )
-        debugger;
+      if (clazz.classname == "qx.locale.Manager") debugger;
       const addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];
@@ -956,12 +952,6 @@ qx.Bootstrap.define("qx.Class", {
           clazz.prototype.$$properties[propertyName] = property;
           clazz.prototype.$$allProperties[propertyName] = property;
           property.configure(def);
-
-          // Does this property have an initFunction?
-          if (property.needsInit()) {
-            // Yup. Keep track of it.
-            clazz.prototype.$$initFunctions.push(propertyName);
-          }
 
           property.defineProperty(clazz, patch);
           let eventName = property.getEventName();
@@ -1068,7 +1058,6 @@ qx.Bootstrap.define("qx.Class", {
      *   Overwrite existing fields, functions and properties
      */
     addMixin(clazz, mixin, patch) {
-      if (clazz.classname == "qx.core.Object") debugger;
       if (qx.core.Environment.get("qx.debug")) {
         if (!clazz || !mixin) {
           throw new Error("Incomplete parameters!");
@@ -1087,14 +1076,14 @@ qx.Bootstrap.define("qx.Class", {
           qx.Class.addEvents(clazz, entry.$$events, patch);
         }
 
-        // Attach properties
-        if (entry.$$properties) {
-          qx.Class.addProperties(clazz, entry.$$properties, patch);
-        }
-
         // Attach members
         if (entry.$$members) {
           qx.Class.addMembers(clazz, entry.$$members, patch);
+        }
+
+        // Attach properties
+        if (entry.$$properties) {
+          qx.Class.addProperties(clazz, entry.$$properties, patch);
         }
       });
 

@@ -268,35 +268,7 @@ qx.Bootstrap.define("qx.core.property.AbstractProperty", {
       let upname = qx.lang.String.firstUp(propertyName);
       let self = this;
 
-      if (clazz.prototype.$$propertyValues === undefined) {
-        let $$propertyValues = {};
-        let superClassWithPropertyValues = null;
-        for (let tmp = clazz; tmp; tmp = tmp.superclass) {
-          if (Object.hasOwnProperty(tmp.prototype, "$$propertyValues")) {
-            superClassWithPropertyValues = tmp;
-            break;
-          }
-        }
-        if (superClassWithPropertyValues) {
-          $$propertyValues.prototype =
-            superClassWithPropertyValues.prototype.$$propertyValues;
-        }
-        Object.defineProperty(clazz.prototype, "$$propertyValues", {
-          value: $$propertyValues,
-          writable: false,
-          configurable: true,
-          enumerable: false
-        });
-      }
-
       let proto = clazz.prototype;
-      Object.defineProperty(clazz.prototype.$$propertyValues, propertyName, {
-        value: {},
-        writable: false,
-        configurable: true,
-        enumerable: false
-      });
-      let propertyValues = clazz.prototype.$$propertyValues[propertyName];
 
       if (qx.core.Environment.get("qx.debug")) {
         if (

@@ -72,6 +72,7 @@ qx.Class.define("qx.theme.manager.Appearance", {
       // empty the caches
       this.__aliasMap = {};
       this.__styleCache = {};
+      debugger;
     },
 
     /*

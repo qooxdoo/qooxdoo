@@ -28,7 +28,12 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     get(thisObj, property) {
-      return thisObj["$$propertyValues"][property.getPropertyName()].value;
+      let value =
+        thisObj["$$propertyValues"][property.getPropertyName()]?.value;
+      if (value === undefined) {
+        value = property.getInitValue(thisObj);
+      }
+      return value;
     },
 
     /**
@@ -42,7 +47,11 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     set(thisObj, property, value) {
-      thisObj["$$propertyValues"][property.getPropertyName()].value = value;
+      let data = thisObj["$$propertyValues"][property.getPropertyName()];
+      if (data == undefined) {
+        thisObj["$$propertyValues"][property.getPropertyName()] = data = {};
+      }
+      data.value = value;
     },
 
     /**
