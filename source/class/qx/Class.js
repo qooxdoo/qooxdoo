@@ -674,8 +674,6 @@ qx.Bootstrap.define("qx.Class", {
         subclass = function (...args) {
           let ret;
 
-          if (classname == "qx.html.Root") debugger;
-
           // add abstract and singleton checks
           if (type === "abstract") {
             if (this.classname === classname) {
@@ -920,7 +918,6 @@ qx.Bootstrap.define("qx.Class", {
      *   new properties)
      */
     addProperties(clazz, properties, patch) {
-      if (clazz.classname == "qx.locale.Manager") debugger;
       const addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];

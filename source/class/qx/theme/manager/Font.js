@@ -208,7 +208,11 @@ qx.Class.define("qx.theme.manager.Font", {
           this.__resolveInclude(fontDefs, fontId);
         }
 
-        if (fontDef.fontName) {
+        if (
+          fontDef.fontName &&
+          this._manifestFonts &&
+          this._manifestFonts[fontDef.fontName]
+        ) {
           let preset = this._manifestFonts[fontDef.fontName];
           Object.keys(preset).forEach(presetKey => {
             if (fontDef[presetKey] === undefined) {

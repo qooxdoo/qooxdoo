@@ -132,13 +132,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       this.__definition = def;
 
-      if (
-        this.__clazz.classname == "qx.util.ObjectPool" &&
-        this.__propertyName == "size"
-      ) {
-        debugger;
-      }
-
       // Figure out the storage implementation
       if (def.storage) {
         if (def.storage instanceof qx.core.property.IPropertyStorage) {
@@ -162,7 +155,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             );
           } else {
             throw new Error(
-              `${this.__propertyName}: ` +
+              `${this}: ` +
                 "only `check : 'Array'` and `check : 'Object'` " +
                 "properties may have `immutable : 'replace'`."
             );
@@ -237,15 +230,22 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (def.initFunction) {
         if (this.__superClass) {
           throw new Error(
-            `${this.__propertyName}: initFunction cannot be redefined in a subclass`
+            `${this}: initFunction cannot be redefined in a subclass`
           );
         }
         if (typeof def.initFunction != "function") {
           throw new Error(
-            `${this.__propertyName}: initFunction must be a function, and not the name of a member`
+            `${this}: initFunction must be a function, and not the name of a member`
           );
         }
         this.__initFunction = def.initFunction;
+      }
+
+      if (def.init !== undefined && def.deferredInit) {
+        this.error(
+          `${this}: init and deferredInit are mutually exclusive, ignoring deferredInit`
+        );
+        delete def.deferredInit;
       }
       this.__needsDereference = def.dereference;
 
@@ -368,10 +368,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
-      if (clazz.classname == "qx.core.Object" && propertyName == "qxObjectId") {
-        debugger;
-      }
-
       let proto = clazz.prototype;
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -428,25 +424,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         self.init(this);
       });
 
-      // user-specified
-      patch && delete clazz.prototype[`$$user_${propertyName}`];
-      Object.defineProperty(clazz.prototype, `$$user_${propertyName}`, {
-        get: function () {
-          return self.get(this);
-        },
-        configurable: false
-      });
-
       // theme-specified
       if (this.__definition.themeable) {
-        patch && delete clazz.prototype[`$$theme_${propertyName}`];
-        Object.defineProperty(clazz.prototype, `$$theme_${propertyName}`, {
-          get: function () {
-            return self.getThemed(this);
-          },
-          configurable: false
-        });
-
         addMethod("getThemed" + upname, function () {
           return self.getThemed(this);
         });
@@ -459,17 +438,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
           self.resetThemed(this);
         });
       }
-
-      // whether to call apply after setting init value
-      let variant =
-        typeof this.__definition.init != "undefined" ||
-        typeof this.__definition.initFunction == "function"
-          ? "init"
-          : null;
-      Object.defineProperty(clazz.prototype, `$$variant_${propertyName}`, {
-        get: new Function("return " + variant),
-        configurable: false
-      });
 
       // inheritable
       if (this.__definition.inheritable) {
@@ -528,7 +496,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       addMethod("set" + upname, function (value) {
-        return self.set(this, value);
+        self.set(this, value);
+        return value;
       });
       addMethod("set" + upname + "Async", async function (value) {
         return await self.setAsync(this, value);
@@ -539,16 +508,48 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Returns an object for tracking state of the property, per object instance (ie not per class)
+     *
+     * @param {qx.core.Object} thisObj
+     * @returns {Object}
+     */
+    getPropertyState(thisObj) {
+      if (thisObj.$$propertyState === undefined) {
+        thisObj.$$propertyState = {};
+      }
+      let state = thisObj.$$propertyState[this.__propertyName];
+      if (state === undefined) {
+        state = thisObj.$$propertyState[this.__propertyName] = {};
+      }
+      return state;
+    },
+
+    /**
      * Initialises a property value
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      */
-    init(thisObj) {
-      if (this["$$initset_" + this.__propertyName]) {
+    init(thisObj, value) {
+      let state = this.getPropertyState(thisObj);
+      if (state.initMethodCalled) {
+        this.warn(`${this}: init() called more than once, ignoring`);
         return;
       }
-      this["$$initset_" + this.__propertyName] = true;
-      let value = this.getInitValue(thisObj);
+      state.initMethodCalled = true;
+
+      if (value !== undefined && this.__definition.init !== undefined) {
+        this.warn(
+          `${this}: init() called with a value, ignoring - use deferredInit and do not specify an init value in the property definition`
+        );
+        value = undefined;
+      }
+      if (value === undefined) {
+        value = this.getInitValue(thisObj);
+      }
+      if (value === undefined) {
+        throw new Error(`${this}: init() called without a value`);
+      }
+
       this.__storage.set(thisObj, this, value);
       this.__applyValue(thisObj, value, undefined);
     },
@@ -591,7 +592,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let value = this.__storage.get(thisObj, this);
       if (value === undefined) {
         if (this.isThemeable()) {
-          value = this.__storage.get(thisObj, this, "theme");
+          let state = this.getPropertyState(thisObj);
+          value = state.themeValue;
+        }
+      }
+      if (value === undefined) {
+        if (this.__definition.inheritable) {
+          let state = this.getPropertyState(thisObj);
+          value = state.inheritedValue;
         }
       }
       return value;
@@ -607,7 +615,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let value = this.__storage.get(thisObj, this);
       if (value === undefined) {
         if (this.isThemeable()) {
-          value = this.__storage.get(thisObj, this, "theme");
+          let state = this.getPropertyState(thisObj);
+          value = state.themeValue;
+        }
+        if (value === undefined) {
+          if (this.__definition.inheritable) {
+            let state = this.getPropertyState(thisObj);
+            value = state.inheritedValue;
+          }
         }
         if (value === undefined) {
           value = thisObj["$$init_" + this.__propertyName];
@@ -660,12 +675,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value the value to set
      */
     set(thisObj, value) {
-      if (
-        this.__clazz.classname == "qx.theme.manager.Appearance" &&
-        this.__propertyName == "theme"
-      ) {
-        debugger;
-      }
       if (this.__readOnly && value !== undefined) {
         throw new Error("Property " + this + " is read-only");
       }
@@ -700,9 +709,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
     __applyValueToInheritedChildren(thisObj, value, oldValue) {
       if (this.isInheritable() && typeof thisObj._getChildren == "function") {
         for (let child of thisObj._getChildren()) {
-          let property = child.constructor.$$allProperties[this.__propertyName];
+          let property =
+            child.constructor.prototype.$$allProperties[this.__propertyName];
           if (property && property.isInheritable()) {
-            property.setInheritedValue(thisObj, value);
+            property.refresh(child);
           }
         }
       }
@@ -747,30 +757,47 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
     },
 
+    /**
+     * Sets the theme value for the property; this will trigger an apply & change event if the
+     * final value of the property changes
+     *
+     * @param {*} thisObj
+     * @param {*} value
+     */
     setThemed(thisObj, value) {
-      // Get the current value
       let oldValue = this.__getSafe(thisObj);
-
-      // Save the provided themed value
-      this.__storage.set(thisObj, this, value, "theme");
-
-      // What's the new value
+      let state = this.getPropertyState(thisObj, true);
+      state.themeValue = value;
       value = this.__getSafe(thisObj);
 
       this.__applyValue(thisObj, value, oldValue);
-
-      return value;
     },
 
+    /**
+     * Resets the theme value for the property; this will trigger an apply & change event if the
+     * final value of the property changes
+     *
+     * @param {*} thisObj
+     */
     resetThemed(thisObj) {
       let oldValue = this.__getSafe(thisObj);
-      this.__storage.set(thisObj, this, undefined, "theme");
+      let state = this.getPropertyState(thisObj, true);
+      delete state.themeValue;
       let value = this.__getSafe(thisObj);
 
       this.__applyValue(thisObj, value, oldValue);
     },
 
+    /**
+     * Refreshes the property, copying the value from it's layout parent if it has one
+     *
+     * @param {*} thisObj
+     * @returns
+     */
     refresh(thisObj) {
+      if (!this.__definition.inheritable) {
+        throw new Error(`${this} is not inheritable`);
+      }
       let oldValue = this.__storage.get(thisObj, this);
 
       // If there's a user value, it takes precedence
@@ -784,29 +811,29 @@ qx.Bootstrap.define("qx.core.property.Property", {
         typeof this.getLayoutParent == "function"
           ? this.getLayoutParent()
           : undefined;
-      let propertyName = this.__propertyName;
-      if (
-        layoutParent &&
-        propertyName in layoutParent.constructor.$$allProperties
-      ) {
-        // ... then retrieve its value
-        let inheritedValue = layoutParent[propertyName];
+      if (!layoutParent) {
+        return;
+      }
 
-        // If we found a value to inherit...
-        if (typeof inheritedValue != "undefined") {
-          // ... then save the inherited value, ...
-          this[`$$inherit_${propertyName}`] = inheritedValue;
+      let layoutParentProperty =
+        layoutParent.constructor.prototype.$$allProperties[this.__propertyName];
+      if (!layoutParentProperty) {
+        return;
+      }
 
-          // ... and also use the inherited value as the
-          // property value
-          // Debugging hint: this will trap into setter code.
-          this[propertyName] = inheritedValue;
+      let inheritedValue = layoutParentProperty.__getSafe(layoutParent);
+      let state = this.getPropertyState(thisObj);
 
-          // The setter code (incorrectly, in this case)
-          // saved the value as the $$user value. Reset
-          // it to its original value.
-          this[`$$user_${propertyName}`] = inheritedValue;
-        }
+      // If we found a value to inherit...
+      if (inheritedValue !== undefined) {
+        state.inheritedValue = inheritedValue;
+      } else {
+        delete state.inheritedValue;
+      }
+
+      let value = this.__storage.get(thisObj, this);
+      if (value !== oldValue) {
+        this.__applyValue(thisObj, value, oldValue);
       }
     },
 
