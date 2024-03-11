@@ -413,6 +413,7 @@ qx.Class.define("qx.ui.basic.Image", {
 
       if (mode == "font") {
         element.setRich(true);
+        element.setStyle("line-height", "1");
       } else {
         element.setScale(scale);
 
