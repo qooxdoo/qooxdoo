@@ -590,27 +590,38 @@ qx.Class.define("qx.event.handler.Keyboard", {
       var keyIdentifier;
 
       // Use: keyCode
+      let returnPromise = null;
+      var tracker = {};
+
       if (keyCode || (!keyCode && !charCode)) {
         keyIdentifier = qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
 
-        return this._fireSequenceEvent(domEvent, eventType, keyIdentifier);
+        returnPromise = qx.event.Utils.track(tracker, () =>
+          this._fireSequenceEvent(domEvent, eventType, keyIdentifier)
+        );
+
+        if (charCode) {
+          returnPromise = qx.event.Utils.track(tracker, () =>
+            this._fireInputEvent(domEvent, charCode)
+          );
+        }
       }
 
       // Use: charCode
       else {
         keyIdentifier = qx.event.util.Keyboard.charCodeToIdentifier(charCode);
 
-        var tracker = {};
-        var self = this;
         qx.event.Utils.track(
           tracker,
           this._fireSequenceEvent(domEvent, "keypress", keyIdentifier)
         );
 
-        return qx.event.Utils.then(tracker, function () {
-          return self._fireInputEvent(domEvent, charCode);
-        });
+        return qx.event.Utils.then(tracker, () =>
+          this._fireInputEvent(domEvent, charCode)
+        );
       }
+
+      return returnPromise;
     },
 
     /*
