@@ -590,13 +590,12 @@ qx.Class.define("qx.event.handler.Keyboard", {
       var keyIdentifier;
 
       // Use: keyCode
-      let returnPromise = null;
       var tracker = {};
 
       if (keyCode || (!keyCode && !charCode)) {
         keyIdentifier = qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
 
-        returnPromise = qx.event.Utils.track(tracker, () =>
+        let returnPromise = qx.event.Utils.track(tracker, () =>
           this._fireSequenceEvent(domEvent, eventType, keyIdentifier)
         );
 
@@ -605,6 +604,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
             this._fireInputEvent(domEvent, charCode)
           );
         }
+        return returnPromise;
       }
 
       // Use: charCode
@@ -620,8 +620,6 @@ qx.Class.define("qx.event.handler.Keyboard", {
           this._fireInputEvent(domEvent, charCode)
         );
       }
-
-      return returnPromise;
     },
 
     /*
