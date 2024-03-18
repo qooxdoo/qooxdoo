@@ -678,10 +678,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekStart(locale) {
       locale = this.__transformLocale(locale);
-      if (
-        qx.core.Environment.get("engine.name") == "gecko" &&
-        qx.core.Environment.get("browser.version") > 123
-      ) {
+      if (this.__isLocaleAPISupported()) {
         const info = new Intl.Locale(locale).weekInfo;
         return info.firstDay !== 7 ? info.firstDay : 0;
       } else {
@@ -769,10 +766,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekendStart(locale) {
       locale = this.__transformLocale(locale);
-      if (
-        qx.core.Environment.get("engine.name") == "gecko" &&
-        qx.core.Environment.get("browser.version") > 123
-      ) {
+      if (this.__isLocaleAPISupported()) {
         const info = new Intl.Locale(locale).weekInfo;
         return info.weekend[0] !== 7 ? info.weekend[0] : 0;
       } else {
@@ -815,10 +809,7 @@ qx.Class.define("qx.locale.Date", {
      */
     getWeekendEnd(locale) {
       locale = this.__transformLocale(locale);
-      if (
-        qx.core.Environment.get("engine.name") == "gecko" &&
-        qx.core.Environment.get("browser.version") > 123
-      ) {
+      if (this.__isLocaleAPISupported()) {
         const info = new Intl.Locale(locale).weekInfo;
         const end = info.weekend[info.weekend.length - 1];
         return end !== 7 ? end : 0;
@@ -864,10 +855,7 @@ qx.Class.define("qx.locale.Date", {
      */
     isWeekend(day, locale) {
       locale = this.__transformLocale(locale);
-      if (
-        qx.core.Environment.get("engine.name") == "gecko" &&
-        qx.core.Environment.get("browser.version") > 123
-      ) {
+      if (this.__isLocaleAPISupported()) {
         const info = new Intl.Locale(locale).weekInfo;
         return info.weekend.includes(day !== 0 ? day : 7);
       } else {
@@ -897,6 +885,13 @@ qx.Class.define("qx.locale.Date", {
       }
 
       return territory.toUpperCase();
+    },
+
+    __isLocaleAPISupported(){
+      return !(
+        qx.core.Environment.get("engine.name") == "gecko" &&
+        qx.core.Environment.get("browser.version") < 124
+      );
     },
 
     /**
