@@ -102,6 +102,16 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
         return this._defaultFormat(item);
       },
       nullable: true
+    },
+
+    /**
+     * Whether the field is read only
+     */
+    readOnly: {
+      check: "Boolean",
+      event: "changeReadOnly",
+      apply: "_applyReadOnly",
+      init: false
     }
   },
 
@@ -128,6 +138,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
             quickSelection: true
           });
 
+          this.bind("readOnly", control, "readOnly");
+
           const listId = "list-" + control.toHashCode();
           const childrenContainerEl = control
             .getChildrenContainer()
@@ -143,7 +155,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
             this
           );
 
-          control.addListener("pointerdown", this._onListPointerDown, this);
+          control.addListener(
+            "pointerdown",
+            this.__onListPointerDownImpl,
+            this
+          );
+
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
         }
@@ -174,6 +191,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
     // property apply
     _applyMaxListHeight(value, old) {
       this.getChildControl("list").setMaxHeight(value);
+    },
+
+    _applyReadOnly() {
+      // no-op
     },
 
     /*
@@ -337,6 +358,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
       throw new Error("Abstract method: _onListChangeSelection()");
     },
 
+    __onListPointerDownImpl(e) {
+      if (this.getReadOnly()) {
+        return;
+      }
+      this._onListPointerDown(e);
+    },
     /**
      * Redirects pointerdown event from the list to this widget.
      *

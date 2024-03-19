@@ -124,6 +124,15 @@ qx.Class.define("qx.ui.form.ToggleButton", {
     executeBehavior: {
       check: ["cycle", "toggle"],
       init: "toggle"
+    },
+
+    /**
+     * Whether the field is read only
+     */
+    readOnly: {
+      check: "Boolean",
+      event: "changeReadOnly",
+      init: false
     }
   },
 
@@ -183,6 +192,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute(e) {
+      if (this.getReadOnly()) {
+        return;
+      }
       if (this.isTriState() && this.getExecuteBehavior() === "cycle") {
         let newValue;
         let currentValue = this.getValue();
@@ -210,6 +222,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      */
     _onPointerOver(e) {
       if (e.getTarget() !== this) {
+        return;
+      }
+      if (this.getReadOnly()) {
         return;
       }
 
@@ -261,6 +276,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
       if (!e.isLeftPressed()) {
         return;
       }
+      if (this.getReadOnly()) {
+        return;
+      }
 
       // Activate capturing if the button get a pointerout while
       // the button is pressed.
@@ -303,6 +321,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      * @param e {Event} Key event
      */
     _onKeyDown(e) {
+      if (this.getReadOnly()) {
+        return;
+      }
       switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
