@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
           item,
           qx.ui.form.CheckBox,
           this.classname +
-            " only supports instances of qx.ui.core.CheckBox as children"
+            " only supports instances of qx.ui.form.CheckBox as children"
         );
       }
       if (item.getValue()) {

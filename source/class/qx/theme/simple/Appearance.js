@@ -1350,6 +1350,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
       alias: "atom",
 
       style(states) {
+        let useSelectionState = !states.readonly && states.selected;
         var padding = [3, 5, 3, 5];
         if (states.lead) {
           padding = [2, 4, 2, 4];
@@ -1359,7 +1360,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
         }
 
         var backgroundColor;
-        if (states.selected) {
+        if (useSelectionState) {
           backgroundColor = "background-selected";
           if (states.disabled) {
             backgroundColor += "-disabled";
@@ -1369,7 +1370,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
           gap: 4,
           padding: padding,
           backgroundColor: backgroundColor,
-          textColor: states.selected ? "text-selected" : undefined,
+          textColor: useSelectionState ? "text-selected" : undefined,
           decorator: states.lead
             ? "lead-item"
             : states.dragover
