@@ -69,6 +69,16 @@ qx.Class.define("qx.ui.form.ListItem", {
     appearance: {
       refine: true,
       init: "listitem"
+    },
+
+    /**
+     * Whether the field is read only
+     */
+    readOnly: {
+      check: "Boolean",
+      event: "changeReadOnly",
+      apply: "_applyReadOnly",
+      init: false
     }
   },
 
@@ -85,11 +95,21 @@ qx.Class.define("qx.ui.form.ListItem", {
       dragover: true
     },
 
+    _applyReadOnly(value) {
+      if (value) {
+        this.addState("readonly");
+      } else {
+        this.removeState("readonly");
+      }
+    },
+
     /**
      * Event handler for the pointer over event.
      */
     _onPointerOver() {
-      this.addState("hovered");
+      if (!this.getReadOnly()) {
+        this.addState("hovered");
+      }
     },
 
     /**
