@@ -476,6 +476,7 @@ qx.Class.define("qx.test.core.Property", {
         extend: qx.core.Object,
 
         construct() {
+          super();
           this._min = 0;
         },
 

@@ -261,6 +261,13 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
     /**
      * @Override
      */
+    isInheritable() {
+      return null;
+    },
+
+    /**
+     * @Override
+     */
     toString() {
       return this.__clazz.classname + "." + this.__propertyName;
     }

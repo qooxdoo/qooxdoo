@@ -475,7 +475,7 @@ qx.Bootstrap.define("qx.Class", {
       // set()
       Object.defineProperty(clazz.prototype, "isPropertyInitialized", {
         value(prop) {
-          let allProperties = this.constructor.$$allProperties;
+          let allProperties = this.constructor.prototype.$$allProperties;
 
           return prop in allProperties && typeof this[prop] != "undefined";
         },
@@ -487,13 +487,13 @@ qx.Bootstrap.define("qx.Class", {
       // Add a method to refresh all inheritable properties
       Object.defineProperty(clazz.prototype, "$$refreshInheritables", {
         value() {
-          let allProperties = this.constructor.$$allProperties;
+          let allProperties = this.constructor.prototype.$$allProperties;
 
           // Call the refresh method of each inheritable property
           for (let prop in allProperties) {
             let property = allProperties[prop];
 
-            if (property.inheritable) {
+            if (property.isInheritable()) {
               let propertyFirstUp = qx.Bootstrap.firstUp(prop);
 
               // Call this property's refresh method
@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.Class", {
       if (config.extend) {
         // Add members
         if (config.members) {
-          qx.Class.addMembers(clazz, config.members, false);
+          qx.Class.addMembers(clazz, config.members, config.events, false);
         }
 
         // Add properties
@@ -571,7 +571,7 @@ qx.Bootstrap.define("qx.Class", {
       // destructor and then deletes any property remnants for
       // properties that are marked as `dereference : true`.
       let destructDereferencer = function () {
-        let properties = this.constructor.$$allProperties;
+        let properties = this.constructor.prototype.$$allProperties;
 
         // First call the original or aspect-wrapped destruct method
         destruct.call(this);
@@ -580,37 +580,7 @@ qx.Bootstrap.define("qx.Class", {
         // have their saved values removed from this object.
         for (let prop in properties) {
           let property = properties[prop];
-
-          // If this property is specified to be dereference upon dispose,
-          // or its check indicates that it's a type that requires being
-          // dereferenced...
-          if (
-            property.dereference ||
-            [
-              // Perform magic. These types (as indicated by their
-              // `check`, need to be dereferenced even if `dereference`
-              // isn't specified for the propery. Or rather, in old IE
-              // days, they needed to be explicitly removed from the
-              // object. They may not need to be any longer, but it
-              // doesn't hurt terribly to continue to do so.
-              "Node",
-              "Element",
-              "Document",
-              "Window",
-              "Event"
-            ].includes(property.config)
-          ) {
-            // If the storage mechanism has a dereference method, let it
-            // do its thing
-            property.storage.dereference &&
-              property.storage.dereference.call(this, prop, property);
-
-            // Get rid of our internal storage of the various possible
-            // values for this property
-            delete this[`$$user_${prop}`];
-            delete this[`$$theme_${prop}`];
-            delete this[`$$inherit_${prop}`];
-          }
+          property.dereference(this);
         }
       };
 
@@ -808,7 +778,7 @@ qx.Bootstrap.define("qx.Class", {
      * @param patch {Boolean ? false}
      *   Enable patching
      */
-    addMembers(clazz, members, patch) {
+    addMembers(clazz, members, events, patch) {
       for (let key in members) {
         let member = members[key];
         let proto = clazz.prototype;
@@ -886,6 +856,30 @@ qx.Bootstrap.define("qx.Class", {
               member.self = clazz;
             }
             member.base = clazz.prototype[key];
+          }
+
+          if (
+            (key.length > 3) & key.startsWith("get") &&
+            key.charAt(3) === key.charAt(3).toUpperCase()
+          ) {
+            let propertyName = key.charAt(3).toLowerCase() + key.substr(4);
+            let eventName = "change" + key.substr(3);
+            if (events && events[eventName] && members["set" + key.substr(3)]) {
+              let superProperty = clazz.prototype.$$superProperties
+                ? clazz.prototype.$$superProperties[propertyName]
+                : null;
+              if (superProperty) {
+                throw new Error(
+                  `${clazz.classname}: ` +
+                    `Overwriting property "${propertyName}" with a psuedo-property is not allowed`
+                );
+              }
+              let property = new qx.core.property.Property(propertyName, clazz);
+              property.configurePsuedoProperty();
+              clazz.prototype.$$properties[propertyName] = property;
+              clazz.prototype.$$allProperties[propertyName] = property;
+              property.defineProperty(clazz, patch);
+            }
           }
         }
 
@@ -1075,7 +1069,7 @@ qx.Bootstrap.define("qx.Class", {
 
         // Attach members
         if (entry.$$members) {
-          qx.Class.addMembers(clazz, entry.$$members, patch);
+          qx.Class.addMembers(clazz, entry.$$members, entry.$$events, patch);
         }
 
         // Attach properties
@@ -1349,7 +1343,7 @@ qx.Bootstrap.define("qx.Class", {
             config.include.forEach(mixin => {
               if (mixin.$$members) {
                 throw new Error(
-                  `Mixin ${mixin.name} applied to class ${name}: ` +
+                  `Mixin ${mixin.mixinname} applied to class ${name}: ` +
                     "class is static, but mixin has members"
                 );
               }

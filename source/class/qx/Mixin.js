@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.Mixin", {
           if (events[key]) {
             throw new Error(
               'Conflict between mixin "' +
-                mixin.name +
+                mixin.mixinname +
                 '" and "' +
                 events[key] +
                 '" in member "' +
@@ -195,14 +195,14 @@ qx.Bootstrap.define("qx.Mixin", {
             );
           }
 
-          events[key] = mixin.name;
+          events[key] = mixin.mixinname;
         }
 
         for (var key in mixin.properties) {
           if (properties[key]) {
             throw new Error(
               'Conflict between mixin "' +
-                mixin.name +
+                mixin.mixinname +
                 '" and "' +
                 properties[key] +
                 '" in property "' +
@@ -211,14 +211,14 @@ qx.Bootstrap.define("qx.Mixin", {
             );
           }
 
-          properties[key] = mixin.name;
+          properties[key] = mixin.mixinname;
         }
 
         for (var key in mixin.members) {
           if (members[key]) {
             throw new Error(
               'Conflict between mixin "' +
-                mixin.name +
+                mixin.mixinname +
                 '" and "' +
                 members[key] +
                 '" in member "' +
@@ -227,7 +227,7 @@ qx.Bootstrap.define("qx.Mixin", {
             );
           }
 
-          members[key] = mixin.name;
+          members[key] = mixin.mixinname;
         }
       }
 
@@ -343,10 +343,11 @@ qx.Bootstrap.define("qx.Mixin", {
       } else {
         if (
           clazz.$$mixinBaseClassMethods &&
-          clazz.$$mixinBaseClassMethods[mixin.name] !== undefined &&
-          clazz.$$mixinBaseClassMethods[mixin.name][methodName] !== undefined
+          clazz.$$mixinBaseClassMethods[mixin.mixinname] !== undefined &&
+          clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName] !==
+            undefined
         ) {
-          return clazz.$$mixinBaseClassMethods[mixin.name][methodName];
+          return clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName];
         }
 
         // Find the class which added the mixin; if it is mixed in
@@ -401,16 +402,16 @@ qx.Bootstrap.define("qx.Mixin", {
           if (!clazz.$$mixinBaseClassMethods) {
             clazz.$$mixinBaseClassMethods = {};
           }
-          if (!clazz.$$mixinBaseClassMethods[mixin.name]) {
-            clazz.$$mixinBaseClassMethods[mixin.name] = {};
+          if (!clazz.$$mixinBaseClassMethods[mixin.mixinname]) {
+            clazz.$$mixinBaseClassMethods[mixin.mixinname] = {};
           }
-          clazz.$$mixinBaseClassMethods[mixin.name][methodName] = fn;
+          clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName] = fn;
         } else if (qx.core.Environment.get("qx.debug")) {
           throw new Error(
             "Cannot find base class method called " +
               methodName +
               " for mixin " +
-              mixin.name +
+              mixin.mixinname +
               ", when viewed from " +
               clazz.classname
           );
@@ -434,7 +435,7 @@ qx.Bootstrap.define("qx.Mixin", {
      * @return {String} The mixin identifier
      */
     genericToString() {
-      return "[Mixin " + this.name + "]";
+      return "[Mixin " + this.mixinname + "]";
     },
 
     /** Registers all defined mixins */

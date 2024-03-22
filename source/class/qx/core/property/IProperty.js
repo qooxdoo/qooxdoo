@@ -35,6 +35,12 @@ qx.Interface.define("qx.core.property.IProperty", {
      * @param {qx.Class} clazz the class having the property defined
      * @param {Boolean?} patch whether patching an existing class
      */
-    defineProperty(clazz, patch) {}
+    defineProperty(clazz, patch) {},
+
+    /**
+     * Whether this property is inheritable
+     * @return {Boolean}
+     */
+    isInheritable() {}
   }
 });

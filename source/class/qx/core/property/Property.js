@@ -89,6 +89,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
     isRefineAllowed(def) {},
 
+    configurePsuedoProperty() {
+      this.__definition = {};
+      let upname = qx.Bootstrap.firstUp(this.__propertyName);
+      this.__eventName = "change" + upname;
+      this.__storage = new qx.core.property.PsuedoPropertyStorage(
+        this,
+        this.__clazz
+      );
+      this.__readOnly = this.__clazz.prototype["set" + upname] === undefined;
+    },
+
     /**
      * @Override
      */
@@ -210,7 +221,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (def.isEqual) {
         if (def.isEqual instanceof Function) {
           this.__isEqual = def.isEqual;
-        } else if (def.isEqual instanceof String) {
+        } else if (typeof def.isEqual == "string") {
           this.__isEqual = new Function("a", "b", "return " + def.isEqual);
         }
       }
@@ -432,6 +443,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
         addMethod("setThemed" + upname, function (value) {
           self.setThemed(this, value);
+          return value;
         });
 
         addMethod("resetThemed" + upname, function () {
@@ -500,7 +512,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return value;
       });
       addMethod("set" + upname + "Async", async function (value) {
-        return await self.setAsync(this, value);
+        await self.setAsync(this, value);
+        return value;
       });
       addMethod("reset" + upname, function (value) {
         self.reset(this, value);
@@ -562,6 +575,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     reset(thisObj) {
       let value = this.getInitValue(thisObj);
       this.__storage.set(thisObj, this, value);
+      this.__applyValueToInheritedChildren(thisObj);
     },
 
     /**
@@ -635,6 +649,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
                 " has not been initialized - try using getAsync() instead"
             );
           }
+          if (this.__definition.nullable) {
+            return null;
+          }
+          if (this.__definition.inheritable) {
+            if (this.__definition.check == "Boolean") {
+              return false;
+            }
+            return null;
+          }
           throw new Error("Property " + this + " has not been initialized");
         }
       }
@@ -689,24 +712,37 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     __applyValue(thisObj, value, oldValue) {
-      if (!this.isEqual(value, oldValue)) {
+      let isEqual = this.isEqual(thisObj, value, oldValue);
+      let isInitCalled = true;
+      let state = this.getPropertyState(thisObj);
+      isInitCalled = state.initMethodCalled;
+      state.initMethodCalled = true;
+
+      if (!isEqual || !isInitCalled) {
         this._setMutating(thisObj, true);
+
+        if (oldValue === undefined) {
+          oldValue = null;
+        }
+
         try {
-          this.__storage.set(thisObj, this, value);
+          if (!isEqual) {
+            this.__storage.set(thisObj, this, value);
+          }
           if (this.__apply) {
             this.__apply.call(thisObj, value, oldValue, this.__propertyName);
           }
           if (this.__eventName) {
             thisObj.fireDataEvent(this.__eventName, value, oldValue);
           }
-          this.__applyValueToInheritedChildren(thisObj, value, oldValue);
+          this.__applyValueToInheritedChildren(thisObj);
         } finally {
           this._setMutating(thisObj, false);
         }
       }
     },
 
-    __applyValueToInheritedChildren(thisObj, value, oldValue) {
+    __applyValueToInheritedChildren(thisObj) {
       if (this.isInheritable() && typeof thisObj._getChildren == "function") {
         for (let child of thisObj._getChildren()) {
           let property =
@@ -750,7 +786,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       };
 
       let oldValue = await this.__storage.getAsync(thisObj, this);
-      if (!this.isEqual(value, oldValue)) {
+      if (!this.isEqual(thisObj, value, oldValue)) {
         let promise = setAsyncImpl();
         this._setMutating(thisObj, promise);
         await promise;
@@ -808,8 +844,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
       // If there's a layout parent and if it has a property (not
       // a member!) of this name, ...
       let layoutParent =
-        typeof this.getLayoutParent == "function"
-          ? this.getLayoutParent()
+        typeof thisObj.getLayoutParent == "function"
+          ? thisObj.getLayoutParent()
           : undefined;
       if (!layoutParent) {
         return;
@@ -821,19 +857,31 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      let inheritedValue = layoutParentProperty.__getSafe(layoutParent);
+      let value = layoutParentProperty.__getSafe(layoutParent);
       let state = this.getPropertyState(thisObj);
 
       // If we found a value to inherit...
-      if (inheritedValue !== undefined) {
-        state.inheritedValue = inheritedValue;
+      if (value !== undefined) {
+        state.inheritedValue = value;
       } else {
         delete state.inheritedValue;
       }
 
-      let value = this.__storage.get(thisObj, this);
       if (value !== oldValue) {
-        this.__applyValue(thisObj, value, oldValue);
+        if (!this.isEqual(thisObj, value, oldValue)) {
+          this._setMutating(thisObj, true);
+          try {
+            if (this.__apply) {
+              this.__apply.call(thisObj, value, oldValue, this.__propertyName);
+            }
+            if (this.__eventName) {
+              thisObj.fireDataEvent(this.__eventName, value, oldValue);
+            }
+            this.__applyValueToInheritedChildren(thisObj, value, oldValue);
+          } finally {
+            this._setMutating(thisObj, false);
+          }
+        }
       }
     },
 
@@ -854,28 +902,24 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {Boolean} mutating
      */
     _setMutating(thisObj, mutating) {
-      if (thisObj.$$propertyMutating === undefined) {
-        thisObj.$$propertyMutating = {};
-      }
+      let state = this.getPropertyState(thisObj);
       if (mutating) {
-        if (thisObj.$$propertyMutating[this.__propertyName]) {
-          throw new Error(`Property ${this} of ${thisObj} is already mutating`);
+        if (state.mutatingCount === undefined) {
+          state.mutatingCount = 1;
+        } else {
+          state.mutatingCount++;
         }
-
-        thisObj.$$propertyMutating[this.__propertyName] = mutating;
         if (qx.lang.Type.isPromise(mutating)) {
-          mutating.then(
-            () => delete thisObj.$$propertyMutating[this.__propertyName]
-          );
+          mutating.then(() => this._setMutating(thisObj, false));
         }
       } else {
-        if (!thisObj.$$propertyMutating[this.__propertyName]) {
+        if (state.mutatingCount === undefined) {
           throw new Error(`Property ${this} of ${thisObj} is not mutating`);
         }
-        let promise = thisObj.$$propertyMutating[this.__propertyName];
-        delete thisObj.$$propertyMutating[this.__propertyName];
-        if (typeof promise != "boolean") {
-          promise.resolve();
+        state.mutatingCount--;
+        if (state.mutatingCount == 0) {
+          delete state.promiseMutating;
+          delete state.mutatingCount;
         }
       }
     },
@@ -917,6 +961,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     dereference(thisObj) {
       this.__storage.dereference(thisObj, this);
+      // Get rid of our internal storage of the various possible
+      // values for this property
+      let propertyName = this.__propertyName;
+      delete thisObj[`$$user_${propertyName}`];
+      delete thisObj[`$$theme_${propertyName}`];
+      delete thisObj[`$$inherit_${propertyName}`];
     },
 
     /**
@@ -935,11 +985,18 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value
      * @param {*} oldValue
      */
-    isEqual(value, oldValue) {
+    isEqual(thisObj, value, oldValue) {
       if (this.__isEqual) {
-        return this.__isEqual.call(this, value, oldValue);
+        return this.__isEqual.call(thisObj, value, oldValue, this);
       }
-      return value == oldValue;
+      if (value === oldValue) {
+        if (value === 0) {
+          return Object.is(value, oldValue);
+        }
+        return true;
+      }
+
+      return false;
     },
 
     /**

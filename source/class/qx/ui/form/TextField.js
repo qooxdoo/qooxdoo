@@ -25,6 +25,10 @@
 qx.Class.define("qx.ui.form.TextField", {
   extend: qx.ui.form.AbstractField,
 
+  construct() {
+    super();
+  },
+
   /*
   *****************************************************************************
      PROPERTIES
