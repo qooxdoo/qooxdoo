@@ -779,9 +779,9 @@ qx.Bootstrap.define("qx.Class", {
      *   Enable patching
      */
     addMembers(clazz, members, events, patch) {
+      let proto = clazz.prototype;
       for (let key in members) {
         let member = members[key];
-        let proto = clazz.prototype;
 
         if (qx.core.Environment.get("qx.debug")) {
           if (key.charAt(0) === "@") {
@@ -858,42 +858,54 @@ qx.Bootstrap.define("qx.Class", {
             member.base = clazz.prototype[key];
           }
 
-          if (
-            (key.length > 3) & key.startsWith("get") &&
-            key.charAt(3) === key.charAt(3).toUpperCase()
-          ) {
-            let propertyName = key.charAt(3).toLowerCase() + key.substr(4);
-            let eventName = "change" + key.substr(3);
-            if (events && events[eventName] && members["set" + key.substr(3)]) {
-              let superProperty = clazz.prototype.$$superProperties
-                ? clazz.prototype.$$superProperties[propertyName]
-                : null;
-              if (superProperty) {
-                throw new Error(
-                  `${clazz.classname}: ` +
-                    `Overwriting property "${propertyName}" with a psuedo-property is not allowed`
-                );
-              }
-              let property = new qx.core.property.Property(propertyName, clazz);
-              property.configurePsuedoProperty();
-              clazz.prototype.$$properties[propertyName] = property;
-              clazz.prototype.$$allProperties[propertyName] = property;
-              property.defineProperty(clazz, patch);
+          // Create the storage for this member
+          patch && delete clazz.prototype[key];
+          Object.defineProperty(clazz.prototype, key, {
+            value: member,
+            writable: qx.Class.$$options.propsAccessible || true,
+            configurable: qx.Class.$$options.propsAccessible || true,
+            enumerable: qx.Class.$$options.propsAccessible || true
+          });
+
+          // Attach annotations
+          qx.Class._attachAnno(clazz, "members", key, members["@" + key]);
+        } else {
+          Object.defineProperty(clazz.prototype, key, {
+            value: member,
+            writable: qx.Class.$$options.propsAccessible || true,
+            configurable: qx.Class.$$options.propsAccessible || true,
+            enumerable: qx.Class.$$options.propsAccessible || true
+          });
+        }
+      }
+
+      for (let key in members) {
+        if (
+          (key.length > 3) & key.startsWith("get") &&
+          key.charAt(3) === key.charAt(3).toUpperCase()
+        ) {
+          let propertyName = key.charAt(3).toLowerCase() + key.substr(4);
+          if (clazz.prototype.$$allProperties[propertyName]) {
+            continue;
+          }
+          let eventName = "change" + key.substr(3);
+          if (events && events[eventName] && members["set" + key.substr(3)]) {
+            let superProperty = clazz.prototype.$$superProperties
+              ? clazz.prototype.$$superProperties[propertyName]
+              : null;
+            if (superProperty) {
+              throw new Error(
+                `${clazz.classname}: ` +
+                  `Overwriting property "${propertyName}" with a psuedo-property is not allowed`
+              );
             }
+            let property = new qx.core.property.Property(propertyName, clazz);
+            property.configurePsuedoProperty();
+            clazz.prototype.$$properties[propertyName] = property;
+            clazz.prototype.$$allProperties[propertyName] = property;
+            property.defineProperty(clazz, patch);
           }
         }
-
-        // Create the storage for this member
-        patch && delete clazz.prototype[key];
-        Object.defineProperty(clazz.prototype, key, {
-          value: member,
-          writable: qx.Class.$$options.propsAccessible || true,
-          configurable: qx.Class.$$options.propsAccessible || true,
-          enumerable: qx.Class.$$options.propsAccessible || true
-        });
-
-        // Attach annotations
-        qx.Class._attachAnno(clazz, "members", key, members["@" + key]);
       }
     },
 

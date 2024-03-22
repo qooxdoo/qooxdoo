@@ -204,7 +204,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
       if (def.transform) {
-        this.__transform = def.transform;
+        if (typeof def.transform == "function") {
+          this.__transform = def.transform;
+        } else if (typeof def.transform == "string") {
+          if (methodNames[def.transform]) {
+            this.__transform = methodNames[def.transform];
+          } else {
+            this.__transform = new Function("value", "return " + def.transform);
+          }
+        }
         if (this.__transform === undefined) {
           throw new Error(
             `${this}: Transform method ` + def.transform + " does not exist"
@@ -222,7 +230,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
         if (def.isEqual instanceof Function) {
           this.__isEqual = def.isEqual;
         } else if (typeof def.isEqual == "string") {
-          this.__isEqual = new Function("a", "b", "return " + def.isEqual);
+          if (methodNames[def.isEqual]) {
+            this.__isEqual = methodNames[def.isEqual];
+          } else {
+            this.__isEqual = new Function("a", "b", "return " + def.isEqual);
+          }
         }
       }
 
@@ -431,8 +443,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         clazz.prototype["$$init_" + propertyName] = initValue;
       }
 
-      addMethod("init" + upname, function () {
-        self.init(this);
+      addMethod("init" + upname, function (...args) {
+        self.init(this, ...args);
       });
 
       // theme-specified
@@ -604,11 +616,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __getSafe(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (value === undefined) {
-        if (this.isThemeable()) {
-          let state = this.getPropertyState(thisObj);
-          value = state.themeValue;
-        }
+      if (this.isThemeable() && (value === undefined || value === null)) {
+        let state = this.getPropertyState(thisObj);
+        value = state.themeValue;
       }
       if (value === undefined) {
         if (this.__definition.inheritable) {
@@ -704,10 +714,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.isMutating(thisObj)) {
         throw new Error("Property " + this + " is currently mutating");
       }
-      if (this.__transform) {
-        value = this.__transform.call(thisObj, value, this);
-      }
       let oldValue = this.__storage.get(thisObj, this);
+      if (this.__transform) {
+        value = this.__transform.call(thisObj, value, oldValue, this);
+      }
       this.__applyValue(thisObj, value, oldValue);
     },
 
