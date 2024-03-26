@@ -820,10 +820,25 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         });
         checkNodeJsDocDirectives(node);
 
-        if (node.key?.name == "_createQxObjectImpl") {
+        if (
+          node.key?.name === "_createQxObjectImpl" &&
+          t.__classMeta.type !== "interface"
+        ) {
+          if (t.__classMeta.type === "mixin") {
+            if (t.__classMeta.className === "qx.core.MObjectId") {
+              return;
+            }
+            qx.tool.compiler.Console.print(
+              "qx.tool.compiler.compiler.mixinQxObjectImpl",
+              t.__classMeta.className
+            );
+          }
+
           const injectCode = `{
-            let object = qx.core.MObjectId.handleObjects(${t.__classMeta.className}, this, ...arguments);
-            if (object) {
+            let object = qx.core.MObjectId.handleObjects(${
+              t.__classMeta.className ?? "this.constructor"
+            }, this, ...arguments);
+            if (object !== undefined) {
               return object;
             }
           }`;
@@ -1217,7 +1232,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           properties: "object", // Map
           events: "object", // Map
           destruct: "function", // Function
-          construct: "function" // Function
+          construct: "function", // Function
+          objects: "object" // Map
         },
         theme: {
           title: "string", // String
@@ -1264,13 +1280,28 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       };
 
       function ensureCreateQxObjectImpl(membersPropertyPath) {
+        // if we are in a class with no top-level properties, don't bother creating _createQxObjectImpl
+        if (
+          !membersPropertyPath.parent.properties.some(
+            p => p.key?.name === "objects"
+          )
+        ) {
+          return;
+        }
+
         const membersPropertyNode = membersPropertyPath.node;
         const memberNames = membersPropertyNode?.value?.properties?.map(
           it => it.key.name
         );
 
         if (!memberNames) {
-          throw new Error("Members section is not an object");
+          t.addMarker(
+            "compiler.membersNotAnObject",
+            membersPropertyPath.loc,
+            t.__classMeta.type
+          );
+
+          return;
         }
 
         if (memberNames.includes("_createQxObjectImpl")) {
@@ -1278,7 +1309,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         }
 
         const functionBody = `{
-          return qx.core.MObjectId.handleObjects(${t.__className}, this, ...arguments) ?? super._createQxObjectImpl(...arguments);
+          return super._createQxObjectImpl(...arguments);
         }`;
 
         const functionBlock = babylon.parse(functionBody, {
@@ -1293,9 +1324,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             functionBlock
           )
         );
-
-        membersPropertyPath.skip();
-        membersPropertyPath.traverse(VISITOR);
       }
 
       function checkValidTopLevel(path) {
@@ -1315,6 +1343,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           );
         }
       }
+
       function handleTopLevelMethods(path, keyName, functionNode) {
         if (keyName == "defer") {
           t.__hasDefer = true;
@@ -1412,10 +1441,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             };
 
             path.skip();
-            path.traverse(VISITOR);
-            if (keyName == "members" && t.__definingType == "Class") {
+            if (keyName === "members" && t.__classMeta.type === "class") {
               ensureCreateQxObjectImpl(path);
             }
+            path.traverse(VISITOR);
             t.__classMeta._topLevel = null;
           } else if (keyName == "properties") {
             path.skip();
@@ -1704,7 +1733,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             TaggedTemplateExpression: 1,
             ClassExpression: 1,
             OptionalCallExpression: 1,
-            JSXExpressionContainer: 1
+            JSXExpressionContainer: 1,
+            JSXSpreadAttribute: 1
           };
 
           let root = path;
@@ -2991,7 +3021,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
       return info;
     },
-    
     /**
      * Adds a required asset
      * @param path
@@ -3003,7 +3032,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__requiredAssets.push(path);
       }
     },
-    
     /**
      * Returns the assets required by the class
      * @returns
@@ -3109,7 +3137,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      */
     JSX_OPTIONS: {
       pragma: "qx.html.Jsx.createElement",
-      pragmaFrag: "qx.html.Jsx.FRAGMENT"
+      pragmaFrag: "qx.html.Jsx.FRAGMENT",
+      throwIfNamespace: false
     },
 
     /**
@@ -3233,6 +3262,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
     NODE_GLOBALS: [
       "Module",
+      "Buffer",
       "require",
       "module",
       "process",

@@ -76,6 +76,7 @@ qx.Class.define("qx.ui.form.List", {
 
     // initialize the search string
     this.__pressedString = "";
+    this.__childrenBindings = new Map();
   },
 
   /*
@@ -190,13 +191,20 @@ qx.Class.define("qx.ui.form.List", {
       return this.__content;
     },
 
+    __childrenBindings: null,
     /**
      * Handle child widget adds on the content pane
      *
      * @param e {qx.event.type.Data} the event instance
      */
     _onAddChild(e) {
-      this.fireDataEvent("addItem", e.getData());
+      const child = e.getData();
+      this.__childrenBindings.set(
+        child.toHashCode(),
+        this.bind("readOnly", child, "readOnly")
+      );
+
+      this.fireDataEvent("addItem", child);
     },
 
     /**
@@ -205,7 +213,10 @@ qx.Class.define("qx.ui.form.List", {
      * @param e {qx.event.type.Data} the event instance
      */
     _onRemoveChild(e) {
-      this.fireDataEvent("removeItem", e.getData());
+      const child = e.getData();
+      child.removeBinding(this.__childrenBindings.get(child.toHashCode()));
+      this.__childrenBindings.delete(child.toHashCode());
+      this.fireDataEvent("removeItem", child);
     },
 
     /*

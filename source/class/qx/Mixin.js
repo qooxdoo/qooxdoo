@@ -134,6 +134,10 @@ qx.Bootstrap.define("qx.Mixin", {
           mixin.$$events = config.events;
         }
 
+        if (config.objects) {
+          mixin.$$objects = config.objects;
+        }
+
         if (config.destruct) {
           mixin.$$destructor = config.destruct;
           qx.Bootstrap.setDisplayName(config.destruct, name, "destruct");
@@ -436,7 +440,8 @@ qx.Bootstrap.define("qx.Mixin", {
         properties: "object", // Map
         events: "object", // Map
         destruct: "function", // Function
-        construct: "function" // Function
+        construct: "function", // Function
+        objects: "object" // Map
       },
 
       default: null

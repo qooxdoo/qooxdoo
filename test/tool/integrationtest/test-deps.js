@@ -231,14 +231,7 @@ test("Checks dependencies and environment settings", assert => {
       .then(src => {
         var ci = db.classInfo["testapp.Issue494"];
         var arr = ci.unresolved||[];
-        // part of the top-level objects injection process causes these symbols to occur in the file, and appear to be unresolved.
-        assert.ok(
-          arr &&
-          arr.length === 2 &&
-          arr[0].name === "testapp.Issue494PartThree.superclass.prototype._createQxObjectImpl.call" &&
-          arr[1].name === "testapp.Issue494PartTwo.superclass.prototype._createQxObjectImpl.call",
-          "unexpected unresolved " + JSON.stringify(arr.slice(2)) + " in testapp.Issue494"
-        );
+        assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue494");
       })
 
       /*
