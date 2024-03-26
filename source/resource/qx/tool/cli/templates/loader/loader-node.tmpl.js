@@ -22,25 +22,40 @@
     console.log.apply(this, args);
   };
 
-  window.document = document = {
-      readyState: "ready",
-      currentScript: {
-        src: new (require('url').URL)('file:' + __filename).href
-      },
-      createEvent: function() {
-        return {
-          initCustomEvent: function() {}
-        };
-      },
-      createElement: function () {
-        return {}
-      },
-      addListener: function() {},
-      removeListener: function() {},
-      documentElement: {
-        style: {}
-      }
-  };
+  var JSDOM = null;
+  try {
+    JSDOM = require("jsdom").JSDOM;
+  } catch(ex) {
+    // Nothing
+  }
+  if (JSDOM) {
+    var dom = new JSDOM(`<!DOCTYPE html><html><head></head><body></body></html>`);
+    if (!window)
+      window = dom.window;
+    else {
+      window.document = dom.window.document;
+    }
+  } else {
+    window.document = document = {
+        readyState: "ready",
+        currentScript: {
+          src: new (require('url').URL)('file:' + __filename).href
+        },
+        createEvent: function() {
+          return {
+            initCustomEvent: function() {}
+          };
+        },
+        createElement: function () {
+          return {}
+        },
+        addListener: function() {},
+        removeListener: function() {},
+        documentElement: {
+          style: {}
+        }
+    };
+  }
 
   if (!this.qxloadPrefixUrl)
     qxloadPrefixUrl = "";
