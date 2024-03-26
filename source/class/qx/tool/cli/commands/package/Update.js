@@ -18,7 +18,6 @@
 const process = require("process");
 const Search = require("github-api/dist/components/Search");
 const Repository = require("github-api/dist/components/Repository");
-const fetch = require("node-fetch");
 const semver = require("semver");
 const inquirer = require("inquirer");
 const path = require("upath");
@@ -162,7 +161,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       }
       let url = this.getRepositoryCacheUrl();
       try {
-        let res = await fetch(url);
+        let res = await qx.tool.utils.Http.httpGet(url);
         let data = await res.json();
         this.setCache(data);
       } catch (e) {
