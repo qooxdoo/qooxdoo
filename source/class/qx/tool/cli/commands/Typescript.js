@@ -119,7 +119,7 @@ qx.Class.define("qx.tool.cli.commands.Typescript", {
         qx.tool.compiler.Console.error("No files to process");
         process.exit(1);
       }
-      for await (let file of files) {
+      for (let file of files) {
         await scanImpl(file);
       }
 
