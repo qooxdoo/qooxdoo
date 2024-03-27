@@ -28,29 +28,16 @@ qx.Class.define("qx.tool.compiler.jsdoc.CommandParser", {
   type: "abstract",
 
   members: {
-    parseCommand(pdoc, classname, analyser) {
+    /**
+     * Parses the JSDoc command
+     *
+     * @param {*} jsdoc
+     * @param {qx.tool.compiler.jsdoc.ITypeResolver} typeResolver
+     */
+    parseCommand(pdoc, typeResolver) {
       throw new Error(
         "No implementation for " + this.classname + ".parseCommand"
       );
-    },
-
-    resolveType(type, classname, analyser) {
-      if (type) {
-        var pos = type.indexOf(".");
-        if (pos < 0) {
-          pos = classname.lastIndexOf(".");
-          if (pos > -1) {
-            var pkg = classname.substring(0, pos + 1);
-            if (analyser) {
-              var match = analyser.getCachedClassInfo(pkg + type);
-              if (match) {
-                return pkg + type;
-              }
-            }
-          }
-        }
-      }
-      return type;
     }
   }
 });

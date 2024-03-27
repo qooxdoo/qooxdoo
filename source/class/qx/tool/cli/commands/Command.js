@@ -134,7 +134,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
 
     /**
      *
-     * @returns @see {@link qx.tool.config.Utils#getCompilerVersion}
+     * @see {@link qx.tool.config.Utils#getCompilerVersion}
+     * @returns {String}
      */
     getCompilerVersion() {
       return qx.tool.config.Utils.getCompilerVersion();
@@ -146,7 +147,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * {@link qqx.tool.config.Utils#getQxVersion()}. Throws if no version can be
      * determined.
      *
-     * @throws {qx.tool.utils.Utils.UserError}
+     * @throws {typeof qx.tool.utils.Utils.UserError}
+     *
      * @return {Promise<String>}
      */
     getQxVersion() {
@@ -164,8 +166,9 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * the command and supplied by the user). Throws if no version can be
      * determined.
      *
+     * @throws {typeof qx.tool.utils.Utils.UserError}
+     *
      * @return {Promise<String>}
-     * @throws {qx.tool.utils.Utils.UserError}
      */
     getAppQxVersion() {
       try {
@@ -180,7 +183,11 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @returns {String}
      */
     getTargetType() {
-      return this.argv.target || this.getCompilerApi().getConfiguration().defaultTarget || "source";
-    },
+      return (
+        this.argv.target ||
+        this.getCompilerApi().getConfiguration().defaultTarget ||
+        "source"
+      );
+    }
   }
 });

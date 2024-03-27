@@ -74,7 +74,7 @@ qx.Class.define("qx.bom.Blocker", {
      * Blocks the whole document (if no parameter is given) or acts as an
      * underlying blocker for native controls.
      *
-     * @param element {element?null} If no element is given the whole document is blocked.
+     * @param element {Element?null} If no element is given the whole document is blocked.
      */
     block(element) {
       if (!this.__isActive) {

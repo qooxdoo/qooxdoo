@@ -16,10 +16,6 @@
 
 ************************************************************************ */
 
-/**
- * @ignore(qx.test.ui.core.Theme, qx.test.ui.core.Test)
- */
-
 qx.Class.define("qx.test.ui.core.Appearance", {
   extend: qx.test.ui.LayoutTestCase,
 
@@ -29,7 +25,9 @@ qx.Class.define("qx.test.ui.core.Appearance", {
     setUp() {
       this.__oldAppearance =
         qx.theme.manager.Appearance.getInstance().getTheme();
-      qx.theme.manager.Appearance.getInstance().setTheme(qx.test.ui.core.Theme);
+      qx.theme.manager.Appearance.getInstance().setTheme(
+        qx.test.ui.core.AppearanceTheme
+      );
     },
 
     tearDown() {
@@ -38,7 +36,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
     },
 
     testDefault() {
-      var a = new qx.test.ui.core.Test();
+      var a = new qx.test.ui.core.AppearanceTest();
       a.setAppearance("test");
       this.getRoot().add(a);
       a.getChildControl("text");
@@ -50,7 +48,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
     },
 
     testFallback() {
-      var a = new qx.test.ui.core.Test();
+      var a = new qx.test.ui.core.AppearanceTest();
       a.setAppearance("test2");
       this.getRoot().add(a);
       a.getChildControl("text");
@@ -66,7 +64,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
     },
 
     testChange() {
-      var a = new qx.test.ui.core.Test();
+      var a = new qx.test.ui.core.AppearanceTest();
       a.setAppearance("test2");
       this.getRoot().add(a);
       a.getChildControl("text");
@@ -87,7 +85,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
     },
 
     testReuseNotDefined() {
-      var a = new qx.test.ui.core.Test();
+      var a = new qx.test.ui.core.AppearanceTest();
       a.setAppearance("test");
       this.getRoot().add(a);
       a.getChildControl("text");
@@ -113,68 +111,6 @@ qx.Class.define("qx.test.ui.core.Appearance", {
       );
 
       a.destroy();
-    }
-  }
-});
-
-qx.Theme.define("qx.test.ui.core.Theme", {
-  appearances: {
-    test: {
-      style(states) {
-        return {
-          backgroundColor: "red"
-        };
-      }
-    },
-
-    "test/text": {
-      style(states) {
-        return {
-          backgroundColor: "blue"
-        };
-      }
-    },
-
-    textfield: {
-      style(states) {
-        return {
-          backgroundColor: "green"
-        };
-      }
-    },
-
-    test2: {
-      style(states) {
-        return {
-          backgroundColor: "yellow"
-        };
-      }
-    },
-
-    "test2/text2": {
-      style(states) {
-        return {
-          backgroundColor: "black"
-        };
-      }
-    }
-  }
-});
-
-qx.Class.define("qx.test.ui.core.Test", {
-  extend: qx.ui.core.Widget,
-  construct() {
-    super();
-    this._setLayout(new qx.ui.layout.Grow());
-  },
-  members: {
-    _createChildControlImpl(id, hash) {
-      if (id == "text" || id == "text2") {
-        var control = new qx.ui.form.TextField("affe");
-        this._add(control);
-        return control;
-      }
-      return super._createChildControlImpl(id);
     }
   }
 });

@@ -40,11 +40,11 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
      * Detects whether the file needs to be recompiled/coverted/analysed/ etc, and is done after
      * checks determine whether the file datetime stamp indicate it's necessary
      *
-     * @param target {Target} the target
-     * @param asset {Asset} the asset to copy
+     * @param target {qx.tool.compiler.targets.Target} the target
+     * @param asset {qx.tool.compiler.resources.Asset} the asset to copy
      * @param srcFilename {String} full path to the file
      * @param destFilename {String} full path to the destination file
-     * @param isThemeFile {Booelan} true if the file is a theme file (as opposed to a normal resource file)
+     * @param isThemeFile {Boolean} true if the file is a theme file (as opposed to a normal resource file)
      *
      * @return {Boolean}
      */
@@ -55,8 +55,8 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
     /**
      * Returns the destination filename, or null if default is to be used
      *
-     * @param target {Target} the target
-     * @param asset {Asset} the asset to copy
+     * @param target {qx.tool.compiler.targets.Target} the target
+     * @param asset {qx.tool.compiler.resources.Asset} the asset to copy
      * @return {String?} full path to the file
      */
     getDestFilename(target, asset) {
@@ -67,8 +67,8 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
      * Allows a file to be recompiled/coverted/analysed/ etc; must return a Promise which resolves
      * when complete.  Data can be stored in the resource database by modifying the fileInfo
      *
-     * @param target {Target} the target
-     * @param asset {Asset} the asset to copy
+     * @param target {qx.tool.compiler.targets.Target} the target
+     * @param asset {qx.tool.compiler.resources.Asset} the asset to copy
      * @param srcFilename {String} full path to the file
      * @param destFilename {String} full path to the destination file
      * @param isThemeFile {Boolean} whether the file is in a theme

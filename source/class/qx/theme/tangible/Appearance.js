@@ -579,19 +579,13 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
-
     "table-scroller/resize-line": {
       style(states) {
-        return {
-          backgroundColor: "text-hint-on-surface",
-          width: 3
-        };
+        return { backgroundColor: "text-hint-on-surface", width: 3 };
       }
     },
-
     "table-header-cell": {
       alias: "atom",
-
       style(states) {
         return {
           decorator: states.first
@@ -610,10 +604,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
-
     "table-header-cell/icon": {
       include: "atom/icon",
-
       style(states) {
         return { paddingRight: 5 };
       }

@@ -51,6 +51,7 @@ qx.Interface.define("qx.ui.form.IStringForm", {
      * Sets the element's value.
      *
      * @param value {String|null} The new value of the element.
+     * @return {String|null} The current value of the element.
      */
     setValue(value) {
       return arguments.length == 1;

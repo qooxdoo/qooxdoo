@@ -416,17 +416,10 @@ qx.Class.define("qx.ui.tabview.TabView", {
         // pass
       } else {
         this._setLayout((layout = new layoutClass()));
-      }
-
-      // Update reversed
-      layout.setReversed(reversed);
-
-      // Sync orientation to bar
-      bar.setOrientation(horizontal ? "vertical" : "horizontal");
-
-      // Read children
+      } // Update reversed
+      layout.setReversed(reversed); // Sync orientation to bar
+      bar.setOrientation(horizontal ? "vertical" : "horizontal"); // Read children
       var children = this.getChildren();
-
       var i, l;
       // Toggle state to bar
       if (old) {

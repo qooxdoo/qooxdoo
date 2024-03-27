@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
      *
      * @param dateString {String} A string representing an RFC2822 or ISO 8601
      *   date (other formats may be used, but results may be unexpected).
-     * @return {Number|NaN} A number representing the milliseconds elapsed
+     * @return {Number} A number representing the milliseconds elapsed
      *   since January 1, 1970, 00:00:00 UTC and the date obtained by parsing
      *   the given string representation of a date.
      *   If the argument doesn't represent a valid date, NaN is returned.

@@ -68,7 +68,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
     /**
      * Returns the qooxdoo version that has been passed to the Runner or the
      * one from the environment
-     * @return {Promise<String>|*}
+     * @return {Promise<String>}
      */
     async getQxVersion() {
       return (

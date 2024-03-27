@@ -124,7 +124,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
      * Writes the source code as a stream, merging source files etc
      * as necessary
      *
-     * @param ws {WriteStream} the stream to write to
+     * @param ws {NodeJS.WritableStream} the stream to write to
      */
     async writeSourceCodeToStream(ws) {
       throw new Error(

@@ -39,7 +39,7 @@ qx.Interface.define("qx.ui.form.IModelSelection", {
     /**
      * Returns an array of the selected models.
      *
-     * @return {Array} An array containing the models of the currently selected
+     * @return {qx.data.Array} An array containing the models of the currently selected
      *   items.
      */
     getModelSelection() {}

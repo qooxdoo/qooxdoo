@@ -344,7 +344,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
     /**
      * Generates the application
      *
-     * @param application {Application} the application
+     * @param application {qx.tool.compiler.app.Application} the application
      * @param environment {Object} the environment
      */
     async generateApplication(application, environment) {

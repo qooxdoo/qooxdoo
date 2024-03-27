@@ -378,7 +378,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      *
      * @param searchElement {var} Element which is checked for.
      * @param fromIndex {Number} Index to start search from
-     * @return {bool} true if element is included
+     * @return {boolean} true if element is included
      */
     includes(searchElement, fromIndex) {
       if (this == null) {

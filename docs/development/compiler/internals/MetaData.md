@@ -3,8 +3,8 @@
 Every time a javascript source file is transpiled, metadata about the class,
 it's properties, methods, inheritance etc. are also serialised into a
 corresponding `.json` file; for example, where the transpiled code for
-`qx.core.Object` is output to `transpiled/qx/core/Object.js`, the metadata is
-in `transpiled/qx/core/Object.json`.
+`qx.core.Object` is output to `compiled/source/transpiled/qx/core/Object.js`, 
+the metadata is in `compiled/meta/qx/core/Object.json`.
 
 The metadata provides information about the structure of the class as it is
 written, but also to a large extent provides a description of the class at
@@ -23,23 +23,29 @@ Many of the objects in the metadata have a set of standard, useful fields; for
 example:
 
 ```json
-  "methods": {
+  "members": {
     "_createOkButton": {
       "location": {
         "start": {
           "line": 480,
-          "column": 4
+          "column": 4,
+          "index": 1234
         },
         "end": {
           "line": 490,
-          "column": 5
+          "column": 5,
+          "index": 1285
         }
       },
       "jsdoc": {
+        "raw": [
+          "* Create an OK button",
+          "* @return {qx.ui.form.Button} Returns a new OK button"
+        ],
         "@description": [
           {
             "name": "@description",
-            "body": "Create a cancel button"
+            "body": "Create an OK button"
           }
         ],
         "@return": [
@@ -53,12 +59,21 @@ example:
       },
       "type": "function",
       "access": "protected",
+      "params": [
+        {
+          "name": "label",
+          "type": "string",
+        }
+      ],
       "overriddenFrom": null,
       "appearsIn": [],
       "abstract": false,
       "mixin": false
     }
+  }
 ```
+
+[source code](/Users/admin/dev/qooxdoo/source/class/qx/ui/container/SlideBar.js:12:17)
 
 The `location` and `jsdoc` objects appear in just about every metadata object;
 the `jsdoc` information may be copied from super class, mixin, or interface so
@@ -67,7 +82,8 @@ that it is readily available.
 - `access` - {String} This can be one of "public", "protected", or "private"
 - `overriddenFrom` - {String?} The super class where this is most recently
   overridden from
-- `appearsIn` - {String\[]?} The superclasses and interfaces where this exists
+- `appearsIn` - {String\[]?} The superclasses, mixins, and interfaces where this
+  exists, loosely ordered from child-most to parent-most appearance
 - `abstract`- {Boolean?} Whether this is an abstract method, ie it is declared
   in an interface but has not yet been defined in this class
 - `mixin` - {Boolean?} Whether this exists only because it was brought in from a

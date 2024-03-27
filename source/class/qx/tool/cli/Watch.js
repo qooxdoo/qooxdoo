@@ -52,7 +52,17 @@ qx.Class.define("qx.tool.cli.Watch", {
     making: "qx.event.type.Event",
     remaking: "qx.event.type.Event",
     made: "qx.event.type.Event",
-    configChanged: "qx.event.type.Event"
+    configChanged: "qx.event.type.Event",
+
+    /**
+     * @typedef {Object} FileChangedEvent
+     * @property {qx.tool.compiler.app.Library} library the library that contains the file
+     * @property {String} filename the filename relative to the library root
+     * @property {String} fileType either "source", "resource" or "theme"
+     *
+     * This event is fired when a file is changed, the data is {FileChangedEvent}
+     */
+    fileChanged: "qx.event.type.Data"
   },
 
   members: {
@@ -419,24 +429,44 @@ qx.Class.define("qx.tool.cli.Watch", {
 
         let analyser = this.__maker.getAnalyser();
         let fName = "";
-        let isResource = analyser.getLibraries().some(lib => {
+        let fileType = null;
+        let fileLibrary = null;
+        for (let lib of analyser.getLibraries()) {
           var dir = path.resolve(
             path.join(lib.getRootDir(), lib.getResourcePath())
           );
 
           if (filename.startsWith(dir)) {
             fName = path.relative(dir, filename);
-            return true;
+            fileType = "resource";
+            fileLibrary = lib;
+            break;
           }
+
           dir = path.resolve(path.join(lib.getRootDir(), lib.getThemePath()));
           if (filename.startsWith(dir)) {
             fName = path.relative(dir, filename);
-            return true;
+            fileType = "theme";
+            fileLibrary = lib;
+            break;
           }
-          return false;
+
+          dir = path.resolve(path.join(lib.getRootDir(), lib.getSourcePath()));
+          if (filename.startsWith(dir)) {
+            fName = path.relative(dir, filename);
+            fileType = "source";
+            fileLibrary = lib;
+            break;
+          }
+        }
+
+        this.fireDataEvent("fileChanged", {
+          filename: fName,
+          fileType: fileType,
+          library: fileLibrary
         });
 
-        if (isResource) {
+        if (fileType == "resource" || fileType == "theme") {
           let rm = analyser.getResourceManager();
           let target = this.__maker.getTarget();
           if (this.isDebug()) {
