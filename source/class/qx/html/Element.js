@@ -38,7 +38,8 @@
  *
  * NOTE: Instances of this class must be disposed of after use
  *
- * @require(qx.module.Animation)
+ * NOTE:: This classes used to require `qx.module.Animation` but this brings in a huge
+ * list of dependencies, so it has been moved to the `qx.application.AbstractGui` class
  */
 qx.Class.define("qx.html.Element", {
   extend: qx.html.Node,
@@ -1669,7 +1670,6 @@ qx.Class.define("qx.html.Element", {
     _applyStyle(key, value, oldValue) {
       // Nothing
     },
-
     /**
      * Convenience method to modify a set of styles at once.
      *
@@ -1678,17 +1678,13 @@ qx.Class.define("qx.html.Element", {
      * @param direct {Boolean?false} Whether the values should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */
-    setStyles(map, direct) {
+     */ setStyles(map, direct) {
       // inline calls to "set" because this method is very
       // performance critical!
-
       var Style = qx.bom.element.Style;
-
       if (!this.__styleValues) {
         this.__styleValues = {};
       }
-
       if (this._domNode) {
         // Dynamically create if needed
         if (!this.__styleJobs) {

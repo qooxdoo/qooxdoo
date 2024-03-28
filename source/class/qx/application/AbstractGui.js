@@ -20,6 +20,7 @@
  * Abstract base class for GUI applications using qooxdoo widgets.
  *
  * @require(qx.core.Init)
+ * @use(qx.module.Animation)
  */
 qx.Class.define("qx.application.AbstractGui", {
   type: "abstract",
@@ -101,9 +102,7 @@ qx.Class.define("qx.application.AbstractGui", {
     // interface method
     close(val) {
       // empty
-    },
-
-    // interface method
+    }, // interface method
     terminate() {
       // empty
     }

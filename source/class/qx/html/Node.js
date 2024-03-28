@@ -31,7 +31,9 @@
  *
  * NOTE: Instances of this class must be disposed of after use
  *
- * @require(qx.module.Animation)
+ * NOTE:: This classes used to require `qx.module.Animation` but this brings in a huge
+ * list of dependencies, so it has been moved to the `qx.application.AbstractGui` class
+ *
  */
 qx.Class.define("qx.html.Node", {
   extend: qx.core.Object,
@@ -1261,14 +1263,11 @@ qx.Class.define("qx.html.Node", {
     _applyVisible(value) {
       // Nothing - to be overridden
     },
-
     /*
     ---------------------------------------------------------------------------
-      PROPERTY SUPPORT
+    PROPERTY SUPPORT
     ---------------------------------------------------------------------------
-    */
-
-    /**
+    */ /**
      * Registers a property and the implementations used to read the property value
      * from the DOM and to set the property value onto the DOM.  This allows the element
      * to have a simple `setProperty` method that knows how to read and write the value.
@@ -1284,8 +1283,7 @@ qx.Class.define("qx.html.Node", {
      * @param getter {Function?} function to read from the DOM
      * @param setter {Function?} function to copy to the DOM
      * @param serialize {Function?} function to serialize the value to HTML
-     */
-    registerProperty(key, get, set, serialize) {
+     */ registerProperty(key, get, set, serialize) {
       if (!this._properties) {
         this._properties = {};
       }
@@ -1340,7 +1338,6 @@ qx.Class.define("qx.html.Node", {
     _applyProperty(name, value) {
       // empty implementation
     },
-
     /**
      * Set up the given property.
      *
@@ -1349,8 +1346,7 @@ qx.Class.define("qx.html.Node", {
      * @param direct {Boolean?false} Whether the value should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */
-    _setProperty(key, value, direct) {
+     */ _setProperty(key, value, direct) {
       if (!this._properties || !this._properties[key]) {
         this.registerProperty(key, null, null);
       }
