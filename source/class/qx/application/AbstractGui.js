@@ -102,7 +102,9 @@ qx.Class.define("qx.application.AbstractGui", {
     // interface method
     close(val) {
       // empty
-    }, // interface method
+    },
+
+    // interface method
     terminate() {
       // empty
     }

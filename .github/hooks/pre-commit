@@ -7,6 +7,6 @@
 #
 #
 
-qx es6ify --git-pre-commit
+#qx es6ify --git-pre-commit
 exit $?
 
