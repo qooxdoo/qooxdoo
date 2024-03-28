@@ -65,6 +65,15 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
     },
 
     /**
+     * Whether the generated artifacts (ie resources and transpiled) are private to the application; this requires
+     * the web server to mount the resources and transpiled directories inside the application directory
+     */
+    privateArtifacts: {
+      init: false,
+      check: "Boolean"
+    },
+
+    /**
      * Environment property map
      */
     environment: {
@@ -164,7 +173,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       check: ["ignore", "untranslated", "all"]
     },
 
-    /** Whether to write a summary of the compile info to disk, ie everything about dependencies and
+    /**
+     * Whether to write a summary of the compile info to disk, ie everything about dependencies and
      * resources that are used to create the index.js file, but stored as pure JSON for third party code
      * to use.
      */
@@ -265,6 +275,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
      * Returns the URI for the root of the output, relative to the application
      */
     _getOutputRootUri(application) {
+      if (this.isPrivateArtifacts()) {
+        return "";
+      }
       var dir = this.getApplicationRoot(application);
       var targetUri = path.relative(dir, this.getOutputDir()) + "/";
       return targetUri;
@@ -331,16 +344,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       return filename;
     },
 
-    _copyClassesToFile(classes, outputFilename) {
-      let transpiledDir = path.join(this.getOutputDir(), "transpiled");
-      let allCode = [];
-      return qx.tool.utils.Promisify.eachOfSeries(classes, filename =>
-        fs
-          .readFileAsync(path.join(transpiledDir, filename), "utf8")
-          .then(code => allCode.push(code))
-      ).then(() => fs.writeFileAsync(outputFilename, allCode.join("\n")));
-    },
-
     /**
      * Generates the application
      *
@@ -355,13 +358,13 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       let appMeta = (this.__appMeta =
         new qx.tool.compiler.targets.meta.ApplicationMeta(this, application));
       appMeta.setAddTimestampsToUrls(this.getAddTimestampsToUrls());
-      /*
-      if (!appMeta.getAppLibrary()) {
-        qx.tool.compiler.Console.print("qx.tool.compiler.target.missingAppLibrary", application.getClassName());
-        return;
+
+      let targetUri = "";
+      if (!this.isPrivateArtifacts() || application.getType() != "browser") {
+        let dir = this.getApplicationRoot(application);
+        targetUri = path.relative(dir, this.getOutputDir()) + "/";
       }
-      */
-      let targetUri = t._getOutputRootUri(application);
+
       var appRootDir = this.getApplicationRoot(application);
 
       let mapTo = this.getPathMapping(
@@ -370,10 +373,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
       appMeta.setSourceUri(mapTo ? mapTo : targetUri + "transpiled/");
       mapTo = this.getPathMapping(
-        path.join(appRootDir, this.getOutputDir(), "resource")
+        path.join(appRootDir, this.getOutputDir(), "resource/")
       );
 
-      appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource");
+      appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource/");
 
       const requiredLibs = application.getRequiredLibraries();
 
@@ -382,10 +385,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       appMeta.setEnvironment({
         "qx.application": application.getClassName(),
         "qx.revision": "",
-        "qx.theme": application.getTheme(),
-        "qx.version": analyser.getQooxdooVersion(),
-        "qx.compiler.targetType": this.getType(),
-        "qx.compiler.outputDir": this.getOutputDir()
+        "qx.theme": application.getTheme()
       });
 
       let externals = {};

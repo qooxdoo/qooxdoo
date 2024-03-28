@@ -267,16 +267,30 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
       });
 
       let appRoot = this.__appMeta.getApplicationRoot();
+      let target = this.__appMeta.getTarget();
+      let privateArtifacts =
+        target.isPrivateArtifacts() &&
+        this.__appMeta.getApplication().getType() == "browser";
+      let transpiledDir = path.join(target.getOutputDir(), "transpiled");
+      let resourceDir = path.join(target.getOutputDir(), "resource");
       const toUri = filename => {
+        if (
+          privateArtifacts &&
+          (filename.startsWith(transpiledDir) ||
+            filename.startsWith(resourceDir))
+        ) {
+          let uri = path.relative(target.getOutputDir(), filename);
+          return uri;
+        }
+        let uri = path.relative(appRoot, filename);
         if (this.__appMeta.isAddTimestampsToUrls()) {
           let stat = fs.statSync(filename, { throwIfNoEntry: false });
-          let uri = path.relative(appRoot, filename);
           if (stat) {
             uri += "?" + stat.mtimeMs;
           }
           return uri;
         } else {
-          return path.relative(appRoot, filename);
+          return uri;
         }
       };
       if (!this.isEmbedAllJavascript()) {

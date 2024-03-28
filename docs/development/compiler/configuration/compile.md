@@ -577,6 +577,29 @@ is the URI.
 It is up to you to implement the mapping inside your web server so that the
 "/some/virtual/uri/path/qooxdoo" URI is able to load the files from `../qooxdoo`
 
+### Keeping all files within the application directory
+
+When the compiler generates applications, it creates `transpiled` and `resource`
+directories at the same level as the application name, and adds various working
+files, eg:
+
+```
+compiled/
+  source/
+    myAppName/
+    transpiled/
+    resource/
+    db.json
+    resource-db.json
+```
+
+This requires that you expose the `compiled/source` directory on your webserver, but 
+you can also make the `transpiled` and `resource` directories *appear* to be inside the
+application directory by setting `privateArtifacts: true` in the top level of `compile.json`
+
+You will have to configure your web server to serve `transpiled` and `resource` as virtual
+folders from within the URL that you use for `myAppName`.
+
 ## TypeScript
 
 ** Note that this has changed: you no longer add a new target ** TypeScript can
