@@ -579,7 +579,7 @@ It is up to you to implement the mapping inside your web server so that the
 
 ### Keeping all files within the application directory
 
-When the compiler generates an application(s), it creates `transpiled` and `resource`
+When the compiler generates applications, it creates `transpiled` and `resource`
 directories at the same level as the application name, and adds various working
 files, eg:
 
