@@ -31,7 +31,6 @@ qx.Class.define("qx.html.Factory", {
       (tagName, styles, attributes) => new qx.html.Text("")
     );
 
-    this.registerFactory("img", qx.html.Image);
     this.registerFactory(
       "iframe",
       (tagName, styles, attributes) =>

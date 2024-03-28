@@ -7,6 +7,10 @@
 #
 #
 
-qx es6ify --git-pre-commit
+#qx es6ify --git-pre-commit
+for file in $(git diff --cached --name-only --diff-filter=ACMR | grep '\.js') ; do
+  npx prettier --write $file
+done
+
 exit $?
 
