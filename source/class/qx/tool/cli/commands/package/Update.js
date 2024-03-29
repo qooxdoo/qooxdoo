@@ -161,7 +161,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       }
       let url = this.getRepositoryCacheUrl();
       try {
-        let fetch = await import("node-fetch");
+        let fetch = (await import("node-fetch")).default;
         let res = await fetch(url);
         let data = await res.json();
         this.setCache(data);
