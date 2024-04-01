@@ -99,11 +99,12 @@ qx.Class.define("qx.ui.form.AbstractField", {
           "-ms-input-placeholder, textarea.qx-placeholder-color",
           "-ms-input-placeholder"
         ].join(separator);
-        qx.ui.style.Stylesheet.getInstance().addRule(
-          selector,
-          "color: " + color + " !important"
-        );
       }
+
+      qx.ui.style.Stylesheet.getInstance().addRule(
+        selector,
+        "color: " + color + " !important"
+      );
     }
   },
 
@@ -127,7 +128,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
     }
     let el = this.getContentElement();
     el.addListener("change", this._onChangeContent, this);
-    
+
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
