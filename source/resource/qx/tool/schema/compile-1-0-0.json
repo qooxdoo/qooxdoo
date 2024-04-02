@@ -379,6 +379,10 @@
       },
       "examples": [{ "../qooxdoo": "/some/virtual/uri/path/qooxdoo" }]
     },
+    "private-artifacts": {
+      "description": "Whether the generated artifacts (ie resources and transpiled) are private to the application; this requires the web server to mount the resources and transpiled directories inside the application directory",
+      "type": "boolean"
+    },
     "locales": {
       "description": "Include other translations than 'en'",
       "type": "array",
