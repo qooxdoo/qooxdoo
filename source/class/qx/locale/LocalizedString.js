@@ -49,6 +49,9 @@ qx.Class.define("qx.locale.LocalizedString", {
      *    locale.
      */
     translate() {
+      if (this.__messageId.includes("cldr_")) {
+        return this;
+      }
       if (this.__localized) {
         return qx.locale.Manager.getInstance().localize(
           this.__messageId,
