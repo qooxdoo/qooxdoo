@@ -50,12 +50,19 @@
       }
     },
     "meta": {
-      "type": "string",
-      "description": "The output directory for meta data files for each class"
-    },
-    "typescript": {
-      "type": "string",
-      "description": "The output .d.ts file containing Typescript definitions for all known classes"
+      "type": "object",
+      "description": "Meta data for the compiler",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": "The output directory for meta data files for each class"
+        },
+        "typescript": {
+          "type": ["boolean", "string"],
+          "description": "True/false to enable the output .d.ts file containing Typescript definitions for all known classes; if a string, then it is the filename to output to",
+          "default": false
+        }
+      }
     },
     "applications": {
       "type": "array",

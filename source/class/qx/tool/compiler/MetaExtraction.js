@@ -22,7 +22,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
   statics: {
     /** Meta Data Version - stored in meta data files */
-    VERSION: 0.2
+    VERSION: 0.3
   },
 
   members: {
@@ -88,9 +88,8 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
      * @return {Object}
      */
     async parse(classFilename) {
-      classFilename = await qx.tool.utils.files.Utils.correctCase(
-        classFilename
-      );
+      classFilename =
+        await qx.tool.utils.files.Utils.correctCase(classFilename);
 
       let stat = await fs.promises.stat(classFilename);
       this.__metaData = {
@@ -233,6 +232,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
       };
 
       path.skip();
+      let ctorAnnotations = {};
       path.get("properties").forEach(path => {
         let property = path.node;
         let propertyName;
@@ -247,6 +247,12 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           metaData.superClass =
             qx.tool.utils.BabelHelpers.collapseMemberExpression(property.value);
         }
+
+        // Class Annotations
+        else if (propertyName == "@") {
+          metaData.annotation = path.get("value").toString();
+        }
+
         // Core
         else if (propertyName == "implement" || propertyName == "include") {
           let name = propertyName == "include" ? "mixins" : "interfaces";
@@ -301,12 +307,19 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             }
           }
         }
+
         // Type
         else if (propertyName == "type") {
           metaData.isSingleton = property.value.value == "singleton";
           metaData.abstract = property.value.value == "abstract";
         }
-        // Methods
+
+        // Constructor & Destructor Annotations
+        else if (propertyName == "@construct" || propertyName == "@destruct") {
+          ctorAnnotations[propertyName] = path.get("value").toString();
+        }
+
+        // Constructor & Destructor Methods
         else if (propertyName == "construct" || propertyName == "destruct") {
           let memberMeta = (metaData[propertyName] = {
             type: "function",
@@ -319,6 +332,7 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
           collapseParamMeta(property, memberMeta);
         }
+
         // Events
         else if (propertyName == "events") {
           metaData.events = {};
@@ -338,18 +352,26 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             }
           });
         }
+
         // Properties
         else if (propertyName == "properties") {
           this.__scanProperties(path.get("value.properties"));
         }
+
         // Members & Statics
         else if (propertyName == "members" || propertyName == "statics") {
           let type = propertyName;
+          let annotations = {};
           metaData[type] = {};
-          property.value.properties.forEach(member => {
+          path.get("value.properties").forEach(memberPath => {
+            let member = memberPath.node;
             const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
               member.key
             );
+            if (name[0] == "@") {
+              annotations[name] = memberPath.get("value").toString();
+              return;
+            }
 
             let memberMeta = (metaData[type][name] = {
               jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(member.leadingComments)
@@ -358,8 +380,8 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
             memberMeta.access = name.startsWith("__")
               ? "private"
               : name.startsWith("_")
-              ? "protected"
-              : "public";
+                ? "protected"
+                : "public";
             memberMeta.location = {
               start: member.loc.start,
               end: member.loc.end
@@ -375,8 +397,21 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
               collapseParamMeta(member, memberMeta);
             }
           });
+          for (let metaName in annotations) {
+            let bareName = metaName.substring(1);
+            let memberMeta = metaData[type][bareName];
+            if (memberMeta) {
+              memberMeta.annotation = annotations[metaName];
+            }
+          }
         }
       });
+      if (ctorAnnotations["@construct"] && metaData.construct) {
+        metaData.construct.annotation = ctorAnnotations["@construct"];
+      }
+      if (ctorAnnotations["@destruct"] && metaData.destruct) {
+        metaData.destruct.annotation = ctorAnnotations["@destruct"];
+      }
     },
 
     /**
