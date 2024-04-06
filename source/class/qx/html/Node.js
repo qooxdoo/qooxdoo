@@ -1269,7 +1269,8 @@ qx.Class.define("qx.html.Node", {
     ---------------------------------------------------------------------------
     PROPERTY SUPPORT
     ---------------------------------------------------------------------------
-    */ /**
+    */ 
+    /**
      * Registers a property and the implementations used to read the property value
      * from the DOM and to set the property value onto the DOM.  This allows the element
      * to have a simple `setProperty` method that knows how to read and write the value.
