@@ -1165,9 +1165,23 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (data.environment) {
           maker.setEnvironment(data.environment);
         }
-        if (targetConfig.environment) {
-          target.setEnvironment(targetConfig.environment);
+        let targetEnvironment = {
+          "qx.version": maker.getAnalyser().getQooxdooVersion(),
+          "qx.compiler.targetType": target.getType(),
+          "qx.compiler.outputDir": target.getOutputDir(),
+          "qx.target.privateArtifacts": !!data["private-artifacts"]
+        };
+        if (data["private-artifacts"]) {
+          target.setPrivateArtifacts(true);
         }
+
+        qx.lang.Object.mergeWith(
+          targetEnvironment,
+          targetConfig.environment,
+          false
+        );
+        target.setEnvironment(targetEnvironment);
+
         if (targetConfig.preserveEnvironment) {
           target.setPreserveEnvironment(targetConfig.preserveEnvironment);
         }
