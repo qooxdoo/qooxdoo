@@ -38,7 +38,9 @@
  *
  * NOTE: Instances of this class must be disposed of after use
  *
- * @require(qx.module.Animation)
+ * NOTE:: This class used to require `qx.module.Animation` but that brings in a huge
+ * list of dependencies, so the require has been moved to the `qx.application.AbstractGui`
+ * class
  */
 qx.Class.define("qx.html.Element", {
   extend: qx.html.Node,
@@ -1682,13 +1684,10 @@ qx.Class.define("qx.html.Element", {
     setStyles(map, direct) {
       // inline calls to "set" because this method is very
       // performance critical!
-
       var Style = qx.bom.element.Style;
-
       if (!this.__styleValues) {
         this.__styleValues = {};
       }
-
       if (this._domNode) {
         // Dynamically create if needed
         if (!this.__styleJobs) {
