@@ -198,6 +198,11 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         type: "boolean"
       },
 
+      "verbose-created-at": {
+        describe: "Adds additional detail to $$createdAt",
+        type: "boolean"
+      },
+
       clean: {
         alias: "D",
         describe: "Deletes the target dir before compile",
@@ -1219,6 +1224,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["addCreatedAt"] || t.argv["addCreatedAt"];
         if (addCreatedAt) {
           maker.getAnalyser().setAddCreatedAt(true);
+        }
+        const verboseCreatedAt =
+          targetConfig["verboseCreatedAt"] || t.argv["verboseCreatedAt"];
+        if (verboseCreatedAt) {
+          maker.getAnalyser().setVerboseCreatedAt(true);
         }
 
         for (let library of librariesArray) {

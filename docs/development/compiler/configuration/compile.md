@@ -206,6 +206,10 @@ be compiled. Each object can contain:
   a hidden property called `$$createdAt` which points to an object containing
   `filename`, `lineNumber`, and `column` properties
 
+- `verboseCreatedAt` - (**optional**) if true, all hidden `$$createdAt` objects
+  will be provided with a stack trace at their time and place of creation, allowing
+  for more detailed debugging.
+
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With these
   options the output type of babel can be defined. For details see here:
   <https://babeljs.io/docs/en/babel-preset-env#options> When setting

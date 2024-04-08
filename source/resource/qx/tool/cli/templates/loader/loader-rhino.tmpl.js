@@ -88,13 +88,21 @@
   qx.$$locales = %{Locales};
   qx.$$packageData = {};
   qx.$$g = {}
-  qx.$$createdAt = function(obj, filename, lineNumber, column) {
-    if (obj !== undefined && obj !== null && typeof Object.$$createdAt === undefined) {
+  qx.$$createdAt = function(obj, filename, lineNumber, column, verbose) {
+    if (obj && obj.hasOwnProperty && !obj.hasOwnProperty("$$createdAt")) {
       Object.defineProperty(obj, "$$createdAt", {
         value: {
           filename: filename,
           lineNumber: lineNumber,
-          column: column
+          column: column,
+          ...(verbose
+            ? {
+                stack: new Error().stack
+                  ?.split("\n")
+                  .slice(2)
+                  .map((line) => line.trim()) ?? "<stack trace unavailable>",
+              }
+            : {}),
         },
         enumerable: false,
         configurable: false,
