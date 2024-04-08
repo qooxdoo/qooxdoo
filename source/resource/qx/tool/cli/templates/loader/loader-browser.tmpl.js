@@ -74,22 +74,19 @@ qx.$$translations = %{Translations};
 qx.$$locales = %{Locales};
 qx.$$packageData = {};
 qx.$$g = {};
-qx.$$createdAt = function(obj, filename, lineNumber, column, verbose) {
+qx.$$createdAt = function (obj, filename, lineNumber, column, verbose) {
   if (obj && obj.hasOwnProperty && !obj.hasOwnProperty("$$createdAt")) {
+    var value = {
+      filename: filename,
+      lineNumber: lineNumber,
+      column: column
+    };
+    var stack = new Error().stack;
+    if (verbose && !!stack) {
+      Object.assign(value, { stack: stack.split("\n").slice(2).map(line => line.trim()) });
+    }
     Object.defineProperty(obj, "$$createdAt", {
-      value: {
-        filename: filename,
-        lineNumber: lineNumber,
-        column: column,
-        ...(verbose
-          ? {
-              stack: new Error().stack
-                .split("\n")
-                .slice(2)
-                .map((line) => line.trim()) ?? "<stack trace unavailable>",
-            }
-          : {}),
-      },
+      value: value,
       enumerable: false,
       configurable: false,
       writable: false
