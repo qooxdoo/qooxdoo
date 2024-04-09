@@ -49,20 +49,6 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
       nullable: true
     },
 
-    /** Whether to write a typescript .d.ts file for all classes */
-    outputTypescript: {
-      init: false,
-      nullable: false,
-      check: "Boolean"
-    },
-
-    /** Filename for the typescript, if `outputTypescript == true` */
-    outputTypescriptTo: {
-      init: "qooxdoo.d.ts",
-      nullable: false,
-      check: "String"
-    },
-
     /** Blocks automatic deleting of the output directory */
     noErase: {
       init: false,

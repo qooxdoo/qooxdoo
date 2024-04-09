@@ -131,9 +131,15 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
   },
 
   members: {
+    /** @type{String} the filename to work on */
     __filename: null,
+
+    /** @type{} */
     __knownApiFunctions: null,
 
+    /**
+     * Transforms the named file
+     */
     async transform() {
       let src = await fs.promises.readFile(this.__filename, "utf8");
 
@@ -265,6 +271,12 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       };
     },
 
+    /**
+     * Converts a function expression into an arrow function expression
+     *
+     * @param {Babel.Node} argNode
+     * @returns
+     */
     __toArrowExpression(argNode) {
       let body = argNode.body;
       if (body.body.length == 1 && body.body[0].type == "ReturnStatement") {
@@ -283,6 +295,11 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       return replacement;
     },
 
+    /**
+     * Plugin that makes sure that every single line block is wrapped in braces
+     *
+     * @returns
+     */
     __pluginSingleLineBlocks() {
       function loopStatement(path) {
         if (path.node.body.type == "BlockStatement") {

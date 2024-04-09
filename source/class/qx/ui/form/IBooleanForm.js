@@ -51,6 +51,7 @@ qx.Interface.define("qx.ui.form.IBooleanForm", {
      * Sets the element's value.
      *
      * @param value {Boolean|null} The new value of the element.
+     * @return {Boolean|null}
      */
     setValue(value) {
       return arguments.length == 1;

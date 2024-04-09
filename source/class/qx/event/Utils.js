@@ -289,7 +289,7 @@ qx.Class.define("qx.event.Utils", {
      * @param listener {Function} the event handler
      * @param context {Object?} the `this` for the event handler
      * @param event {Event} the event being fired
-     * @returns {qx.Promise|?} the result of the handler
+     * @returns {qx.Promise?} the result of the handler
      */
     callListener(tracker, listener, context, event) {
       if (tracker.rejected) {

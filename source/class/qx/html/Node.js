@@ -1264,7 +1264,6 @@ qx.Class.define("qx.html.Node", {
     _applyVisible(value) {
       // Nothing - to be overridden
     },
-
     /*
     ---------------------------------------------------------------------------
     PROPERTY SUPPORT
@@ -1286,7 +1285,7 @@ qx.Class.define("qx.html.Node", {
      * @param getter {Function?} function to read from the DOM
      * @param setter {Function?} function to copy to the DOM
      * @param serialize {Function?} function to serialize the value to HTML
-     */
+     */ 
     registerProperty(key, get, set, serialize) {
       if (!this._properties) {
         this._properties = {};
@@ -1342,7 +1341,6 @@ qx.Class.define("qx.html.Node", {
     _applyProperty(name, value) {
       // empty implementation
     },
-
     /**
      * Set up the given property.
      *
@@ -1351,7 +1349,7 @@ qx.Class.define("qx.html.Node", {
      * @param direct {Boolean?false} Whether the value should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */
+     */ 
     _setProperty(key, value, direct) {
       if (!this._properties || !this._properties[key]) {
         this.registerProperty(key, null, null);

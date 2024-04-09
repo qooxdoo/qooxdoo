@@ -411,7 +411,7 @@ qx.Class.define("qx.html.Element", {
     /**
      * Finds the Widget for a given DOM element
      *
-     * @param domElement {DOM} the DOM element
+     * @param domElement {Node} the DOM element
      * @return {qx.ui.core.Widget} the Widget that created the DOM element
      * @deprecated {6.1} see qx.html.Node.fromDomNode
      */
@@ -1671,7 +1671,6 @@ qx.Class.define("qx.html.Element", {
     _applyStyle(key, value, oldValue) {
       // Nothing
     },
-
     /**
      * Convenience method to modify a set of styles at once.
      *
@@ -1680,7 +1679,7 @@ qx.Class.define("qx.html.Element", {
      * @param direct {Boolean?false} Whether the values should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */
+     */ 
     setStyles(map, direct) {
       // inline calls to "set" because this method is very
       // performance critical!

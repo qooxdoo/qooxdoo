@@ -3,9 +3,7 @@
   "targets": [
     {
       "type": "source",
-      "application-types": [
-        "browser"
-      ],
+      "application-types": ["browser"],
       "outputPath": "compiled/browser/source",
       "babelOptions": {
         "targets": {
@@ -17,17 +15,13 @@
     },
     {
       "type": "build",
-      "application-types": [
-        "browser"
-      ],
+      "application-types": ["browser"],
       "outputPath": "compiled/browser/build",
       "deployPath": "html"
     },
     {
       "type": "source",
-      "application-types": [
-        "node"
-      ],
+      "application-types": ["node"],
       "outputPath": "compiled/node/source",
       "babelOptions": {
         "targets": "node >= 11"
@@ -35,9 +29,7 @@
     },
     {
       "type": "build",
-      "application-types": [
-        "node"
-      ],
+      "application-types": ["node"],
       "outputPath": "compiled/node/build",
       "deployPath": "lib",
       "writeCompileInfo": true,
@@ -48,9 +40,7 @@
     }
   ],
   "defaultTarget": "source",
-  "locales": [
-    "en"
-  ],
+  "locales": ["en"],
   "ignores": [
     "manifest_path",
     "setImmediate",
@@ -63,9 +53,7 @@
     "args.*",
     "loadSass"
   ],
-  "libraries": [
-    "."
-  ],
+  "libraries": ["."],
   "applications": [
     {
       "class": "qx.tool.cli.Application",
@@ -73,10 +61,7 @@
       "title": "Qooxdoo Compiler",
       "type": "node",
       "deploy": true,
-      "include": [
-        "qx.core.BaseInit",
-        "qx.tool.*"
-      ],
+      "include": ["qx.core.BaseInit", "qx.tool.*"],
       "exclude": [
         "q",
         "qxWeb",
@@ -102,10 +87,7 @@
       "title": "Qooxdoo Compiler as Library",
       "type": "node",
       "deploy": true,
-      "include": [
-        "qx.core.BaseInit",
-        "qx.tool.*"
-      ],
+      "include": ["qx.core.BaseInit", "qx.tool.*"],
       "exclude": [
         "q",
         "qxWeb",
@@ -170,38 +152,28 @@
       ]
     },
     {
-      "class":  "qxWeb",
-      "name":   "qxWeb",
+      "class": "qxWeb",
+      "name": "qxWeb",
       "title": "qxWeb Demo Application",
-      "type" :  "browser",
+      "type": "browser",
       "deploy": true,
       "bootPath": "source/boot",
-      "include": [
-        "qx.ui.website.*",
-        "qx.module.*",
-        "qxWeb",
-        "q"
-      ],
-      "exclude" : [
-      ]
+      "include": ["qx.ui.website.*", "qx.module.*", "qxWeb", "q"],
+      "exclude": []
     }
   ],
   "sass": {
     "compiler": "legacy"
   },
   "eslintConfig": {
-    "extends": [
-       "@qooxdoo/qx/browser",
-       "@qooxdoo/qx",
-       "@qooxdoo/jsdoc-disable"
-    ],
+    "extends": ["@qooxdoo/qx/browser", "@qooxdoo/qx", "@qooxdoo/jsdoc-disable"],
     "parserOptions": {
       "ecmaVersion": "2020"
     },
     "globals": {
       "loadSass": "readonly"
-  },
-  "rules": {
+    },
+    "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
       "@qooxdoo/qx/no-refs-in-members": "off",
       "no-undef": "off",
@@ -226,30 +198,30 @@
       "wrap-iife": "off",
       "brace-style": "off",
       "dot-location": "off",
-       "keyword-spacing": "off",
-       "space-in-parens": "off",
-       "comma-spacing": "off",
-       "padded-blocks": "off",
-       "space-before-blocks": "off",
-       "one-var-declaration-per-line": "off",
-       "semi-spacing": "off",
-       "block-spacing": "off",
-       "no-floating-decimal": "off",
-       "computed-property-spacing": "off",
-       "switch-colon-spacing": "off",
-       "yoda": "off",
-       "no-whitespace-before-property": "off",
-       "no-extra-bind": "off",
-       "space-unary-ops": "off",
-       "operator-assignment": "off",
-       "eol-last": "off",
-       "linebreak-style": "off",
-       "no-unsafe-negation": "off",
-       "new-parens": "off",
-       "semi": "off",
-       "curly": "error",
-       "no-mixed-spaces-and-tabs": "off",
-       "no-extra-semi": "off",
+      "keyword-spacing": "off",
+      "space-in-parens": "off",
+      "comma-spacing": "off",
+      "padded-blocks": "off",
+      "space-before-blocks": "off",
+      "one-var-declaration-per-line": "off",
+      "semi-spacing": "off",
+      "block-spacing": "off",
+      "no-floating-decimal": "off",
+      "computed-property-spacing": "off",
+      "switch-colon-spacing": "off",
+      "yoda": "off",
+      "no-whitespace-before-property": "off",
+      "no-extra-bind": "off",
+      "space-unary-ops": "off",
+      "operator-assignment": "off",
+      "eol-last": "off",
+      "linebreak-style": "off",
+      "no-unsafe-negation": "off",
+      "new-parens": "off",
+      "semi": "off",
+      "curly": "error",
+      "no-mixed-spaces-and-tabs": "off",
+      "no-extra-semi": "off",
       "indent": "off",
       "no-warning-comments": "off",
       "no-lonely-if": "off",

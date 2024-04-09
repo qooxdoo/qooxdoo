@@ -196,27 +196,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
     _applyReadOnly() {
       // no-op
     },
-
     /*
     ---------------------------------------------------------------------------
-      PUBLIC METHODS
+    PUBLIC METHODS
     ---------------------------------------------------------------------------
-    */
-
-    /**
+    */ /**
      * Returns the list widget.
      * @return {qx.ui.form.List} the list
-     */
-    getChildrenContainer() {
+     */ getChildrenContainer() {
       return this.getChildControl("list");
     },
-
+    
     /*
     ---------------------------------------------------------------------------
-      LIST STUFF
+    LIST STUFF
     ---------------------------------------------------------------------------
     */
-
+    
     /**
      * Shows the list popup.
      */
