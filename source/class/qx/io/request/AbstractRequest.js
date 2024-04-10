@@ -285,7 +285,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
      * well. It is called by the constructor and should return the transport that
      * is to be interfaced.
      *
-     * @return {qx.bom.request} Transport.
+     * @return {qx.bom.request.Jsonp | qx.bom.request.Script | qx.bom.request.SimpleXhr | qx.bom.request.Xhr | qx.bom.request.IRequest} Transport.
      */
     _createTransport() {
       throw new Error("Abstract method call");

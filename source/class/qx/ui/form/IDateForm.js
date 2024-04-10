@@ -51,6 +51,7 @@ qx.Interface.define("qx.ui.form.IDateForm", {
      * Sets the element's value.
      *
      * @param value {Date|null} The new value of the element.
+     * @return {Date|null}
      */
     setValue(value) {
       return arguments.length == 1;

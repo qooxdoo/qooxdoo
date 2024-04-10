@@ -38,7 +38,16 @@ qx.Class.define("qx.util.LibraryManager", {
      * @return {Boolean} <code>true</code> if the given library is known
      */
     has(namespace) {
-      return !!this.self(arguments).__libs[namespace];
+      return !!qx.util.LibraryManager.__libs[namespace];
+    },
+
+    /**
+     * The namespaces of all libraries known to the application
+     *
+     * @returns {String[]} the namespaces
+     */
+    getNamespaces() {
+      return Object.keys(qx.util.LibraryManager.__libs);
     },
 
     /**
@@ -48,8 +57,8 @@ qx.Class.define("qx.util.LibraryManager", {
      * @return {var|null} The attribute's value or <code>null</code> if it's not defined
      */
     get(namespace, key) {
-      return this.self(arguments).__libs[namespace][key]
-        ? this.self(arguments).__libs[namespace][key]
+      return qx.util.LibraryManager.__libs[namespace][key]
+        ? qx.util.LibraryManager.__libs[namespace][key]
         : null;
     },
 
@@ -61,7 +70,7 @@ qx.Class.define("qx.util.LibraryManager", {
      * @param value {var} Value of the attribute
      */
     set(namespace, key, value) {
-      this.self(arguments).__libs[namespace][key] = value;
+      qx.util.LibraryManager.__libs[namespace][key] = value;
     }
   }
 });

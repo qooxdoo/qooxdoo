@@ -172,6 +172,9 @@ function formatValueAsCode(value) {
   if (typeof value === "object" && value instanceof Date) {
     return "new Date(" + value.getTime() + ")";
   }
+  if (qx.lang.Type.isArray(value)) {
+    return "[" + value.map(formatValueAsCode).join(", ") + "]";
+  }
   return value.toString();
 }
 
