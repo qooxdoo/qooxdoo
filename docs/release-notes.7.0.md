@@ -5,7 +5,7 @@
    Previously, the compiler only output typescript definitions as it compiled, but this caused problems because not all targets support all javascript files (eg browser vs node code)
    Now the meta data collection is moved into a separate parser which can scan every class file in every library, and generate meta data and typescript, see https://github.com/qooxdoo/qooxdoo/pull/10646
    
-   - Adds a privateArtifacts:
+   - privateArtifacts property in compile.json:
    This adds a privateArtifacts option to compile.json to allow all urls to be locked within an application directory, see https://github.com/qooxdoo/qooxdoo/pull/10681
    
    - Enhance Jsx: The Jsx system now has custom elements, slots, and several other useful pieces of functionality. There is also a setup for <qx:* /> special elements to be added in future for any purposes, which reserves the qx: namespace in the meantime, see https://github.com/qooxdoo/qooxdoo/pull/10637
