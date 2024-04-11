@@ -273,6 +273,7 @@ Options:
   --typescript              Outputs typescript definitions in Qooxdoo.d.ts
                                                                        [boolean]
   --add-created-at          Adds code to populate object's $$createdAt [boolean]
+  --verbose-created-at      Adds additional detail to $$createdAt      [boolean]
   --clean                   Deletes the target dir before compile      [boolean]
   --listenPort              The port for the web browser to listen on
 

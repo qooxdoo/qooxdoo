@@ -310,6 +310,10 @@
             "description": "If true, this will cause every object to have a hidden property called $$createdAt which points to an object containing filename, lineNumber, and column properties.",
             "type": "boolean"
           },
+          "verboseCreatedAt": {
+            "description": "If true, all hidden `$$createdAt` objects will be provided with a stack trace at their time and place of creation, allowing for more detailed debugging.",
+            "type": "boolean"
+          },
           "babelOptions": {
             "type": "object",
             "description": "Options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: <https://babeljs.io/docs/en/babel-preset-env#options>. They can be overridden per target."
