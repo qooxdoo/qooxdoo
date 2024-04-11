@@ -1568,10 +1568,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 types.numericLiteral(
                   path.node.loc ? path.node.loc.start.line : 0
                 ),
-
                 types.numericLiteral(
                   path.node.loc ? path.node.loc.start.column : 0
-                )
+                ),
+                types.booleanLiteral(t.__analyser.isVerboseCreatedAt())
               ]);
 
               path.replaceWith(tmp);

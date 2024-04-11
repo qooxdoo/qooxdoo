@@ -105,6 +105,13 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "Boolean"
     },
 
+    /** Whether to add verbose tracking to `$$createdAt`. Has no effect if `addCreatedAt=false` */
+    verboseCreatedAt: {
+      init: false,
+      nullable: false,
+      check: "Boolean"
+    },
+
     /** Environment during compile time */
     environment: {
       init: null,
