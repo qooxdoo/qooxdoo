@@ -13,9 +13,11 @@
    - Add cycle behaviour to ToggleButton, see https://github.com/qooxdoo/qooxdoo/pull/10655
 
    - Implement cached objects top-level section, see https://github.com/qooxdoo/qooxdoo/issues/10641 and https://github.com/qooxdoo/qooxdoo/pull/10645
+
+   - add stack trace to $$createdAt, see https://github.com/qooxdoo/qooxdoo/pull/10683
    
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-12-07&until==2024-04-15
-master&since==2023-12-07
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-12-07&until==2024-04-12
+
 
 ## Fixes for v7.6.3
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-10-05&until==2023-12-06
