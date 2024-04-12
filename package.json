@@ -25,7 +25,7 @@
   "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "git+https://github.com/qooxdoo/qooxdoo.git"
   },
   "bugs": {
     "url": "https://github.com/qooxdoo/qooxdoo/issues"
