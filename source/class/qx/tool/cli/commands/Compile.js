@@ -796,7 +796,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
       await metaDb.reparseAll();
       await metaDb.save();
-      this.fireDataEvent("writtenMetaData", metaDb);
+      await this.fireDataEventAsync("writtenMetaData", metaDb);
 
       // Do the inital write
       let tsWriter = null;
