@@ -885,9 +885,12 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
       if (qx.lang.Type.isBoolean(data?.meta?.typescript)) {
         this.__typescriptEnabled = data.meta.typescript;
-      } else if (qx.lang.Type.isString(data?.typescript)) {
+      } else if (qx.lang.Type.isString(data?.meta?.typescript)) {
         this.__typescriptEnabled = true;
-        this.__typescriptFile = data.typescript;
+        this.__typescriptFile = path.relative(
+          process.cwd(),
+          path.resolve(data?.meta?.typescript)
+        );
       }
       if (qx.lang.Type.isBoolean(this.argv.typescript)) {
         this.__typescriptEnabled = this.argv.typescript;
