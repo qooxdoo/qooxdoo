@@ -806,7 +806,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (this.__typescriptFile) {
           tsWriter.setOutputTo(this.__typescriptFile);
         } else {
-          tsWriter.setOutputTo(path.join("compiled", "qooxdoo.d.ts"));
+          tsWriter.setOutputTo(path.join(this.__metaDir, "..", "qooxdoo.d.ts"));
         }
         await tsWriter.process();
       }
