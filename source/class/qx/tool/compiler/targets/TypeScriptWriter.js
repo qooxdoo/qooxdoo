@@ -21,7 +21,7 @@
  *
  * *********************************************************************** */
 
-var path = require("path");
+var path = require("upath");
 
 var fs = require("fs");
 const { promisify } = require("util");
@@ -77,13 +77,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.__outputStream.on("close", () =>
         this.__outputStreamClosed.resolve()
       );
-
       this.write(`// Generated declaration file at ${time}\n`);
-
-      let str = qx.util.ResourceManager.getInstance().toUri(
-        "qx/tool/cli/templates/TypeScriptWriter-base_declaration.d.ts"
-      );
-
+      let str = path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.d.ts")
       let baseDeclaration = await fs.promises.readFile(str, "utf8");
       this.write(baseDeclaration + "\n");
     },
