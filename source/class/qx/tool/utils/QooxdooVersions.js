@@ -100,14 +100,17 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      */
     async clean() {
       this.__db = {};
-      await fs.promises.rm(this.__getFilename());
-      await fs.promises.rm(
-        path.join(qx.tool.cli.ConfigDb.getDirectory(), "versions"),
-        {
-          recursive: true,
-          force: true
-        }
-      );
+      try {
+        await fs.promises.rm(
+          path.join(qx.tool.cli.ConfigDb.getDirectory(), "versions"),
+          {
+            recursive: true,
+            force: true
+          }
+        );
+      }catch(ex) {
+        // Nothing - exception is thrown if the directory does not exist
+      }
     },
 
     /**

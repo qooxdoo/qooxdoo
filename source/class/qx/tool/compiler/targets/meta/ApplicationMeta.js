@@ -64,10 +64,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       check: "Boolean"
     },
 
-    appLibrary: {
-      check: "qx.tool.compiler.app.Library"
-    },
-
     bootMetaJs: {
       check: "qx.tool.compiler.targets.meta.AbstractJavascriptMeta"
     },
