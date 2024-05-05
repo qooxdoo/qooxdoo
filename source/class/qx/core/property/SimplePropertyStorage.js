@@ -28,6 +28,16 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     get(thisObj, property) {
+      let $$propertyValues = thisObj["$$propertyValues"];
+      if ($$propertyValues == undefined) {
+        qx.log.Logger.warn(
+          "No $$propertyValues on " +
+            thisObj.classname +
+            ": possibly missing call to super() in the constructor"
+        );
+        $$propertyValues = thisObj["$$propertyValues"] = {};
+        debugger;
+      }
       let value =
         thisObj["$$propertyValues"][property.getPropertyName()]?.value;
       if (value === undefined) {

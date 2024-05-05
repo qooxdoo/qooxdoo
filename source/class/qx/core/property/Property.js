@@ -89,6 +89,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
     isRefineAllowed(def) {},
 
+    /**
+     * Configures a psuedo property
+     */
     configurePsuedoProperty() {
       this.__definition = {};
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
@@ -172,16 +175,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             );
           }
         } else {
-          if (
-            this.__clazz.prototype["get" + upname] &&
-            Object.hasOwnProperty(this.__clazz.prototype, "get" + upname)
-          ) {
-            this.__storage = new qx.core.property.PsuedoPropertyStorage(
-              this,
-              this.__clazz
-            );
-            this.__readOnly = methodNames["set" + upname] === undefined;
-          } else if (typeof def.get == "function") {
+          if (typeof def.get == "function") {
             this.__storage = new qx.core.property.ExplicitPropertyStorage(
               this,
               this.__clazz
