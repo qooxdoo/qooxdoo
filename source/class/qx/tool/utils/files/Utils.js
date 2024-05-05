@@ -154,7 +154,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * Returns the stats for a file, or null if the file does not exist
      *
      * @param filename
-     * @returns {fs.Stat}
+     * @returns {import("node:fs").Stats}
      * @async
      */
     safeStat(filename) {

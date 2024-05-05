@@ -43,13 +43,13 @@ qx.Class.define("qx.tool.cli.Cli", {
   },
 
   members: {
-    /** @type {yargs} the current yargs instance */
+    /** @type {typeof import("yargs")} the current yargs instance */
     yargs: null,
 
     /** @type {Object} the current argv */
     argv: null,
 
-    /** @type {CompilerApi} the CompilerApi instance */
+    /** @type {qx.tool.cli.api.CompilerApi} the CompilerApi instance */
     _compilerApi: null,
 
     /** @type {String} the compile.js filename, if there is one */
@@ -75,7 +75,7 @@ qx.Class.define("qx.tool.cli.Cli", {
     /**
      * Creates an instance of yargs, with minimal options
      *
-     * @return {yargs}
+     * @return {import("yargs")}
      */
     __createYargs() {
       return (this.yargs = require("yargs")
@@ -200,6 +200,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           "Lint",
           "Run",
           "Test",
+          "Typescript",
           "Serve",
           "Migrate"
         ],
@@ -249,7 +250,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
      * provides a standard error control and makes sure that the libraries know what command has
      * been selected.
      *
-     * @param command {qx.tool.cli.Command} the command being run
+     * @param command {qx.tool.cli.commands.Command} the command being run
      */
     async processCommand(command) {
       qx.tool.compiler.Console.getInstance().setVerbose(this.argv.verbose);
@@ -362,6 +363,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         } catch (ex) {
           // Nothing
         }
+
         // check semver-type compatibility (i.e. compatible as long as major version stays the same)
         let schemaVersion = semver.coerce(
           qx.tool.config.Lockfile.getInstance().getVersion(),
@@ -626,7 +628,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
     /**
      * Returns the CompilerApi instance
      *
-     * @return {CompilerApi}
+     * @return {qx.tool.cli.api.CompilerApi}
      */
     getCompilerApi() {
       return this._compilerApi;
@@ -687,7 +689,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
     /**
      * Adds commands to Yargs
      *
-     * @param yargs {yargs} the Yargs instance
+     * @param yargs {typeof import("yargs")} the Yargs instance
      * @param classNames {String[]} array of class names, each of which is in the `packageName` package
      * @param packageName {String} the name of the package to find each command class
      */

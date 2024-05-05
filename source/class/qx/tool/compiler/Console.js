@@ -185,6 +185,8 @@ qx.Class.define("qx.tool.compiler.Console", {
           "Wrong class name or filename - expected to find at least %1 but only found [%2]",
         "qx.tool.compiler.class.reservedWordDecl":
           "Do not use the reserved word '%1' as a variable name",
+        "qx.tool.compiler.compiler.membersNotAnObject":
+          "The members property of class %1 is not an object",
 
         // Application errors (@see {Application})
         "qx.tool.compiler.application.partRecursive":
@@ -267,6 +269,8 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.target.missingPreBootJs":
           "There is no reference to ${preBootJs} in the index.html copied from %1 (see https://git.io/fh7NI)",
         /* eslint-enable no-template-curly-in-string */
+        "qx.tool.compiler.compiler.mixinQxObjectImpl":
+          "%1: Mixins should not use `_createQxObjectImpl`, consider using top-level objects instead",
 
         "qx.tool.compiler.maker.appNotHeadless":
           "Compiling application '%1' but the target supports non-headless output, you may find unwanted dependencies are loaded during startup",

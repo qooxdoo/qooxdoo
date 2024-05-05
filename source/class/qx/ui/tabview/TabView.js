@@ -249,16 +249,14 @@ qx.Class.define("qx.ui.tabview.TabView", {
       // Add state to page
       page.addState(this.__barPositionToState[this.getBarPosition()]);
 
-      // Update states
-      page.addState("lastTab");
-      var children = this.getChildren();
-      if (children[0] == page) {
-        page.addState("firstTab");
-      } else {
-        children[children.length - 2].removeState("lastTab");
-      }
+      this.__updateFirstLastTabStates();
 
       page.addListener("close", this._onPageClose, this);
+      page.addListener(
+        "changeTabVisibility",
+        this.__onPageChangeTabVisibility,
+        this
+      );
     },
 
     /**
@@ -301,18 +299,14 @@ qx.Class.define("qx.ui.tabview.TabView", {
       page.addState(this.__barPositionToState[this.getBarPosition()]);
 
       // Update states
-      children = this.getChildren();
-      if (index == children.length - 1) {
-        page.addState("lastTab");
-      }
-
-      if (children[0] == page) {
-        page.addState("firstTab");
-      } else {
-        children[children.length - 2].removeState("lastTab");
-      }
+      this.__updateFirstLastTabStates();
 
       page.addListener("close", this._onPageClose, this);
+      page.addListener(
+        "changeTabVisibility",
+        this.__onPageChangeTabVisibility,
+        this
+      );
     },
 
     /**
@@ -350,22 +344,14 @@ qx.Class.define("qx.ui.tabview.TabView", {
       // Remove state from page
       page.removeState(this.__barPositionToState[this.getBarPosition()]);
 
-      // Update states
-      if (page.hasState("firstTab")) {
-        page.removeState("firstTab");
-        if (children[0]) {
-          children[0].addState("firstTab");
-        }
-      }
-
-      if (page.hasState("lastTab")) {
-        page.removeState("lastTab");
-        if (children.length > 0) {
-          children[children.length - 1].addState("lastTab");
-        }
-      }
+      this.__updateFirstLastTabStates();
 
       page.removeListener("close", this._onPageClose, this);
+      page.removeListener(
+        "changeTabVisibility",
+        this.__onPageChangeTabVisibility,
+        this
+      );
     },
 
     /**
@@ -430,17 +416,10 @@ qx.Class.define("qx.ui.tabview.TabView", {
         // pass
       } else {
         this._setLayout((layout = new layoutClass()));
-      }
-
-      // Update reversed
-      layout.setReversed(reversed);
-
-      // Sync orientation to bar
-      bar.setOrientation(horizontal ? "vertical" : "horizontal");
-
-      // Read children
+      } // Update reversed
+      layout.setReversed(reversed); // Sync orientation to bar
+      bar.setOrientation(horizontal ? "vertical" : "horizontal"); // Read children
       var children = this.getChildren();
-
       var i, l;
       // Toggle state to bar
       if (old) {
@@ -637,6 +616,30 @@ qx.Class.define("qx.ui.tabview.TabView", {
       closeButton.reset();
 
       this.remove(page);
+    },
+
+    __onPageChangeTabVisibility() {
+      this.__updateFirstLastTabStates();
+    },
+
+    __updateFirstLastTabStates() {
+      let firstPage = null;
+      let lastPage = null;
+
+      for (let pages = this.getChildren(), i = 0; i < pages.length; i++) {
+        let page = pages[i];
+        if (page.getTabVisibility() == "visible") {
+          if (!firstPage) {
+            firstPage = page;
+          }
+          lastPage = page;
+        }
+        page.removeState("firstTab");
+        page.removeState("lastTab");
+      }
+
+      firstPage?.addState("firstTab");
+      lastPage?.addState("lastTab");
     }
   },
 

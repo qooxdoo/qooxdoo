@@ -29,7 +29,6 @@ see [our Get Started Guide](docs/README.md).
 
 ## Documentation
    - released version: https://qooxdoo.org/documentation/
-   - 
 ## API Ref
    - released version: https://qooxdoo.org/qxl.apiviewer/
 

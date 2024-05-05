@@ -133,7 +133,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree", {
     /**
      * Returns the current selection.
      *
-     * @return {qx.data.Array} The current selected elements.
+     * @return {qx.data.IListData} The current selected elements.
      */
     getSelection() {}
   }

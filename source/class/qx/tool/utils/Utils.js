@@ -72,8 +72,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      * Error that can be thrown to indicate wrong user input  and which doesn't
      * need a stack trace
      *
-     * @param {string} message
-     * @returns {Error}
+     * @type {new (message: string) => Error}
      */
     UserError: class extends Error {
       constructor(message) {
@@ -91,9 +90,11 @@ qx.Class.define("qx.tool.utils.Utils", {
      */
     formatTime(millisec) {
       var seconds = Math.floor(millisec / 1000);
-      var minutes = Math.floor(seconds / 60);
-      var hours = Math.floor(minutes / 60);
       millisec %= 1000;
+      var minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+      var hours = Math.floor(minutes / 60);
+      minutes %= 60;
 
       var result = "";
       if (hours) {
@@ -491,11 +492,10 @@ qx.Class.define("qx.tool.utils.Utils", {
         });
       });
     },
-
     /**
      * Returns the absolute path to the template directory
      * @return {String}
-     */
+     */ 
     getTemplateDir() {
       let dir = qx.util.ResourceManager.getInstance().toUri(
         "qx/tool/cli/templates/template_vars.js"

@@ -579,19 +579,13 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
-
     "table-scroller/resize-line": {
       style(states) {
-        return {
-          backgroundColor: "text-hint-on-surface",
-          width: 3
-        };
+        return { backgroundColor: "text-hint-on-surface", width: 3 };
       }
     },
-
     "table-header-cell": {
       alias: "atom",
-
       style(states) {
         return {
           decorator: states.first
@@ -610,10 +604,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
-
     "table-header-cell/icon": {
       include: "atom/icon",
-
       style(states) {
         return { paddingRight: 5 };
       }
@@ -1453,6 +1445,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "atom",
 
       style(states) {
+        let useSelectionState = !states.readonly && states.selected;
         var padding = [3, 5, 3, 5];
         if (states.lead) {
           padding = [2, 4, 2, 4];
@@ -1464,12 +1457,12 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           gap: 4,
           padding: padding,
-          backgroundColor: states.selected
+          backgroundColor: useSelectionState
             ? states.disabled
               ? "primary-disabled"
               : "primary"
             : "transparent",
-          textColor: states.selected
+          textColor: useSelectionState
             ? "text-on-primary"
             : "text-primary-on-surface",
           decorator: states.lead

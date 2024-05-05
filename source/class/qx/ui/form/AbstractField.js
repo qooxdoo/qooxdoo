@@ -99,11 +99,12 @@ qx.Class.define("qx.ui.form.AbstractField", {
           "-ms-input-placeholder, textarea.qx-placeholder-color",
           "-ms-input-placeholder"
         ].join(separator);
-        qx.ui.style.Stylesheet.getInstance().addRule(
-          selector,
-          "color: " + color + " !important"
-        );
       }
+
+      qx.ui.style.Stylesheet.getInstance().addRule(
+        selector,
+        "color: " + color + " !important"
+      );
     }
   },
 

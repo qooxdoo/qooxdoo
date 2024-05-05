@@ -58,9 +58,27 @@ qx.Mixin.define("qx.core.MObjectId", {
    * ****************************************************************************
    */
   statics: {
-    handleObjects(clazz, instance, id, ...args) {
+    handleObjects(clazz, instance, id) {
       const objectsDef = clazz.$$objects;
-      return objectsDef?.[id]?.call(instance, ...args) ?? null;
+      const clazzObject = objectsDef?.[id]?.call(instance);
+
+      if (clazzObject !== undefined) {
+        return clazzObject;
+      }
+
+      for (const mixin of clazz.$$includes ?? []) {
+        const mixinObject = qx.core.MObjectId.handleObjects(
+          mixin,
+          instance,
+          id
+        );
+
+        if (mixinObject !== undefined) {
+          return mixinObject;
+        }
+      }
+
+      return undefined;
     }
   },
 
@@ -147,16 +165,21 @@ qx.Mixin.define("qx.core.MObjectId", {
 
       // Handle paths
       if (id.indexOf("/") > -1) {
-        var segs = id.split("/");
+        var segments = id.split("/");
         var target = this;
-        var found = segs.every(function (seg) {
-          if (!seg.length) {
+        var found = segments.every(segment => {
+          if (!segment.length) {
             return true;
           }
           if (!target) {
             return false;
           }
-          var tmp = target.getQxObject(seg);
+          var tmp;
+          if (segment === "..") {
+            tmp = target.getQxOwner();
+          } else {
+            tmp = target.getQxObject(segment);
+          }
           if (tmp !== undefined) {
             target = tmp;
             return true;

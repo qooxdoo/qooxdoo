@@ -29,26 +29,21 @@ qx.Class.define("qx.test.html.jsx.TestWidget", {
     _createQxObjectImpl(id) {
       switch (id) {
         case "header":
-          var elem = new qx.html.Element();
-          elem.addClass("header-class");
-          return elem;
+          return <div class="header-class"></div>;
 
         case "body":
-          var elem = new qx.html.Element();
-          elem.addClass("body-class");
-          elem.add(this.getQxObject("labelOne"));
-          elem.add(this.getQxObject("labelTwo"));
-          return elem;
+          return (
+            <div class="body-class">
+              {this.getQxObject("labelOne")}
+              {this.getQxObject("labelTwo")}
+            </div>
+          );
 
         case "labelOne":
-          var elem = new qx.html.Element();
-          elem.add(new qx.html.Text("Label One"));
-          return elem;
+          return <p>Label One</p>;
 
         case "labelTwo":
-          var elem = new qx.html.Element();
-          elem.add(new qx.html.Text("Label Two"));
-          return elem;
+          return <p>Label Two</p>;
       }
     }
   }

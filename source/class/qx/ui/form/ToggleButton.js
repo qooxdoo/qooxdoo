@@ -114,6 +114,25 @@ qx.Class.define("qx.ui.form.ToggleButton", {
       apply: "_applyTriState",
       nullable: true,
       init: null
+    },
+
+    /**
+     * The behavior when the button is executed (e.g. clicked). Only useful for tri-state checkboxes.
+     * If "cycle" is set, the button cycles through the states "disabled", "undetermined", and "enabled"
+     * If "toggle" is set, the button toggles between "disabled" and "enabled".
+     */
+    executeBehavior: {
+      check: ["cycle", "toggle"],
+      init: "toggle"
+    },
+
+    /**
+     * Whether the field is read only
+     */
+    readOnly: {
+      check: "Boolean",
+      event: "changeReadOnly",
+      init: false
     }
   },
 
@@ -173,7 +192,23 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      * @param e {qx.event.type.Event} The execute event.
      */
     _onExecute(e) {
-      this.toggleValue();
+      if (this.getReadOnly()) {
+        return;
+      }
+      if (this.isTriState() && this.getExecuteBehavior() === "cycle") {
+        let newValue;
+        let currentValue = this.getValue();
+        if (currentValue === null) {
+          newValue = true;
+        } else if (currentValue === true) {
+          newValue = false;
+        } else {
+          newValue = null;
+        }
+        this.setValue(newValue);
+      } else {
+        this.toggleValue();
+      }
     },
 
     /**
@@ -187,6 +222,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      */
     _onPointerOver(e) {
       if (e.getTarget() !== this) {
+        return;
+      }
+      if (this.getReadOnly()) {
         return;
       }
 
@@ -238,6 +276,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
       if (!e.isLeftPressed()) {
         return;
       }
+      if (this.getReadOnly()) {
+        return;
+      }
 
       // Activate capturing if the button get a pointerout while
       // the button is pressed.
@@ -280,6 +321,9 @@ qx.Class.define("qx.ui.form.ToggleButton", {
      * @param e {Event} Key event
      */
     _onKeyDown(e) {
+      if (this.getReadOnly()) {
+        return;
+      }
       switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":

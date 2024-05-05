@@ -51,7 +51,7 @@ qx.Class.define("qx.tool.compiler.resources.ResourceLoader", {
      * @param filename {String} absolute path to the file
      * @param fileInfo {Map?} this is the object in the resource database, contains info about the resource;
      *  this will be null if not yet in the resource database
-     * @param stat {fs.Stats} Stats object from fs.stat
+     * @param stat {import("node:fs").Stats} Stats object from fs.stat
      *
      * @return {Boolean}
      */

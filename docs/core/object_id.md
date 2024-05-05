@@ -177,7 +177,8 @@ just use the `_` or `__` prefix in the ID, just as you would for member variable
 
 ### The Objects section
 
-Object IDs can also be specified in a top-level `objects` section within your class, which is a newer alternative to implementing `_createQxObjectImpl`.
+Object IDs can also be specified in a top-level `objects` section within your class, which is a
+newer alternative to implementing `_createQxObjectImpl`.
 
 Example:
 ```javascript
@@ -193,9 +194,9 @@ qx.Class.define("qx.test.MyForm", {
     this.getQxObject("compBottom").setBackgroundColor("red");
   },
 
-  //The object id generator functions are placed in a top-level section named 'objects'
+  // The object id generator functions are placed in a top-level section named 'objects'
   objects: {
-    //We name the generator functions with the object's id
+    // We name the generator functions with the object's id
     compTop() {
       let comp = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       
@@ -220,6 +221,11 @@ qx.Class.define("qx.test.MyForm", {
   }
 })
 ```
+
+The top-level objects section may also be used within anonymous classes (where the class name is
+`null`). However if an anonymous class uses top-level objects, any class derived from it is likely
+to encounter infinite recursion. This is due to anonymous classes having no static references and
+instead relying on `this.constructor` for top-level object handling.
 
 #### Inheritance and overriding
 

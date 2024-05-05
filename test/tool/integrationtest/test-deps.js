@@ -166,7 +166,19 @@ test("Checks dependencies and environment settings", assert => {
       })
       .then(() => readCompileInfo().then(tmp => compileInfo = tmp))
       .then(() => readDbJson().then(tmp => db = tmp))
-      .then(() => readJson("test-deps/transpiled/testapp/Application.json").then(tmp => meta = tmp))
+      .then(async () => {
+        try {
+          await fs.promises.mkdir("meta");
+        }catch(ex) {}
+        let metaDb = new qx.tool.compiler.MetaDatabase().set({
+          rootDir: "meta"
+        });
+
+        await metaDb.addFile("testapp/source/class/testapp/Application.js");
+        await metaDb.reparseAll();
+      })
+      .then(() => readJson("meta/testapp/Application.json")
+      .then(tmp => meta = tmp))
 
       /**
        * Text translation
@@ -194,8 +206,6 @@ test("Checks dependencies and environment settings", assert => {
        */
       .then(() => {
         assert.equal(meta.className, "testapp.Application");
-        assert.equal(meta.packageName, "testapp");
-        assert.equal(meta.name, "Application");
         assert.equal(meta.superClass, "qx.application.Standalone");
       })
 
@@ -221,14 +231,7 @@ test("Checks dependencies and environment settings", assert => {
       .then(src => {
         var ci = db.classInfo["testapp.Issue494"];
         var arr = ci.unresolved||[];
-        // part of the top-level objects injection process causes these symbols to occur in the file, and appear to be unresolved.
-        assert.ok(
-          arr &&
-          arr.length === 2 &&
-          arr[0].name === "testapp.Issue494PartThree.superclass.prototype._createQxObjectImpl.call" &&
-          arr[1].name === "testapp.Issue494PartTwo.superclass.prototype._createQxObjectImpl.call",
-          "unexpected unresolved " + JSON.stringify(arr.slice(2)) + " in testapp.Issue494"
-        );
+        assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue494");
       })
 
       /*
