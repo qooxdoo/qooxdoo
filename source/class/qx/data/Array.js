@@ -32,6 +32,12 @@ qx.Class.define("qx.data.Array", {
   implement: [qx.data.IListData],
 
   environment: {
+    /**
+     * the `delete` operator on arrays will normally leave a hole in the array,
+     * which `qx.data.Array` does not support; if this environment variable is
+     * set to `true`, then `delete` will be implemented as a call to `removeAt`,
+     * otherwise an error will be thrown (the default)
+     */
     "qx.data.Array.deleteAsRemoveAt": false
   },
 

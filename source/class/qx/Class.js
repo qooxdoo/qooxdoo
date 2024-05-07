@@ -6,6 +6,7 @@
 
    Copyright:
      2022 Derrell Lipman
+     2023-24 John Spackman, Zenesis Ltd (johnspackman, https://www.zenesis.com)
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -13,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * John Spackman (johnspackman)
 
 ************************************************************************ */
 
@@ -507,20 +509,6 @@ qx.Bootstrap.define("qx.Class", {
         qx.Class._attachAnno(clazz, "statics", key, config.statics["@" + key]);
       }
 
-      // Create a function to ascertain whether a property has been
-      // initialized in some way, e.g., via init(), initFunction(), or
-      // set()
-      Object.defineProperty(clazz.prototype, "isPropertyInitialized", {
-        value(prop) {
-          let allProperties = this.constructor.prototype.$$allProperties;
-
-          return prop in allProperties && typeof this[prop] != "undefined";
-        },
-        writable: qx.Class.$$options.propsAccessible || false,
-        configurable: qx.Class.$$options.propsAccessible || false,
-        enumerable: qx.Class.$$options.propsAccessible || false
-      });
-
       // Add a method to refresh all inheritable properties
       Object.defineProperty(clazz.prototype, "$$refreshInheritables", {
         value() {
@@ -572,6 +560,10 @@ qx.Bootstrap.define("qx.Class", {
           qx.Class.addEvents(clazz, config.events, false);
         }
 
+        if (config.objects) {
+          this.__addObjects(clazz, config.objects);
+        }
+
         // Include mixins
         // Must be here, after members and properties, to detect conflicts
         if (config.include) {
@@ -617,7 +609,9 @@ qx.Bootstrap.define("qx.Class", {
         // have their saved values removed from this object.
         for (let prop in properties) {
           let property = properties[prop];
-          property.dereference(this);
+          if (property instanceof qx.core.property.Property && property.needsDereference()) {
+            property.dereference(this);
+          }
         }
       };
 
@@ -655,9 +649,8 @@ qx.Bootstrap.define("qx.Class", {
     },
 
     _extend(classname, config) {
-      const type = config.type || "class";
-      const superclass = config.extend || Object;
-      const _this = this;
+      let type = config.type || "class";
+      let superclass = config.extend || Object;
       let subclass;
       let initialConstruct = config.construct;
 
@@ -721,6 +714,32 @@ qx.Bootstrap.define("qx.Class", {
                 mixin.$$constructor.apply(this, args);
               }
             });
+          }
+
+          if (config.delegate) {
+            return new Proxy(this, {
+              get(target, propertyName, receiver) {
+                if (typeof config.delegate.get == "function") {
+                  return config.delegate.get.call(target, propertyName);
+                }
+                let value = Reflect.get(target, propertyName, receiver)
+                return value;
+              },
+
+              set(target, propertyName, value) {
+                if (typeof config.delegate.set == "function") {
+                  return config.delegate.set.call(target, propertyName, value);
+                }
+                return Reflect.set(target, propertyName, value);
+              },
+              
+              deleteProperty(target, propertyName) {
+                if (typeof config.delegate.delete == "function") {
+                  return config.delegate.delete.call(target, propertyName);
+                }
+                return Reflect.deleteProperty(target, propertyName);
+              }
+            })
           }
 
           return this;
@@ -961,7 +980,7 @@ qx.Bootstrap.define("qx.Class", {
      *   new properties)
      */
     addProperties(clazz, properties, patch) {
-      const addImpl = groupProperties => {
+      let addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];
           if (
@@ -1175,6 +1194,43 @@ qx.Bootstrap.define("qx.Class", {
         clazz.$$implements = [iface];
         clazz.$$flatImplements = list;
       }
+    },
+
+    /**
+     * Adds the objects definition to the class
+     * 
+     * @param {qx.Class} clazz class which is being defined
+     * @param {*} objects the `object` property in the definition
+     */
+     __addObjects(clazz, objects) {
+      function validateCachedObject(key, value) {
+        if (typeof value !== "function") {
+          throw new Error(
+            "Invalid cached object definition for " +
+              key +
+              " in " +
+              clazz.classname
+          );
+        }
+
+        if (typeof key != "string") {
+          throw new Error(
+            "Invalid cached object key for " + key + " in " + clazz.classname
+          );
+        }
+      }
+
+      if (!(objects instanceof Object)) {
+        throw new Error("Invalid objects definition for " + clazz.classname);
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        for (let key in objects) {
+          validateCachedObject(key, objects[key]);
+        }
+      }
+
+      clazz.$$objects = objects;
     },
 
     /**
@@ -1846,23 +1902,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {String[]} List of all property names
      */
     getProperties(clazz) {
-      let list = [];
-      let unique;
-
-      while (clazz) {
-        if (clazz.$$properties) {
-          list.push.apply(list, Object.keys(clazz.$$properties));
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      // Since refined properties add a new entry to the prototype
-      // chain, and we only want a list of unique properties returned,
-      // convert the list to a Set and then back to an array, to get
-      // only an array of the unique property names.
-      unique = new Set(list);
-      return [...unique];
+      return Object.keys(clazz.prototype.$$allProperties);
     },
 
     /**
@@ -1875,15 +1915,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Class | null} The class which includes the property
      */
     getByProperty(clazz, name) {
-      while (clazz) {
-        if (clazz.$$properties && clazz.$$properties[name]) {
-          return clazz;
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return null;
+      return clazz.prototype.$$allProperties[name]||null;
     },
 
     /**
@@ -1895,6 +1927,18 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Boolean} whether the class includes the given property.
      */
     hasProperty: qx.util.OOUtil.hasProperty,
+
+    /**
+     * Detects whether a property has been initialized
+     * 
+     * @param {qx.core.Object} object 
+     * @param {String} name 
+     * @returns {Boolean}
+     */
+    isPropertyInitialized(object, name) {
+      let property = object.constructor.prototype.$$allProperties[name];
+      return !!(property && property.isInitialized(object));
+    },
 
     /**
      * Returns the event type of the given event. Returns null if

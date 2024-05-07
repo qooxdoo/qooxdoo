@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 Zenesis Limited (https://www.zenesis.com)
+     2023-24 Zenesis Limited (https://www.zenesis.com)
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -30,16 +30,11 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
     get(thisObj, property) {
       let $$propertyValues = thisObj["$$propertyValues"];
       if ($$propertyValues == undefined) {
-        qx.log.Logger.warn(
-          "No $$propertyValues on " +
-            thisObj.classname +
-            ": possibly missing call to super() in the constructor"
-        );
+        qx.log.Logger.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
         $$propertyValues = thisObj["$$propertyValues"] = {};
         debugger;
       }
-      let value =
-        thisObj["$$propertyValues"][property.getPropertyName()]?.value;
+      let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
       if (value === undefined) {
         value = property.getInitValue(thisObj);
       }
@@ -68,6 +63,13 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     async setAsync(thisObj, property, value) {
+      this.set(thisObj, property, value);
+    },
+
+    /**
+     * @Override
+     */
+    reset(thisObj, property, value) {
       this.set(thisObj, property, value);
     },
 

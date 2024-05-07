@@ -22,6 +22,9 @@
 qx.Class.define("qx.dev.unit.TestRunner", {
   extend: qx.core.Object,
   statics: {
+    /** @type{Object<String,qx.dev.unit.TestLoaderBasic>} list of loaders, one per package, indexed by package name */
+    __loaders: null,
+
     /**
      * Unit tests all methods in a class where the method name begins "test", unless the
      * `methodNames` parameter is provided to list the method names explicitly.  Tests can be
@@ -61,8 +64,18 @@ qx.Class.define("qx.dev.unit.TestRunner", {
       await new qx.Promise(resolve => {
         var pos = clazz.classname.lastIndexOf(".");
         var pkgname = clazz.classname.substring(0, pos);
-        var loader = new qx.dev.unit.TestLoaderBasic(pkgname);
-        loader.getSuite().add(clazz);
+        if (qx.dev.unit.TestRunner.__loaders === null) {
+          qx.dev.unit.TestRunner.__loaders = {};
+        }
+        var loader = qx.dev.unit.TestRunner.__loaders[pkgname];
+        if (!loader) {
+          loader = new qx.dev.unit.TestLoaderBasic(pkgname);
+          qx.dev.unit.TestRunner.__loaders[pkgname] = loader;
+        }
+        let testClasses = loader.getSuite().getTestClasses();
+        if (!testClasses.find(tc => tc.getName() == clazz.classname)) {
+          loader.getSuite().add(clazz);
+        }
 
         var testResult = new qx.dev.unit.TestResult();
         testResult.addListener("startTest", evt => {

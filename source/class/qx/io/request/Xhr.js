@@ -69,6 +69,7 @@ qx.Class.define("qx.io.request.Xhr", {
    * @param method {String?} The HTTP method.
    */
   construct(url, method) {
+    super();
     if (method !== undefined) {
       this.setMethod(method);
     }

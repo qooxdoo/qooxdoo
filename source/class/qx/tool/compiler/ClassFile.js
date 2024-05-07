@@ -1198,6 +1198,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             environment: "object", // Map
             defer: "function" // Function
           },
+
           normal: {
             "@": "object",
             "@construct": "object",
@@ -1207,6 +1208,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             implement: "object", // Interface[]
             include: "object", // Mixin[]
             construct: "function", // Function
+            delegate: "object", // Map
             statics: "object", // Map
             properties: "object", // Map
             members: "object", // Map

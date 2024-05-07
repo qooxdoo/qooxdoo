@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 Zenesis Limited (https://www.zenesis.com)
+     2023-24 Zenesis Limited (https://www.zenesis.com)
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -25,41 +25,54 @@ qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
 
   construct(property, clazz) {
     super();
-    let upname = qx.Bootstrap.firstUp(property.getPropertyName());
-    let def = property.getDefinition();
-    this.__get = clazz.prototype["get" + upname];
-    this.__getAsync = clazz.prototype["get" + upname + "Async"] || this.__get;
-    this.__set = clazz.prototype["set" + upname];
-    this.__setAsync = clazz.prototype["set" + upname + "Async"] || this.__set;
+    this.__upname = qx.Bootstrap.firstUp(property.getPropertyName());
+    this.__isAsyncStorage = !!clazz.prototype["get" + this.__upname + "Async"];
   },
 
   members: {
+    /** @type{String} capitalised name of the property */
+    __upname: null,
+
+    /** @type{Boolean} whether this is for async storage */
+    __isAsyncStorage: null,
+
     /**
      * @Override
      */
     get(thisObj, property) {
-      return this.__get.call(thisObj);
+      let get = thisObj["get" + this.__upname];
+      return get.call(thisObj);
     },
 
     /**
      * @Override
      */
     async getAsync(thisObj, property) {
-      return this.__getAsync.call(thisObj);
+      let get = thisObj["get" + this.__upname + "Async"] || thisObj["get" + this.__upname];
+      return await get.call(thisObj);
     },
 
     /**
      * @Override
      */
     set(thisObj, property, value) {
-      this.__set.call(thisObj, value);
+      let set = thisObj["set" + this.__upname];
+      set.call(thisObj, value);
     },
 
     /**
      * @Override
      */
     async setAsync(thisObj, property, value) {
-      this.__setAsync.call(thisObj, value);
+      let set = thisObj["set" + this.__upname + "Async"] || thisObj["set" + this.__upname];
+      await set.call(thisObj, value);
+    },
+
+    /**
+     * @Override
+     */
+    reset(thisObj, property, value) {
+      this.set(thisObj, property, value);
     },
 
     /**
@@ -73,7 +86,7 @@ qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
      * @Override
      */
     isAsyncStorage() {
-      return this.__setAsync !== this.__set;
+      return this.__isAsyncStorage;
     }
   }
 });

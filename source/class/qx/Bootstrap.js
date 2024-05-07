@@ -63,6 +63,7 @@ window.qx = Object.assign(window.qx || {}, {
       statics: "object", // Map
       properties: "object", // Map
       members: "object", // Map
+      objects: "object", // Map
       environment: "object", // Map
       events: "object", // Map
       delegate: "object", // Map
@@ -1056,10 +1057,10 @@ qx.Bootstrap.define("qx.Bootstrap", {
       },
 
       /*
-    -----------------------------------------------------------------------
-    OBJECT UTILITY FUNCTIONS
-    -----------------------------------------------------------------------
-    */
+       -----------------------------------------------------------------------
+       OBJECT UTILITY FUNCTIONS
+       -----------------------------------------------------------------------
+       */
 
       /**
        * Get the number of own properties in the object.

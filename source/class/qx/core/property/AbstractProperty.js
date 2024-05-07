@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 Zenesis Limited (https://www.zenesis.com)
+     2023-24 Zenesis Limited (https://www.zenesis.com)
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -566,7 +566,7 @@ qx.Bootstrap.define("qx.core.property.AbstractProperty", {
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @return {Boolean}
      */
-    isInited(thisObj) {
+    isInitialized(thisObj) {
       return this.__storage.get(thisObj, this) !== undefined;
     },
 

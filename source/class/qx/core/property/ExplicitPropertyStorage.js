@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 Zenesis Limited (https://www.zenesis.com)
+     2023-24 Zenesis Limited (https://www.zenesis.com)
 
    License:
      MIT: https://opensource.org/licenses/MIT

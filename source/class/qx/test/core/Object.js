@@ -368,10 +368,10 @@ qx.Class.define("qx.test.core.Object", {
 
       var o = new qx.test.MyClass();
 
-      this.assertFalse(o.isPropertyInitialized("a"));
+      this.assertFalse(qx.Class.isPropertyInitialized(o, "a"));
       o.setA(false);
-      this.assertTrue(o.isPropertyInitialized("a"));
-      this.assertTrue(o.isPropertyInitialized("b"));
+      this.assertTrue(qx.Class.isPropertyInitialized(o, "a"));
+      this.assertTrue(qx.Class.isPropertyInitialized(o, "b"));
 
       qx.Class.undefine("qx.test.MyClass");
       o.dispose();
