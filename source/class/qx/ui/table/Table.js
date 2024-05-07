@@ -544,6 +544,14 @@ qx.Class.define("qx.ui.table.Table", {
     },
 
     /**
+     * The action to take when a cell is being edited and the focus moves elsewhere.
+     */
+    cellEditorBlurAction: {
+      check: ["nothing", "save", "cancel"],
+      init: "nothing"
+    },
+
+    /**
      * A function to call when before modal cell editor is opened.
      *
      * @signature function(cellEditor, cellInfo)
