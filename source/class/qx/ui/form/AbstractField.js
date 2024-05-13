@@ -41,10 +41,13 @@ qx.Class.define("qx.ui.form.AbstractField", {
      * Adds the CSS rules needed to style the native placeholder element.
      */
     __addPlaceholderRules() {
-      if (qx.ui.form.AbstractField.__addedPlaceholderRules === ajaxclient.ThemeLoader.getInstance().getCurrentThemeName()) {
+      const theme = qx.theme.manager.Meta.getInstance().getTheme();
+      const currentThemeName = theme ? theme.title || theme.name : "";
+
+      if (qx.ui.form.AbstractField.__addedPlaceholderRules === currentThemeName) {
         return;
       }
-      qx.ui.form.AbstractField.__addedPlaceholderRules = ajaxclient.ThemeLoader.getInstance().getCurrentThemeName();
+      qx.ui.form.AbstractField.__addedPlaceholderRules = currentThemeName;
       var engine = qx.core.Environment.get("engine.name");
       var browser = qx.core.Environment.get("browser.name");
       var colorManager = qx.theme.manager.Color.getInstance();
