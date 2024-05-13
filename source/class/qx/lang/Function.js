@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.lang.Function", {
         return func;
       }
 
-      return function (event) {
+      let result = function (event) {
         if (qx.core.Environment.get("qx.debug")) {
           function testSelf(self) {
             if (
@@ -233,6 +233,10 @@ qx.Bootstrap.define("qx.lang.Function", {
           return func.apply(options.self || this, args);
         }
       };
+      if (qx.core.Environment.get("qx.debug")) {
+        result.$$original = func;
+      }
+      return result;
     },
 
     /**
