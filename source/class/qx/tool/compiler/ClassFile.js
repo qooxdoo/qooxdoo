@@ -1349,8 +1349,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           t.__hasDefer = true;
           t.__inDefer = true;
         }
-        t.__classMeta.functionName = FUNCTION_NAMES[keyName] || keyName;
-        if (FUNCTION_NAMES[keyName] !== undefined) {
+        var isSpecialFunctionName =
+          Object.keys(FUNCTION_NAMES).includes(keyName);
+        t.__classMeta.functionName = isSpecialFunctionName
+          ? FUNCTION_NAMES[keyName]
+          : keyName;
+        if (isSpecialFunctionName) {
           makeMeta(keyName, null, functionNode);
         }
         enterFunction(path, functionNode);
@@ -1393,8 +1397,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           }
           var keyName = getKeyName(prop.key);
           checkValidTopLevel(path);
-
-          if (FUNCTION_NAMES[keyName] !== undefined) {
+          var isSpecialFunctionName =
+            Object.keys(FUNCTION_NAMES).includes(keyName);
+          if (isSpecialFunctionName) {
             let val = path.node.value;
             val.leadingComments = (path.node.leadingComments || []).concat(
               val.leadingComments || []
