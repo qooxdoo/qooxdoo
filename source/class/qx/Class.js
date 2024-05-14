@@ -840,7 +840,7 @@ qx.Bootstrap.define("qx.Class", {
             ? this.__staticAllowedKeys
             : this.__allowedKeys;
         for (var key in config) {
-          if (!allowed[key]) {
+          if (!(key in allowed)) {
             throw new Error(
               'The configuration key "' +
                 key +
