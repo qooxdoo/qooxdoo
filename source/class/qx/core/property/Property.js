@@ -221,18 +221,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       if (def.init !== undefined) {
-        if (typeof def.init == "function") {
-          if (this.__superClass) {
-            throw new Error(`${this}: init cannot be redefined in a subclass, when it is a function - explicit values only`);
-          }
-          this.__initFunction = def.init;
-        } else {
-          this.__initValue = def.init;
-        }
+        this.__initValue = def.init;
+      }
+      if (def.initFunction) {
+        this.__initFunction = def.initFunction;
       }
 
-      if (def.init !== undefined && def.deferredInit) {
-        this.error(`${this}: init and deferredInit are mutually exclusive, ignoring deferredInit`);
+      if ((def.init !== undefined || def.initFunction) && def.deferredInit) {
+        this.error(`${this}: init/initFunction and deferredInit are mutually exclusive, ignoring deferredInit`);
         delete def.deferredInit;
       }
       this.__needsDereference = def.dereference;
