@@ -789,9 +789,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       for (let filename of classFiles) {
-        // if (this.argv.verbose) {
-        //   qx.tool.compiler.Console.info(`Processing ${filename} ...`);
-        // }
         await metaDb.addFile(filename, !!this.argv.clean);
       }
       await metaDb.reparseAll();
