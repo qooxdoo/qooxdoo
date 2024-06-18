@@ -170,9 +170,9 @@ qx.Class.define("qx.data.marshal.Json", {
      * @param depth {Number} The depth of the data relative to the data's root.
      */
     __toClass(data, includeBubbleEvents, parentProperty, depth) {
-      // break on all primitive json types and qooxdoo objects
+      // break on all primitive json types and non-POJO objects
       if (
-        !qx.lang.Type.isObject(data) ||
+        !qx.lang.Type.isPojo(data) ||
         !!data.$$isString || // check for localized strings
         data instanceof qx.core.Object
       ) {
@@ -405,12 +405,12 @@ qx.Class.define("qx.data.marshal.Json", {
      * @return {qx.core.Object} The created model object.
      */
     __toModel(data, includeBubbleEvents, parentProperty, depth) {
-      var isObject = qx.lang.Type.isObject(data);
+      var isPojo = qx.lang.Type.isPojo(data);
       var isArray =
         data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
 
       if (
-        (!isObject && !isArray) ||
+        (!isPojo && !isArray) ||
         !!data.$$isString || // check for localized strings
         data instanceof qx.core.Object
       ) {
@@ -451,7 +451,7 @@ qx.Class.define("qx.data.marshal.Json", {
           );
         }
         return array;
-      } else if (isObject) {
+      } else if (isPojo) {
         // create an instance for the object
         var hash = this.__jsonToBestHash(data, includeBubbleEvents);
         var model = this.__createInstance(hash, data, parentProperty, depth);
