@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.form.List", {
      */
     _onAddChild(e) {
       const child = e.getData();
-      if (child instanceof qx.ui.form.ListItem) {
+      if (qx.Class.implementsInterface(child, qx.ui.form.IListItem)) {
         this.__childrenBindings.set(
           child.toHashCode(),
           this.bind("readOnly", child, "readOnly")

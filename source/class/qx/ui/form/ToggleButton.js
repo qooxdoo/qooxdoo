@@ -29,7 +29,8 @@ qx.Class.define("qx.ui.form.ToggleButton", {
   implement: [
     qx.ui.form.IBooleanForm,
     qx.ui.form.IExecutable,
-    qx.ui.form.IRadioItem
+    qx.ui.form.IRadioItem,
+    qx.ui.form.IListItem
   ],
 
   /*
