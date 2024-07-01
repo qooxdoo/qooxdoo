@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
   extend: qx.ui.core.Widget,
   include: [qx.ui.core.MRemoteChildrenHandling, qx.ui.form.MForm],
 
-  implement: [qx.ui.form.IForm, qx.ui.form.IListItem],
+  implement: [qx.ui.form.IForm],
 
   type: "abstract",
 
