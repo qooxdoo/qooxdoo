@@ -900,6 +900,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns
      */
     __callFunction(thisObj, fn, ...args) {
+      if (fn === null || fn === undefined) {
+        return null;
+      }
+
       if (typeof fn == "function") {
         return fn.call(thisObj, ...args);
       }

@@ -700,9 +700,13 @@ qx.Class.define("qx.data.SingleValueBinding", {
           }
           target.setItem(index, value);
         } else {
-          if (typeof target["set" + qx.lang.String.firstUp(lastProperty)] != "function") {
-            throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
+          let setName = "set" + qx.lang.String.firstUp(lastProperty);
+          if (qx.core.Environment.get("qx.debug")) {
+            if (typeof target[setName] != "function") {
+              throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
+            }
           }
+          return target[setName](value);
         }
       }
     },
