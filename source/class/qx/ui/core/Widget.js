@@ -788,9 +788,7 @@ qx.Class.define("qx.ui.core.Widget", {
         if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertTrue(
             (!element.$$qxObjectHash && !element.$$qxObject) ||
-              (element.$$qxObject &&
-                element.$$qxObjectHash &&
-                element.$$qxObject.toHashCode() === element.$$qxObjectHash)
+              (element.$$qxObject && element.$$qxObjectHash && element.$$qxObject.toHashCode() === element.$$qxObjectHash)
           );
         }
         var widget = element.$$qxObject;
@@ -960,8 +958,7 @@ qx.Class.define("qx.ui.core.Widget", {
           var decorator = this.getDecorator();
           var decoratorPadding = { left: 0, right: 0, top: 0, bottom: 0 };
           if (decorator) {
-            decorator =
-              qx.theme.manager.Decoration.getInstance().resolve(decorator);
+            decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
             decoratorPadding = decorator.getPadding();
           }
 
@@ -974,11 +971,7 @@ qx.Class.define("qx.ui.core.Widget", {
 
           this.__layoutManager.renderLayout(innerWidth, innerHeight, padding);
         } else if (this.hasLayoutChildren()) {
-          throw new Error(
-            "At least one child in control " +
-              this._findTopControl() +
-              " requires a layout, but no one was defined!"
-          );
+          throw new Error("At least one child in control " + this._findTopControl() + " requires a layout, but no one was defined!");
         }
       }
 
@@ -1029,9 +1022,7 @@ qx.Class.define("qx.ui.core.Widget", {
     // overridden
     renderSeparator(separator, bounds) {
       // Insert
-      var widget = qx.ui.core.Widget.__separatorPool.getObject(
-        qx.ui.core.Widget
-      );
+      var widget = qx.ui.core.Widget.__separatorPool.getObject(qx.ui.core.Widget);
 
       widget.set({
         decorator: separator
@@ -1084,16 +1075,10 @@ qx.Class.define("qx.ui.core.Widget", {
 
       if (qx.core.Environment.get("qx.debug")) {
         if (minWidth !== null && maxWidth !== null) {
-          this.assert(
-            minWidth <= maxWidth,
-            "minWidth is larger than maxWidth!"
-          );
+          this.assert(minWidth <= maxWidth, "minWidth is larger than maxWidth!");
         }
         if (minHeight !== null && maxHeight !== null) {
-          this.assert(
-            minHeight <= maxHeight,
-            "minHeight is larger than maxHeight!"
-          );
+          this.assert(minHeight <= maxHeight, "minHeight is larger than maxHeight!");
         }
       }
 
@@ -1198,11 +1183,13 @@ qx.Class.define("qx.ui.core.Widget", {
         if (this.hasLayoutChildren()) {
           var hint = layout.getSizeHint();
 
+          if (isNaN(hint.width) || isNaN(hint.height) || typeof hint.minWidth == "string" || typeof hint.minHeight == "string") {
+            debugger;
+            hint = layout.getSizeHint();
+          }
+
           if (qx.core.Environment.get("qx.debug")) {
-            var msg =
-              "The layout of the widget" +
-              this.toString() +
-              " returned an invalid size hint!";
+            var msg = "The layout of the widget" + this.toString() + " returned an invalid size hint!";
             this.assertInteger(hint.width, "Wrong 'left' argument. " + msg);
             this.assertInteger(hint.height, "Wrong 'top' argument. " + msg);
           }
@@ -1277,32 +1264,18 @@ qx.Class.define("qx.ui.core.Widget", {
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
       if (this.getDecorator()) {
-        var decorator = qx.theme.manager.Decoration.getInstance().resolve(
-          this.getDecorator()
-        );
+        var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
 
         var inset = decorator.getInsets();
 
         if (qx.core.Environment.get("qx.debug")) {
-          this.assertNumber(
-            inset.top,
-            "Invalid top decorator inset detected: " + inset.top
-          );
+          this.assertNumber(inset.top, "Invalid top decorator inset detected: " + inset.top);
 
-          this.assertNumber(
-            inset.right,
-            "Invalid right decorator inset detected: " + inset.right
-          );
+          this.assertNumber(inset.right, "Invalid right decorator inset detected: " + inset.right);
 
-          this.assertNumber(
-            inset.bottom,
-            "Invalid bottom decorator inset detected: " + inset.bottom
-          );
+          this.assertNumber(inset.bottom, "Invalid bottom decorator inset detected: " + inset.bottom);
 
-          this.assertNumber(
-            inset.left,
-            "Invalid left decorator inset detected: " + inset.left
-          );
+          this.assertNumber(inset.left, "Invalid left decorator inset detected: " + inset.left);
         }
 
         top += inset.top;
@@ -1701,11 +1674,7 @@ qx.Class.define("qx.ui.core.Widget", {
      */
     _add(child, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(
-          child,
-          qx.ui.core.LayoutItem.constructor,
-          "'Child' must be an instance of qx.ui.core.LayoutItem!"
-        );
+        this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!");
       }
 
       // When moving in the same widget, remove widget first
@@ -1765,11 +1734,7 @@ qx.Class.define("qx.ui.core.Widget", {
      */
     _addBefore(child, before, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInArray(
-          before,
-          this._getChildren(),
-          "The 'before' widget is not a child of this widget!"
-        );
+        this.assertInArray(before, this._getChildren(), "The 'before' widget is not a child of this widget!");
       }
 
       if (child == before) {
@@ -1800,11 +1765,7 @@ qx.Class.define("qx.ui.core.Widget", {
      */
     _addAfter(child, after, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInArray(
-          after,
-          this._getChildren(),
-          "The 'after' widget is not a child of this widget!"
-        );
+        this.assertInArray(after, this._getChildren(), "The 'after' widget is not a child of this widget!");
       }
 
       if (child == after) {
@@ -1921,17 +1882,9 @@ qx.Class.define("qx.ui.core.Widget", {
      */
     __addHelper(child, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(
-          child,
-          qx.ui.core.LayoutItem,
-          "Invalid widget to add: " + child
-        );
+        this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
 
-        this.assertNotIdentical(
-          child,
-          this,
-          "Could not add widget to itself: " + child
-        );
+        this.assertNotIdentical(child, this, "Could not add widget to itself: " + child);
 
         if (options != null) {
           this.assertType(options, "object", "Invalid layout data: " + options);
@@ -1974,9 +1927,7 @@ qx.Class.define("qx.ui.core.Widget", {
       }
 
       if (child.getLayoutParent() !== this) {
-        throw new Error(
-          "Remove Error: " + child + " is not a child of this widget!"
-        );
+        throw new Error("Remove Error: " + child + " is not a child of this widget!");
       }
 
       // Clear parent connection
@@ -2107,15 +2058,12 @@ qx.Class.define("qx.ui.core.Widget", {
           return;
         }
         var manager = qx.locale.Manager.getInstance();
-        this.__toolTipTextListenerId = manager.addListener(
-          "changeLocale",
-          () => {
-            var toolTipText = this.getToolTipText();
-            if (toolTipText && toolTipText.translate) {
-              this.setToolTipText(toolTipText.translate());
-            }
+        this.__toolTipTextListenerId = manager.addListener("changeLocale", () => {
+          var toolTipText = this.getToolTipText();
+          if (toolTipText && toolTipText.translate) {
+            this.setToolTipText(toolTipText.translate());
           }
-        );
+        });
       }
     },
 
@@ -2134,13 +2082,7 @@ qx.Class.define("qx.ui.core.Widget", {
         content.hide();
       } // only force a layout update if visibility change from/to "exclude"
       var parent = this.$$parent;
-      if (
-        parent &&
-        (old == null ||
-          value == null ||
-          old === "excluded" ||
-          value === "excluded")
-      ) {
+      if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
         parent.invalidateLayoutChildren();
       }
 
@@ -2161,11 +2103,7 @@ qx.Class.define("qx.ui.core.Widget", {
 
       // In Opera the cursor must be set directly.
       // http://bugzilla.qooxdoo.org/show_bug.cgi?id=1729
-      this.getContentElement().setStyle(
-        "cursor",
-        value,
-        qx.core.Environment.get("engine.name") == "opera"
-      );
+      this.getContentElement().setStyle("cursor", value, qx.core.Environment.get("engine.name") == "opera");
     },
 
     // property apply
@@ -2390,12 +2328,7 @@ qx.Class.define("qx.ui.core.Widget", {
         // Check if the selector was created previously
         if (selector) {
           // Query old selector
-          var oldData = manager.styleFrom(
-            selector,
-            states,
-            null,
-            this.getAppearance()
-          );
+          var oldData = manager.styleFrom(selector, states, null, this.getAppearance());
 
           // Clear current selector (to force recompute)
           selector = null;
@@ -2421,12 +2354,7 @@ qx.Class.define("qx.ui.core.Widget", {
       }
 
       // Query current selector
-      var newData = manager.styleFrom(
-        selector,
-        states,
-        null,
-        this.getAppearance()
-      );
+      var newData = manager.styleFrom(selector, states, null, this.getAppearance());
 
       if (newData) {
         if (oldData) {
@@ -2443,13 +2371,7 @@ qx.Class.define("qx.ui.core.Widget", {
           for (var prop in newData) {
             let propertyFirstUp = qx.Bootstrap.firstUp(prop);
             if (!this[`setThemed${propertyFirstUp}`]) {
-              throw new Error(
-                this.classname +
-                  ' has no themeable property "' +
-                  prop +
-                  '" while styling ' +
-                  selector
-              );
+              throw new Error(this.classname + ' has no themeable property "' + prop + '" while styling ' + selector);
             }
           }
         }
@@ -2457,9 +2379,7 @@ qx.Class.define("qx.ui.core.Widget", {
         // Apply new data
         for (var prop in newData) {
           let propertyFirstUp = qx.Bootstrap.firstUp(prop);
-          newData[prop] === undefined
-            ? this[`resetThemed${propertyFirstUp}`]()
-            : this[`setThemed${propertyFirstUp}`](newData[prop]);
+          newData[prop] === undefined ? this[`resetThemed${propertyFirstUp}`]() : this[`setThemed${propertyFirstUp}`](newData[prop]);
         }
       } else if (oldData) {
         // Clear old data
@@ -2736,11 +2656,7 @@ qx.Class.define("qx.ui.core.Widget", {
         if (!value) {
           this.removeListener("contextmenu", this._onContextMenuOpen);
           this.removeListener("longtap", this._onContextMenuOpen);
-          old.removeListener(
-            "changeVisibility",
-            this._onBeforeContextMenuOpen,
-            this
-          );
+          old.removeListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
 
@@ -2751,11 +2667,7 @@ qx.Class.define("qx.ui.core.Widget", {
         if (!old) {
           this.addListener("contextmenu", this._onContextMenuOpen);
           this.addListener("longtap", this._onContextMenuOpen);
-          value.addListener(
-            "changeVisibility",
-            this._onBeforeContextMenuOpen,
-            this
-          );
+          value.addListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
     },
@@ -2785,10 +2697,7 @@ qx.Class.define("qx.ui.core.Widget", {
      * @param e {qx.event.type.Data} The data event
      */
     _onBeforeContextMenuOpen(e) {
-      if (
-        e.getData() == "visible" &&
-        this.hasListener("beforeContextmenuOpen")
-      ) {
+      if (e.getData() == "visible" && this.hasListener("beforeContextmenuOpen")) {
         this.fireDataEvent("beforeContextmenuOpen", e);
       }
     },
@@ -3003,11 +2912,7 @@ qx.Class.define("qx.ui.core.Widget", {
      *   directly when possible
      */
     scrollChildIntoViewX(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewX(
-        child.getContentElement(),
-        align,
-        direct
-      );
+      this.getContentElement().scrollChildIntoViewX(child.getContentElement(), align, direct);
     },
 
     /**
@@ -3022,11 +2927,7 @@ qx.Class.define("qx.ui.core.Widget", {
      *   directly when possible
      */
     scrollChildIntoViewY(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewY(
-        child.getContentElement(),
-        align,
-        direct
-      );
+      this.getContentElement().scrollChildIntoViewY(child.getContentElement(), align, direct);
     },
 
     /*
@@ -3252,19 +3153,10 @@ qx.Class.define("qx.ui.core.Widget", {
         if (pos == -1) {
           var control = this._createChildControlImpl(id);
         } else {
-          var control = this._createChildControlImpl(
-            id.substring(0, pos),
-            id.substring(pos + 1, id.length)
-          );
+          var control = this._createChildControlImpl(id.substring(0, pos), id.substring(pos + 1, id.length));
         }
       } catch (exc) {
-        exc.message =
-          "Exception while creating child control '" +
-          id +
-          "' of widget " +
-          this.toString() +
-          ": " +
-          exc.message;
+        exc.message = "Exception while creating child control '" + id + "' of widget " + this.toString() + ": " + exc.message;
         throw exc;
       }
 
@@ -3511,11 +3403,7 @@ qx.Class.define("qx.ui.core.Widget", {
       let idArr = [];
       for (const widget of widgets) {
         if (!(widget instanceof qx.ui.core.Widget)) {
-          throw new Error(
-            "Given widget " +
-              widget +
-              " is not an instance of qx.ui.core.Widget!"
-          );
+          throw new Error("Given widget " + widget + " is not an instance of qx.ui.core.Widget!");
         }
         const contentEl = widget.getContentElement();
         let widgetId = contentEl.getAttribute("id");
@@ -3601,9 +3489,7 @@ qx.Class.define("qx.ui.core.Widget", {
     if (!qx.core.ObjectRegistry.inShutDown) {
       if (qx.core.Environment.get("qx.dynlocale")) {
         if (this.__toolTipTextListenerId) {
-          qx.locale.Manager.getInstance().removeListenerById(
-            this.__toolTipTextListenerId
-          );
+          qx.locale.Manager.getInstance().removeListenerById(this.__toolTipTextListenerId);
         }
       }
 

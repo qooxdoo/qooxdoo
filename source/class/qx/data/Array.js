@@ -471,8 +471,7 @@ qx.Class.define("qx.data.Array", {
           end = this.length - 1;
         } else {
           type = "add/remove";
-          end =
-            startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+          end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
 
         this.fireDataEvent(
@@ -499,10 +498,7 @@ qx.Class.define("qx.data.Array", {
         this._registerEventChaining(arguments[i], null, startIndex + (i - 2));
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(
-        startIndex + (arguments.length - 2) - amount,
-        this.length
-      );
+      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
 
       // fire the changeBubble event
       if (removed || added) {
@@ -511,8 +507,7 @@ qx.Class.define("qx.data.Array", {
           value[i - 2] = arguments[i];
         }
         var endIndex = startIndex + Math.max(arguments.length - 3, amount - 1);
-        var name =
-          startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
+        var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
         var eventData = {
           value: value,
@@ -912,10 +907,7 @@ qx.Class.define("qx.data.Array", {
       this.__updateLength();
 
       // fire change bubbles
-      var name =
-        oldLength == this.length - 1
-          ? oldLength
-          : oldLength + "-" + (this.length - 1);
+      var name = oldLength == this.length - 1 ? oldLength : oldLength + "-" + (this.length - 1);
       this.fireDataEvent("changeBubble", {
         value: array,
         name: name + "",
@@ -1049,9 +1041,7 @@ qx.Class.define("qx.data.Array", {
      * @param context {var?} The context in which the callback will be invoked.
      */
     forEach(callback, context) {
-      this.__array.forEach((element, index) =>
-        callback.call(context, element, index, this)
-      );
+      this.__array.forEach((element, index) => callback.call(context, element, index, this));
     },
 
     /*

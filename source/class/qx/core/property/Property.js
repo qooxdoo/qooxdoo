@@ -506,7 +506,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       this.__storage.set(thisObj, this, value);
-      this.__applyValue(thisObj, value, undefined);
+      this._setImpl(thisObj, value, "user", "init");
     },
 
     /**
@@ -567,35 +567,38 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     get(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (value === undefined) {
+      if (value === undefined || value === null) {
         if (this.isThemeable()) {
           let state = this.getPropertyState(thisObj);
           value = state.themeValue;
         }
-        if (value === undefined) {
-          if (this.__definition.inheritable) {
-            let state = this.getPropertyState(thisObj);
-            value = state.inheritedValue;
-          }
+      }
+
+      if (value === undefined || value === null) {
+        if (this.__definition.inheritable) {
+          let state = this.getPropertyState(thisObj);
+          value = state.inheritedValue;
         }
-        if (value === undefined) {
-          value = thisObj["$$init_" + this.__propertyName];
+      }
+
+      if (value === undefined) {
+        value = thisObj["$$init_" + this.__propertyName];
+      }
+
+      if (value === undefined) {
+        if (this.__storage.isAsyncStorage()) {
+          throw new Error("Property " + this + " has not been initialized - try using getAsync() instead");
         }
-        if (value === undefined) {
-          if (this.__storage.isAsyncStorage()) {
-            throw new Error("Property " + this + " has not been initialized - try using getAsync() instead");
-          }
-          if (this.__definition.nullable) {
-            return null;
-          }
-          if (this.__definition.inheritable) {
-            if (this.__definition.check == "Boolean") {
-              return false;
-            }
-            return null;
-          }
-          throw new Error("Property " + this + " has not been initialized");
+        if (this.__definition.nullable) {
+          return null;
         }
+        if (this.__definition.inheritable) {
+          if (this.__definition.check == "Boolean") {
+            return false;
+          }
+          return null;
+        }
+        throw new Error("Property " + this + " has not been initialized");
       }
       return value;
     },
@@ -634,6 +637,39 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value the value to set
      */
     set(thisObj, value) {
+      this._setImpl(thisObj, value, "user", "set");
+    },
+
+    /**
+     * Sets the theme value for the property; this will trigger an apply & change event if the
+     * final value of the property changes
+     *
+     * @param {*} thisObj
+     * @param {*} value
+     */
+    setThemed(thisObj, value) {
+      this._setImpl(thisObj, value, "theme", "set");
+    },
+
+    /**
+     * Resets the theme value for the property; this will trigger an apply & change event if the
+     * final value of the property changes
+     *
+     * @param {*} thisObj
+     */
+    resetThemed(thisObj) {
+      this._setImpl(thisObj, undefined, "theme", "reset");
+    },
+
+    /**
+     * Sets the actual value of the property
+     *
+     * @param {qx.core.Object} thisObj
+     * @param {*} value
+     * @param {"user" | "theme"} scope
+     * @param {"set" | "reset" | "init"} method
+     */
+    _setImpl(thisObj, value, scope, method) {
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
@@ -643,19 +679,34 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.isMutating(thisObj)) {
         throw new Error("Property " + this + " is currently mutating");
       }
-      let oldValue = this.__storage.get(thisObj, this);
+      let oldValue = this.__getSafe(thisObj);
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this);
       }
-      this.__applyValue(thisObj, value, oldValue);
-    },
 
-    __applyValue(thisObj, value, oldValue) {
       let isEqual = this.isEqual(thisObj, value, oldValue);
       let isInitCalled = true;
       let state = this.getPropertyState(thisObj);
       isInitCalled = state.initMethodCalled;
       state.initMethodCalled = true;
+
+      if (scope == "user") {
+        // Always set the value to the storage if it is a user value; this is because themable properties
+        // might be equal now, but if the theme value changes, the user's override needs to remain.
+        if (method == "set" || method == "init") {
+          this.__storage.set(thisObj, this, value);
+        } else if (method == "reset") {
+          this.__storage.reset(thisObj, this, value);
+        }
+      } else if (scope == "theme") {
+        if (method == "reset" || value === undefined) {
+          delete state.themeValue;
+        } else {
+          state.themeValue = value;
+        }
+      } else if (qx.core.Environment.get("qx.debug")) {
+        throw new Error(`Invalid scope=${scope} in ${this.classname}._setImpl`);
+      }
 
       if (!isEqual || !isInitCalled) {
         this._setMutating(thisObj, true);
@@ -665,9 +716,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
 
         try {
-          if (!isEqual) {
-            this.__storage.set(thisObj, this, value);
-          }
           this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
           if (this.__eventName) {
             thisObj.fireDataEvent(this.__eventName, value, oldValue);
@@ -679,6 +727,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
     },
 
+    /**
+     * Copies the value of this property to all children of the object
+     *
+     * @param {qx.core.Object} thisObj
+     */
     __applyValueToInheritedChildren(thisObj) {
       if (this.isInheritable() && typeof thisObj._getChildren == "function") {
         for (let child of thisObj._getChildren()) {
@@ -720,37 +773,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         this._setMutating(thisObj, promise);
         await promise;
       }
-    },
-
-    /**
-     * Sets the theme value for the property; this will trigger an apply & change event if the
-     * final value of the property changes
-     *
-     * @param {*} thisObj
-     * @param {*} value
-     */
-    setThemed(thisObj, value) {
-      let oldValue = this.__getSafe(thisObj);
-      let state = this.getPropertyState(thisObj, true);
-      state.themeValue = value;
-      value = this.__getSafe(thisObj);
-
-      this.__applyValue(thisObj, value, oldValue);
-    },
-
-    /**
-     * Resets the theme value for the property; this will trigger an apply & change event if the
-     * final value of the property changes
-     *
-     * @param {*} thisObj
-     */
-    resetThemed(thisObj) {
-      let oldValue = this.__getSafe(thisObj);
-      let state = this.getPropertyState(thisObj, true);
-      delete state.themeValue;
-      let value = this.__getSafe(thisObj);
-
-      this.__applyValue(thisObj, value, oldValue);
     },
 
     /**

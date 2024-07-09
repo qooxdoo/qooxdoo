@@ -65,10 +65,7 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
             );
           }
 
-          if (
-            allProperties[propertyName] instanceof
-            qx.core.property.GroupProperty
-          ) {
+          if (allProperties[propertyName] instanceof qx.core.property.GroupProperty) {
             throw new Error(
               `Class ${this.__clazz.classname}: ` +
                 `Property group '${this.__propertyName}': ` +
@@ -153,11 +150,7 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
       // muck with the array.
       args = args[0] instanceof Array ? args[0].concat() : args;
 
-      for (
-        let i = 0;
-        i < this.__definition.group.length && args.length > 0;
-        i++
-      ) {
+      for (let i = 0; i < this.__definition.group.length && args.length > 0; i++) {
         // Get the next value to set
         let value = args.shift();
         let propertyName = this.__definition.group[i];
@@ -197,20 +190,14 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
      * @param  {...any} args
      */
     setThemed(thisObj, ...args) {
-      // We can have received separate arguments, or a single
-      // array of arguments. Convert the former to the latter if
-      // necessary. Make a copy, in any case, because we might
-      // muck with the array.
-      args =
-        args instanceof Array
-          ? args.concat()
-          : Array.prototype.concat.call(args);
+      // We can have received separate arguments, or a single array of arguments. Convert the former to the latter if
+      // necessary.
+      if (args.length == 1 && qx.lang.Type.isArray(args[0])) {
+        args = args[0];
+      }
+      args = qx.lang.Array.clone(args);
 
-      for (
-        let i = 0;
-        i < this.__definition.group.length && args.length > 0;
-        i++
-      ) {
+      for (let i = 0; i < this.__definition.group.length && args.length > 0; i++) {
         // Get the next value to set
         let value = args.shift();
         let propertyFirstUp = qx.Bootstrap.firstUp(this.__definition.group[i]);
