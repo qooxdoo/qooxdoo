@@ -1649,7 +1649,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.push("computed=this.", this.$$store.theme[name], ";");
         code.push("else if(this.", this.$$store.init[name], "!==undefined){");
         code.push("computed=this.", this.$$store.init[name], ";");
-        code.push("this.", this.$$store.initialized[name], "=false;");
+        code.push("delete this.", this.$$store.initialized[name], ";");
         code.push("}");
       } else {
         // Use runtime value as it has higher priority
@@ -1688,7 +1688,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.push("computed=this.", this.$$store.theme[name], ";");
         code.push("else if(this.", this.$$store.init[name], "!==undefined){");
         code.push("computed=this.", this.$$store.init[name], ";");
-        code.push("this.", this.$$store.initialized[name], "=false;");
+        code.push("delete this.", this.$$store.initialized[name], ";");
         code.push("}");
       } else {
         if (variant === "setRuntime") {
@@ -1736,7 +1736,7 @@ qx.Bootstrap.define("qx.core.Property", {
           // Fallback to init value
           code.push("if(this.", this.$$store.init[name], "!==undefined){");
           code.push("computed=this.", this.$$store.init[name], ";");
-          code.push("this.", this.$$store.initialized[name], "=false;");
+          code.push("delete this.", this.$$store.initialized[name], ";");
           code.push("}");
         } else if (variant === "init") {
           if (incomingValue) {
@@ -1752,7 +1752,7 @@ qx.Bootstrap.define("qx.core.Property", {
       }
 
       // OLD = INIT VALUE
-      code.push("else if(this.", this.$$store.initialized[name], "!==false){");
+      code.push("else if(!this.", this.$$store.initialized[name], "){");
 
       if (variant === "init") {
         if (incomingValue) {
@@ -1771,7 +1771,7 @@ qx.Bootstrap.define("qx.core.Property", {
         variant === "setThemed" ||
         variant === "refresh"
       ) {
-        code.push("delete this.", this.$$store.initialized[name], ";");
+        code.push("this.", this.$$store.initialized[name], "=true;");
 
         if (variant === "setRuntime") {
           code.push("computed=this.", this.$$store.runtime[name], "=value;");
@@ -1811,7 +1811,7 @@ qx.Bootstrap.define("qx.core.Property", {
             code.push("computed=this.", this.$$store.init[name], ";");
           }
 
-          code.push("this.", this.$$store.initialized[name], "=false;");
+          code.push("delete this.", this.$$store.initialized[name], ";");
         }
 
         // refresh() will work with the undefined value, later
@@ -1857,11 +1857,7 @@ qx.Bootstrap.define("qx.core.Property", {
         }
 
         // OLD = INIT VALUE
-        code.push(
-          "else if(this.",
-          this.$$store.initialized[name],
-          "!==false){"
-        );
+        code.push("else if(!this.", this.$$store.initialized[name], "){");
         code.push("old=this.", this.$$store.init[name], ";");
         code.push("}");
       }
@@ -1893,9 +1889,9 @@ qx.Bootstrap.define("qx.core.Property", {
       code.push("this.", this.$$store.init[name], "!==undefined&&");
       code.push("this.", this.$$store.init[name], "!==inherit){");
       code.push("computed=this.", this.$$store.init[name], ";");
-      code.push("this.", this.$$store.initialized[name], "=false;");
+      code.push("delete this.", this.$$store.initialized[name], ";");
       code.push("}else{");
-      code.push("delete this.", this.$$store.initialized[name], ";}");
+      code.push("this.", this.$$store.initialized[name], "=true;}");
 
       code.push("}");
 
