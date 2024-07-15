@@ -255,7 +255,7 @@ qx.Bootstrap.define("qx.core.Property", {
       theme: {},
       inherit: {},
       init: {},
-      useinit: {}
+      initialized: {}
     },
 
     /**
@@ -645,7 +645,7 @@ qx.Bootstrap.define("qx.core.Property", {
       store.theme[name] = "$$theme_" + name;
       store.init[name] = "$$init_" + name;
       store.inherit[name] = "$$inherit_" + name;
-      store.useinit[name] = "$$useinit_" + name;
+      store.initialized[name] = "$$initialized_" + name;
 
       var getName = (method.get[name] = "get" + upname);
       members[method.get[name]] = new Function(
@@ -1649,7 +1649,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.push("computed=this.", this.$$store.theme[name], ";");
         code.push("else if(this.", this.$$store.init[name], "!==undefined){");
         code.push("computed=this.", this.$$store.init[name], ";");
-        code.push("this.", this.$$store.useinit[name], "=true;");
+        code.push("this.", this.$$store.initialized[name], "=false;");
         code.push("}");
       } else {
         // Use runtime value as it has higher priority
@@ -1688,7 +1688,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.push("computed=this.", this.$$store.theme[name], ";");
         code.push("else if(this.", this.$$store.init[name], "!==undefined){");
         code.push("computed=this.", this.$$store.init[name], ";");
-        code.push("this.", this.$$store.useinit[name], "=true;");
+        code.push("this.", this.$$store.initialized[name], "=false;");
         code.push("}");
       } else {
         if (variant === "setRuntime") {
@@ -1736,7 +1736,7 @@ qx.Bootstrap.define("qx.core.Property", {
           // Fallback to init value
           code.push("if(this.", this.$$store.init[name], "!==undefined){");
           code.push("computed=this.", this.$$store.init[name], ";");
-          code.push("this.", this.$$store.useinit[name], "=true;");
+          code.push("this.", this.$$store.initialized[name], "=false;");
           code.push("}");
         } else if (variant === "init") {
           if (incomingValue) {
@@ -1752,7 +1752,7 @@ qx.Bootstrap.define("qx.core.Property", {
       }
 
       // OLD = INIT VALUE
-      code.push("else if(this.", this.$$store.useinit[name], "){");
+      code.push("else if(this.", this.$$store.initialized[name], "!==false){");
 
       if (variant === "init") {
         if (incomingValue) {
@@ -1760,8 +1760,6 @@ qx.Bootstrap.define("qx.core.Property", {
         } else {
           code.push("computed=this.", this.$$store.init[name], ";");
         }
-
-        // useinit flag is already initialized
       }
 
       // reset(), resetRuntime() and resetStyle() are impossible, because the user and themed values have a
@@ -1773,7 +1771,7 @@ qx.Bootstrap.define("qx.core.Property", {
         variant === "setThemed" ||
         variant === "refresh"
       ) {
-        code.push("delete this.", this.$$store.useinit[name], ";");
+        code.push("delete this.", this.$$store.initialized[name], ";");
 
         if (variant === "setRuntime") {
           code.push("computed=this.", this.$$store.runtime[name], "=value;");
@@ -1813,7 +1811,7 @@ qx.Bootstrap.define("qx.core.Property", {
             code.push("computed=this.", this.$$store.init[name], ";");
           }
 
-          code.push("this.", this.$$store.useinit[name], "=true;");
+          code.push("this.", this.$$store.initialized[name], "=false;");
         }
 
         // refresh() will work with the undefined value, later
@@ -1859,7 +1857,11 @@ qx.Bootstrap.define("qx.core.Property", {
         }
 
         // OLD = INIT VALUE
-        code.push("else if(this.", this.$$store.useinit[name], "){");
+        code.push(
+          "else if(this.",
+          this.$$store.initialized[name],
+          "!==false){"
+        );
         code.push("old=this.", this.$$store.init[name], ";");
         code.push("}");
       }
@@ -1891,9 +1893,9 @@ qx.Bootstrap.define("qx.core.Property", {
       code.push("this.", this.$$store.init[name], "!==undefined&&");
       code.push("this.", this.$$store.init[name], "!==inherit){");
       code.push("computed=this.", this.$$store.init[name], ";");
-      code.push("this.", this.$$store.useinit[name], "=true;");
+      code.push("this.", this.$$store.initialized[name], "=false;");
       code.push("}else{");
-      code.push("delete this.", this.$$store.useinit[name], ";}");
+      code.push("delete this.", this.$$store.initialized[name], ";}");
 
       code.push("}");
 
