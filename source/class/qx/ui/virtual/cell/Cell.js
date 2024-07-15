@@ -202,16 +202,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
      * @return {Array} List of property names
      */
     _getCssProperties() {
-      return [
-        "backgroundColor",
-        "textColor",
-        "font",
-        "textAlign",
-        "paddingTop",
-        "paddingRight",
-        "paddingBottom",
-        "paddingLeft"
-      ];
+      return ["backgroundColor", "textColor", "font", "textAlign", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft"];
     },
 
     // property apply
@@ -229,9 +220,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
      */
     _getValue(propertyName) {
       if (this.__isThemed) {
-        return qx.util.PropertyUtil.getThemeValue(this, propertyName);
+        return qx.util.PropertyUtil.getProperty(this, propertyName).getThemeValue(this);
       } else {
-        return qx.util.PropertyUtil.getUserValue(this, propertyName);
+        return this[propertyName];
       }
     },
 
@@ -265,11 +256,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       if (!value) {
         this._storeStyle(name, null);
       } else {
-        this._storeStyle(
-          name,
-          "background-color:" +
-            qx.theme.manager.Color.getInstance().resolve(value)
-        );
+        this._storeStyle(name, "background-color:" + qx.theme.manager.Color.getInstance().resolve(value));
       }
     },
 
@@ -279,10 +266,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       if (!value) {
         this._storeStyle(name, null);
       } else {
-        this._storeStyle(
-          name,
-          "color:" + qx.theme.manager.Color.getInstance().resolve(value)
-        );
+        this._storeStyle(name, "color:" + qx.theme.manager.Color.getInstance().resolve(value));
       }
     },
 
@@ -420,10 +404,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       var appearance = this.getAppearance();
       var PropertyUtil = qx.util.PropertyUtil;
 
-      var styles = qx.theme.manager.Appearance.getInstance().styleFrom(
-        appearance,
-        states
-      );
+      var styles = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, states);
 
       for (var prop in styles) {
         if (styles[prop] !== undefined) {
@@ -481,21 +462,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       var user = this.__userPaddings;
       var theme = this.__themePaddings;
 
-      var top =
-        (user.paddingTop !== undefined ? user.paddingTop : theme.paddingTop) ||
-        0;
-      var right =
-        (user.paddingRight !== undefined
-          ? user.paddingRight
-          : theme.paddingRight) || 0;
-      var bottom =
-        (user.paddingBottom !== undefined
-          ? user.paddingBottom
-          : theme.paddingBottom) || 0;
-      var left =
-        (user.paddingLeft !== undefined
-          ? user.paddingLeft
-          : theme.paddingLeft) || 0;
+      var top = (user.paddingTop !== undefined ? user.paddingTop : theme.paddingTop) || 0;
+      var right = (user.paddingRight !== undefined ? user.paddingRight : theme.paddingRight) || 0;
+      var bottom = (user.paddingBottom !== undefined ? user.paddingBottom : theme.paddingBottom) || 0;
+      var left = (user.paddingLeft !== undefined ? user.paddingLeft : theme.paddingLeft) || 0;
 
       return [left + right, top + bottom];
     }

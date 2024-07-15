@@ -79,11 +79,7 @@ qx.Class.define("qx.ui.basic.Label", {
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
-      );
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
   },
 
@@ -246,15 +242,10 @@ qx.Class.define("qx.ui.basic.Label", {
       // This is needed for all browsers not having text-overflow:ellipsis
       // but supporting XUL (firefox < 4)
       // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
-      if (
-        !qx.core.Environment.get("css.textoverflow") &&
-        qx.core.Environment.get("html.xul")
-      ) {
+      if (!qx.core.Environment.get("css.textoverflow") && qx.core.Environment.get("html.xul")) {
         if (value && !this.isRich()) {
           if (qx.core.Environment.get("qx.debug")) {
-            this.warn(
-              "Only rich labels are selectable in browsers with Gecko engine!"
-            );
+            this.warn("Only rich labels are selectable in browsers with Gecko engine!");
           }
           return;
         }
@@ -284,10 +275,7 @@ qx.Class.define("qx.ui.basic.Label", {
     // overridden
     _applyTextColor(value, old) {
       if (value) {
-        this.getContentElement().setStyle(
-          "color",
-          qx.theme.manager.Color.getInstance().resolve(value)
-        );
+        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
       } else {
         this.getContentElement().removeStyle("color");
       }
@@ -322,19 +310,13 @@ qx.Class.define("qx.ui.basic.Label", {
           value = qx.theme.manager.Font.getInstance().resolve(value);
         }
         this.__font = value;
-        if (
-          this.__font instanceof qx.bom.webfonts.WebFont &&
-          !this.__font.isValid()
-        ) {
-          this.__webfontListenerId = this.__font.addListener(
-            "changeStatus",
-            evt => {
-              if (evt.getData().valid) {
-                this.__invalidContentSize = true;
-                qx.ui.core.queue.Layout.add(this);
-              }
+        if (this.__font instanceof qx.bom.webfonts.WebFont && !this.__font.isValid()) {
+          this.__webfontListenerId = this.__font.addListener("changeStatus", evt => {
+            if (evt.getData().valid) {
+              this.__invalidContentSize = true;
+              qx.ui.core.queue.Layout.add(this);
             }
-          );
+          });
         }
         styles = this.__font.getStyles();
       } else {
@@ -345,6 +327,10 @@ qx.Class.define("qx.ui.basic.Label", {
       // check if text color already set - if so this local value has higher priority
       if (this.getTextColor() != null) {
         delete styles["color"];
+      }
+
+      if (styles["padding-left"] || styles["paddingLeft"]) {
+        console.log(JSON.stringify(styles));
       }
 
       this.getContentElement().setStyles(styles);
@@ -366,9 +352,7 @@ qx.Class.define("qx.ui.basic.Label", {
       var Label = qx.bom.Label;
       var font = this.getFont();
 
-      var styles = font
-        ? this.__font.getStyles()
-        : qx.bom.Font.getDefaultStyles();
+      var styles = font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
       var content = this.getValue() || "A";
       var rich = this.getRich();
 
@@ -380,9 +364,7 @@ qx.Class.define("qx.ui.basic.Label", {
         styles.wordBreak = "break-all";
       }
 
-      return rich
-        ? Label.getHtmlSize(content, styles, width)
-        : Label.getTextSize(content, styles);
+      return rich ? Label.getHtmlSize(content, styles, width) : Label.getTextSize(content, styles);
     },
 
     /**
@@ -430,10 +412,7 @@ qx.Class.define("qx.ui.basic.Label", {
             value.focus.apply(value);
           }
           // furthermore toggle if possible [BUG #6881]
-          if (
-            "toggleValue" in value &&
-            typeof value.toggleValue === "function"
-          ) {
+          if ("toggleValue" in value && typeof value.toggleValue === "function") {
             value.toggleValue();
           }
         });
@@ -470,10 +449,7 @@ qx.Class.define("qx.ui.basic.Label", {
 
     // property apply
     _applyBreakWithinWords(value, old) {
-      this.getContentElement().setStyle(
-        "wordBreak",
-        this.isRich() && value ? "break-all" : "normal"
-      );
+      this.getContentElement().setStyle("wordBreak", this.isRich() && value ? "break-all" : "normal");
     },
 
     /**
@@ -530,11 +506,7 @@ qx.Class.define("qx.ui.basic.Label", {
 
   destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
-      );
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
 
     if (this.__font && this.__webfontListenerId) {

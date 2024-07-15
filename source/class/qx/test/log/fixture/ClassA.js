@@ -2,14 +2,11 @@ qx.Class.define("qx.test.log.fixture.ClassA", {
   extend: qx.core.Object,
 
   construct() {
+    super();
     this._callCountApplyOldProperty = 0;
     this._callCountApplyNewProperty = 0;
 
-    qx.log.Logger.deprecateMethodOverriding(
-      this,
-      qx.test.log.fixture.ClassA,
-      "_applyOldProperty"
-    );
+    qx.log.Logger.deprecateMethodOverriding(this, qx.test.log.fixture.ClassA, "_applyOldProperty");
   },
 
   properties: {

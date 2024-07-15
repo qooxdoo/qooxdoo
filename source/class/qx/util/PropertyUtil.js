@@ -21,200 +21,65 @@
  *
  * This class is rather to be used internally. For all regular usage of the
  * property system the default API should be sufficient.
+ *
+ * Prior to v8, this class included methods to get/set the user, theme, and init values
+ * of properties independently - this methods circumvented the normal operation of the
+ * property mechanism.  It could be argued that the `get` methods are alloweed, and
+ * in some cases can be replicated via the property system, but their meaning was different,
+ * ie even `getUserValue` would not return the value of the property, but the value set
+ * by a user and not overridden by a theme.  For this reason, the `get` methods are not
+ * truely compatible and anyone using those methods should think again about exactly what
+ * they are trying to achieve, and probably revise their process.
+ *
+ * As it stands, any use of this class needs to be reviewed from v8 onwards because the
+ * `getProperties`/`getAllProperties` methods return instances of `qx.core.property.Property`
+ * and not the old POJO.
  */
 qx.Class.define("qx.util.PropertyUtil", {
   statics: {
     /**
      * Get the property map of the given class
      *
-     * @param clazz {Class} a qooxdoo class
-     * @return {Map} A properties map as defined in {@link qx.Class#define}
+     * @param clazz {qx.Class|qx.core.Object} a qooxdoo class
+     * @return {Object<String,qx.core.property.Property>} A properties map as defined in {@link qx.Class#define}
      *   including the properties of included mixins and not including refined
      *   properties.
      */
     getProperties(clazz) {
-      return clazz.$$properties;
+      if (clazz instanceof qx.core.Object) {
+        clazz = clazz.constructor;
+      }
+      return clazz.prototype.$$properties;
     },
 
     /**
      * Get the property map of the given class including the properties of all
-     * superclasses!
+     * superclasses
      *
-     * @param clazz {Class} a qooxdoo class
-     * @return {Map} The properties map as defined in {@link qx.Class#define}
+     * @param clazz {qx.Class|qx.core.Object} a qooxdoo class
+     * @return {Object<String,qx.core.property.Property>} The properties map as defined in {@link qx.Class#define}
      *   including the properties of included mixins of the current class and
      *   all superclasses.
      */
     getAllProperties(clazz) {
-      var properties = {};
-      var superclass = clazz;
-      // go threw the class hierarchy
-      while (superclass != qx.core.Object) {
-        var currentProperties = this.getProperties(superclass);
-        for (var property in currentProperties) {
-          properties[property] = currentProperties[property];
-        }
-        superclass = superclass.superclass;
+      if (clazz instanceof qx.core.Object) {
+        clazz = clazz.constructor;
       }
-      return properties;
-    },
-
-    /*
-    -------------------------------------------------------------------------
-      USER VALUES
-    -------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the user value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @return {var} The user value
-     */
-    getUserValue(object, propertyName) {
-      return object["$$user_" + propertyName];
+      return clazz.prototype.$$allProperties;
     },
 
     /**
-     * Sets the user value of the given property. Do not pass go, do
-     * not collect $200. Do not do any normal property handling such
-     * as calling the `apply` method, etc. Simply save the value both
-     * as the designated `$$user` value, and as the current value of
-     * the property.
+     * Returns the property object for a givemn property
      *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @param value {var} The value to set
+     * @param {qx.Class|qx.core.Object} clazz
+     * @param {String} propertyName
+     * @returns {qx.core.property.Property}
      */
-    setUserValue(object, propertyName, value) {
-      var variant;
-
-      object["$$user_" + propertyName] = value;
-
-      // Do an immediate save of the property; no apply handling, etc.
-      variant = object["$$variant" + propertyName];
-      object["$$variant" + propertyName] = "immediate";
-
-      // Debugging hint: this will trap into setter code.
-      object[propertyName] = value;
-
-      object["$$variant" + propertyName] = variant;
-    },
-
-    /**
-     * Deletes the user value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     */
-    deleteUserValue(object, propertyName) {
-      delete object["$$user_" + propertyName];
-    },
-
-    /*
-    -------------------------------------------------------------------------
-      INIT VALUES
-    -------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the init value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @return {var} The init value
-     */
-    getInitValue(object, propertyName) {
-      return object["$$init_" + propertyName];
-    },
-
-    /**
-     * Sets the init value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @param value {var} The value to set
-     */
-    setInitValue(object, propertyName, value) {
-      object["$$init_" + propertyName] = value;
-    },
-
-    /**
-     * Deletes the init value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     */
-    deleteInitValue(object, propertyName) {
-      delete object["$$init_" + propertyName];
-    },
-
-    /*
-    -------------------------------------------------------------------------
-      THEME VALUES
-    -------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the theme value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @return {var} The theme value
-     */
-    getThemeValue(object, propertyName) {
-      return object["$$theme_" + propertyName];
-    },
-
-    /**
-     * Sets the theme value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @param value {var} The value to set
-     */
-    setThemeValue(object, propertyName, value) {
-      object["$$theme_" + propertyName] = value;
-    },
-
-    /**
-     * Deletes the theme value of the given property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     */
-    deleteThemeValue(object, propertyName) {
-      delete object["$$theme_" + propertyName];
-    },
-
-    /*
-    -------------------------------------------------------------------------
-      THEMED PROPERTY
-    -------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets a themed property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     * @param value {var} The value to set
-     */
-    setThemed(object, propertyName, value) {
-      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
-      object[`setThemed${propertyFirstUp}`](value);
-    },
-
-    /**
-     * Resets a themed property
-     *
-     * @param object {Object} The object to access
-     * @param propertyName {String} The name of the property
-     */
-    resetThemed(object, propertyName) {
-      let propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
-      object[`resetThemed${propertyFirstUp}`]();
+    getProperty(clazz, propertyName) {
+      if (clazz instanceof qx.core.Object) {
+        clazz = clazz.constructor;
+      }
+      return clazz.prototype.$$allProperties[propertyName] || null;
     }
   }
 });

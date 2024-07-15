@@ -144,28 +144,7 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
      * @param  {...any} args
      */
     set(thisObj, ...args) {
-      // We can have received separate arguments, or a single
-      // array of arguments. Convert the former to the latter if
-      // necessary. Make a copy, in any case, because we might
-      // muck with the array.
-      args = args[0] instanceof Array ? args[0].concat() : args;
-
-      for (let i = 0; i < this.__definition.group.length && args.length > 0; i++) {
-        // Get the next value to set
-        let value = args.shift();
-        let propertyName = this.__definition.group[i];
-
-        // Set the next property in the group
-        thisObj[`$$variant_${propertyName}`] = "set";
-        thisObj[propertyName] = value;
-
-        // If we're in shorthand mode, we may reuse that
-        // value. Put it back at the end of the argument
-        // list.
-        if (this.__definition.mode == "shorthand") {
-          args.push(value);
-        }
-      }
+      this.__iterateProperties((propertyName, value) => (thisObj[propertyName] = value), thisObj, ...args);
     },
 
     /**
@@ -175,12 +154,14 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
      * @param  {...any} args
      */
     reset(thisObj, value) {
-      for (let i = 0; i < this.__definition.group.length; i++) {
-        let propertyFirstUp = qx.Bootstrap.firstUp(this.__definition.group[i]);
-
-        // Reset the property
-        this[`reset${propertyFirstUp}`]();
-      }
+      this.__iterateProperties(
+        (propertyName, value) => {
+          let upname = qx.Bootstrap.firstUp(propertyName);
+          thisObj[`reset${upname}`]();
+        },
+        thisObj,
+        ...args
+      );
     },
 
     /**
@@ -190,26 +171,14 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
      * @param  {...any} args
      */
     setThemed(thisObj, ...args) {
-      // We can have received separate arguments, or a single array of arguments. Convert the former to the latter if
-      // necessary.
-      if (args.length == 1 && qx.lang.Type.isArray(args[0])) {
-        args = args[0];
-      }
-      args = qx.lang.Array.clone(args);
-
-      for (let i = 0; i < this.__definition.group.length && args.length > 0; i++) {
-        // Get the next value to set
-        let value = args.shift();
-        let propertyFirstUp = qx.Bootstrap.firstUp(this.__definition.group[i]);
-
-        // Set the next property in the group
-        thisObj[`setThemed${propertyFirstUp}`](value);
-
-        // If we're in shorthand mode, we may reuse that
-        // value. Put it back at the end of the argument
-        // list.
-        args.push(value);
-      }
+      this.__iterateProperties(
+        (propertyName, value) => {
+          let upname = qx.Bootstrap.firstUp(propertyName);
+          thisObj[`setThemed${upname}`](value);
+        },
+        thisObj,
+        ...args
+      );
     },
 
     /**
@@ -219,11 +188,42 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
      * @param  {...any} args
      */
     resetThemed(thisObj) {
-      for (let i = 0; i < this.__definition.group.length; i++) {
-        let propertyFirstUp = qx.Bootstrap.firstUp(this.__definition.group[i]);
+      this.__iterateProperties((propertyName, value) => {
+        let upname = qx.Bootstrap.firstUp(propertyName);
+        thisObj[`resetThemed${upname}`]();
+      }, thisObj);
+    },
 
-        // Reset the property
-        thisObj[`resetThemed${propertyFirstUp}`]();
+    /**
+     * Iterates all the properties, with the value to set
+     *
+     * @param {Function} callback which is passed the propertyName and value
+     * @param {qx.core.Object} thisObj
+     * @param  {...any} args
+     */
+    __iterateProperties(callback, thisObj, ...args) {
+      // No arguments (eg a `resetXxx` method)
+      if (!args || !args.length) {
+        for (let i = 0; i < this.__definition.group.length; i++) {
+          callback(this.__definition.group[i]);
+        }
+        return;
+      }
+
+      // We can have received separate arguments, or a single array of arguments. Convert the former to the latter if
+      // necessary.
+      if (args.length == 1 && qx.lang.Type.isArray(args[0])) {
+        args = args[0];
+      }
+      args = qx.lang.Array.clone(args);
+
+      for (let i = 0; i < this.__definition.group.length && args.length > 0; i++) {
+        let value = args.shift();
+        callback(this.__definition.group[i], value);
+
+        // If we're in shorthand mode, we may reuse that value. Put it back at the end of the argument
+        // list.
+        args.push(value);
       }
     },
 

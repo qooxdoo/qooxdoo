@@ -198,9 +198,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error(`${this}: ${description} method ` + value + " is invalid");
       };
 
-      this.__apply = getFunction(def.apply, "Apply");
-      this.__transform = getFunction(def.transform, "Transform");
-      this.__validate = getFunction(def.validate, "Validate");
+      this.__apply = getFunction(def.apply, "Apply") || this.__apply;
+      this.__transform = getFunction(def.transform, "Transform") || this.__transform;
+      this.__validate = getFunction(def.validate, "Validate") || this.__validate;
 
       if (def.event !== undefined) {
         this.__eventName = def.event;
@@ -300,6 +300,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
       clone.__definition = this.__definition;
       clone.__storage = this.__storage;
       clone.__readOnly = this.__readOnly;
+      clone.__validate = this.__validate;
+      clone.__apply = this.__apply;
+      clone.__transform = this.__transform;
       clone.__eventName = this.__eventName;
       clone.__initValue = this.__initValue;
       clone.__initFunction = this.__initFunction;
@@ -506,18 +509,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       this.__storage.set(thisObj, this, value);
-      this._setImpl(thisObj, value, "user", "init");
-    },
+      this._setMutating(thisObj, true);
 
-    /**
-     * Resets a property value
-     *
-     * @param {qx.core.Object} thisObj the object on which the property is defined
-     */
-    reset(thisObj) {
-      let value = this.getInitValue(thisObj);
-      this.__storage.reset(thisObj, this, value);
-      this.__applyValueToInheritedChildren(thisObj);
+      try {
+        this.__callFunction(thisObj, this.__apply, value, null, this.__propertyName);
+        if (this.__eventName) {
+          thisObj.fireDataEvent(this.__eventName, value, null);
+        }
+        this.__applyValueToInheritedChildren(thisObj);
+      } finally {
+        this._setMutating(thisObj, false);
+      }
     },
 
     /**
@@ -620,7 +622,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
         if (value === undefined) {
           if (this.isThemeable()) {
-            value = this.__storage.get(thisObj, this, "theme");
+            value = this.__storage.get(thisObj, this, "themed");
           }
           if (value === undefined) {
             throw new Error("Property " + this + " has not been initialized");
@@ -628,6 +630,20 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
       return value;
+    },
+
+    /**
+     * Gets the themed vaklue, if there is one
+     *
+     * @param {qx.core.Object} thisObj
+     * @returns {*}
+     */
+    getThemed(thisObj) {
+      if (this.isThemeable()) {
+        let state = this.getPropertyState(thisObj);
+        return state.themeValue === undefined ? null : state.themeValue;
+      }
+      return null;
     },
 
     /**
@@ -648,17 +664,59 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value
      */
     setThemed(thisObj, value) {
-      this._setImpl(thisObj, value, "theme", "set");
+      this._setImpl(thisObj, value, "themed", "set");
+    },
+
+    /**
+     * Resets a property value
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     */
+    reset(thisObj) {
+      let value = this.getInitValue(thisObj);
+      this._setImpl(thisObj, value, "user", "reset");
     },
 
     /**
      * Resets the theme value for the property; this will trigger an apply & change event if the
      * final value of the property changes
      *
-     * @param {*} thisObj
+     * @param {qx.core.Object} thisObj
      */
     resetThemed(thisObj) {
-      this._setImpl(thisObj, undefined, "theme", "reset");
+      this._setImpl(thisObj, undefined, "themed", "reset");
+    },
+
+    /**
+     * Detects whether the object is using a theme value or has been overridden by a user value
+     *
+     * @param {qx.core.Object} thisObj
+     * @returns {Boolean}
+     */
+    isThemedValue(thisObj) {
+      if (this.isThemeable()) {
+        let value = this.__storage.get(thisObj, this);
+        if (value === undefined || value === null) {
+          let state = this.getPropertyState(thisObj);
+          value = state.themeValue;
+          return value !== undefined && value !== null;
+        }
+      }
+      return false;
+    },
+
+    /**
+     * Detects whether the object is using a user value, or has one from the theme or init
+     *
+     * @param {qx.core.Object} thisObj
+     * @returns {Boolean}
+     */
+    isUserValue(thisObj) {
+      let value = this.__storage.get(thisObj, this);
+      if (value !== undefined || value !== null) {
+        return true;
+      }
+      return false;
     },
 
     /**
@@ -666,7 +724,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      *
      * @param {qx.core.Object} thisObj
      * @param {*} value
-     * @param {"user" | "theme"} scope
+     * @param {"user" | "themed"} scope
      * @param {"set" | "reset" | "init"} method
      */
     _setImpl(thisObj, value, scope, method) {
@@ -698,7 +756,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         } else if (method == "reset") {
           this.__storage.reset(thisObj, this, value);
         }
-      } else if (scope == "theme") {
+      } else if (scope == "themed") {
         if (method == "reset" || value === undefined) {
           delete state.themeValue;
         } else {
