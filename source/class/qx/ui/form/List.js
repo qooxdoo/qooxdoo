@@ -199,10 +199,12 @@ qx.Class.define("qx.ui.form.List", {
      */
     _onAddChild(e) {
       const child = e.getData();
-      this.__childrenBindings.set(
-        child.toHashCode(),
-        this.bind("readOnly", child, "readOnly")
-      );
+      if (qx.Class.implementsInterface(child, qx.ui.form.IListItem)) {
+        this.__childrenBindings.set(
+          child.toHashCode(),
+          this.bind("readOnly", child, "readOnly")
+        );
+      }
 
       this.fireDataEvent("addItem", child);
     },
@@ -214,8 +216,11 @@ qx.Class.define("qx.ui.form.List", {
      */
     _onRemoveChild(e) {
       const child = e.getData();
-      child.removeBinding(this.__childrenBindings.get(child.toHashCode()));
-      this.__childrenBindings.delete(child.toHashCode());
+      const binding = this.__childrenBindings.get(child.toHashCode());
+      if (binding) {
+        child.removeBinding(binding);
+        this.__childrenBindings.delete(child.toHashCode());
+      }
       this.fireDataEvent("removeItem", child);
     },
 
