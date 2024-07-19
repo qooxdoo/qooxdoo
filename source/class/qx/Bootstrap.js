@@ -882,20 +882,6 @@ qx.Bootstrap.define("qx.Bootstrap", {
     },
 
     /**
-     * Whether the value is strictly a POJO. It's prototype must not inherit from Object.prototype but be strictly Object.prototype.
-
-     * @param {*} value
-     * @returns {boolean} Whether the value is strictly a POJO. 
-     */
-    isPojo(value) {
-      return (
-        value !== undefined &&
-        value !== null &&
-        Object.getPrototypeOf(value) === Object.prototype
-      );
-    },
-
-    /**
      * Whether the value is a function.
      *
      * @param value {var} Value to check.
