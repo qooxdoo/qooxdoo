@@ -390,6 +390,9 @@ qx.Class.define("qx.data.controller.List", {
           this
         );
 
+        // renew the index lookup table
+        this.__buildUpLookupTable();
+
         // check for the new length
         this.__changeModelLength();
 
@@ -534,6 +537,9 @@ qx.Class.define("qx.data.controller.List", {
           this.__removeItem();
         }
       }
+
+      // build up the look up table
+      this.__buildUpLookupTable();
 
       if (!this.getAllowSelectionNotInModel()) {
         // sync the target selection in case someone deleted a item in
