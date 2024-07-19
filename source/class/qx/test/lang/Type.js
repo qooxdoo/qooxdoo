@@ -184,7 +184,7 @@ qx.Class.define("qx.test.lang.Type", {
         }
 
         method() {
-          return "method";
+          return "method: " + this.foo;
         }
       }
 

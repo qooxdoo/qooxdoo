@@ -72,7 +72,9 @@ qx.Bootstrap.define("qx.lang.Type", {
      * @returns {Boolean} Whether the value is strictly a POJO.
      */
     isPojo(value) {
-      if (qx.Bootstrap.getClass(value) != "Object") return false;
+      if (qx.Bootstrap.getClass(value) != "Object") {
+        return false;
+      }
 
       let prototype = Object.getPrototypeOf(value);
       while (true) {
