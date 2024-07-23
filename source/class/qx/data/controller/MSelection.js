@@ -65,13 +65,15 @@ qx.Mixin.define("qx.data.controller.MSelection", {
 
     /**
      * If set to true, the selection property will be allowed to have items which are not in the model property.
-     * If the model property changes, this will not cause the selection property to be reset,
-     * If the selection contains items not in the model,
-     * the target widget will only select the items that are in the model.
+     * If the model property changes, this will not cause the selection property to be reset.
+     *
+     * If the selection property contains items which are not in the model property,
+     * the selection of the target widget (e.g. qx.ui.form.SelectBox) will only be the items that are both in this controller's model property
+     * and in this controller's selection property.
      *
      * This is useful when it is undesirable to reset the selection when the model changes,
      * because if the selection is bound to a business object,
-     * data in the business object will be overwritten.
+     * data in the business object may be overwritten.
      */
     allowSelectionNotInModel: {
       check: "Boolean",
