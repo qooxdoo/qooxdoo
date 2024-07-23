@@ -209,7 +209,7 @@ qx.Class.define("qx.data.controller.List", {
 
   members: {
     /**
-     * Listner ID for the 'change' event of property `model`
+     * Listener ID for the 'change' event of property `model`
      */
     __changeModelListenerId: null,
     __lookupTable: null,
