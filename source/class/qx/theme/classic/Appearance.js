@@ -300,11 +300,14 @@ qx.Theme.define("qx.theme.classic.Appearance", {
       alias: "atom",
 
       style(states) {
+        let useSelectionState = !states.readonly && states.selected;
         return {
           gap: 4,
           padding: states.lead ? [2, 4] : [3, 5],
-          backgroundColor: states.selected ? "background-selected" : undefined,
-          textColor: states.selected ? "text-selected" : undefined,
+          backgroundColor: useSelectionState
+            ? "background-selected"
+            : undefined,
+          textColor: useSelectionState ? "text-selected" : undefined,
           decorator: states.lead ? "lead-item" : undefined,
           opacity: states.drag ? 0.5 : undefined
         };

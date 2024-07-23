@@ -20,4 +20,51 @@
  * This is a marker interface for classes which can act as a children of
  * {@link qx.ui.form.List}
  */
-qx.Interface.define("qx.ui.form.IListItem", {});
+qx.Interface.define("qx.ui.form.IListItem", {
+    /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events: {
+    /** Fired when the value was modified */
+    changeReadOnly: "qx.event.type.Data"
+  },
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members: {
+    /*
+    ---------------------------------------------------------------------------
+      READONLY PROPERTY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the element's value.
+     *
+     * @param value {Boolean|null} The new value of the element.
+     * @return {Boolean|null}
+     */
+    setReadOnly(value) {
+      this.assertArgumentsCount(arguments, 1, 1);
+    },
+
+    /**
+     * Resets the element's value to its initial value.
+     */
+    resetReadOnly() {},
+
+    /**
+     * The element's user set value.
+     *
+     * @return {Boolean|null} The value.
+     */
+    getReadOnly() {}
+  }
+});

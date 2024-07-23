@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.Class", {
      *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.</td></tr>
      *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
-     * @return {Class} The defined class
+     * @return {new (...args: any) => any} The defined class
      */
     define(name, config) {
       try {
@@ -840,7 +840,7 @@ qx.Bootstrap.define("qx.Class", {
             ? this.__staticAllowedKeys
             : this.__allowedKeys;
         for (var key in config) {
-          if (!allowed[key]) {
+          if (!(key in allowed)) {
             throw new Error(
               'The configuration key "' +
                 key +

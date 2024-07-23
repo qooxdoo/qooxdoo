@@ -1873,6 +1873,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
           // Make the focus indicator visible during editing
           this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
 
+          this._cellEditor.addListenerOnce('focusin', this._onFocusinCellEditorAddBlurListener, this);
           this._cellEditor.focus();
           this._cellEditor.activate();
         }
@@ -1962,6 +1963,40 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      */
     _onCellEditorModalWindowClose(e) {
       this.stopEditing();
+    },
+
+    /**
+     * Focusin event handler which attaches the blur event listener ot the cell editor
+     * and uses a timer event to allow the focusin event listener execution before
+     * the blur event listener execution
+     */
+    _onFocusinCellEditorAddBlurListener(e) {
+      this.debug("executed FOCUSIN event listener for hash: " + e.getTarget().$$hash);
+      qx.event.Timer.once(function() {
+        this._cellEditor.addListenerOnce('blur', this._onBlurCellEditorStopEditing, this);
+        this.debug('added BLUR listener to hash: ' + this._cellEditor.$$hash);
+      }, this, 0);
+    },
+
+    /**
+     * Stop editing whenever the cell editor blurs.
+     */
+    _onBlurCellEditorStopEditing(e) {
+      this.debug("executed BLUR listener for hash " + e.getTarget().$$hash);
+      if (this._cellEditor === e.getTarget()) {
+        this.debug('hash: ' + this._cellEditor.$$hash);
+        switch (this.getTable().getCellEditorBlurAction()) {
+          case "save":
+            this.stopEditing();
+            break;
+          case "cancel":
+            this.cancelEditing();
+            break;
+          case "nothing":
+          default:
+            // do nothing
+        }
+      }
     },
 
     /**

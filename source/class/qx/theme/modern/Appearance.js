@@ -830,10 +830,11 @@ qx.Theme.define("qx.theme.modern.Appearance", {
       alias: "atom",
 
       style(states) {
+        let useSelectionState = !states.readonly && states.selected;
         return {
           padding: states.dragover ? [4, 4, 2, 4] : 4,
-          textColor: states.selected ? "text-selected" : undefined,
-          decorator: states.selected ? "selected" : undefined,
+          textColor: useSelectionState ? "text-selected" : undefined,
+          decorator: useSelectionState ? "selected" : undefined,
           opacity: states.drag ? 0.5 : undefined
         };
       }

@@ -58,6 +58,7 @@ qx.Interface.define("qx.ui.form.IForm", {
      * Set the enabled state of the widget.
      *
      * @param enabled {Boolean} The enabled state.
+     * @return {Boolean}
      */
     setEnabled(enabled) {
       return arguments.length == 1;

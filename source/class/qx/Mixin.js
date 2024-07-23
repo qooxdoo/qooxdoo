@@ -371,16 +371,18 @@ qx.Bootstrap.define("qx.Mixin", {
               break;
             }
           }
+
           // Try looking in the class itself
           if (!fn && mixedInAt.prototype[methodName]) {
-            fn = mixedInAt.prototype[methodName].base;
-            // if fn.self is set fn is an overloaded mixin method from
-            // another mixin. In this case fn.base contains the original
-            // class method.
-            if (fn && fn.self) {
+            fn = mixedInAt.prototype[methodName];
+            for (let i = 0; i < mixedInAt.$$flatIncludes.length; i++) {
+              if (!mixedInAt.$$flatIncludes[i].$$members[methodName]) {
+                continue;
+              }
               fn = fn.base;
             }
           }
+
           // Try looking in the superclass
           if (!fn && mixedInAt.superclass) {
             fn = mixedInAt.superclass.prototype[methodName];

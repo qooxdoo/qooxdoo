@@ -176,7 +176,7 @@ qx.Class.define("qx.bom.Notification", {
      * @param title {String} The notification title
      * @param message {String} The message body
      * @param icon {String} Resource string or icon URL
-     * @param expire {Unsigned} Number of milliseconds after the message is
+     * @param expire {Integer} Number of milliseconds after the message is
      *                     automatically destroyed. Leave empty for no
      *                     timeout. Note that some notification systems
      *                     tend to remove timeout-less messages after some

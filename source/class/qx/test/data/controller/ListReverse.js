@@ -36,6 +36,12 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
         children: {
           event: "changeChildren",
           nullable: true
+        },
+
+        readOnly: {
+          check: "Boolean",
+          init: false,
+          event: "changeReadOnly"
         }
       }
     });
