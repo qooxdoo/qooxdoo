@@ -1026,7 +1026,9 @@ qx.Class.define("qx.ui.basic.Image", {
      * Tries to display the image in the `source` property again if it has failed to load.
      */
     tryReload() {
-      if (!this.__failedToLoad) return;
+      if (!this.__failedToLoad) {
+        return;
+      }
       this.__failedToLoad = false;
       this.__sourceToDisplay = this.getSource();
       qx.io.ImageLoader.load(
