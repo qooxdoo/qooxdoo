@@ -161,12 +161,15 @@ qx.Bootstrap.define("qx.io.ImageLoader", {
      *   second parameter is the data entry which contains additional
      *   information about the image.
      * @param context {Object?} Context in which the given callback should be executed
+     * @param options {Map?} Optional configuration options:
+     * - retryFailed {boolean} Whether to retry loading of a failed image source
      */
-    load(source, callback, context) {
+    load(source, callback, context, options) {
+      options ??= {};
       // Shorthand
       var entry = this.__data[source];
 
-      if (!entry) {
+      if (!entry || (options.retryFailed && entry.failed)) {
         entry = this.__data[source] = {};
       }
 
