@@ -61,6 +61,24 @@ qx.Mixin.define("qx.data.controller.MSelection", {
       event: "changeSelection",
       apply: "_applySelection",
       init: null
+    },
+
+    /**
+     * If set to true, the selection property will be allowed to have items which are not in the model property.
+     * If the model property changes, this will not cause the selection property to be reset.
+     *
+     * If the selection property contains items which are not in the model property,
+     * the selection of the target widget (e.g. qx.ui.form.SelectBox) will only be the items that are both in this controller's model property
+     * and in this controller's selection property.
+     *
+     * This is useful when it is undesirable to reset the selection when the model changes,
+     * because if the selection is bound to a business object,
+     * data in the business object may be overwritten.
+     */
+    allowSelectionNotInModel: {
+      check: "Boolean",
+      init: false,
+      nullable: false
     }
   },
 
@@ -123,6 +141,16 @@ qx.Mixin.define("qx.data.controller.MSelection", {
      */
     resetValue() {
       this.resetSelection();
+    },
+
+    /**
+     * Removes any items from the selection property that are not in the model property.
+     */
+    syncSelectionWithModel() {
+      //We will create a copy of my selection array and work on that to ensure there is only one change event being fired.
+      let mySelection = this.getSelection().copy();
+      mySelection = mySelection.filter(item => this.getModel().includes(item));
+      this.getSelection().replace(mySelection);
     },
 
     /*
@@ -226,6 +254,8 @@ qx.Mixin.define("qx.data.controller.MSelection", {
     /**
      * Helper method which should be called by the classes including this
      * Mixin when the target changes.
+     * Removes the 'changeSelection' listener from the old target
+     * and add a new one to the new target;
      *
      * @param value {qx.ui.core.Widget|null} The new target.
      * @param old {qx.ui.core.Widget|null} The old target.
@@ -268,9 +298,9 @@ qx.Mixin.define("qx.data.controller.MSelection", {
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
         var targetSelection = [];
-        // go through the selection array
+        // go through my selection array
         for (var i = 0; i < this.getSelection().length; i++) {
-          // store each item
+          // store each selectable item from target widget
           var model = this.getSelection().getItem(i);
           var selectable = this.__getSelectableForModel(model);
           if (selectable != null) {
@@ -281,21 +311,24 @@ qx.Mixin.define("qx.data.controller.MSelection", {
 
         // get the selection of the target
         targetSelection = this.getTarget().getSelection();
-        // get all items selected in the list
-        var targetSelectionItems = [];
+        // get all models of items selected in the target
+        var targetSelectionModels = [];
         for (var i = 0; i < targetSelection.length; i++) {
-          targetSelectionItems[i] = targetSelection[i].getModel();
+          targetSelectionModels[i] = targetSelection[i].getModel();
         }
 
-        // go through the controller selection
-        for (var i = this.getSelection().length - 1; i >= 0; i--) {
-          // if the item in the controller selection is not selected in the list
-          if (!targetSelectionItems.includes(this.getSelection().getItem(i))) {
-            // remove the current element and get rid of the return array
-            this.getSelection().splice(i, 1).dispose();
+        if (!this.getAllowSelectionNotInModel()) {
+          // go through the controller selection
+          for (var i = this.getSelection().length - 1; i >= 0; i--) {
+            // if the item in the controller selection is not selected in the list
+            if (
+              !targetSelectionModels.includes(this.getSelection().getItem(i))
+            ) {
+              // remove the current element and get rid of the return array
+              this.getSelection().splice(i, 1).dispose();
+            }
           }
         }
-
         // if its a single selection target
       } else if (this.__targetSupportsSingleSelection()) {
         // get the model which should be selected
