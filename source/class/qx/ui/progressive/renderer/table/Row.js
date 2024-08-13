@@ -100,19 +100,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
           ":" +
           qx.core.Environment.get("css.userselect.none") +
           ";"
-        : ""),
-
-    /**
-     * When property `alternateBgColorsAllInstances` is true, use this
-     * as the next background color for additions at the end of the table
-     */
-     _bgColorEnd : 0,
-
-    /**
-     * When property `alternateBgColorsAllInstances` is true, use this
-     * as the next background color for additions at the beginning of the table
-     */
-    _bgColorStart : 0,
+        : "")
   },
 
   properties: {
@@ -121,8 +109,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
       init: 16
     },
 
-    /** Use a class-specific alternating row color instead of instance-specific */
-    alternateBgColorsAllInstances: {
+    /**
+      * Use a table-specific alternating row color instead of
+      * row-renderer-instance-specific
+      */
+    alternateBgColorsTableGlobal: {
       init: false
     }
   },
@@ -334,8 +325,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
         case "end":
           // Determine color of row based on state of last added row
           var index;
-          if (this.getAlternateBgColorsAllInstances()) {
-            index = qx.ui.progressive.renderer.table.Row._bgColorEnd;
+          if (this.getAlternateBgColorsTableGlobal()) {
+            index = state.getUserData().tableRowBgEnd || 0;
           } else {
             index = rendererData.end;
           }
@@ -345,7 +336,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
 
           // Update state for next time
           rendererData.end = index == 0 ? 1 : 0;
-          qx.ui.progressive.renderer.table.Row._bgColorEnd = rendererData.end;
+          state.getUserData().tableRowBgEnd = rendererData.end;
 
           // Append our new row to the pane.
           state.getPane().getContentElement().getDomElement().appendChild(div);
@@ -362,8 +353,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
           if (children.length > 0) {
             // Yup.  Determine color of row based on state of last added row
             var index;
-            if (this.getAlternateBgColorsAllInstances()) {
-              index = qx.ui.progressive.renderer.table.Row._bgColorStart == 0 ? 1 : 0;
+            if (this.getAlternateBgColorsTableGlobal()) {
+              index = state.getUserData().tableRowBgStart == 0 ? 1 : 0; // == 0 includes undefined
             } else {
               index = rendererData.start == 0 ? 1 : 0;
             }
@@ -373,7 +364,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
 
             // Update state for next time
             rendererData.start = index;
-            qx.ui.progressive.renderer.table.Row._bgColorStart = rendererData.start;
+            state.getUserData().tableRowBgStart = rendererData.start;
 
             // Insert our new row before the first child.
             elem.insertBefore(div, children[0]);
@@ -386,7 +377,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
 
             // Update state for next time
             rendererData.start = 0;
-            qx.ui.progressive.renderer.table.Row._bgColorStart = rendererData.start;
+            state.getUserData().tableRowBgStart = rendererData.start;
 
             elem.appendChild(div);
           }
