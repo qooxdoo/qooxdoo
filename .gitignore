@@ -32,7 +32,6 @@ tmp/
 /tmp
 /bootstrap
 /qx
-/ville
 
 # CSS compiler
 /source/resource/qx/mobile/scss/.sass-cache/
