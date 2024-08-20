@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.io.ImageLoader", {
     __knownImageTypesRegExp: /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
     /** @type {RegExp} Image types of a data URL */
-    __dataUrlRegExp: /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
+    __dataUrlRegExp: /^data:image\/(png|gif|jpg|jpeg|bmp|svg)\b/i,
 
     /**
      * Whether the given image has previously been loaded using the
