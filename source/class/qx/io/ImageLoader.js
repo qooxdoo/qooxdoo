@@ -41,7 +41,7 @@ qx.Bootstrap.define("qx.io.ImageLoader", {
     __knownImageTypesRegExp: /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
     /** @type {RegExp} Image types of a data URL */
-    __dataUrlRegExp: /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
+    __dataUrlRegExp: /^data:image\/(png|gif|jpg|jpeg|bmp|svg)\b/i,
 
     /**
      * Whether the given image has previously been loaded using the
@@ -161,12 +161,15 @@ qx.Bootstrap.define("qx.io.ImageLoader", {
      *   second parameter is the data entry which contains additional
      *   information about the image.
      * @param context {Object?} Context in which the given callback should be executed
+     * @param options {Map?} Optional configuration options:
+     * - retryFailed {boolean} Whether to retry loading of a failed image source
      */
-    load(source, callback, context) {
+    load(source, callback, context, options) {
+      options ??= {};
       // Shorthand
       var entry = this.__data[source];
 
-      if (!entry) {
+      if (!entry || (options.retryFailed && entry.failed)) {
         entry = this.__data[source] = {};
       }
 
