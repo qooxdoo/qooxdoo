@@ -251,7 +251,11 @@ qx.Class.define("qx.html.Element", {
         // hiding or showing an object and deleting it right after that may
         // cause an disposed object in the visibility queue [BUG #3607]
         if (!obj.$$disposed) {
-          element.style.display = obj.isVisible() ? "" : "none";
+          element.style.display = obj.isVisible()
+            ? element.style.display == "none"
+              ? ""
+              : element.style.display
+            : "none";
           // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
           if (qx.core.Environment.get("engine.name") == "mshtml") {
             if (!(document.documentMode >= 8)) {
