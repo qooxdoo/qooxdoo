@@ -22,6 +22,7 @@
 ************************************************************************ */
 
 /**
+ * @ignore(Window)
  * This class includes work from on https://github.com/alecsgone/jsx-render; at the time of writing,
  * the https://github.com/alecsgone/jsx-render repo is available under an MIT license.
  */
@@ -194,6 +195,11 @@ qx.Class.define("qx.html.Jsx", {
           tagname,
           newAttrs
         );
+        // if we're in a browser, create a dom element with the same tagname as the resulting `element`
+        if (typeof Window !== "undefined") {
+          let domElem = document.createElement(element.getNodeName());
+          element.useNode(domElem);
+        }
       }
 
       // SLOT
