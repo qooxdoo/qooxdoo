@@ -105,14 +105,20 @@ qx.Class.define("qx.html.Factory", {
 
         var styles = {};
         if (attributes.style) {
-          attributes.style.split(/;/).forEach(function (seg) {
-            var pos = seg.indexOf(":");
-            var key = seg.substring(0, pos);
-            var value = seg.substring(pos + 1).trim();
-            if (key) {
+          let styleArray = attributes.style
+            .replace(/\/\*.*?\*\//g, "")
+            .split(";");
+          for (let styleRule of styleArray) {
+            let pos = styleRule.indexOf(":");
+            if (pos === -1) {
+              continue;
+            }
+            let key = styleRule.substring(0, pos).trim();
+            let value = styleRule.substring(pos + 1).trim();
+            if (key.length) {
               styles[key] = value;
             }
-          });
+          }
           delete attributes.style;
         }
 
