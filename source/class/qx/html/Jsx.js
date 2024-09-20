@@ -195,9 +195,11 @@ qx.Class.define("qx.html.Jsx", {
           tagname,
           newAttrs
         );
-        // if we're in a browser, create a dom element with the same tagname as the resulting `element`
         if (typeof Window !== "undefined") {
           let domElem = document.createElement(element.getNodeName());
+          for (const key in newAttrs) {
+            domElem.setAttribute(key, newAttrs[key]);
+          }
           element.useNode(domElem);
         }
       }
