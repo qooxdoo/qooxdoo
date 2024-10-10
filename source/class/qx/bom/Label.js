@@ -360,11 +360,25 @@ qx.Bootstrap.define("qx.bom.Label", {
       return cacheKey.join(",");
     },
 
+    /**
+     * Returns the cached size of the given text
+     *
+     * @param {String} cacheKey
+     * @param {String} text
+     * @returns {*} size object
+     */
     __getCachedSize(cacheKey, text) {
       let cache = qx.bom.Label.__sizeCache[cacheKey];
       return cache?.sizes[text];
     },
 
+    /**
+     * Stores the size of the given text in the cache
+     *
+     * @param {String} cacheKey
+     * @param {String} text
+     * @param {*} size
+     */
     __storeCacheSize(cacheKey, text, size) {
       if (!size) {
         return;
