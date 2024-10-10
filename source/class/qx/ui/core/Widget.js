@@ -2128,11 +2128,13 @@ qx.Class.define("qx.ui.core.Widget", {
     }, // property apply
     _applyVisibility(value, old) {
       var content = this.getContentElement();
-      if (value === "visible") {
-        content.show();
-      } else {
-        content.hide();
-      } // only force a layout update if visibility change from/to "exclude"
+      if (content) {
+        if (value === "visible") {
+          content.show();
+        } else {
+          content.hide();
+        } // only force a layout update if visibility change from/to "exclude"
+      }
       var parent = this.$$parent;
       if (
         parent &&
