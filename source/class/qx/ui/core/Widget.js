@@ -2135,12 +2135,6 @@ qx.Class.define("qx.ui.core.Widget", {
           content.hide();
         } // only force a layout update if visibility change from/to "exclude"
       }
-        content.show();
-      } else {
-        if (content){
-          content.hide();
-        }
-      } // only force a layout update if visibility change from/to "exclude"
       var parent = this.$$parent;
       if (
         parent &&
