@@ -317,8 +317,7 @@ qx.Bootstrap.define("qx.bom.Label", {
      */
     getTextSize(text, styles) {
       let cacheKey = this.__getCacheKey(styles);
-      let cache = qx.bom.Label.__sizeCache[cacheKey];
-      let size = cache?.sizes[text];
+      let size = this.__getCachedSize(cacheKey, text);
       if (size !== undefined) {
         return size;
       }
