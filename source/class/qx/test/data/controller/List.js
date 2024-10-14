@@ -25,7 +25,13 @@ qx.Class.define("qx.test.data.controller.List", {
   include: qx.dev.unit.MMock,
 
   members: {
+    /**
+     * @type {qx.ui.form.List}
+     */
     __list: null,
+    /**
+     * @type {qx.data.controller.List}
+     */
     __controller: null,
     __data: null,
     __model: null,
