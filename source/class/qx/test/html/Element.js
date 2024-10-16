@@ -213,28 +213,18 @@ qx.Class.define("qx.test.html.Element", {
         return res;
       };
 
-      let elem = new qx.test.html.ExampleElement().set({
+      const elem = new qx.test.html.ExampleElement().set({
         qxObjectId: "rootExample"
       });
+      const expectedSerialized =
+        '<div data-qx-object-id="rootExample"><div id="elem-a1" data-qx-object-id="a1"><div id="elem-a2" data-qx-object-id="../a2"><div id="elem-a3" data-qx-object-id="../a3">Group A end</div></div></div><div id="elem-b1" data-qx-object-id="b1"><div id="elem-b2" data-qx-object-id="b2"><div id="elem-b3" data-qx-object-id="b3">Group B end</div></div></div></div>';
+      this.assertTrue(elem.serialize() === expectedSerialized);
 
-      let html = elem.serialize();
-      let dom = parseHtml(html);
-      let tmp;
-
-      elem.useNode(dom);
-      this.assertTrue(dom === elem.getDomElement(false));
-
-      tmp = dom.querySelector(`div[id="elem-a1"]`);
-      this.assertTrue(tmp && tmp === elem.getQxObject(`a1`).getDomElement());
-      tmp = dom.querySelector(`div[id="elem-a2"]`);
-      this.assertTrue(tmp && tmp === elem.getQxObject(`a2`).getDomElement());
-      tmp = dom.querySelector(`div[id="elem-a3"]`);
-      this.assertTrue(tmp && tmp === elem.getQxObject(`a3`).getDomElement());
-
-      tmp = dom.querySelector(`div[id="elem-b3"]`);
-      this.assertTrue(
-        tmp && tmp === elem.getQxObject(`b1/b2/b3`).getDomElement()
-      );
+      const copyElem = new qx.html.Element();
+      const expectedCopySerialized =
+        '<div><div id="elem-a1"><div id="elem-a2"><div id="elem-a3">Group A end</div></div></div><div id="elem-b1"><div id="elem-b2"><div id="elem-b3">Group B end</div></div></div></div>';
+      copyElem.useNode(parseHtml(expectedCopySerialized));
+      this.assertTrue(copyElem.serialize() === expectedCopySerialized);
     },
 
     testBasics() {
