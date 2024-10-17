@@ -166,7 +166,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         };
         qx.lang.Object.mergeWith(
           options,
-          this.getAppMeta().getAnalyser().getBrowserifyConfig() || {}
+          this.getAppMeta().getAnalyser().getBrowserifyConfig()?.options || {}
         );
         let b = browserify([], options);
 
