@@ -210,6 +210,11 @@ be compiled. Each object can contain:
   will be provided with a stack trace at their time and place of creation, allowing
   for more detailed debugging.
 
+- `browserifyOptions` - (**optional**) options given to browserify. For details see here:
+  <https://github.com/browserify/browserify#usage> When setting
+  `browserifyOptions` on a target, they will be merged into the top-level
+  `browserify.options`.
+
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With these
   options the output type of babel can be defined. For details see here:
   <https://babeljs.io/docs/en/babel-preset-env#options> When setting

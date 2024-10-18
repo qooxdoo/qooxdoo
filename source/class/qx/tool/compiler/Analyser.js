@@ -126,6 +126,13 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "Object"
     },
 
+    /** configuration of browserify */
+    browserifyConfig: {
+      init: null,
+      nullable: true,
+      check: "Object"
+    },
+
     /** list of global ignores */
     ignores: {
       init: [],
