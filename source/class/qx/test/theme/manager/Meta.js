@@ -102,8 +102,8 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       ).getAllListeners();
       let hash =
         this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      this.__formerListener = { ...listener[hash] };
-      delete listener[hash];
+      this.__formerListener = listener.get(hash);
+      listener.delete(hash);
       // add a theme able widget
       this.__button = new qx.ui.form.Button("Foo").set({
         appearance: "test-button-gradient"
@@ -122,7 +122,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       ).getAllListeners();
       let hash =
         this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      listener[hash] = this.__formerListener;
+      listener.set(hash, this.__formerListener);
       this.__formerListener = null;
       qx.ui.core.queue.Manager.flush();
     },
@@ -189,7 +189,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
         {
           qx.theme.manager.Meta.getInstance().setTheme(qx.test.theme.manager.MockDecoration);
           qx.ui.core.queue.Manager.flush();
-    
+
           // mocked decoration theme defines a border radius of 10 pixel
           var elem = this.__button.getContentElement().getDomElement();
           this.assertEquals(qx.bom.element.Style.get(elem, "borderTopLeftRadius"), "10px");

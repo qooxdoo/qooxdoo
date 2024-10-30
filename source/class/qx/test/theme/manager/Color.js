@@ -32,8 +32,8 @@ qx.Class.define("qx.test.theme.manager.Color", {
       ).getAllListeners();
       let hash =
         this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      this.__formerListener = { ...listener[hash] };
-      delete listener[hash];
+      this.__formerListener = listener.get(hash);
+      listener.delete(hash);
     },
 
     tearDown() {
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.theme.manager.Color", {
       ).getAllListeners();
       let hash =
         this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      listener[hash] = this.__formerListener;
+      listener.set(hash, this.__formerListener);
       this.__formerListener = null;
       qx.ui.core.queue.Manager.flush();
     },

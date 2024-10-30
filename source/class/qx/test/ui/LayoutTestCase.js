@@ -99,11 +99,13 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
       // copy event listener structure
       var eventMgr = qx.event.Registration.getManager(window);
       var listeners = eventMgr.getAllListeners();
-      var listenersCopy = {};
-      for (var hash in listeners) {
-        listenersCopy[hash] = {};
-        for (var key in listeners[hash]) {
-          listenersCopy[hash][key] = qx.lang.Array.clone(listeners[hash][key]);
+      var listenersCopy = new Map();
+      for (const [targetHashKey, targetMap] of listeners) {
+        var targetMapCopy1 = new Map();
+        listenersCopy.set(targetHashKey, targetMapCopy1);
+        for (const [entryKey, entryMap] of targetMap) {
+          var entryMapCopy1 = new Map(entryMap);
+          targetMapCopy1.set(entryKey, entryMapCopy1);
         }
       }
 
@@ -116,7 +118,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
 
       // check object registry
       var reg = qx.core.ObjectRegistry.getRegistry();
-      for (key in reg) {
+      for (var key in reg) {
         var obj = reg[key];
 
         // skip pooled objects + DeferredCall which cleans the event listener blacklist
@@ -131,30 +133,30 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
 
       listeners = eventMgr.getAllListeners();
 
-      for (var hash in listeners) {
-        if (!listenersCopy[hash]) {
-          listenersCopy[hash] = {};
+      for (const [targetHashKey, targetMap] of listeners) {
+        var targetMapCopy = listenersCopy.get(targetHashKey);
+        if (!targetMapCopy) {
+          targetMapCopy = new Map();
+          listenersCopy.set(targetHashKey, targetMapCopy);
         }
-
-        for (key in listeners[hash]) {
-          if (!listenersCopy[hash][key]) {
-            listenersCopy[hash][key] = [];
+        for (const [entryKey, entryMap] of targetMap) {
+          var entryMapCopy = targetMapCopy.get(entryKey);
+          if (!entryMapCopy) {
+            entryMapCopy = new Map();
+            targetMapCopy.set(entryKey, entryMapCopy);
           }
-
-          for (var i = 0; i < listeners[hash][key].length; i++) {
-            if (
-              listenersCopy[hash][key].indexOf(listeners[hash][key][i]) == -1
-            ) {
+          for (const [uniqueKey, uniqueListener] of entryMap) {
+            if (!entryMapCopy.has(uniqueKey)) {
               this.fail(
                 msg +
                   ": The event listener '" +
-                  key +
+                  entryKey +
                   ":" +
-                  listeners[hash][key][i] +
+                  uniqueListener +
                   "'for the object '" +
-                  hash +
+                  targetHashKey +
                   ":" +
-                  qx.core.ObjectRegistry.fromHashCode(hash) +
+                  qx.core.ObjectRegistry.fromHashCode(targetHashKey) +
                   "' has not been removed."
               );
             }
