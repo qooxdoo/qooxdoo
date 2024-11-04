@@ -1345,6 +1345,15 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (data.environment) {
           maker.setEnvironment(data.environment);
         }
+
+        /*
+        Libraries have to be added first because there is qx library
+        which includes a framework version
+        */
+        for (let library of librariesArray) {
+          maker.getAnalyser().addLibrary(library);
+        }
+
         let targetEnvironment = {
           "qx.version": maker.getAnalyser().getQooxdooVersion(),
           "qx.compiler.targetType": target.getType(),
@@ -1395,6 +1404,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         maker.getAnalyser().setBabelConfig(babelConfig);
 
+        let browserifyConfig = qx.lang.Object.clone(data.browserify || {}, true);
+        browserifyConfig.options = browserifyConfig.options || {};
+        qx.lang.Object.mergeWith(
+          browserifyConfig.options,
+          targetConfig.browserifyOptions || {}
+        );
+        maker.getAnalyser().setBrowserifyConfig(browserifyConfig);
+
         var addCreatedAt =
           targetConfig["addCreatedAt"] || t.argv["addCreatedAt"];
         if (addCreatedAt) {
@@ -1404,10 +1421,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["verboseCreatedAt"] || t.argv["verboseCreatedAt"];
         if (verboseCreatedAt) {
           maker.getAnalyser().setVerboseCreatedAt(true);
-        }
-
-        for (let library of librariesArray) {
-          maker.getAnalyser().addLibrary(library);
         }
 
         let allApplicationTypes = {};

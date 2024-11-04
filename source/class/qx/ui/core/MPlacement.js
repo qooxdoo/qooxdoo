@@ -203,6 +203,8 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
     __ptwLiveUpdater: null,
     __ptwLiveDisappearListener: null,
     __ptwLiveUpdateDisappearListener: null,
+    /**@type {Record<"top" | "right" | "bottom" | "left", number> | null}*/
+    __lastKnownCoords: null,
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does,
@@ -378,6 +380,15 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
         target.getContentLocation() || this.getLayoutLocation(target);
 
       if (coords != null) {
+        if (
+          coords.top === this.__lastKnownCoords?.top &&
+          coords.right === this.__lastKnownCoords?.right &&
+          coords.bottom === this.__lastKnownCoords?.bottom &&
+          coords.left === this.__lastKnownCoords?.left
+        ) {
+          return true;
+        }
+        this.__lastKnownCoords = coords;
         this._place(coords);
         return true;
       } else {
