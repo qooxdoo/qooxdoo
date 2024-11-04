@@ -318,6 +318,10 @@
             "type": "object",
             "description": "Options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: <https://babeljs.io/docs/en/babel-preset-env#options>. They can be overridden per target."
           },
+          "browserifyOptions": {
+            "type": "object",
+            "description": "Options given to browserify. For details see here: <https://github.com/browserify/browserify#usage>. They can be overridden per target."
+          },
           "parts": {
             "$ref": "#/properties/parts"
           }
@@ -457,6 +461,15 @@
       "type": "object",
       "description": "** DEPRECATED - See babel.options instead",
       "deprecated": true
+    },
+    "browserify": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "object",
+          "description": "Options given to browserify. For details see here: <https://github.com/browserify/browserify#usage>. They can be overridden per target."
+        }
+      }
     },
     "jsx": {
       "type": "object",
