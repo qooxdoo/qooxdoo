@@ -1404,6 +1404,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         maker.getAnalyser().setBabelConfig(babelConfig);
 
+        let browserifyConfig = qx.lang.Object.clone(data.browserify || {}, true);
+        browserifyConfig.options = browserifyConfig.options || {};
+        qx.lang.Object.mergeWith(
+          browserifyConfig.options,
+          targetConfig.browserifyOptions || {}
+        );
+        maker.getAnalyser().setBrowserifyConfig(browserifyConfig);
+
         var addCreatedAt =
           targetConfig["addCreatedAt"] || t.argv["addCreatedAt"];
         if (addCreatedAt) {
