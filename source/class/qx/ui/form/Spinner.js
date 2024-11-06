@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.Spinner", {
     this.addListener("roll", this._onRoll, this);
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleSpinnerListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this._onChangeLocale,
         this
@@ -801,10 +801,8 @@ qx.Class.define("qx.ui.form.Spinner", {
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleSpinnerListenerId
       );
     }
   }

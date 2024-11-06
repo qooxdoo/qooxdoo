@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer", {
 
     // translation support
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleRendererListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this._onChangeLocale,
         this
@@ -191,10 +191,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer", {
 
   destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleRendererListenerId
       );
     }
     this._names = null;

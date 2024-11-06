@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.control.DateChooser", {
 
     // listen for locale changes
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleDatePaneListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this._updateDatePane,
         this
@@ -783,10 +783,8 @@ qx.Class.define("qx.ui.control.DateChooser", {
 
   destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._updateDatePane,
-        this
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleDatePaneListenerId
       );
     }
 
