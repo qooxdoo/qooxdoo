@@ -22,7 +22,7 @@
 qx.Mixin.define("qx.ui.form.MForm", {
   construct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleMFormListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this.__onChangeLocale,
         this
@@ -103,11 +103,9 @@ qx.Mixin.define("qx.ui.form.MForm", {
   },
 
   destruct() {
-    if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this.__onChangeLocale,
-        this
+    if (qx.core.Environment.get("qx.dynlocale") && this.__changeLocaleMFormListenerId) {
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleMFormListenerId
       );
     }
   }

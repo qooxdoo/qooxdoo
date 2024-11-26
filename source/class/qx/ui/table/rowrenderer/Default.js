@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default", {
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Meta.getInstance().addListener(
+      this.__changeThemeRowRendererListenerId = qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme",
         this.initThemeValues,
         this
@@ -254,11 +254,9 @@ qx.Class.define("qx.ui.table.rowrenderer.Default", {
     this._colors = this._fontStyle = this._fontStyleString = null;
 
     // remove dynamic theme listener
-    if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme",
-        this.initThemeValues,
-        this
+    if (qx.core.Environment.get("qx.dyntheme") && this.__changeThemeRowRendererListenerId) {
+      qx.theme.manager.Meta.getInstance().removeListenerById(
+        this.__changeThemeRowRendererListenerId
       );
     }
   }
