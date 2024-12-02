@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.list.List", {
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleListListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this._onChangeLocale,
         this
@@ -615,11 +615,9 @@ qx.Class.define("qx.ui.mobile.list.List", {
   destruct() {
     this.__trackElement = null;
     this._disposeObjects("__provider");
-    if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
+    if (qx.core.Environment.get("qx.dynlocale") && this.__changeLocaleListListenerId) {
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleListListenerId
       );
     }
   }

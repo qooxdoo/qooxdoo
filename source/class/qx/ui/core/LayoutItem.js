@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.core.LayoutItem", {
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Meta.getInstance().addListener(
+      this.__changeThemeLayoutItemListenerId = qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme",
         this._onChangeTheme,
         this
@@ -933,11 +933,9 @@ qx.Class.define("qx.ui.core.LayoutItem", {
 
   destruct() {
     // remove dynamic theme listener
-    if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme",
-        this._onChangeTheme,
-        this
+    if (qx.core.Environment.get("qx.dyntheme") && this.__changeThemeLayoutItemListenerId) {
+      qx.theme.manager.Meta.getInstance().removeListenerById(
+        this.__changeThemeLayoutItemListenerId
       );
     }
     this.$$parent =
