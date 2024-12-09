@@ -12,7 +12,7 @@
     "biguint-format": "^1.0.1",
     "cuid": "^2.1.6",
     "flake-idgen": "^1.1.2",
-    "nanoid": "^2.1.1",
+    "nanoid": "^3.3.8",
     "uuid-random": "^1.3.0"
   }
 }
