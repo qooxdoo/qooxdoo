@@ -17,6 +17,8 @@
 
 ************************************************************************ */
 
+const objectHash = require("object-hash");
+
 /**
  * Tests for qx.io.jsonrpc.Client with a qx.test.io.request.Xhr transport
  */
@@ -61,7 +63,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
 
     /**
      * Sets up the fake server and instructs it to send the given response(s)
-     * @param {String} response The server response to the first request
+     * @param {String|String[]} response The server response(s)
      */
     setUpFakeServer(response) {
       // Not fake transport
@@ -325,6 +327,57 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         100,
         function () {
           this.assertCalledTwice(spy);
+        },
+        this
+      );
+    },
+
+    //
+    // Issue #10739
+    //
+
+    "test: handle jsonrpc authentication error-induced promise rejection"() {
+      this.resetId();
+      const responses = [
+        {
+          jsonrpc: "2.0",
+          error: {
+            code: 8,
+            message: "stale or uninitialized auth token/rune"
+          },
+          id: 1
+        },
+        {
+          jsonrpc: "2.0",
+          result: "OK",
+          id: 2
+        }
+      ];
+      this.setUpFakeServer(JSON.stringify(responses));
+      const successCallback = this.spy();
+      const errorCallback = this.spy();
+      const client = new qx.io.jsonrpc.Client("http://test.local");
+      const auth = new qx.io.request.authentication.Bearer("TOKEN");
+      client.getTransport().getTransportImpl().setAuthentication(auth);
+      const sendRequest = this.spy(() => {
+        client
+          .sendRequest("service.method", "foo")
+          .then(successCallback)
+          .catch(err => {
+            if (err.code == 8) {
+              sendRequest(); // second request
+            } else {
+              errorCallback();
+            }
+          });
+      });
+      sendRequest();
+      this.wait(
+        100,
+        function () {
+          this.assertCalledTwice(sendRequest);
+          this.assertCalledOnce(successCallback);
+          this.notCalled(errorCallback);
         },
         this
       );
