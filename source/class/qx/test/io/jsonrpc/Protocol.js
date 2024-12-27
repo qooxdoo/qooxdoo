@@ -25,11 +25,7 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
   },
   members: {
     "test: JSON-RPC request message object"() {
-      let message = new qx.io.jsonrpc.protocol.Request("foo", [
-        "bar",
-        1,
-        false
-      ]);
+      let message = new qx.io.jsonrpc.protocol.Request("foo", ["bar",1,false], 1);
 
       let expected = {
         id: 1,
