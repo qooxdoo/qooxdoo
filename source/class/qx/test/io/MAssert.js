@@ -41,6 +41,76 @@ qx.Mixin.define("qx.test.io.MAssert", {
         msg = `Failed to assert that '${actual}' contains '${expectedFragment}'.`;
       }
       this.assert(actual.includes(expectedFragment), msg);
+    },
+
+    PROMISE: {
+      map: null,
+      PENDING: "pending",
+      FULFILLED: "fulfilled",
+      REJECTED: "rejected"
+    },
+
+    /**
+     * Observes a promise so that its state can later be determined for the assertPromise*()
+     * methods. Returns a function that, when called, return the state of the given promise, which
+     * can be either "pending", "fulfilled", or "rejected"
+     * @param {Promise} promise
+     * @returns
+     */
+    observePromise(promise) {
+      if (!this.PROMISE.map) {
+        this.PROMISE.map = new WeakMap();
+      }
+      let state = this.PROMISE.PENDING;
+      promise.then(
+        () => (state = this.PROMISE.FULFILLED),
+        () => (state = this.PROMISE.REJECTED)
+      );
+      let stateFn = () => state;
+      this.PROMISE.map.set(promise, stateFn);
+      return stateFn;
+    },
+
+    getPromiseState(promise) {
+      let stateFn = this.PROMISE.map && this.PROMISE.map.get(promise);
+      if (!stateFn) {
+        throw new Error(
+          "Promise is not being observed, call observePromise() first."
+        );
+      }
+      return stateFn();
+    },
+
+    assertPromisePending(promise) {
+      let state = this.getPromiseState(promise);
+      this.assert(
+        state == this.PROMISE.PENDING,
+        `Promise should be pending, but is ${state}.`
+      );
+    },
+
+    assertPromiseSettled(promise) {
+      let state = this.getPromiseState(promise);
+      this.assert(
+        state != this.PROMISE.PENDING,
+        `Promise should be settled, but is pending.`
+      );
+    },
+
+    assertPromiseFulfilled(promise) {
+      let state = this.getPromiseState(promise);
+      this.assert(
+        state == this.PROMISE.FULFILLED,
+        `Promise should be fulfilled, but is ${state}.`
+      );
+    },
+
+    assertPromiseRejected(promise) {
+      let state = this.getPromiseState(promise);
+      this.assert(
+        state == this.PROMISE.REJECTED,
+        `Promise should be rejected, but is ${state}.`
+      );
     }
   }
 });
