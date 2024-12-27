@@ -17,8 +17,6 @@
 
 ************************************************************************ */
 
-const objectHash = require("object-hash");
-
 /**
  * Tests for qx.io.jsonrpc.Client with a qx.test.io.request.Xhr transport
  */
@@ -33,6 +31,8 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       this.setUpRequest();
       this.setUpFakeTransport();
       qx.io.jsonrpc.protocol.Request.resetId();
+      // qx.Promise has a bug/incompatibiity that leads to uncaught promise rejection errors
+      qx.io.jsonrpc.protocol.Request.useNativePromise();
     },
 
     setUpRequest() {
@@ -62,21 +62,33 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
     },
 
     /**
-     * Sets up the fake server and instructs it to send the given response(s)
-     * @param {String|String[]} response The server response(s)
+     * Sets up the fake server and instructs it to send the given response
+     * @param {String} response Optional server response
      */
     setUpFakeServer(response) {
       // Not fake transport
       this.getSandbox().restore();
       this.useFakeServer();
       this.setUpRequest();
+      if (response) {
+        this.setServerResponse(response);
+      }
+      this.getServer().autoRespond = true;
+    },
+
+    /**
+     * Set the fake server's response
+     * @param {{String|Object} } response Server response. Will be stringified to a JSON string if not a string
+     */
+    setServerResponse(response) {
+      if (typeof response != "string") {
+        response = JSON.stringify(response);
+      }
       this.getServer().respondWith("POST", /.*/, [
         200,
         { "Content-Type": "application/json; charset=utf-8" },
         response
       ]);
-
-      this.getServer().autoRespond = true;
     },
 
     /**
@@ -323,51 +335,46 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         spy(message);
       });
       client.sendNotification("ping");
-      this.wait(
-        100,
-        function () {
-          this.assertCalledTwice(spy);
-        },
-        this
-      );
+      this.wait(100, () => this.assertCalledTwice(spy) );
     },
 
-    //
-    // Issue #10739
-    //
-
-    "test: handle jsonrpc authentication error-induced promise rejection"() {
+    /**
+     * Issue #10739
+     */
+    testIssue10739() {
       this.resetId();
-      const responses = [
-        {
-          jsonrpc: "2.0",
-          error: {
-            code: 8,
-            message: "stale or uninitialized auth token/rune"
-          },
-          id: 1
-        },
-        {
-          jsonrpc: "2.0",
-          result: "OK",
-          id: 2
-        }
-      ];
-      this.setUpFakeServer(JSON.stringify(responses));
-      const successCallback = this.spy();
-      const errorCallback = this.spy();
+      this.setUpFakeServer();
+      const successCallback = this.spy(result =>
+        this.debug(`Server response is "${result}"`)
+      );
+      const errorCallback = this.spy(error => console.error(error.message));
       const client = new qx.io.jsonrpc.Client("http://test.local");
       const auth = new qx.io.request.authentication.Bearer("TOKEN");
       client.getTransport().getTransportImpl().setAuthentication(auth);
+      this.setServerResponse({
+        jsonrpc: "2.0",
+        error: {
+          code: 8,
+          message: "stale or uninitialized auth token/rune"
+        },
+        id: 1
+      });
       const sendRequest = this.spy(() => {
+        this.debug("sendRequest() was called");
         client
-          .sendRequest("service.method", "foo")
+          .sendRequest("service.method", ["foo"])
           .then(successCallback)
           .catch(err => {
             if (err.code == 8) {
+              this.debug(`Received expected error message.`);
+              this.setServerResponse({
+                jsonrpc: "2.0",
+                result: "OK",
+                id: 2
+              });
               sendRequest(); // second request
             } else {
-              errorCallback();
+              errorCallback(err);
             }
           });
       });
@@ -377,7 +384,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         function () {
           this.assertCalledTwice(sendRequest);
           this.assertCalledOnce(successCallback);
-          this.notCalled(errorCallback);
+          this.assertNotCalled(errorCallback);
         },
         this
       );
