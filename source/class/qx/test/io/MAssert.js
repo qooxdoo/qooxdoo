@@ -52,10 +52,8 @@ qx.Mixin.define("qx.test.io.MAssert", {
 
     /**
      * Observes a promise so that its state can later be determined for the assertPromise*()
-     * methods. Returns a function that, when called, return the state of the given promise, which
-     * can be either "pending", "fulfilled", or "rejected"
+     * methods.
      * @param {Promise} promise
-     * @returns
      */
     observePromise(promise) {
       if (!this.PROMISE.map) {
@@ -68,9 +66,14 @@ qx.Mixin.define("qx.test.io.MAssert", {
       );
       let stateFn = () => state;
       this.PROMISE.map.set(promise, stateFn);
-      return stateFn;
     },
 
+    /**
+     * Returns the state of the given promise, which is either "pending", "fulfilled", or "rejected".
+     * Requires that the observePromise() method has previously been called with given promise.
+     * @param {Promise} promise
+     * @returns {String}
+     */
     getPromiseState(promise) {
       let stateFn = this.PROMISE.map && this.PROMISE.map.get(promise);
       if (!stateFn) {
@@ -81,35 +84,56 @@ qx.Mixin.define("qx.test.io.MAssert", {
       return stateFn();
     },
 
-    assertPromisePending(promise) {
+    /**
+     * Asserts that the given promise object is still pending
+     * @param {Promise} promise
+     * @param {String?} msg Optional failure message
+     */
+    assertPromisePending(promise, msg) {
       let state = this.getPromiseState(promise);
       this.assert(
         state == this.PROMISE.PENDING,
-        `Promise should be pending, but is ${state}.`
+        msg || `Promise should be pending, but is ${state}.`
       );
     },
 
-    assertPromiseSettled(promise) {
+    /**
+     * Asserts that the given promise object is settled, i.e. has either
+     * been fulfilled or rejected
+     * @param {Promise} promise
+     * @param {String?} msg Optional failure message
+     */
+    assertPromiseSettled(promise, msg) {
       let state = this.getPromiseState(promise);
       this.assert(
         state != this.PROMISE.PENDING,
-        `Promise should be settled, but is pending.`
+        msg || `Promise should be settled, but is pending.`
       );
     },
 
-    assertPromiseFulfilled(promise) {
+    /**
+     * Asserts that the given promise object has been fulfilled
+     * @param {Promise} promise
+     * @param {String?} msg Optional failure message
+     */
+    assertPromiseFulfilled(promise, msg) {
       let state = this.getPromiseState(promise);
       this.assert(
         state == this.PROMISE.FULFILLED,
-        `Promise should be fulfilled, but is ${state}.`
+        msg || `Promise should be fulfilled, but is ${state}.`
       );
     },
 
-    assertPromiseRejected(promise) {
+    /**
+     * Asserts that the given promise object has been rejected
+     * @param {Promise} promise
+     * @param {String?} msg Optional failure message
+     */
+    assertPromiseRejected(promise, msg) {
       let state = this.getPromiseState(promise);
       this.assert(
         state == this.PROMISE.REJECTED,
-        `Promise should be rejected, but is ${state}.`
+        msg || `Promise should be rejected, but is ${state}.`
       );
     }
   }

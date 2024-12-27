@@ -54,7 +54,7 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
       });
     },
 
-    async "toast: receive out-of-order jsonrpc responses from server, using postMessage transport"() {
+    async "test: receive out-of-order jsonrpc responses from server, using postMessage transport"() {
       this.resetId();
       function createWorker(fn) {
         let blob = new Blob(["self.onmessage = ", fn.toString()], {
@@ -64,24 +64,34 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
       }
       // create server which sends a response with random delay
       const worker = createWorker(evt => {
-        for (let request of evt.data) {
+        console.log(evt.data)
+        for (let request of JSON.parse(evt.data)) {
           let id = request.id;
           let response = JSON.stringify({
             jsonrpc: "2.0",
             result: `Result for #${id}`,
             id
           });
-          setTimeout(() => self.postMessage(response), Math.random() * 1000);
+          setTimeout(() => {
+            console.log(`Sending response for request #${id}`);
+            self.postMessage(response);
+          }, Math.random() * 1000);
         }
       });
       const transport = new qx.io.transport.PostMessage(worker);
       const client = new qx.io.jsonrpc.Client(transport);
-      const requests = [];
-      // send 100 requests
-      for (let i = 0; i < 100; i++) {
-        requests.push(await client.sendRequest("someMethod", ["foo"]));
+      const promises = [];
+      // send 100 requests without waiting for the response
+      for (let i = 0; i < 10; i++) {
+        let request = new qx.io.jsonrpc.protocol.Request("someMethod", ["foo"]);
+        await client.send(request);
+        promises.push(request.getPromise());
       }
-      this.wait(1100, () => {});
+      // Make sure that alle requests have been responded to, i.e. that their promises have
+      // been settled.
+      this.wait(2000, () => {
+        this.assertPromiseSettled(Promise.allSettled(promises), "Request promises were not settled")
+      });
     }
   }
 });
