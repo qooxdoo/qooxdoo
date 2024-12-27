@@ -322,7 +322,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       // handle the different message types
       if (message instanceof qx.io.jsonrpc.protocol.Result) {
         // resolve the individual promise
-        request.getPromise().resolve(message.getResult());
+        request.resolve(message.getResult());
       } else if (message instanceof qx.io.jsonrpc.protocol.Error) {
         let error = message.getError();
         let ex = new qx.io.exception.Protocol(
@@ -334,7 +334,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         // inform listeners
         this.fireDataEvent("error", ex);
         // reject the individual promise
-        request.getPromise().reject(ex);
+        request.reject(ex);
       } else if (
         message instanceof qx.io.jsonrpc.protocol.Request ||
         message instanceof qx.io.jsonrpc.protocol.Notification
