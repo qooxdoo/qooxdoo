@@ -1,11 +1,11 @@
 /* ************************************************************************
 
-   qooxdoo - the new era of web development
+   qooxdoo - the javascript framework for coders
 
    http://qooxdoo.org
 
    Copyright:
-     2004-2025 1&1 Internet AG, Germany, http://www.1und1.de & contributors
+     2025 qooxdoo contributors
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -56,32 +56,30 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
 
     async "test: receive out-of-order jsonrpc responses from server, using postMessage transport"() {
       this.resetId();
-      function createWorker(fn) {
+      const createWorker = (fn) => {
         let blob = new Blob(["self.onmessage = ", fn.toString()], {
           type: "text/javascript"
         });
         return new Worker(URL.createObjectURL(blob));
       }
-      // create server which sends a response with random delay
-      const worker = createWorker(evt => {
-        console.log(evt.data)
-        for (let request of JSON.parse(evt.data)) {
-          let id = request.id;
-          let response = JSON.stringify({
-            jsonrpc: "2.0",
-            result: `Result for #${id}`,
-            id
-          });
-          setTimeout(() => {
-            console.log(`Sending response for request #${id}`);
-            self.postMessage(response);
-          }, Math.random() * 1000);
-        }
+      // create server worker which sends a response with random delay
+      const server = createWorker(evt => {
+        let request = JSON.parse(evt.data)
+        let id = request.id;
+        let response = JSON.stringify({
+          jsonrpc: "2.0",
+          result: `Result for #${id}`,
+          id
+        });
+        setTimeout(() => {
+          console.log(`Sending response for request #${id}`);
+          self.postMessage(response);
+        }, Math.random() * 1000);
       });
-      const transport = new qx.io.transport.PostMessage(worker);
+      const transport = new qx.io.transport.PostMessage(server);
       const client = new qx.io.jsonrpc.Client(transport);
       const promises = [];
-      // send 100 requests without waiting for the response
+      // send 10 requests without waiting for the response
       for (let i = 0; i < 10; i++) {
         let request = new qx.io.jsonrpc.protocol.Request("someMethod", ["foo"]);
         await client.send(request);
@@ -89,8 +87,11 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
       }
       // Make sure that alle requests have been responded to, i.e. that their promises have
       // been settled.
+      const allSettledPromise = Promise.allSettled(promises);
+      this.observePromise(allSettledPromise);
+      this.assertPromisePending(allSettledPromise);
       this.wait(2000, () => {
-        this.assertPromiseSettled(Promise.allSettled(promises), "Request promises were not settled")
+        this.assertPromiseFulfilled(allSettledPromise, "Request promises were not settled");
       });
     }
   }
