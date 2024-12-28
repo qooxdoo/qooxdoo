@@ -107,7 +107,7 @@ qx.Mixin.define("qx.test.io.MAssert", {
       let state = this.getPromiseState(promise);
       this.assert(
         state != this.PROMISE.PENDING,
-        msg || `Promise should be settled, but is pending.`
+        msg || `Promise should be settled, but is pending.`
       );
     },
 
