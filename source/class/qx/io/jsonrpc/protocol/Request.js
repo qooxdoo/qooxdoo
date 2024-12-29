@@ -30,12 +30,6 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
     __current_request_id: 0,
 
     /**
-     * Which Promise constructor to use. Defaults to `qx.Promise
-     * Will switch to the native `Promise` for qooxdoo 8.0
-     */
-    __Promise_constructor: qx.Promise,
-
-    /**
      * Returns the current request id
      * @returns {Number}
      */
@@ -48,16 +42,6 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
      */
     resetId() {
       qx.io.jsonrpc.protocol.Request.__current_request_id = 0;
-    },
-
-    /**
-     * The default Promise constructor used in qx 7 is qx.Promise. Unfortunately,
-     * it has a bug/incompatibiity that leads to uncaught promise rejection errors
-     * Use call this static method to use the native Promise object instead. This
-     * will be the default in qooxdoo 8.0, when this function will we deprecated.
-     */
-    useNativePromise() {
-      qx.io.jsonrpc.protocol.Request.__Promise_constructor = Promise;
     }
   },
 
@@ -85,9 +69,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
       id = ++qx.io.jsonrpc.protocol.Request.__current_request_id;
     }
     this.set({ id });
-    const PromiseConstructor =
-      qx.io.jsonrpc.protocol.Request.__Promise_constructor;
-    this.__promise = new PromiseConstructor((resolve, reject) => {
+    this.__promise = new qx.Promise((resolve, reject) => {
       this.__promiseResolver = resolve;
       this.__promiseRejector = reject;
     });
