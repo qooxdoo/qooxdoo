@@ -31,8 +31,6 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       this.setUpRequest();
       this.setUpFakeTransport();
       qx.io.jsonrpc.protocol.Request.resetId();
-      // qx.Promise has a bug/incompatibiity that leads to uncaught promise rejection errors
-      qx.io.jsonrpc.protocol.Request.useNativePromise();
     },
 
     setUpRequest() {
