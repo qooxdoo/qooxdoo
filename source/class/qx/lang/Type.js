@@ -52,14 +52,47 @@ qx.Bootstrap.define("qx.lang.Type", {
     isArray: qx.Bootstrap.isArray,
 
     /**
-     * Whether the value is an object. Note that built-in types like Window are
-     * not reported to be objects.
      *
+     * Whether the value is an POJO (ie {})
+     * or an object which is created from a ES6-style class or prototypical-inheritance-based class;
+     * if you need to determine whether something is a POJO and not created from a class, use isPojo instead
+     *
+     * Note that built-in types like Window are not deemed to be objects.
      * @signature function(value)
-     * @param value {var} Value to check.
+     * @param {*} value value to check.
      * @return {Boolean} Whether the value is an object.
      */
     isObject: qx.Bootstrap.isObject,
+
+    /**
+     * Whether the value is strictly a POJO.
+     * Its prototype chain must not contain any constructors which are not the Object constructor i.e. traditional prototype-based classes or ES6 classes.
+     *
+     * @param {*} value
+     * @returns {Boolean} Whether the value is strictly a POJO.
+     */
+    isPojo(value) {
+      if (qx.Bootstrap.getClass(value) != "Object") {
+        return false;
+      }
+
+      let prototype = Object.getPrototypeOf(value);
+      while (true) {
+        if (prototype === Object.prototype) {
+          return true;
+        }
+
+        if (
+          prototype.constructor &&
+          prototype.constructor !== Object.prototype.constructor
+        ) {
+          return false;
+        }
+
+        //loop tail
+        prototype = Object.getPrototypeOf(prototype);
+      }
+    },
 
     /**
      * Whether the value is a function.
