@@ -208,8 +208,17 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         params
       );
 
-      await this.send(request);
-      return await request.getPromise();
+      // sending request asychnonously without waiting for it completing, 
+      // since we're awaiting the fulfillment of the request promise below
+      this.send(request);
+      let result;
+      try {
+        result = await request.getPromise();
+      } catch (error) {
+        // rethrow
+        throw error;
+      }
+      return result; 
     },
 
     /**
@@ -243,8 +252,17 @@ qx.Class.define("qx.io.jsonrpc.Client", {
             message.setMethod(this._prependMethodPrefix(message.getMethod()))
           );
       }
-      await this.send(batch);
-      return await qx.Promise.all(batch.getPromises());
+      // sending batch asychnonously without waiting for it completing, 
+      // since we're awaiting the fulfillment of the request promises below
+      this.send(batch);
+      let result;
+      try {
+        result = await qx.Promise.all(batch.getPromises());
+      } catch(error) {
+        // rethrow
+        throw error;
+      }
+      return 
     },
 
     /**
@@ -322,7 +340,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       // handle the different message types
       if (message instanceof qx.io.jsonrpc.protocol.Result) {
         // resolve the individual promise
-        request.resolve(message.getResult());
+        request.getPromise().resolve(message.getResult());
       } else if (message instanceof qx.io.jsonrpc.protocol.Error) {
         let error = message.getError();
         let ex = new qx.io.exception.Protocol(
@@ -334,7 +352,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         // inform listeners
         this.fireDataEvent("error", ex);
         // reject the individual promise
-        request.reject(ex);
+        request.getPromise().reject(ex);
       } else if (
         message instanceof qx.io.jsonrpc.protocol.Request ||
         message instanceof qx.io.jsonrpc.protocol.Notification
