@@ -69,16 +69,11 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
       id = ++qx.io.jsonrpc.protocol.Request.__current_request_id;
     }
     this.set({ id });
-    this.__promise = new qx.Promise((resolve, reject) => {
-      this.__promiseResolver = resolve;
-      this.__promiseRejector = reject;
-    });
+    this.__promise = new qx.Promise()
   },
 
   members: {
     __promise: null,
-    __promiseResolver: null,
-    __promiseRejector: null,
 
     /**
      * Getter for promise which resolves with the result to the request, if successful
@@ -88,21 +83,6 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
       return this.__promise;
     },
 
-    /**
-     * Resolves this request's Promise externally with a value
-     * @param {*} value
-     */
-    resolve(value) {
-      this.__promiseResolver(value);
-    },
-
-    /**
-     * Rejects this request's Promise externally with an error object
-     * @param {*} error
-     */
-    reject(error) {
-      this.__promiseRejector(error);
-    },
 
     /**
      * Determines how an exception during transport is handled. Standard
@@ -112,7 +92,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
      * @param {qx.io.exception.Transport} exception
      */
     handleTransportException(exception) {
-      this.__promiseRejector(exception);
+      this.__promise.reject(exception);
     }
   }
 });
