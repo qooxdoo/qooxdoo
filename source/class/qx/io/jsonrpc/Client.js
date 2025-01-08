@@ -262,7 +262,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         // rethrow
         throw error;
       }
-      return 
+      return  result;
     },
 
     /**
