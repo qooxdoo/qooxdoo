@@ -133,14 +133,14 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       this.wait(100, () => {
         // in case of a transport error, ...
         const n = qx.core.Environment.select("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest", {
-          true: 1, // ... we are rejecting the request promise instead of the transport promise
-          false: 2 // ... both request promise and transport promise are rejected
+          true: 1, // ... we are rejecting the request promise only, v8 default
+          false: 2 // ... both request promise and transport promise are rejected, v7 default
         })
         if (
-          // the request promise will not be called since the promise is already rejected
+          // the request promise will not be rejected because it already is rejected in this special case
           exception === qx.io.exception.Transport.DUPLICATE_ID ||
-          // or the send promise will not be rejected because we have a server-side error
-          exception === qx.io.exception.Protocol
+          // or the send promise will not be rejected because we have a server-side error, v7 default only
+          (exception === qx.io.exception.Protocol && !qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"))
         ) {
           this.assertCallCount(errorCallback, n);
         } else {
