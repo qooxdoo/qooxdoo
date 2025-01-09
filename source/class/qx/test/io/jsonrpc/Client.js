@@ -115,7 +115,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
           if (!(err instanceof qx.io.exception.Exception)) {
             throw err;
           }
-          this.assertEquals(exception, err.code, `Error code does not match`);
+          this.assertEquals(exception, err.code, `Error code does not match.  Expected ${exception}, got ${err.code}.`);
         } else {
           this.assertInstance(
             err,
@@ -131,16 +131,20 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       // check transport promise
       client.send(message_out).catch(errorCallback);
       this.wait(100, () => {
+        // in case of a transport error, ...
+        const n = qx.core.Environment.select("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest", {
+          true: 1, // ... we are rejecting the request promise instead of the transport promise
+          false: 2 // ... both request promise and transport promise are rejected
+        })
         if (
           // the request promise will not be called since the promise is already rejected
           exception === qx.io.exception.Transport.DUPLICATE_ID ||
           // or the send promise will not be rejected because we have a server-side error
           exception === qx.io.exception.Protocol
         ) {
-          this.assertCalledTwice(errorCallback);
+          this.assertCallCount(errorCallback, n);
         } else {
-          // the error handler will be called three times
-          this.assertCalledThrice(errorCallback);
+          this.assertCallCount(errorCallback, n+1);
         }
       });
     },
@@ -220,10 +224,9 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
 
       this.setUpFakeServer(message_in.toString());
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
-      let spy = this.spy(value => this.assertEquals(result, value));
-      message_out.getPromise().then(spy);
       await client.send(message_out);
-      this.assertCalled(spy);
+      const value = await message_out.getPromise();
+      this.assertEquals(result, value);
     },
 
     async "test: call jsonrpc method and receive batched response"() {
@@ -237,10 +240,9 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         .toString();
       this.setUpFakeServer(response);
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
-      let spy = this.spy(value => this.assertEquals(result, value));
-      message_out.getPromise().then(spy);
       await client.send(message_out);
-      this.assertCalled(spy);
+      const value = await message_out.getPromise();
+      this.assertEquals(result, value);
     },
 
     "test: call jsonrpc method and expect error on invalid reponse "() {
