@@ -126,7 +126,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
 
     /**
      * Fires "error" event and rejects the pending requests' promises.
-     * The method will be renamed and made private in v8.  
+     * The method will be renamed and made private in v8.
      * @param exception
      * @private
      */
@@ -147,15 +147,23 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * Send the given JSON-RPC message object using the configured transport
      *
      * @param {qx.io.jsonrpc.protocol.Message|qx.io.jsonrpc.protocol.Batch} message
-     * @return {qx.Promise} Promise that resolves (with no data) when the message has been successfully 
+     * @return {qx.Promise} Promise that resolves (with no data) when the message has been successfully
      * sent out. As this means different things depending on the transport implementation, it is best
      * not to base any kind of business logic on the fulfillment of that promise.
-     * 
-     *  Rejections are forwarded 
-     * to the request's promise, which also fulfills with the jsonrpc response. Thus, there is no  need to 
-     * await the returned promise. Instead, await the request's promise, which and rejects either with a 
-     * {@link qx.io.exception.Transport} in case of a transport error or with {@link qx.io.protocol.Error} 
-     * in case of a jsonrpc error. The returned promise will never be rejected.
+     *
+     * The current behavior is to return the promise from the transport `send()` implementation, which
+     * might be rejected with a {@link qx.io.exception.Transport} in case of a transport error.
+     * This has caused problems with "unhandled promise rejection" errors, so a new behaviour will be
+     * the default in v8: The returned promise is already resolved, and any rejection of the transport
+     * promise will only be forwarded to the promise(s) of the request(s) contained in the the `message`
+     * argument. The returned promise will never be rejected. This behavior can be enabled by setting
+     * the environment variable `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` to `true` in v7,
+     * which will be deprecated in v8.
+     *
+     * In any case, the result of the jsonrpc request is retrieved by awaiting {@link qx.io.jsonrpc.protocol.Request}'s
+     * promise, which is resolved with the jsonrpc server's response or is rejected either  with a
+     * {@link qx.io.exception.Transport} in case of a transport error or with {@link qx.io.protocol.Error}
+     * in case of a jsonrpc error.
      */
     async send(message) {
       if (
@@ -205,6 +213,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       if (qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest")) {
         // forward rejections to the requests' promises, which will be standard behavior in v8
         transportPromise.catch(error => {
+          // wrap error in transport exception
           if (!(error instanceof qx.io.exception.Transport)) {
             error = new qx.io.exception.Transport(
               error.toString(),
@@ -214,10 +223,10 @@ qx.Class.define("qx.io.jsonrpc.Client", {
           }
           this._throwTransportException(error)
         })
-        // return a resolved promise so that the actual completion of the transport is not awaited 
+        // return a resolved promise so that the actual completion of the transport is not awaited
         return qx.Promise.resolve()
       } else  {
-        // default behavior: return promise from transport
+        // default behavior in v7: return promise from transport
         return transportPromise;
       }
     },
@@ -388,7 +397,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * If true, log detailed information on the jsonrpc traffic in the console
      */
     "qx.io.jsonrpc.debug": false,
-    
+
     /**
      * If true, forward transport errors to the running jsonrpc requests' promise instead of rejecting
      * the promise returned by {@link #send}. Default is `false`. Behavior will change in v8 and this
