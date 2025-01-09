@@ -125,8 +125,8 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     },
 
     /**
-     * Fires "error" event and throws the error after informing pending requests
-     * about the error.
+     * Fires "error" event and rejects the pending requests' promises.
+     * The method will be renamed and made private in v8.  
      * @param exception
      * @private
      */
@@ -134,19 +134,28 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       this.fireDataEvent("error", exception);
       this.__requests.forEach(request => {
         if (request instanceof qx.io.jsonrpc.protocol.Request) {
+          // this rejects the request's promise
           request.handleTransportException(exception);
         }
       });
-      throw exception;
+      if (!qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest")){
+        throw exception; // will be removed in v8 since it is not caught anywhere
+      }
     },
 
     /**
      * Send the given JSON-RPC message object using the configured transport
      *
      * @param {qx.io.jsonrpc.protocol.Message|qx.io.jsonrpc.protocol.Batch} message
-     * @return {qx.Promise} Promise that resolves (with no data)
-     * when the message has been successfully sent out, and rejects
-     * when there is an error or a cancellation up to that point.
+     * @return {qx.Promise} Promise that resolves (with no data) when the message has been successfully 
+     * sent out. As this means different things depending on the transport implementation, it is best
+     * not to base any kind of business logic on the fulfillment of that promise.
+     * 
+     *  Rejections are forwarded 
+     * to the request's promise, which also fulfills with the jsonrpc response. Thus, there is no  need to 
+     * await the returned promise. Instead, await the request's promise, which and rejects either with a 
+     * {@link qx.io.exception.Transport} in case of a transport error or with {@link qx.io.protocol.Error} 
+     * in case of a jsonrpc error. The returned promise will never be rejected.
      */
     async send(message) {
       if (
@@ -191,7 +200,26 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       }
 
       // send it async, using transport-specific implementation
-      return this.getTransport().send(message.toString());
+      const transportPromise = this.getTransport().send(message.toString())
+
+      if (qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest")) {
+        // forward rejections to the requests' promises, which will be standard behavior in v8
+        transportPromise.catch(error => {
+          if (!(error instanceof qx.io.exception.Transport)) {
+            error = new qx.io.exception.Transport(
+              error.toString(),
+              qx.io.exception.Transport.FORWARDED,
+              error
+            );
+          }
+          this._throwTransportException(error)
+        })
+        // return a resolved promise so that the actual completion of the transport is not awaited 
+        return qx.Promise.resolve()
+      } else  {
+        // default behavior: return promise from transport
+        return transportPromise;
+      }
     },
 
     /**
@@ -208,17 +236,10 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         params
       );
 
-      // sending request asychnonously without waiting for it completing, 
-      // since we're awaiting the fulfillment of the request promise below
-      this.send(request);
-      let result;
-      try {
-        result = await request.getPromise();
-      } catch (error) {
-        // rethrow
-        throw error;
-      }
-      return result; 
+      // await completion of transport
+      await this.send(request);
+      // await fulfillment of requests
+      return await request.getPromise();
     },
 
     /**
@@ -252,17 +273,10 @@ qx.Class.define("qx.io.jsonrpc.Client", {
             message.setMethod(this._prependMethodPrefix(message.getMethod()))
           );
       }
-      // sending batch asychnonously without waiting for it completing, 
-      // since we're awaiting the fulfillment of the request promises below
-      this.send(batch);
-      let result;
-      try {
-        result = await qx.Promise.all(batch.getPromises());
-      } catch(error) {
-        // rethrow
-        throw error;
-      }
-      return  result;
+      // await completion of transport
+      await this.send(batch);
+      // await fulfilment of requests
+      return await qx.Promise.all(batch.getPromises());
     },
 
     /**
@@ -302,6 +316,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     /**
      * Handle an incoming message or batch of messages
      * @param {qx.io.jsonrpc.protocol.Message|qx.io.jsonrpc.protocol.Batch} message Message or Batch
+     * @throws {qx.io.exception.Transport} For transport-related errors
      */
     handleMessage(message) {
       // handle batches
@@ -342,6 +357,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         // resolve the individual promise
         request.getPromise().resolve(message.getResult());
       } else if (message instanceof qx.io.jsonrpc.protocol.Error) {
+        // handle jsonrpc (not transport-related) errors
         let error = message.getError();
         let ex = new qx.io.exception.Protocol(
           error.message,
@@ -368,6 +384,16 @@ qx.Class.define("qx.io.jsonrpc.Client", {
   },
 
   environment: {
-    "qx.io.jsonrpc.debug": false
+    /**
+     * If true, log detailed information on the jsonrpc traffic in the console
+     */
+    "qx.io.jsonrpc.debug": false,
+    
+    /**
+     * If true, forward transport errors to the running jsonrpc requests' promise instead of rejecting
+     * the promise returned by {@link #send}. Default is `false`. Behavior will change in v8 and this
+     * setting will be deprecated.
+     */
+    "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest": false
   }
 });
