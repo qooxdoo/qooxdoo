@@ -613,10 +613,7 @@ folders from within the URL that you use for `myAppName`.
 
 To output Typescript definitions, use the `qx compile --typescript` command; this
 will generate meta data for every class in every library, and then use the meta
-data to create a `qxoodoo.d.ts` file.
-
-Meta Data and Typescript are closely linked - you can generate the meta data on its 
-own by just running `qx compile --meta`.  Meta data is used by applications such as
+data to create a `qxoodoo.d.ts` file. Meta data is used by applications such as
 the API Viewer
 
 You can control the directory that meta data is output to and the name of the qooxdoo.d.ts 
