@@ -69,7 +69,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
       id = ++qx.io.jsonrpc.protocol.Request.__current_request_id;
     }
     this.set({ id });
-    this.__promise = new qx.Promise()
+    this.__promise = new qx.Promise();
   },
 
   members: {
