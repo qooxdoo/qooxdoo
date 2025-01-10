@@ -157,8 +157,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * the default in v8: The returned promise is already resolved, and any rejection of the transport
      * promise will only be forwarded to the promise(s) of the request(s) contained in the the `message`
      * argument. The returned promise will never be rejected. This behavior can be enabled by setting
-     * the environment variable `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` to `true` in v7,
-     * which will be deprecated in v8.
+     * the environment variable `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` to `true` in v7.
+     * In v8, the default of `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` will become `true`,
+     * and that environment variable will become deprecated.
      *
      * In any case, the result of the jsonrpc request is retrieved by awaiting {@link qx.io.jsonrpc.protocol.Request}'s
      * promise, which is resolved with the jsonrpc server's response or is rejected either  with a
@@ -400,8 +401,10 @@ qx.Class.define("qx.io.jsonrpc.Client", {
 
     /**
      * If true, forward transport errors to the running jsonrpc requests' promise instead of rejecting
-     * the promise returned by {@link #send}. Default is `false`. Behavior will change in v8 and this
-     * setting will be deprecated.
+     * the promise returned by {@link #send}. Default is `false`.
+
+     * @deprecated
+     * Behavior in v8 will be as if the environment variable value is `true`, but the environment variable will no longer be available.
      */
     "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest": false
   }
