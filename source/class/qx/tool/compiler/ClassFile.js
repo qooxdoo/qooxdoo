@@ -28,7 +28,6 @@ var babelCore = require("@babel/core");
 var types = require("@babel/types");
 var babylon = require("@babel/parser");
 var async = require("async");
-const e = require("express");
 
 var log = qx.tool.utils.LogManager.createLog("analyser");
 
