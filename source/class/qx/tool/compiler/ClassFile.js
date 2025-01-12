@@ -28,6 +28,7 @@ var babelCore = require("@babel/core");
 var types = require("@babel/types");
 var babylon = require("@babel/parser");
 var async = require("async");
+const e = require("express");
 
 var log = qx.tool.utils.LogManager.createLog("analyser");
 
@@ -962,14 +963,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
         CallExpression(path) {
           const name = collapseMemberExpression(path.node.callee);
+          const env = t.__analyser.getEnvironment();
 
           if (
+            env["qx.environment.allowRuntimeMutations"] !== true &&
             (name === "qx.core.Environment.select" ||
               name === "qx.core.Environment.get") &&
-            types.isLiteral(path.node.arguments[0])
+            types.isLiteral(path.node.arguments[0]) 
           ) {
             const arg = path.node.arguments[0];
-            const env = t.__analyser.getEnvironment();
             const envValue = env[arg.value];
 
             if (envValue !== undefined) {

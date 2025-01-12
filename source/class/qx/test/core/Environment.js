@@ -557,6 +557,7 @@ qx.Class.define("qx.test.core.Environment", {
     testRuntimeMutationsIfAvailable() {
       if (qx.core.Environment.get("qx.environment.allowRuntimeMutations") === false) {
         this.skip("Runtime mutations are disabled.");
+        return;
       }
       // compile-time environment
       const qxVersion = qx.core.Environment.get("qx.version");
