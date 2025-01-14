@@ -27,8 +27,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [16.x, 18.x, 19.x]
-        browser: [chromium]
+        node-version: [18.x, 20.x, 22.x]
+        browser: [chromium, firefox]
 
     steps:
       - name: checkout
