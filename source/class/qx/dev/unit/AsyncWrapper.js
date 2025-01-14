@@ -85,5 +85,13 @@ qx.Class.define("qx.dev.unit.AsyncWrapper", {
       nullable: false,
       init: 10000
     }
+  },
+
+  environment: {
+    /**
+     * The factor by which any delay is multiplied or false or zero if no such
+     * factor should be applied.
+     */
+    "qx.test.delay.scale": false
   }
 });
