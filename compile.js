@@ -152,6 +152,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       command.addTest(
         new qx.tool.cli.api.Test("lint", async function () {
           console.log("# ********* running lint ");
+          this.setFailFast(true);  
           result = await qx.tool.utils.Utils.runCommand({
             cwd: ".",
             cmd: "node",
