@@ -152,6 +152,9 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         }
         // overwrite error code only in case of errors
         if (exitCode !== 0) {
+          if (test.getFailFast()) {
+            process.exit(exitCode);
+          }  
           this.setExitCode(exitCode);
         }
       });
