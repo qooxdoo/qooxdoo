@@ -1267,7 +1267,6 @@ qx.Bootstrap.define("qx.core.Environment", {
       }
       if (key !== undefined && this.__environmentBackup[key] === undefined) {
         throw new TypeError(`Environment setting "${key}" does not exist.`);
-        return;
       }
       if (key === undefined) {
         // reset all keys
