@@ -267,6 +267,9 @@ qx.Class.define("qx.test.ui.form.TextArea", {
       if (!this.__supportsLiveWrap()) {
         this.skip();
       }
+      if (navigator.plugins.length == 0) {
+        this.skip("test disabled on headless browsers");
+      }
 
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
