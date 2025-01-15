@@ -913,7 +913,8 @@ qx.Bootstrap.define("qx.core.Environment", {
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true,
       "qx.command.bindEnabled": false,
-      "qx.headless": false
+      "qx.headless": false,
+      "qx.environment.allowRuntimeMutations": false
     },
 
     /**
@@ -1210,6 +1211,74 @@ qx.Bootstrap.define("qx.core.Environment", {
       return this._asyncChecks;
     },
 
+    // mutation of environment settings at runtime
+
+    /**
+     * Sets the environment setting for the given key to the given value. This deletes any check function
+     * associated with this key. 
+     * 
+     * This method is only available if "qx.environment.allowRuntimeMutations" is set to true.
+     *
+     * @param key {String} The key of the environment setting to set.
+     * @param value {var} The value to set the environment setting to. Must be a scalar value.
+     */
+    set: qx.Bootstrap.getEnvironmentSetting("qx.environment.allowRuntimeMutations") ? function(key, value) {
+      if (key === undefined) {
+        throw new TypeError("Key must be provided to set an environment setting.");
+      }
+      if (this.__environmentBackup === undefined) {
+        qx.Bootstrap.warn("Modifying environment settings at runtime is enabled. This is a security risk and should not be done in production code.");
+        this.__environmentBackup = Object.assign({}, this.__cache);
+        this.__checksBackup = Object.assign({}, this._checks);
+      }
+      this.__cache[key] = value;
+      delete this._checks[key];
+      delete this._checksMap[key];
+    }: undefined,
+
+    /**
+     * Removes the environment setting for the given key, and any check function associated with it. 
+     * This method is only available if "qx.environment.allowRuntimeMutations" is set to true.
+     *
+     * @param key {String} The key of the environment setting to remove.
+     */
+    remove: qx.Bootstrap.getEnvironmentSetting("qx.environment.allowRuntimeMutations") ? function(key) {
+      if (key === undefined) {
+        throw new TypeError("Key must be provided to remove an environment setting.");
+      }
+      if (this.__environmentBackup === undefined || this.__environmentBackup[key] === undefined) {
+        throw new TypeError(`Environment setting "${key}" does not exist.`);
+      }
+      delete this.__cache[key];
+      delete this._checks[key];
+      delete this._checksMap[key];
+    }: undefined,
+
+    /**
+     * Resets the environment settings to their original values. If a key is provided, only that key is reset.
+     * This method is only available if "qx.environment.allowRuntimeMutations" is set to true.
+     *
+     * @param key {String?} The key of the environment setting to reset. If not provided, all settings are reset.
+     */
+    reset: qx.Bootstrap.getEnvironmentSetting("qx.environment.allowRuntimeMutations") ? function(key) {
+      if (this.__environmentBackup === undefined) {
+        // no backup available, nothing to reset
+        return;
+      }
+      if (key !== undefined && this.__environmentBackup[key] === undefined) {
+        throw new TypeError(`Environment setting "${key}" does not exist.`);
+      }
+      if (key === undefined) {
+        // reset all keys
+        this.__cache = Object.assign({}, this.__environmentBackup);
+        this._checks = Object.assign({}, this.__checksBackup);
+        return;
+      }
+      // only reset the particular key 
+      this.__cache[key] = this.__environmentBackup[key];
+      this._checks[key] = this.__checksBackup[key];
+    }: undefined,
+
     /**
      * Initializer for the default values of the framework settings.
      */
@@ -1296,5 +1365,17 @@ qx.Bootstrap.define("qx.core.Environment", {
     if (statics.get("qx.allowUrlSettings") === true) {
       statics.__importFromUrl();
     }
+  },
+
+  environment: {
+    /**
+     * By setting this key to true, the environment variables can be mutated at runtime, using the {@link #set} method,
+     * which is otherwise not available. This is only useful for testing and debugging purposes. We strongly advise
+     * against enabling this in production code. You have been warned.
+     * Note: This enviroment key declaration is only for documentation purposes and is not used during bootstrapping, so
+     * changing the value here will have no effect.
+     */
+    "qx.environment.allowRuntimeMutations": false,
   }
+
 });
