@@ -28,7 +28,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [18.x, 20.x, 22.x]
-        browser: [chromium, firefox]
 
     steps:
       - name: checkout
@@ -43,4 +42,4 @@ jobs:
         run:  npm  ci
 
       - name: install and run tests with ${{ matrix.browser }}
-        run:  npm test -- --browsers=${{ matrix.browser }} --terse --headless --set-env qx.test.delay.scale=10
+        run:  npm test -- --browsers=chromium,firefox --terse --headless --set-env qx.test.delay.scale=10
