@@ -29,16 +29,10 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
   members: {
     setUp() {
       qx.io.jsonrpc.protocol.Request.resetId();
-      // qx.Promise has a bug/incompatibiity that leads to uncaught promise rejection errors
-      qx.io.jsonrpc.protocol.Request.useNativePromise();
     },
 
     tearDown() {
       this.getSandbox().restore();
-    },
-
-    resetId() {
-      qx.io.jsonrpc.protocol.Request.resetId();
     },
 
     /**
@@ -56,7 +50,7 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
     },
 
     async "test: receive 10 out-of-order jsonrpc responses from server, all successful"() {
-      this.resetId();
+      qx.io.jsonrpc.protocol.Request.resetId();
 
       // create server worker which sends a response with random delay
       const server = this.createOnMessageWorker(evt => {
@@ -95,7 +89,7 @@ qx.Class.define("qx.test.io.jsonrpc.PostMessageClient", {
     },
 
     async "test: receive 100 out-of-order jsonrpc responses from server, with jsonrpc errors"() {
-      this.resetId();
+      qx.io.jsonrpc.protocol.Request.resetId();
 
       // create server worker which sends a response with random delay
       // some requests fail
