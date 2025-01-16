@@ -23,6 +23,7 @@
 qx.Class.define("qx.io.exception.Transport", {
   extend: qx.io.exception.Exception,
   statics: {
+    FORWARDED: 0,
     TIMEOUT: 1,
     ABORTED: 2,
     NO_DATA: 3,
