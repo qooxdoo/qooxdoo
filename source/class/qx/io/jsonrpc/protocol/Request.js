@@ -29,10 +29,17 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
      */
     __current_request_id: 0,
 
+    /**
+     * Returns the current request id
+     * @returns {Number}
+     */
     getCurrentId() {
       return qx.io.jsonrpc.protocol.Request.__current_request_id;
     },
 
+    /**
+     * Resets the request id to zero
+     */
     resetId() {
       qx.io.jsonrpc.protocol.Request.__current_request_id = 0;
     }
@@ -69,12 +76,13 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
     __promise: null,
 
     /**
-     * Getter for promise which resolves with the result to the request
+     * Getter for promise which resolves with the result to the request, if successful
      * @return {qx.Promise}
      */
     getPromise() {
       return this.__promise;
     },
+
 
     /**
      * Determines how an exception during transport is handled. Standard
@@ -84,11 +92,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
      * @param {qx.io.exception.Transport} exception
      */
     handleTransportException(exception) {
-      try {
-        this.getPromise().reject(exception);
-      } catch (e) {
-        this.warn("Promise has already been rejected");
-      }
+      this.__promise.reject(exception);
     }
   }
 });
