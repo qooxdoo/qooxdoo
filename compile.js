@@ -135,7 +135,6 @@ qx.Class.define("qx.compiler.CompilerApi", {
         cwd: ".",
         cmd: "npm",
         args: args,
-        shell: true,
         env: env,
         log: console.log,
         error: console.log
@@ -191,13 +190,16 @@ qx.Class.define("qx.compiler.CompilerApi", {
       command.addTest(
         new qx.tool.cli.api.Test("compiler test", async function () {
           qx.tool.compiler.Console.log("# ******** running compiler test");
-          result = await qx.tool.utils.Utils.runCommand({
+          let args = argList;
+          let curArgs = that.__getArgs(command, args);
+          if (command.argv.verbose) {
+             console.log(curArgs);
+          }
+        result = await qx.tool.utils.Utils.runCommand({
             cwd: "test/tool",
             cmd: "node",
-            args: that.__getArgs(command, argList),
-            shell: true
+            args: curArgs
           });
-
           this.setExitCode(result.exitCode);
         })
       );
@@ -205,16 +207,20 @@ qx.Class.define("qx.compiler.CompilerApi", {
         command.addTest(
           new qx.tool.cli.api.Test("framework test", async function () {
             console.log("# ******** running framework test");
+            this.setFailFast(true);  
             let args = argList.slice();
             args.push("browsers");
             args.push("headless");
+            let curArgs = that.__getArgs(command, args);
+            curArgs.push("--fail-fast");
+            if (command.argv.verbose) {
+               console.log(curArgs);
+            }
             result = await qx.tool.utils.Utils.runCommand({
               cwd: "test/framework",
               cmd: "node",
-              args: that.__getArgs(command, args),
-              shell: true
+              args: curArgs
             });
-
             this.setExitCode(result.exitCode);
           })
         );
