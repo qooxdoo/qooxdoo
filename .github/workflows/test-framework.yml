@@ -11,6 +11,9 @@ on:
       - 'test/**'
 
   pull_request:
+    types: 
+      - opened
+      - reopened
     paths:
       - 'compile.*'
       - 'source/**'
