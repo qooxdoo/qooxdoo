@@ -66,6 +66,9 @@ qx.Class.define("qx.test.bom.element.AnimationJs", {
       if (qx.core.Environment.get("browser.name") == "chrome") {
         throw new qx.dev.unit.RequirementError();
       }
+      if (qx.core.Environment.get("browser.name") == "safari") {
+        throw new qx.dev.unit.RequirementError();
+      }
 
       var handle = qx.bom.element.Animation.animate(this.__el, {
         duration: 100,

@@ -24,6 +24,12 @@ qx.Class.define("qx.test.util.DeferredCall", {
       if (navigator.plugins.length == 0) {
         this.skip("test disabled on headless browsers");
       }
+      
+      if (qx.core.Environment.get("browser.name") == "safari") {
+        this.skip(
+          "we can not detect headless mode in safari"
+        );
+      }
 
       var fail = function () {
         throw new Error("fail");

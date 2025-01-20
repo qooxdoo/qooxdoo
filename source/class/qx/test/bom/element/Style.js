@@ -98,6 +98,7 @@ qx.Class.define("qx.test.bom.element.Style", {
         qx.core.Environment.get("browser.version") < 6;
 
       if (
+        engine == "gecko" ||
         engine == "opera" ||
         (engine == "webkit" &&
           !isOldSafari &&

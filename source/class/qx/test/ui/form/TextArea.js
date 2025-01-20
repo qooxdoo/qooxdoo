@@ -294,6 +294,10 @@ qx.Class.define("qx.test.ui.form.TextArea", {
         this.skip();
       }
 
+      if ((qx.core.Environment.get("engine.name") === "gecko") && (navigator.plugins.length == 0)) {
+        this.skip("test disabled on headless firefox browser");
+      }
+
       var textArea = this.__textArea;
       textArea.set({
         autoSize: true,
