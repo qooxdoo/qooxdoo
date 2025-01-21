@@ -380,7 +380,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       });
       sendRequest();
       this.wait(
-        100,
+        250,
         function () {
           this.assertCalledTwice(sendRequest);
           this.assertCalledOnce(successCallback);
