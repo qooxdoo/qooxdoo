@@ -202,6 +202,12 @@ qx.Class.define("qx.test.bom.media.MediaTestCase", {
           "HTML5 audio/video playback must be triggered by user interaction in Chrome on Android."
         );
       }
+      if (qx.core.Environment.get("browser.name") == "safari") {
+        this.skip(
+          "we can not detect headless mode in safari"
+        );
+      }
+
       this.assertTrue(this._media.isPaused());
 
       this._media.addListener("play", e => {

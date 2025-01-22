@@ -99,7 +99,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       let exitCode = evt.getData();
       // overwrite error code only in case of errors
       if (exitCode !== 0 && argv.failFast) {
-        process.exit(exitCode);
+        process.exit(Math.min(255, exitCode));
       }
     });
   },
@@ -152,6 +152,9 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         }
         // overwrite error code only in case of errors
         if (exitCode !== 0) {
+          if (test.getFailFast()) {
+            this.argv.failFast = true;
+          }  
           this.setExitCode(exitCode);
         }
       });
@@ -194,6 +197,9 @@ qx.Class.define("qx.tool.cli.commands.Test", {
 
       this.addListener("afterStart", async () => {
         qx.tool.compiler.Console.info(`Running unit tests`);
+        if (this.argv.verbose) {
+          console.log(this.argv);
+        }
         await this.fireDataEventAsync("runTests", this);
         if (
           this.getCompilerApi() &&

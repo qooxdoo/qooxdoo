@@ -30,7 +30,7 @@ qx.Class.define("qx.test.util.Function", {
       this.assertNotCalled(test);
       debouncedTest(false);
       this.wait(
-        100,
+        250,
         function () {
           this.assertCalledOnce(test);
           this.assertCalledWith(test, false);
@@ -52,7 +52,7 @@ qx.Class.define("qx.test.util.Function", {
       debouncedTest(true);
       debouncedTest(false);
       this.wait(
-        100,
+        250,
         function () {
           this.assertCalledTwice(test);
           this.assertCalledWith(test, false);
