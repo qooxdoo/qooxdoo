@@ -39,6 +39,9 @@ qx.Bootstrap.define("qx.bom.Label", {
       letterSpacing: 1
     },
 
+    /** @type{Object<String,Object>} cache of label sizes */
+    __sizeCache: {},
+
     /**
      * Generates the helper DOM element for text measuring
      *
@@ -286,6 +289,12 @@ qx.Bootstrap.define("qx.bom.Label", {
      * @return {Map} A map with preferred <code>width</code> and <code>height</code>.
      */
     getHtmlSize(content, styles, width) {
+      let cacheKey = this.__getCacheKey(styles, width);
+      let size = this.__getCachedSize(cacheKey, content);
+      if (size !== undefined) {
+        return size;
+      }
+
       var element = this._htmlElement || this.__prepareHtml();
 
       // apply width
@@ -293,7 +302,9 @@ qx.Bootstrap.define("qx.bom.Label", {
       // insert content
       element.innerHTML = content;
 
-      return this.__measureSize(element, styles);
+      size = this.__measureSize(element, styles);
+      this.__storeCacheSize(cacheKey, content, size);
+      return size;
     },
 
     /**
@@ -304,6 +315,12 @@ qx.Bootstrap.define("qx.bom.Label", {
      * @return {Map} A map with preferred <code>width</code> and <code>height</code>.
      */
     getTextSize(text, styles) {
+      let cacheKey = this.__getCacheKey(styles);
+      let size = this.__getCachedSize(cacheKey, text);
+      if (size !== undefined) {
+        return size;
+      }
+
       var element = this._textElement || this.__prepareText();
 
       if (
@@ -315,7 +332,70 @@ qx.Bootstrap.define("qx.bom.Label", {
         qx.bom.element.Attribute.set(element, "text", text);
       }
 
-      return this.__measureSize(element, styles);
+      size = this.__measureSize(element, styles);
+      this.__storeCacheSize(cacheKey, text, size);
+      return size;
+    },
+
+    /**
+     * Returns a key for a specific set of styles, used in the caching of size calculations
+     *
+     * @param {*} styles
+     * @param {Integer?} width optional width
+     * @returns
+     */
+    __getCacheKey(styles, width) {
+      let cacheKey = [];
+      for (let key in styles) {
+        let value = styles[key];
+        if (value !== null) {
+          cacheKey.push(key + ":" + value);
+        }
+      }
+      if (width !== undefined) {
+        cacheKey.push("width:" + width);
+      }
+      return cacheKey.join(",");
+    },
+
+    /**
+     * Returns the cached size of the given text
+     *
+     * @param {String} cacheKey
+     * @param {String} text
+     * @returns {*} size object
+     */
+    __getCachedSize(cacheKey, text) {
+      let cache = qx.bom.Label.__sizeCache[cacheKey];
+      return cache?.sizes[text];
+    },
+
+    /**
+     * Stores the size of the given text in the cache
+     *
+     * @param {String} cacheKey
+     * @param {String} text
+     * @param {*} size
+     */
+    __storeCacheSize(cacheKey, text, size) {
+      if (!size) {
+        return;
+      }
+
+      let cache = qx.bom.Label.__sizeCache[cacheKey];
+      if (cache === undefined) {
+        cache = qx.bom.Label.__sizeCache[cacheKey] = {
+          sizes: {}
+        };
+      }
+      cache.sizes[text] = size;
+    },
+
+    /**
+     * Flushes the size cache - use this when something changes, for example webfonts have been loaded
+     */
+    flushSizeCache() {
+      qx.bom.Label.__sizeCache = {};
     },
 
     /**
