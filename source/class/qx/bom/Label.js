@@ -290,7 +290,7 @@ qx.Bootstrap.define("qx.bom.Label", {
      */
     getHtmlSize(content, styles, width) {
       let cacheKey = this.__getCacheKey(styles, width);
-      let size = this.__getCachedSize(cacheKey, text);      
+      let size = this.__getCachedSize(cacheKey, content);
       if (size !== undefined) {
         return size;
       }
@@ -385,12 +385,10 @@ qx.Bootstrap.define("qx.bom.Label", {
       let cache = qx.bom.Label.__sizeCache[cacheKey];
       if (cache === undefined) {
         cache = qx.bom.Label.__sizeCache[cacheKey] = {
-          sizes: {},
-          lru: []
+          sizes: {}
         };
       }
       cache.sizes[text] = size;
-      cache.lru.push(text);
     },
 
     /**
