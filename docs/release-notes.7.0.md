@@ -1,5 +1,12 @@
 # Qooxdoo Release Notes
 
+## Fixes and optimizations for v7.7.3
+In this release we did some optimizations:
+   - add a cache for label size
+   - use Map instead of Array to register event listeners
+   - prevent .placeToWidget(..., true) from eating cpu
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-07-22&until=xx
+
 ## Fixes for v7.7.2
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-05-03&until=2024-07-22
 
