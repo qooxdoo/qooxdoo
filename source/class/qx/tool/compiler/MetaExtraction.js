@@ -109,11 +109,6 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
       const babelCore = require("@babel/core");
       let src = await fs.promises.readFile(classFilename, "utf8");
-      let babelConfig = {
-        options: {
-          modules: false
-        }
-      };
 
       let plugins = [require("@babel/plugin-syntax-jsx"), this.__plugin()];
 

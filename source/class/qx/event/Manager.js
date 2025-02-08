@@ -66,7 +66,7 @@ qx.Class.define("qx.event.Manager", {
     }
 
     // Registry for event listeners
-    this.__listeners = {};
+    this.__listeners = new Map();
 
     // The handler and dispatcher instances
     this.__handlers = {};
@@ -264,18 +264,41 @@ qx.Class.define("qx.event.Manager", {
      *       null when no listener were found.
      */
     getListeners(target, type, capture) {
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return null;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
-      var entryList = targetMap[entryKey];
+      var entryMap = targetMap.get(entryKey);
 
-      return entryList ? entryList.concat() : null;
+      if (entryMap && entryMap.size > 0) {
+        var listeners = [...entryMap.values()];
+
+        return new Proxy(listeners, {
+          deleteProperty(target, property) {
+            if (property !== "length") {
+              var listener = target[property];
+              entryMap.delete(listener.unique);
+            }
+            delete target[property];
+            return true;
+          },
+          set(target, property, value, receiver) {
+            if (property !== "length") {
+              if (!value.unique) {
+                throw new Error("Cannot store a listener without a unique id. Use addListener()");
+              }
+              entryMap[value.unique] = value;
+            }
+            target[property] = value;
+            return true;
+          }
+        });
+      }
+      return null;
     },
 
     /**
@@ -283,10 +306,41 @@ qx.Class.define("qx.event.Manager", {
      *
      * @internal
      *
-     * @return {Map} All registered listeners. The key is the hash code form an object.
+     * @return {Object} All registered listeners. The key is the hash code for an object.
      */
     getAllListeners() {
-      return this.__listeners;
+      return Object.fromEntries(
+        this.__listeners.entries().map(
+          ([targetKey, targetMap]) => [targetKey, Object.fromEntries(
+            targetMap.entries().map(
+              ([entryKey, entryMap]) => {
+                var listeners = [...entryMap.values()];
+                var proxy = new Proxy(listeners, {
+                  deleteProperty(target, property) {
+                    if (property !== "length") {
+                      var listener = target[property];
+                      entryMap.delete(listener.unique);
+                    }
+                    delete target[property];
+                    return true;
+                  },
+                  set(target, property, value, receiver) {
+                    if (property !== "length") {
+                      if (!value.unique) {
+                        throw new Error("Cannot store a listener without a unique id. Use addListener()");
+                      }
+                      entryMap[value.unique] = value;
+                    }
+                    target[property] = value;
+                    return true;
+                  }
+                })
+                return [entryKey, proxy];
+              }
+            )
+          )]
+        )
+      );
     },
 
     /**
@@ -297,28 +351,25 @@ qx.Class.define("qx.event.Manager", {
      *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
     serializeListeners(target) {
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
       var result = [];
 
       if (targetMap) {
-        var indexOf, type, capture, entryList, entry;
-        for (var entryKey in targetMap) {
+        var indexOf, type, capture;
+        for (const [entryKey, entryMap] of targetMap) {
           indexOf = entryKey.indexOf("|");
           type = entryKey.substring(0, indexOf);
-          capture = entryKey.charAt(indexOf + 1) == "c";
-          entryList = targetMap[entryKey];
-
-          for (var i = 0, l = entryList.length; i < l; i++) {
-            entry = entryList[i];
-            result.push({
-              self: entry.context,
-              handler: entry.handler,
-              type: type,
-              capture: capture
-            });
-          }
+          capture = entryKey.charAt(indexOf + 1) === "c";
+          result = result.concat(
+            [...entryMap.values().map(entry => ({
+                self: entry.context,
+                handler: entry.handler,
+                type: type,
+                capture: capture
+              })
+            )]
+          );
         }
       }
 
@@ -339,17 +390,15 @@ qx.Class.define("qx.event.Manager", {
      * @param enable {Boolean} Whether to enable or disable the events
      */
     toggleAttachedEvents(target, enable) {
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (targetMap) {
-        var indexOf, type, capture, entryList;
-        for (var entryKey in targetMap) {
+        var indexOf, type, capture;
+        for (const entryKey of targetMap.keys()) {
           indexOf = entryKey.indexOf("|");
           type = entryKey.substring(0, indexOf);
           capture = entryKey.charCodeAt(indexOf + 1) === 99; // checking for character "c".
-          entryList = targetMap[entryKey];
 
           if (enable) {
             this.__registerAtHandler(target, type, capture);
@@ -378,18 +427,17 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
-      var entryList = targetMap[entryKey];
+      var entryMap = targetMap.get(entryKey);
 
-      return !!(entryList && entryList.length > 0);
+      return Boolean(entryMap && entryMap.size > 0);
     },
 
     /**
@@ -415,32 +463,40 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = (this.__listeners[targetKey] = {});
-      var clazz = qx.event.Manager;
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
+
+      if (!targetMap) {
+        targetMap = new Map();
+        this.__listeners.set(targetKey, targetMap);
+      }
 
       for (var listKey in list) {
         var item = list[listKey];
 
         var entryKey = item.type + (item.capture ? "|capture" : "|bubble");
-        var entryList = targetMap[entryKey];
+        var entryMap = targetMap.get(entryKey);
 
-        if (!entryList) {
-          entryList = targetMap[entryKey] = [];
+        if (!entryMap) {
+          entryMap = new Map();
+          targetMap.set(entryKey, entryMap)
+        }
 
+        if (entryMap.size === 0) {
           // This is the first event listener for this type and target
           // Inform the event handler about the new event
           // they perform the event registration at DOM level if needed
           this.__registerAtHandler(target, item.type, item.capture);
         }
 
-        // Append listener to list
-        entryList.push({
-          handler: item.listener,
-          context: item.self,
-          unique: item.unique || clazz.__lastUnique++ + ""
-        });
+        // Add listener to map
+        var unique = item.unique || qx.event.Manager.getNextUniqueId();
+        entryMap.set(unique, {
+            handler: item.listener,
+            context: item.self,
+            unique: unique
+          }
+        );
       }
     },
 
@@ -486,37 +542,37 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
-        targetMap = this.__listeners[targetKey] = {};
+        targetMap = new Map();
+        this.__listeners.set(targetKey, targetMap);
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
-      var entryList = targetMap[entryKey];
+      var entryMap = targetMap.get(entryKey);
 
-      if (!entryList) {
-        entryList = targetMap[entryKey] = [];
+      if (!entryMap) {
+        entryMap = new Map();
+        targetMap.set(entryKey, entryMap)
       }
 
-      // This is the first event listener for this type and target
-      // Inform the event handler about the new event
-      // they perform the event registration at DOM level if needed
-      if (entryList.length === 0) {
+      if (entryMap.size === 0) {
+        // This is the first event listener for this type and target
+        // Inform the event handler about the new event
+        // they perform the event registration at DOM level if needed
         this.__registerAtHandler(target, type, capture);
       }
 
-      // Append listener to list
-      var unique = qx.event.Manager.__lastUnique++ + "";
-      var entry = {
-        handler: listener,
-        context: self,
-        unique: unique
-      };
-
-      entryList.push(entry);
+      // Add listener to map
+      var unique = qx.event.Manager.getNextUniqueId();
+      entryMap.set(unique, {
+          handler: listener,
+          context: self,
+          unique: unique
+        }
+      );
 
       return entryKey + "|" + unique;
     },
@@ -524,7 +580,7 @@ qx.Class.define("qx.event.Manager", {
     /**
      * Get the event handler class matching the given event target and type
      *
-     * @param target {var} The event target
+     * @param target {Object} The event target
      * @param type {String} The event type
      * @return {qx.event.IEventHandler|null} The best matching event handler or
      *     <code>null</code>.
@@ -683,38 +739,29 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
       }
-
       var entryKey = type + (capture ? "|capture" : "|bubble");
-      var entryList = targetMap[entryKey];
+      var entryMap = targetMap.get(entryKey);
 
-      if (!entryList) {
+      if (!entryMap) {
         return false;
       }
+      var deleted = false;
 
-      var entry;
-      for (var i = 0, l = entryList.length; i < l; i++) {
-        entry = entryList[i];
-
-        if (entry.handler === listener && entry.context === self) {
-          qx.lang.Array.removeAt(entryList, i);
-          this.__addToBlacklist(entry.unique);
-
-          if (entryList.length == 0) {
-            this.__unregisterAtHandler(target, type, capture);
-          }
-
-          return true;
+      for (const [entryKey, entry] of entryMap.entries().filter(([eK, e]) => e.handler === listener && e.context === self)) {
+        deleted = true;
+        entryMap.delete(entryKey);
+        this.__addToBlacklist(entryKey);
+        if (entryMap.size === 0) {
+          this.__unregisterAtHandler(target, type, capture);
         }
       }
-
-      return false;
+      return deleted;
     },
 
     /**
@@ -741,40 +788,32 @@ qx.Class.define("qx.event.Manager", {
 
       var split = id.split("|");
       var type = split[0];
-      var capture = split[1].charCodeAt(0) == 99; // detect leading "c"
+      var capture = split[1].charCodeAt(0) === 99; // detect leading "c"
       var unique = split[2];
 
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
-      var entryList = targetMap[entryKey];
+      var entryMap = targetMap.get(entryKey);
 
-      if (!entryList) {
+      if (!entryMap) {
         return false;
       }
 
-      var entry;
-      for (var i = 0, l = entryList.length; i < l; i++) {
-        entry = entryList[i];
-
-        if (entry.unique === unique) {
-          qx.lang.Array.removeAt(entryList, i);
-          this.__addToBlacklist(entry.unique);
-
-          if (entryList.length == 0) {
-            this.__unregisterAtHandler(target, type, capture);
-          }
-
-          return true;
+      var entry = entryMap.get(unique);
+      if (entry) {
+        entryMap.delete(unique);
+        this.__addToBlacklist(entry.unique);
+        if (entryMap.size === 0) {
+          this.__unregisterAtHandler(target, type, capture);
         }
+        return true;
       }
-
       return false;
     },
 
@@ -785,23 +824,23 @@ qx.Class.define("qx.event.Manager", {
      * @return {Boolean} Whether the events were existant and were removed successfully.
      */
     removeAllListeners(target) {
-      var targetKey =
-        target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var targetMap = this.__listeners[targetKey];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
       if (!targetMap) {
         return false;
       }
 
       // Deregister from event handlers
       var split, type, capture;
-      for (var entryKey in targetMap) {
-        if (targetMap[entryKey].length > 0) {
+      for (const [entryKey, entryMap] of targetMap) {
+        if (entryMap && entryMap.size > 0) {
           // This is quite expensive, see bug #1283
           split = entryKey.split("|");
 
-          targetMap[entryKey].forEach(function (entry) {
-            this.__addToBlacklist(entry.unique);
-          }, this);
+          for (const uniqueKey of entryMap.keys()) {
+            this.__addToBlacklist(uniqueKey);
+          }
+          entryMap.clear();
 
           type = split[0];
           capture = split[1] === "capture";
@@ -810,7 +849,7 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      delete this.__listeners[targetKey];
+      this.__listeners.delete(targetKey);
       return true;
     },
 
@@ -824,7 +863,7 @@ qx.Class.define("qx.event.Manager", {
      * @internal
      */
     deleteAllListeners(targetKey) {
-      delete this.__listeners[targetKey];
+      this.__listeners.delete(targetKey);
     },
 
     /**
@@ -1002,7 +1041,7 @@ qx.Class.define("qx.event.Manager", {
     /**
      * Add event to blacklist.
      *
-     * @param uid {number} unique event id
+     * @param uid {String} unique event id
      */
     __addToBlacklist(uid) {
       if (this.__blacklist === null) {
@@ -1015,7 +1054,7 @@ qx.Class.define("qx.event.Manager", {
     /**
      * Check if the event with the given id has been removed and is therefore blacklisted for event handling
      *
-     * @param uid {number} unique event id
+     * @param uid {String} unique event id
      * @return {boolean}
      */
     isBlacklisted(uid) {

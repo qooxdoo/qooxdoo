@@ -145,7 +145,7 @@ qx.Class.define("qx.test.ui.embed.Iframe", {
             this.assertEquals("Hello World!", innerText);
           });
         }.bind(this),
-        4000
+        5000
       );
 
       this.wait(10000);

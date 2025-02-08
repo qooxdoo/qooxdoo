@@ -1,5 +1,19 @@
 # Qooxdoo Release Notes
 
+## Fixes and optimizations for v7.8.0
+In this release we did some optimizations:
+   - Feature: Add a cache for label size to speed up the calculation (#10732)
+   - Feature: Use Map instead of Array to register event listeners, this gives a huge Performance update searching the event listeners (#10736)
+   - Fix: Prevent .placeToWidget(..., true) from eating cpu (#10722)
+   - Feature: Allow runtime environment mutations for testing by setting environment settint "qx.environment.allowRuntimeMutations"=true  (implements #10747) (#10749)
+   - Fix: qx.io.jsonrpc.Client throws uncatchable error on server-side error (#10739) 
+   - Feature: Browserify options in compile.json (#10733)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-07-23&until=2025-01-28
+
+## Fixes for v7.7.2
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-05-03&until=2024-07-22
+
 ## Fixes for v7.7.1
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-04-13&until=2024-05-02
 

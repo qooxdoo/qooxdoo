@@ -265,17 +265,15 @@ qx.Class.define("qx.ui.menu.AbstractButton", {
       if (qx.core.Environment.get("qx.dynlocale")) {
         var oldCommand = e.getOldData();
         if (!oldCommand) {
-          qx.locale.Manager.getInstance().addListener(
+          this.__changeLocaleCommandListenerId = qx.locale.Manager.getInstance().addListener(
             "changeLocale",
             this._onChangeLocale,
             this
           );
         }
-        if (!command) {
-          qx.locale.Manager.getInstance().removeListener(
-            "changeLocale",
-            this._onChangeLocale,
-            this
+        if (!command && this.__changeLocaleCommandListenerId) {
+          qx.locale.Manager.getInstance().removeListenerById(
+            this.__changeLocaleCommandListenerId
           );
         }
       }
@@ -397,11 +395,9 @@ qx.Class.define("qx.ui.menu.AbstractButton", {
       }
     }
 
-    if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
+    if (qx.core.Environment.get("qx.dynlocale") && this.__changeLocaleCommandListenerId) {
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleCommandListenerId
       );
     }
   }

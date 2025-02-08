@@ -56,14 +56,7 @@ qx.Bootstrap.define("qx.Class", {
     },
 
     /** Properties that are predefined in Object */
-    objectProperties: new Set([
-      "hasOwnProperty",
-      "isPrototypeOf",
-      "propertyIsEnumerable",
-      "toLocaleString",
-      "toString",
-      "valueOf"
-    ]),
+    objectProperties: new Set(["hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "toLocaleString", "toString", "valueOf"]),
 
     /** The global object registry */
     $$registry: qx.Bootstrap.$$registry,
@@ -305,9 +298,7 @@ qx.Bootstrap.define("qx.Class", {
 
       // Ensure the desginated class has not already been defined
       if (className && qx.Bootstrap.$$registry[className]) {
-        throw new Error(
-          `${className} is already defined; cannot redefine a class`
-        );
+        throw new Error(`${className} is already defined; cannot redefine a class`);
       }
 
       // Process environment
@@ -322,10 +313,7 @@ qx.Bootstrap.define("qx.Class", {
       }
 
       // Normalize implement to array
-      if (
-        config.implement &&
-        qx.Bootstrap.getClass(config.implement) != "Array"
-      ) {
+      if (config.implement && qx.Bootstrap.getClass(config.implement) != "Array") {
         config.implement = [config.implement];
       }
 
@@ -336,11 +324,7 @@ qx.Bootstrap.define("qx.Class", {
       } else if (!config.extend) {
         if (qx.core.Environment.get("qx.debug")) {
           if (config.type && config.type != "static") {
-            throw new Error(
-              `${className}: ` +
-                `No 'extend' key, but 'type' is not 'static' ` +
-                `(found ${config.type})`
-            );
+            throw new Error(`${className}: ` + `No 'extend' key, but 'type' is not 'static' ` + `(found ${config.type})`);
           }
         }
 
@@ -367,10 +351,7 @@ qx.Bootstrap.define("qx.Class", {
         config.extend.constructor = function (...args) {
           return Reflect.construct(orig, ...args, this);
         };
-      } else if (
-        qx.core.Environment.get("qx.debug") &&
-        config.extend.toString()?.includes("_classCallCheck(this")
-      ) {
+      } else if (qx.core.Environment.get("qx.debug") && config.extend.toString()?.includes("_classCallCheck(this")) {
         console.warn(
           `${className}: ` +
             "It looks like you may be extending a native JavaScript class " +
@@ -385,33 +366,20 @@ qx.Bootstrap.define("qx.Class", {
 
       if (qx.core.Environment.get("qx.debug")) {
         Object.keys(config).forEach(key => {
-          let allowedKeys =
-            config.type == "static"
-              ? qx.Bootstrap._allowedStaticKeys
-              : qx.Bootstrap._allowedNonStaticKeys;
+          let allowedKeys = config.type == "static" ? qx.Bootstrap._allowedStaticKeys : qx.Bootstrap._allowedNonStaticKeys;
 
           // Ensure this key is allowed
           if (!(key in allowedKeys)) {
             if (config.type == "static") {
-              throw new Error(
-                `${className}: ` +
-                  `disallowed key in static class configuration: ${key}`
-              );
+              throw new Error(`${className}: ` + `disallowed key in static class configuration: ${key}`);
             } else {
-              throw new Error(
-                `${className}: ` +
-                  `unrecognized key in class configuration: ${key}`
-              );
+              throw new Error(`${className}: ` + `unrecognized key in class configuration: ${key}`);
             }
           }
 
           // Ensure its value is of the correct type
           if (typeof config[key] != allowedKeys[key]) {
-            throw new Error(
-              `${className}: ` +
-                `typeof value for key ${key} must be ${allowedKeys[key]}; ` +
-                `found ${typeof config[key]}`
-            );
+            throw new Error(`${className}: ` + `typeof value for key ${key} must be ${allowedKeys[key]}; ` + `found ${typeof config[key]}`);
           }
         });
 
@@ -419,9 +387,7 @@ qx.Bootstrap.define("qx.Class", {
           qx.Class._validateConfig(className, config);
         } catch (e) {
           if (implicitType) {
-            e.message =
-              'Assumed static class because no "extend" key was found. ' +
-              e.message;
+            e.message = 'Assumed static class because no "extend" key was found. ' + e.message;
           }
           throw e;
         }
@@ -457,22 +423,11 @@ qx.Bootstrap.define("qx.Class", {
         if (qx.core.Environment.get("qx.debug")) {
           if (key.charAt(0) === "@") {
             if (config.statics[key.substring(1)] === undefined) {
-              throw new Error(
-                'Annonation for static "' +
-                  key.substring(1) +
-                  '" of Class "' +
-                  clazz.classname +
-                  '" does not exist!'
-              );
+              throw new Error('Annonation for static "' + key.substring(1) + '" of Class "' + clazz.classname + '" does not exist!');
             }
 
             if (key.charAt(1) === "_" && key.charAt(2) === "_") {
-              throw new Error(
-                'Cannot annotate private static "' +
-                  key.substring(1) +
-                  '" of Class "' +
-                  clazz.classname
-              );
+              throw new Error('Cannot annotate private static "' + key.substring(1) + '" of Class "' + clazz.classname);
             }
           }
         }
@@ -486,11 +441,7 @@ qx.Bootstrap.define("qx.Class", {
 
         if (typeof staticFuncOrVar == "function") {
           if (qx.core.Environment.get("qx.aspects")) {
-            staticFuncOrVar = qx.core.Aspect.wrap(
-              className,
-              staticFuncOrVar,
-              "static"
-            );
+            staticFuncOrVar = qx.core.Aspect.wrap(className, staticFuncOrVar, "static");
           }
 
           // Allow easily identifying this method
@@ -546,9 +497,7 @@ qx.Bootstrap.define("qx.Class", {
               // Ensure that this property isn't attempting to override a
               // method name from within this configuration. (Never acceptable)
               if (config.members[propertyName] !== undefined) {
-                throw new Error(
-                  `${clazz.classname}: Overwriting member "${propertyName}" with property`
-                );
+                throw new Error(`${clazz.classname}: Overwriting member "${propertyName}" with property`);
               }
             }
           }
@@ -677,11 +626,7 @@ qx.Bootstrap.define("qx.Class", {
           // add abstract and singleton checks
           if (type === "abstract") {
             if (this.classname === classname) {
-              throw new Error(
-                "The class '," +
-                  classname +
-                  "' is abstract! It is not possible to instantiate it."
-              );
+              throw new Error("The class '," + classname + "' is abstract! It is not possible to instantiate it.");
             }
           }
 
@@ -722,7 +667,7 @@ qx.Bootstrap.define("qx.Class", {
                 if (typeof config.delegate.get == "function") {
                   return config.delegate.get.call(target, propertyName);
                 }
-                let value = Reflect.get(target, propertyName, receiver)
+                let value = Reflect.get(target, propertyName, receiver);
                 return value;
               },
 
@@ -732,14 +677,14 @@ qx.Bootstrap.define("qx.Class", {
                 }
                 return Reflect.set(target, propertyName, value);
               },
-              
+
               deleteProperty(target, propertyName) {
                 if (typeof config.delegate.delete == "function") {
                   return config.delegate.delete.call(target, propertyName);
                 }
                 return Reflect.deleteProperty(target, propertyName);
               }
-            })
+            });
           }
 
           return this;
@@ -770,12 +715,7 @@ qx.Bootstrap.define("qx.Class", {
       // construct mixins
       subclass.$$originalConstructor = config.construct;
 
-      qx.Bootstrap.extendClass(
-        subclass,
-        config.construct,
-        superclass,
-        classname
-      );
+      qx.Bootstrap.extendClass(subclass, config.construct, superclass, classname);
 
       let superProperties = superclass.prototype.$$allProperties || {};
 
@@ -842,33 +782,16 @@ qx.Bootstrap.define("qx.Class", {
         if (qx.core.Environment.get("qx.debug")) {
           if (key.charAt(0) === "@") {
             var annoKey = key.substring(1);
-            if (
-              members[annoKey] === undefined &&
-              proto[annoKey] === undefined
-            ) {
-              throw new Error(
-                `Annotation for ${annoKey} of Class ${clazz.classname} ` +
-                  "does not exist"
-              );
+            if (members[annoKey] === undefined && proto[annoKey] === undefined) {
+              throw new Error(`Annotation for ${annoKey} of Class ${clazz.classname} ` + "does not exist");
             }
 
             if (key.charAt(1) === "_" && key.charAt(2) === "_") {
-              throw new Error(
-                `Cannot annotate private member ${key.substring(1)} ` +
-                  `of Class ${clazz.classname}`
-              );
+              throw new Error(`Cannot annotate private member ${key.substring(1)} ` + `of Class ${clazz.classname}`);
             }
           } else {
-            if (
-              proto[key] !== undefined &&
-              key.charAt(0) === "_" &&
-              key.charAt(1) === "_"
-            ) {
-              throw new Error(
-                `Overwriting private member "${key}" ` +
-                  `of Class "${clazz.classname}" ` +
-                  "is not allowed"
-              );
+            if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
+              throw new Error(`Overwriting private member "${key}" ` + `of Class "${clazz.classname}" ` + "is not allowed");
             }
           }
         }
@@ -896,11 +819,7 @@ qx.Bootstrap.define("qx.Class", {
           }
 
           // Allow easily identifying this method
-          qx.Bootstrap.setDisplayName(
-            member,
-            clazz.classname,
-            `prototype.${key}`
-          );
+          qx.Bootstrap.setDisplayName(member, clazz.classname, `prototype.${key}`);
 
           if (qx.core.Environment.get("qx.aspects")) {
             member = qx.core.Aspect.wrap(clazz.classname, member, key);
@@ -936,24 +855,16 @@ qx.Bootstrap.define("qx.Class", {
       }
 
       for (let key in members) {
-        if (
-          (key.length > 3) & key.startsWith("get") &&
-          key.charAt(3) === key.charAt(3).toUpperCase()
-        ) {
+        if ((key.length > 3) & key.startsWith("get") && key.charAt(3) === key.charAt(3).toUpperCase()) {
           let propertyName = key.charAt(3).toLowerCase() + key.substr(4);
           if (clazz.prototype.$$allProperties[propertyName]) {
             continue;
           }
           let eventName = "change" + key.substr(3);
           if (events && events[eventName] && members["set" + key.substr(3)]) {
-            let superProperty = clazz.prototype.$$superProperties
-              ? clazz.prototype.$$superProperties[propertyName]
-              : null;
+            let superProperty = clazz.prototype.$$superProperties ? clazz.prototype.$$superProperties[propertyName] : null;
             if (superProperty) {
-              throw new Error(
-                `${clazz.classname}: ` +
-                  `Overwriting property "${propertyName}" with a psuedo-property is not allowed`
-              );
+              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" with a psuedo-property is not allowed`);
             }
             let property = new qx.core.property.Property(propertyName, clazz);
             property.configurePsuedoProperty();
@@ -983,23 +894,15 @@ qx.Bootstrap.define("qx.Class", {
       let addImpl = groupProperties => {
         for (let propertyName in properties) {
           let def = properties[propertyName];
-          if (
-            (groupProperties && !def.group) ||
-            (!groupProperties && def.group)
-          ) {
+          if ((groupProperties && !def.group) || (!groupProperties && def.group)) {
             continue;
           }
 
-          let superProperty = clazz.prototype.$$superProperties
-            ? clazz.prototype.$$superProperties[propertyName]
-            : null;
+          let superProperty = clazz.prototype.$$superProperties ? clazz.prototype.$$superProperties[propertyName] : null;
           let property;
           if (superProperty) {
             if (!def.refine) {
-              throw new Error(
-                `${clazz.classname}: ` +
-                  `Overwriting property "${propertyName}" without "refine: true"`
-              );
+              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" without "refine: true"`);
             }
             property = superProperty.clone(clazz);
           } else if (def.group) {
@@ -1023,12 +926,7 @@ qx.Bootstrap.define("qx.Class", {
           }
 
           // Add annotations
-          qx.Class._attachAnno(
-            clazz,
-            "properties",
-            propertyName,
-            property["@"]
-          );
+          qx.Class._attachAnno(clazz, "properties", propertyName, property["@"]);
         }
       };
       addImpl(false);
@@ -1051,13 +949,8 @@ qx.Bootstrap.define("qx.Class", {
       let key;
 
       if (qx.core.Environment.get("qx.debug")) {
-        if (
-          typeof events !== "object" ||
-          qx.Bootstrap.getClass(events) === "Array"
-        ) {
-          throw new Error(
-            clazz.classname + ": the events must be defined as map!"
-          );
+        if (typeof events !== "object" || qx.Bootstrap.getClass(events) === "Array") {
+          throw new Error(clazz.classname + ": the events must be defined as map!");
         }
 
         for (key in events) {
@@ -1077,18 +970,9 @@ qx.Bootstrap.define("qx.Class", {
         // Compare old and new event type/value if patching is disabled
         if (clazz.$$events && patch !== true) {
           for (key in events) {
-            if (
-              clazz.$$events[key] !== undefined &&
-              clazz.$$events[key] !== events[key]
-            ) {
+            if (clazz.$$events[key] !== undefined && clazz.$$events[key] !== events[key]) {
               throw new Error(
-                clazz.classname +
-                  "/" +
-                  key +
-                  ": the event value/type cannot be changed from " +
-                  clazz.$$events[key] +
-                  " to " +
-                  events[key]
+                clazz.classname + "/" + key + ": the event value/type cannot be changed from " + clazz.$$events[key] + " to " + events[key]
               );
             }
           }
@@ -1173,10 +1057,7 @@ qx.Bootstrap.define("qx.Class", {
         // however, to have an interface included multiple times by
         // extends in the interfaces etc.
         if (this.hasOwnInterface(clazz, iface)) {
-          throw new Error(
-            `Interface ${iface.name} is already used by ` +
-              `Class ${clazz.classname}`
-          );
+          throw new Error(`Interface ${iface.name} is already used by ` + `Class ${clazz.classname}`);
         }
 
         // Check interface and wrap members
@@ -1198,25 +1079,18 @@ qx.Bootstrap.define("qx.Class", {
 
     /**
      * Adds the objects definition to the class
-     * 
+     *
      * @param {qx.Class} clazz class which is being defined
      * @param {*} objects the `object` property in the definition
      */
-     __addObjects(clazz, objects) {
+    __addObjects(clazz, objects) {
       function validateCachedObject(key, value) {
         if (typeof value !== "function") {
-          throw new Error(
-            "Invalid cached object definition for " +
-              key +
-              " in " +
-              clazz.classname
-          );
+          throw new Error("Invalid cached object definition for " + key + " in " + clazz.classname);
         }
 
         if (typeof key != "string") {
-          throw new Error(
-            "Invalid cached object key for " + key + " in " + clazz.classname
-          );
+          throw new Error("Invalid cached object key for " + key + " in " + clazz.classname);
         }
       }
 
@@ -1248,10 +1122,7 @@ qx.Bootstrap.define("qx.Class", {
     include(clazz, mixin) {
       if (qx.core.Environment.get("qx.debug")) {
         if (!mixin) {
-          throw new Error(
-            `The mixin to include into class ${clazz.classname} ` +
-              "is undefined or null"
-          );
+          throw new Error(`The mixin to include into class ${clazz.classname} ` + "is undefined or null");
         }
 
         qx.Mixin.isCompatible(mixin, clazz);
@@ -1282,10 +1153,7 @@ qx.Bootstrap.define("qx.Class", {
     patch(clazz, mixin) {
       if (qx.core.Environment.get("qx.debug")) {
         if (!mixin) {
-          throw new Error(
-            `The mixin to patch class ${clazz.classname} ` +
-              "is undefined or null"
-          );
+          throw new Error(`The mixin to patch class ${clazz.classname} ` + "is undefined or null");
         }
 
         qx.Mixin.isCompatible(mixin, clazz);
@@ -1366,58 +1234,26 @@ qx.Bootstrap.define("qx.Class", {
     _validateConfig: qx.core.Environment.select("qx.debug", {
       true(name, config) {
         // Validate type
-        if (
-          config.type &&
-          !(
-            config.type === "static" ||
-            config.type === "abstract" ||
-            config.type === "singleton"
-          )
-        ) {
-          throw new Error(
-            'Invalid type "' +
-              config.type +
-              '" definition for class "' +
-              name +
-              '"!'
-          );
+        if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
+          throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
         }
 
         // Validate non-static class on the "extend" key
         if (config.type && config.type !== "static" && !config.extend) {
-          throw new Error(
-            `${name}: invalid config. ` +
-              "Non-static class must extend at least the `qx.core.Object` class"
-          );
+          throw new Error(`${name}: invalid config. ` + "Non-static class must extend at least the `qx.core.Object` class");
         }
 
         // Validate maps
-        let maps = [
-          "statics",
-          "properties",
-          "members",
-          "environment",
-          "settings",
-          "variants",
-          "events"
-        ];
+        let maps = ["statics", "properties", "members", "environment", "settings", "variants", "events"];
 
         for (let i = 0, l = maps.length; i < l; i++) {
           var key = maps[i];
 
           if (
             config[key] !== undefined &&
-            (config[key] === null ||
-              config[key].$$hash !== undefined ||
-              !qx.Bootstrap.isObject(config[key]))
+            (config[key] === null || config[key].$$hash !== undefined || !qx.Bootstrap.isObject(config[key]))
           ) {
-            throw new Error(
-              'Invalid key "' +
-                key +
-                '" in class "' +
-                name +
-                '". The value needs to be a map.'
-            );
+            throw new Error('Invalid key "' + key + '" in class "' + name + '". The value needs to be a map.');
           }
         }
 
@@ -1426,31 +1262,17 @@ qx.Bootstrap.define("qx.Class", {
           if (qx.Bootstrap.getClass(config.include) === "Array") {
             for (let i = 0, a = config.include, l = a.length; i < l; i++) {
               if (a[i] == null || a[i].$$type !== "Mixin") {
-                throw new Error(
-                  'The include definition in class "' +
-                    name +
-                    '" contains an invalid mixin at position ' +
-                    i +
-                    ": " +
-                    a[i]
-                );
+                throw new Error('The include definition in class "' + name + '" contains an invalid mixin at position ' + i + ": " + a[i]);
               }
             }
           } else {
-            throw new Error(
-              'Invalid include definition in class "' +
-                name +
-                '"! Only mixins and arrays of mixins are allowed!'
-            );
+            throw new Error('Invalid include definition in class "' + name + '"! Only mixins and arrays of mixins are allowed!');
           }
 
           if (config.type == "static") {
             config.include.forEach(mixin => {
               if (mixin.$$members) {
-                throw new Error(
-                  `Mixin ${mixin.mixinname} applied to class ${name}: ` +
-                    "class is static, but mixin has members"
-                );
+                throw new Error(`Mixin ${mixin.mixinname} applied to class ${name}: ` + "class is static, but mixin has members");
               }
             });
           }
@@ -1462,21 +1284,12 @@ qx.Bootstrap.define("qx.Class", {
             for (let i = 0, a = config.implement, l = a.length; i < l; i++) {
               if (a[i] == null || a[i].$$type !== "Interface") {
                 throw new Error(
-                  'The implement definition in class "' +
-                    name +
-                    '" contains an invalid interface at position ' +
-                    i +
-                    ": " +
-                    a[i]
+                  'The implement definition in class "' + name + '" contains an invalid interface at position ' + i + ": " + a[i]
                 );
               }
             }
           } else {
-            throw new Error(
-              'Invalid implement definition in class "' +
-                name +
-                '"! Only interfaces and arrays of interfaces are allowed!'
-            );
+            throw new Error('Invalid implement definition in class "' + name + '"! Only interfaces and arrays of interfaces are allowed!');
           }
         }
 
@@ -1485,22 +1298,14 @@ qx.Bootstrap.define("qx.Class", {
           try {
             qx.Mixin.checkCompatibility(config.include);
           } catch (ex) {
-            throw new Error(
-              'Error in include definition of class "' +
-                name +
-                '"! ' +
-                ex.message
-            );
+            throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
           }
         }
 
         // Validate environment
         if (config.environment) {
           for (let key in config.environment) {
-            if (
-              key.substr(0, key.indexOf(".")) !=
-              name.substr(0, name.indexOf("."))
-            ) {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
               throw new Error(
                 'Forbidden environment setting "' +
                   key +
@@ -1516,10 +1321,7 @@ qx.Bootstrap.define("qx.Class", {
         // Validate settings
         if (config.settings) {
           for (let key in config.settings) {
-            if (
-              key.substr(0, key.indexOf(".")) !=
-              name.substr(0, name.indexOf("."))
-            ) {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
               throw new Error(
                 'Forbidden setting "' +
                   key +
@@ -1535,10 +1337,7 @@ qx.Bootstrap.define("qx.Class", {
         // Validate variants
         if (config.variants) {
           for (let key in config.variants) {
-            if (
-              key.substr(0, key.indexOf(".")) !=
-              name.substr(0, name.indexOf("."))
-            ) {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
               throw new Error(
                 'Forbidden variant "' +
                   key +
@@ -1564,14 +1363,8 @@ qx.Bootstrap.define("qx.Class", {
 
         // Ensure they're not passing a qx.core.Object descendent as property map
         if (qx.core.Environment.get("qx.debug")) {
-          if (
-            config.properties !== undefined &&
-            qx.Bootstrap.isQxCoreObject(config.properties)
-          ) {
-            throw new Error(
-              `${className}: ` +
-                "Can't use qx.core.Object descendent as property map"
-            );
+          if (config.properties !== undefined && qx.Bootstrap.isQxCoreObject(config.properties)) {
+            throw new Error(`${className}: ` + "Can't use qx.core.Object descendent as property map");
           }
         }
 
@@ -1581,18 +1374,13 @@ qx.Bootstrap.define("qx.Class", {
           // Ensure they're not passing a qx.core.Object descendent as a property
           if (qx.core.Environment.get("qx.debug")) {
             if (qx.Bootstrap.isQxCoreObject(property)) {
-              throw new Error(
-                `${prop} in ${className}: ` +
-                  "Can't use qx.core.Object descendent as property"
-              );
+              throw new Error(`${prop} in ${className}: ` + "Can't use qx.core.Object descendent as property");
             }
           }
 
           // Set allowed keys based on whether this is a grouped
           // property or not
-          allowedKeys = property.group
-            ? qx.Class._allowedPropGroupKeys
-            : qx.Class._allowedPropKeys;
+          allowedKeys = property.group ? qx.Class._allowedPropGroupKeys : qx.Class._allowedPropKeys;
 
           // Ensure only allowed keys were provided
           Object.keys(property).forEach(key => {
@@ -1600,17 +1388,13 @@ qx.Bootstrap.define("qx.Class", {
 
             if (!(key in allowedKeys)) {
               throw new Error(
-                `${className}: ` +
-                  (property.group ? "group " : "") +
-                  `property '${prop}' defined with unrecognized key '${key}'`
+                `${className}: ` + (property.group ? "group " : "") + `property '${prop}' defined with unrecognized key '${key}'`
               );
             }
 
             // Flag any deprecated keys
             if (key in qx.Class.$$deprecatedPropKeys) {
-              console.warn(
-                `Property '${prop}': ` + `${qx.Class.$$deprecatedPropKeys[key]}`
-              );
+              console.warn(`Property '${prop}': ` + `${qx.Class.$$deprecatedPropKeys[key]}`);
             }
 
             if (allowed !== null) {
@@ -1915,7 +1699,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Class | null} The class which includes the property
      */
     getByProperty(clazz, name) {
-      return clazz.prototype.$$allProperties[name]||null;
+      return clazz.prototype.$$allProperties[name] || null;
     },
 
     /**
@@ -1930,9 +1714,9 @@ qx.Bootstrap.define("qx.Class", {
 
     /**
      * Detects whether a property has been initialized
-     * 
-     * @param {qx.core.Object} object 
-     * @param {String} name 
+     *
+     * @param {qx.core.Object} object
+     * @param {String} name
      * @returns {Boolean}
      */
     isPropertyInitialized(object, name) {
@@ -1986,13 +1770,7 @@ qx.Bootstrap.define("qx.Class", {
       return (
         value !== null &&
         (value instanceof Array ||
-          (value &&
-            qx.data &&
-            qx.data.IListData &&
-            qx.util.OOUtil.hasInterface(
-              value.constructor,
-              qx.data.IListData
-            )) ||
+          (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData)) ||
           qx.Bootstrap.getClass(value) === "Array" ||
           (!!value && !!value.$$isArray))
       );

@@ -112,6 +112,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     },
 
     __applyValid(value) {
+      qx.bom.Label.flushSizeCache();
       this.fireDataEvent("changeStatus", {
         family: this.getFamily(),
         valid: value

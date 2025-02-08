@@ -11,24 +11,22 @@ on:
       - 'test/**'
 
   pull_request:
-    paths:
-      - 'compile.*'
-      - 'source/**'
-      - 'test/**'
+    types: 
+      - opened
+      - reopened
 
   workflow_dispatch:
 
 jobs:
   test:
-    name: ${{ matrix.os }}, node ${{ matrix.node-version }}, ${{ matrix.browser }}
+    name: ${{ matrix.os }}, node ${{ matrix.node-version }}
     runs-on: ${{ matrix.os }}
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [16.x, 18.x, 19.x]
-        browser: [chromium]
+        node-version: [18.x, 20.x, 22.x]
 
     steps:
       - name: checkout
@@ -42,5 +40,6 @@ jobs:
       - name: install dependencies
         run:  npm  ci
 
-      - name: install and run tests with ${{ matrix.browser }}
-        run:  npm test -- --browsers=${{ matrix.browser }} --terse --headless --set-env qx.test.delay.scale=10
+      - name: install and run tests
+        run:  npm test -- --browsers=chromium,firefox,webkit --terse --headless --set-env qx.test.delay.scale=10
+        shell: bash

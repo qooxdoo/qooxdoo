@@ -698,7 +698,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             }
           });
           if (this.argv["watch-debug"]) {
-            watch.setDebuging(true);
+            watch.setDebug(true);
           }
 
           watch.addListener("making", () => {
@@ -789,9 +789,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       for (let filename of classFiles) {
-        if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`Processing ${filename} ...`);
-        }
         await metaDb.addFile(filename, !!this.argv.clean);
       }
       await metaDb.reparseAll();
@@ -860,10 +857,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
-     * Processes the configuration from a JSON data structure and creates Makers
+     * Processes the configuration from a JSON data structure and creates a Maker
      *
      * @param data {Map}
-     * @return {qx.tool.compiler.makers.Maker[]}
+     * @return {qx.tool.compiler.makers.Maker}
      */
     async createMakersFromConfig(data) {
       const Console = qx.tool.compiler.Console.getInstance();
@@ -1025,30 +1022,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       if (this.argv.verbose) {
         Console.log("Qooxdoo found in " + qxLib.getRootDir());
       }
-
-      let versionManager = new qx.tool.utils.QooxdooVersions();
-      if (this.argv.clean) {
-        versionManager.clean();
-      }
-      let qxVersion = qxLib.getVersion();
-      let qxLibrariesByVersionNumber = {};
-      qxLibrariesByVersionNumber[qxVersion] = qxLib;
-      for (let targetConfig of targetConfigs) {
-        if (targetConfig.qooxdooVersion) {
-          let dirname = await versionManager.findBestVersion(
-            targetConfig.qooxdooVersion
-          );
-
-          if (path.resolve(dirname) == path.resolve(qxLib.getRootDir())) {
-            qxLibrariesByVersionNumber[targetConfig.qooxdooVersion] = qxLib;
-          } else {
-            let lib = (qxLibrariesByVersionNumber[targetConfig.qooxdooVersion] =
-              new qx.tool.compiler.app.Library());
-            await lib.loadManifest(dirname);
-          }
-        }
-      }
-
       let errors = await this.__checkDependencies(
         Object.values(libraries),
         data.packages
@@ -1372,6 +1345,15 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (data.environment) {
           maker.setEnvironment(data.environment);
         }
+
+        /*
+        Libraries have to be added first because there is qx library
+        which includes a framework version
+        */
+        for (let library of librariesArray) {
+          maker.getAnalyser().addLibrary(library);
+        }
+
         let targetEnvironment = {
           "qx.version": maker.getAnalyser().getQooxdooVersion(),
           "qx.compiler.targetType": target.getType(),
@@ -1422,6 +1404,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         maker.getAnalyser().setBabelConfig(babelConfig);
 
+        let browserifyConfig = qx.lang.Object.clone(data.browserify || {}, true);
+        browserifyConfig.options = browserifyConfig.options || {};
+        qx.lang.Object.mergeWith(
+          browserifyConfig.options,
+          targetConfig.browserifyOptions || {}
+        );
+        maker.getAnalyser().setBrowserifyConfig(browserifyConfig);
+
         var addCreatedAt =
           targetConfig["addCreatedAt"] || t.argv["addCreatedAt"];
         if (addCreatedAt) {
@@ -1431,14 +1421,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["verboseCreatedAt"] || t.argv["verboseCreatedAt"];
         if (verboseCreatedAt) {
           maker.getAnalyser().setVerboseCreatedAt(true);
-        }
-
-        for (let ns in libraries) {
-          let lib = libraries[ns];
-          if (ns == "qx" && targetConfig.qooxdooVersion) {
-            lib = qxLibrariesByVersionNumber[targetConfig.qooxdooVersion];
-          }
-          maker.getAnalyser().addLibrary(lib);
         }
 
         let allApplicationTypes = {};

@@ -373,10 +373,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
       appMeta.setSourceUri(mapTo ? mapTo : targetUri + "transpiled/");
       mapTo = this.getPathMapping(
-        path.join(appRootDir, this.getOutputDir(), "resource/")
+        path.join(appRootDir, this.getOutputDir(), "resource")
       );
 
-      appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource/");
+      appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource");
 
       const requiredLibs = application.getRequiredLibraries();
 

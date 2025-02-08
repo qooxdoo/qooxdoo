@@ -60,21 +60,33 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
     },
 
     /**
-     * Sets up the fake server and instructs it to send the given response(s)
-     * @param {String} response The server response to the first request
+     * Sets up the fake server and instructs it to send the given response
+     * @param {String} response Optional server response
      */
     setUpFakeServer(response) {
       // Not fake transport
       this.getSandbox().restore();
       this.useFakeServer();
       this.setUpRequest();
+      if (response) {
+        this.setServerResponse(response);
+      }
+      this.getServer().autoRespond = true;
+    },
+
+    /**
+     * Set the fake server's response
+     * @param {{String|Object} } response Server response. Will be stringified to a JSON string if not a string
+     */
+    setServerResponse(response) {
+      if (typeof response != "string") {
+        response = JSON.stringify(response);
+      }
       this.getServer().respondWith("POST", /.*/, [
         200,
         { "Content-Type": "application/json; charset=utf-8" },
         response
       ]);
-
-      this.getServer().autoRespond = true;
     },
 
     /**
@@ -103,7 +115,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
           if (!(err instanceof qx.io.exception.Exception)) {
             throw err;
           }
-          this.assertEquals(exception, err.code, `Error code does not match`);
+          this.assertEquals(exception, err.code, `Error code does not match.  Expected ${exception}, got ${err.code}.`);
         } else {
           this.assertInstance(
             err,
@@ -119,16 +131,20 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       // check transport promise
       client.send(message_out).catch(errorCallback);
       this.wait(100, () => {
+        // in case of a transport error, ...
+        const n = qx.core.Environment.select("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest", {
+          true: 1, // ... we are rejecting the request promise only, v8 default
+          false: 2 // ... both request promise and transport promise are rejected, v7 default
+        })
         if (
-          // the request promise will not be called since the promise is already rejected
+          // the request promise will not be rejected because it already is rejected in this special case
           exception === qx.io.exception.Transport.DUPLICATE_ID ||
-          // or the send promise will not be rejected because we have a server-side error
-          exception === qx.io.exception.Protocol
+          // or the send promise will not be rejected because we have a server-side error, v7 default only
+          (exception === qx.io.exception.Protocol && !qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"))
         ) {
-          this.assertCalledTwice(errorCallback);
+          this.assertCallCount(errorCallback, n);
         } else {
-          // the error handler will be called three times
-          this.assertCalledThrice(errorCallback);
+          this.assertCallCount(errorCallback, n+1);
         }
       });
     },
@@ -208,10 +224,9 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
 
       this.setUpFakeServer(message_in.toString());
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
-      let spy = this.spy(value => this.assertEquals(result, value));
-      message_out.getPromise().then(spy);
       await client.send(message_out);
-      this.assertCalled(spy);
+      const value = await message_out.getPromise();
+      this.assertEquals(result, value);
     },
 
     async "test: call jsonrpc method and receive batched response"() {
@@ -225,10 +240,9 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         .toString();
       this.setUpFakeServer(response);
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
-      let spy = this.spy(value => this.assertEquals(result, value));
-      message_out.getPromise().then(spy);
       await client.send(message_out);
-      this.assertCalled(spy);
+      const value = await message_out.getPromise();
+      this.assertEquals(result, value);
     },
 
     "test: call jsonrpc method and expect error on invalid reponse "() {
@@ -321,10 +335,56 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         spy(message);
       });
       client.sendNotification("ping");
+      this.wait(100, () => this.assertCalledTwice(spy) );
+    },
+
+    /**
+     * Issue #10739
+     */
+    testIssue10739() {
+      this.resetId();
+      this.setUpFakeServer();
+      const successCallback = this.spy(result =>
+        this.debug(`Server response is "${result}"`)
+      );
+      const errorCallback = this.spy(error => console.error(error.message));
+      const client = new qx.io.jsonrpc.Client("http://test.local");
+      const auth = new qx.io.request.authentication.Bearer("TOKEN");
+      client.getTransport().getTransportImpl().setAuthentication(auth);
+      this.setServerResponse({
+        jsonrpc: "2.0",
+        error: {
+          code: 8,
+          message: "stale or uninitialized auth token/rune"
+        },
+        id: 1
+      });
+      const sendRequest = this.spy(() => {
+        this.debug("sendRequest() was called");
+        client
+          .sendRequest("service.method", ["foo"])
+          .then(successCallback)
+          .catch(err => {
+            if (err.code == 8) {
+              this.debug(`Received expected error message.`);
+              this.setServerResponse({
+                jsonrpc: "2.0",
+                result: "OK",
+                id: 2
+              });
+              sendRequest(); // second request
+            } else {
+              errorCallback(err);
+            }
+          });
+      });
+      sendRequest();
       this.wait(
-        100,
+        250,
         function () {
-          this.assertCalledTwice(spy);
+          this.assertCalledTwice(sendRequest);
+          this.assertCalledOnce(successCallback);
+          this.assertNotCalled(errorCallback);
         },
         this
       );
