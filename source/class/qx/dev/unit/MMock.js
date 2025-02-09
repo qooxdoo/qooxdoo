@@ -523,7 +523,7 @@ qx.Mixin.define("qx.dev.unit.MMock", {
      */
     __stubProperty(object, prop) {
       // Leave constructor and properties intact
-      if (prop === "constructor" || typeof object[prop] !== "function") {
+      if (prop === "constructor" || object.$$allProperties[prop] || typeof object[prop] !== "function") {
         return;
       }
 

@@ -125,7 +125,7 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       this.req.setRequestData(obj);
       this.req.send();
 
-      this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
+      this.assertCalledWith(this.transport.open, "GET", "url?qxOwner=null&qxObjectId=null&affe=true");
       obj.dispose();
     },
 
@@ -218,10 +218,7 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       this.req.send();
 
       var msg = "nocache parameter must be set to number";
-      this.assertTrue(
-        /\?nocache=\d{13,}/.test(this.transport.open.args[0][1]),
-        msg
-      );
+      this.assertTrue(/\?nocache=\d{13,}/.test(this.transport.open.args[0][1]), msg);
     },
 
     //
@@ -548,10 +545,7 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
     },
 
     noCache(url) {
-      return qx.util.Uri.appendParamsToUrl(
-        url,
-        "nocache=" + new Date().valueOf()
-      );
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + new Date().valueOf());
     },
 
     respond(status, error) {

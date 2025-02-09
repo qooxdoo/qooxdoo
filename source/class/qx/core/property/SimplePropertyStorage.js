@@ -35,9 +35,6 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
         debugger;
       }
       let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
-      if (value === undefined) {
-        value = property.getInitValue(thisObj);
-      }
       return value;
     },
 

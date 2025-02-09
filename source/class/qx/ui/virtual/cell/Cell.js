@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       while (clazz) {
         var properties = PropertyUtil.getProperties(clazz);
         for (var prop in properties) {
-          if (!cssProperties[prop]) {
+          if (!cssProperties[prop] && properties[prop] instanceof qx.core.property.Property && properties[prop].isThemeable()) {
             this.__themableProperties.push(prop);
           }
         }
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
      */
     _getValue(propertyName) {
       if (this.__isThemed) {
-        return qx.util.PropertyUtil.getProperty(this, propertyName).getThemeValue(this);
+        return qx.util.PropertyUtil.getProperty(this, propertyName).getThemed(this);
       } else {
         return this[propertyName];
       }
@@ -387,7 +387,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       var PropertyUtil = qx.util.PropertyUtil;
       var themableProperties = this._getCssProperties();
       for (var i = 0; i < themableProperties.length; i++) {
-        PropertyUtil.deleteThemeValue(this, themableProperties[i]);
+        PropertyUtil.getProperty(this, themableProperties[i]).deleteThemeValue(this);
       }
     },
 
@@ -408,7 +408,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
 
       for (var prop in styles) {
         if (styles[prop] !== undefined) {
-          PropertyUtil.setThemed(this, prop, styles[prop]);
+          PropertyUtil.getProperty(this, prop).setThemed(this, styles[prop]);
         }
       }
 
@@ -428,14 +428,16 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
      */
     __cacheThemedValues() {
       var properties = this.__themableProperties;
-      var PropertyUtil = qx.util.PropertyUtil;
 
       var themeValues = {};
       for (var i = 0; i < properties.length; i++) {
         var key = properties[i];
-        var value = PropertyUtil.getThemeValue(this, key);
-        if (value !== undefined) {
-          themeValues[key] = value;
+        let prop = qx.util.PropertyUtil.getProperty(this, key);
+        if (prop instanceof qx.core.property.Property) {
+          var value = prop.getThemed(this);
+          if (value !== undefined) {
+            themeValues[key] = value;
+          }
         }
       }
       this.__themeValues[this.__statesKey] = themeValues;
@@ -448,7 +450,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
       var PropertyUtil = qx.util.PropertyUtil;
       var themeValues = this.__themeValues[this.__statesKey] || {};
       for (var key in themeValues) {
-        PropertyUtil.setThemed(this, key, themeValues[key]);
+        qx.util.PropertyUtil.getProperty(this, key).setThemed(this, key, themeValues[key]);
       }
     },
 

@@ -81,9 +81,7 @@ window.qx = Object.assign(window.qx || {}, {
 
       // Ensure the desginated class has not already been defined
       if (className && qx.Bootstrap.$$registry[className]) {
-        throw new Error(
-          `${className} is already defined; cannot redefine a class`
-        );
+        throw new Error(`${className} is already defined; cannot redefine a class`);
       }
 
       // Process environment
@@ -94,19 +92,12 @@ window.qx = Object.assign(window.qx || {}, {
 
       // Explicit null `extend` key means extend from Object. Otherwise,
       // falsy `extend` means it's a static class.
-      if (
-        config.extend === null ||
-        (!config.extend && config.type != "static")
-      ) {
+      if (config.extend === null || (!config.extend && config.type != "static")) {
         config.extend = Object;
       } else if (!config.extend) {
         if (qx["core"]["Environment"].get("qx.debug")) {
           if (config.type && config.type != "static") {
-            throw new Error(
-              `${className}: ` +
-                `No 'extend' key, but 'type' is not 'static' ` +
-                `(found ${config.type})`
-            );
+            throw new Error(`${className}: ` + `No 'extend' key, but 'type' is not 'static' ` + `(found ${config.type})`);
           }
         }
 
@@ -116,33 +107,20 @@ window.qx = Object.assign(window.qx || {}, {
 
       if (qx["core"]["Environment"].get("qx.debug")) {
         Object.keys(config).forEach(key => {
-          let allowedKeys =
-            config.type == "static"
-              ? qx.Bootstrap._allowedStaticKeys
-              : qx.Bootstrap._allowedNonStaticKeys;
+          let allowedKeys = config.type == "static" ? qx.Bootstrap._allowedStaticKeys : qx.Bootstrap._allowedNonStaticKeys;
 
           // Ensure this key is allowed
           if (!(key in allowedKeys)) {
             if (config.type == "static") {
-              throw new Error(
-                `${className}: ` +
-                  `disallowed key in static class configuration: ${key}`
-              );
+              throw new Error(`${className}: ` + `disallowed key in static class configuration: ${key}`);
             } else {
-              throw new Error(
-                `${className}: ` +
-                  `unrecognized key in class configuration: ${key}`
-              );
+              throw new Error(`${className}: ` + `unrecognized key in class configuration: ${key}`);
             }
           }
 
           // Ensure its value is of the correct type
           if (typeof config[key] != allowedKeys[key]) {
-            throw new Error(
-              `${className}: ` +
-                `typeof value for key ${key} must be ${allowedKeys[key]}; ` +
-                `found ${typeof config[key]}`
-            );
+            throw new Error(`${className}: ` + `typeof value for key ${key} must be ${allowedKeys[key]}; ` + `found ${typeof config[key]}`);
           }
         });
       }
@@ -306,11 +284,7 @@ window.qx = Object.assign(window.qx || {}, {
           // add abstract and singleton checks
           if (type === "abstract") {
             if (subclass.classname === classname) {
-              throw new Error(
-                "The class '," +
-                  classname +
-                  "' is abstract! It is not possible to instantiate it."
-              );
+              throw new Error("The class '," + classname + "' is abstract! It is not possible to instantiate it.");
             }
           }
 
@@ -374,12 +348,7 @@ window.qx = Object.assign(window.qx || {}, {
       // construct mixins
       subclass.$$originalConstructor = config.construct;
 
-      qx.Bootstrap.extendClass(
-        subclass,
-        config.construct,
-        superclass,
-        classname
-      );
+      qx.Bootstrap.extendClass(subclass, config.construct, superclass, classname);
 
       // Save any init functions that need to be called upon instantiation
       Object.defineProperty(subclass, "$$initFunctions", {
@@ -450,16 +419,8 @@ window.qx = Object.assign(window.qx || {}, {
         let proto = clazz.prototype;
 
         if (qx["core"]["Environment"].get("qx.debug")) {
-          if (
-            proto[key] !== undefined &&
-            key.charAt(0) === "_" &&
-            key.charAt(1) === "_"
-          ) {
-            throw new Error(
-              `Overwriting private member "${key}" ` +
-                `of Class "${clazz.classname}" ` +
-                "is not allowed"
-            );
+          if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
+            throw new Error(`Overwriting private member "${key}" ` + `of Class "${clazz.classname}" ` + "is not allowed");
           }
         }
 
@@ -574,10 +535,7 @@ window.qx = Object.assign(window.qx || {}, {
     createNamespace(name, object) {
       var splits = name.split(".");
       var part = splits[0];
-      var parent =
-        qx.$$namespaceRoot && qx.$$namespaceRoot[part]
-          ? qx.$$namespaceRoot
-          : window;
+      var parent = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
 
       for (var i = 0, len = splits.length - 1; i < len; i++, part = splits[i]) {
         if (!parent[part]) {
@@ -632,20 +590,14 @@ window.qx = Object.assign(window.qx || {}, {
     base(args, varargs) {
       if (qx.Bootstrap.DEBUG) {
         if (typeof args.callee.base != "function") {
-          throw new Error(
-            "Cannot call super class. Method is not derived: " +
-              qx.Bootstrap.getDisplayName(args.callee)
-          );
+          throw new Error("Cannot call super class. Method is not derived: " + qx.Bootstrap.getDisplayName(args.callee));
         }
       }
 
       if (arguments.length === 1) {
         return args.callee.base.call(this);
       } else {
-        return args.callee.base.apply(
-          this,
-          Array.prototype.slice.call(arguments, 1)
-        );
+        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
       }
     },
 
@@ -669,9 +621,7 @@ window.qx = Object.assign(window.qx || {}, {
       }
 
       let classString = Object.prototype.toString.call(value);
-      return (
-        qx.Bootstrap._classToTypeMap[classString] || classString.slice(8, -1)
-      );
+      return qx.Bootstrap._classToTypeMap[classString] || classString.slice(8, -1);
     },
 
     /**
@@ -728,13 +678,7 @@ window.qx = Object.assign(window.qx || {}, {
       return (
         value !== null &&
         (value instanceof Array ||
-          (value &&
-            qx.data &&
-            qx.data.IListData &&
-            qx.util.OOUtil.hasInterface(
-              value.constructor,
-              qx.data.IListData
-            )) ||
+          (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData)) ||
           qx.Bootstrap.getClass(value) === "Array" ||
           (!!value && !!value.$$isArray))
       );
@@ -748,11 +692,7 @@ window.qx = Object.assign(window.qx || {}, {
      * @return {Boolean} Whether the value is an object.
      */
     isObject(value) {
-      return (
-        value !== undefined &&
-        value !== null &&
-        qx.Bootstrap.getClass(value) === "Object"
-      );
+      return value !== undefined && value !== null && qx.Bootstrap.getClass(value) === "Object";
     },
 
     /**
@@ -1026,17 +966,10 @@ qx.Bootstrap.define("qx.Bootstrap", {
           if (!clazz) {
             let splits = name.split(".");
             let part = splits[0];
-            let root =
-              qx.$$namespaceRoot && qx.$$namespaceRoot[part]
-                ? qx.$$namespaceRoot
-                : window;
+            let root = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
             let tmp = root;
 
-            for (
-              let i = 0, len = splits.length - 1;
-              tmp && i < len;
-              i++, part = splits[i]
-            ) {
+            for (let i = 0, len = splits.length - 1; tmp && i < len; i++, part = splits[i]) {
               tmp = tmp[part];
             }
             if (tmp != root) {
@@ -1114,15 +1047,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
        * @internal
        * @type {String[]}
        */
-      _shadowedKeys: [
-        "isPrototypeOf",
-        "hasOwnProperty",
-        "toLocaleString",
-        "toString",
-        "valueOf",
-        "propertyIsEnumerable",
-        "constructor"
-      ],
+      _shadowedKeys: ["isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf", "propertyIsEnumerable", "constructor"],
 
       /**
        * Get the keys of a map as array as returned by a "for ... in"
@@ -1142,10 +1067,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
         ES5: Object.keys,
 
         BROKEN_IE(map) {
-          if (
-            map === null ||
-            (typeof map !== "object" && typeof map !== "function")
-          ) {
+          if (map === null || (typeof map !== "object" && typeof map !== "function")) {
             throw new TypeError("Object.keys requires an object as argument.");
           }
 
@@ -1172,10 +1094,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
         },
 
         default(map) {
-          if (
-            map === null ||
-            (typeof map !== "object" && typeof map !== "function")
-          ) {
+          if (map === null || (typeof map !== "object" && typeof map !== "function")) {
             throw new TypeError("Object.keys requires an object as argument.");
           }
 
@@ -1194,12 +1113,12 @@ qx.Bootstrap.define("qx.Bootstrap", {
         typeof Object.keys === "function"
           ? "ES5"
           : (function () {
-                for (let key in { toString: 1 }) {
-                  return key;
-                }
-              })() !== "toString"
-            ? "BROKEN_IE"
-            : "default"
+              for (let key in { toString: 1 }) {
+                return key;
+              }
+            })() !== "toString"
+          ? "BROKEN_IE"
+          : "default"
       ],
 
       /*

@@ -584,7 +584,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       if (value === undefined) {
-        value = thisObj["$$init_" + this.__propertyName];
+        value = this.getInitValue(thisObj);
       }
 
       if (value === undefined) {
@@ -705,6 +705,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
       return false;
     },
 
+    deleteThemeValue(thisObj) {
+      let state = this.getPropertyState(thisObj);
+      delete state.themeValue;
+    },
+
     /**
      * Detects whether the object is using a user value, or has one from the theme or init
      *
@@ -738,6 +743,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error("Property " + this + " is currently mutating");
       }
       let oldValue = this.__getSafe(thisObj);
+      if (oldValue === undefined) {
+        oldValue = this.getInitValue(thisObj);
+      }
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this);
       }
@@ -761,6 +769,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           delete state.themeValue;
         } else {
           state.themeValue = value;
+          value = this.get(thisObj);
         }
       } else if (qx.core.Environment.get("qx.debug")) {
         throw new Error(`Invalid scope=${scope} in ${this.classname}._setImpl`);
@@ -774,6 +783,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
 
         try {
+          if (value === undefined) {
+            value = null;
+          }
           this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
           if (this.__eventName) {
             thisObj.fireDataEvent(this.__eventName, value, oldValue);
@@ -791,7 +803,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj
      */
     __applyValueToInheritedChildren(thisObj) {
-      if (this.isInheritable() && typeof thisObj._getChildren == "function") {
+      if (typeof thisObj._getChildren == "function") {
         for (let child of thisObj._getChildren()) {
           let property = child.constructor.prototype.$$allProperties[this.__propertyName];
           if (property && property.isInheritable()) {
@@ -871,6 +883,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
       } else {
         delete state.inheritedValue;
       }
+
+      value = this.get(thisObj);
 
       if (value !== oldValue) {
         if (!this.isEqual(thisObj, value, oldValue)) {
