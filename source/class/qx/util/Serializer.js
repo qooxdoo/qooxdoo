@@ -172,10 +172,14 @@ qx.Class.define("qx.util.Serializer", {
         result = {};
 
         var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
+        const IGNORE_PROPERTIES = {
+          qxObjectId: true,
+          qxOwner: true
+        };
 
         for (var name in properties) {
           // ignore property groups
-          if (properties[name] instanceof qx.core.property.GroupProperty) {
+          if (properties[name] instanceof qx.core.property.GroupProperty || IGNORE_PROPERTIES[name]) {
             continue;
           }
 

@@ -1184,7 +1184,6 @@ qx.Class.define("qx.ui.core.Widget", {
           var hint = layout.getSizeHint();
 
           if (isNaN(hint.width) || isNaN(hint.height) || typeof hint.minWidth == "string" || typeof hint.minHeight == "string") {
-            debugger;
             hint = layout.getSizeHint();
           }
 

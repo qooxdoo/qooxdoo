@@ -299,14 +299,19 @@ window.qx = Object.assign(window.qx || {}, {
             }
           }
 
-          // At the time this function is called, config.construct, even
-          // if undefined in the configuration, will have been set to a
-          // trivial function. We therefore look at its initial value to
-          // decide whether to call it, or the superclass constructor.
+          // Call the constructor; note that we catch the return value of the constructor - this is allowed only because
+          //   of `qxWeb` and backwards compatibility, but it is nonsense to return a different instance than `this`
           if (initialConstruct) {
             ret = initialConstruct.apply(this, args);
+          } else if (superclass === Object) {
+            superclass.apply(this, args);
           } else {
             ret = superclass.apply(this, args);
+          }
+          if (ret !== undefined && ret !== this) {
+            qx.log.Logger.error(
+              `The constructor of class '${classname}' returned a different instance than 'this'. This is highly suspect, not recommended, and should be removed.`
+            );
           }
 
           // Call any initFunctions defined for properties of this class
@@ -320,7 +325,7 @@ window.qx = Object.assign(window.qx || {}, {
             });
           }
 
-          return this;
+          return ret !== undefined ? ret : this;
         };
       } else {
         subclass = function () {

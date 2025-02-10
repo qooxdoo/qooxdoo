@@ -19,56 +19,38 @@
 /**
  * Implementation of check for any value
  */
-qx.Bootstrap.define("qx.core.check.ArrayCheck", {
-  extend: Object,
-  implement: qx.core.check.ICheck,
+qx.Bootstrap.define("qx.core.check.IsOneOfCheck", {
+  extend: qx.core.check.AbstractCheck,
 
   construct(values, nullable) {
-    super();
+    super(nullable);
     this.__values = values;
-    this.__nullable = nullable;
   },
 
   members: {
     /** @type{Array} list of allowed values */
     __values: null,
 
-    /** @type{Boolean} whether null is allowed */
-    __nullable: null,
-
     /**
      * @override
      */
-    matches(value) {
+    _matchesImpl(value) {
       if (value === null) {
-        return this.__nullable;
-      }
-
-      if (value instanceof String) {
-        value = value.valueOf();
+        return null;
       }
 
       if (this.__values.indexOf(value) !== -1) {
         return true;
       }
 
-      throw new Error(
-        "Expected value to be one of: " + JSON.stringify(this.__values)
-      );
-    },
-
-    /**
-     * @override
-     */
-    isNullable() {
-      return this.__nullable;
+      return false;
     },
 
     /**
      * @override
      */
     isCompatible(check) {
-      if (check instanceof qx.core.check.ArrayCheck) {
+      if (check instanceof qx.core.check.IsOneOfCheck) {
         for (let i = 0; i < this.__values.length; i++) {
           if (check.__values.indexOf(this.__values[i]) === -1) {
             return false;
@@ -76,13 +58,6 @@ qx.Bootstrap.define("qx.core.check.ArrayCheck", {
         }
       }
       return true;
-    },
-
-    /**
-     * @override
-     */
-    needsDereference() {
-      return false;
     }
   }
 });

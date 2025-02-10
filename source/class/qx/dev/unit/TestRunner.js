@@ -37,24 +37,14 @@ qx.Class.define("qx.dev.unit.TestRunner", {
     async runAll(clazz, methodNames) {
       function showExceptions(arr) {
         arr.forEach(item => {
-          qx.log.Logger.error(
-            item.test.getClassName() +
-              "." +
-              item.test.getName() +
-              ": " +
-              item.exception
-          );
+          qx.log.Logger.error(item.test.getClassName() + "." + item.test.getName() + ": " + item.exception);
         });
       }
 
       if (!methodNames) {
         methodNames = [];
         Object.keys(clazz.prototype).forEach(function (name) {
-          if (
-            name.length < 5 ||
-            !name.startsWith("test") ||
-            name.substring(4, 5) != name.substring(4, 5).toUpperCase()
-          ) {
+          if (name.length < 5 || !name.startsWith("test") || name.substring(4, 5) != name.substring(4, 5).toUpperCase()) {
             return;
           }
           methodNames.push(name);
@@ -85,9 +75,7 @@ qx.Class.define("qx.dev.unit.TestRunner", {
           qx.log.Logger.info("End of " + evt.getData().getFullName());
           setTimeout(next, 1);
         });
-        testResult.addListener("wait", evt =>
-          qx.log.Logger.info("Waiting for " + evt.getData().getFullName())
-        );
+        testResult.addListener("wait", evt => qx.log.Logger.info("Waiting for " + evt.getData().getFullName()));
 
         testResult.addListener("failure", evt => showExceptions(evt.getData()));
         testResult.addListener("error", evt => showExceptions(evt.getData()));
@@ -104,12 +92,10 @@ qx.Class.define("qx.dev.unit.TestRunner", {
             }
           } else {
             if (methodNameIndex < methodNames.length) {
-              loader.runTests(
-                testResult,
-                clazz.classname,
-                methodNames[methodNameIndex]
-              );
-            } else resolve();
+              loader.runTests(testResult, clazz.classname, methodNames[methodNameIndex]);
+            } else {
+              resolve();
+            }
           }
         }
 

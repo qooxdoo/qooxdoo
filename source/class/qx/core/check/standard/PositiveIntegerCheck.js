@@ -19,24 +19,27 @@
 /**
  * Type checking for basic, native types
  */
-qx.Bootstrap.define("qx.core.check.SimpleCheck", {
-  extend: qx.core.check.AbstractCheck,
-  implement: qx.core.check.ICheck,
-
-  construct(matches, nullable) {
-    super(nullable);
-    this.__matches = matches;
-  },
+qx.Bootstrap.define("qx.core.check.standard.PositiveIntegerCheck", {
+  extend: qx.core.check.standard.IntegerCheck,
 
   members: {
-    /** @type{Function} passed a value and returns true if the value matches this check */
-    __matches: null,
+    /**
+     * @override
+     */
+    _matchesImpl(value) {
+      let ok = super._matchesImpl(value);
+      return ok && value >= 0;
+    },
 
     /**
      * @override
      */
-    _matchesImpl(value, thisObj) {
-      return this.__matches.call(thisObj, value);
+    _coerceImpl(value) {
+      value = super._coerceImpl(value);
+      if (!isNaN(value) && value < 0) {
+        return 0;
+      }
+      return value;
     }
   }
 });

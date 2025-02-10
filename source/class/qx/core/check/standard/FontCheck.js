@@ -19,24 +19,15 @@
 /**
  * Type checking for basic, native types
  */
-qx.Bootstrap.define("qx.core.check.SimpleCheck", {
+qx.Bootstrap.define("qx.core.check.standard.FontCheck", {
   extend: qx.core.check.AbstractCheck,
-  implement: qx.core.check.ICheck,
-
-  construct(matches, nullable) {
-    super(nullable);
-    this.__matches = matches;
-  },
 
   members: {
-    /** @type{Function} passed a value and returns true if the value matches this check */
-    __matches: null,
-
     /**
      * @override
      */
-    _matchesImpl(value, thisObj) {
-      return this.__matches.call(thisObj, value);
+    _matchesImpl(value) {
+      return qx.theme.manager.Font.getInstance().isDynamic(value);
     }
   }
 });

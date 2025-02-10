@@ -19,24 +19,33 @@
 /**
  * Type checking for basic, native types
  */
-qx.Bootstrap.define("qx.core.check.SimpleCheck", {
+qx.Bootstrap.define("qx.core.check.standard.NumberCheck", {
   extend: qx.core.check.AbstractCheck,
-  implement: qx.core.check.ICheck,
-
-  construct(matches, nullable) {
-    super(nullable);
-    this.__matches = matches;
-  },
 
   members: {
-    /** @type{Function} passed a value and returns true if the value matches this check */
-    __matches: null,
+    /**
+     * @override
+     */
+    _matchesImpl(value) {
+      return qx.lang.Type.isNumber(value) && isFinite(value);
+    },
 
     /**
      * @override
      */
-    _matchesImpl(value, thisObj) {
-      return this.__matches.call(thisObj, value);
+    _coerceImpl(value) {
+      if (value === null || isNaN(value)) {
+        return 0;
+      }
+      if (qx.lang.Type.isNumber(value)) {
+        return value;
+      }
+      value = String(value).trim();
+      let tmp = parseFloat(value);
+      if (isNaN(tmp)) {
+        return 0;
+      }
+      return tmp;
     }
   }
 });

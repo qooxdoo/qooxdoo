@@ -19,24 +19,31 @@
 /**
  * Type checking for basic, native types
  */
-qx.Bootstrap.define("qx.core.check.SimpleCheck", {
+qx.Bootstrap.define("qx.core.check.standard.FunctionCheck", {
   extend: qx.core.check.AbstractCheck,
-  implement: qx.core.check.ICheck,
-
-  construct(matches, nullable) {
-    super(nullable);
-    this.__matches = matches;
-  },
 
   members: {
-    /** @type{Function} passed a value and returns true if the value matches this check */
-    __matches: null,
+    /**
+     * @override
+     */
+    _matchesImpl(value) {
+      return qx.lang.Type.isFunction(value);
+    },
 
     /**
      * @override
      */
-    _matchesImpl(value, thisObj) {
-      return this.__matches.call(thisObj, value);
+    _coerceImpl(value) {
+      if (value === null) {
+        return null;
+      }
+      if (qx.lang.Type.isFunction(value)) {
+        return value;
+      }
+      if (typeof value === "string") {
+        return new Function(value);
+      }
+      return null;
     }
   }
 });

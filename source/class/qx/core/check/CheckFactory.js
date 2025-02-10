@@ -18,89 +18,22 @@
 
 /**
  * Provider of checks for property values, cached by expression
+ *
+ * NOTE :: The default checks are initialised only on demand - this is not a
+ * performance requirement, but rather to manage the dependency of classes during
+ * the early stages of loading an application.
+ *
+ * @require(qx.core.check.DynamicTypeCheck)
  */
 qx.Bootstrap.define("qx.core.check.CheckFactory", {
   extend: Object,
   type: "singleton",
 
-  /**
-   * prettier-ignore
-   */
   construct() {
     super();
     this.__checks = {};
-    const CHECKS = {
-      Boolean: "qx.core.Assert.assertBoolean(value, msg) || true",
-      String: "qx.core.Assert.assertString(value, msg) || true",
-
-      Number: "qx.core.Assert.assertNumber(value, msg) || true",
-      Integer: "qx.core.Assert.assertInteger(value, msg) || true",
-      PositiveNumber: "qx.core.Assert.assertPositiveNumber(value, msg) || true",
-      PositiveInteger:
-        "qx.core.Assert.assertPositiveInteger(value, msg) || true",
-
-      Error: "qx.core.Assert.assertInstance(value, Error, msg) || true",
-      RegExp: "qx.core.Assert.assertInstance(value, RegExp, msg) || true",
-
-      Object: "qx.core.Assert.assertObject(value, msg) || true",
-      Array: "qx.core.Assert.assertArray(value, msg) || true",
-      Map: "qx.core.Assert.assertMap(value, msg) || true",
-
-      Function: "qx.core.Assert.assertFunction(value, msg) || true",
-      Date: "qx.core.Assert.assertInstance(value, Date, msg) || true",
-      Node: "value !== null && value.nodeType !== undefined",
-      Element: "value !== null && value.nodeType === 1 && value.attributes",
-      Document:
-        "value !== null && value.nodeType === 9 && value.documentElement",
-      Window: "value !== null && value.document",
-      Event: "value !== null && value.type !== undefined",
-
-      Class: 'value !== null && value.$$type === "Class"',
-      Mixin: 'value !== null && value.$$type === "Mixin"',
-      Interface: 'value !== null && value.$$type === "Interface"',
-      Theme: 'value !== null && value.$$type === "Theme"',
-
-      Color:
-        "qx.lang.Type.isString(value) && qx.util.ColorUtil.isValidPropertyValue(value)",
-      Decorator:
-        "value !== null && qx.theme.manager.Decoration.getInstance().isValidPropertyValue(value)",
-      Font: "value !== null && qx.theme.manager.Font.getInstance().isDynamic(value)"
-    };
-
-    /**
-     * Contains types which need to be dereferenced
-     */
-    const NEEDS_DEREFERENCE = {
-      Node: true,
-      Element: true,
-      Document: true,
-      Window: true,
-      Event: true
-    };
-
     this.addCheck("any", new qx.core.check.Any());
     this.addCheck("any?", new qx.core.check.Any(true));
-
-    for (let key in CHECKS) {
-      let code = CHECKS[key];
-      let needsDereference = NEEDS_DEREFERENCE[key];
-      let check = new qx.core.check.SimpleCheck(
-        new Function("value", code),
-        false,
-        needsDereference
-      );
-      this.addCheck(key, check);
-
-      let hasNullCheck = key.indexOf("value !== null") > -1;
-      if (!hasNullCheck) {
-        let nullCheck = new qx.core.check.SimpleCheck(
-          new Function("value", code),
-          true,
-          needsDereference
-        );
-        this.addCheck(key + "?", nullCheck);
-      }
-    }
   },
 
   members: {
@@ -114,39 +47,58 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
      * @param {String} expr
      * @return {qx.core.check.Check}
      */
-    getCheck(expr) {
+    getCheck(expr, nullable) {
+      nullable = !!nullable;
       if (typeof expr == "function") {
         return new qx.core.check.SimpleCheck(expr, false);
       }
-      let check = this.__checks[expr];
-      if (check === null) {
-        let nullable = false;
-        let classname;
-        if (expr.endsWith("?")) {
-          nullable = true;
-          classname = expr.substring(0, expr.length - 1);
-        } else {
-          classname = expr;
+      if (qx.lang.Type.isArray(expr)) {
+        for (let i = 0; i < expr.length; i++) {
+          if (expr[i] === null) {
+            nullable = true;
+            qx.lang.Array.removeAt(expr, i);
+            break;
+          }
         }
-
-        if (qx.Class.isDefined(classname)) {
-          check = new qx.core.check.ClassInstanceCheck(
-            qx.Class.getByName(classname),
-            nullable
-          );
-        } else if (qx.Interface && qx.Interface.isDefined(classname)) {
-          check = new qx.core.check.InterfaceImplementCheck(
-            qx.Interface.getByName(classname),
-            nullable
-          );
-        }
-        if (check) {
-          this.__checks[expr] = check;
-        } else {
-          return null;
-        }
+        return new qx.core.check.IsOneOfCheck(expr, nullable);
       }
-      return check;
+
+      let checkname = expr;
+      if (checkname.endsWith("?")) {
+        checkname = checkname.substring(0, checkname.length - 1);
+        nullable = true;
+      }
+      if (nullable) {
+        expr = checkname + "?";
+      }
+
+      let check = this.__checks[expr];
+      if (check) {
+        return check;
+      }
+
+      let clazz = qx.core.check.CheckFactory.__STANDARD_CHECKS[checkname];
+      if (clazz) {
+        check = new clazz(nullable);
+        if (check.isNullable() === null) {
+          debugger;
+          check = new clazz(nullable);
+        }
+        this.__checks[expr] = check;
+        return check;
+      }
+
+      if (checkname.indexOf("(") > 0) {
+        check = new qx.core.check.SimpleCheck(new Function("value", "return " + checkname), nullable);
+      } else {
+        check = new qx.core.check.DynamicTypeCheck(checkname, nullable);
+      }
+      if (check) {
+        this.__checks[expr] = check;
+        return check;
+      }
+
+      return null;
     },
 
     /**
@@ -160,6 +112,36 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
         throw new Error("Check already exists for " + expr);
       }
       this.__checks[expr] = check;
+    }
+  },
+
+  statics: {
+    __STANDARD_CHECKS: {
+      Boolean: qx.core.check.standard.BooleanCheck,
+      String: qx.core.check.standard.StringCheck,
+      Number: qx.core.check.standard.NumberCheck,
+      Integer: qx.core.check.standard.IntegerCheck,
+      PositiveNumber: qx.core.check.standard.PositiveNumberCheck,
+      PositiveInteger: qx.core.check.standard.PositiveIntegerCheck,
+      Error: qx.core.check.standard.ErrorCheck,
+      RegExp: qx.core.check.standard.RegExpCheck,
+      Object: qx.core.check.standard.ObjectCheck,
+      Array: qx.core.check.standard.ArrayCheck,
+      Map: qx.core.check.standard.MapCheck,
+      Function: qx.core.check.standard.FunctionCheck,
+      Date: qx.core.check.standard.DateCheck,
+      Node: qx.core.check.standard.NodeCheck,
+      Element: qx.core.check.standard.ElementCheck,
+      Document: qx.core.check.standard.DocumentCheck,
+      Window: qx.core.check.standard.WindowCheck,
+      Event: qx.core.check.standard.EventCheck,
+      Class: qx.core.check.standard.ClassCheck,
+      Mixin: qx.core.check.standard.MixinCheck,
+      Interface: qx.core.check.standard.InterfaceCheck,
+      Theme: qx.core.check.standard.ThemeCheck,
+      Color: qx.core.check.standard.ColorCheck,
+      Decorator: qx.core.check.standard.DecoratorCheck,
+      Font: qx.core.check.standard.FontCheck
     }
   }
 });

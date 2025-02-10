@@ -93,10 +93,7 @@ qx.Bootstrap.define("qx.Interface", {
     define(name, config) {
       if (config) {
         // Normalize include
-        if (
-          config.extend &&
-          !(qx.Bootstrap.getClass(config.extend) === "Array")
-        ) {
+        if (config.extend && !(qx.Bootstrap.getClass(config.extend) === "Array")) {
           config.extend = [config.extend];
         }
 
@@ -218,8 +215,7 @@ qx.Bootstrap.define("qx.Interface", {
         for (var key in members) {
           if (qx.Bootstrap.isFunction(members[key])) {
             var isPropertyMethod = this.__isPropertyMethod(clazz, key);
-            var hasMemberFunction =
-              isPropertyMethod || qx.Bootstrap.isFunction(object[key]);
+            var hasMemberFunction = isPropertyMethod || qx.Bootstrap.isFunction(object[key]);
 
             if (!hasMemberFunction) {
               if (shouldThrow) {
@@ -239,18 +235,10 @@ qx.Bootstrap.define("qx.Interface", {
 
             // Only wrap members if the interface was not been applied yet. This
             // can easily be checked by the recursive hasInterface method.
-            var shouldWrapFunction =
-              wrap === true &&
-              !isPropertyMethod &&
-              !qx.util.OOUtil.hasInterface(clazz, iface);
+            var shouldWrapFunction = wrap === true && !isPropertyMethod && !qx.util.OOUtil.hasInterface(clazz, iface);
 
             if (shouldWrapFunction) {
-              object[key] = this.__wrapInterfaceMember(
-                iface,
-                object[key],
-                key,
-                members[key]
-              );
+              object[key] = this.__wrapInterfaceMember(iface, object[key], key, members[key]);
             }
           } else {
             // Other members are not checked more detailed because of
@@ -296,10 +284,7 @@ qx.Bootstrap.define("qx.Interface", {
       }
 
       var propertyName = qx.Bootstrap.firstLow(match[2]);
-      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(
-        clazz,
-        propertyName
-      );
+      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(clazz, propertyName);
 
       if (!isPropertyMethod) {
         return false;
@@ -307,10 +292,7 @@ qx.Bootstrap.define("qx.Interface", {
 
       var isBoolean = match[0] === "is" || match[0] === "toggle";
       if (isBoolean) {
-        return (
-          qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check ===
-          "Boolean"
-        );
+        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).getCheck() instanceof qx.core.check.standard.BooleanCheck;
       }
 
       return true;
@@ -330,13 +312,7 @@ qx.Bootstrap.define("qx.Interface", {
         for (var key in iface.$$properties) {
           if (!qx.util.OOUtil.getPropertyDefinition(clazz, key)) {
             if (shouldThrow) {
-              throw new Error(
-                'The property "' +
-                  key +
-                  '" is not supported by Class "' +
-                  clazz.classname +
-                  '"!'
-              );
+              throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
             } else {
               return false;
             }
@@ -362,13 +338,7 @@ qx.Bootstrap.define("qx.Interface", {
         for (var key in iface.$$events) {
           if (!qx.util.OOUtil.supportsEvent(clazz, key)) {
             if (shouldThrow) {
-              throw new Error(
-                'The event "' +
-                  key +
-                  '" is not supported by Class "' +
-                  clazz.classname +
-                  '"!'
-              );
+              throw new Error('The event "' + key + '" is not supported by Class "' + clazz.classname + '"!');
             } else {
               return false;
             }
@@ -435,11 +405,7 @@ qx.Bootstrap.define("qx.Interface", {
      */
     objectImplements(object, iface) {
       var clazz = object.constructor;
-      if (
-        !this.__checkMembers(object, clazz, iface) ||
-        !this.__checkProperties(clazz, iface) ||
-        !this.__checkEvents(clazz, iface)
-      ) {
+      if (!this.__checkMembers(object, clazz, iface) || !this.__checkProperties(clazz, iface) || !this.__checkEvents(clazz, iface)) {
         return false;
       }
 
@@ -570,34 +536,16 @@ qx.Bootstrap.define("qx.Interface", {
 
           for (var key in config) {
             if (allowed[key] === undefined) {
-              throw new Error(
-                'The configuration key "' +
-                  key +
-                  '" in class "' +
-                  name +
-                  '" is not allowed!'
-              );
+              throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
             }
 
             if (config[key] == null) {
-              throw new Error(
-                "Invalid key '" +
-                  key +
-                  "' in interface '" +
-                  name +
-                  "'! The value is undefined/null!"
-              );
+              throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
             }
 
             if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
               throw new Error(
-                'Invalid type of key "' +
-                  key +
-                  '" in interface "' +
-                  name +
-                  '"! The type of the key must be "' +
-                  allowed[key] +
-                  '"!'
+                'Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowed[key] + '"!'
               );
             }
           }
@@ -609,18 +557,9 @@ qx.Bootstrap.define("qx.Interface", {
 
             if (
               config[key] !== undefined &&
-              (["Array", "RegExp", "Date"].indexOf(
-                qx.Bootstrap.getClass(config[key])
-              ) != -1 ||
-                config[key].classname !== undefined)
+              (["Array", "RegExp", "Date"].indexOf(qx.Bootstrap.getClass(config[key])) != -1 || config[key].classname !== undefined)
             ) {
-              throw new Error(
-                'Invalid key "' +
-                  key +
-                  '" in interface "' +
-                  name +
-                  '"! The value needs to be a map!'
-              );
+              throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
             }
           }
 
@@ -655,13 +594,7 @@ qx.Bootstrap.define("qx.Interface", {
           if (config.statics) {
             for (var key in config.statics) {
               if (key.toUpperCase() !== key) {
-                throw new Error(
-                  'Invalid key "' +
-                    key +
-                    '" in interface "' +
-                    name +
-                    '"! Static constants must be all uppercase.'
-                );
+                throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
               }
 
               switch (typeof config.statics[key]) {
@@ -672,11 +605,7 @@ qx.Bootstrap.define("qx.Interface", {
 
                 default:
                   throw new Error(
-                    'Invalid key "' +
-                      key +
-                      '" in interface "' +
-                      name +
-                      '"! Static constants must be all of a primitive type.'
+                    'Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.'
                   );
               }
             }

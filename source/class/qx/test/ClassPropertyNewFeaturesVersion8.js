@@ -95,14 +95,10 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
           _applyRunning(value, old) {
             if (value === old) {
-              throw new Error(
-                "superclass: _applyRunning called with identical value"
-              );
+              throw new Error("superclass: _applyRunning called with identical value");
             }
 
-            console.log(
-              `superclass apply running: value changing from ${old} to ${value}`
-            );
+            console.log(`superclass apply running: value changing from ${old} to ${value}`);
           }
         }
       });
@@ -156,9 +152,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           },
 
           _applyRunning(value, old) {
-            console.log(
-              `subclass apply running: value changing from ${old} to ${value}`
-            );
+            console.log(`subclass apply running: value changing from ${old} to ${value}`);
 
             super._applyRunning(value, old);
           }
@@ -241,9 +235,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         properties: {
           arr: {
             initFunction(key) {
-              console.log(
-                `Allocating a new array object for property '${key}'`
-              );
+              console.log(`Allocating a new array object for property '${key}'`);
 
               return [];
             }
@@ -285,9 +277,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
         construct() {
           super(true);
-          console.log(
-            `constructor displayname: ${this.constructor.$$displayName}`
-          );
+          console.log(`constructor displayname: ${this.constructor.$$displayName}`);
 
           console.log(`instance displayname: ${this.$$displayName}`);
         }
@@ -330,9 +320,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
         members: {
           getGreeting() {
-            this.recentGreeting = qx.core.Environment.get(
-              "qx.test.cpnfv8.greeting"
-            );
+            this.recentGreeting = qx.core.Environment.get("qx.test.cpnfv8.greeting");
 
             return this.getRecentGreeting();
           }
@@ -355,7 +343,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           a: {
             check: "Array",
             initFunction: () => [],
-            storage: qx.core.propertystorage.ImmutableArray
+            storage: qx.core.property.ImmutableArrayStorage
           }
         }
       });
@@ -371,7 +359,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
               return ret;
             },
             immutable: "replace"
-            // storage : qx.core.propertystorage.ImmutableObject // same as immutable:"replace"
+            // storage : qx.core.property.ImmutableObjectStorage // same as immutable:"replace"
           }
         }
       });
@@ -396,17 +384,11 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         extend: qx.test.cpnfv8.Object
       });
 
-      this.assertNotUndefined(
-        window.qx.test.cpnfv8.ToBeUndefined,
-        "qx.test.cpnfv8.ToBeUndefined exists"
-      );
+      this.assertNotUndefined(window.qx.test.cpnfv8.ToBeUndefined, "qx.test.cpnfv8.ToBeUndefined exists");
 
       qx.Class.undefine("qx.test.cpnfv8.ToBeUndefined");
 
-      this.assertUndefined(
-        window.qx.test.cpnfv8.ToBeUndefined,
-        "qx.test.cpnfv8.ToBeUndefined no longer exists"
-      );
+      this.assertUndefined(window.qx.test.cpnfv8.ToBeUndefined, "qx.test.cpnfv8.ToBeUndefined no longer exists");
     },
 
     testImmutableArray() {
@@ -416,11 +398,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       immutableArray.a = [10, 20];
       let a2 = immutableArray.a;
       console.log(`immutable array a2=`, a2);
-      this.assertIdentical(
-        a1,
-        a2,
-        "immutable array remains unchanged after set"
-      );
+      this.assertIdentical(a1, a2, "immutable array remains unchanged after set");
     },
 
     testImmutableObject() {
@@ -430,103 +408,59 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       immutableObject.a = { x: 10, y: 20 };
       let o2 = immutableObject.a;
       console.log(`immutable object o2=`, o2);
-      this.assertIdentical(
-        o1,
-        o2,
-        "immutable object remains unchanged after set"
-      );
+      this.assertIdentical(o1, o2, "immutable object remains unchanged after set");
     },
 
     testMemberVariableAccess() {
       let superinstance = new qx.test.cpnfv8.Superclass(false);
       this.assertEquals(23, superinstance.num, "superinstance.num == 23");
-      this.assertEquals(
-        "hello world",
-        superinstance.str,
-        "superinstance.str == 'hello world'"
-      );
+      this.assertEquals("hello world", superinstance.str, "superinstance.str == 'hello world'");
     },
 
     testPropertySetGetFunctionalAndFirstClass() {
       let superinstance = new qx.test.cpnfv8.Superclass(false);
 
-      this.assertFalse(
-        superinstance.getRunning(),
-        "running initial value (functional) === false"
-      );
+      this.assertFalse(superinstance.getRunning(), "running initial value (functional) === false");
 
-      this.assertFalse(
-        superinstance.running,
-        "running initial value (first class) === false"
-      );
+      this.assertFalse(superinstance.running, "running initial value (first class) === false");
 
       // Test functional property set
       superinstance.setRunning(true);
 
-      this.assertTrue(
-        superinstance.getRunning(),
-        "running after setter (functional) === true"
-      );
+      this.assertTrue(superinstance.getRunning(), "running after setter (functional) === true");
 
-      this.assertTrue(
-        superinstance.running,
-        "running after setter (first class) === true"
-      );
+      this.assertTrue(superinstance.running, "running after setter (first class) === true");
 
       superinstance.running = false;
-      this.assertFalse(
-        superinstance.getRunning(),
-        "running after assignment (functional) === false"
-      );
+      this.assertFalse(superinstance.getRunning(), "running after assignment (functional) === false");
 
-      this.assertFalse(
-        superinstance.running,
-        "running after assignment (first class) === false"
-      );
+      this.assertFalse(superinstance.running, "running after assignment (first class) === false");
 
       // test check: "Boolean"'s togglePropertyName and isPropertyName functions
       superinstance.toggleRunning();
       this.assertTrue(superinstance.running, "running after toggle === true");
-      this.assertTrue(
-        superinstance.isRunning(),
-        "isRunning() after toggle === true"
-      );
+      this.assertTrue(superinstance.isRunning(), "isRunning() after toggle === true");
     },
 
     testSubinstance() {
       let subinstance = new qx.test.cpnfv8.Subclass(23, true);
 
-      this.assertEquals(
-        "I am static",
-        qx.test.cpnfv8.Subclass.staticEntry,
-        "staticEntry === 'I am static'"
-      );
+      this.assertEquals("I am static", qx.test.cpnfv8.Subclass.staticEntry, "staticEntry === 'I am static'");
 
       this.assertEquals(23, subinstance.num, "sub num === 23");
       subinstance.num = 24;
       this.assertEquals(24, subinstance.num, "sub num === 24");
-      this.assertEquals(
-        "hello world",
-        subinstance.str,
-        "sub str == 'hello world'"
-      );
+      this.assertEquals("hello world", subinstance.str, "sub str == 'hello world'");
 
       this.assertTrue(subinstance.getRunning(), "sub getRunning() === true");
       subinstance.running = false;
-      this.assertFalse(
-        subinstance.getRunning(),
-        "sub after setting to false, sub getRunning() === false"
-      );
+      this.assertFalse(subinstance.getRunning(), "sub after setting to false, sub getRunning() === false");
     },
 
     testExternalStorage() {
       let subinstance = new qx.test.cpnfv8.Subclass(23, true);
 
-      this.assertEquals(
-        10,
-        qx.test.cpnfv8.ExternalStorage._subclassStorage.externallyStored,
-        "initial value of externallyStored === 10"
-      );
+      this.assertEquals(10, qx.test.cpnfv8.ExternalStorage._subclassStorage.externallyStored, "initial value of externallyStored === 10");
 
       subinstance.externallyStored = 20;
 
@@ -536,11 +470,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         "post-change value of externallyStored === 20"
       );
 
-      this.assertEquals(
-        20,
-        subinstance.externallyStored,
-        "retrieved value of externallyStored === 20"
-      );
+      this.assertEquals(20, subinstance.externallyStored, "retrieved value of externallyStored === 20");
     },
 
     // Demonstrate how qx.data.Array could be modified so that its
@@ -554,11 +484,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       let arr = new qx.test.cpnfv8.Arr();
 
       arr.setItem(3, 42);
-      this.assertEquals(
-        "Item 0,Item 1,Item 2,42",
-        arr.getArr().toString(),
-        "arr.getArr() === 'Item 0,Item 1,Item 2,42'"
-      );
+      this.assertEquals("Item 0,Item 1,Item 2,42", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,Item 2,42'");
 
       console.log("\nAbout to set arr[3] = 23");
       arr[3] = 23;
@@ -566,37 +492,21 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       console.log("arr=", arr.getArr());
 
       this.assertEquals(23, arr[3], "arr[3]=23 yields arr[3] === 23");
-      this.assertEquals(
-        "Item 0,Item 1,Item 2,23",
-        arr.getArr().toString(),
-        "arr.getArr() === 'Item 0,Item 1,Item 2,23'"
-      );
+      this.assertEquals("Item 0,Item 1,Item 2,23", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,Item 2,23'");
 
       console.log("\nAbout to delete arr[2]");
       delete arr[2];
-      this.assertEquals(
-        "Item 0,Item 1,23",
-        arr.getArr().toString(),
-        "arr.getArr() === 'Item 0,Item 1,23'"
-      );
+      this.assertEquals("Item 0,Item 1,23", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,23'");
     },
 
     testNativeClassExtend() {
       class NativeClass extends qx.test.cpnfv8.Subclass {
         constructor(num = 13) {
           super(num, false);
-          qx.core.Assert.assertEquals(
-            num,
-            this.num,
-            `native class super(): num === ${num}`
-          );
+          qx.core.Assert.assertEquals(num, this.num, `native class super(): num === ${num}`);
 
           this.num = 42;
-          qx.core.Assert.assertEquals(
-            42,
-            this.num,
-            "native class assignment: num === 42"
-          );
+          qx.core.Assert.assertEquals(42, this.num, "native class assignment: num === 42");
         }
       }
 
@@ -630,16 +540,10 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         let singleton = new qx.test.cpnfv8.Singleton();
 
         // Fail. Shoould not have gotten here. Should have thrown.
-        this.assertTrue(
-          false,
-          "new qx.test.cpnfv8.Singleton() threw as expected"
-        );
+        this.assertTrue(false, "new qx.test.cpnfv8.Singleton() threw as expected");
       } catch (e) {
         // This is the success case. `new qx.test.cpnfv8.Singleton()` should have thrown.
-        this.assertTrue(
-          true,
-          "new qx.test.cpnfv8.Singleton() threw as expected"
-        );
+        this.assertTrue(true, "new qx.test.cpnfv8.Singleton() threw as expected");
       }
 
       let singleton = qx.test.cpnfv8.Singleton.getInstance();
@@ -659,18 +563,11 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
       try {
         let subclassOfAbstract = new qx.test.cpnfv8.SubclassOfAbstract();
-        this.assertTrue(
-          true,
-          "new qx.test.cpnfv8.SubclassOfAbstract() succeeded"
-        );
+        this.assertTrue(true, "new qx.test.cpnfv8.SubclassOfAbstract() succeeded");
 
         // Test environment settings
         let greeting = subclassOfAbstract.getGreeting();
-        this.assertEquals(
-          "hi there",
-          greeting,
-          "greeting from environment === 'hi there'"
-        );
+        this.assertEquals("hi there", greeting, "greeting from environment === 'hi there'");
 
         // Ensure events got added
         this.assertEquals(
@@ -683,10 +580,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           "events list is created correctly"
         );
       } catch (e) {
-        this.assertTrue(
-          false,
-          "new qx.test.cpnfv8.SubclassOfAbstract() succeeded"
-        );
+        this.assertTrue(false, "new qx.test.cpnfv8.SubclassOfAbstract() succeeded");
       }
     },
 
@@ -720,15 +614,9 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
       try {
         superinstance.setPositive(-1);
-        this.assertTrue(
-          false,
-          "validated property can not be set to illegal value"
-        );
+        this.assertTrue(false, "validated property can not be set to illegal value");
       } catch (e) {
-        this.assertTrue(
-          true,
-          "validated property can not be set to illegal value"
-        );
+        this.assertTrue(true, "validated property can not be set to illegal value");
       }
     },
 
@@ -763,15 +651,9 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
       try {
         superinstance.jsdocProp = [2, 4, 6];
-        this.assertTrue(
-          false,
-          "check JSDoc failed as expected (not yet implemented)"
-        );
+        this.assertTrue(false, "check JSDoc failed as expected (not yet implemented)");
       } catch (e) {
-        this.assertTrue(
-          true,
-          "check JSDoc failed as expected (not yet implemented)"
-        );
+        this.assertTrue(true, "check JSDoc failed as expected (not yet implemented)");
       }
 
       try {
@@ -791,17 +673,12 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
     testPropertyDescriptor() {
       let superinstance = new qx.test.cpnfv8.Superclass(false);
-      let propertyDescriptorPositive =
-        superinstance.getPropertyDescriptor("positive");
+      let propertyDescriptorPositive = superinstance.getPropertyDescriptor("positive");
 
       console.log("Property descriptor=", propertyDescriptorPositive);
       superinstance.positive = 1;
       propertyDescriptorPositive.set(2);
-      this.assertEquals(
-        2,
-        superinstance.positive,
-        "property descriptor set works"
-      );
+      this.assertEquals(2, superinstance.positive, "property descriptor set works");
     },
 
     testMemberDetectSameClassProperty() {
@@ -845,9 +722,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         });
 
         // class definition should have have thrown; should not get here
-        throw new Error(
-          "Failed to detect same name in member and superclass property"
-        );
+        throw new Error("Failed to detect same name in member and superclass property");
       } catch (e) {
         this.assertEquals(
           'Error: Overwriting member or property "x" of Class "null" is not allowed. ' +
@@ -875,9 +750,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         });
 
         // class definition should have have thrown; should not get here
-        throw new Error(
-          "Failed to detect same name in member and superclass property"
-        );
+        throw new Error("Failed to detect same name in member and superclass property");
       } catch (e) {
         this.assertEquals(
           'Error: Overwriting member or property "x" of Class "null" is not allowed. ' +

@@ -72,10 +72,7 @@ qx.Class.define("qx.data.marshal.Json", {
      * </code>
      */
     legacyJsonHash(data, includeBubbleEvents) {
-      return (
-        Object.keys(data).sort().join('"') +
-        (includeBubbleEvents === true ? "♥" : "")
-      );
+      return Object.keys(data).sort().join('"') + (includeBubbleEvents === true ? "♥" : "");
     }
   },
 
@@ -96,10 +93,7 @@ qx.Class.define("qx.data.marshal.Json", {
       if (this.__delegate && this.__delegate.getJsonHash) {
         return this.__delegate.getJsonHash(data, includeBubbleEvents);
       }
-      return (
-        Object.keys(data).sort().join("|") +
-        (includeBubbleEvents === true ? "♥" : "")
-      );
+      return Object.keys(data).sort().join("|") + (includeBubbleEvents === true ? "♥" : "");
     },
 
     /**
@@ -179,12 +173,7 @@ qx.Class.define("qx.data.marshal.Json", {
         // check for arrays
         if (data instanceof Array || qx.Bootstrap.getClass(data) == "Array") {
           for (var i = 0; i < data.length; i++) {
-            this.__toClass(
-              data[i],
-              includeBubbleEvents,
-              parentProperty + "[" + i + "]",
-              depth + 1
-            );
+            this.__toClass(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth + 1);
           }
         }
 
@@ -210,15 +199,15 @@ qx.Class.define("qx.data.marshal.Json", {
       }
 
       // class is defined by the delegate
-      if (
-        this.__delegate &&
-        this.__delegate.getModelClass &&
-        this.__delegate.getModelClass(hash, data, parentProperty, depth) != null
-      ) {
+      if (this.__delegate && this.__delegate.getModelClass && this.__delegate.getModelClass(hash, data, parentProperty, depth) != null) {
         return;
       }
 
       // create the properties map
+      let defaultProperties = {};
+      for (let propName of qx.Class.getProperties(qx.core.Object)) {
+        defaultProperties[propName] = true;
+      }
       var properties = {};
       // include the disposeItem for the dispose process.
       var members = { __disposeItem: this.__disposeItem };
@@ -232,34 +221,31 @@ qx.Class.define("qx.data.marshal.Json", {
         key = key.replace(/-|\.|\s+/g, "");
         // check for valid JavaScript identifier (leading numbers are ok)
         if (qx.core.Environment.get("qx.debug")) {
-          this.assertTrue(
-            /^[$0-9A-Za-z_]*$/.test(key),
-            "The key '" + key + "' is not a valid JavaScript identifier."
-          );
+          this.assertTrue(/^[$0-9A-Za-z_]*$/.test(key), "The key '" + key + "' is not a valid JavaScript identifier.");
         }
 
-        properties[key] = {};
-        properties[key].nullable = true;
-        properties[key].event = "change" + qx.lang.String.firstUp(key);
-        // bubble events
-        if (includeBubbleEvents) {
-          properties[key].apply = "_applyEventPropagation";
-        }
-        // validation rules
-        if (this.__delegate && this.__delegate.getValidationRule) {
-          var rule = this.__delegate.getValidationRule(hash, key);
-          if (rule) {
-            properties[key].validate = "_validate" + key;
-            members["_validate" + key] = rule;
+        if (!defaultProperties[key]) {
+          properties[key] = {};
+          properties[key].nullable = true;
+          properties[key].event = "change" + qx.lang.String.firstUp(key);
+          // bubble events
+          if (includeBubbleEvents) {
+            properties[key].apply = "_applyEventPropagation";
+          }
+          // validation rules
+          if (this.__delegate && this.__delegate.getValidationRule) {
+            var rule = this.__delegate.getValidationRule(hash, key);
+            if (rule) {
+              properties[key].validate = "_validate" + key;
+              members["_validate" + key] = rule;
+            }
           }
         }
       }
 
       // try to get the superclass, qx.core.Object as default
       if (this.__delegate && this.__delegate.getModelSuperClass) {
-        var superClass =
-          this.__delegate.getModelSuperClass(hash, parentProperty, depth) ||
-          qx.core.Object;
+        var superClass = this.__delegate.getModelSuperClass(hash, parentProperty, depth) || qx.core.Object;
       } else {
         var superClass = qx.core.Object;
       }
@@ -267,11 +253,7 @@ qx.Class.define("qx.data.marshal.Json", {
       // try to get the mixins
       var mixins = [];
       if (this.__delegate && this.__delegate.getModelMixins) {
-        var delegateMixins = this.__delegate.getModelMixins(
-          hash,
-          parentProperty,
-          depth
-        );
+        var delegateMixins = this.__delegate.getModelMixins(hash, parentProperty, depth);
 
         // check if its an array
         if (!qx.lang.Type.isArray(delegateMixins)) {
@@ -331,12 +313,7 @@ qx.Class.define("qx.data.marshal.Json", {
       var delegateClass;
       // get the class from the delegate
       if (this.__delegate && this.__delegate.getModelClass) {
-        delegateClass = this.__delegate.getModelClass(
-          hash,
-          data,
-          parentProperty,
-          depth
-        );
+        delegateClass = this.__delegate.getModelClass(hash, data, parentProperty, depth);
       }
       if (delegateClass != null) {
         return new delegateClass();
@@ -347,12 +324,7 @@ qx.Class.define("qx.data.marshal.Json", {
           // Extra check for possible bubble-event feature inconsistency
           var noBubbleClassName = className.replace("♥", "");
           if (qx.Class.getByName(noBubbleClassName)) {
-            throw new Error(
-              "Class '" +
-                noBubbleClassName +
-                "' found, " +
-                "but it does not support changeBubble event."
-            );
+            throw new Error("Class '" + noBubbleClassName + "' found, " + "but it does not support changeBubble event.");
           }
           throw new Error("Class '" + className + "' could not be found.");
         }
@@ -406,8 +378,7 @@ qx.Class.define("qx.data.marshal.Json", {
      */
     __toModel(data, includeBubbleEvents, parentProperty, depth) {
       var isObject = qx.lang.Type.isObject(data);
-      var isArray =
-        data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
+      var isArray = data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
 
       if (
         (!isObject && !isArray) ||
@@ -417,21 +388,12 @@ qx.Class.define("qx.data.marshal.Json", {
         return data;
 
         // ignore rules
-      } else if (
-        this.__ignore(
-          this.__jsonToBestHash(data, includeBubbleEvents),
-          parentProperty,
-          depth
-        )
-      ) {
+      } else if (this.__ignore(this.__jsonToBestHash(data, includeBubbleEvents), parentProperty, depth)) {
         return data;
       } else if (isArray) {
         var arrayClass = qx.data.Array;
         if (this.__delegate && this.__delegate.getArrayClass) {
-          var customArrayClass = this.__delegate.getArrayClass(
-            parentProperty,
-            depth
-          );
+          var customArrayClass = this.__delegate.getArrayClass(parentProperty, depth);
 
           arrayClass = customArrayClass || arrayClass;
         }
@@ -441,14 +403,7 @@ qx.Class.define("qx.data.marshal.Json", {
         array.setAutoDisposeItems(true);
 
         for (var i = 0; i < data.length; i++) {
-          array.push(
-            this.__toModel(
-              data[i],
-              includeBubbleEvents,
-              parentProperty + "[" + i + "]",
-              depth + 1
-            )
-          );
+          array.push(this.__toModel(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth + 1));
         }
         return array;
       } else if (isObject) {
@@ -465,27 +420,16 @@ qx.Class.define("qx.data.marshal.Json", {
           }
           var propertyNameReplaced = propertyName.replace(/-|\.|\s+/g, "");
           // warn if there has been a replacement
-          if (
-            qx.core.Environment.get("qx.debug") &&
-            qx.core.Environment.get("qx.debug.databinding")
-          ) {
+          if (qx.core.Environment.get("qx.debug") && qx.core.Environment.get("qx.debug.databinding")) {
             if (propertyNameReplaced != propertyName) {
-              this.warn(
-                "The model contained an illegal name: '" +
-                  key +
-                  "'. Replaced it with '" +
-                  propertyName +
-                  "'."
-              );
+              this.warn("The model contained an illegal name: '" + key + "'. Replaced it with '" + propertyName + "'.");
             }
           }
           propertyName = propertyNameReplaced;
           // only set the properties if they are available [BUG #5909]
           var setterName = "set" + qx.lang.String.firstUp(propertyName);
           if (model[setterName]) {
-            model[setterName](
-              this.__toModel(data[key], includeBubbleEvents, key, depth + 1)
-            );
+            model[setterName](this.__toModel(data[key], includeBubbleEvents, key, depth + 1));
           }
         }
         return model;

@@ -19,48 +19,43 @@
 /**
  * Implementation of check for class instances
  */
-qx.Bootstrap.define("qx.core.check.InterfaceImplementCheck", {
-  extend: Object,
-  implement: qx.core.check.ICheck,
+qx.Bootstrap.define("qx.core.check.DynamicTypeCheck", {
+  extend: qx.core.check.AbstractCheck,
 
-  construct(clazz, nullable) {
-    super();
-    this.__clazz = clazz;
-    this.__nullable = nullable;
+  construct(typename, nullable) {
+    super(nullable);
+    this.__typename = typename;
   },
 
   members: {
-    /** @type{qx.Class} the interface to check for */
-    __clazz: null,
-
-    /** @type{Boolean} whether null is allowed */
-    __nullable: null,
+    /** @type{String} the name of the class to check against */
+    __typename: null,
 
     /**
      * @override
      */
-    matches(value) {
-      if (value === undefined) {
-        return false;
-      }
-      if (!this.isNullable() && value === null) {
-        return false;
-      }
-      let tmp = value;
-      while (tmp) {
-        if (qx.Class.implementsInterface(tmp, this.__clazz)) {
-          return true;
+    _matchesImpl(value) {
+      if (qx.Class.isDefined(this.__typename)) {
+        let clazz = qx.Class.getByName(this.__typename);
+        let tmp = value.constructor;
+        while (tmp) {
+          if (tmp === clazz) {
+            return true;
+          }
+          tmp = tmp.superclass;
         }
-        tmp = tmp.superclass;
+      } else if (qx.Interface && qx.Interface.isDefined(this.__typename)) {
+        let ifc = qx.Interface.getByName(this.__typename);
+        let tmp = value;
+        while (tmp) {
+          if (qx.Class.implementsInterface(tmp, ifc)) {
+            return true;
+          }
+          tmp = tmp.superclass;
+        }
       }
-      return false;
-    },
 
-    /**
-     * @override
-     */
-    isNullable() {
-      return this.__nullable;
+      return false;
     },
 
     /**
@@ -76,7 +71,7 @@ qx.Bootstrap.define("qx.core.check.InterfaceImplementCheck", {
       let tmp = this.__clazz;
       let requiredSuperclass = check.__clazz;
       while (tmp) {
-        if (qx.Class.hasInterface(tmp, requiredSuperclass)) {
+        if (tmp === requiredSuperclass) {
           return true;
         }
         tmp = tmp.superclass;

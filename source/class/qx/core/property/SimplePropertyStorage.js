@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
       if ($$propertyValues == undefined) {
         qx.log.Logger.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
         $$propertyValues = thisObj["$$propertyValues"] = {};
-        debugger;
+        debugger; // eslint-disable-line no-debugger
       }
       let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
       return value;

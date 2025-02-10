@@ -1046,8 +1046,8 @@ qx.Class.define("qx.data.SingleValueBinding", {
     /**
      * This method takes the given value, checks if the user has given a
      * converter and converts the value to its target type. If no converter is
-     * given by the user, the {@link #__defaultConversion} will try to convert
-     * the value.
+     * given by the user, this will try to convert the value using the `coerce`
+     * method of the property check definition.
      *
      * @param value {var} The value which possibly should be converted.
      * @param targetObject {qx.core.Object} The target object.
@@ -1081,10 +1081,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
           return value;
         }
 
-        var propertieDefinition = qx.Class.getPropertyDefinition(target.constructor, lastProperty);
+        var propertyDef = qx.Class.getPropertyDefinition(target.constructor, lastProperty);
 
-        var check = propertieDefinition == null ? "" : propertieDefinition.check;
-        return this.__defaultConversion(value, check);
+        var check = propertyDef?.getCheck() || null;
+        return check ? check.coerce(value, target) : value;
       }
     },
 
@@ -1106,36 +1106,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
       if (propertieDefinition == null) {
         return null;
       }
-      return propertieDefinition.event;
-    },
-
-    /**
-     * Tries to convert the data to the type given in the targetCheck argument.
-     *
-     * @param data {var} The data to convert.
-     * @param targetCheck {String} The value of the check property. That usually
-     *   contains the target type.
-     * @return {Integer|String|Float} The converted data
-     */
-    __defaultConversion(data, targetCheck) {
-      var dataType = qx.lang.Type.getClass(data);
-
-      // to integer
-      if ((dataType == "Number" || dataType == "String") && (targetCheck == "Integer" || targetCheck == "PositiveInteger")) {
-        data = parseInt(data, 10);
-      }
-
-      // to string
-      if ((dataType == "Boolean" || dataType == "Number" || dataType == "Date") && targetCheck == "String") {
-        data = data + "";
-      }
-
-      // to float
-      if ((dataType == "Number" || dataType == "String") && (targetCheck == "Number" || targetCheck == "PositiveNumber")) {
-        data = parseFloat(data);
-      }
-
-      return data;
+      return propertieDefinition.getEventName();
     },
 
     /**

@@ -94,12 +94,7 @@ qx.Class.define("qx.test.core.Object", {
     },
 
     testRemoveListenerById() {
-      var id = this.addListener(
-        "testRemoveListenerById",
-        function () {},
-        this,
-        false
-      );
+      var id = this.addListener("testRemoveListenerById", function () {}, this, false);
 
       this.assertTrue(this.hasListener("testRemoveListenerById", false));
       this.removeListenerById(id);
@@ -107,12 +102,7 @@ qx.Class.define("qx.test.core.Object", {
     },
 
     testRemoveListenerOnceById() {
-      var id = this.addListenerOnce(
-        "testRemoveListenerOnceById",
-        function () {},
-        this,
-        false
-      );
+      var id = this.addListenerOnce("testRemoveListenerOnceById", function () {}, this, false);
 
       this.assertTrue(this.hasListener("testRemoveListenerOnceById", false));
       this.removeListenerById(id);

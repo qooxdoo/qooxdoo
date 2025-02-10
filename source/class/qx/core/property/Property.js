@@ -238,7 +238,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (typeof def.check == "function") {
         newCheck = new qx.core.check.SimpleCheck(def.check, !!def.nullable, false);
       } else if (def.check) {
-        newCheck = qx.core.check.CheckFactory.getInstance().getCheck(def.check || "any");
+        newCheck = qx.core.check.CheckFactory.getInstance().getCheck(def.check || "any", !!def.nullable);
         if (newCheck && def.nullable && !newCheck.isNullable()) {
           newCheck = qx.core.check.CheckFactory.getInstance().getCheck((def.check || "any") + "?");
         }
@@ -615,6 +615,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     async getAsync(thisObj) {
       throw new Error("TODO - inherited and theme values.  ");
+      /*
       let value = await this.__storage.getAsync(thisObj, this);
       if (value === undefined) {
         if (this.isInheritable()) {
@@ -630,6 +631,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
       return value;
+      */
     },
 
     /**
@@ -739,18 +741,24 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.__readOnly && value !== undefined) {
         throw new Error("Property " + this + " is read-only");
       }
-      if (this.isMutating(thisObj)) {
-        throw new Error("Property " + this + " is currently mutating");
-      }
       let oldValue = this.__getSafe(thisObj);
-      if (oldValue === undefined) {
-        oldValue = this.getInitValue(thisObj);
-      }
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this);
       }
+      if (oldValue === undefined) {
+        oldValue = this.getInitValue(thisObj);
+      }
+      let check = this.getCheck();
+      if (check && !check.matches(value, thisObj)) {
+        check.matches(value, thisObj);
+        throw new Error(`Invalid value for property ${this}: ${value}`);
+      }
 
       let isEqual = this.isEqual(thisObj, value, oldValue);
+      if (!isEqual && this.isMutating(thisObj)) {
+        this.warn("Property " + this + " is currently mutating");
+      }
+
       let isInitCalled = true;
       let state = this.getPropertyState(thisObj);
       isInitCalled = state.initMethodCalled;
@@ -775,7 +783,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error(`Invalid scope=${scope} in ${this.classname}._setImpl`);
       }
 
-      if (!isEqual || !isInitCalled) {
+      if (!isEqual || (value !== undefined && !isInitCalled)) {
         this._setMutating(thisObj, true);
 
         if (oldValue === undefined) {
@@ -909,7 +917,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Boolean}
      */
     isMutating(thisObj) {
-      return !!this.__storage.isMutating(thisObj);
+      let state = this.getPropertyState(thisObj);
+      return state.mutatingCount !== undefined && state.mutatingCount > 0;
     },
 
     /**
@@ -1077,21 +1086,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
     promiseReady(thisObj) {},
 
     /**
-     * Whether the property is mutating (asynchronously or recursively)
-     *
-     * @param {qx.core.Object} thisObj the object on which the property is defined
-     * @return {Boolean}
-     */
-    isMutating(thisObj) {},
-
-    /**
      * Whether the property is initialized
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @return {Boolean}
      */
     isInitialized(thisObj) {
-      return this.__storage.get(thisObj, this) !== undefined;
+      let value = this.__getSafe(thisObj);
+      if (value === undefined) {
+        value = this.getInitValue(thisObj);
+      }
+      return value !== undefined;
     },
 
     /**

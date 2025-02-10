@@ -43,10 +43,7 @@
  * @require(PsuedoPropertyStorage)
  * @require(SimplePropertyStorage)
  * @require(qx.core.check.Any)
- * @require(qx.core.check.ArrayCheck)
  * @require(qx.core.check.CheckFactory)
- * @require(qx.core.check.ClassInstanceCheck)
- * @require(qx.core.check.InterfaceImplementsCheck)
  * @require(qx.core.check.JsDocCheck)
  * @require(qx.core.check.SimpleCheck)
  */
@@ -74,11 +71,7 @@ qx.Class.define("qx.core.Object", {
     this.$$propertyValues = {};
     // Call any initFunctions defined for properties of this class
     let classes = [];
-    for (
-      let clazz = this.constructor;
-      clazz != qx.core.Object.superclass;
-      clazz = clazz.superclass
-    ) {
+    for (let clazz = this.constructor; clazz != qx.core.Object.superclass; clazz = clazz.superclass) {
       classes.push(clazz);
     }
     for (let index = classes.length - 1; index >= 0; index--) {
@@ -124,10 +117,7 @@ qx.Class.define("qx.core.Object", {
      */
     toHashCode() {
       if (!this.$$hash && !this.$$disposed) {
-        if (
-          !qx.core.Environment.get("qx.automaticMemoryManagement") ||
-          qx.Class.hasInterface(this.constructor, qx.core.IDisposable)
-        ) {
+        if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
           qx.core.ObjectRegistry.register(this);
         } else {
           qx.core.ObjectRegistry.toHashCode(this);
@@ -196,10 +186,7 @@ qx.Class.define("qx.core.Object", {
 
       if (qx.core.Environment.get("qx.debug")) {
         if (!qx.Bootstrap.isFunctionOrAsyncFunction(func)) {
-          throw new Error(
-            "Cannot call super class. Method is not derived: " +
-              args.callee.displayName
-          );
+          throw new Error("Cannot call super class. Method is not derived: " + args.callee.displayName);
         }
       }
 
@@ -308,10 +295,7 @@ qx.Class.define("qx.core.Object", {
       // Debug output
       if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
-          qx.Bootstrap.debug(
-            this,
-            "Disposing " + this.classname + "[" + this.toHashCode() + "]"
-          );
+          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -351,20 +335,13 @@ qx.Class.define("qx.core.Object", {
 
       // Additional checks
       if (qx.core.Environment.get("qx.debug")) {
-        if (
-          qx.core.Environment.get("qx.debug.dispose.level") > 0 &&
-          qx.Class.hasOwnInterface(this.constructor, qx.core.IDisposable)
-        ) {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0 && qx.Class.hasOwnInterface(this.constructor, qx.core.IDisposable)) {
           var key, value;
           for (key in this) {
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (
-              value !== null &&
-              typeof value === "object" &&
-              !qx.Bootstrap.isString(value)
-            ) {
+            if (value !== null && typeof value === "object" && !qx.Bootstrap.isString(value)) {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
               // private variables (hint: checks in qx.Class.define). We accept both.
@@ -375,14 +352,7 @@ qx.Class.define("qx.core.Object", {
               if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
                 qx.Bootstrap.warn(
                   this,
-                  "Missing destruct definition for '" +
-                    key +
-                    "' in " +
-                    this.classname +
-                    "[" +
-                    this.toHashCode() +
-                    "]: " +
-                    value
+                  "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value
                 );
 
                 delete this[key];

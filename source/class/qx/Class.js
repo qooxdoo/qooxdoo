@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Class}
      *   The defined class
      */
-    define(className, config) {
+    __defineImpl(className, config) {
       let clazz;
       let proxy;
       let handler;
