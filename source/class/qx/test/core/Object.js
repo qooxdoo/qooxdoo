@@ -273,7 +273,9 @@ qx.Class.define("qx.test.core.Object", {
         },
 
         members: {
-          applyB() {},
+          applyB() {
+            debugger;
+          },
           init() {
             this.bind("a.a", this, "b");
           }

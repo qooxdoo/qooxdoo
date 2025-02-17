@@ -720,7 +720,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     isUserValue(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (value !== undefined || value !== null) {
+      if (value !== undefined && value !== null) {
         return true;
       }
       return false;
@@ -735,6 +735,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {"set" | "reset" | "init"} method
      */
     _setImpl(thisObj, value, scope, method) {
+      let state = this.getPropertyState(thisObj);
+
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
@@ -748,6 +750,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (oldValue === undefined) {
         oldValue = this.getInitValue(thisObj);
       }
+      if (oldValue === undefined && this.__definition.nullable) {
+        oldValue = null;
+      }
+      if (method == "reset") {
+        if (scope == "user") {
+          this.__storage.reset(thisObj, this, value);
+        } else if (scope == "themed" || value === undefined) {
+          delete state.themeValue;
+        }
+        value = this.get(thisObj);
+      }
       let check = this.getCheck();
       if (check && !check.matches(value, thisObj)) {
         check.matches(value, thisObj);
@@ -760,7 +773,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let isInitCalled = true;
-      let state = this.getPropertyState(thisObj);
       isInitCalled = state.initMethodCalled;
       state.initMethodCalled = true;
 
@@ -769,13 +781,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         // might be equal now, but if the theme value changes, the user's override needs to remain.
         if (method == "set" || method == "init") {
           this.__storage.set(thisObj, this, value);
-        } else if (method == "reset") {
-          this.__storage.reset(thisObj, this, value);
         }
       } else if (scope == "themed") {
-        if (method == "reset" || value === undefined) {
-          delete state.themeValue;
-        } else {
+        if (method != "reset" && value !== undefined) {
           state.themeValue = value;
           value = this.get(thisObj);
         }
@@ -785,10 +793,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (!isEqual || (value !== undefined && !isInitCalled)) {
         this._setMutating(thisObj, true);
-
-        if (oldValue === undefined) {
-          oldValue = null;
-        }
 
         try {
           if (value === undefined) {
