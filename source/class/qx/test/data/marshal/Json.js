@@ -1498,6 +1498,35 @@ qx.Class.define("qx.test.data.marshal.Json", {
 
       model.dispose();
       qx.Class.undefine("qx.test.Array");
+    },
+
+    testNonPojoObjects() {
+      function NativeClass() {
+        this.foo = "bar";
+      }
+
+      NativeClass.prototype.myMethod = function () {
+        return "method";
+      };
+
+      let data = {
+        name: "Michael",
+        nonPojo: new NativeClass()
+      };
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json();
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertEquals("Michael", model.getName());
+
+      if (qx.core.Environment.get("qx.data.marshal.Json.breakOnNonPojos")) {
+        this.assertEquals("method", model.getNonPojo().myMethod());
+        this.assertEquals("bar", model.getNonPojo().foo);
+      } else {
+        this.assertEquals("bar", model.getNonPojo().getFoo());
+      }
     }
   }
 });
