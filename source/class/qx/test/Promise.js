@@ -83,79 +83,93 @@ qx.Class.define("qx.test.Promise", {
      * (finally must be called)
      */
     testCancel1() {
-      let promise = new qx.Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, 500);
-      });
-      promise
-        .then(() => this.fail("Should not call!"))
-        .then(() => this.fail("Should not call!"));
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let promise = new qx.Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 500);
+        });
+        promise
+          .then(() => this.fail("Should not call!"))
+          .then(() => this.fail("Should not call!"));
 
-      promise.catch(() => {
-        this.fail("Should not call!");
-      });
-
-      let output = "";
-
-      promise
-        .then(
-          () => new qx.Promise((resolve, reject) => reject(new Error("oops")))
-        )
-        .catch(() => this.fail("Should not call!"))
-        .finally(() => {
-          output += "1";
-        })
-        .then(() => {
+        promise.catch(() => {
           this.fail("Should not call!");
         });
 
-      let f = promise.finally(() => {
-        setTimeout(() => {
-          output += "2";
-          this.assertEquals("12", output);
-          this.resume();
-        }, 100);
-      });
-      this.assertInstance(f, qx.Promise);
-      promise.cancel();
-      this.wait(1000);
+        let output = "";
+
+        promise
+          .then(
+            () => new qx.Promise((resolve, reject) => reject(new Error("oops")))
+          )
+          .catch(() => this.fail("Should not call!"))
+          .finally(() => {
+            output += "1";
+          })
+          .then(() => {
+            this.fail("Should not call!");
+          });
+
+        let f = promise.finally(() => {
+          setTimeout(() => {
+            output += "2";
+            this.assertEquals("12", output);
+            this.resume();
+          }, 100);
+        });
+        this.assertInstance(f, qx.Promise);
+        promise.cancel();
+        this.wait(1000);
+      }
     },
 
     /**
      * Ensures that non of the handlers in the chain are called when a promise is cancelled immediately
      */
     testCancel2() {
-      let output = "";
-      let promise = qx.Promise.resolve()
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "1";
-              setTimeout(resolve, 100);
-            })
-        )
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "2";
-              setTimeout(resolve, 100);
-            })
-        )
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "3";
-              setTimeout(resolve, 100);
-            })
-        )
-        .finally(() => {
-          this.assertEquals("", output);
-          this.resume();
-        });
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let output = "";
+        let promise = qx.Promise.resolve()
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "1";
+                setTimeout(resolve, 100);
+              })
+          )
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "2";
+                setTimeout(resolve, 100);
+              })
+          )
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "3";
+                setTimeout(resolve, 100);
+              })
+          )
+          .finally(() => {
+            this.assertEquals("", output);
+            this.resume();
+          });
 
-      promise.cancel();
-      this.wait(1000);
+        promise.cancel();
+        this.wait(1000);
+      }
     },
 
     /**
@@ -164,168 +178,210 @@ qx.Class.define("qx.test.Promise", {
     
      */
     testCancel3() {
-      let output = "";
-      let promise = qx.Promise.resolve()
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "1";
-              setTimeout(resolve, 100);
-            })
-        )
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "2";
-              setTimeout(resolve, 100);
-              setTimeout(() => promise.cancel(), 150);
-            })
-        )
-        .finally(() => {
-          if (output.at(-1) !== "2") {
-            this.fail("finally called twice!");
-          }
-          output += "3";
-        })
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              output += "4";
-              setTimeout(resolve, 100);
-            })
-        )
-        .then(
-          () =>
-            new qx.Promise(resolve => {
-              this.fail("Should not call!");
-            })
-        )
-        .finally(() => {
-          output += "5";
-        })
-        .then(() => this.fail("should not call!"))
-        .finally(() => {
-          output += "6";
-        });
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let output = "";
+        let promise = qx.Promise.resolve()
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "1";
+                setTimeout(resolve, 100);
+              })
+          )
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "2";
+                setTimeout(resolve, 100);
+                setTimeout(() => promise.cancel(), 150);
+              })
+          )
+          .finally(() => {
+            if (output.at(-1) !== "2") {
+              this.fail("finally called twice!");
+            }
+            output += "3";
+          })
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                output += "4";
+                setTimeout(resolve, 100);
+              })
+          )
+          .then(
+            () =>
+              new qx.Promise(resolve => {
+                this.fail("Should not call!");
+              })
+          )
+          .finally(() => {
+            output += "5";
+          })
+          .then(() => this.fail("should not call!"))
+          .finally(() => {
+            output += "6";
+          });
 
-      let promise2 = promise
-        .then(() => this.fail("should not call!"))
-        .finally(() => {
-          output += "7";
-        })
-        .then(() => this.fail("should not call!"))
-        .finally(() => {
-          output += "8";
-          this.assertEquals("12345678", output);
-          this.resume();
-        });
+        let promise2 = promise
+          .then(() => this.fail("should not call!"))
+          .finally(() => {
+            output += "7";
+          })
+          .then(() => this.fail("should not call!"))
+          .finally(() => {
+            output += "8";
+            this.assertEquals("12345678", output);
+            this.resume();
+          });
 
-      this.wait(1000);
+        this.wait(1000);
+      }
     },
 
     /**
      * Tests that cancelling a promise will not stop its chain from executing if there are promises which depend on some stages in the chain
      */
     testCancel4() {
-      let output = "";
-      let promise1 = qx.Promise.resolve().then(() => {
-        output += "1";
-      });
-
-      let branch1 = promise1.then(() => {
-        output += "2";
-      });
-      let branch2 = promise1
-        .then(() => (output += "3"))
-        .finally(() => {
-          setTimeout(() => {
-            this.assertEquals("13", output);
-            this.resume();
-          }, 100);
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let output = "";
+        let promise1 = qx.Promise.resolve().then(() => {
+          output += "1";
         });
 
-      branch1.cancel();
-      this.wait(1000);
+        let branch1 = promise1.then(() => {
+          output += "2";
+        });
+        let branch2 = promise1
+          .then(() => (output += "3"))
+          .finally(() => {
+            setTimeout(() => {
+              this.assertEquals("13", output);
+              this.resume();
+            }, 100);
+          });
+
+        branch1.cancel();
+        this.wait(1000);
+      }
     },
 
     /**
      * Ensures exception is thrown when trying to call `then` for a promise which has already been cancelled.
      */
     testThenAfterCancel() {
-      let promise = new qx.Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, 300);
-      });
-      promise.cancel();
-      promise
-        .then(() => this.fail("Should not call!"))
-        .catch(e => {
-          this.assertEquals("late cancellation observer", e.message);
-          this.resume();
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let promise = new qx.Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 300);
         });
+        promise.cancel();
+        promise
+          .then(() => this.fail("Should not call!"))
+          .catch(e => {
+            this.assertEquals("late cancellation observer", e.message);
+            this.resume();
+          });
 
-      this.wait(1000);
+        this.wait(1000);
+      }
     },
 
     /**
      * Ensures exception is thrown when trying to call `catch` for a promise which has already been cancelled.
      */
     testCatchAfterCancel() {
-      let promise = new qx.Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, 300);
-      });
-      promise.cancel();
-      promise
-        .then(() => {
-          this.fail("Should not call!");
-        })
-        .catch(e => {
-          this.assertEquals("late cancellation observer", e.message);
-          this.resume();
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let promise = new qx.Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 300);
         });
+        promise.cancel();
+        promise
+          .then(() => {
+            this.fail("Should not call!");
+          })
+          .catch(e => {
+            this.assertEquals("late cancellation observer", e.message);
+            this.resume();
+          });
 
-      this.wait(1000);
+        this.wait(1000);
+      }
     },
 
     /**
      * Ensures exception is thrown when trying to call `finally` for a promise which has already been cancelled.
      */
     testFinallyAfterCancel() {
-      let promise = new qx.Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, 300);
-      });
-      promise.cancel();
-      promise
-        .then(() => {
-          this.fail("Should not call!");
-        })
-        .catch(e => {
-          this.assertEquals("late cancellation observer", e.message);
-          this.resume();
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let promise = new qx.Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 300);
         });
+        promise.cancel();
+        promise
+          .then(() => {
+            this.fail("Should not call!");
+          })
+          .catch(e => {
+            this.assertEquals("late cancellation observer", e.message);
+            this.resume();
+          });
 
-      this.wait(1000);
+        this.wait(1000);
+      }
     },
 
     /**
      * Ensures a promise can still be cancelled after it has been settled
      */
     testCancelAfterSettled() {
-      let promise = qx.Promise.resolve();
-      promise
-        .then(() => {
-          promise.cancel();
-        })
-        .then(() => {
-          this.resume();
-        });
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        console.warn(
+          "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
+        );
+        return;
+      } else {
+        let promise = qx.Promise.resolve();
+        promise
+          .then(() => {
+            promise.cancel();
+          })
+          .then(() => {
+            this.resume();
+          });
 
-      this.wait(1000);
+        this.wait(1000);
+      }
     },
 
     /**
