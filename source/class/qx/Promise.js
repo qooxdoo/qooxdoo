@@ -125,6 +125,11 @@ qx.Class.define("qx.Promise", {
     /** Stores data for completing the promise externally */
     __external: null,
 
+    /**
+     * Whether the depracation warning of qx.Promise#cancel has been shown
+     */
+    __cancelWarningShown: false,
+
     /* *********************************************************************************
      *
      * Promise API methods
@@ -215,8 +220,24 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Cancel this promise. Will not do anything if this promise is already settled.
+     *
+     * @deprecated
+     * While Bluebird supports this feature,
+     * this is not ratified by ES6 and there are no plans to add this to the native promise any time soon.
      */
     cancel() {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+          throw new Error(
+            "qx.Promise.cancel is not supported when the environment key 'qx.promise.useNativePromise' is true"
+          );
+        } else if (!qx.Promise.__cancelWarningShown) {
+          qx.Promise.__cancelWarningShown = true;
+          console.warn(
+            "qx.Promise.cancel is deprecated and will be removed in the future"
+          );
+        }
+      }
       return this._callMethod("cancel", arguments);
     },
 

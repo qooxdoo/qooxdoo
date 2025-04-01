@@ -108,7 +108,7 @@ qx.Class.define("qx.promise.NativeWrapper", {
      * Due to the high complexity of implementing this feature, it is not supported in qx.promise.NativeWrapper
      */
     cancel() {
-      console.warn(
+      throw new Error(
         "qx.promise.NativeWrapper does not support canceling promises"
       );
     },
