@@ -313,7 +313,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
      * @return {qx.Promise|String} One of <code>move</code>, <code>copy</code> or
      *    <code>alias</code>
      */
-    getCurrentActionAsync: qx.core.Environment.select("qx.promise", {
+    getCurrentActionAsync: qx.core.Environment.select("qx.Promise", {
       true() {
         var self = this;
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
      */
     __detectAction() {
       if (this.__dragTarget == null) {
-        if (qx.core.Environment.get("qx.promise")) {
+        if (qx.core.Environment.get("qx.Promise")) {
           return qx.Promise.reject();
         } else {
           return null;
@@ -487,7 +487,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
       }
 
       var result = Registration.dispatchEvent(target, dragEvent);
-      if (qx.core.Environment.get("qx.promise")) {
+      if (qx.core.Environment.get("qx.Promise")) {
         if (async === undefined || async) {
           return qx.Promise.resolve(result).then(function () {
             return !dragEvent.getDefaultPrevented();

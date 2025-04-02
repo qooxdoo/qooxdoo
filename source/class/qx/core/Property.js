@@ -178,7 +178,7 @@ qx.Bootstrap.define("qx.core.Property", {
         qx.event.type.Data;
         qx.event.dispatch.Direct;
       }
-      if (qx.core.Environment.get("qx.promise")) {
+      if (qx.core.Environment.get("qx.Promise")) {
         qx.Promise;
       }
     },
@@ -548,7 +548,7 @@ qx.Bootstrap.define("qx.core.Property", {
         config.dereference = this.__shouldBeDereferenced(config.check);
       }
 
-      if (!qx.core.Environment.get("qx.promise")) {
+      if (!qx.core.Environment.get("qx.Promise")) {
         if (config.async) {
           this.warn(
             "Asynchronous property " +
@@ -1289,7 +1289,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.unshift("function set(value){");
         code.push("}");
         if (
-          qx.core.Environment.get("qx.promise") &&
+          qx.core.Environment.get("qx.Promise") &&
           (!config.check || config.check != "qx.Promise")
         ) {
           code.push(
@@ -2052,7 +2052,7 @@ qx.Bootstrap.define("qx.core.Property", {
             "));"
           );
 
-          if (qx.core.Environment.get("qx.promise")) {
+          if (qx.core.Environment.get("qx.Promise")) {
             code.push(
               "if(reg.hasListener(self, '",
               config.event,
@@ -2089,7 +2089,7 @@ qx.Bootstrap.define("qx.core.Property", {
         );
       }
 
-      if (qx.core.Environment.get("qx.promise")) {
+      if (qx.core.Environment.get("qx.Promise")) {
         code.push(
           "if(qx.Promise.isPromise(promise)) " + "return promise.then(fire); "
         );

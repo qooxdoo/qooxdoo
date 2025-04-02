@@ -13,7 +13,7 @@
   "defaultTarget": "source",
   "locales": [ "en" ],
   "environment": {
-    "qx.promise": false
+    "qx.Promise": false
   },
 
   "applications": [

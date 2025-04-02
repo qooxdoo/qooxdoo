@@ -25,8 +25,8 @@ qx.Class.define("qx.promise.BluebirdImpl", {
     __attachBluebird(Promise) {
       qx.promise.BluebirdImpl.Bluebird = Promise;
       Promise.config({
-        warnings: qx.core.Environment.get("qx.promise.warnings"),
-        longStackTraces: qx.core.Environment.get("qx.promise.longStackTraces"),
+        warnings: qx.core.Environment.get("qx.Promise.warnings"),
+        longStackTraces: qx.core.Environment.get("qx.Promise.longStackTraces"),
         cancellation: true
       });
     }

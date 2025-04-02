@@ -379,7 +379,7 @@ qx.Class.define("qx.event.Registration", {
      * @see #createEvent
      */
     fireEventAsync(target, type, clazz, args) {
-      if (qx.core.Environment.get("qx.promise")) {
+      if (qx.core.Environment.get("qx.Promise")) {
         return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
       } else {
         throw new Error(
@@ -459,7 +459,7 @@ qx.Class.define("qx.event.Registration", {
      * 	if the default was prevented, the promise is rejected
      * @see #createEvent
      */
-    fireNonBubblingEventAsync: qx.core.Environment.select("qx.promise", {
+    fireNonBubblingEventAsync: qx.core.Environment.select("qx.Promise", {
       true(target, type, clazz, args) {
         var evt = this.__fireNonBubblingEvent.apply(this, arguments);
         if (evt === null) {

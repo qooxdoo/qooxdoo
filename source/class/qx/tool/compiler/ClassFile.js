@@ -968,7 +968,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             env["qx.environment.allowRuntimeMutations"] !== true &&
             (name === "qx.core.Environment.select" ||
               name === "qx.core.Environment.get") &&
-            types.isLiteral(path.node.arguments[0]) 
+            types.isLiteral(path.node.arguments[0])
           ) {
             const arg = path.node.arguments[0];
             const envValue = env[arg.value];
@@ -3318,9 +3318,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "module.events": true,
       "qx.nativeScrollBars": false,
       "qx.automaticMemoryManagement": true,
-      "qx.promise": true,
-      "qx.promise.warnings": true,
-      "qx.promise.longStackTraces": true
+      "qx.Promise": true,
+      "qx.Promise.warnings": true,
+      "qx.Promise.longStackTraces": true
     },
 
     SYSTEM_CHECKS: null

@@ -442,7 +442,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
      * @throws {qx.type.BaseError} If the environment setting `qx.promise` is set to false
      */
     sendWithPromise(context) {
-      if (qx.core.Environment.get("qx.promise")) {
+      if (qx.core.Environment.get("qx.Promise")) {
         context = context || this;
 
         // save this object's context

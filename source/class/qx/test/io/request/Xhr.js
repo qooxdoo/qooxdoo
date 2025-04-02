@@ -526,8 +526,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     //
 
     "test: send with promise sends the request"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.req.sendWithPromise();
@@ -535,8 +535,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: send with promise succeeds"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -558,8 +558,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: send with promise fails with statusError"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -592,8 +592,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: send with promise fails with error"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -625,8 +625,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: send with promise fails with timeout"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -658,8 +658,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: setled promise has no extra listeners"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -686,8 +686,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: aborted request rejects the promise"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -715,8 +715,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: parseError rejects the promise"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -756,13 +756,13 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: canceled promise with abort() in finally does not reject other promises"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
@@ -821,12 +821,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: canceled promise path does not affect other listeners"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
@@ -871,12 +871,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: canceled promise aborts pending request"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
@@ -917,8 +917,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: settled promise does not set phase to abort"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -952,8 +952,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: returned promise is bound to request"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport();
@@ -971,8 +971,8 @@ qx.Class.define("qx.test.io.request.Xhr", {
     },
 
     "test: returned promise is bound to caller"() {
-      if (!qx.core.Environment.get("qx.promise")) {
-        this.skip("Skipping because qx.promise==false");
+      if (!qx.core.Environment.get("qx.Promise")) {
+        this.skip("Skipping because qx.Promise==false");
       }
 
       this.setUpFakeTransport(this);

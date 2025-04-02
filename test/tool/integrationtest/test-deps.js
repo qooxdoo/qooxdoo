@@ -56,7 +56,7 @@ async function createMaker() {
       envVar2: "222",
       envVar3: "333",
       "test.appValue": true,
-      "qx.promise": false,
+      "qx.Promise": false,
       "test.overridden1": true,
       "test.overridden2": false,
       "test.overridden5": "application"
@@ -72,7 +72,7 @@ async function createMaker() {
       envVar2: "222",
       envVar3: "apptwo-envVar3",
       "test.appValue": true,
-      "qx.promise": true,
+      "qx.Promise": true,
       "test.overridden1": true,
       "test.overridden2": false,
       "test.overridden5": "application"
@@ -304,7 +304,7 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(src.match(/var mergeStringsAndNumbers = "abc23def45ghi";/), "merging binary expressions: mergeStringsAndNumbers");
         assert.ok(src.match(/var addNumbers = 138;/), "merging binary expressions: addNumbers");
         assert.ok(src.match(/var multiplyNumbers = 2952;/), "merging binary expressions: multiplyNumbers");
-        assert.ok(src.match(/qx.core.Environment.get\("qx.promise"\)/), "override default env setting");
+        assert.ok(src.match(/qx.core.Environment.get\("qx.Promise"\)/), "override default env setting");
       }))
 
       .then(() => readFile("test-deps/transpiled/testapp/MMyMixin.js", "utf8")

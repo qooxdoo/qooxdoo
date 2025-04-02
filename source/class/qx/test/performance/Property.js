@@ -37,7 +37,7 @@ qx.Class.define("qx.test.performance.Property", {
     },
 
     testAsyncPropertySet() {
-      if (qx.core.Environment.get("qx.promise.longStackTraces")) {
+      if (qx.core.Environment.get("qx.Promise.longStackTraces")) {
         (console.log || this.warn)(
           "Long Stack Traces are enabled - this will significantly slow down the test"
         );
