@@ -227,9 +227,9 @@ qx.Class.define("qx.Promise", {
      */
     cancel() {
       if (qx.core.Environment.get("qx.debug")) {
-        if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+        if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
           throw new Error(
-            "qx.Promise.cancel is not supported when the environment key 'qx.promise.useNativePromise' is true"
+            "qx.Promise.cancel is not supported when the environment key 'qx.Promise.useNativePromise' is true"
           );
         } else if (!qx.Promise.__cancelWarningShown) {
           qx.Promise.__cancelWarningShown = true;
@@ -455,7 +455,7 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Returns the actual Promise implementation.
-     * If the environment key `qx.promise.useNativePromise` is set to true,
+     * If the environment key `qx.Promise.useNativePromise` is set to true,
      * it will be qx.promise.NativeWrapper, otherwise it will be qx.promise.BluebirdImpl.Bluebird.
      *
      * The underlying implementation may change without
@@ -473,7 +473,7 @@ qx.Class.define("qx.Promise", {
   statics: {
     /**
      * Internal implementation of the promise. Either Bluebird or the native Promise wrapper
-     * (qx.promise.NativeWrapper) depending on the environment setting `qx.promise.useNativePromise`.
+     * (qx.promise.NativeWrapper) depending on the environment setting `qx.Promise.useNativePromise`.
      */
     Impl: null,
 
@@ -1069,7 +1069,7 @@ qx.Class.define("qx.Promise", {
      * Whether to use the native Promise as the underlying implementation for qx.Promise
      * instead of Bluebird.
      */
-    "qx.promise.useNativePromise": false,
+    "qx.Promise.useNativePromise": false,
     "qx.promise.longStackTraces": false
   },
 
@@ -1078,7 +1078,7 @@ qx.Class.define("qx.Promise", {
     qx.core.Environment.add("qx.promise.warnings", debug);
 
     let Impl;
-    if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+    if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
       Impl = qx.promise.NativeWrapper;
     } else {
       Impl = qx.promise.BluebirdImpl.Bluebird;

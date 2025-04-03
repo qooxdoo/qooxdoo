@@ -760,9 +760,9 @@ qx.Class.define("qx.test.io.request.Xhr", {
         this.skip("Skipping because qx.promise==false");
       }
 
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
@@ -824,9 +824,9 @@ qx.Class.define("qx.test.io.request.Xhr", {
       if (!qx.core.Environment.get("qx.promise")) {
         this.skip("Skipping because qx.promise==false");
       }
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
@@ -874,9 +874,9 @@ qx.Class.define("qx.test.io.request.Xhr", {
       if (!qx.core.Environment.get("qx.promise")) {
         this.skip("Skipping because qx.promise==false");
       }
-      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
         this.skip(
-          "Skipping because qx.promise.useNativePromise===true, meaning we can't cancel promises."
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
         );
       }
 
