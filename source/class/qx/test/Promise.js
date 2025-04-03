@@ -83,7 +83,7 @@ qx.Class.define("qx.test.Promise", {
      * (finally must be called)
      */
     testCancel1() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -133,7 +133,7 @@ qx.Class.define("qx.test.Promise", {
      * Ensures that non of the handlers in the chain are called when a promise is cancelled immediately
      */
     testCancel2() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -178,7 +178,7 @@ qx.Class.define("qx.test.Promise", {
     
      */
     testCancel3() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -248,7 +248,7 @@ qx.Class.define("qx.test.Promise", {
      * Tests that cancelling a promise will not stop its chain from executing if there are promises which depend on some stages in the chain
      */
     testCancel4() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -280,7 +280,7 @@ qx.Class.define("qx.test.Promise", {
      * Ensures exception is thrown when trying to call `then` for a promise which has already been cancelled.
      */
     testThenAfterCancel() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -307,7 +307,7 @@ qx.Class.define("qx.test.Promise", {
      * Ensures exception is thrown when trying to call `catch` for a promise which has already been cancelled.
      */
     testCatchAfterCancel() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -336,7 +336,7 @@ qx.Class.define("qx.test.Promise", {
      * Ensures exception is thrown when trying to call `finally` for a promise which has already been cancelled.
      */
     testFinallyAfterCancel() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );
@@ -365,7 +365,7 @@ qx.Class.define("qx.test.Promise", {
      * Ensures a promise can still be cancelled after it has been settled
      */
     testCancelAfterSettled() {
-      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+      if (qx.core.Environment.get("qx.promise.useNativePromise")) {
         console.warn(
           "Skipping test because the native promise implementation of qx.Promise does not support cancellation"
         );

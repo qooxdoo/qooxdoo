@@ -24,7 +24,7 @@ qx.Class.define("qx.test.event.Utils", {
 
   members: {
     testQxPromiseNotDefined() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         this.assertTrue(true);
       } else {
         this.assertTrue(qx.Promise === undefined);
@@ -58,7 +58,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSomeDelayedPromises() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -89,7 +89,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSomeInstantPromises() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -116,7 +116,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSomeInstantPromises2() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -173,7 +173,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSomeReject() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -205,7 +205,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testResolveAndReject() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -242,7 +242,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSeries1() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -277,7 +277,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSeriesAbort() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -339,7 +339,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testPromiseReturns() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var self = this;
         var p = new qx.Promise(function (resolve) {
           setTimeout(function () {
@@ -369,7 +369,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSeriesReject() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -402,7 +402,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSeriesRejectNested() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -444,7 +444,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testSeriesNested() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
@@ -487,7 +487,7 @@ qx.Class.define("qx.test.event.Utils", {
     },
 
     testTrack() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var str = "";
         var self = this;

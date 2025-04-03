@@ -179,7 +179,7 @@ qx.Mixin.define("qx.core.MEvent", {
      * @returns {qx.Promise|var} the value to return
      */
     __trackPendingEvent(result) {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         if (!qx.Promise.isPromise(result)) {
           return result;
         }
@@ -222,7 +222,7 @@ qx.Mixin.define("qx.core.MEvent", {
      * Waits for all pending events to be resolved
      */
     async waitForPendingEvents() {
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         if (!this.__pendingEvents) {
           return;
         }
@@ -266,7 +266,7 @@ qx.Mixin.define("qx.core.MEvent", {
      *  if the default was prevented, the promise is rejected
      */
     fireEventAsync(type, clazz, args) {
-      if (!qx.core.Environment.get("qx.Promise")) {
+      if (!qx.core.Environment.get("qx.promise")) {
         throw new Error(
           this.classname +
             ".fireEventAsync not supported because qx.promise==false"
@@ -319,7 +319,7 @@ qx.Mixin.define("qx.core.MEvent", {
      *  if the default was prevented, the promise is rejected
      */
     fireNonBubblingEventAsync(type, clazz, args) {
-      if (!qx.core.Environment.get("qx.Promise")) {
+      if (!qx.core.Environment.get("qx.promise")) {
         throw new Error(
           this.classname +
             ".fireNonBubblingEventAsync not supported because qx.promise==false"
@@ -384,7 +384,7 @@ qx.Mixin.define("qx.core.MEvent", {
      *  if the default was prevented, the promise is rejected
      */
     fireDataEventAsync(type, data, oldData, cancelable) {
-      if (!qx.core.Environment.get("qx.Promise")) {
+      if (!qx.core.Environment.get("qx.promise")) {
         throw new Error(
           this.classname +
             ".fireDataEventAsync not supported because qx.promise==false"

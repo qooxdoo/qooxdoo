@@ -139,7 +139,7 @@ qx.Class.define("testapp.Application", {
       var addNumbers = 123 + 4 + 5 + 6;
       var multiplyNumbers = 123 * 2 * 3 * 4;
 
-      if (qx.core.Environment.get("qx.Promise")) {
+      if (qx.core.Environment.get("qx.promise")) {
         console.log("Promises are enabled");
       }
 

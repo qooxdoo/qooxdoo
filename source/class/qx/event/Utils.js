@@ -66,7 +66,7 @@ qx.Class.define("qx.event.Utils", {
      *  it's encapulated in a function for `then`
      * @return {qx.Promise|Object?}
      */
-    track: qx.core.Environment.select("qx.Promise", {
+    track: qx.core.Environment.select("qx.promise", {
       true(tracker, fn) {
         if (typeof fn !== "function" && !qx.lang.Type.isPromise(fn)) {
           fn = (function (value) {
@@ -116,7 +116,7 @@ qx.Class.define("qx.event.Utils", {
      * @param fn {Function} the function to call when previous promises are complete
      * @return {qx.Promise?} the new promise, or the return value from `fn` if no promises are in use
      */
-    then: qx.core.Environment.select("qx.Promise", {
+    then: qx.core.Environment.select("qx.promise", {
       true(tracker, fn) {
         if (tracker.rejected) {
           return null;
@@ -311,7 +311,7 @@ qx.Class.define("qx.event.Utils", {
      * @param ignoreAbort {Boolean?} whether to ignore the "ABORT" return value
      * @return {qx.Promise|Object?}
      */
-    series: qx.core.Environment.select("qx.Promise", {
+    series: qx.core.Environment.select("qx.promise", {
       true(arr, fn, ignoreAbort) {
         var tracker = {};
         for (var index = 0; index < arr.length; index++) {

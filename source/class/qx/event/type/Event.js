@@ -201,7 +201,7 @@ qx.Class.define("qx.event.type.Event", {
      * Adds a promise to the list of promises returned by event handlers
      * @param promise {qx.Promise} the promise to add
      */
-    addPromise: qx.core.Environment.select("qx.Promise", {
+    addPromise: qx.core.Environment.select("qx.promise", {
       true(promise) {
         if (this._promises === null) {
           this._promises = [promise];
@@ -220,7 +220,7 @@ qx.Class.define("qx.event.type.Event", {
      * Returns the array of promises, or null if there are no promises
      * @return {qx.Promise[]?}
      */
-    getPromises: qx.core.Environment.select("qx.Promise", {
+    getPromises: qx.core.Environment.select("qx.promise", {
       true() {
         return this._promises;
       },
@@ -237,7 +237,7 @@ qx.Class.define("qx.event.type.Event", {
      * is a rejected promise, otherwise it is fulfilled.  The promise returned will only
      * be fulfilled when the promises added via {@link addPromise} are also fulfilled
      */
-    promise: qx.core.Environment.select("qx.Promise", {
+    promise: qx.core.Environment.select("qx.promise", {
       true() {
         if (this.getDefaultPrevented()) {
           return qx.Promise.reject();

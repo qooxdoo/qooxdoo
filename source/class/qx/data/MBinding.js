@@ -81,7 +81,7 @@ qx.Mixin.define("qx.data.MBinding", {
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bindAsync: qx.core.Environment.select("qx.Promise", {
+    bindAsync: qx.core.Environment.select("qx.promise", {
       true(sourcePropertyChain, targetObject, targetProperty, options) {
         var id = qx.data.SingleValueBinding.bind(
           this,

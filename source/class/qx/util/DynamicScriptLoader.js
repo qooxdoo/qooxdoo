@@ -140,7 +140,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      * Start loading scripts. This may only be called once!
      * @return {Promise?} a promise which will be resolved after load of all scripts if promise support is enabled; nothing (undefined) if promises are not enabled.
      */
-    start: qx.core.Environment.select("qx.Promise", {
+    start: qx.core.Environment.select("qx.promise", {
       true() {
         return new qx.Promise(function (resolve, reject) {
           this.addListenerOnce("ready", resolve, this);
