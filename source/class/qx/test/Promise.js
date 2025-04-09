@@ -71,10 +71,10 @@ qx.Class.define("qx.test.Promise", {
     testExternalReject() {
       var promise = new qx.Promise();
       promise.catch(function (e) {
-        this.assertEquals("666", e.message);
+        this.assertEquals("oops", e.message);
         this.resume();
       }, this);
-      promise.reject(new Error("666"));
+      promise.reject(new Error("oops"));
       this.wait(1000);
     },
 
@@ -1523,7 +1523,7 @@ qx.Class.define("qx.test.Promise", {
 
       var promiseC = new qx.Promise(function (resolve, reject) {
         setTimeout(function () {
-          reject(new Error("666"));
+          reject(new Error("oops"));
         }, 100);
       });
       var promiseD = new qx.Promise(function (resolve) {
@@ -1537,7 +1537,7 @@ qx.Class.define("qx.test.Promise", {
         async (acc, item) => acc + item,
         0
       ).catch(err => {
-        this.assertEquals("666", err.message);
+        this.assertEquals("oops", err.message);
         this.resume();
       });
       this.wait(1000);
@@ -1553,10 +1553,10 @@ qx.Class.define("qx.test.Promise", {
       var arr = [promiseB, promiseC, promiseD];
       qx.Promise.resolve(arr)
         .reduce(async (acc, item) => {
-          throw new Error("666");
+          throw new Error("oops");
         }, 0)
         .catch(err => {
-          this.assertEquals("666", err.message);
+          this.assertEquals("oops", err.message);
           this.resume();
         });
       this.wait(1000);
@@ -1630,7 +1630,7 @@ qx.Class.define("qx.test.Promise", {
      * Tests that `filter` rejects when one promise in the array rejects
      */
     testFilterRejectValue() {
-      var promiseB = qx.Promise.reject(new Error("666"));
+      var promiseB = qx.Promise.reject(new Error("oops"));
 
       var promiseC = qx.Promise.resolve(3);
       var promiseD = qx.Promise.resolve(4);
@@ -1638,7 +1638,7 @@ qx.Class.define("qx.test.Promise", {
       qx.Promise.resolve(arr)
         .filter(async (item, index, length) => item % 2 === 0)
         .catch(e => {
-          this.assertEquals("666", e.message);
+          this.assertEquals("oops", e.message);
           this.resume();
         });
 
@@ -1656,10 +1656,10 @@ qx.Class.define("qx.test.Promise", {
       var arr = [promiseB, promiseC, promiseD, 6];
       qx.Promise.resolve(arr)
         .filter(async item => {
-          throw new Error("666");
+          throw new Error("oops");
         })
         .catch(e => {
-          this.assertEquals("666", e.message);
+          this.assertEquals("oops", e.message);
           this.resume();
         });
 
@@ -1704,7 +1704,7 @@ qx.Class.define("qx.test.Promise", {
     testSomeOneReject() {
       var promiseB = new qx.Promise(function (resolve, reject) {
         setTimeout(function () {
-          reject(new Error("666"));
+          reject(new Error("oops"));
         }, 200);
       });
 
@@ -1734,13 +1734,13 @@ qx.Class.define("qx.test.Promise", {
     testSomeTooManyReject() {
       var promiseB = new qx.Promise(function (resolve, reject) {
         setTimeout(function () {
-          reject(new Error("666"));
+          reject(new Error("oops"));
         }, 200);
       });
 
       var promiseC = new qx.Promise(function (resolve, reject) {
         setTimeout(function () {
-          reject(new Error("667"));
+          reject(new Error("oops1"));
         }, 100);
       });
       var promiseD = new qx.Promise(function (resolve) {
@@ -1757,7 +1757,7 @@ qx.Class.define("qx.test.Promise", {
             : error;
 
           this.assertArrayEquals(
-            ["667", "666"],
+            ["oops1", "oops"],
             errors.map(e => e.message)
           );
           this.resume();
@@ -1832,13 +1832,13 @@ qx.Class.define("qx.test.Promise", {
     testMapOneReject() {
       var promiseB = qx.Promise.resolve(2);
 
-      var promiseC = qx.Promise.reject(new Error("666"));
+      var promiseC = qx.Promise.reject(new Error("oops"));
       var promiseD = qx.Promise.resolve(4);
       var arr = [promiseB, promiseC, promiseD];
       qx.Promise.resolve(arr)
         .map(async item => item * 2)
         .catch(err => {
-          this.assertEquals("666", err.message);
+          this.assertEquals("oops", err.message);
           this.resume();
         });
       this.wait(1000);
@@ -1855,10 +1855,10 @@ qx.Class.define("qx.test.Promise", {
       var arr = [promiseB, promiseC, promiseD];
       qx.Promise.resolve(arr)
         .map(async item => {
-          throw new Error("666");
+          throw new Error("oops");
         })
         .catch(err => {
-          this.assertEquals("666", err.message);
+          this.assertEquals("oops", err.message);
           this.resume();
         });
       this.wait(1000);
@@ -1894,7 +1894,7 @@ qx.Class.define("qx.test.Promise", {
      * The returned promise should reject.
      */
     testMapSeriesOneReject() {
-      var promiseB = qx.Promise.reject(new Error("666"));
+      var promiseB = qx.Promise.reject(new Error("oops"));
       var promiseC = qx.Promise.resolve(2);
       var promiseD = qx.Promise.resolve(3);
 
@@ -1902,7 +1902,7 @@ qx.Class.define("qx.test.Promise", {
       qx.Promise.resolve(arr)
         .mapSeries(async item => item * 2)
         .catch(e => {
-          this.assertEquals("666", e.message);
+          this.assertEquals("oops", e.message);
           this.resume();
         });
 
@@ -1920,10 +1920,10 @@ qx.Class.define("qx.test.Promise", {
       var arr = [promiseB, promiseC, promiseD];
       qx.Promise.resolve(arr)
         .mapSeries(async item => {
-          throw new Error("666");
+          throw new Error("oops");
         })
         .catch(err => {
-          this.assertEquals("666", err.message);
+          this.assertEquals("oops", err.message);
           this.resume();
         });
       this.wait(1000);
