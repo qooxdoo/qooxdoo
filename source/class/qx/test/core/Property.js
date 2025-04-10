@@ -299,9 +299,14 @@ qx.Class.define("qx.test.core.Property", {
 
     testDefinesThanSubClassWithInterface() {
       // see bug #2162 for details
-      delete qx.test.A;
-      delete qx.test.B;
-      delete qx.test.IForm;
+      if (qx.test.A) {
+        qx.Class.undefine("qx.test.A");
+        delete qx.test.A;
+      }
+      if (qx.test.B) {
+        qx.Class.undefine("qx.test.B");
+        delete qx.test.B;
+      }      
 
       qx.Class.define("qx.test.A", {
         extend: qx.core.Object,
