@@ -1975,7 +1975,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       qx.event.Timer.once(function() {
         this._cellEditor.addListenerOnce('blur', this._onBlurCellEditorStopEditing, this);
         this.debug('added BLUR listener to hash: ' + this._cellEditor.$$hash);
-      }, this, 0);
+      }, this, 1);
     },
 
     /**
