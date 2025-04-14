@@ -72,7 +72,7 @@ qx.Class.define("qx.test.Promise", {
       var promise = new qx.Promise();
       promise.catch(function (e) {
         this.assertEquals("oops", e.message);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       }, this);
       promise.reject(new Error("oops"));
       this.wait(1000);
@@ -296,7 +296,7 @@ qx.Class.define("qx.test.Promise", {
           .then(() => this.fail("Should not call!"))
           .catch(e => {
             this.assertEquals("late cancellation observer", e.message);
-            this.resume();
+            setTimeout(this.resume(), 1);
           });
 
         this.wait(1000);
@@ -325,7 +325,7 @@ qx.Class.define("qx.test.Promise", {
           })
           .catch(e => {
             this.assertEquals("late cancellation observer", e.message);
-            this.resume();
+            setTimeout(() => this.resume(), 1);
           });
 
         this.wait(1000);
@@ -354,7 +354,7 @@ qx.Class.define("qx.test.Promise", {
           })
           .catch(e => {
             this.assertEquals("late cancellation observer", e.message);
-            this.resume();
+            setTimeout(() => this.resume(), 1);
           });
 
         this.wait(1000);
@@ -377,7 +377,7 @@ qx.Class.define("qx.test.Promise", {
             promise.cancel();
           })
           .then(() => {
-            this.resume();
+            setTimeout(() => this.resume(), 1);
           });
 
         this.wait(1000);
@@ -399,8 +399,8 @@ qx.Class.define("qx.test.Promise", {
         })
         .finally(function () {
           this.assertNotNull(caughtException);
-          this.resume();
           this.assertIdentical(this, t);
+          setTimeout(() => this.resume(), 1);
         }, this);
       this.wait(1000);
     },
@@ -475,7 +475,7 @@ qx.Class.define("qx.test.Promise", {
         t.assertEquals("three", obj.c);
         t.assertEquals("four", obj.d);
         t.assertTrue(obj.e === dt);
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       obj.a.then(function () {
         obj.b.resolve("two");
@@ -500,7 +500,7 @@ qx.Class.define("qx.test.Promise", {
 
       qx.Promise.allOf(qx.Promise.resolve(obj)).catch(function (reason) {
         t.assertEquals("two", reason.message);
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
 
       obj.b.reject(new Error("two"));
@@ -523,7 +523,7 @@ qx.Class.define("qx.test.Promise", {
         t.assertEquals("one", obj.a);
         t.assertEquals("two", obj.b);
 
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       obj.a.then(function () {
         obj.b.resolve("two");
@@ -559,7 +559,7 @@ qx.Class.define("qx.test.Promise", {
       p.then(function () {
         t.assertEquals(123, obj.getAlpha());
         qx.Class.undefine("testPropertySetValueAsPromise1.Clazz");
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       this.wait(1000);
     },
@@ -591,7 +591,7 @@ qx.Class.define("qx.test.Promise", {
       obj.setAlphaAsync(p).then(function () {
         t.assertEquals(123, obj.getAlpha());
         qx.Class.undefine("testPropertySetValueAsPromise2.Clazz");
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1071,7 +1071,7 @@ qx.Class.define("qx.test.Promise", {
       }, this);
       forEachReturn.then(function () {
         t.assertEquals("abc", str);
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       this.assertInstance(forEachReturn, qx.Promise);
       t.wait(1000);
@@ -1138,7 +1138,7 @@ qx.Class.define("qx.test.Promise", {
       });
       pEach.catch(reason => {
         this.assertEquals("b", reason.message);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1153,7 +1153,7 @@ qx.Class.define("qx.test.Promise", {
       qx.Promise.forEach(promiseArr, (item, index) => {
         this.assertEquals(index, item - 1);
       }).then(result => {
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1191,7 +1191,7 @@ qx.Class.define("qx.test.Promise", {
       this.assertInstance(promise, qx.Promise);
       promise.then(function (value) {
         t.assertEquals(value, "yes");
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1204,7 +1204,7 @@ qx.Class.define("qx.test.Promise", {
       var p = qx.Promise.resolve("hello").bind(this);
       p.then(function (value) {
         qx.core.Assert.assertIdentical(t, this);
-        t.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1222,7 +1222,7 @@ qx.Class.define("qx.test.Promise", {
         this
       ).then(function (value) {
         qx.core.Assert.assertIdentical(t, this);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       }, this);
       this.wait(1000);
     },
@@ -1240,7 +1240,7 @@ qx.Class.define("qx.test.Promise", {
       var t = this;
       qx.Promise.resolve(true).then(function () {
         qx.core.Assert.assertIdentical(qx.Promise, this);
-        t.resume();
+        setTimeout(() => t.resume(), 1);
       }, qx.Promise);
       this.wait(1000);
     },
@@ -1252,7 +1252,7 @@ qx.Class.define("qx.test.Promise", {
       var t = this;
       qx.Promise.resolve(true, this).then(function () {
         qx.core.Assert.assertIdentical(t, this);
-        t.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1264,7 +1264,7 @@ qx.Class.define("qx.test.Promise", {
       var t = this;
       qx.Promise.reject(new Error("Dummy Error"), this).catch(function () {
         qx.core.Assert.assertIdentical(t, this);
-        t.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     },
@@ -1284,7 +1284,7 @@ qx.Class.define("qx.test.Promise", {
           t.assertEquals(str, "foo");
           t.assertInstance(arr, qx.data.Array);
           t.assertEquals(arr.join(""), "abc");
-          t.resume();
+          setTimeout(() => t.resume(), 1);
         });
       this.wait(1000);
     },
@@ -1358,7 +1358,7 @@ qx.Class.define("qx.test.Promise", {
       var arr = ["a", promiseB];
       qx.Promise.race(qx.Promise.resolve(arr)).then(val => {
         this.assertEquals("a", val);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
 
       this.wait(1000);
@@ -1459,7 +1459,7 @@ qx.Class.define("qx.test.Promise", {
       qx.Promise.resolve([])
         .any()
         .catch(aggErr => {
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
 
       this.wait(1000);
@@ -1480,7 +1480,7 @@ qx.Class.define("qx.test.Promise", {
         .any()
         .then(val => {
           this.assertEquals("a", val);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
 
       this.wait(1000);
@@ -1505,7 +1505,7 @@ qx.Class.define("qx.test.Promise", {
       );
       promise.then(result => {
         this.assertEquals(6, result);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.assertInstance(promise, qx.Promise);
       this.wait(1000);
@@ -1557,7 +1557,7 @@ qx.Class.define("qx.test.Promise", {
         }, 0)
         .catch(err => {
           this.assertEquals("oops", err.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
       this.wait(1000);
     },
@@ -1585,7 +1585,8 @@ qx.Class.define("qx.test.Promise", {
       this);
       p.then(evens => {
         this.assertArrayEquals([2, 4, 6], evens);
-        this.resume();
+        //force resume to run on next tick so that we call resume after wait
+        setTimeout(() => this.resume(), 1);
       });
       this.assertInstance(p, qx.Promise);
       this.wait(1000);
@@ -1639,7 +1640,7 @@ qx.Class.define("qx.test.Promise", {
         .filter(async (item, index, length) => item % 2 === 0)
         .catch(e => {
           this.assertEquals("oops", e.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
 
       this.wait(1000);
@@ -1660,7 +1661,7 @@ qx.Class.define("qx.test.Promise", {
         })
         .catch(e => {
           this.assertEquals("oops", e.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
 
       this.wait(1000);
@@ -1783,7 +1784,7 @@ qx.Class.define("qx.test.Promise", {
       }, this);
       p.then(result => {
         this.assertArrayEquals([4, 6, 8, 10], result);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.assertInstance(p, qx.Promise);
       this.wait(1000);
@@ -1839,7 +1840,7 @@ qx.Class.define("qx.test.Promise", {
         .map(async item => item * 2)
         .catch(err => {
           this.assertEquals("oops", err.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
       this.wait(1000);
     },
@@ -1859,7 +1860,7 @@ qx.Class.define("qx.test.Promise", {
         })
         .catch(err => {
           this.assertEquals("oops", err.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
       this.wait(1000);
     },
@@ -1883,7 +1884,7 @@ qx.Class.define("qx.test.Promise", {
       });
       p.then(doubles => {
         this.assertArrayEquals([2, 4, 6, 8], doubles);
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.assertInstance(p, qx.Promise);
       this.wait(1000);
@@ -1903,7 +1904,7 @@ qx.Class.define("qx.test.Promise", {
         .mapSeries(async item => item * 2)
         .catch(e => {
           this.assertEquals("oops", e.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
 
       this.wait(1000);
@@ -1924,7 +1925,7 @@ qx.Class.define("qx.test.Promise", {
         })
         .catch(err => {
           this.assertEquals("oops", err.message);
-          this.resume();
+          setTimeout(() => this.resume(), 1);
         });
       this.wait(1000);
     },
@@ -1940,7 +1941,7 @@ qx.Class.define("qx.test.Promise", {
         this.assertEquals(index, item - 1);
         return item * 2;
       }).then(result => {
-        this.resume();
+        setTimeout(() => this.resume(), 1);
       });
       this.wait(1000);
     }
