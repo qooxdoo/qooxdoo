@@ -1942,7 +1942,7 @@ qx.Class.define("qx.test.Promise", {
         this.assertEquals(index, item - 1);
         return item * 2;
       }).then(result => {
-        setTimeout(() => this.resume(), 1);
+        setTimeout(() => this.resume(), 10);
       });
       this.wait(1000);
     }
