@@ -190,6 +190,47 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("Juhu", new qx.ExtendUseLog1().log("Juhu"));
     },
 
+    /**
+     * Tests that super in a Mixin calls the affected class' super method
+     */
+    testIncludeSuper() {
+      qx.Class.define("qx.A", {
+        extend: qx.core.Object,
+
+        members: {
+          sayJuhu() {
+            return "Juhu";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MB", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " from Mixin";
+          }
+        }
+      });
+
+      qx.Class.define("qx.B", {
+        include: [qx.MB],
+        extend: qx.A,
+
+        members: {
+          foo() {
+            return "bar";
+          }
+        }
+      });
+
+      let b = new qx.B();
+      this.assertEquals("Juhu from Mixin", b.sayJuhu());
+      this.assertEquals("bar", b.foo());
+
+      qx.Class.undefine("qx.A");
+      qx.Class.undefine("qx.B");
+    },
+
     testPatchOverwritten() {
       qx.Class.define("qx.Patch1", {
         extend: qx.core.Object,
@@ -615,6 +656,7 @@ qx.Class.define("qx.test.Mixin", {
       var ret = o.sayJuhu();
       this.assertEquals("Double MA MB", ret);
       o.dispose();
+      qx.Class.undefine("qx.D");
     },
 
     testDoubleMixinWithSuperStruct() {
@@ -870,10 +912,7 @@ qx.Class.define("qx.test.Mixin", {
       qx.Class.patch(qx.G5, qx.M2G5);
 
       const g5 = new qx.G5();
-      this.assertEquals(
-        "G1 M1G1 M2G1 M3G1 M4G1 G2 M1G2 M2G2 M4G2 M5G2 G3 M2G3 M3G3 G4 M1G4 M3G4 G5 M1G5",
-        g5.sayJuhu()
-      );
+      this.assertEquals("G1 M1G1 M2G1 M3G1 M4G1 G2 M1G2 M2G2 M4G2 M5G2 G3 M2G3 M3G3 G4 M1G4 M3G4 G5 M1G5", g5.sayJuhu());
       g5.dispose();
     }
   }
