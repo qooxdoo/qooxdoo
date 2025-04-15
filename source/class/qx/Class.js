@@ -492,15 +492,6 @@ qx.Bootstrap.define("qx.Class", {
 
         // Add properties
         if (config.properties) {
-          if (config.members) {
-            for (let propertyName in config.properties) {
-              // Ensure that this property isn't attempting to override a
-              // method name from within this configuration. (Never acceptable)
-              if (config.members[propertyName] !== undefined) {
-                throw new Error(`${clazz.classname}: Overwriting member "${propertyName}" with property`);
-              }
-            }
-          }
           qx.Class.addProperties(clazz, config.properties, false);
         }
 
@@ -509,6 +500,7 @@ qx.Bootstrap.define("qx.Class", {
           qx.Class.addEvents(clazz, config.events, false);
         }
 
+        // Add objects
         if (config.objects) {
           this.__addObjects(clazz, config.objects);
         }
@@ -783,14 +775,27 @@ qx.Bootstrap.define("qx.Class", {
           if (key.charAt(0) === "@") {
             var annoKey = key.substring(1);
             if (members[annoKey] === undefined && proto[annoKey] === undefined) {
-              throw new Error(`Annotation for ${annoKey} of Class ${clazz.classname} ` + "does not exist");
+              throw new Error(`Annotation for ${annoKey} of Class ${clazz.classname} does not exist`);
             }
 
             if (key.charAt(1) === "_" && key.charAt(2) === "_") {
               throw new Error(`Cannot annotate private member ${key.substring(1)} ` + `of Class ${clazz.classname}`);
             }
           } else {
-            if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
+            if (
+              patch !== true &&
+              (proto.$$allProperties.hasOwnProperty(key) || proto.hasOwnProperty(key)) &&
+              key != "_createQxObjectImpl"
+            ) {
+              throw new Error(
+                clazz.classname +
+                  ': Overwriting member or property "' +
+                  key +
+                  '" of Class "' +
+                  clazz.classname +
+                  '" is not allowed! (Members and properties are in the same namespace.)'
+              );
+            } else if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
               throw new Error(`Overwriting private member "${key}" ` + `of Class "${clazz.classname}" ` + "is not allowed");
             }
           }
@@ -898,7 +903,10 @@ qx.Bootstrap.define("qx.Class", {
             continue;
           }
 
-          let superProperty = clazz.prototype.$$superProperties ? clazz.prototype.$$superProperties[propertyName] : null;
+          let superProperty =
+            clazz.prototype.$$superProperties &&
+            clazz.prototype.$$superProperties.hasOwnProperty(propertyName) &&
+            clazz.prototype.$$superProperties[propertyName];
           let property;
           if (superProperty) {
             if (!def.refine) {
@@ -926,7 +934,7 @@ qx.Bootstrap.define("qx.Class", {
           }
 
           // Add annotations
-          qx.Class._attachAnno(clazz, "properties", propertyName, property["@"]);
+          qx.Class._attachAnno(clazz, "properties", propertyName, def["@"]);
         }
       };
       addImpl(false);
@@ -1272,7 +1280,7 @@ qx.Bootstrap.define("qx.Class", {
           if (config.type == "static") {
             config.include.forEach(mixin => {
               if (mixin.$$members) {
-                throw new Error(`Mixin ${mixin.mixinname} applied to class ${name}: ` + "class is static, but mixin has members");
+                throw new Error(`Mixin ${mixin.mixinName} applied to class ${name}: ` + "class is static, but mixin has members");
               }
             });
           }
