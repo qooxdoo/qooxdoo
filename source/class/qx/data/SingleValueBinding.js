@@ -1101,12 +1101,20 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     __getEventForProperty(sourceObject, sourceProperty) {
       // get the event name
-      var propertieDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
+      var propertyDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
 
-      if (propertieDefinition == null) {
-        return null;
+      if (propertyDefinition) {
+        return propertyDefinition.getEventName();
       }
-      return propertieDefinition.getEventName();
+
+      if (sourceProperty.endsWith("Async")) {
+        var propertyDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty.replace(/Async$/, ""));
+        if (propertyDefinition.isAsync()) {
+          return propertyDefinition.getEventName();
+        }
+      }
+
+      return null;
     },
 
     /**
