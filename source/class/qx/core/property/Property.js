@@ -466,8 +466,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
           await self.setAsync(this, value);
           return value;
         });
-        addMethod("reset" + upname, function (value) {
-          self.reset(this, value);
+        addMethod("reset" + upname, function () {
+          self.reset(this);
         });
       }
     },
