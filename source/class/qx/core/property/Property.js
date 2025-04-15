@@ -201,6 +201,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       this.__apply = getFunction(def.apply, "Apply") || this.__apply;
       this.__transform = getFunction(def.transform, "Transform") || this.__transform;
       this.__validate = getFunction(def.validate, "Validate") || this.__validate;
+      this.__readOnly = def.immutable === "readonly";
 
       if (def.event !== undefined) {
         this.__eventName = def.event;
@@ -427,11 +428,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         configurable: qx.Class.$$options.propsAccessible || false,
         enumerable: qx.Class.$$options.propsAccessible || false
       };
-      if (!this.__readOnly) {
-        propertyConfig.set = function (value) {
-          self.set(this, value);
-        };
-      }
+      propertyConfig.set = function (value) {
+        self.set(this, value);
+      };
       Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
