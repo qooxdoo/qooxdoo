@@ -27,7 +27,7 @@ qx.Bootstrap.define("qx.core.check.standard.IntegerCheck", {
      * @override
      */
     _matchesImpl(value) {
-      return qx.lang.Type.isNumber(value) && isFinite(value) && value % 1 === 0;
+      return qx.lang.Type.isNumber(value) && (value % 1 === 0 || value === Infinity || value === -Infinity);
     },
 
     /**
