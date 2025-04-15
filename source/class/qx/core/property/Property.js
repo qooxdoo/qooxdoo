@@ -619,28 +619,42 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     async getAsync(thisObj) {
-      throw new Error("TODO - inherited and theme values.  ");
-      /*
       let value = await this.__storage.getAsync(thisObj, this);
-      if (value === undefined) {
-        if (this.isInheritable()) {
-          value = this.__storage.get(thisObj, this, "inherited");
-        }
-        if (value === undefined) {
-          if (this.isThemeable()) {
-            value = this.__storage.get(thisObj, this, "themed");
-          }
-          if (value === undefined) {
-            throw new Error("Property " + this + " has not been initialized");
-          }
+      if (value === undefined || value === null) {
+        if (this.isThemeable()) {
+          let state = this.getPropertyState(thisObj);
+          value = state.themeValue;
         }
       }
+
+      if (value === undefined || value === null) {
+        if (this.__definition.inheritable) {
+          let state = this.getPropertyState(thisObj);
+          value = state.inheritedValue;
+        }
+      }
+
+      if (value === undefined) {
+        value = this.getInitValue(thisObj);
+      }
+
+      if (value === undefined) {
+        if (this.__definition.nullable) {
+          return null;
+        }
+        if (this.__definition.inheritable) {
+          if (this.__definition.check == "Boolean") {
+            return false;
+          }
+          return null;
+        }
+        throw new Error("Property " + this + " has not been initialized");
+      }
       return value;
-      */
     },
 
     /**
-     * Gets the themed vaklue, if there is one
+     * Gets the themed value, if there is one
      *
      * @param {qx.core.Object} thisObj
      * @returns {*}
@@ -660,7 +674,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value the value to set
      */
     set(thisObj, value) {
-      this._setImpl(thisObj, value, "user", "set");
+      if (qx.Promise.isPromise(value)) {
+        value.then(v => this._setImpl(thisObj, v, "user", "set"));
+      } else {
+        this._setImpl(thisObj, value, "user", "set");
+      }
     },
 
     /**
@@ -848,17 +866,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
       const setAsyncImpl = async () => {
         await this.__storage.setAsync(thisObj, this, value);
         await this.__callFunctionAsync(thisObj, this.__apply, value, oldValue, this.__propertyName);
-        if (this.__eventName) {
-          await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
-        }
         this.__applyValueToInheritedChildren(thisObj, value, oldValue);
       };
 
       let oldValue = await this.__storage.getAsync(thisObj, this);
       if (!this.isEqual(thisObj, value, oldValue)) {
         let promise = setAsyncImpl();
-        this._setMutating(thisObj, promise);
-        await promise;
+        await this._setMutating(thisObj, promise);
+        if (this.__eventName) {
+          await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
+        }
       }
     },
 
@@ -945,7 +962,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           state.mutatingCount++;
         }
         if (qx.lang.Type.isPromise(mutating)) {
-          mutating.then(() => this._setMutating(thisObj, false));
+          return mutating.then(() => this._setMutating(thisObj, false));
         }
       } else {
         if (state.mutatingCount === undefined) {

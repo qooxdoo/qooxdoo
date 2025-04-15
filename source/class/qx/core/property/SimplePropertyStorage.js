@@ -60,7 +60,9 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     async setAsync(thisObj, property, value) {
-      this.set(thisObj, property, value);
+      return qx.Promise.resolve(value).then(value => {
+        this.set(thisObj, property, value);
+      });
     },
 
     /**
