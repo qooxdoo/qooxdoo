@@ -25,6 +25,14 @@
 qx.Class.define("qx.util.Serializer", {
   statics: {
     /**
+     * These properties are ignored when serializing qooxdoo objects
+     * because they are qooxdoo metadata.
+     */
+    __IGNORE_PROPERTIES: {
+      qxObjectId: true,
+      qxOwner: true
+    },
+    /**
      * Serializes the properties of the given qooxdoo object. To get the
      * serialization working, every property needs to have a string
      * representation because the value of the property will be concatenated to the
@@ -48,7 +56,7 @@ qx.Class.define("qx.util.Serializer", {
         let property = properties[name];
 
         // ignore property groups
-        if (property instanceof qx.core.property.GroupProperty) {
+        if (property instanceof qx.core.property.GroupProperty || qx.util.Serializer.__IGNORE_PROPERTIES[name]) {
           continue;
         }
         var value = object[name];
@@ -80,12 +88,9 @@ qx.Class.define("qx.util.Serializer", {
      * @return {String} The serialized name value pair.
      */
     __toUriParameter(name, value, qxSerializer) {
-      if (value && value.$$type == "Class") {
-        value = value.classname;
-      }
-
-      if (value && (value.$$type == "Interface" || value.$$type == "Mixin")) {
-        value = value.name;
+      const Serializer = qx.util.Serializer;
+      if (value && Serializer.__isClassy(value)) {
+        value = Serializer.__getNameOfClassy(value);
       }
 
       if (value instanceof qx.core.Object && qxSerializer != null) {
@@ -119,6 +124,7 @@ qx.Class.define("qx.util.Serializer", {
      *   type will vary.
      */
     toNativeObject(object, qxSerializer, dateFormat) {
+      const Serializer = qx.util.Serializer;
       var result;
 
       // null or undefined
@@ -146,14 +152,8 @@ qx.Class.define("qx.util.Serializer", {
         return result;
       }
 
-      // return names for qooxdoo classes
-      if (object.$$type == "Class") {
-        return object.classname;
-      }
-
-      // return names for qooxdoo interfaces and mixins
-      if (object.$$type == "Interface" || object.$$type == "Mixin") {
-        return object.name;
+      if (Serializer.__isClassy(object)) {
+        return Serializer.__getNameOfClassy(object);
       }
 
       // qooxdoo object
@@ -172,14 +172,10 @@ qx.Class.define("qx.util.Serializer", {
         result = {};
 
         var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
-        const IGNORE_PROPERTIES = {
-          qxObjectId: true,
-          qxOwner: true
-        };
 
         for (var name in properties) {
           // ignore property groups
-          if (properties[name] instanceof qx.core.property.GroupProperty || IGNORE_PROPERTIES[name]) {
+          if (properties[name] instanceof qx.core.property.GroupProperty || Serializer.__IGNORE_PROPERTIES[name]) {
             continue;
           }
 
@@ -229,6 +225,7 @@ qx.Class.define("qx.util.Serializer", {
      * @return {String} The serialized object.
      */
     toJson(object, qxSerializer, dateFormat) {
+      const Serializer = qx.util.Serializer;
       var result = "";
 
       // null or undefined
@@ -260,14 +257,8 @@ qx.Class.define("qx.util.Serializer", {
         return result + "]";
       }
 
-      // return names for qooxdoo classes
-      if (object.$$type == "Class") {
-        return '"' + object.classname + '"';
-      }
-
-      // return names for qooxdoo interfaces and mixins
-      if (object.$$type == "Interface" || object.$$type == "Mixin") {
-        return '"' + object.name + '"';
+      if (Serializer.__isClassy(object)) {
+        return `"${Serializer.__getNameOfClassy(object)}"`;
       }
 
       // qooxdoo object
@@ -285,7 +276,7 @@ qx.Class.define("qx.util.Serializer", {
 
         for (var name in properties) {
           // ignore property groups
-          if (properties[name] instanceof qx.core.property.GroupProperty) {
+          if (properties[name] instanceof qx.core.property.GroupProperty || Serializer.__IGNORE_PROPERTIES[name]) {
             continue;
           }
           var value = object[name];
@@ -341,6 +332,33 @@ qx.Class.define("qx.util.Serializer", {
 
       // all other stuff
       return object + "";
+    },
+
+    /**
+     * Checks whether object is classy i.e. a class, interface, or mixin.
+     * @param {Object} object Any object
+     * @returns {boolean}
+     */
+    __isClassy(object) {
+      return ["Class", "Interface", "Mixin"].includes(object.$$type);
+    },
+
+    /**
+     *
+     * @param {Object} object Qooxdoo classy object i.e. class or interface or mixin
+     * @returns {string} The name of the classy object, that was passed into the define call
+     */
+    __getNameOfClassy(object) {
+      switch (object.$$type) {
+        case "Class":
+          return object.classname;
+        case "Interface":
+          return object.name;
+        case "Mixin":
+          return object.mixinName;
+        default:
+          throw new Error("Unknown classy type: " + object.$$type);
+      }
     }
   }
 });
