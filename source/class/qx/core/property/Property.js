@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       // Figure out the storage implementation
       if (def.storage) {
-        if (def.storage instanceof qx.core.property.IPropertyStorage) {
+        if (qx.Class.hasInterface(def.storage.constructor, qx.core.property.IPropertyStorage)) {
           this.__storage = def.storage;
         } else {
           this.__storage = new def.storage();
