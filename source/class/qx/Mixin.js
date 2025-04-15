@@ -83,10 +83,7 @@ qx.Bootstrap.define("qx.Mixin", {
     define(name, config) {
       if (config) {
         // Normalize include
-        if (
-          config.include &&
-          !(qx.Bootstrap.getClass(config.include) === "Array")
-        ) {
+        if (config.include && !(qx.Bootstrap.getClass(config.include) === "Array")) {
           config.include = [config.include];
         }
 
@@ -188,50 +185,26 @@ qx.Bootstrap.define("qx.Mixin", {
 
         for (var key in mixin.events) {
           if (events[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.mixinname +
-                '" and "' +
-                events[key] +
-                '" in member "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + events[key] + '" in member "' + key + '"!');
           }
 
-          events[key] = mixin.mixinname;
+          events[key] = mixin.mixinName;
         }
 
         for (var key in mixin.properties) {
           if (properties[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.mixinname +
-                '" and "' +
-                properties[key] +
-                '" in property "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + properties[key] + '" in property "' + key + '"!');
           }
 
-          properties[key] = mixin.mixinname;
+          properties[key] = mixin.mixinName;
         }
 
         for (var key in mixin.members) {
           if (members[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.mixinname +
-                '" and "' +
-                members[key] +
-                '" in member "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + members[key] + '" in member "' + key + '"!');
           }
 
-          members[key] = mixin.mixinname;
+          members[key] = mixin.mixinName;
         }
       }
 
@@ -347,22 +320,17 @@ qx.Bootstrap.define("qx.Mixin", {
       } else {
         if (
           clazz.$$mixinBaseClassMethods &&
-          clazz.$$mixinBaseClassMethods[mixin.mixinname] !== undefined &&
-          clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName] !==
-            undefined
+          clazz.$$mixinBaseClassMethods[mixin.mixinName] !== undefined &&
+          clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName] !== undefined
         ) {
-          return clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName];
+          return clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName];
         }
 
         // Find the class which added the mixin; if it is mixed in
         // twice, we pick the super-most class
         var mixedInAt = null;
         var mixedInIndex = -1;
-        for (
-          var searchClass = clazz;
-          searchClass;
-          searchClass = searchClass.superclass
-        ) {
+        for (var searchClass = clazz; searchClass; searchClass = searchClass.superclass) {
           if (searchClass.$$flatIncludes) {
             var pos = searchClass.$$flatIncludes.indexOf(mixin);
             if (pos > -1) {
@@ -408,18 +376,13 @@ qx.Bootstrap.define("qx.Mixin", {
           if (!clazz.$$mixinBaseClassMethods) {
             clazz.$$mixinBaseClassMethods = {};
           }
-          if (!clazz.$$mixinBaseClassMethods[mixin.mixinname]) {
-            clazz.$$mixinBaseClassMethods[mixin.mixinname] = {};
+          if (!clazz.$$mixinBaseClassMethods[mixin.mixinName]) {
+            clazz.$$mixinBaseClassMethods[mixin.mixinName] = {};
           }
-          clazz.$$mixinBaseClassMethods[mixin.mixinname][methodName] = fn;
+          clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName] = fn;
         } else if (qx.core.Environment.get("qx.debug")) {
           throw new Error(
-            "Cannot find base class method called " +
-              methodName +
-              " for mixin " +
-              mixin.mixinname +
-              ", when viewed from " +
-              clazz.classname
+            "Cannot find base class method called " + methodName + " for mixin " + mixin.mixinName + ", when viewed from " + clazz.classname
           );
         }
 
@@ -441,7 +404,7 @@ qx.Bootstrap.define("qx.Mixin", {
      * @return {String} The mixin identifier
      */
     genericToString() {
-      return "[Mixin " + this.mixinname + "]";
+      return "[Mixin " + this.mixinName + "]";
     },
 
     /** Registers all defined mixins */
@@ -476,34 +439,16 @@ qx.Bootstrap.define("qx.Mixin", {
         var allowed = this.__allowedKeys;
         for (var key in config) {
           if (!allowed[key]) {
-            throw new Error(
-              'The configuration key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '" is not allowed!'
-            );
+            throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
           }
 
           if (config[key] == null) {
-            throw new Error(
-              'Invalid key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The value is undefined/null!'
-            );
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
           }
 
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
             throw new Error(
-              'Invalid type of key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The type of the key must be "' +
-                allowed[key] +
-                '"!'
+              'Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowed[key] + '"!'
             );
           }
         }
@@ -515,18 +460,9 @@ qx.Bootstrap.define("qx.Mixin", {
 
           if (
             config[key] !== undefined &&
-            (["Array", "RegExp", "Date"].indexOf(
-              qx.Bootstrap.getClass(config[key])
-            ) != -1 ||
-              config[key].classname !== undefined)
+            (["Array", "RegExp", "Date"].indexOf(qx.Bootstrap.getClass(config[key])) != -1 || config[key].classname !== undefined)
           ) {
-            throw new Error(
-              'Invalid key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The value needs to be a map!'
-            );
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
           }
         }
 
@@ -535,21 +471,13 @@ qx.Bootstrap.define("qx.Mixin", {
           for (var i = 0, a = config.include, l = a.length; i < l; i++) {
             if (a[i] == null) {
               throw new Error(
-                "Includes of mixins must be mixins. The include number '" +
-                  (i + 1) +
-                  "' in mixin '" +
-                  name +
-                  "'is undefined/null!"
+                "Includes of mixins must be mixins. The include number '" + (i + 1) + "' in mixin '" + name + "'is undefined/null!"
               );
             }
 
             if (a[i].$$type !== "Mixin") {
               throw new Error(
-                "Includes of mixins must be mixins. The include number '" +
-                  (i + 1) +
-                  "' in mixin '" +
-                  name +
-                  "'is not a mixin!"
+                "Includes of mixins must be mixins. The include number '" + (i + 1) + "' in mixin '" + name + "'is not a mixin!"
               );
             }
           }
