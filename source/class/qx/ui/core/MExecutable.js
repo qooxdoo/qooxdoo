@@ -128,20 +128,22 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
         this.__executableBindingIds = ids = {};
       }
 
-      var selfPropertyValue;
       for (var i = 0; i < this._bindableProperties.length; i++) {
-        var property = this._bindableProperties[i];
+        let property = this._bindableProperties[i];
 
         // remove the old binding
         if (old != null && !old.isDisposed() && ids[property] != null) {
-          old.removeBinding(ids[property]);
+          old.removeListenerById(ids[property]);
           ids[property] = null;
         }
 
         // add the new binding
         if (value != null && qx.Class.hasProperty(this.constructor, property)) {
-          // set up the binding
-          ids[property] = value.bind(property, this, property);
+          let cmdPropertyValue = value.get(property);
+          if (cmdPropertyValue !== null) {
+            this.set(property, cmdPropertyValue);
+          }
+          ids[property] = value.addListener("change" + qx.lang.String.firstUp(property), evt => this.set(property, evt.getData()));
         }
       }
     }
