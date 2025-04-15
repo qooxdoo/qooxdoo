@@ -1165,6 +1165,7 @@ qx.Class.define("qx.test.Promise", {
       var t = this;
       qx.event.GlobalError.setErrorHandler(function (ex) {
         t.assertEquals(ex.message, "oops");
+        qx.event.GlobalError.setErrorHandler(null);
         t.resume();
       });
       var self = this;
