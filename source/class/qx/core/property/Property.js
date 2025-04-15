@@ -517,6 +517,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       this.__storage.set(thisObj, this, value);
       this._setMutating(thisObj, true);
+      thisObj["$$init_" + this.__propertyName] = value;
 
       try {
         this.__callFunction(thisObj, this.__apply, value, null, this.__propertyName);
