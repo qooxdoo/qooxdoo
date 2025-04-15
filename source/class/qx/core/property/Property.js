@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       this.__definition = {};
       this.__psuedoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
-      this.__eventName = "change" + upname;
+      this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + upname : null;
       this.__storage = new qx.core.property.PsuedoPropertyStorage(this, this.__clazz);
       this.__readOnly = this.__clazz.prototype["set" + upname] === undefined;
     },
@@ -204,8 +204,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (def.event !== undefined) {
         this.__eventName = def.event;
-      } else if (!this.__superClazz) {
-        this.__eventName = "change" + qx.Bootstrap.firstUp(this.__propertyName);
+        if (qx.core.Environment.get("qx.debug")) {
+          if (!qx.Class.hasMixin(this.__clazz, qx.core.MEvent)) {
+            this.warn(
+              `Property ${this} has event "${this.__eventName}" but the class ${this.__clazz.classname} does not implement qx.core.MEvent, so event will not be fired.`
+            );
+            debugger;
+          }
+        }
+      } else {
+        this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + qx.Bootstrap.firstUp(this.__propertyName) : null;
       }
 
       if (def.isEqual) {
