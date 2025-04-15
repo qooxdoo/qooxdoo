@@ -147,10 +147,7 @@ qx.Class.define("qx.test.Promise", {
             init: null,
             nullable: true,
             async: true,
-            apply: () => {},
-            get() {
-              return this.alpha;
-            }
+            apply: () => {}
           }
         }
       });
@@ -232,9 +229,7 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get() {
-              return this.alpha;
-            },
+
             event: "changeAlpha"
           }
         },
@@ -312,10 +307,7 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             event: "changeAlpha",
-            apply: () => {},
-            get() {
-              return this.alpha;
-            }
+            apply: () => {}
           }
         }
       });
@@ -435,9 +427,6 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get() {
-              return this.alpha;
-            },
             event: "changeAlpha"
           },
 
@@ -446,9 +435,6 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyBravo",
-            get() {
-              return this.bravo;
-            },
             event: "changeBravo"
           }
         },
@@ -760,9 +746,6 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get() {
-              return this.alpha;
-            },
             event: "changeAlpha"
           }
         },
