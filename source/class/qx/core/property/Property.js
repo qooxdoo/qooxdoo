@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     __clazz: null,
 
     /** @type{Boolean} whether this is a pseudo property or not */
-    __psuedoProperty: false,
+    __pseudoProperty: false,
 
     /**
      * @type{qx.Class} the class that original defined this property, before it was cloned and
@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     configurePsuedoProperty() {
       this.__definition = {};
-      this.__psuedoProperty = true;
+      this.__pseudoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
       this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + upname : null;
       this.__storage = new qx.core.property.PsuedoPropertyStorage(this, this.__clazz);
@@ -434,7 +434,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
-      if (!this.__psuedoProperty) {
+      if (!this.__pseudoProperty) {
         addMethod("get" + upname, function () {
           return self.get(this);
         });
@@ -458,7 +458,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         });
       }
 
-      if (!this.__psuedoProperty) {
+      if (!this.__pseudoProperty) {
         addMethod("set" + upname, function (value) {
           self.set(this, value);
           return value;
