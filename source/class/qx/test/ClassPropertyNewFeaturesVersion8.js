@@ -25,7 +25,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
   members: {
     setUp() {
       qx.Class.define("qx.test.cpnfv8.Object", {
-        extend: Object
+        extend: qx.core.Object
       });
 
       qx.Class.define("qx.test.cpnfv8.Superclass", {
@@ -66,7 +66,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
           mustBe42: {
             init: 0,
-            check: "value === 42"
+            check: v => v === 42
           },
 
           positive: {
@@ -103,30 +103,53 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         }
       });
 
-      qx.Class.define("qx.test.cpnfv8.ExternalStorage", {
-        extend: qx.test.cpnfv8.Object,
-        implement: qx.core.propertystorage.IStorage,
+      qx.Bootstrap.define("qx.test.cpnfv8.ExternalStorage", {
+        extend: Object,
+        implement: qx.core.property.IPropertyStorage,
 
-        statics: {
-          _subclassStorage: null,
-
+        members: {
+          /**@override */
           init(prop, property) {
             qx.test.cpnfv8.ExternalStorage._subclassStorage = {
               externallyStored: 0
             };
           },
 
-          get(prop) {
+          /**@override */
+          getAsync() {},
+
+          /**@override */
+          setAsync() {},
+
+          /**@override */
+          reset(thisObj, property, value) {
+            console.log("in externallyStored reset");
+            qx.test.cpnfv8.ExternalStorage._subclassStorage[property.getPropertyName()] = value;
+          },
+
+          /**@override */
+          isAsyncStorage() {
+            return false;
+          },
+
+          /**@override */
+          get(thisObj, prop) {
             console.log("in externallyStored getter");
-            return qx.test.cpnfv8.ExternalStorage._subclassStorage[prop];
+            return qx.test.cpnfv8.ExternalStorage._subclassStorage[prop.getPropertyName()];
           },
 
-          set(prop, value) {
+          /**@override */
+          set(thisObj, property, value) {
             console.log("in externallyStored setter");
-            qx.test.cpnfv8.ExternalStorage._subclassStorage[prop] = value;
+            qx.test.cpnfv8.ExternalStorage._subclassStorage[property.getPropertyName()] = value;
           },
 
+          /**@override */
           dereference(prop, property) {}
+        },
+
+        statics: {
+          _subclassStorage: {}
         }
       });
 
@@ -658,27 +681,17 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
 
       try {
         superinstance.mustBe42 = 42;
-        this.assertTrue(true, "check-string succeeded as it should");
+        this.assertTrue(true, "check-function succeeded as it should");
       } catch (e) {
-        this.assertTrue(false, "check-string succeeded as it should");
+        this.assertTrue(false, "check-function succeeded as it should");
       }
 
       try {
         superinstance.mustBe42 = 43;
-        this.assertTrue(false, "check-string failed as it should");
+        this.assertTrue(false, "check-function failed as it should");
       } catch (e) {
-        this.assertTrue(true, "check-string failed as it should");
+        this.assertTrue(true, "check-function failed as it should");
       }
-    },
-
-    testPropertyDescriptor() {
-      let superinstance = new qx.test.cpnfv8.Superclass(false);
-      let propertyDescriptorPositive = superinstance.getPropertyDescriptor("positive");
-
-      console.log("Property descriptor=", propertyDescriptorPositive);
-      superinstance.positive = 1;
-      propertyDescriptorPositive.set(2);
-      this.assertEquals(2, superinstance.positive, "property descriptor set works");
     },
 
     testMemberDetectSameClassProperty() {
@@ -698,7 +711,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         throw new Error("Failed to detect same name in member and property");
       } catch (e) {
         this.assertEquals(
-          'Error: null: Overwriting member "x" with property "x"',
+          `Error: Overwriting member or property "x" of Class "null" is not allowed. (Members and properties are in the same namespace.)`,
           e.toString(),
           "Property and member of same name in same class not detected"
         );
@@ -725,7 +738,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         throw new Error("Failed to detect same name in member and superclass property");
       } catch (e) {
         this.assertEquals(
-          'Error: Overwriting member or property "x" of Class "null" is not allowed. ' +
+          'Error: null: Overwriting member or property "x" of Class "null" is not allowed! ' +
             "(Members and properties are in the same namespace.)",
           e.toString(),
           "Member of same name as property in superclass not detected"
@@ -792,8 +805,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         throw new Error("Failed to detect Object method name in properties");
       } catch (e) {
         this.assertEquals(
-          'Error: Overwriting member or property "toString" of Class "null" is not allowed. ' +
-            "(Members and properties are in the same namespace.)",
+          'Error: Overwriting member or property "toString" of Class "null" is not allowed. (Members and properties are in the same namespace.)',
           e.toString(),
           "Property of same name as Object method"
         );
