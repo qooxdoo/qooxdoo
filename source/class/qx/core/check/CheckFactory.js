@@ -81,7 +81,6 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
       if (clazz) {
         check = new clazz(nullable);
         if (check.isNullable() === null) {
-          debugger;
           check = new clazz(nullable);
         }
         this.__checks[expr] = check;
