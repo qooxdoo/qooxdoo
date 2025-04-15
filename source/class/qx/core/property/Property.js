@@ -541,9 +541,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.__initFunction !== undefined) {
         value = this.__initFunction.call(thisObj, value, this);
       }
-      if (value === undefined && this.__definition.check == "Boolean") {
-        value = false;
-      }
       return value;
     },
 
