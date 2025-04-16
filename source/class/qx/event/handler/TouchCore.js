@@ -115,9 +115,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         "touchcancel"
       ];
 
-      // Ensure the workaround applies to IE only as intended
-      // See: https://github.com/qooxdoo/qooxdoo/issues/10774
-      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("event.mspointer")) {
+      if (qx.core.Environment.get("event.mspointer")) {
         var engineVersion = parseInt(
           qx.core.Environment.get("engine.version"),
           10
