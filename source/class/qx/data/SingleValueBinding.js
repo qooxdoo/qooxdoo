@@ -20,6 +20,7 @@
  * Single-value binding is a core component of the data binding package.
  */
 qx.Class.define("qx.data.SingleValueBinding", {
+  type: "static",
   statics: {
     /** internal reference for all bindings indexed by source object */
     __bindings: {},
@@ -153,22 +154,14 @@ qx.Class.define("qx.data.SingleValueBinding", {
               if (i == 0) {
                 // the root property can not change --> error
                 throw new qx.core.AssertionError(
-                  "Binding property " +
-                    propertyName +
-                    " of object " +
-                    source +
-                    " not possible: No event available. Full property chain: " +
+                  `Binding property ${source.classname}.${propertyName} of object ${source} (${source?.classname}) not possible: No event available. Full property chain: ` +
                     sourcePropertyChain
                 );
               }
 
               if (source instanceof qx.core.Object && qx.Class.hasProperty(source.constructor, propertyName)) {
                 qx.log.Logger.warn(
-                  "Binding property " +
-                    propertyName +
-                    " of object " +
-                    source +
-                    " not possible: No event available. Full property chain: " +
+                  `Binding property ${source.classname}.${propertyName} of object ${source} (${source?.classname}) not possible: No event available. Full property chain: ` +
                     sourcePropertyChain
                 );
               }
@@ -683,7 +676,6 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     __setTargetValue(targetObject, targetPropertyChain, value) {
       // get the last target object of the chain
-      var result;
       var properties = this.__getPropertyChainArray(targetPropertyChain);
       var target = this.__getTargetFromChain(targetObject, properties);
       if (target) {
@@ -692,7 +684,6 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
         // check for array notation
         var index = this.__getArrayIndex(lastProperty);
-
         if (index) {
           if (index === "last") {
             // check for the 'last' notation
@@ -700,13 +691,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
           }
           target.setItem(index, value);
         } else {
-          let setName = "set" + qx.lang.String.firstUp(lastProperty);
-          if (qx.core.Environment.get("qx.debug")) {
-            if (typeof target[setName] != "function") {
-              throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
-            }
+          if (typeof target["set" + qx.lang.String.firstUp(lastProperty)] != "function") {
+            throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
           }
-          return target[setName](value);
+          return target["set" + qx.lang.String.firstUp(lastProperty)](value);
         }
       }
     },
@@ -1046,8 +1034,8 @@ qx.Class.define("qx.data.SingleValueBinding", {
     /**
      * This method takes the given value, checks if the user has given a
      * converter and converts the value to its target type. If no converter is
-     * given by the user, this will try to convert the value using the `coerce`
-     * method of the property check definition.
+     * given by the user, the {@link #__defaultConversion} will try to convert
+     * the value.
      *
      * @param value {var} The value which possibly should be converted.
      * @param targetObject {qx.core.Object} The target object.
@@ -1081,10 +1069,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
           return value;
         }
 
-        var propertyDef = qx.Class.getPropertyDefinition(target.constructor, lastProperty);
+        var propertieDefinition = qx.Class.getPropertyDefinition(target.constructor, lastProperty);
 
-        var check = propertyDef?.getCheck() || null;
-        return check ? check.coerce(value, target) : value;
+        var check = propertieDefinition == null ? "" : propertieDefinition.check;
+        return this.__defaultConversion(value, check);
       }
     },
 
@@ -1101,20 +1089,41 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     __getEventForProperty(sourceObject, sourceProperty) {
       // get the event name
-      var propertyDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
+      var propertieDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
 
-      if (propertyDefinition) {
-        return propertyDefinition.getEventName();
+      if (propertieDefinition == null) {
+        return null;
+      }
+      return propertieDefinition.event;
+    },
+
+    /**
+     * Tries to convert the data to the type given in the targetCheck argument.
+     *
+     * @param data {var} The data to convert.
+     * @param targetCheck {String} The value of the check property. That usually
+     *   contains the target type.
+     * @return {Integer|String|Float} The converted data
+     */
+    __defaultConversion(data, targetCheck) {
+      var dataType = qx.lang.Type.getClass(data);
+
+      // to integer
+      if ((dataType == "Number" || dataType == "String") && (targetCheck == "Integer" || targetCheck == "PositiveInteger")) {
+        data = parseInt(data, 10);
       }
 
-      if (sourceProperty.endsWith("Async")) {
-        var propertyDefinition = qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty.replace(/Async$/, ""));
-        if (propertyDefinition.isAsync()) {
-          return propertyDefinition.getEventName();
-        }
+      // to string
+      if ((dataType == "Boolean" || dataType == "Number" || dataType == "Date") && targetCheck == "String") {
+        data = data + "";
       }
 
-      return null;
+      // to float
+      if ((dataType == "Number" || dataType == "String") && (targetCheck == "Number" || targetCheck == "PositiveNumber")) {
+        data = parseFloat(data);
+      }
+
+      return data;
     },
 
     /**
