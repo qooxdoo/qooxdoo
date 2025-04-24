@@ -129,11 +129,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * Apply for `sourcePath`
      */
     _applySourcePath(value, oldValue) {
-      this.__sourceSegments = this.__parseSegments(
-        this.__sourceSegments,
-        value,
-        this
-      );
+      this.__sourceSegments = this.__parseSegments(this.__sourceSegments, value, this);
 
       let source = this.getSource();
       if (source && this.__sourceSegments && this.__sourceSegments[0]) {
@@ -164,19 +160,14 @@ qx.Class.define("qx.data.binding.Binding", {
      * Apply for `targetPath`
      */
     async _applyTargetPath(value, oldValue) {
-      this.__targetSegments = this.__parseSegments(
-        this.__targetSegments,
-        value
-      );
+      this.__targetSegments = this.__parseSegments(this.__targetSegments, value);
 
       let targetValue = this.getValue();
       if (targetValue && this.__targetSegments[0]) {
         await this.__targetSegments[0].setValue(targetValue);
       }
       if (this.__targetSegments) {
-        let lastSegment = this.__targetSegments
-          ? this.__targetSegments[this.__targetSegments.length - 1]
-          : null;
+        let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
         lastSegment.addListener("changeValue", this.__updateTarget, this);
       }
     },
@@ -239,9 +230,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * Updates the target with the current value
      */
     async __updateTarget() {
-      let lastSegment = this.__targetSegments
-        ? this.__targetSegments[this.__targetSegments.length - 1]
-        : null;
+      let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
       if (lastSegment) {
         await lastSegment.setTargetValue(this.getValue());
       }

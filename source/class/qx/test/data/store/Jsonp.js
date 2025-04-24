@@ -38,9 +38,7 @@ qx.Class.define("qx.test.data.store.Jsonp", {
       this.require(["php"]);
       this.__store = new qx.data.store.Jsonp();
 
-      this.url = qx.util.ResourceManager.getInstance().toUri(
-        "qx/test/jsonp_primitive.php"
-      );
+      this.url = qx.util.ResourceManager.getInstance().toUri("qx/test/jsonp_primitive.php");
     },
 
     tearDown() {
@@ -100,28 +98,13 @@ qx.Class.define("qx.test.data.store.Jsonp", {
       this.__store.addListener("loaded", () => {
         this.resume(function () {
           var model = this.__store.getModel();
-          this.assertEquals(
-            "String",
-            model.getString(),
-            "The model is not created how it should!"
-          );
+          this.assertEquals("String", model.getString(), "The model is not created how it should!");
 
-          this.assertEquals(
-            12,
-            model.getNumber(),
-            "The model is not created how it should!"
-          );
+          this.assertEquals(12, model.getNumber(), "The model is not created how it should!");
 
-          this.assertEquals(
-            true,
-            model.getBoolean(),
-            "The model is not created how it should!"
-          );
+          this.assertEquals(true, model.getBoolean(), "The model is not created how it should!");
 
-          this.assertNull(
-            model.getNull(),
-            "The model is not created how it should!"
-          );
+          this.assertNull(model.getNull(), "The model is not created how it should!");
         }, this);
       });
 
@@ -206,10 +189,7 @@ qx.Class.define("qx.test.data.store.Jsonp", {
     testErrorEvent() {
       // do not test that for IE and Opera because of the missing
       // error handler for script tags
-      if (
-        !(qx.core.Environment.get("browser.name") == "ie") &&
-        !(qx.core.Environment.get("browser.name") == "opera")
-      ) {
+      if (!(qx.core.Environment.get("browser.name") == "ie") && !(qx.core.Environment.get("browser.name") == "opera")) {
         this.__store.addListener("error", () => {
           this.resume(function () {}, this);
         });

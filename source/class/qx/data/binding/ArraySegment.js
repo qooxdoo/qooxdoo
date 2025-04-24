@@ -53,11 +53,7 @@ qx.Class.define("qx.data.binding.ArraySegment", {
       if (array instanceof qx.data.Array) {
         array.removeListener("change", this.__onChangeContents, this);
       }
-      value.removeListener(
-        "change" + upname,
-        this.__onChangeValueProperty,
-        this
-      );
+      value.removeListener("change" + upname, this.__onChangeValueProperty, this);
     }
   },
 
@@ -92,11 +88,7 @@ qx.Class.define("qx.data.binding.ArraySegment", {
         if (array instanceof qx.data.Array) {
           array.removeListener("change", this.__onChangeContents, this);
         }
-        oldValue.removeListener(
-          "change" + upname,
-          this.__onChangeValueProperty,
-          this
-        );
+        oldValue.removeListener("change" + upname, this.__onChangeValueProperty, this);
       }
       if (value == null) {
         await this.__nextSegment.setValue(null);
@@ -105,11 +97,7 @@ qx.Class.define("qx.data.binding.ArraySegment", {
         if (array instanceof qx.data.Array) {
           array.addListener("change", this.__onChangeContents, this);
         }
-        value.addListener(
-          "change" + upname,
-          this.__onChangeValueProperty,
-          this
-        );
+        value.addListener("change" + upname, this.__onChangeValueProperty, this);
 
         let nextValue = this.__get(array);
         await this.__nextSegment.setValue(nextValue);

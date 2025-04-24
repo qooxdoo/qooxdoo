@@ -60,11 +60,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
     testAppend() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "C", "D", "E", "F"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "C", "D", "E", "F"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["D", "E", "F"], e.getData().value);
@@ -79,21 +75,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.append(["D", "E", "F"]);
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "C", "D", "E", "F"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "C", "D", "E", "F"], this.array.toArray(), "Changes are not applied!");
     },
 
     testAppendOne() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "C", "D"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "C", "D"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
@@ -108,19 +96,12 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.append(["D"]);
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "C", "D"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "C", "D"], this.array.toArray(), "Changes are not applied!");
     },
 
     testBubbleAfterAppend() {
       var that = this;
-      var model = qx.data.marshal.Json.createModel(
-        [{ a: "0" }, { a: "1" }],
-        true
-      );
+      var model = qx.data.marshal.Json.createModel([{ a: "0" }, { a: "1" }], true);
 
       var handler = function (e) {
         // check the data
@@ -129,10 +110,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       };
       var spy = this.spy(handler);
 
-      var moreModel = qx.data.marshal.Json.createModel(
-        [{ a: "2" }, { a: "3" }],
-        true
-      );
+      var moreModel = qx.data.marshal.Json.createModel([{ a: "2" }, { a: "3" }], true);
 
       model.append(moreModel);
 
@@ -145,11 +123,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
     testInsertAfter() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "BB", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "BB", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
@@ -164,21 +138,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.insertAfter("B", "BB");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "BB", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "BB", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testInsertAt() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "BB", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "BB", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
@@ -193,21 +159,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.insertAt(2, "BB");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "BB", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "BB", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testInsertBefore() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "BB", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "BB", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
@@ -222,21 +180,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.insertBefore("C", "BB");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "BB", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "BB", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testPop() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -251,21 +201,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.pop();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B"], this.array.toArray(), "Changes are not applied!");
     },
 
     testPush() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "C", "D"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "C", "D"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
@@ -280,21 +222,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.push("D");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "C", "D"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "C", "D"], this.array.toArray(), "Changes are not applied!");
     },
 
     testRemove() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -309,21 +243,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.remove("B");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testRemoveAll() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          [],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals([], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -338,21 +264,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.removeAll();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        [],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals([], this.array.toArray(), "Changes are not applied!");
     },
 
     testRemoveAt() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -367,21 +285,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.removeAt(1);
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testReverse() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["C", "B", "A"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
@@ -396,21 +306,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.reverse();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["C", "B", "A"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["C", "B", "A"], this.array.toArray(), "Changes are not applied!");
     },
 
     testSetItem() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "BB", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "BB", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
@@ -425,21 +327,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.setItem(1, "BB");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "BB", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "BB", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testShift() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["B", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["B", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -454,21 +348,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.shift();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["B", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["B", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testSort() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["C", "B", "A"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
@@ -485,11 +371,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       });
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["C", "B", "A"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["C", "B", "A"], this.array.toArray(), "Changes are not applied!");
     },
 
     testSortSecondTime() {
@@ -497,17 +379,9 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       var changeBubbleExecutionCounter = 0;
 
       var handler = function (e) {
-        that.assertEquals(
-          0,
-          changeBubbleExecutionCounter,
-          "Handler was fired more than one times."
-        );
+        that.assertEquals(0, changeBubbleExecutionCounter, "Handler was fired more than one times.");
 
-        that.assertArrayEquals(
-          ["C", "B", "A"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["C", "B", "A"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
@@ -526,11 +400,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       });
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["C", "B", "A"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["C", "B", "A"], this.array.toArray(), "Changes are not applied!");
 
       // Sort array second time with same method
       this.array.sort(function (a, b) {
@@ -541,11 +411,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
     testSplice() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A", "B", "D", "E", "F"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A", "B", "D", "E", "F"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["D", "E", "F"], e.getData().value);
@@ -560,21 +426,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.splice(2, 3, "D", "E", "F").dispose();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A", "B", "D", "E", "F"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A", "B", "D", "E", "F"], this.array.toArray(), "Changes are not applied!");
     },
 
     testSpliceRemoveOnly() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["A"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["A"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals([], e.getData().value);
@@ -589,21 +447,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.splice(1, 2).dispose();
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["A"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["A"], this.array.toArray(), "Changes are not applied!");
     },
 
     testUnshift() {
       var that = this;
       var handler = function (e) {
-        that.assertArrayEquals(
-          ["D", "A", "B", "C"],
-          that.array.toArray(),
-          "Changes are not applied when handler is executed!"
-        );
+        that.assertArrayEquals(["D", "A", "B", "C"], that.array.toArray(), "Changes are not applied when handler is executed!");
 
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
@@ -618,19 +468,12 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
       this.array.unshift("D");
 
       this.assertCalledOnce(spy);
-      this.assertArrayEquals(
-        ["D", "A", "B", "C"],
-        this.array.toArray(),
-        "Changes are not applied!"
-      );
+      this.assertArrayEquals(["D", "A", "B", "C"], this.array.toArray(), "Changes are not applied!");
     },
 
     testShiftAndSet() {
       // [BUG #6406]
-      var model = qx.data.marshal.Json.createModel(
-        [{ foo: "one" }, { foo: "two" }, { foo: "three" }],
-        true
-      );
+      var model = qx.data.marshal.Json.createModel([{ foo: "one" }, { foo: "two" }, { foo: "three" }], true);
 
       // first do a shift operation
       model.shift();
@@ -651,10 +494,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
 
     testReverseAndSet() {
       // [BUG #6406]
-      var model = qx.data.marshal.Json.createModel(
-        [{ foo: "one" }, { foo: "two" }, { foo: "three" }],
-        true
-      );
+      var model = qx.data.marshal.Json.createModel([{ foo: "one" }, { foo: "two" }, { foo: "three" }], true);
 
       // first do a shift operation
       model.reverse();
@@ -675,10 +515,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
 
     testUnshiftAndSet() {
       // [BUG #6406]
-      var model = qx.data.marshal.Json.createModel(
-        [{ foo: "one" }, { foo: "two" }, { foo: "three" }],
-        true
-      );
+      var model = qx.data.marshal.Json.createModel([{ foo: "one" }, { foo: "two" }, { foo: "three" }], true);
 
       // first do a shift operation
       model.unshift(qx.data.marshal.Json.createModel({ foo: "zero" }, true));
@@ -730,17 +567,10 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
 
     testSpliceAndSet() {
       // [BUG #6406]
-      var model = qx.data.marshal.Json.createModel(
-        [{ foo: "one" }, { foo: "two" }, { foo: "three" }],
-        true
-      );
+      var model = qx.data.marshal.Json.createModel([{ foo: "one" }, { foo: "two" }, { foo: "three" }], true);
 
       // first do a shift operation
-      model.splice(
-        0,
-        0,
-        qx.data.marshal.Json.createModel({ foo: "zero" }, true)
-      );
+      model.splice(0, 0, qx.data.marshal.Json.createModel({ foo: "zero" }, true));
 
       var that = this;
       var handler = function (e) {

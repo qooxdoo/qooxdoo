@@ -157,37 +157,21 @@ qx.Class.define("qx.test.data.async.Deep", {
 
       // create the binding
       // a --> b1 --> label
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
 
       // just set the name of the second component
       this.__b1.setName("B1");
-      this.assertEquals(
-        "B1",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the first parameter."
-      );
+      this.assertEquals("B1", this.__label.getValue(), "Deep binding does not work with updating the first parameter.");
 
       // change the second component
       // a --> b2 --> label
       this.__a.setChild(this.__b2);
-      this.assertEquals(
-        "b2",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the first parameter."
-      );
+      this.assertEquals("b2", this.__label.getValue(), "Deep binding does not work with updating the first parameter.");
 
       // check for the null value
       // a --> null
       this.__a.setChild(null);
-      this.assertNull(
-        this.__label.getValue(),
-        "Binding does not work with null."
-      );
+      this.assertNull(this.__label.getValue(), "Binding does not work with null.");
     },
 
     testDepthOf3(attribute) {
@@ -207,55 +191,32 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b2.setChild(c2);
 
       // create the binding
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.child.name", this.__label, "value");
 
       // just set the name of the last component
       c1.setName("C1");
-      this.assertEquals(
-        "C1",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the third parameter."
-      );
+      this.assertEquals("C1", this.__label.getValue(), "Deep binding does not work with updating the third parameter.");
 
       // change the middle child
       // a --> b2 --> c2 --> label
       this.__a.setChild(this.__b2);
-      this.assertEquals(
-        "c2",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the second parameter."
-      );
+      this.assertEquals("c2", this.__label.getValue(), "Deep binding does not work with updating the second parameter.");
 
       // set the middle child to null
       // a --> null
       this.__a.setChild(null);
-      this.assertNull(
-        this.__label.getValue(),
-        "Deep binding does not work with first null child."
-      );
+      this.assertNull(this.__label.getValue(), "Deep binding does not work with first null child.");
 
       // set only two childs
       // a --> b1 --> null
       this.__b1.setChild(null);
       this.__a.setChild(this.__b1);
-      this.assertNull(
-        this.__label.getValue(),
-        "Deep binding does not work with second null child."
-      );
+      this.assertNull(this.__label.getValue(), "Deep binding does not work with second null child.");
 
       // set the childs in a row
       // a --> b1 --> c1 --> label
       this.__b1.setChild(c1);
-      this.assertEquals(
-        "C1",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the third parameter."
-      );
+      this.assertEquals("C1", this.__label.getValue(), "Deep binding does not work with updating the third parameter.");
     },
 
     testDepthOf5(attribute) {
@@ -279,19 +240,10 @@ qx.Class.define("qx.test.data.async.Deep", {
       d.setChild(e);
 
       // create the binding
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.child.child.child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.child.child.child.name", this.__label, "value");
 
       // test if the binding did work
-      this.assertEquals(
-        "e",
-        this.__label.getValue(),
-        "Deep binding does not work with updating the third parameter."
-      );
+      this.assertEquals("e", this.__label.getValue(), "Deep binding does not work with updating the third parameter.");
     },
 
     testWrongDeep() {
@@ -306,12 +258,7 @@ qx.Class.define("qx.test.data.async.Deep", {
         // set a wrong first parameter in the chain
         this.assertException(
           function () {
-            qx.data.SingleValueBindingAsync.bind(
-              a,
-              "chiild.name",
-              label,
-              "value"
-            );
+            qx.data.SingleValueBindingAsync.bind(a, "chiild.name", label, "value");
           },
           qx.core.AssertionError,
           null,
@@ -332,39 +279,21 @@ qx.Class.define("qx.test.data.async.Deep", {
 
     testSingle() {
       // set only one property in the chain
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__label, "value");
 
       // chech the initial value
-      this.assertEquals(
-        "a",
-        this.__label.getValue(),
-        "Single property names don't work!"
-      );
+      this.assertEquals("a", this.__label.getValue(), "Single property names don't work!");
 
       // check the binding
       this.__a.setName("A");
-      this.assertEquals(
-        "A",
-        this.__label.getValue(),
-        "Single property names don't work!"
-      );
+      this.assertEquals("A", this.__label.getValue(), "Single property names don't work!");
     },
 
     testDebug(attribute) {
       // build the structure
       this.__a.setChild(this.__b1);
       // bind the stuff together
-      var id = qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      var id = qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
 
       // log this binding in the console
       qx.data.SingleValueBindingAsync.showBindingInLog(this.__a, id);
@@ -374,53 +303,25 @@ qx.Class.define("qx.test.data.async.Deep", {
       // build the structure
       this.__a.setChild(this.__b1);
       // bind the stuff together
-      var id = qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      var id = qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
 
       // check the binding
       this.__b1.setName("A");
-      this.assertEquals(
-        "A",
-        this.__label.getValue(),
-        "Single property names don't work!"
-      );
+      this.assertEquals("A", this.__label.getValue(), "Single property names don't work!");
 
       // remove the binding
       qx.data.SingleValueBindingAsync.removeBindingFromObject(this.__a, id);
 
       // check the binding again
       this.__a.setName("A2");
-      this.assertEquals(
-        "A",
-        this.__label.getValue(),
-        "Removing does not work!"
-      );
+      this.assertEquals("A", this.__label.getValue(), "Removing does not work!");
 
       // smoke Test for the remove
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "child.name", this.__label, "value");
     },
 
     testArrayDeep() {
@@ -429,129 +330,62 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "array[0].child.name",
-        this.__label,
-        "value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "array[0].child.name", this.__label, "value");
 
-      this.assertEquals(
-        "b2",
-        this.__label.getValue(),
-        "Deep binding does not work."
-      );
+      this.assertEquals("b2", this.__label.getValue(), "Deep binding does not work.");
 
       this.__a.getArray().pop();
       this.assertNull(this.__label.getValue(), "Deep binding does not work.");
 
       this.__a.getArray().push(this.__b2);
-      this.assertEquals(
-        "b1",
-        this.__label.getValue(),
-        "Deep binding does not work."
-      );
+      this.assertEquals("b1", this.__label.getValue(), "Deep binding does not work.");
 
       this.__b1.setName("B1");
-      this.assertEquals(
-        "B1",
-        this.__label.getValue(),
-        "Deep binding does not work."
-      );
+      this.assertEquals("B1", this.__label.getValue(), "Deep binding does not work.");
     },
 
     testDeepTarget() {
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__b1,
-        "lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__b1, "lab.value");
 
-      this.assertEquals(
-        "a",
-        this.__b1.getLab().getValue(),
-        "Deep binding on the target does not work."
-      );
+      this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTarget2() {
       this.__b2.setChild(this.__b1);
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__b2,
-        "child.lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__b2, "child.lab.value");
 
-      this.assertEquals(
-        "a",
-        this.__b1.getLab().getValue(),
-        "Deep binding on the target does not work."
-      );
+      this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTargetNull() {
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__b2,
-        "child.lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__b2, "child.lab.value");
 
-      this.assertEquals(
-        "",
-        this.__b1.getLab().getValue(),
-        "Deep binding on the target does not work."
-      );
+      this.assertEquals("", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTargetArray() {
       this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__a,
-        "array[0].lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__a, "array[0].lab.value");
 
-      this.assertEquals(
-        "a",
-        this.__b1.getLab().getValue(),
-        "Deep binding on the target does not work."
-      );
+      this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTargetArrayLast() {
       this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__a,
-        "array[last].lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__a, "array[last].lab.value");
 
-      this.assertEquals(
-        "a",
-        this.__b1.getLab().getValue(),
-        "Deep binding on the target does not work."
-      );
+      this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTargetChange() {
       var oldLabel = this.__b1.getLab();
       var newLabel = new qx.test.data.async.TextFieldDummy("x");
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__b1,
-        "lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__b1, "lab.value");
 
       this.__b1.setLab(newLabel);
       this.assertEquals("a", this.__b1.getLab().getValue());
@@ -568,17 +402,11 @@ qx.Class.define("qx.test.data.async.Deep", {
       var oldLabel = this.__b1.getLab();
       var newLabel = new qx.test.data.async.TextFieldDummy("x");
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__b1,
-        "lab.value",
-        {
-          converter(data) {
-            return data + "...";
-          }
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__b1, "lab.value", {
+        converter(data) {
+          return data + "...";
         }
-      );
+      });
 
       this.__b1.setLab(newLabel);
       this.assertEquals("a...", this.__b1.getLab().getValue());
@@ -597,12 +425,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "child.child.lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "child.child.lab.value");
 
       // check the default set
       this.__label.setValue("123");
@@ -624,12 +447,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
 
-      var id = qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "child.child.lab.value"
-      );
+      var id = qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "child.child.lab.value");
 
       // check the default set
       this.__label.setValue("123");
@@ -639,11 +457,7 @@ qx.Class.define("qx.test.data.async.Deep", {
 
       // change the child of __a
       this.__a.setChild(this.__b2);
-      this.assertEquals(
-        "",
-        this.__b1.getLab().getValue(),
-        "listener still there"
-      );
+      this.assertEquals("", this.__b1.getLab().getValue(), "listener still there");
 
       // set another label value
       this.__label.setValue("456");
@@ -652,12 +466,7 @@ qx.Class.define("qx.test.data.async.Deep", {
     },
 
     testDeepTargetChangeArray() {
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "array[0]"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "array[0]");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(0));
@@ -676,12 +485,7 @@ qx.Class.define("qx.test.data.async.Deep", {
     },
 
     testDeepTargetChangeArrayLast() {
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "array[last]"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "array[last]");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(2));
@@ -705,12 +509,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "child.child.array[0]"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "child.child.array[0]");
 
       // check the default set
       this.__label.setValue("123");
@@ -723,11 +522,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       // set another label value
       this.__label.setValue("456");
       this.assertEquals("456", this.__b1.getArray().getItem(0));
-      this.assertEquals(
-        "123",
-        this.__b2.getArray().getItem(0),
-        "binding still exists"
-      );
+      this.assertEquals("123", this.__b2.getArray().getItem(0), "binding still exists");
     },
 
     testDeepTargetChangeMiddleArray() {
@@ -736,12 +531,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__a.setArray(array);
       oldArray.dispose();
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "array[0].lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "array[0].lab.value");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getLab().getValue());
@@ -760,12 +550,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__a.setArray(array);
       oldArray.dispose();
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "array[last].lab.value"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "array[last].lab.value");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getLab().getValue());
@@ -781,12 +566,7 @@ qx.Class.define("qx.test.data.async.Deep", {
     testDeepTargetChangeWithoutEvent() {
       this.__a.setChildWithout(this.__b1);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "childWithout.name"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "childWithout.name");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__b1.getName());
@@ -804,12 +584,7 @@ qx.Class.define("qx.test.data.async.Deep", {
       this.__b1.setChildWithout(this.__b2);
       this.__b2.setChildWithout(this.__b1);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__label,
-        "value",
-        this.__a,
-        "child.childWithout.name"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a, "child.childWithout.name");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__b2.getName());
@@ -833,12 +608,7 @@ qx.Class.define("qx.test.data.async.Deep", {
 
       this.__a.setName(null);
 
-      qx.data.SingleValueBindingAsync.bind(
-        this.__a,
-        "name",
-        this.__a,
-        "child.child.name"
-      );
+      qx.data.SingleValueBindingAsync.bind(this.__a, "name", this.__a, "child.child.name");
 
       this.assertEquals(this.__a.getName(), this.__b2.getName());
 
