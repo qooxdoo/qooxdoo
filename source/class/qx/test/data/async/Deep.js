@@ -18,58 +18,11 @@
 /**
  * Test-Class for testing the single value binding
  *
- * @ignore(qx.test.MultiBinding)
+ * @ignore(qx.test.data.MultiBinding)
  */
 qx.Class.define("qx.test.data.async.Deep", {
   extend: qx.dev.unit.TestCase,
   include: [qx.dev.unit.MMock],
-
-  construct() {
-    super();
-
-    // define a test class
-    qx.Class.define("qx.test.MultiBinding", {
-      extend: qx.core.Object,
-
-      properties: {
-        child: {
-          check: "qx.test.MultiBinding",
-          event: "changeChild",
-          nullable: true
-        },
-
-        childWithout: {
-          check: "qx.test.MultiBinding",
-          nullable: true
-        },
-
-        name: {
-          check: "String",
-          nullable: true,
-          init: "Juhu",
-          event: "changeName"
-        },
-
-        array: {
-          init: null,
-          event: "changeArray"
-        },
-
-        lab: {
-          event: "changeLable"
-        }
-      },
-
-      destruct() {
-        if (this.getLab()) {
-          this.getLab().dispose();
-        }
-        if (this.getArray()) {
-          this.getArray().dispose();
-        }
-      }
-    });
-  },
 
   members: {
     __a: null,
@@ -78,19 +31,19 @@ qx.Class.define("qx.test.data.async.Deep", {
     __label: null,
 
     setUp() {
-      this.__a = new qx.test.MultiBinding().set({
+      this.__a = new qx.test.data.MultiBinding().set({
         name: "a",
         lab: new qx.test.data.async.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
 
-      this.__b1 = new qx.test.MultiBinding().set({
+      this.__b1 = new qx.test.data.MultiBinding().set({
         name: "b1",
         lab: new qx.test.data.async.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
       });
 
-      this.__b2 = new qx.test.MultiBinding().set({
+      this.__b2 = new qx.test.data.MultiBinding().set({
         name: "b2",
         lab: new qx.test.data.async.TextFieldDummy(""),
         array: new qx.data.Array(["one", "two", "three"])
@@ -176,11 +129,11 @@ qx.Class.define("qx.test.data.async.Deep", {
 
     testDepthOf3(attribute) {
       // create a hierarchy
-      var c1 = new qx.test.MultiBinding().set({
+      var c1 = new qx.test.data.MultiBinding().set({
         name: "c1"
       });
 
-      var c2 = new qx.test.MultiBinding().set({
+      var c2 = new qx.test.data.MultiBinding().set({
         name: "c2"
       });
 
@@ -221,15 +174,15 @@ qx.Class.define("qx.test.data.async.Deep", {
 
     testDepthOf5(attribute) {
       // create a hierarchy
-      var c = new qx.test.MultiBinding().set({
+      var c = new qx.test.data.MultiBinding().set({
         name: "c"
       });
 
-      var d = new qx.test.MultiBinding().set({
+      var d = new qx.test.data.MultiBinding().set({
         name: "d"
       });
 
-      var e = new qx.test.MultiBinding().set({
+      var e = new qx.test.data.MultiBinding().set({
         name: "e"
       });
 
