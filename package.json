@@ -106,6 +106,7 @@
     "object-hash": "^2.1.1",
     "prettier": "^2.5.1",
     "ps-tree": "^1.2.0",
+    "regenerator-runtime": "^0.14.1",
     "replace-in-file": "^5.0.0",
     "rimraf": "^3.0.2",
     "sass": "1.69.4",
