@@ -302,6 +302,6 @@
     }
   },
   "requires": {
-    "@qooxdoo/framework": "^7.9 || ^7.0.0"
+    "@qooxdoo/framework": "^7.9.0 || ^7.0.0"
   }
 }
