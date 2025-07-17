@@ -1,0 +1,118 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2022-2023 Zenesis Limited, https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (https://github.com/johnspackman, john.spackman@zenesis.com)
+
+************************************************************************ */
+
+/**
+ * Segment that represents a property name in a binding path.
+ */
+qx.Class.define("qx.data.binding.PropNameSegment", {
+  extend: qx.data.binding.AbstractSegment,
+
+  /**
+   * @param {String} propName
+   */
+  construct(propName) {
+    super();
+    this.__propName = propName;
+  },
+
+  /**
+   * Destructor
+   */
+  destruct() {
+    let input = this.getInput();
+    if (input) {
+      let eventName = qx.Class.getByProperty(input.constructor, this.__propName)?.getEventName() ?? null;
+      eventName && input.removeListener(eventName, this.__onChangeInputProperty, this);
+    }
+  },
+
+  members: {
+    /** @type {String} the property name for this segment */
+    __propName: null,
+
+    /**
+     *
+     * @returns {String} the property name for this segment
+     */
+    getPropName() {
+      return this.__propName;
+    },
+
+    /**@override */
+    toString() {
+      return this.__propName;
+    },
+
+    /**
+     * Apply for `input`
+     */
+    _applyInput(value, oldValue) {
+      if (oldValue) {
+        let eventName = qx.Class.getByProperty(oldValue.constructor, this.__propName)?.getEventName() ?? null;
+        eventName && oldValue.removeListener(eventName, this.__onChangeInputProperty, this);
+        this.setEventName(null);
+      }
+
+      if (value) {
+        let property = qx.Class.getByProperty(value.constructor, this.__propName);
+        let eventName = property?.getEventName() ?? null;
+        eventName && value.addListener(eventName, this.__onChangeInputProperty, this);
+        this.setEventName(eventName);
+      }
+
+      return this.updateOutput();
+    },
+
+    updateOutput() {
+      let input = this.getInput();
+      if (input == null) {
+        this.setOutput(null);
+      } else {
+        let property = qx.Class.getByProperty(input.constructor, this.__propName);
+        if (property === null) {
+          return this.setOutput(null);
+        }
+        if (property.isInitialized(input)) {
+          let nextInput = property.get(input, this.__propName);
+          return this.setOutput(nextInput);
+        } else {
+          let promise = property.get(input, this.__propName);
+          return promise?.then(nextInput => {
+            return this.setOutput(nextInput);
+          });
+        }
+      }
+    },
+
+    /**
+     * @override
+     */
+    setTargetValue(targetValue) {
+      qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+    },
+
+    /**
+     * Event handler for when the input property changes
+     *
+     * @param {qx.event.type.Data} evt
+     */
+    __onChangeInputProperty(evt) {
+      this.setOutput(evt.getData());
+    }
+  }
+});

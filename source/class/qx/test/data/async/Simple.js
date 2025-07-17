@@ -574,7 +574,8 @@ qx.Class.define("qx.test.data.async.Simple", {
         properties: {
           x: {
             nullable: true,
-            init: "affe"
+            init: "affe",
+            event: null
           }
         }
       });

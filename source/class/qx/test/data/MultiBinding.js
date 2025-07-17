@@ -10,7 +10,8 @@ qx.Class.define("qx.test.data.MultiBinding", {
 
     childWithout: {
       check: "qx.test.data.MultiBinding",
-      nullable: true
+      nullable: true,
+      event: null
     },
 
     name: {

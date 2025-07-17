@@ -60,44 +60,40 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
      * to the textfield. If now the value of b changed or even the a will get a
      * new b, the binding still shows the right value.
      *
-     * @param sourceObject {qx.core.Object} The source of the binding.
-     * @param sourcePropertyChain {String} The property chain which represents
+     * @param {qx.core.Object} sourceObject The source of the binding.
+     * @param {String} sourcePropertyChain The property chain which represents
      *   the source property.
-     * @param targetObject {qx.core.Object} The object which the source should
-     *   be bind to.
-     * @param targetPropertyChain {String} The property chain to the target
+     * @param {qx.core.Object} targetObject The object which the source should
+     *   be bound to.
+     * @param {String} targetPropertyChain The property chain to the target
      *   object.
-     * @param options {Map?null} A map containing the options.
-     *   <li>converter: A converter function which takes four parameters
-     *       and should return the converted value.
-     *       <ol>
-     *         <li>The data to convert</li>
-     *         <li>The corresponding model object, which is only set in case of the use of an controller.</li>
-     *         <li>The source object for the binding</li>
-     *         <li>The target object.</li>
-     *       </ol>
-     *       If no conversion has been done, the given value should be returned.
-     *       e.g. a number to boolean converter
-     *       <code>function(data, model, source, target) {return data > 100;}</code>
-     *   </li>
-     *   <li>onUpdate: A callback function can be given here. This method will be
-     *       called if the binding was updated successful. There will be
-     *       three parameter you do get in that method call.
-     *       <ol>
-     *         <li>The source object</li>
-     *         <li>The target object</li>
-     *         <li>The data</li>
-     *       </ol>
-     *       Here is a sample: <code>onUpdate : function(source, target, data) {...}</code>
-     *   </li>
-     *   <li>onSetFail: A callback function can be given here. This method will
-     *       be called if the set of the value fails.
-     *   </li>
-     *   <li>ignoreConverter: A string which will be matched using the current
-     *       property chain. If it matches, the converter will not be called.
-     *   </li>
+     * @param {BindingOptions} options A map containing the options.
      *
-     * @return {var} Returns the internal id for that binding. This can be used
+     * @typedef BindingOptions
+     * @property {converter} converter Data converter function. If no conversion has been done, the given value should be returned.
+     * e.g. a number to boolean converter
+     * <code>function(data, model, source, target) {return data > 100;}</code>
+     * @property {onUpdate} onUpdate This callback will be called if the binding was updated successfully.
+     * @property {onSetFail} onSetFail A callback function can be given here. This function will
+     *       be called if the set of the value fails.
+     * @property {string} ignoreConverter A string which will be matched using the current
+     *       property chain. If it matches, the converter will not be called.
+     * 
+     *
+     * @callback converter
+     * @param {*} data The data to convert
+     * @param {*} model The corresponding model object, which is only set in case of the use of an controller.
+     * @param {qx.core.Object} source The source object for the binding
+     * @param {qx.core.Object} target The target object
+     * @returns {*} The converted data
+     * 
+     * @callback onUpdate
+     * @param {qx.core.Object} source The source object for the binding
+     * @param {qx.core.Object} target The target object
+     * @param {*} data The data
+         
+     *
+     * @returns {qx.data.binding.Binding} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index.
      *
@@ -114,9 +110,7 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
         qx.core.Assert.assertString(targetPropertyChain, "targetPropertyChain");
       }
 
-      let binding = new qx.data.binding.Binding(sourcePropertyChain, targetPropertyChain, sourceObject, targetObject);
-
-      binding.executeImmediate();
+      let binding = new qx.data.binding.Binding(sourcePropertyChain, targetPropertyChain, sourceObject, targetObject, options);
 
       return binding;
     },
@@ -144,7 +138,8 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
      *   removed.
      */
     removeAllBindingsForObject(object) {
-      qx.data.binding.Binding.getAllBindingsForObject(object).forEach(binding => binding.dispose());
+      qx.core.Assert.assertNotNull(object, "Null is not possible!");
+      qx.data.binding.Binding.getAllBindingsForObject(object).forEach(binding => binding[0].dispose());
     },
 
     /**
@@ -160,11 +155,7 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
      *   removed.
      */
     removeRelatedBindings(object, relatedObject) {
-      qx.data.binding.Binding.getAllBindingsForObject(object).forEach(binding => {
-        if (binding.getTarget() == relatedObject) {
-          binding.dispose();
-        }
-      });
+      qx.data.binding.Binding.removeRelatedBindings(object, relatedObject);
     },
 
     /**
@@ -178,7 +169,7 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
      *   sourceEvent, targetObject and targetProperty in that order.
      */
     getAllBindingsForObject(object) {
-      qx.data.binding.Binding.getAllBindingsForObject(object);
+      return qx.data.binding.Binding.getAllBindingsForObject(object);
     },
 
     /**
@@ -212,6 +203,19 @@ qx.Class.define("qx.data.SingleValueBindingAsync", {
           binding.getTargetPath() +
           ")."
       );
+    },
+
+    /**
+     *
+     * Internal helper for getting the current set value at the property chain.
+     *
+     * @param {qx.core.Object} object  The source of the binding.
+     * @param {String} propertyChain The property chain which represents
+     *   the source property.
+     * @return {var?undefined} Returns the set value if defined.
+     */
+    resolvePropertyChain(object, propertyChain) {
+      return qx.data.binding.Binding.resolvePropertyChain(object, propertyChain);
     }
   }
 });

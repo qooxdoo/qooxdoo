@@ -123,7 +123,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
       // change the array itself
       this.__a.getArray().dispose();
-      this.__a.setArray(new qx.data.Array(1, 2, 3));
+      this.__a.setArray(new qx.data.Array("1", "2", "3"));
       qx.log.Logger.debug(this.__a.getArray().getItem(0));
       // check the binding
       this.assertEquals("1", this.__label.getValue(), "Changing the array does not work!");
@@ -277,14 +277,8 @@ qx.Class.define("qx.test.data.async.Array", {
       );
 
       // bind 2 arrays
-      this.assertException(
-        function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[0][0]", label, "value");
-        },
-        Error,
-        null,
-        "array[][] not an array value."
-      );
+      qx.data.SingleValueBindingAsync.bind(a, "array[0][0]", label, "value");
+      this.assertEquals("o", label.getValue());
 
       // bind an float
       this.assertException(

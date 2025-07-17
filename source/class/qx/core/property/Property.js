@@ -786,8 +786,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       let check = this.getCheck();
       if (check && !check.matches(value, thisObj)) {
-        check.matches(value, thisObj);
-        throw new Error(`Invalid value for property ${this}: ${value}`);
+        value = check.coerce(value, thisObj);
+        if (!check.matches(value, thisObj)) {
+          throw new Error(`Invalid value for property ${this}: ${value}`);
+        }
       }
 
       let isEqual = this.isEqual(thisObj, value, oldValue);

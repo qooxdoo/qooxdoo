@@ -1,0 +1,138 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2022-2023 Zenesis Limited, https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (https://github.com/johnspackman, john.spackman@zenesis.com)
+
+************************************************************************ */
+
+/**
+ * Binding Segment that handles array indexes; the path is expected to be `[index]`
+ */
+qx.Class.define("qx.data.binding.ArrayIndexSegment", {
+  extend: qx.data.binding.AbstractSegment,
+  /**
+   * @param {string} segment String representation of the segment, such as `[0]` or `[last]`
+   */
+  construct(segment) {
+    super();
+    this.__string = segment;
+
+    this.assertTrue(segment.startsWith("[") && segment.endsWith("]"), "Array index segment must start with [ and end with ]: " + segment);
+
+    let index = segment.substring(1, segment.length - 1);
+    if (index === "last") {
+      index = -1; // special case for last item
+    } else {
+      index = parseInt(index);
+      if (isNaN(index)) {
+        throw new Error("Invalid array index in segment: " + segment);
+      }
+      if (index < 0) {
+        throw new Error("Array index must be >= 0, got: " + index);
+      }
+    }
+    this.__index = index;
+  },
+
+  destruct() {
+    let input = this.getInput();
+    if (input) {
+      if (this.getInput() instanceof qx.data.Array) {
+        this.getInput().removeListener("change", this.__onChangeContents, this);
+      }
+    }
+  },
+
+  members: {
+    /**
+     * @type {String} the string representation of this segment
+     */
+    __string: null,
+
+    /** @type {Integer} the index into the array */
+    __index: null,
+
+    /**@override */
+    toString() {
+      return this.__string;
+    },
+
+    /**
+     * @override
+     */
+    _applyInput(value, oldValue) {
+      if (oldValue) {
+        this.setEventName(null);
+        if (oldValue instanceof qx.data.Array) {
+          oldValue.removeListener("change", this.__onChangeContents, this);
+        }
+      }
+
+      if (value) {
+        if (value instanceof qx.data.Array) {
+          value.addListener("change", this.__onChangeContents, this);
+          this.setEventName("change");
+        }
+      }
+      this.updateOutput();
+    },
+
+    /**@override */
+    updateOutput() {
+      this.setOutput(this.__get());
+    },
+
+    /**
+     * Computes the output value
+     * @returns {*}
+     */
+    __get() {
+      let input = this.getInput();
+      if (!input) {
+        return null;
+      }
+
+      if (input instanceof qx.data.Array) {
+        input = input.toArray();
+      }
+
+      if (this.__index >= input.length) {
+        return null;
+      }
+      return input.at(this.__index);
+    },
+
+    /**
+     * @override
+     */
+    setTargetValue(targetValue) {
+      let input = this.getInput();
+      let index = this.__index == -1 ? input.length - 1 : this.__index;
+      if (input instanceof qx.data.Array) {
+        input.setItem(index, targetValue);
+      } else {
+        input[index] = targetValue;
+      }
+    },
+
+    /**
+     * Event handler for when the contents of the array changes
+     *
+     * @param {qx.event.type.Data} evt
+     */
+    __onChangeContents(evt) {
+      this.updateOutput();
+    }
+  }
+});

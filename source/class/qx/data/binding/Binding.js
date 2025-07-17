@@ -36,15 +36,30 @@
 qx.Class.define("qx.data.binding.Binding", {
   extend: qx.core.Object,
 
-  construct(sourcePath, targetPath, source, target) {
+  /**
+   * @see {qx.data.SingleValueBindingAsync} Has same signature as
+   */
+  construct(sourcePath, targetPath, source, target, options) {
     super();
-    const init = async () => {
-      await this.setSourcePath(sourcePath);
-      await this.setTargetPath(targetPath);
-      await this.setSource(source);
-      await this.setTarget(target);
-    };
-    this.__initPromise = init();
+    this.__options = options ?? {};
+    let tracker = {};
+    const Utils = qx.event.Utils;
+    Utils.then(tracker, () => this.setSourcePath(sourcePath));
+    Utils.then(tracker, () => this.setTargetPath(targetPath));
+    Utils.then(tracker, () => this.setSource(source));
+    this.__initPromise = Utils.then(tracker, () => this.setTarget(target));
+  },
+
+  destruct() {
+    if (this.__sourceSegments) {
+      this.__sourceSegments.forEach(segment => segment.dispose());
+      this.__sourceSegments = null;
+    }
+    if (this.__targetSegments) {
+      this.__targetSegments.forEach(segment => segment.dispose());
+      this.__targetSegments = null;
+    }
+    qx.data.binding.Binding.__removeBinding(this, this.getSource(), this.getTarget());
   },
 
   properties: {
@@ -92,48 +107,48 @@ qx.Class.define("qx.data.binding.Binding", {
   },
 
   members: {
-    /** @type{Promise} initialisation promise */
+    /** @type {Promise} initialisation promise */
     __initPromise: null,
 
-    /** @type{qx.data.binding.ISegment[]?} list of segments of the source path */
+    /** @type {qx.data.binding.AbstractSegment[]?} list of segments of the source path */
     __sourceSegments: null,
 
-    /** @type{qx.data.binding.ISegment[]?} list of segments of the target path */
+    /** @type {qx.data.binding.AbstractSegment[]?} list of segments of the target path */
     __targetSegments: null,
+
+    /**
+     * @type {BindingOptions}
+     */
+    __options: null,
 
     /**
      * Promises/A+ thenable compliance, this means that you can await the binding for initialisation
      * https://promisesaplus.com/
+     * @returns {Promise} the promise
      */
     then(onFulfilled, onRejected) {
-      return this.__initPromise.then(onFulfilled, onRejected);
+      return Promise.resolve(this.__initPromise).then(onFulfilled, onRejected);
     },
 
     /**
-     * Tries to set the value immediately; if any part of the path returns a promise then it will
-     * complete asynchronously, but synchronous operations will happen immediately.  This is to preserve
-     * the behaviour from synchronous binding for backwards compatibility
      *
-     * @async this may return a promise
+     * @returns {Promise} A promise which resolves when the initial value has been copied over from source to target
      */
-    executeImmediate() {
-      let source = this.getSource();
-      if (source && this.__sourceSegments && this.__sourceSegments[0]) {
-        return this.__sourceSegments[0].executeImmediate(source);
-      } else {
-        return this.setValue(source);
-      }
+    getInitPromise() {
+      return this.__initPromise;
     },
 
     /**
      * Apply for `sourcePath`
      */
     _applySourcePath(value, oldValue) {
-      this.__sourceSegments = this.__parseSegments(this.__sourceSegments, value, this);
+      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(this.__sourceSegments, value, this);
+      let lastSegment = this.__sourceSegments?.at(-1);
+      lastSegment?.addListener("changeOutput", evt => this.setValue(evt.getData()));
 
       let source = this.getSource();
       if (source && this.__sourceSegments && this.__sourceSegments[0]) {
-        return this.__sourceSegments[0].setValue(source);
+        return this.__sourceSegments[0].setInput(source);
       } else {
         return this.setValue(source);
       }
@@ -142,130 +157,152 @@ qx.Class.define("qx.data.binding.Binding", {
     /**
      * Apply for `source`
      */
-    async _applySource(value, oldValue) {
-      if (oldValue) {
-        qx.data.binding.Binding.__removeBinding(this, oldValue);
-      }
-      if (value) {
-        qx.data.binding.Binding.__storeBinding(this, value);
-      }
-      if (value && this.__sourceSegments && this.__sourceSegments[0]) {
-        await this.__sourceSegments[0].setValue(value);
+    _applySource(value, oldValue) {
+      if (value && this.getSourcePath()) {
+        let promise = this.__sourceSegments[0].setInput(value);
+        const cb = () =>
+          this.assertNotNull(
+            this.__sourceSegments[0].getEventName(),
+            `Binding property ${this.__sourceSegments[0].toString()} of object ${value.classname} not possible. No event available.`
+          );
+
+        if (qx.Promise.isPromise(promise)) {
+          return promise.then(cb);
+        } else {
+          return cb();
+        }
       } else {
-        await this.setValue(value);
+        return this.setValue(value);
       }
     },
 
     /**
      * Apply for `targetPath`
      */
-    async _applyTargetPath(value, oldValue) {
-      this.__targetSegments = this.__parseSegments(this.__targetSegments, value);
+    _applyTargetPath(value, oldValue) {
+      this.__targetSegments = qx.data.binding.Binding.__parseSegments(this.__targetSegments, value);
 
-      let targetValue = this.getValue();
-      if (targetValue && this.__targetSegments[0]) {
-        await this.__targetSegments[0].setValue(targetValue);
+      let targetValue = this.getTarget();
+      let ret = null;
+      if (value) {
+        ret = this.__targetSegments[0].setInput(targetValue);
       }
       if (this.__targetSegments) {
         let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
-        lastSegment.addListener("changeValue", this.__updateTarget, this);
+        lastSegment.addListener("changeInput", this.__updateTarget, this);
       }
+      return ret;
     },
 
     /**
      * Apply for `target`
      */
-    async _applyTarget(value, oldValue) {
-      if (oldValue) {
-        qx.data.binding.Binding.__removeBinding(this, oldValue);
-      }
-      if (value) {
-        qx.data.binding.Binding.__storeBinding(this, value);
-      }
-      if (value && this.__targetSegments && this.__targetSegments[0]) {
-        await this.__targetSegments[0].setValue(value);
-      }
-      await this.__updateTarget();
-    },
-
-    /**
-     * Apply for `value`
-     */
-    async _applyValue(value) {
-      await this.__updateTarget();
-    },
-
-    /**
-     * Parses a path and creates an array of `qx.data.binding.ISegment`
-     *
-     * @param {qx.data.binding.ISegment[]?} segments current segments, all of which are disposed
-     * @param {String} path the path to parse
-     * @param {qx.data.binding.ISegment} lastSegment the last segment, if null a TargetSegment is created
-     * @return {qx.data.binding.ISegment[]?} the new array of segments
-     */
-    __parseSegments(segments, path, lastSegment) {
-      if (segments) {
-        segments.forEach(segment => segment.dispose());
-        segments = null;
-      }
-      if (path) {
-        let segs = path.split(".");
-        segments = [];
-        for (let i = segs.length - 1; i >= 0; i--) {
-          let seg = segs[i];
-          let segment;
-          if (!lastSegment) {
-            lastSegment = new qx.data.binding.TargetSegment(seg);
-          } else if (seg.indexOf("[") > -1) {
-            segment = new qx.data.binding.ArraySegment(seg, lastSegment);
-          } else {
-            segment = new qx.data.binding.Segment(seg, lastSegment);
-          }
-          segments.unshift(segment);
+    _applyTarget(value, oldValue) {
+      if (value && this.getTargetPath()) {
+        qx.data.binding.Binding.__storeBinding(this, this.getSource(), value);
+        let promise = this.__targetSegments[0].setInput(value);
+        if (qx.Promise.isPromise(promise)) {
+          return promise.then(() => this.__updateTarget());
+        } else {
+          this.__updateTarget();
         }
       }
     },
 
     /**
+     * Apply for `value`
+     */
+    _applyValue(value) {
+      return this.__updateTarget();
+    },
+
+    /**
      * Updates the target with the current value
      */
-    async __updateTarget() {
+    __updateTarget() {
+      if (this.__targetSegments) {
+        for (let segment of this.__targetSegments) {
+          if (!segment.getEventName()) {
+            segment.updateOutput();
+          }
+        }
+      }
+
       let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
-      if (lastSegment) {
-        await lastSegment.setTargetValue(this.getValue());
+
+      if (lastSegment && lastSegment.getInput()) {
+        let value = this.getValue();
+        if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
+          value = this.__options.converter(value, null, this.getSource(), this.getTarget());
+        }
+        if (this.__options.onUpdate) {
+          this.__options.onUpdate(this.getSource(), this.getTarget(), value);
+        }
+
+        return lastSegment.setTargetValue(value);
       }
     }
   },
 
   statics: {
-    /** @type{Object<String,Map<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
-    __bindings: {},
+    /**
+     *
+     * @param {string} path
+     * @returns {string[]} an array of segments, split by dot and square brackets.
+     * For example, `a.b[0].c` will return `["a", "b", "[0]", "c"]`
+     */
+    splitSegments(path) {
+      let out = [];
+      for (let dotSplit of path.split(".")) {
+        let bracketSplits = dotSplit.split("[");
+        for (let i = 0; i < bracketSplits.length; i++) {
+          let bracketSplit = bracketSplits[i];
+          if (i > 0) {
+            bracketSplit = "[" + bracketSplit;
+          }
+          out.push(bracketSplit);
+        }
+      }
+      return out.filter(s => s.length > 0);
+    },
+
+    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
+    __bindingsBySource: {},
+
+    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
+    __bindingsByTarget: {},
 
     /**
      * Stores an association between a binding and an object (either as a source or target)
      *
      * @param {qx.data.binding.Binding} binding
-     * @param {qx.core.Object} object
+     * @param {qx.core.Object} source
      */
-    __storeBinding(binding, object) {
-      let bindings = qx.data.binding.Binding.__bindings[object.toHashCode()];
-      if (!bindings) {
-        bindings = qx.data.binding.Binding.__bindings[object.toHashCode()] = {};
-      }
-      bindings[binding.toHashCode()] = binding;
+    __storeBinding(binding, source, target) {
+      let Binding = qx.data.binding.Binding;
+      Binding.__bindingsBySource[source.toHashCode()] ??= {};
+      Binding.__bindingsBySource[source.toHashCode()][binding.toHashCode()] = binding;
+      Binding.__bindingsByTarget[target.toHashCode()] ??= {};
+      Binding.__bindingsByTarget[target.toHashCode()][binding.toHashCode()] = binding;
     },
 
     /**
      * Removes an association between a binding and an object (either as a source or target)
      *
      * @param {qx.data.binding.Binding} binding
-     * @param {qx.core.Object} object
+     * @param {qx.core.Object} source
      */
-    __removeBinding(binding, object) {
-      let bindings = qx.data.binding.Binding.__bindings[object.toHashCode()];
+    __removeBinding(binding, source, target) {
+      let bindings = qx.data.binding.Binding.__bindingsBySource[source.toHashCode()];
       delete bindings[binding.toHashCode()];
       if (qx.lang.Object.isEmpty(bindings)) {
-        delete qx.data.binding.Binding.__bindings[object.toHashCode()];
+        delete qx.data.binding.Binding.__bindingsBySource[source.toHashCode()];
+      }
+
+      bindings = qx.data.binding.Binding.__bindingsByTarget[target.toHashCode()];
+      delete bindings[binding.toHashCode()];
+      if (qx.lang.Object.isEmpty(bindings)) {
+        delete qx.data.binding.Binding.__bindingsByTarget[target.toHashCode()];
       }
     },
 
@@ -273,28 +310,69 @@ qx.Class.define("qx.data.binding.Binding", {
      * Finds all bindings for an object, as either a source or target
      *
      * @param {qx.core.Object} object
-     * @returns {qx.data.binding.Binding[]}
      */
     getAllBindingsForObject(object) {
-      let bindings = qx.data.binding.Binding.__bindings[object.toHashCode()];
-      if (!bindings) {
-        return [];
-      }
-      return Object.values(bindings);
+      const Binding = qx.data.binding.Binding;
+      let allBindings = {
+        ...(Binding.__bindingsBySource[object.toHashCode()] ?? {}),
+        ...(Binding.__bindingsByTarget[object.toHashCode()] ?? {})
+      };
+      return Object.values(allBindings).map(binding => [
+        binding,
+        binding.getSource(),
+        binding.getSourcePath(),
+        binding.getTarget(),
+        binding.getTargetPath()
+      ]);
     },
 
     /**
-     * Returns all bindings for all objects
+     * Returns a map containing for every bound object an array of data binding
+     * information. The key of the map is the hash code of the bound objects.
+     * Every binding is represented by an array containing id, sourceObject,
+     * sourceEvent, targetObject and targetProperty.
      *
-     * @returns {qx.data.binding.Binding[]}
+     * @return {Object<string, BindingInfo>} Map containing all bindings.
+     *
+     * @typedef {[qx.data.binding.Binding, qx.core.Object, string, qx.core.Object, string]} BindingInfo
+     * Stores the binding ID, source object, source path, target object and target path respectively.
      */
     getAllBindings() {
-      let bindings = qx.data.binding.Binding.__bindings;
+      let bindings = qx.data.binding.Binding.__bindingsBySource;
+
       let result = {};
-      Object.keys(qx.data.binding.Binding.__bindings).forEach(map => {
-        Object.values(map).forEach(hash => (result[hash] = map[hash]));
+      for (let [objectHash, objectBindings] of Object.entries(bindings)) {
+        let objectBindingsArray = [];
+        for (let [bindingHash, binding] of Object.entries(objectBindings)) {
+          objectBindingsArray.push([binding, binding.getSource(), binding.getSourcePath(), binding.getTarget(), binding.getTargetPath()]);
+        }
+        result[objectHash] = objectBindingsArray;
+      }
+      return result;
+    },
+
+    /**
+     * Removes all bindings between given objects.
+     *
+     * @param {qx.core.Object} object
+     * @param {qx.core.Object} relatedObject
+     */
+    removeRelatedBindings(object, relatedObject) {
+      const Binding = qx.data.binding.Binding;
+
+      let bySourceObject = Binding.__bindingsBySource[object.toHashCode()];
+      Object.values(bySourceObject).forEach(binding => {
+        if (binding.getTarget() === relatedObject) {
+          binding.dispose();
+        }
       });
-      return Object.values(result);
+
+      let byRelatedObject = Binding.__bindingsBySource[relatedObject.toHashCode()];
+      Object.values(byRelatedObject).forEach(binding => {
+        if (binding.getTarget() === object) {
+          binding.dispose();
+        }
+      });
     },
 
     /**
@@ -304,13 +382,13 @@ qx.Class.define("qx.data.binding.Binding", {
      * @param {String} propertyName the name of the property
      * @param {Object?} value the value to set
      */
-    async set(target, propertyName, value) {
-      let upname = qx.lang.String.firstUp(propertyName);
-      let setName = "set" + upname + "Async";
-      if (typeof target[setName] === undefined) {
-        setName = "set" + upname;
+    set(target, propertyName, value) {
+      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
+      if (prop.isAsync()) {
+        return prop.setAsync(target, value);
+      } else {
+        return prop.set(target, value);
       }
-      await target[setName](value);
     },
 
     /**
@@ -320,14 +398,83 @@ qx.Class.define("qx.data.binding.Binding", {
      * @param {String} propertyName the name of the property
      * @returns {Object?} the property value
      */
-    async get(target, propertyName) {
-      let upname = qx.lang.String.firstUp(propertyName);
-      let getName = "get" + upname + "Async";
-      if (typeof target[getName] === undefined) {
-        getName = "get" + upname;
+    get(target, propertyName) {
+      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
+      if (prop.isAsync()) {
+        return prop.getAsync(target);
+      } else {
+        return prop.get(target);
       }
-      let value = await target[getName]();
-      return value;
+    },
+
+    /**
+     *
+     * Internal helper for getting the current set value at the property chain.
+     *
+     * @param {qx.core.Object} object  The source of the binding.
+     * @param {String} propertyChain The property chain which represents
+     *   the source property.
+     * @return {var?undefined} Returns the set value if defined.
+     */
+    resolvePropertyChain(object, propertyChain) {
+      let segments = qx.data.binding.Binding.__parseSegments(null, propertyChain);
+      let promise = segments[0].setInput(object);
+
+      const cb = () => {
+        let first = segments[0];
+        if (first instanceof qx.data.binding.PropNameSegment) {
+          let property = qx.Class.getByProperty(object.constructor, first.getPropName());
+          qx.core.Assert.assertNotNull(property, `Object ${object.classname} does not have property ${first.getPropName()}`);
+        }
+        let out = segments.at(-1).getOutput();
+        segments.forEach(segment => segment.dispose());
+        return out;
+      };
+
+      if (qx.Promise.isPromise(promise)) {
+        return promise.then(cb);
+      } else {
+        return cb();
+      }
+    },
+
+    /**
+     * Parses a path and creates an array of `qx.data.binding.AbstractSegment`
+     *
+     * @param {qx.data.binding.AbstractSegment[]?} segments current segments, all of which are disposed
+     * @param {String} path the path to parse
+     * @return {qx.data.binding.AbstractSegment[]?} the new array of segments
+     */
+    __parseSegments(segments, path) {
+      if (segments) {
+        segments.forEach(segment => segment.dispose());
+        segments = null;
+      }
+      if (path) {
+        let segsStrings = qx.data.binding.Binding.splitSegments(path);
+        segments = [];
+
+        for (let seg of segsStrings) {
+          //if it's an array index:
+          if (seg.startsWith("[")) {
+            segments.push(new qx.data.binding.ArrayIndexSegment(seg));
+          } else {
+            //otherwise, it's a normal path
+            segments.push(new qx.data.binding.PropNameSegment(seg));
+          }
+        }
+
+        segments.forEach((seg, index) => {
+          if (index < segments.length - 1) {
+            seg.addListener("changeOutput", evt => {
+              let nextSegment = segments[index + 1];
+              nextSegment.setInput(evt.getData());
+            });
+          }
+        });
+
+        return segments;
+      }
     }
   }
 });

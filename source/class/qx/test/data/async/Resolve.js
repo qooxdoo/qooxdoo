@@ -68,8 +68,9 @@ qx.Class.define("qx.test.data.async.Resolve", {
 
     testResolveNotExistant() {
       var model = qx.data.marshal.Json.createModel({ a: 12 });
+      var t = this;
       this.assertException(function () {
-        this.assertEquals(12, qx.data.SingleValueBindingAsync.resolvePropertyChain(model, "b"));
+        t.assertEquals(12, qx.data.SingleValueBindingAsync.resolvePropertyChain(model, "b"));
       });
       model.dispose();
     }
