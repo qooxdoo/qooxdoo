@@ -36,7 +36,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
   destruct() {
     let input = this.getInput();
     if (input) {
-      let eventName = qx.Class.getByProperty(input.constructor, this.__propName)?.getEventName() ?? null;
+      let eventName = this.__getEventName(input);
       eventName && input.removeListener(eventName, this.__onChangeInputProperty, this);
     }
   },
@@ -63,14 +63,13 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      */
     _applyInput(value, oldValue) {
       if (oldValue) {
-        let eventName = qx.Class.getByProperty(oldValue.constructor, this.__propName)?.getEventName() ?? null;
+        let eventName = this.__getEventName(oldValue);
         eventName && oldValue.removeListener(eventName, this.__onChangeInputProperty, this);
         this.setEventName(null);
       }
 
       if (value) {
-        let property = qx.Class.getByProperty(value.constructor, this.__propName);
-        let eventName = property?.getEventName() ?? null;
+        let eventName = this.__getEventName(value);
         eventName && value.addListener(eventName, this.__onChangeInputProperty, this);
         this.setEventName(eventName);
       }
@@ -113,6 +112,23 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      */
     __onChangeInputProperty(evt) {
       this.setOutput(evt.getData());
+    },
+
+    /**
+     *
+     * @param {*} input
+     * @returns {string}
+     */
+    __getEventName(input) {
+      let property = qx.Class.getByProperty(input.constructor, this.__propName);
+      if (property) {
+        return property.getEventName();
+      }
+
+      if (qx.Class.supportsEvent(input.constructor, this.__propName)) {
+        return this.__propName;
+      }
+      return null;
     }
   }
 });

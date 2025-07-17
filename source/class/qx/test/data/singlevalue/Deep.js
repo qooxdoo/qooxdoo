@@ -80,7 +80,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
 
       // set the binding root to null
       m.setA(null);
-      this.assertEquals(3, called);
+      this.assertEquals(2, called);
       this.assertEquals(3, m.getB());
 
       m.dispose();
@@ -90,13 +90,17 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
       var m = qx.data.marshal.Json.createModel({ a: null });
       var t = qx.data.marshal.Json.createModel({ a: null });
 
-      var spy = this.spy(function () {
-        return 123;
+      var called = false;
+      m.bind("a.b", t, "a", {
+        converter: (data, model, source, target) => {
+          this.assertFalse(called, "Converter already called!");
+          called = true;
+          this.assertEquals(source, m, "Source is not as expected");
+          this.assertEquals(target, t, "Target is not as expected");
+          return 123;
+        }
       });
-      m.bind("a.b", t, "a", { converter: spy });
 
-      this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, undefined, undefined, m, t);
       this.assertEquals(123, t.getA());
 
       m.dispose();

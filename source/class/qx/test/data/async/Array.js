@@ -107,7 +107,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testChangeItem() {
       // bind the first element of the array
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
       // check the binding
       this.assertEquals("one", this.__label.getValue(), "Array[0] binding does not work!");
@@ -119,7 +119,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testChangeArray() {
       // bind the first element of the array
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
       // change the array itself
       this.__a.getArray().dispose();
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testLast() {
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[last]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "value");
 
       // check the binding
       this.assertEquals("three", this.__label.getValue(), "Array[last] binding does not work!");
@@ -143,7 +143,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testPushPop() {
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[last]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "value");
 
       // check the binding
       this.assertEquals("three", this.__label.getValue(), "Array[last] binding does not work!");
@@ -161,7 +161,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testShiftUnshift() {
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
       // check the binding
       this.assertEquals("one", this.__label.getValue(), "Array[last] binding does not work!");
@@ -186,7 +186,7 @@ qx.Class.define("qx.test.data.async.Array", {
       this.__b2.setArray(new qx.data.Array("1", "2", "3"));
 
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "child.array[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "child.array[0]", this.__label, "value");
 
       // check the binding
       this.assertEquals("eins", this.__label.getValue(), "child.array[0] binding does not work!");
@@ -206,7 +206,7 @@ qx.Class.define("qx.test.data.async.Array", {
       this.__a.getChildren().push(this.__b2);
 
       // bind the element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "children[0].name", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "children[0].name", this.__label, "value");
 
       // check the binding
       this.assertEquals("b1", this.__label.getValue(), "children[0].name binding does not work!");
@@ -228,7 +228,7 @@ qx.Class.define("qx.test.data.async.Array", {
       this.__b1.getChildren().push(this.__b2);
 
       // bind the element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "children[0].children[0].name", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "children[0].children[0].name", this.__label, "value");
 
       // check the binding
       this.assertEquals("b2", this.__label.getValue(), "children[0].children[0].name binding does not work!");
@@ -241,7 +241,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testSplice() {
       // bind the first element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
       // remove the first and add "eins" at position 0
       var array = this.__a.getArray().splice(0, 1, "eins");
@@ -259,7 +259,7 @@ qx.Class.define("qx.test.data.async.Array", {
       // bind a senseless value
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[affe]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[affe]", label, "value");
         },
         Error,
         null,
@@ -269,7 +269,7 @@ qx.Class.define("qx.test.data.async.Array", {
       // bind empty array
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[]", label, "value");
         },
         Error,
         null,
@@ -277,13 +277,13 @@ qx.Class.define("qx.test.data.async.Array", {
       );
 
       // bind 2 arrays
-      qx.data.SingleValueBindingAsync.bind(a, "array[0][0]", label, "value");
+      qx.data.SingleValueBinding.bind(a, "array[0][0]", label, "value");
       this.assertEquals("o", label.getValue());
 
       // bind an float
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[1.5]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[1.5]", label, "value");
         },
         Error,
         null,
@@ -293,7 +293,7 @@ qx.Class.define("qx.test.data.async.Array", {
       // bind strange value
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[[affe]]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[[affe]]", label, "value");
         },
         Error,
         null,
@@ -303,7 +303,7 @@ qx.Class.define("qx.test.data.async.Array", {
       // test map in array
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[{name: 'a'}]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[{name: 'a'}]", label, "value");
         },
         Error,
         null,
@@ -313,7 +313,7 @@ qx.Class.define("qx.test.data.async.Array", {
       // test null in the array
       this.assertException(
         function () {
-          qx.data.SingleValueBindingAsync.bind(a, "array[null]", label, "value");
+          qx.data.SingleValueBinding.bind(a, "array[null]", label, "value");
         },
         Error,
         null,
@@ -326,7 +326,7 @@ qx.Class.define("qx.test.data.async.Array", {
       this.__a.getArray().dispose();
       this.__a.setArray(new qx.data.Array());
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[last]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "value");
 
       // check the binding
       this.assertNull(this.__label.getValue(), "Late binding does not work!");
@@ -342,7 +342,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testRemoveArrayItem() {
       // bind the last element
-      qx.data.SingleValueBindingAsync.bind(this.__a, "array[last]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "value");
 
       // check the binding
       this.assertEquals("three", this.__label.getValue(), "Array[last] binding does not work!");
@@ -390,7 +390,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
     testDirect() {
       // bind the first element of the array
-      qx.data.SingleValueBindingAsync.bind(this.__a.getArray(), "[0]", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a.getArray(), "[0]", this.__label, "value");
 
       // check the binding
       this.assertEquals("one", this.__label.getValue(), "[0] binding does not work!");
@@ -403,7 +403,7 @@ qx.Class.define("qx.test.data.async.Array", {
     testDirectTarget() {
       this.__label.setValue("affe");
       // bind the first element of the array
-      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a.getArray(), "[0]");
+      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a.getArray(), "[0]");
 
       // check the binding
       this.assertEquals("affe", this.__a.getArray().getItem(0), "[0] binding does not work!");
@@ -419,7 +419,7 @@ qx.Class.define("qx.test.data.async.Array", {
       this.__a.getChildren().push(this.__b2);
 
       // bind the element
-      qx.data.SingleValueBindingAsync.bind(this.__a.getChildren(), "[0].name", this.__label, "value");
+      qx.data.SingleValueBinding.bind(this.__a.getChildren(), "[0].name", this.__label, "value");
 
       // check the binding
       this.assertEquals("b1", this.__label.getValue(), "[0].name binding does not work!");
@@ -442,7 +442,7 @@ qx.Class.define("qx.test.data.async.Array", {
 
       // bind the element
       this.__label.setValue("l");
-      qx.data.SingleValueBindingAsync.bind(this.__label, "value", this.__a.getChildren(), "[0].name");
+      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a.getChildren(), "[0].name");
 
       // check the binding
       this.assertEquals("l", this.__a.getChildren().getItem(0).getName(), "[0].name binding does not work!");

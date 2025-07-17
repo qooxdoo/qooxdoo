@@ -37,10 +37,90 @@ qx.Class.define("qx.data.binding.Binding", {
   extend: qx.core.Object,
 
   /**
-   * @see {qx.data.SingleValueBindingAsync} Has same signature as
-   */
+   * The function is responsible for binding a source objects property to
+   * a target objects property. Both properties have to have the usual qooxdoo
+   * getter and setter. The source property also needs to fire change-events
+   * on every change of its value.
+   * Please keep in mind, that this binding is unidirectional. If you need
+   * a binding in both directions, you have to use two of this bindings.
+   *
+   * It's also possible to bind some kind of a hierarchy as a source. This
+   * means that you can separate the source properties with a dot and bind
+   * by that the object referenced to this property chain.
+   * Example with an object 'a' which has object 'b' stored in its 'child'
+   * property. Object b has a string property named abc:
+   * <pre><code>
+   * qx.data.SingleValueBinding.bind(a, "child.abc", textfield, "value");
+   * </code></pre>
+   * In that case, if the property abc of b changes, the textfield will
+   * automatically contain the new value. Also if the child of a changes, the
+   * new value (abc of the new child) will be in the textfield.
+   *
+   * There is also a possibility of binding an array. Therefore the array
+   * {@link qx.data.IListData} is needed because this array has change events
+   * which the native does not. Imagine a qooxdoo object a which has a
+   * children property containing an array holding more of its own kind.
+   * Every object has a name property as a string.
+   * <pre>
+   * var svb = qx.data.SingleValueBinding;
+   * // bind the first child's name of 'a' to a textfield
+   * svb.bind(a, "children[0].name", textfield, "value");
+   * // bind the last child's name of 'a' to a textfield
+   * svb.bind(a, "children[last].name", textfield2, "value");
+   * // also deeper bindings are possible
+   * svb.bind(a, "children[0].children[0].name", textfield3, "value");
+   * </pre>
+   *
+   * As you can see in this example, the abc property of a's b will be bound
+   * to the textfield. If now the value of b changed or even the a will get a
+   * new b, the binding still shows the right value.
+   *
+   * @param {qx.core.Object} sourceObject The source of the binding.
+   * @param {String} sourcePropertyChain The property chain which represents
+   *   the source property.
+   * @param {qx.core.Object} targetObject The object which the source should
+   *   be bound to.
+   * @param {String} targetPropertyChain The property chain to the target
+   *   object.
+   * @param {BindingOptions} options A map containing the options.
+   *
+   * @typedef BindingOptions
+   * @property {converter} converter Data converter function. If no conversion has been done, the given value should be returned.
+   * e.g. a number to boolean converter
+   * <code>function(data, model, source, target) {return data > 100;}</code>
+   * @property {onUpdate} onUpdate This callback will be called if the binding was updated successfully.
+   * @property {() => void} onSetFail A callback function can be given here. This function will
+   *       be called if the set of the value fails.
+   * @property {string} ignoreConverter A string which will be matched using the current
+   *       property chain. If it matches, the converter will not be called.
+   * 
+   *
+   * @callback converter
+   * @param {*} data The data to convert
+   * @param {*} model The corresponding model object, which is only set in case of the use of an controller.
+   * @param {qx.core.Object} source The source object for the binding
+   * @param {qx.core.Object} target The target object
+   * @returns {*} The converted data
+   * 
+   * @callback onUpdate
+   * @param {qx.core.Object} source The source object for the binding
+   * @param {qx.core.Object} target The target object
+   * @param {*} data The data
+       
+  *
+  * @returns {qx.data.binding.Binding} Returns the internal id for that binding. This can be used
+  *   for referencing the binding or e.g. for removing. This is not an atomic
+  *   id so you can't you use it as a hash-map index.
+  *
+  * @throws {qx.core.AssertionError} If the event is no data event or
+  *   there is no property definition for object and property (source and
+  *   target).
+  */
   construct(sourcePath, targetPath, source, target, options) {
     super();
+    if (!(sourcePath || targetPath)) {
+      throw new Error("SourcePath and targetPath must be specified");
+    }
     this.__options = options ?? {};
     let tracker = {};
     const Utils = qx.event.Utils;
@@ -59,7 +139,8 @@ qx.Class.define("qx.data.binding.Binding", {
       this.__targetSegments.forEach(segment => segment.dispose());
       this.__targetSegments = null;
     }
-    qx.data.binding.Binding.__removeBinding(this, this.getSource(), this.getTarget());
+    this.setSource(null);
+    this.setTarget(null);
   },
 
   properties: {
@@ -142,23 +223,33 @@ qx.Class.define("qx.data.binding.Binding", {
      * Apply for `sourcePath`
      */
     _applySourcePath(value, oldValue) {
-      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(this.__sourceSegments, value, this);
-      let lastSegment = this.__sourceSegments?.at(-1);
-      lastSegment?.addListener("changeOutput", evt => this.setValue(evt.getData()));
-
-      let source = this.getSource();
-      if (source && this.__sourceSegments && this.__sourceSegments[0]) {
-        return this.__sourceSegments[0].setInput(source);
-      } else {
-        return this.setValue(source);
+      if (oldValue) {
+        throw new Error("Cannot change sourcePath after binding has been created");
       }
+      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(null, value, this);
+      let lastSegment = this.__sourceSegments.at(-1);
+      lastSegment.addListener("changeOutput", evt => {
+        this.setValue(evt.getData());
+      });
     },
 
     /**
      * Apply for `source`
      */
     _applySource(value, oldValue) {
-      if (value && this.getSourcePath()) {
+      const Binding = qx.data.binding.Binding;
+
+      if (oldValue) {
+        delete Binding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
+        if (qx.lang.Object.isEmpty(Binding.__bindingsBySource[oldValue.toHashCode()])) {
+          delete Binding.__bindingsBySource[oldValue.toHashCode()];
+        }
+      }
+
+      if (value) {
+        Binding.__bindingsBySource[value.toHashCode()] ??= {};
+        Binding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
+
         let promise = this.__sourceSegments[0].setInput(value);
         const cb = () =>
           this.assertNotNull(
@@ -171,8 +262,6 @@ qx.Class.define("qx.data.binding.Binding", {
         } else {
           return cb();
         }
-      } else {
-        return this.setValue(value);
       }
     },
 
@@ -180,32 +269,33 @@ qx.Class.define("qx.data.binding.Binding", {
      * Apply for `targetPath`
      */
     _applyTargetPath(value, oldValue) {
-      this.__targetSegments = qx.data.binding.Binding.__parseSegments(this.__targetSegments, value);
-
-      let targetValue = this.getTarget();
-      let ret = null;
-      if (value) {
-        ret = this.__targetSegments[0].setInput(targetValue);
+      if (oldValue) {
+        throw new Error("Cannot change sourcePath after binding has been created");
       }
-      if (this.__targetSegments) {
-        let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
-        lastSegment.addListener("changeInput", this.__updateTarget, this);
-      }
-      return ret;
+      this.__targetSegments = qx.data.binding.Binding.__parseSegments(null, value);
+      let lastSegment = this.__targetSegments[this.__targetSegments.length - 1];
+      lastSegment.addListener("changeInput", this.__updateTarget, this);
     },
 
     /**
      * Apply for `target`
      */
     _applyTarget(value, oldValue) {
-      if (value && this.getTargetPath()) {
-        qx.data.binding.Binding.__storeBinding(this, this.getSource(), value);
-        let promise = this.__targetSegments[0].setInput(value);
-        if (qx.Promise.isPromise(promise)) {
-          return promise.then(() => this.__updateTarget());
-        } else {
-          this.__updateTarget();
+      const Binding = qx.data.binding.Binding;
+
+      if (oldValue) {
+        delete Binding.__bindingsByTarget[oldValue.toHashCode()][this.toHashCode()];
+        if (qx.lang.Object.isEmpty(Binding.__bindingsByTarget[oldValue.toHashCode()])) {
+          delete Binding.__bindingsByTarget[oldValue.toHashCode()];
         }
+      }
+
+      if (value) {
+        const Binding = qx.data.binding.Binding;
+        Binding.__bindingsByTarget[value.toHashCode()] ??= {};
+        Binding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
+
+        return this.__targetSegments[0].setInput(value);
       }
     },
 
@@ -233,18 +323,81 @@ qx.Class.define("qx.data.binding.Binding", {
       if (lastSegment && lastSegment.getInput()) {
         let value = this.getValue();
         if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
-          value = this.__options.converter(value, null, this.getSource(), this.getTarget());
-        }
-        if (this.__options.onUpdate) {
-          this.__options.onUpdate(this.getSource(), this.getTarget(), value);
+          let model = typeof this.getTarget().getModel == "function" ? this.getTarget().getModel() : null;
+          value = this.__options.converter(value, model, this.getSource(), this.getTarget());
         }
 
-        return lastSegment.setTargetValue(value);
+        const cb = ex => {
+          if (ex) {
+            this.__options.onSetFail?.();
+          } else {
+            this.__options.onUpdate?.(this.getSource(), this.getTarget(), value);
+          }
+        };
+
+        let ret;
+        try {
+          ret = lastSegment.setTargetValue(value);
+          cb();
+        } catch (ex) {
+          cb(ex);
+        }
+
+        if (qx.Promise.isPromise(ret)) {
+          return ret.catch(cb);
+        }
       }
     }
   },
 
   statics: {
+    /**
+     * Helper for updating the target. Gets the current set data from the source
+     * and set that on the target.
+     *
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourcePropertyChain {String} The property chain which represents
+     *   the source property.
+     * @param targetObject {qx.core.Object} The object which the source should
+     *   be bind to.
+     * @param targetPropertyChain {String} The property name of the target
+     *   object.
+     * @param options {Map} The options map perhaps containing the user defined
+     *   converter.
+     *
+     * @internal
+     */
+    updateTarget(sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options) {
+      options ??= {};
+      var value = this.resolvePropertyChain(sourceObject, sourcePropertyChain);
+
+      // convert the data before setting
+      if (options.converter) {
+        let model = typeof targetObject.getModel == "function" ? targetObject.getModel() : null;
+        value = options.converter(value, model, sourceObject, targetObject);
+      }
+
+      this.__setTargetValue(targetObject, targetPropertyChain, value);
+    },
+
+    /**
+     * Sets the given value to the given target after resolving the
+     * target property chain.
+     *
+     * @param targetObject {qx.core.Object} The object where the property chain
+     *   starts.
+     * @param targetPropertyChain {String} The names of the properties,
+     *   separated with a dot.
+     * @param value {var} The value to set.
+     */
+    __setTargetValue(targetObject, targetPropertyChain, value) {
+      let segments = qx.data.binding.Binding.__parseSegments(null, targetPropertyChain);
+      let lastSegment = segments[segments.length - 1];
+      segments[0].setInput(targetObject);
+      lastSegment.setTargetValue(value);
+      segments.forEach(segment => segment.dispose());
+    },
+
     /**
      *
      * @param {string} path
@@ -271,40 +424,6 @@ qx.Class.define("qx.data.binding.Binding", {
 
     /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
     __bindingsByTarget: {},
-
-    /**
-     * Stores an association between a binding and an object (either as a source or target)
-     *
-     * @param {qx.data.binding.Binding} binding
-     * @param {qx.core.Object} source
-     */
-    __storeBinding(binding, source, target) {
-      let Binding = qx.data.binding.Binding;
-      Binding.__bindingsBySource[source.toHashCode()] ??= {};
-      Binding.__bindingsBySource[source.toHashCode()][binding.toHashCode()] = binding;
-      Binding.__bindingsByTarget[target.toHashCode()] ??= {};
-      Binding.__bindingsByTarget[target.toHashCode()][binding.toHashCode()] = binding;
-    },
-
-    /**
-     * Removes an association between a binding and an object (either as a source or target)
-     *
-     * @param {qx.data.binding.Binding} binding
-     * @param {qx.core.Object} source
-     */
-    __removeBinding(binding, source, target) {
-      let bindings = qx.data.binding.Binding.__bindingsBySource[source.toHashCode()];
-      delete bindings[binding.toHashCode()];
-      if (qx.lang.Object.isEmpty(bindings)) {
-        delete qx.data.binding.Binding.__bindingsBySource[source.toHashCode()];
-      }
-
-      bindings = qx.data.binding.Binding.__bindingsByTarget[target.toHashCode()];
-      delete bindings[binding.toHashCode()];
-      if (qx.lang.Object.isEmpty(bindings)) {
-        delete qx.data.binding.Binding.__bindingsByTarget[target.toHashCode()];
-      }
-    },
 
     /**
      * Finds all bindings for an object, as either a source or target
@@ -354,8 +473,14 @@ qx.Class.define("qx.data.binding.Binding", {
     /**
      * Removes all bindings between given objects.
      *
-     * @param {qx.core.Object} object
-     * @param {qx.core.Object} relatedObject
+     * @param object {qx.core.Object} The object of which the bindings should be
+     *   removed.
+     * @param relatedObject {qx.core.Object} The object of which related
+     *   bindings should be removed.
+     * @throws {qx.core.AssertionError} If the object is not in the internal
+     *   registry of the bindings.
+     * @throws {Error} If one of the bindings listed internally can not be
+     *   removed.
      */
     removeRelatedBindings(object, relatedObject) {
       const Binding = qx.data.binding.Binding;
@@ -384,6 +509,15 @@ qx.Class.define("qx.data.binding.Binding", {
      */
     set(target, propertyName, value) {
       let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
+      if (!prop) {
+        let setFuncName = "set" + qx.lang.String.firstUp(propertyName);
+        if (typeof target[setFuncName] == "function") {
+          return target[setFuncName](value);
+        } else {
+          throw new Error(`Property ${propertyName} not found on ${target.classname}`);
+        }
+      }
+
       if (prop.isAsync()) {
         return prop.setAsync(target, value);
       } else {

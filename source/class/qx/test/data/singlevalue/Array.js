@@ -277,14 +277,8 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
       );
 
       // bind 2 arrays
-      this.assertException(
-        function () {
-          qx.data.SingleValueBinding.bind(a, "array[0][0]", label, "value");
-        },
-        Error,
-        null,
-        "array[][] not an array value."
-      );
+      qx.data.SingleValueBinding.bind(a, "array[0][0]", label, "value");
+      this.assertEquals("o", label.getValue());
 
       // bind an float
       this.assertException(

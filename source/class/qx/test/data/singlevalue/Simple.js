@@ -393,6 +393,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       this.assertEquals("affe", t.getA(), "Converter will not be executed.");
 
       t.dispose();
+      qx.Class.undefine("qx.Test");
     },
 
     testCallbacksOnInitialSet() {
@@ -448,6 +449,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       this.assertTrue(fail, "onSetFail not called.");
       this.assertFalse(ok, "onUpdate called?!");
       target.dispose();
+      qx.Class.undefine("qx.Target");
     },
 
     testConversionClass() {
@@ -503,6 +505,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       this.assertEquals(false, o.getB(), "Number -> Boolean");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
       o.dispose();
+      qx.Class.undefine("qx.test.TwoProperties");
     },
 
     testResetNotNull() {
@@ -569,7 +572,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
         properties: {
           x: {
             nullable: true,
-            init: "affe"
+            init: "affe",
+            event: null
           }
         }
       });

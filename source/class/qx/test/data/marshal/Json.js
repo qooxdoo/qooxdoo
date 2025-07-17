@@ -700,6 +700,7 @@ qx.Class.define("qx.test.data.marshal.Json", {
       this.assertEquals(0, model.getFonts().length, "The remove did not work.");
       fonts.dispose();
       model.dispose();
+      qx.Class.undefine("qx.Test");
     },
 
     "test model with and without bubble"() {
