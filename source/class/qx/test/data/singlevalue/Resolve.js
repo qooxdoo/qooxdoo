@@ -68,8 +68,9 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
 
     testResolveNotExistant() {
       var model = qx.data.marshal.Json.createModel({ a: 12 });
+      var t = this;
       this.assertException(function () {
-        this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "b"));
+        t.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "b"));
       });
       model.dispose();
     }

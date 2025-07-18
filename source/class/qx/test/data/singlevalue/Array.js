@@ -123,7 +123,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
 
       // change the array itself
       this.__a.getArray().dispose();
-      this.__a.setArray(new qx.data.Array(1, 2, 3));
+      this.__a.setArray(new qx.data.Array("1", "2", "3"));
       qx.log.Logger.debug(this.__a.getArray().getItem(0));
       // check the binding
       this.assertEquals("1", this.__label.getValue(), "Changing the array does not work!");
