@@ -199,7 +199,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           delay: {
             init: 0,
             async: true,
-            get: async () => {
+            getAsync: async (prop, self) => {
               let p;
               p = new qx.Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -208,15 +208,12 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
               });
               return p;
             },
-            apply: async () => {
-              let p;
-              p = new qx.Promise((resolve, reject) => {
+            apply: () =>
+              new qx.Promise((resolve, reject) => {
                 setTimeout(() => {
                   resolve(true);
                 }, 1200);
-              });
-              return p;
-            }
+              })
           }
         }
       });

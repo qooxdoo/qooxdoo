@@ -82,6 +82,9 @@ qx.Bootstrap.define("qx.Class", {
 
       // Not in original set of allowed keys:
       get: ["string", "function"], // String, Function
+      set: ["string", "function"], // String, Function
+      getAsync: ["string", "function"], // String, Function
+      setAsync: ["string", "function"], // String, Function
       initFunction: "function", // Function
       storage: "function", // implements qx.core.propertystorage.IStorage
       immutable: "string" // String

@@ -23,13 +23,17 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
   extend: Object,
   implement: qx.core.property.IPropertyStorage,
 
+  /**
+   * @param {qx.core.property.Property} property
+   * @param {Function} clazz Qooxdoo class which the property relates to
+   */
   construct(property, clazz) {
     super();
-    let upname = qx.Bootstrap.firstUp(property.getPropertyName());
-    this.__get = clazz.prototype["get" + upname];
-    this.__getAsync = clazz.prototype["get" + upname + "Async"] || this.__get;
-    this.__set = clazz.prototype["set" + upname];
-    this.__setAsync = clazz.prototype["set" + upname + "Async"] || this.__set;
+    let def = property.getDefinition();
+    this.__get = def.get;
+    this.__getAsync = def.getAsync || def.get;
+    this.__set = def.set;
+    this.__setAsync = def.setAsync || def.set;
   },
 
   members: {
@@ -37,28 +41,28 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
      * @Override
      */
     get(thisObj, property) {
-      return this.__get.call(thisObj);
+      return this.__get.call(thisObj, property, thisObj);
     },
 
     /**
      * @Override
      */
-    async getAsync(thisObj, property) {
-      return this.__getAsync.call(thisObj);
+    getAsync(thisObj, property) {
+      return this.__getAsync.call(thisObj, property, thisObj);
     },
 
     /**
      * @Override
      */
     set(thisObj, property, value) {
-      this.__set.call(thisObj, value);
+      this.__set.call(thisObj, value, property, thisObj);
     },
 
     /**
      * @Override
      */
-    async setAsync(thisObj, property, value) {
-      this.__setAsync.call(thisObj, value);
+    setAsync(thisObj, property, value) {
+      return this.__setAsync.call(thisObj, property, value);
     },
 
     /**
@@ -72,7 +76,7 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
      * @Override
      */
     isAsyncStorage() {
-      return this.__setAsync !== this.__set;
+      return this.__property.isAsync();
     }
   }
 });

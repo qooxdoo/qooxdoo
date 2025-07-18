@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             );
           }
         } else {
-          if (typeof def.get == "function") {
+          if (typeof def.get == "function" || typeof def.getAsync == "function") {
             this.__storage = new qx.core.property.ExplicitPropertyStorage(this, this.__clazz);
             this.__readOnly = def.set === undefined;
           } else {
