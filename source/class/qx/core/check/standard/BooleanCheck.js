@@ -34,10 +34,14 @@ qx.Bootstrap.define("qx.core.check.standard.BooleanCheck", {
      * @override
      */
     _coerceImpl(value) {
-      if (value === "true" || value === "1") {
-        return true;
+      if (typeof value === "string") {
+        if (value === "true" || value === "1") {
+          return true;
+        }
+      } else if (typeof value === "number") {
+        return value !== 0;
       }
-      return false;
+      return null;
     }
   }
 });
