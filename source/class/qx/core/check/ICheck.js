@@ -68,7 +68,7 @@ qx.Interface.define("qx.core.check.ICheck", {
      *
      * @param {*} value
      * @param {qx.core.Object} thisObj the object that the value is a property of
-     * @return {*} the coerced value
+     * @return {* | null} the coerced value, or null if coercion is not possible
      */
     coerce(value, thisObj) {}
   }
