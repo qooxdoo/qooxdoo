@@ -34,6 +34,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
       extend: qx.core.Object,
 
       construct() {
+        super();
         this.setArray(new qx.data.Array(["one", "two", "three"]));
       },
 

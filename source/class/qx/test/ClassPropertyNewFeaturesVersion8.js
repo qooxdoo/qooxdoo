@@ -32,6 +32,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         extend: qx.test.cpnfv8.Object,
 
         construct(bRunning = true) {
+          super();
           console.log(`Superclass constructor: bRunning=${bRunning}`);
           this.running = bRunning;
         },
