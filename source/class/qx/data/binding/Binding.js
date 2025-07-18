@@ -75,10 +75,10 @@ qx.Class.define("qx.data.binding.Binding", {
    * to the textfield. If now the value of b changed or even the a will get a
    * new b, the binding still shows the right value.
    *
-   * @param {qx.core.Object} sourceObject The source of the binding.
+   * @param {qx.core.Object?} sourceObject The source of the binding.
    * @param {String} sourcePropertyChain The property chain which represents
    *   the source property.
-   * @param {qx.core.Object} targetObject The object which the source should
+   * @param {qx.core.Object?} targetObject The object which the source should
    *   be bound to.
    * @param {String} targetPropertyChain The property chain to the target
    *   object.
@@ -123,11 +123,12 @@ qx.Class.define("qx.data.binding.Binding", {
     }
     this.__options = options ?? {};
     let tracker = {};
+
     const Utils = qx.event.Utils;
-    Utils.then(tracker, () => this.setSourcePath(sourcePath));
-    Utils.then(tracker, () => this.setTargetPath(targetPath));
-    Utils.then(tracker, () => this.setSource(source));
-    this.__initPromise = Utils.then(tracker, () => this.setTarget(target));
+    this.setSourcePath(sourcePath);
+    this.setTargetPath(targetPath);
+    Utils.then(tracker, () => source && this.setSource(source));
+    this.__initPromise = Utils.then(tracker, () => target && this.setTarget(target));
   },
 
   destruct() {
