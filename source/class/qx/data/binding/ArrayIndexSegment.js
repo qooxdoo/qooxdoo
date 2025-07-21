@@ -85,12 +85,14 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
           this.setEventName("change");
         }
       }
-      this.updateOutput();
+      if (this.getOutputReceiver()) {
+        return this.updateOutput();
+      }
     },
 
     /**@override */
     updateOutput() {
-      this.setOutput(this.__get());
+      return this._setOutput(this.__get());
     },
 
     /**
@@ -132,7 +134,9 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
      * @param {qx.event.type.Data} evt
      */
     __onChangeContents(evt) {
-      this.updateOutput();
+      if (this.getOutputReceiver()) {
+        this.updateOutput();
+      }
     }
   }
 });

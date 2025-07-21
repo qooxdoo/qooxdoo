@@ -74,25 +74,27 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         this.setEventName(eventName);
       }
 
-      return this.updateOutput();
+      if (this.getOutputReceiver()) {
+        return this.updateOutput();
+      }
     },
 
     updateOutput() {
       let input = this.getInput();
       if (input == null) {
-        this.setOutput(null);
+        return this._setOutput(null);
       } else {
         let property = qx.Class.getByProperty(input.constructor, this.__propName);
         if (property === null) {
-          return this.setOutput(null);
+          return this._setOutput(null);
         }
         if (property.isInitialized(input)) {
           let nextInput = property.get(input, this.__propName);
-          return this.setOutput(nextInput);
+          return this._setOutput(nextInput);
         } else {
           let promise = property.get(input, this.__propName);
           return promise?.then(nextInput => {
-            return this.setOutput(nextInput);
+            return this._setOutput(nextInput);
           });
         }
       }
@@ -102,7 +104,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @override
      */
     setTargetValue(targetValue) {
-      qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+      return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
     },
 
     /**
@@ -111,7 +113,9 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @param {qx.event.type.Data} evt
      */
     __onChangeInputProperty(evt) {
-      this.setOutput(evt.getData());
+      if (this.getOutputReceiver()) {
+        return this._setOutput(evt.getData());
+      }
     },
 
     /**

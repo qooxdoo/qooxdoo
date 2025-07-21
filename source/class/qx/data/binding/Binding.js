@@ -35,9 +35,10 @@
  */
 qx.Class.define("qx.data.binding.Binding", {
   extend: qx.core.Object,
+  implement: [qx.data.binding.IInputReceiver],
 
   /**
-   * The function is responsible for binding a source objects property to
+   * The class is responsible for binding a source objects property to
    * a target objects property. Both properties have to have the usual qooxdoo
    * getter and setter. The source property also needs to fire change-events
    * on every change of its value.
@@ -128,7 +129,7 @@ qx.Class.define("qx.data.binding.Binding", {
     this.setSourcePath(sourcePath);
     this.setTargetPath(targetPath);
     Utils.then(tracker, () => source && this.setSource(source));
-    this.__initPromise = Utils.then(tracker, () => target && this.setTarget(target));
+    Utils.then(tracker, () => target && this.setTarget(target));
   },
 
   destruct() {
@@ -145,14 +146,6 @@ qx.Class.define("qx.data.binding.Binding", {
   },
 
   properties: {
-    /** The "value" is the final value obtained from the sourcePath */
-    value: {
-      init: null,
-      nullable: true,
-      event: "changeValue",
-      apply: "_applyValue"
-    },
-
     /** The path into the `source` object */
     sourcePath: {
       init: null,
@@ -162,14 +155,6 @@ qx.Class.define("qx.data.binding.Binding", {
       apply: "_applySourcePath"
     },
 
-    /** The source object to get the `value` by looking up `sourcePath` */
-    source: {
-      init: null,
-      nullable: true,
-      event: "changeSource",
-      apply: "_applySource"
-    },
-
     /** The path into the `target` object */
     targetPath: {
       init: null,
@@ -177,18 +162,24 @@ qx.Class.define("qx.data.binding.Binding", {
       check: "String",
       event: "changeTargetPath",
       apply: "_applyTargetPath"
-    },
-
-    /** The target object to set the `value` by looking up `targetPath` */
-    target: {
-      init: null,
-      nullable: true,
-      event: "changeTarget",
-      apply: "_applyTarget"
     }
   },
 
   members: {
+    /**
+     * @type {*}
+     */
+    __value: null,
+    /**
+     * @type {qx.core.Object}
+     */
+    __source: null,
+
+    /**
+     * @type {qx.core.Object}
+     */
+    __target: null,
+
     /** @type {Promise} initialisation promise */
     __initPromise: null,
 
@@ -229,16 +220,22 @@ qx.Class.define("qx.data.binding.Binding", {
       }
       this.__sourceSegments = qx.data.binding.Binding.__parseSegments(null, value, this);
       let lastSegment = this.__sourceSegments.at(-1);
-      lastSegment.addListener("changeOutput", evt => {
-        this.setValue(evt.getData());
-      });
+      lastSegment.setOutputReceiver(this);
     },
 
     /**
-     * Apply for `source`
+     *
+     * @param {qx.core.Object} value The source object to get the `value` by looking up `sourcePath`
+     * @returns
      */
-    _applySource(value, oldValue) {
+    setSource(value) {
+      if (this.__source === value) {
+        return;
+      }
+      let oldValue = this.__source;
+      this.__source = value;
       const Binding = qx.data.binding.Binding;
+      this.__initPromise = null; // reset the init promise, as the source has changed
 
       if (oldValue) {
         delete Binding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
@@ -258,12 +255,22 @@ qx.Class.define("qx.data.binding.Binding", {
             `Binding property ${this.__sourceSegments[0].toString()} of object ${value.classname} not possible. No event available.`
           );
 
+        let out;
+
         if (qx.Promise.isPromise(promise)) {
-          return promise.then(cb);
+          out = promise.then(cb);
         } else {
-          return cb();
+          out = cb();
         }
+        this.__initPromise = Promise.resolve(out);
       }
+    },
+
+    /**
+     * @returns {qx.core.Object} the source object
+     */
+    getSource() {
+      return this.__source;
     },
 
     /**
@@ -274,14 +281,22 @@ qx.Class.define("qx.data.binding.Binding", {
         throw new Error("Cannot change sourcePath after binding has been created");
       }
       this.__targetSegments = qx.data.binding.Binding.__parseSegments(null, value);
-      let lastSegment = this.__targetSegments[this.__targetSegments.length - 1];
-      lastSegment.addListener("changeInput", this.__updateTarget, this);
+      this.__targetSegments.at(-1).addListener("changeInput", this.__updateTarget, this);
     },
 
     /**
-     * Apply for `target`
+     * The target object to set the `value` by looking up `targetPath`
+     * @param {qx.core.Object} value
+     * @returns
      */
-    _applyTarget(value, oldValue) {
+    setTarget(value) {
+      if (this.__target === value) {
+        return;
+      }
+
+      this.__initPromise = null; // reset the init promise, as the target has changed
+      let oldValue = this.__target;
+      this.__target = value;
       const Binding = qx.data.binding.Binding;
 
       if (oldValue) {
@@ -296,15 +311,59 @@ qx.Class.define("qx.data.binding.Binding", {
         Binding.__bindingsByTarget[value.toHashCode()] ??= {};
         Binding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
 
-        return this.__targetSegments[0].setInput(value);
+        let out = this.__targetSegments[0].setInput(value);
+
+        const cb = () => {};
+
+        if (qx.Promise.isPromise(out)) {
+          return (this.__initPromise = out.then(cb));
+        } else {
+          let out = cb();
+          this.__initPromise = Promise.resolve(out);
+          return out;
+        }
       }
     },
 
     /**
-     * Apply for `value`
+     *
+     * @returns {qx.core.Object} the target object
      */
-    _applyValue(value) {
+    getTarget() {
+      return this.__target;
+    },
+
+    /**
+     * This method should not be called directly.
+     * It is only there to comply with interface `qx.data.binding.IInputReceiver`.
+     * @override
+     * @interface qx.data.binding.IInputReceiver
+     *
+     * @param {qx.core.Object}
+     */
+    setInput(input) {
+      return this.__setValue(input);
+    },
+
+    /**
+     *
+     * @param {*} value The final value obtained from the sourcePath
+     * @returns {Promise?} A promise if setting the target is asynchronous, otherwise null
+     */
+    __setValue(value) {
+      if (this.__value === value) {
+        return null; // no change
+      }
+      this.__value = value;
       return this.__updateTarget();
+    },
+
+    /**
+     *
+     * @returns {*} the value that was set by the sourcePath
+     */
+    getValue() {
+      return this.__value;
     },
 
     /**
@@ -313,7 +372,7 @@ qx.Class.define("qx.data.binding.Binding", {
     __updateTarget() {
       if (this.__targetSegments) {
         for (let segment of this.__targetSegments) {
-          if (!segment.getEventName()) {
+          if (!segment.getEventName() && segment.getOutputReceiver()) {
             segment.updateOutput();
           }
         }
@@ -321,7 +380,7 @@ qx.Class.define("qx.data.binding.Binding", {
 
       let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
 
-      if (lastSegment && lastSegment.getInput()) {
+      if (this.getTarget() && this.getSource()) {
         let value = this.getValue();
         if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
           let model = typeof this.getTarget().getModel == "function" ? this.getTarget().getModel() : null;
@@ -334,18 +393,20 @@ qx.Class.define("qx.data.binding.Binding", {
           } else {
             this.__options.onUpdate?.(this.getSource(), this.getTarget(), value);
           }
+          return null;
         };
 
         let ret;
         try {
           ret = lastSegment.setTargetValue(value);
-          cb();
         } catch (ex) {
-          cb(ex);
+          return cb(ex);
         }
 
         if (qx.Promise.isPromise(ret)) {
-          return ret.catch(cb);
+          return ret.then(cb, cb);
+        } else {
+          cb(null);
         }
       }
     }
@@ -378,7 +439,7 @@ qx.Class.define("qx.data.binding.Binding", {
         value = options.converter(value, model, sourceObject, targetObject);
       }
 
-      this.__setTargetValue(targetObject, targetPropertyChain, value);
+      return this.__setTargetValue(targetObject, targetPropertyChain, value);
     },
 
     /**
@@ -395,8 +456,9 @@ qx.Class.define("qx.data.binding.Binding", {
       let segments = qx.data.binding.Binding.__parseSegments(null, targetPropertyChain);
       let lastSegment = segments[segments.length - 1];
       segments[0].setInput(targetObject);
-      lastSegment.setTargetValue(value);
+      let out = lastSegment.setTargetValue(value);
       segments.forEach(segment => segment.dispose());
+      return out;
     },
 
     /**
@@ -553,6 +615,13 @@ qx.Class.define("qx.data.binding.Binding", {
      */
     resolvePropertyChain(object, propertyChain) {
       let segments = qx.data.binding.Binding.__parseSegments(null, propertyChain);
+      let out;
+      let receiver = {
+        setInput(value) {
+          out = value;
+        }
+      };
+      segments.at(-1).setOutputReceiver(receiver);
       let promise = segments[0].setInput(object);
 
       const cb = () => {
@@ -561,7 +630,6 @@ qx.Class.define("qx.data.binding.Binding", {
           let property = qx.Class.getByProperty(object.constructor, first.getPropName());
           qx.core.Assert.assertNotNull(property, `Object ${object.classname} does not have property ${first.getPropName()}`);
         }
-        let out = segments.at(-1).getOutput();
         segments.forEach(segment => segment.dispose());
         return out;
       };
@@ -601,10 +669,7 @@ qx.Class.define("qx.data.binding.Binding", {
 
         segments.forEach((seg, index) => {
           if (index < segments.length - 1) {
-            seg.addListener("changeOutput", evt => {
-              let nextSegment = segments[index + 1];
-              nextSegment.setInput(evt.getData());
-            });
+            seg.setOutputReceiver(segments[index + 1]);
           }
         });
 
