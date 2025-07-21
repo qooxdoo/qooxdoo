@@ -358,7 +358,7 @@ qx.Class.define("qx.test.Promise", {
         });
 
         asyncObj.getAlphaAsync();
-        asyncObj.bind("alphaAsync", syncObj, "bravo");
+        asyncObj.bind("alpha", syncObj, "bravo");
         asyncObj.setAlphaAsync("zyx");
         qx.Promise.all([p1, p2]).then(function () {
           var p3 = new qx.Promise();
@@ -391,7 +391,7 @@ qx.Class.define("qx.test.Promise", {
           p1.resolve();
         });
 
-        syncObj.bind("bravo", asyncObj, "alphaAsync");
+        syncObj.bind("bravo", asyncObj, "alpha");
         syncObj.setBravo("def");
 
         p1.then(function () {
@@ -769,7 +769,7 @@ qx.Class.define("qx.test.Promise", {
         var obj = new Clazz().set({ value: i });
         var bindPromise;
         if (i > 0) {
-          bindPromise = objs[i - 1].bindAsync("alphaAsync", obj, "alphaAsync");
+          bindPromise = objs[i - 1].bindAsync("alpha", obj, "alpha");
         } else {
           bindPromise = qx.Promise.resolve(true);
         }
