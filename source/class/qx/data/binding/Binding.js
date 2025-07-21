@@ -278,7 +278,7 @@ qx.Class.define("qx.data.binding.Binding", {
      */
     _applyTargetPath(value, oldValue) {
       if (oldValue) {
-        throw new Error("Cannot change sourcePath after binding has been created");
+        throw new Error("Cannot change targetPath after binding has been created");
       }
       this.__targetSegments = qx.data.binding.Binding.__parseSegments(null, value);
       this.__targetSegments.at(-1).addListener("changeInput", this.__updateTarget, this);
