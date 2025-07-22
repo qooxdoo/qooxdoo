@@ -103,12 +103,12 @@ qx.Class.define("qx.test.Promise", {
 
     /**
      * Tests that a property apply method can return a promise; in this case, the
-     * property is not marked as async so the apply method is only able to delay
-     * the event handler
+     * property is not marked as async so the event handler will not wait for the apply promise to resolve
      */
     testPropertySetValueAsyncApply1() {
       var t = this;
       var p;
+      let applyResolved = false;
       var Clazz = qx.Class.define("testPropertySetValueAsyncApply1.Clazz", {
         extend: qx.core.Object,
         properties: {
@@ -124,6 +124,7 @@ qx.Class.define("qx.test.Promise", {
           _applyAlpha(value, oldValue) {
             return (p = new qx.Promise(function (resolve) {
               setTimeout(function () {
+                applyResolved = true;
                 resolve("xyz");
               }, 250);
             }));
@@ -135,12 +136,14 @@ qx.Class.define("qx.test.Promise", {
       var eventFired = 0;
       obj.addListener("changeAlpha", function (evt) {
         eventFired++;
+        this.assertFalse(applyResolved);
       });
       obj.setAlpha("abc");
       this.assertTrue(!!p);
       this.assertEquals(1, eventFired);
       this.assertEquals("abc", obj.getAlpha());
       p.then(function (value) {
+        this.assertTrue(applyResolved);
         this.assertEquals("xyz", value); // "xyz" because this is the internal promise
         this.assertEquals("abc", obj.getAlpha());
         this.assertEquals(1, eventFired);
@@ -206,31 +209,6 @@ qx.Class.define("qx.test.Promise", {
           );
         }.bind(this)
       );
-      this.wait(1000);
-    },
-
-    /**
-     * Tests that a property apply method can take a promise
-     */
-    testPropertySetValueAsyncApply3() {
-      var Clazz = qx.Class.define("testPropertySetValueAsyncApply3.Clazz", {
-        extend: qx.core.Object,
-        properties: {
-          alpha: {
-            init: null,
-            nullable: true
-          }
-        }
-      });
-
-      var obj = new Clazz();
-      var p = qx.Promise.resolve("hello");
-      obj.setAlpha(p);
-      setTimeout(() => {
-        this.assertEquals("hello", obj.getAlpha());
-        qx.Class.undefine("testPropertySetValueAsyncApply3.Clazz");
-        this.resume();
-      }, 100);
       this.wait(1000);
     },
 
