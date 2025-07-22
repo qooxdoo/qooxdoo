@@ -671,7 +671,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       let superinstance = new qx.test.cpnfv8.Superclass(false);
 
       try {
-        superinstance.running = 23;
+        superinstance.running = "lalala";
         this.assertTrue(false, "check 'Boolean' failed as it should");
       } catch (e) {
         this.assertTrue(true, "check 'Boolean' failed as it should");
@@ -680,6 +680,13 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
       try {
         superinstance.running = true;
         superinstance.running = false;
+        superinstance.running = "true";
+        superinstance.running = 0;
+        this.assertFalse(superinstance.running, "check 'Boolean' succeeded as it should");
+        superinstance.running = -1;
+        this.assertTrue(superinstance.running, "check 'Boolean' succeeded as it should");
+        superinstance.running = 1;
+        this.assertTrue(superinstance.running, "check 'Boolean' succeeded as it should");
         this.assertTrue(true, "check 'Boolean' succeeded as it should");
       } catch (e) {
         this.assertTrue(false, "check 'Boolean' succeded as it should");
