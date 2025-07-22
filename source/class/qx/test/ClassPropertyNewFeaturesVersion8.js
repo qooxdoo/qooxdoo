@@ -692,12 +692,7 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         this.assertTrue(false, "check 'Boolean' succeded as it should");
       }
 
-      try {
-        superinstance.jsdocProp = [2, 4, 6];
-        this.assertTrue(false, "check JSDoc failed as expected (not yet implemented)");
-      } catch (e) {
-        this.assertTrue(true, "check JSDoc failed as expected (not yet implemented)");
-      }
+      superinstance.jsdocProp = [2, 4, 6];
 
       try {
         superinstance.mustBe42 = 42;

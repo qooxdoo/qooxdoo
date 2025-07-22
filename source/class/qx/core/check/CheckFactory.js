@@ -65,6 +65,8 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
         return new qx.core.check.IsOneOfCheck(expr, nullable);
       }
 
+      expr = expr.replace(/<.*>/g, ""); // remove generics
+
       let checkname = expr;
       if (checkname.endsWith("?")) {
         checkname = checkname.substring(0, checkname.length - 1);
