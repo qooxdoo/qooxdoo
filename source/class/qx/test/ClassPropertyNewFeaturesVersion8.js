@@ -851,7 +851,9 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
     testSetAsPromise() {
       const doit = async () => {
         let a = new qx.test.cpnfv8.Superclass();
-        a.setPromiseProp(Promise.resolve("hello"));
+        let p = Promise.resolve("hello");
+        a.setPromiseProp(p);
+        this.assertEquals(p, a.getPromiseProp(), "setPromiseProp with Promise works");
         a.setAnyProp(Promise.resolve("hello"));
         try {
           a.setNullableProp(Promise.resolve(42));
