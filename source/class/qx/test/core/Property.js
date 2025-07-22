@@ -477,6 +477,7 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testRecursive() {
+      qx.Class.undefine("qx.Node");
       qx.Class.define("qx.Node", {
         extend: qx.core.Object,
 
@@ -988,6 +989,7 @@ qx.Class.define("qx.test.core.Property", {
     testIsEqualBaseClassMember() {
       var context, object;
 
+      qx.Class.undefine("qx.Super");
       qx.Class.define("qx.Super", {
         extend: qx.core.Object,
         members: {
@@ -1086,6 +1088,7 @@ qx.Class.define("qx.test.core.Property", {
           }, delay);
         });
 
+      qx.Class.undefine("qxl.TestPromises");
       qx.Class.define("qxl.TestPromises", {
         extend: qx.core.Object,
 
@@ -1150,7 +1153,6 @@ qx.Class.define("qx.test.core.Property", {
         let tmp;
         let tp;
         let result;
-        ("");
 
         tp = createTestPromise();
         tmp = tp.setPropOne(12);
@@ -1178,7 +1180,7 @@ qx.Class.define("qx.test.core.Property", {
         this.assertTrue(result === 18);
         this.assertArrayEquals(tp.state, ["apply-two", "event-two"]);
       };
-      testImpl().then(() => this.resume());
+      testImpl().finally(() => this.resume());
       this.wait(1000);
     },
 

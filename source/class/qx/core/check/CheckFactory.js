@@ -24,6 +24,8 @@
  * the early stages of loading an application.
  *
  * @require(qx.core.check.DynamicTypeCheck)
+ *
+ * @typedef {String|Function|Array<String>} CheckType
  */
 qx.Bootstrap.define("qx.core.check.CheckFactory", {
   extend: Object,
@@ -37,14 +39,14 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
   },
 
   members: {
-    /** @type{Object<String,qx.core.check.ICheck} the list of known checks */
+    /** @type {Object<String,qx.core.check.ICheck>} the list of known checks */
     __checks: null,
 
     /**
      * Gets a `qx.core.check.Check` instance that can be used to verify property value
      * compatibility; note that one will be created if it does not already exist
      *
-     * @param {String} expr
+     * @param {CheckType} expr
      * @return {qx.core.check.Check}
      */
     getCheck(expr, nullable) {
@@ -134,6 +136,7 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
       Document: qx.core.check.standard.DocumentCheck,
       Window: qx.core.check.standard.WindowCheck,
       Event: qx.core.check.standard.EventCheck,
+      Promise: qx.core.check.standard.PromiseCheck,
       Class: qx.core.check.standard.ClassCheck,
       Mixin: qx.core.check.standard.MixinCheck,
       Interface: qx.core.check.standard.InterfaceCheck,

@@ -674,11 +674,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value the value to set
      */
     set(thisObj, value) {
-      if (qx.Promise.isPromise(value)) {
-        value.then(v => this._setImpl(thisObj, v, "user", "set"));
-      } else {
-        this._setImpl(thisObj, value, "user", "set");
-      }
+      this._setImpl(thisObj, value, "user", "set");
     },
 
     /**
@@ -784,12 +780,18 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
         value = this.get(thisObj);
       }
+
       let check = this.getCheck();
+      if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
+        this.warn("Property " + this + " is being set to a Promise, but its check is not a Promise.");
+      }
+
       if (check && !check.matches(value, thisObj)) {
-        value = check.coerce(value, thisObj);
-        if (value === null || !check.matches(value, thisObj)) {
+        let coerced = check.coerce(value, thisObj);
+        if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
           throw new Error(`Invalid value for property ${this}: ${value}`);
         }
+        value = coerced;
       }
 
       let isEqual = this.isEqual(thisObj, value, oldValue);

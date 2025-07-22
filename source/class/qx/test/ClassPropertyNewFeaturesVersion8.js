@@ -65,6 +65,21 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
             check: "Array<Number>"
           },
 
+          anyProp: {
+            init: null,
+            nullable: true
+          },
+
+          asyncProp: {
+            init: null,
+            nullable: true,
+            check: "Number"
+          },
+
+          promiseProp: {
+            check: "Promise"
+          },
+
           mustBe42: {
             init: 0,
             check: v => v === 42
@@ -829,6 +844,32 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
           "Property of same name as Object method"
         );
       }
+    },
+
+    testSetAsPromise() {
+      const doit = async () => {
+        let a = new qx.test.cpnfv8.Superclass();
+        a.setPromiseProp(Promise.resolve("hello"));
+        a.setAnyProp(Promise.resolve("hello"));
+        try {
+          a.setNullableProp(Promise.resolve(42));
+          this.assertTrue(false, "Should throw an error when setting a Promise to a number property");
+        } catch (ex) {
+          this.assertTrue(true, "Should throw an error when setting a Promise to a number property");
+        }
+
+        try {
+          await a.setAsyncPropAsync(Promise.resolve(42));
+          this.assertTrue(false, "Should throw an error when setting a Promise to a number property");
+        } catch (ex) {
+          this.assertTrue(true, "Should throw an error when setting a Promise to a number property");
+        }
+      };
+
+      doit().finally(() => {
+        this.resume();
+      });
+      this.wait(1000);
     }
   }
 });
