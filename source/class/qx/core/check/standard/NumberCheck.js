@@ -34,18 +34,15 @@ qx.Bootstrap.define("qx.core.check.standard.NumberCheck", {
      * @override
      */
     _coerceImpl(value) {
-      if (value === null || isNaN(value)) {
-        return 0;
-      }
       if (qx.lang.Type.isNumber(value)) {
         return value;
       }
       value = String(value).trim();
       let tmp = parseFloat(value);
-      if (isNaN(tmp)) {
-        return 0;
+      if (!isNaN(tmp)) {
+        return tmp;
       }
-      return tmp;
+      return null;
     }
   }
 });
