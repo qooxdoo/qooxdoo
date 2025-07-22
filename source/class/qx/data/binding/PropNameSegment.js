@@ -93,9 +93,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
           return this._setOutput(nextInput);
         } else {
           let promise = property.get(input, this.__propName);
-          return promise?.then(nextInput => {
-            return this._setOutput(nextInput);
-          });
+          return promise?.then(nextInput => this._setOutput(nextInput));
         }
       }
     },
