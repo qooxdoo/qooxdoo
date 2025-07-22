@@ -469,6 +469,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         addMethod("reset" + upname, function () {
           self.reset(this);
         });
+        addMethod("reset" + upname + "Async", function () {
+          return self.resetAsync(this);
+        });
       }
     },
 
@@ -789,7 +792,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           }
           if (method == "reset") {
             if (scope == "user") {
-              async ? await this.__storage.resetAsync(thisObj, this, value) : this.__storage.reset(thisObj, this, value);
+              this.__storage.reset(thisObj, this, value);
             } else if (scope == "themed" || value === undefined) {
               delete state.themeValue;
             }

@@ -872,6 +872,41 @@ qx.Class.define("qx.test.ClassPropertyNewFeaturesVersion8", {
         this.resume();
       });
       this.wait(1000);
+    },
+
+    testResetAsync() {
+      let apply = 0;
+      qx.Class.undefine("qx.test.cpnfv8.ResetAsyncTest");
+      var Clazz = qx.Class.define("qx.test.cpnfv8.ResetAsyncTest", {
+        extend: qx.core.Object,
+        properties: {
+          foo: {
+            async: true,
+            init: 7,
+            apply: function (value, old) {
+              return new qx.Promise((resolve, reject) => {
+                setTimeout(() => {
+                  apply++;
+                  resolve(value);
+                }, 100);
+              });
+            }
+          }
+        }
+      });
+
+      const doit = async () => {
+        let instance = new Clazz();
+        await instance.setFooAsync(42);
+        await instance.resetFooAsync();
+        this.assertEquals(7, instance.getFoo(), "resetFooAsync should reset to initial value");
+        this.assertEquals(2, apply, "apply should be called twice");
+      };
+
+      doit().then(() => {
+        this.resume();
+      });
+      this.wait(1000);
     }
   }
 });
