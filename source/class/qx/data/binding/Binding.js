@@ -263,6 +263,7 @@ qx.Class.define("qx.data.binding.Binding", {
           out = cb();
         }
         this.__initPromise = Promise.resolve(out);
+        return out;
       }
     },
 
