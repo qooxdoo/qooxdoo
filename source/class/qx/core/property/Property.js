@@ -699,6 +699,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Resets a property value asynchronously
+     * @param {qx.core.Object} thisObj
+     * @returns
+     */
+    resetAsync(thisObj) {
+      let value = this.getInitValue(thisObj);
+      return this._setImpl(thisObj, value, "user", "reset", true);
+    },
+
+    /**
      * Resets the theme value for the property; this will trigger an apply & change event if the
      * final value of the property changes
      *
@@ -751,87 +761,133 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj
      * @param {*} value
      * @param {"user" | "themed"} scope
+     * @param {Boolean} async whether to set the value asynchronously
      * @param {"set" | "reset" | "init"} method
      */
-    _setImpl(thisObj, value, scope, method) {
-      let state = this.getPropertyState(thisObj);
-
-      if (this.__validate) {
-        this.__callFunction(thisObj, this.__validate, value, this);
-      }
-      if (this.__readOnly && value !== undefined) {
-        throw new Error("Property " + this + " is read-only");
-      }
-      let oldValue = this.__getSafe(thisObj);
-      if (this.__transform) {
-        value = this.__callFunction(thisObj, this.__transform, value, oldValue, this);
-      }
-      if (oldValue === undefined) {
-        oldValue = this.getInitValue(thisObj);
-      }
-      if (oldValue === undefined && this.__definition.nullable) {
-        oldValue = null;
-      }
-      if (method == "reset") {
-        if (scope == "user") {
-          this.__storage.reset(thisObj, this, value);
-        } else if (scope == "themed" || value === undefined) {
-          delete state.themeValue;
-        }
-        value = this.get(thisObj);
-      }
-
-      let check = this.getCheck();
-      if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
-        this.warn("Property " + this + " is being set to a Promise, but its check is not a Promise.");
-      }
-
-      if (check && !check.matches(value, thisObj)) {
-        let coerced = check.coerce(value, thisObj);
-        if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
-          throw new Error(`Invalid value for property ${this}: ${value}`);
-        }
-        value = coerced;
-      }
-
-      let isEqual = this.isEqual(thisObj, value, oldValue);
-      if (!isEqual && this.isMutating(thisObj)) {
-        this.warn("Property " + this + " is currently mutating");
-      }
-
-      let isInitCalled = true;
-      isInitCalled = state.initMethodCalled;
-      state.initMethodCalled = true;
-
-      if (scope == "user") {
-        // Always set the value to the storage if it is a user value; this is because themable properties
-        // might be equal now, but if the theme value changes, the user's override needs to remain.
-        if (method == "set" || method == "init") {
-          this.__storage.set(thisObj, this, value);
-        }
-      } else if (scope == "themed") {
-        if (method != "reset" && value !== undefined) {
-          state.themeValue = value;
-          value = this.get(thisObj);
-        }
-      } else if (qx.core.Environment.get("qx.debug")) {
-        throw new Error(`Invalid scope=${scope} in ${this.classname}._setImpl`);
-      }
-
-      if (!isEqual || (value !== undefined && !isInitCalled)) {
-        this._setMutating(thisObj, true);
-
+    _setImpl(thisObj, value, scope, method, async = false) {
+      let error;
+      const doit = async () => {
         try {
-          if (value === undefined) {
-            value = null;
+          let state = this.getPropertyState(thisObj);
+
+          if (this.__validate) {
+            this.__callFunction(thisObj, this.__validate, value, this);
           }
-          this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
-          if (this.__eventName) {
-            thisObj.fireDataEvent(this.__eventName, value, oldValue);
+          if (this.__readOnly && value !== undefined) {
+            throw new Error("Property " + this + " is read-only");
           }
-          this.__applyValueToInheritedChildren(thisObj);
-        } finally {
-          this._setMutating(thisObj, false);
+          let oldValue = async ? await this.__storage.getAsync(thisObj, this) : this.__getSafe(thisObj);
+
+          if (this.__transform) {
+            value = this.__callFunction(thisObj, this.__transform, value, oldValue, this);
+          }
+          if (oldValue === undefined) {
+            oldValue = this.getInitValue(thisObj);
+          }
+          if (oldValue === undefined && this.__definition.nullable) {
+            oldValue = null;
+          }
+          if (method == "reset") {
+            if (scope == "user") {
+              async ? await this.__storage.resetAsync(thisObj, this, value) : this.__storage.reset(thisObj, this, value);
+            } else if (scope == "themed" || value === undefined) {
+              delete state.themeValue;
+            }
+            value = this.get(thisObj);
+          }
+
+          let check = this.getCheck();
+          if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
+            this.warn("Property " + this + " is being set to a promise, but its check is not a Promise.");
+          }
+
+          if (check && !check.matches(value, thisObj)) {
+            let coerced = check.coerce(value, thisObj);
+            if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
+              throw new Error(`Invalid value for property ${this}: ${value}`);
+            }
+            value = coerced;
+          }
+
+          let isEqual = this.isEqual(thisObj, value, oldValue);
+          if (!isEqual && this.isMutating(thisObj)) {
+            this.warn("Property " + this + " is currently mutating");
+          }
+
+          let isInitCalled = true;
+          isInitCalled = state.initMethodCalled;
+          state.initMethodCalled = true;
+
+          const setSyncImpl = () => {
+            if (scope == "user") {
+              // Always set the value to the storage if it is a user value; this is because themable properties
+              // might be equal now, but if the theme value changes, the user's override needs to remain.
+              if (method == "set" || method == "init") {
+                this.__storage.set(thisObj, this, value);
+              }
+            } else if (scope == "themed") {
+              if (method != "reset" && value !== undefined) {
+                state.themeValue = value;
+                value = this.get(thisObj);
+              }
+            } else if (qx.core.Environment.get("qx.debug")) {
+              throw new Error(`Invalid scope=${scope} in ${this.classname}._setImpl`);
+            }
+            if (value === undefined) {
+              value = null;
+            }
+            let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+            if (qx.lang.Type.isPromise(out) && !this.isAsync()) {
+              this.warn(
+                "Apply function for property " + this + " returned a Promise, but the property is not async. The promise will be ignored."
+              );
+            }
+            if (this.__eventName) {
+              thisObj.fireDataEvent(this.__eventName, value, oldValue);
+            }
+            this.__applyValueToInheritedChildren(thisObj);
+          };
+
+          const setAsyncImpl = async () => {
+            await this.__storage.setAsync(thisObj, this, value);
+            await this.__callFunctionAsync(thisObj, this.__apply, value, oldValue, this.__propertyName);
+            if (this.__eventName) {
+              await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
+            }
+            this.__applyValueToInheritedChildren(thisObj, value, oldValue);
+          };
+
+          if (!isEqual || (value !== undefined && !isInitCalled)) {
+            if (async) {
+              let promise = setAsyncImpl();
+              this._setMutating(thisObj, promise);
+              return promise;
+            } else {
+              this._setMutating(thisObj, true);
+              try {
+                setSyncImpl();
+              } finally {
+                this._setMutating(thisObj, false);
+              }
+            }
+          }
+        } catch (e) {
+          error = e;
+        }
+      };
+
+      let promise = doit();
+
+      //If an error is thrown, ensure it's thrown synchronously if possible
+      if (async) {
+        return promise.then(() => {
+          if (error) {
+            throw error;
+          }
+        });
+      } else {
+        if (error) {
+          throw error;
         }
       }
     },
@@ -860,27 +916,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {qx.Promise<Void>}
      */
     async setAsync(thisObj, value) {
-      if (this.__readOnly && value !== undefined) {
-        throw new Error("Property " + this + " is read-only");
-      }
-      if (this.isMutating(thisObj)) {
-        throw new Error("Property " + this + " is currently mutating");
-      }
-
-      const setAsyncImpl = async () => {
-        await this.__storage.setAsync(thisObj, this, value);
-        await this.__callFunctionAsync(thisObj, this.__apply, value, oldValue, this.__propertyName);
-        this.__applyValueToInheritedChildren(thisObj, value, oldValue);
-      };
-
-      let oldValue = await this.__storage.getAsync(thisObj, this);
-      if (!this.isEqual(thisObj, value, oldValue)) {
-        let promise = setAsyncImpl();
-        await this._setMutating(thisObj, promise);
-        if (this.__eventName) {
-          await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
-        }
-      }
+      return this._setImpl(thisObj, value, "user", "set", true);
     },
 
     /**
