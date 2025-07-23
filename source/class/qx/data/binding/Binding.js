@@ -32,6 +32,9 @@
  * only works with `sourcePath` and not in `targetPath`.  Arrays can be native or
  * `qx.data.Array`, but changes to native arrays will not be detected because they
  * dont fire events
+ *
+ * @typedef {[qx.data.binding.Binding, qx.core.Object, string, qx.core.Object, string]} BindingRecord Array representation of the binding,
+ * containing the binding, source object, source path, target object and target path respectively.
  */
 qx.Class.define("qx.data.binding.Binding", {
   extend: qx.core.Object,
@@ -176,6 +179,11 @@ qx.Class.define("qx.data.binding.Binding", {
     __source: null,
 
     /**
+     * @type {BindingRecord?}
+     */
+    __record: null,
+
+    /**
      * @type {qx.core.Object}
      */
     __target: null,
@@ -205,6 +213,17 @@ qx.Class.define("qx.data.binding.Binding", {
 
     /**
      *
+     * @returns {BindingRecord} The representation of this binding as record.
+     */
+    asRecord() {
+      if (!this.__record) {
+        this.__record = [this, this.getSource(), this.getSourcePath(), this.getTarget(), this.getTargetPath()];
+      }
+      return this.__record;
+    },
+
+    /**
+     *
      * @returns {Promise} A promise which resolves when the initial value has been copied over from source to target
      */
     getInitPromise() {
@@ -218,26 +237,34 @@ qx.Class.define("qx.data.binding.Binding", {
       if (oldValue) {
         throw new Error("Cannot change sourcePath after binding has been created");
       }
-      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(null, value, this);
+      this.__record = null; // invalidate record representation cache
+      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(value);
       let lastSegment = this.__sourceSegments.at(-1);
       lastSegment.setOutputReceiver(this);
     },
 
     /**
+     * Sets the source object of this binding.
+     * If a target is set, the target will be updated with source's value.
      *
-     * @param {qx.core.Object} value The source object to get the `value` by looking up `sourcePath`
-     * @returns
+     * @param {qx.core.Object?} value The source object to get the `value` by looking up `sourcePath`
+     * @returns {Promise?} A promise if any stage of the process was asynchronous, i.e. we had to get a property asynchronously along the source/target path,
+     * or setting the target was asynchronous.
+     * If everything was synchronous, then this will return null.
      */
     setSource(value) {
+      const Binding = qx.data.binding.Binding;
       if (this.__source === value) {
         return;
       }
+
+      this.__record = null; // invalidate record representation cache
       let oldValue = this.__source;
       this.__source = value;
-      const Binding = qx.data.binding.Binding;
       this.__initPromise = null; // reset the init promise, as the source has changed
 
       if (oldValue) {
+        //Delete old source's bindings if there was one
         delete Binding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
         if (qx.lang.Object.isEmpty(Binding.__bindingsBySource[oldValue.toHashCode()])) {
           delete Binding.__bindingsBySource[oldValue.toHashCode()];
@@ -245,9 +272,11 @@ qx.Class.define("qx.data.binding.Binding", {
       }
 
       if (value) {
+        //Store the binding
         Binding.__bindingsBySource[value.toHashCode()] ??= {};
         Binding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
 
+        //Set the input on the first segment of the source path
         let promise = this.__sourceSegments[0].setInput(value);
         const cb = () =>
           this.assertNotNull(
@@ -281,20 +310,26 @@ qx.Class.define("qx.data.binding.Binding", {
       if (oldValue) {
         throw new Error("Cannot change targetPath after binding has been created");
       }
-      this.__targetSegments = qx.data.binding.Binding.__parseSegments(null, value);
+      this.__record = null; // invalidate record representation cache
+      this.__targetSegments = qx.data.binding.Binding.__parseSegments(value);
       this.__targetSegments.at(-1).addListener("changeInput", this.__updateTarget, this);
     },
 
     /**
-     * The target object to set the `value` by looking up `targetPath`
-     * @param {qx.core.Object} value
-     * @returns
+     * Sets the target object of this binding.
+     * If a source is set, the target will be updated with source's value.
+     *
+     * @param {qx.core.Object?} value The source object to get the `value` by looking up `sourcePath`
+     * @returns {Promise?} A promise if any stage of the process was asynchronous, i.e. we had to get a property asynchronously along the source/target path,
+     * or setting the target was asynchronous.
+     * If everything was synchronous, then this will return null.
      */
     setTarget(value) {
       if (this.__target === value) {
         return;
       }
 
+      this.__record = null; // invalidate record representation cache
       this.__initPromise = null; // reset the init promise, as the target has changed
       let oldValue = this.__target;
       this.__target = value;
@@ -313,16 +348,8 @@ qx.Class.define("qx.data.binding.Binding", {
         Binding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
 
         let out = this.__targetSegments[0].setInput(value);
-
-        const cb = () => {};
-
-        if (qx.Promise.isPromise(out)) {
-          return (this.__initPromise = out.then(cb));
-        } else {
-          let out = cb();
-          this.__initPromise = Promise.resolve(out);
-          return out;
-        }
+        this.__initPromise = Promise.resolve(out);
+        return out;
       }
     },
 
@@ -414,6 +441,12 @@ qx.Class.define("qx.data.binding.Binding", {
   },
 
   statics: {
+    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
+    __bindingsBySource: {},
+
+    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
+    __bindingsByTarget: {},
+
     /**
      * Helper for updating the target. Gets the current set data from the source
      * and set that on the target.
@@ -454,7 +487,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * @param value {var} The value to set.
      */
     __setTargetValue(targetObject, targetPropertyChain, value) {
-      let segments = qx.data.binding.Binding.__parseSegments(null, targetPropertyChain);
+      let segments = qx.data.binding.Binding.__parseSegments(targetPropertyChain);
       let lastSegment = segments[segments.length - 1];
       segments[0].setInput(targetObject);
       let out = lastSegment.setTargetValue(value);
@@ -463,10 +496,10 @@ qx.Class.define("qx.data.binding.Binding", {
     },
 
     /**
-     *
+     * Splits a property path into segments.
      * @param {string} path
      * @returns {string[]} an array of segments, split by dot and square brackets.
-     * For example, `a.b[0].c` will return `["a", "b", "[0]", "c"]`
+     * For example, splitSegments(`a.b[0].c`) will return `["a", "b", "[0]", "c"]`
      */
     splitSegments(path) {
       let out = [];
@@ -483,16 +516,11 @@ qx.Class.define("qx.data.binding.Binding", {
       return out.filter(s => s.length > 0);
     },
 
-    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
-    __bindingsBySource: {},
-
-    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
-    __bindingsByTarget: {},
-
     /**
      * Finds all bindings for an object, as either a source or target
      *
      * @param {qx.core.Object} object
+     * @returns {BindingRecord[]} An array of the bindings represented as records.
      */
     getAllBindingsForObject(object) {
       const Binding = qx.data.binding.Binding;
@@ -500,13 +528,7 @@ qx.Class.define("qx.data.binding.Binding", {
         ...(Binding.__bindingsBySource[object.toHashCode()] ?? {}),
         ...(Binding.__bindingsByTarget[object.toHashCode()] ?? {})
       };
-      return Object.values(allBindings).map(binding => [
-        binding,
-        binding.getSource(),
-        binding.getSourcePath(),
-        binding.getTarget(),
-        binding.getTargetPath()
-      ]);
+      return Object.values(allBindings).map(binding => binding.asRecord());
     },
 
     /**
@@ -550,18 +572,23 @@ qx.Class.define("qx.data.binding.Binding", {
       const Binding = qx.data.binding.Binding;
 
       let bySourceObject = Binding.__bindingsBySource[object.toHashCode()];
-      Object.values(bySourceObject).forEach(binding => {
-        if (binding.getTarget() === relatedObject) {
-          binding.dispose();
-        }
-      });
+
+      if (bySourceObject) {
+        Object.values(bySourceObject).forEach(binding => {
+          if (binding.getTarget() === relatedObject) {
+            binding.dispose();
+          }
+        });
+      }
 
       let byRelatedObject = Binding.__bindingsBySource[relatedObject.toHashCode()];
-      Object.values(byRelatedObject).forEach(binding => {
-        if (binding.getTarget() === object) {
-          binding.dispose();
-        }
-      });
+      if (byRelatedObject) {
+        Object.values(byRelatedObject).forEach(binding => {
+          if (binding.getTarget() === object) {
+            binding.dispose();
+          }
+        });
+      }
     },
 
     /**
@@ -615,7 +642,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * @return {var?undefined} Returns the set value if defined.
      */
     resolvePropertyChain(object, propertyChain) {
-      let segments = qx.data.binding.Binding.__parseSegments(null, propertyChain);
+      let segments = qx.data.binding.Binding.__parseSegments(propertyChain);
       let out;
       let receiver = {
         setInput(value) {
@@ -645,37 +672,30 @@ qx.Class.define("qx.data.binding.Binding", {
     /**
      * Parses a path and creates an array of `qx.data.binding.AbstractSegment`
      *
-     * @param {qx.data.binding.AbstractSegment[]?} segments current segments, all of which are disposed
      * @param {String} path the path to parse
      * @return {qx.data.binding.AbstractSegment[]?} the new array of segments
      */
-    __parseSegments(segments, path) {
-      if (segments) {
-        segments.forEach(segment => segment.dispose());
-        segments = null;
-      }
-      if (path) {
-        let segsStrings = qx.data.binding.Binding.splitSegments(path);
-        segments = [];
+    __parseSegments(path) {
+      let segsStrings = qx.data.binding.Binding.splitSegments(path);
+      segments = [];
 
-        for (let seg of segsStrings) {
-          //if it's an array index:
-          if (seg.startsWith("[")) {
-            segments.push(new qx.data.binding.ArrayIndexSegment(seg));
-          } else {
-            //otherwise, it's a normal path
-            segments.push(new qx.data.binding.PropNameSegment(seg));
-          }
+      for (let seg of segsStrings) {
+        //if it's an array index:
+        if (seg.startsWith("[")) {
+          segments.push(new qx.data.binding.ArrayIndexSegment(seg));
+        } else {
+          //otherwise, it's a normal path
+          segments.push(new qx.data.binding.PropNameSegment(seg));
         }
-
-        segments.forEach((seg, index) => {
-          if (index < segments.length - 1) {
-            seg.setOutputReceiver(segments[index + 1]);
-          }
-        });
-
-        return segments;
       }
+
+      segments.forEach((seg, index) => {
+        if (index < segments.length - 1) {
+          seg.setOutputReceiver(segments[index + 1]);
+        }
+      });
+
+      return segments;
     }
   }
 });

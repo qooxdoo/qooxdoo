@@ -145,7 +145,7 @@ qx.Mixin.define("qx.data.MBinding", {
      *   targetObject and targetProperty in that order.
      */
     getBindings() {
-      return qx.data.SingleValueBinding.getAllBindingsForObject(this);
+      return qx.data.binding.Binding.getAllBindingsForObject(this);
     }
   },
 

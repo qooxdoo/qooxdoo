@@ -66,6 +66,11 @@ qx.Class.define("qx.data.SingleValueBinding", {
       qx.data.binding.Binding.removeRelatedBindings(object, relatedObject);
     },
 
+    /**
+     *
+     * @param {qx.core.Object} object
+     * @returns {qx.data.binding.Binding.BindingRecord[]}
+     */
     getAllBindingsForObject(object) {
       return qx.data.binding.Binding.getAllBindingsForObject(object);
     },
