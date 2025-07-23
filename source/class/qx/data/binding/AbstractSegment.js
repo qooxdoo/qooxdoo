@@ -38,6 +38,10 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     }
   },
 
+  /**
+   * Fired when this segment's input changed, and it has been received and fully processed by the next segments in the chain,
+   * i.e. any async set/get operations have completed.
+   */
   events: {
     changeInput: "qx.event.type.Data"
   },
@@ -54,7 +58,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     __outputReceiver: null,
 
     /**
-     * Sets the objects which will receive the output of this segment after it's computed.
+     * Sets the object which will receive the output of this segment after it's computed.
      * This is either another segment or the Binding object.
      *
      * The last segment in the target path has no output receiver because we don't care what
@@ -62,8 +66,10 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * @param {qx.data.binding.IInputReceiver} segment
      */
     setOutputReceiver(segment) {
-      if (this.__outputReceiver) {
-        throw new Error("Output receiver already set");
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this.__outputReceiver) {
+          throw new Error("Output receiver already set");
+        }
       }
       this.__outputReceiver = segment;
     },
@@ -79,9 +85,15 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     /**
      * @override
      * @interface qx.data.binding.IInputReceiver
-     
+     *
+     * Sets the input value for this segment.
+     * We will find the output value by dereferencing the input value with this segment (e.g. property name or array index),
+     * and then relay it to the output receiver, which is usually another segment or the instance of `qx.data.binding.Binding`.
      *
      * @param {qx.core.Object} value the input that we are dereferencing with the path or array index
+     * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
+     * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
+     * If it's synchrous, it returns null.
      */
     setInput(value) {
       if (value === this.__input) {
@@ -90,11 +102,12 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
       let old = this.__input;
       this.__input = value;
 
-      let tracker = {};
-      const Utils = qx.event.Utils;
-
-      Utils.then(tracker, () => this._applyInput(value, old));
-      return Utils.then(tracker, () => this.fireDataEvent("changeInput", value, old));
+      let out = this._applyInput(value, old);
+      if (qx.lang.Type.isPromise(out)) {
+        return out.then(() => this.fireDataEvent("changeInput", value, old));
+      } else {
+        return this.fireDataEvent("changeInput", value, old);
+      }
     },
 
     /**
@@ -110,12 +123,14 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      *
      * This method should be overridden in subclasses,
      * and it should compute the output value based on the input,
-     * and possibly add listeners to changes to the desired property in the input value.
+     * and possibly add listeners to changes to the desired property in the input value,
+     * and then relay the output value to the output receiver, which is usually another segment but can also be an instance of `qx.data.binding.Binding`.
      *
      * @param {qx.core.Object} value
      * @param {qx.core.Object} oldValue
-     * @returns {Promise?} If the operation is asynchronous, it should return a Promise which resolves when it has completed.
-     * If it's synchrous, it should return null.
+     * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
+     * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
+     * If it's synchrous, it returns null.
      */
     _applyInput(value, oldValue) {},
 
@@ -123,7 +138,9 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * Should be called when the output value has been computed and needs to be set
      * on the output receiver.
      * @param {qx.core.Object} output
-     * @returns
+     * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
+     * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
+     * If it's synchrous, it returns null.
      */
     _setOutput(output) {
       if (!this.__outputReceiver) {
@@ -134,22 +151,25 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
     /**
      * This method should compute the output value based on the input and set the `output` property.
-     * If the output value is asynchronous, it should return a Promise which resolves when the output property has been fully set.
+     * If this operation is asynchronous, it should return a Promise which resolves when the output property has been fully set.
+     * Otherwise, it should return null.
      *
      * @abstract
      * @returns {Promise?}
      */
     updateOutput() {
-      throw new Error("updateOutput must be implemented in subclass");
+      throw new Error(`${this.classname}.updateOutput not implemented`);
     },
 
     /**
      * Sets the property on the `input` object depicted by this segment to the given value.
      * @abstract
      * @param {*} value
+     * @returns {Promise?} If the operation is asynchronous, it should return a Promise which resolves when the value has been set.
+     * If it's synchronous, it should return null.
      */
     setTargetValue(value) {
-      throw new Error("setTargetValue must be implemented in subclass");
+      throw new Error(`${this.classname}.setTargetValue not implemented`);
     }
   }
 });
