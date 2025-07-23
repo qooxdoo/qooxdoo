@@ -101,7 +101,7 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
         this.assertEquals(null, this.__a.ao);
       };
 
-      doit().finally(() => {
+      doit().then(() => {
         this.resume();
       });
       this.wait(1000);
@@ -119,7 +119,7 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
         this.assertEquals("123", this.__b.so);
       };
 
-      doit().finally(() => {
+      doit().then(() => {
         this.resume();
       });
       this.wait(1000);
@@ -141,9 +141,14 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
         this.__c.setSi("456");
         await binding.setSource(this.__c);
         this.assertEquals("456", this.__b.ao);
+        await binding.setSource(null);
+        this.assertEquals("456", this.__b.ao);
+        await binding.setTarget(null);
+        await binding.setTarget(this.__b);
+        this.assertEquals("456", this.__b.ao);
       };
 
-      doit().finally(() => {
+      doit().then(() => {
         this.resume();
       });
       this.wait(1000);
@@ -159,7 +164,7 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
         this.assertEquals(4, this.__a.getAo().getItem(0));
       };
 
-      doit().finally(() => {
+      doit().then(() => {
         this.resume();
       });
       this.wait(1000);
