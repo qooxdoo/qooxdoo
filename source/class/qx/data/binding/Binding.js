@@ -677,7 +677,7 @@ qx.Class.define("qx.data.binding.Binding", {
      */
     __parseSegments(path) {
       let segsStrings = qx.data.binding.Binding.splitSegments(path);
-      segments = [];
+      let segments = [];
 
       for (let seg of segsStrings) {
         //if it's an array index:
