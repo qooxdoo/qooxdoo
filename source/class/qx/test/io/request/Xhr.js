@@ -196,7 +196,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
       this.req.setRequestData(obj);
       this.req.send();
 
-      this.assertCalledWith(this.transport.send, "qxOwner=null&qxObjectId=null&affe=true");
+      this.assertCalledWith(this.transport.send, "affe=true");
       obj.dispose();
     },
 

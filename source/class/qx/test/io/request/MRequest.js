@@ -125,7 +125,7 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       this.req.setRequestData(obj);
       this.req.send();
 
-      this.assertCalledWith(this.transport.open, "GET", "url?qxOwner=null&qxObjectId=null&affe=true");
+      this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
       obj.dispose();
     },
 
