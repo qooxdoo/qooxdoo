@@ -16,7 +16,7 @@
 
 ************************************************************************ */
 
-const download = require("download");
+const AdmZip = require("adm-zip");
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 const process = require("process");
@@ -212,6 +212,61 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         qx.tool.compiler.Console.info(">>> Done.");
       }
     },
+/**
+ * Download and extract a ZIP archive using native fetch
+ * @param {string} url - URL to download
+ * @param {string} destination - Destination directory
+ * @param {object} options - Options object
+ * @param {boolean} options.extract - Whether to extract the archive
+ * @param {number} options.strip - Number of directory levels to strip
+ */
+async __downloadAndExtract(url, destination, options = {}) {
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+  
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  
+  if (options.extract) {
+    const zip = new AdmZip(buffer);
+    const entries = zip.getEntries();
+    
+    // Create destination directory if it doesn't exist
+    await fs.mkdir(destination, { recursive: true });
+    
+    // Extract with strip support
+    for (const entry of entries) {
+      if (!entry.isDirectory) {
+        let entryPath = entry.entryName;
+        
+        // Strip directories if requested
+        if (options.strip && options.strip > 0) {
+          const pathParts = entryPath.split('/');
+          if (pathParts.length > options.strip) {
+            entryPath = pathParts.slice(options.strip).join('/');
+          } else {
+            continue; // Skip if not enough path parts
+          }
+        }
+        
+        const outputPath = path.join(destination, entryPath);
+        const outputDir = path.dirname(outputPath);
+        
+        // Create directory structure
+        await fs.mkdir(outputDir, { recursive: true });
+        
+        // Write file
+        await fs.writeFile(outputPath, entry.getData());
+      }
+    }
+  } else {
+    // Just save the ZIP file
+    await fs.writeFile(destination, buffer);
+  }
+},
 
     /**
      * Update repo cache
@@ -773,7 +828,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
           );
         }
         try {
-          await download(url, download_path, { extract: true, strip: 1 });
+          await this.__downloadAndExtract(url, download_path, { extract: true, strip: 1 });
         } catch (e) {
           // remove download path so that failed downloads do not result in empty folder
           if (this.argv.verbose) {
