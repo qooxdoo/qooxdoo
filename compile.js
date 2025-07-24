@@ -233,7 +233,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       res.push("test");
       for (const arg of argList) {
         if (command.argv[arg]) {
-          res.push(` --${arg}=${command.argv[arg]}`);
+          res.push(`--${arg}=${command.argv[arg]}`);
         }
       }
       return res;
