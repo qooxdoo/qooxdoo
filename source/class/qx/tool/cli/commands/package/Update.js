@@ -23,7 +23,8 @@ const path = require("upath");
 
 /**
  * Updates the local cache with information of available library packages
- * @ignore(github.*)
+ *
+ * @ignore(Buffer.from)
  */
 qx.Class.define("qx.tool.cli.commands.package.Update", {
   extend: qx.tool.cli.commands.Package,

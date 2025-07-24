@@ -24,7 +24,11 @@ const semver = require("semver");
 const rimraf = require("rimraf");
 
 /**
- * Installs a package
+ *  Installs a package
+ */
+/**
+ * @ignore(fetch)
+ * @ignore(Buffer.from)
  */
 qx.Class.define("qx.tool.cli.commands.package.Install", {
   extend: qx.tool.cli.commands.Package,
@@ -235,7 +239,7 @@ async __downloadAndExtract(url, destination, options = {}) {
     const entries = zip.getEntries();
     
     // Create destination directory if it doesn't exist
-    await fs.mkdir(destination, { recursive: true });
+    await fs.mkdirAsync(destination, { recursive: true });
     
     // Extract with strip support
     for (const entry of entries) {
@@ -256,10 +260,10 @@ async __downloadAndExtract(url, destination, options = {}) {
         const outputDir = path.dirname(outputPath);
         
         // Create directory structure
-        await fs.mkdir(outputDir, { recursive: true });
+        await fs.mkdirAsync(outputDir, { recursive: true });
         
         // Write file
-        await fs.writeFile(outputPath, entry.getData());
+        await fs.writeFileAsync(outputPath, entry.getData());
       }
     }
   } else {
