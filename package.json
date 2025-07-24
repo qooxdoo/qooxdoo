@@ -93,7 +93,7 @@
     "eslint-plugin-jsdoc": "46.8.2",
     "express": "^4.18.2",
     "fontkit": "^2.0.2",
-    "gauge": "^5.0.1",
+    "cli-progress": "^3.12.0",
     "get-value": "^3.0.1",
     "github-api": "^3.4.0",
     "glob": "^7.2.3",
