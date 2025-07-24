@@ -60,10 +60,10 @@ async function runCommand(dir, ...args) {
   return new Promise((resolve, reject) => {
     let originalCmd = args.shift();
     
-    // Use String array for arguments - no shell needed
+    // Use shell for better command resolution
     let proc = child_process.spawn(originalCmd, args, {
       cwd: dir,
-      shell: false // Never use shell - direct execution with String[] args
+      shell: true
     });
     let result = {
         exitCode: null,
