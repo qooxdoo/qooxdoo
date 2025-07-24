@@ -165,8 +165,6 @@ qx.Class.define("qx.compiler.CompilerApi", {
               "lint",
               "--warnAsError"
             ],
-
-            shell: true,
             log: console.log,
             error: console.log
           });
