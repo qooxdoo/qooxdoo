@@ -694,6 +694,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
         this.skip("Skipping because qx.promise==false");
       }
 
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+        this.skip(
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
+        );
+      }
+
       this.setUpFakeTransport();
       var req = this.req;
 
@@ -743,6 +749,11 @@ qx.Class.define("qx.test.io.request.Xhr", {
       if (!qx.core.Environment.get("qx.promise")) {
         this.skip("Skipping because qx.promise==false");
       }
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+        this.skip(
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
+        );
+      }
 
       this.setUpFakeTransport();
       var req = this.req;
@@ -781,6 +792,11 @@ qx.Class.define("qx.test.io.request.Xhr", {
     "test: canceled promise aborts pending request"() {
       if (!qx.core.Environment.get("qx.promise")) {
         this.skip("Skipping because qx.promise==false");
+      }
+      if (qx.core.Environment.get("qx.Promise.useNativePromise")) {
+        this.skip(
+          "Skipping because qx.Promise.useNativePromise===true, meaning we can't cancel promises."
+        );
       }
 
       this.setUpFakeTransport();

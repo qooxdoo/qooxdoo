@@ -1,5 +1,10 @@
 # Qooxdoo Release Notes
 
+## New feature for v7.9.0
+   - Add the possibility to use native promises instead of Bluebird (##10766)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2025-01-29&until=2025-05-15
+
 ## Fixes and optimizations for v7.8.0
 In this release we did some optimizations:
    - Feature: Add a cache for label size to speed up the calculation (#10732)

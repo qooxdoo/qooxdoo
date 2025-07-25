@@ -205,6 +205,7 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
     __ptwLiveUpdateDisappearListener: null,
     /**@type {Record<"top" | "right" | "bottom" | "left", number> | null}*/
     __lastKnownCoords: null,
+    __lastKnownSize: null,
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does,
@@ -378,17 +379,23 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
 
       var coords =
         target.getContentLocation() || this.getLayoutLocation(target);
+      var size = this.__getPlacementSize();
 
       if (coords != null) {
-        if (
-          coords.top === this.__lastKnownCoords?.top &&
-          coords.right === this.__lastKnownCoords?.right &&
-          coords.bottom === this.__lastKnownCoords?.bottom &&
-          coords.left === this.__lastKnownCoords?.left
-        ) {
+
+        const boundsAreEqual = (bound1, bound2) => bound1 && bound2 &&
+          bound1.top === bound2.top &&
+          bound1.right === bound2.right &&
+          bound1.bottom === bound2.bottom &&
+          bound1.left === bound2.left;
+
+        if (boundsAreEqual(coords, this.__lastKnownCoords) &&
+          boundsAreEqual(size, this.__lastKnownSize)) {
           return true;
         }
+
         this.__lastKnownCoords = coords;
+        this.__lastKnownSize = size;
         this._place(coords);
         return true;
       } else {
@@ -527,7 +534,7 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
      * <code>_computePlacementSize</code>, which returns the size.
      *
      *  @param callback {Function} This function will be called with the size as
-     *    first argument
+     *    first argument. If it is null, the size is returned directly.
      */
     __getPlacementSize(callback) {
       var size = null;
@@ -536,6 +543,10 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
         var size = this._computePlacementSize();
       } else if (this.isVisible()) {
         var size = this.getBounds();
+      }
+
+      if (!callback) {
+        return {...size};
       }
 
       if (size == null) {

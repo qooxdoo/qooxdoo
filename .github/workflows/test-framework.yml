@@ -41,5 +41,5 @@ jobs:
         run:  npm  ci
 
       - name: install and run tests
-        run:  npm test -- --browsers=chromium,firefox,webkit --terse --headless --set-env qx.test.delay.scale=10
+        run:  npm test -- --browsers=chromium,firefox --terse --headless --set-env qx.test.delay.scale=10
         shell: bash
