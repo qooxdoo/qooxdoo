@@ -167,6 +167,9 @@
   },
   "eslintConfig": {
     "extends": ["@qooxdoo/qx/browser"],
+    "linterOptions": {
+      "reportUnusedDisableDirectives": false
+    },
     "parserOptions": {
       "ecmaVersion": "2020"
     },
@@ -250,7 +253,9 @@
       "func-call-spacing": "off",
       "no-unexpected-multiline": "off",
       "no-labels": "off",
-      "no-inner-declarations": "off"
+      "no-inner-declarations": "off",
+      "no-console": "off",
+      "no-implicit-globals": "off"
     }
   }
 }

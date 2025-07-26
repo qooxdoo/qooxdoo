@@ -5985,7 +5985,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                   return timer.id;
               }
 
-              /* eslint consistent-return: "off" */
               /**
                * Timer comparitor
                *
@@ -17296,7 +17295,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
               return timer.id;
           }
 
-          /* eslint consistent-return: "off" */
           function compareTimers(a, b) {
               // Sort first by absolute timing
               if (a.callAt < b.callAt) {
@@ -17396,7 +17394,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
               if (typeof timer.func === "function") {
                   timer.func.apply(null, timer.args);
               } else {
-                  /* eslint no-eval: "off" */
                   var eval2 = eval;
                   (function () {
                       eval2(timer.func);
@@ -17486,7 +17483,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                           try {
                               delete _global[method];
                           } catch (ignore) {
-                              /* eslint no-empty: "off" */
                           }
                       }
                   }

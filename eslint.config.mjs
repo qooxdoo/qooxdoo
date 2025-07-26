@@ -2,15 +2,35 @@ import babelParser from "@babel/eslint-parser";
 import qxBrowserConfig from "@qooxdoo/eslint-config-qx/browser.js";
 
 export default [
+  {
+    ignores: [
+      "bin/**",
+      "bootstrap/**",
+      "compiled/**",
+      "docs/**",
+      "known-good/**", 
+      "node_modules/**",
+      "test/**",
+      "source/boot/**",
+      "source/resource/**",
+      "source/translation/**",
+      "compile.js",
+      "*.config.*"
+    ]
+  },
   ...qxBrowserConfig,
   {
+    linterOptions: {
+      reportUnusedDisableDirectives: false
+    },
     languageOptions: {
       parser: babelParser,
       parserOptions: {
         ecmaVersion: 2020,
         requireConfigFile: false,
         babelOptions: {
-          presets: ["@babel/preset-env"]
+          presets: ["@babel/preset-env"],
+          plugins: ["@babel/plugin-syntax-jsx"]
         }
       },
       globals: {
@@ -123,7 +143,9 @@ export default [
       "func-call-spacing": "off",
       "no-unexpected-multiline": "off",
       "no-labels": "off",
-      "no-inner-declarations": "off"
+      "no-inner-declarations": "off",
+      "no-console": "off",
+      "no-implicit-globals": "off"
     }
   }
 ];

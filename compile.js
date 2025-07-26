@@ -46,7 +46,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
         this
       );
       let data = await this.base(arguments);
-      if (!data.environment) data.environment = {};
+      if (!data.environment) {
+        data.environment = {};
+      }
       let manifestConfig = await qx.tool.config.Manifest.getInstance().load();
       let manifestData = manifestConfig.getData();
       data.environment["qx.compiler.version"] = manifestData.info.version;
