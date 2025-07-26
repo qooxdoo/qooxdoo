@@ -134,11 +134,24 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       };
 
       lintOptions.parserOptions.sourceType = "script";
+      
+      // Create flat config format manually for ESLint 9 compatibility
+      let flatConfig = [{
+        languageOptions: {
+          parser: require(lintOptions.parser),
+          parserOptions: lintOptions.parserOptions,
+          globals: lintOptions.globals || {}
+        },
+        plugins: {
+          "@qooxdoo/qx": require("@qooxdoo/eslint-plugin-qx")
+        },
+        rules: lintOptions.rules || {}
+      }];
+      
       let linter = new ESLint({
         cwd: helperFilePath,
         cache: this.argv.cache || false,
-        baseConfig: lintOptions,
-        useEslintrc: this.argv.useEslintrc,
+        overrideConfig: flatConfig,
         fix: this.argv.fix
       });
 

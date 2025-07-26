@@ -166,7 +166,7 @@
     "compiler": "legacy"
   },
   "eslintConfig": {
-    "extends": ["@qooxdoo/qx/browser", "@qooxdoo/qx", "@qooxdoo/jsdoc-disable"],
+    "extends": ["@qooxdoo/qx/browser"],
     "parserOptions": {
       "ecmaVersion": "2020"
     },
@@ -185,7 +185,6 @@
       "no-regex-spaces": "off",
       "no-new-object": "off",
       "no-global-assign": "off",
-
       "no-extra-boolean-cast": "off",
       "no-new": "off",
       "no-unused-vars": "off",
