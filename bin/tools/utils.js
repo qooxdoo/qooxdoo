@@ -171,10 +171,11 @@ async function bootstrapCompiler(options) {
   }
 
   // Use the compiler in node_modules to compile a temporary version
-  console.log("Creating temporary compiler with known-good one");
+  console.log(`Creating temporary compiler with known-good one, target=${options.target}`);
   result = await runCommand("known-good", "node", "../bin/known-good/qx", "compile", "--target=" + options.target);
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling known-good:", result.exitCode);
+    return result.exitCode;
   }
 
   // Create a handy `qx` binary for that version
@@ -196,18 +197,21 @@ fs.copyFileSync("bin/build/qx.cmd", "bootstrap/qx.cmd");
    *  it does not matter if they use source or build, just make sure it is up to date
    */
   console.log("Compiling source version");
-  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--clean", "--verbose");
+  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=source", "--clean", "--verbose");
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling source version:", result.exitCode);
+    return result.exitCode;
   }
 
   console.log("Compiling build version");
   result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=build", "--clean", "--verbose");
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling build version:", result.exitCode);
+    return result.exitCode;
   }
 
   console.log("Compiler successfully bootstrapped");
+  return 0;
 }
 
 // this is simply a copy of qx.tool.utils.files.Utils

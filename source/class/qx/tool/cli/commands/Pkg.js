@@ -21,36 +21,16 @@
 qx.Class.define("qx.tool.cli.commands.Pkg", {
   extend: qx.tool.cli.commands.Package,
   statics: {
-    /**
-     * The yargs command data
-     * @return {{}}
-     */
-    getYargsCommand() {
-      return {
-        command: "pkg <command> [options]",
-        desc: "alias for 'qx package'",
-        builder(yargs) {
-          qx.tool.cli.Cli.addYargsCommands(
-            yargs,
-            [
-              "Install",
-              "List",
-              "Publish",
-              "Remove",
-              "Update",
-              "Upgrade",
-              "Migrate"
-            ],
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "pkg",
+        description: "alias for 'qx package'"
+      });
 
-            "qx.tool.cli.commands.package"
-          );
+      await qx.tool.cli.Command.addSubcommands(cmd, qx.tool.cli.commands.package);
 
-          return yargs.demandCommand().showHelpOnFail().help();
-        },
-        handler() {
-          // Nothing
-        }
-      };
+      return cmd;
     }
   }
 });

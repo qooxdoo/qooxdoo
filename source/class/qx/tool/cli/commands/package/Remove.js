@@ -26,22 +26,21 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
   extend: qx.tool.cli.commands.Package,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "remove [uri]",
-        describe: "removes a package from the configuration.",
-        builder: {
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "remove",
+        description: "removes a package from the configuration."
+      });
 
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          }
-        }
-      };
+      cmd.addArgument(
+        new qx.cli.Argument("uri").set({
+          description: "package URI to remove",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -50,7 +49,6 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
      * Removes packages
      */
     async process() {
-      await super.process();
       if (!this.argv.uri) {
         throw new qx.tool.utils.Utils.UserError("No repository name given.");
       }

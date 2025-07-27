@@ -19,21 +19,30 @@
 qx.Class.define("qx.tool.cli.commands.config.Set", {
   extend: qx.tool.cli.commands.Config,
   statics: {
-    /**
-     * Returns the yargs command data
-     * @return {Object}
-     */
-    getYargsCommand() {
-      return {
-        command: "set <key> <value>",
-        describe: "Sets a configuration value",
-        builder: {
-          all: {
-            type: "boolean",
-            describe: "Shows all keys, including unset"
-          }
-        }
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Config.createCliCommand(clazz);
+      cmd.set({
+        name: "set",
+        description: "Sets a configuration value"
+      });
+
+      cmd.addArgument(
+        new qx.cli.Argument("key").set({
+          description: "Configuration key to set",
+          required: true,
+          type: "string"
+        })
+      );
+
+      cmd.addArgument(
+        new qx.cli.Argument("value").set({
+          description: "Configuration value to set",
+          required: true,
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 

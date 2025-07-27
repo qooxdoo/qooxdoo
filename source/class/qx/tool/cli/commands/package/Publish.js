@@ -30,98 +30,107 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
   extend: qx.tool.cli.commands.Package,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "publish",
-        describe:
-          "publishes a new release of the package on GitHub. Requires a GitHub access token. By default, makes a patch release.",
-        builder: {
-          type: {
-            alias: "t",
-            describe: "Set the release type",
-            nargs: 1,
-            choices:
-              "major,premajor,minor,preminor,patch,prepatch,prerelease".split(
-                /,/
-              ),
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "publish",
+        description: "publishes a new release of the package on GitHub. Requires a GitHub access token. By default, makes a patch release."
+      });
 
-            type: "string"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("type").set({
+          shortCode: "t",
+          description: "Set the release type",
+          type: ["major", "premajor", "minor", "preminor", "patch", "prepatch", "prerelease"]
+        })
+      );
 
-          noninteractive: {
-            alias: "I",
-            type: "boolean",
-            describe: "Do not prompt user"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("noninteractive").set({
+          shortCode: "I",
+          description: "Do not prompt user",
+          type: "boolean"
+        })
+      );
 
-          "use-version": {
-            alias: "V",
-            type: "string",
-            describe: "Use given version number"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("use-version").set({
+          shortCode: "V",
+          description: "Use given version number",
+          type: "string"
+        })
+      );
 
-          prerelease: {
-            type: "boolean",
-            alias: "p",
-            describe: "Publish as a prerelease (as opposed to a stable release)"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("prerelease").set({
+          shortCode: "p",
+          description: "Publish as a prerelease (as opposed to a stable release)",
+          type: "boolean"
+        })
+      );
 
-          quiet: {
-            type: "boolean",
-            alias: "q",
-            describe: "No output"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("message").set({
+          shortCode: "m",
+          description: "Set commit/release message",
+          type: "string"
+        })
+      );
 
-          message: {
-            alias: "m",
-            type: "string",
-            describe: "Set commit/release message"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("dryrun").set({
+          description: "Deprecated. Use --dry-run",
+          type: "boolean"
+        })
+      );
 
-          dryrun: {
-            type: "boolean",
-            describe: "Deprecated. Use --dry-run"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("dry-run").set({
+          shortCode: "d",
+          description: "Show result only, do not publish to GitHub",
+          type: "boolean"
+        })
+      );
 
-          "dry-run": {
-            type: "boolean",
-            alias: "d",
-            describe: "Show result only, do not publish to GitHub"
-          },
+      cmd.removeFlag("force");
+      cmd.addFlag(
+        new qx.cli.Flag("force").set({
+          shortCode: "f",
+          description: "Ignore warnings (such as demo check)",
+          type: "boolean"
+        })
+      );
 
-          force: {
-            type: "boolean",
-            alias: "f",
-            describe: "Ignore warnings (such as demo check)"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("create-index").set({
+          shortCode: "i",
+          description: "Create an index file (qooxdoo.json) with paths to Manifest.json files",
+          type: "boolean"
+        })
+      );
 
-          "create-index": {
-            type: "boolean",
-            alias: "i",
-            describe:
-              "Create an index file (qooxdoo.json) with paths to Manifest.json files"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version").set({
+          description: "A semver string. If given, the qooxdoo version for which to publish the package",
+          type: "string"
+        })
+      );
 
-          "qx-version": {
-            type: "string",
-            check: argv => semver.valid(argv.qxVersion),
-            describe:
-              "A semver string. If given, the qooxdoo version for which to publish the package"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("breaking").set({
+          description: "Do not create a backwards-compatible release, i.e. allow compatibility with current version only",
+          type: "boolean"
+        })
+      );
 
-          breaking: {
-            type: "boolean",
-            describe:
-              "Do not create a backwards-compatible release, i.e. allow compatibility with current version only"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version-range").set({
+          description: "A semver range. If given, it overrides --qx-version and --breaking and sets this specific version range",
+          type: "string"
+        })
+      );
 
-          "qx-version-range": {
-            type: "string",
-            describe:
-              "A semver range. If given, it overrides --qx-version and --breaking and sets this specific version range"
-          }
-        }
-      };
+      return cmd;
     }
   },
 
@@ -147,7 +156,6 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
      *
      */
     async process() {
-      await super.process();
       // init
       const argv = this.argv;
 

@@ -51,35 +51,17 @@ qx.Class.define("qx.tool.cli.commands.Package", {
       "https://raw.githubusercontent.com/qooxdoo/package-cache/master/cache.json",
 
     /**
-     * The yargs command data
-     * @return {{}}
+     * Creates the CLI command
      */
-    getYargsCommand() {
-      return {
-        command: "package <command> [options]",
-        desc: "manages qooxdoo packages",
-        builder: yargs => {
-          qx.tool.cli.Cli.addYargsCommands(
-            yargs,
-            [
-              "Install",
-              "List",
-              "Publish",
-              "Remove",
-              "Update",
-              "Upgrade",
-              "Migrate"
-            ],
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "package",
+        description: "manages qooxdoo packages"
+      });
 
-            "qx.tool.cli.commands.package"
-          );
-
-          return yargs.showHelpOnFail().help();
-        },
-        handler() {
-          // Nothing
-        }
-      };
+      await qx.tool.cli.Command.addSubcommands(cmd, qx.tool.cli.commands.package);
+      return cmd;
     }
   },
 

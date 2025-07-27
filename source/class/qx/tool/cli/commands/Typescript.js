@@ -24,38 +24,49 @@ const ignore = require("ignore");
  * Migrates code to ES6 (partially)
  */
 qx.Class.define("qx.tool.cli.commands.Typescript", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      let config = {
-        command: "typescript [files...]",
-        describe: "generate typescript definitions",
-        builder: {
-          outputFilename: {
-            describe: "Output filename",
-            type: "string",
-            default: "qooxdoo.d.ts"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "typescript", 
+        description: "generate typescript definitions"
+      });
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("files").set({
+          description: "files to process",
+          array: true,
+          type: "string"
+        })
+      );
 
-          exclude: {
-            type: "array",
-            describe: "Paths to exclude"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("outputFilename").set({
+          description: "Output filename",
+          type: "string",
+          value: "qooxdoo.d.ts"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("exclude").set({
+          description: "Paths to exclude",
+          array: true,
+          type: "string"
+        })
+      );
 
       if (qx.core.Environment.get("qx.debug")) {
-        config.builder["meta-debug"] = {
-          describe:
-            "Debug metadata output to console, implies --verbose and only one file"
-        };
+        cmd.addFlag(
+          new qx.cli.Flag("meta-debug").set({
+            description: "Debug metadata output to console, implies --verbose and only one file",
+            type: "boolean"
+          })
+        );
       }
-      return config;
+
+      return cmd;
     }
   },
 

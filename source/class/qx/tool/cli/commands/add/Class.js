@@ -51,6 +51,14 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
           "adds a new class file to the current project, based on a template."
       });
 
+      cmd.addArgument(
+        new qx.cli.Argument("classname").set({
+          description: "the name of the class to create",
+          required: true,
+          type: "string"
+        })
+      );
+
       cmd.addFlag(
         new qx.cli.Flag("type").set({
           shortCode: "t",

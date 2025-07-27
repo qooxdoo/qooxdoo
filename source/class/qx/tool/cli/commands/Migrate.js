@@ -31,25 +31,30 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
      */
     migrationInProcess: false,
     /**
-     * Return the Yargs configuration object
-     * @return {{}}
+     * Creates CLI command
      */
-    getYargsCommand() {
-      return {
-        command: "migrate",
-        describe: "migrate a library/application to a newer qooxdoo version",
-        builder: {
-          "dry-run": {
-            describe: "Do not apply migrations"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "migrate",
+        description: "migrate a library/application to a newer qooxdoo version"
+      });
 
-          "qx-version": {
-            check: argv => semver.valid(argv.qxVersion),
-            describe:
-              "A semver string. If given, the maximum qooxdoo version for which to run migrations"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("dry-run").set({
+          description: "Do not apply migrations",
+          type: "boolean"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version").set({
+          description: "A semver string. If given, the maximum qooxdoo version for which to run migrations",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 

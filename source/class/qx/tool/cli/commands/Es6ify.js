@@ -26,44 +26,61 @@ const ignore = require("ignore");
 qx.Class.define("qx.tool.cli.commands.Es6ify", {
   extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "es6ify [files...]",
-        describe: "help migrate code to ES6",
-        builder: {
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "es6ify",
+        description: "help migrate code to ES6"
+      });
 
-          gitPreCommit: {
-            describe: "When used as a Git pre-commit hook"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("files").set({
+          description: "files to process",
+          array: true,
+          type: "string"
+        })
+      );
 
-          overwrite: {
-            type: "boolean",
-            default: true,
-            describe: "Overwrite source files"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("gitPreCommit").set({
+          description: "When used as a Git pre-commit hook",
+          type: "boolean"
+        })
+      );
 
-          exclude: {
-            type: "array",
-            describe: "Paths to exclude"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("overwrite").set({
+          description: "Overwrite source files",
+          type: "boolean",
+          value: true
+        })
+      );
 
-          arrowFunctions: {
-            choices: ["never", "always", "careful", "aggressive"],
-            default: "careful"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("exclude").set({
+          description: "Paths to exclude",
+          array: true,
+          type: "string"
+        })
+      );
 
-          singleLineBlocks: {
-            type: "boolean",
-            default: false,
-            describe:
-              "Force braces around single line bodies for if, for, while, and do while"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("arrowFunctions").set({
+          description: "Arrow function conversion mode",
+          type: ["never", "always", "careful", "aggressive"],
+          value: "careful"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("singleLineBlocks").set({
+          description: "Force braces around single line bodies for if, for, while, and do while",
+          type: "boolean",
+          value: false
+        })
+      );
+
+      return cmd;
     }
   },
 

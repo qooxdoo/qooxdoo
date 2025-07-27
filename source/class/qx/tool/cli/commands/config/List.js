@@ -24,21 +24,21 @@ const columnify = require("columnify");
 qx.Class.define("qx.tool.cli.commands.config.List", {
   extend: qx.tool.cli.commands.Config,
   statics: {
-    /**
-     * Returns the yargs command data
-     * @return {Object}
-     */
-    getYargsCommand() {
-      return {
-        command: "list",
-        describe: "Lists all known configuration values",
-        builder: {
-          all: {
-            type: "boolean",
-            describe: "Shows all keys, including unset"
-          }
-        }
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Config.createCliCommand(clazz);
+      cmd.set({
+        name: "list",
+        description: "Lists all known configuration values"
+      });
+
+      cmd.addFlag(
+        new qx.cli.Flag("all").set({
+          description: "Shows all keys, including unset",
+          type: "boolean"
+        })
+      );
+
+      return cmd;
     }
   },
 

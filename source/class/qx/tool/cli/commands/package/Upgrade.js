@@ -24,51 +24,61 @@ const semver = require("semver");
 qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
   extend: qx.tool.cli.commands.Package,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "upgrade [library_uri]",
-        describe:
-          "if no library URI is given, upgrades all available libraries to the latest compatible version, otherwise upgrade only the package identified by the URI.",
-        builder: {
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "upgrade",
+        description: "if no library URI is given, upgrades all available libraries to the latest compatible version, otherwise upgrade only the package identified by the URI."
+      });
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("library_uri").set({
+          description: "library URI to upgrade",
+          type: "string"
+        })
+      );
 
-          "releases-only": {
-            alias: "r",
-            describe:
-              "Upgrade regular releases only (this leaves versions based on branches, commits etc. untouched)",
-            default: true
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("releases-only").set({
+          shortCode: "r",
+          description: "Upgrade regular releases only (this leaves versions based on branches, commits etc. untouched)",
+          type: "boolean",
+          value: true
+        })
+      );
 
-          reinstall: {
-            alias: "R",
-            describe: "Do not upgrade, reinstall current version"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("reinstall").set({
+          shortCode: "R",
+          description: "Do not upgrade, reinstall current version",
+          type: "boolean"
+        })
+      );
 
-          prereleases: {
-            alias: "p",
-            describe: "Use prereleases if available"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("prereleases").set({
+          shortCode: "p",
+          description: "Use prereleases if available",
+          type: "boolean"
+        })
+      );
 
-          "dry-run": {
-            alias: "d",
-            describe: "Show result only, do not actually upgrade"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("dry-run").set({
+          shortCode: "d",
+          description: "Show result only, do not actually upgrade",
+          type: "boolean"
+        })
+      );
 
-          "qx-version": {
-            check: argv => semver.valid(argv.qxVersion),
-            describe:
-              "A semver string. If given, the qooxdoo version for which to upgrade the package"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version").set({
+          description: "A semver string. If given, the qooxdoo version for which to upgrade the package",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -78,7 +88,6 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
      * @return {Promise<void>}
      */
     async process() {
-      await super.process();
       let qxVersion = await this.getAppQxVersion();
       await new qx.tool.cli.commands.package.Update({
         quiet: true,

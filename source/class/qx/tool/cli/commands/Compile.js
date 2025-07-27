@@ -781,7 +781,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
         }
 
-        // Simple one of make
+        // Setup event listeners for non-watch mode
         if (!this.argv.watch) {
           maker.addListener("making", () => {
             countMaking++;
@@ -795,43 +795,46 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               this.fireEvent("made");
             }
           });
-          return maker.make();
         }
 
-        // Continuous make
+        // Always make first
         await maker.make();
-        let watch = new qx.tool.cli.Watch(maker);
-        config.applications.forEach(appConfig => {
-          if (appConfig.runWhenWatching) {
-            watch.setRunWhenWatching(appConfig.name, appConfig.runWhenWatching);
+
+        // Watch mode setup
+        if (this.argv.watch) {
+          let watch = new qx.tool.cli.Watch(maker);
+          config.applications.forEach(appConfig => {
+            if (appConfig.runWhenWatching) {
+              watch.setRunWhenWatching(appConfig.name, appConfig.runWhenWatching);
+            }
+          });
+          if (this.argv["watch-debug"]) {
+            watch.setDebug(true);
           }
-        });
-        if (this.argv["watch-debug"]) {
-          watch.setDebug(true);
+
+          watch.addListener("making", () => {
+            countMaking++;
+            if (countMaking == 1) {
+              this.fireEvent("making");
+            }
+          });
+          watch.addListener("made", () => {
+            countMaking--;
+            if (countMaking == 0) {
+              this.fireEvent("made");
+            }
+          });
+          watch.addListener("configChanged", async () => {
+            await watch.stop();
+            setImmediate(() => this._loadConfigAndStartMaking());
+          });
+          let arr = [this._compileJsFilename, this._compileJsonFilename].filter(
+            str => Boolean(str)
+          );
+
+          watch.setConfigFilenames(arr);
+          return watch.start();
         }
-
-        watch.addListener("making", () => {
-          countMaking++;
-          if (countMaking == 1) {
-            this.fireEvent("making");
-          }
-        });
-        watch.addListener("made", () => {
-          countMaking--;
-          if (countMaking == 0) {
-            this.fireEvent("made");
-          }
-        });
-        watch.addListener("configChanged", async () => {
-          await watch.stop();
-          setImmediate(() => this._loadConfigAndStartMaking());
-        });
-        let arr = [this._compileJsFilename, this._compileJsonFilename].filter(
-          str => Boolean(str)
-        );
-
-        watch.setConfigFilenames(arr);
-        return watch.start();
       }
     },
 
@@ -862,14 +865,16 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       var argvAppNames = null;
       if (t.argv["app-name"]) {
         argvAppNames = {};
-        t.argv["app-name"]
+        let appNameStr = String(t.argv["app-name"]);
+        appNameStr
           .split(",")
           .forEach(name => (argvAppNames[name] = true));
       }
       var argvAppGroups = null;
       if (t.argv["app-group"]) {
         argvAppGroups = {};
-        t.argv["app-group"]
+        let appGroupStr = String(t.argv["app-group"]);
+        appGroupStr
           .split(",")
           .forEach(name => (argvAppGroups[name] = true));
       }

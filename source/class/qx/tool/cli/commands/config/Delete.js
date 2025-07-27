@@ -19,15 +19,22 @@
 qx.Class.define("qx.tool.cli.commands.config.Delete", {
   extend: qx.tool.cli.commands.Config,
   statics: {
-    /**
-     * Returns the yargs command data
-     * @return {Object}
-     */
-    getYargsCommand() {
-      return {
-        command: "delete <key>",
-        describe: "Deletes a configuration value"
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Config.createCliCommand(clazz);
+      cmd.set({
+        name: "delete",
+        description: "Deletes a configuration value"
+      });
+
+      cmd.addArgument(
+        new qx.cli.Argument("key").set({
+          description: "Configuration key to delete",
+          required: true,
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 

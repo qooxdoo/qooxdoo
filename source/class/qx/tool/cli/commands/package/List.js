@@ -31,83 +31,110 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
     localPathRepoName: "_local_",
 
     /**
-     * Returns the yargs command data
-     * @return {Object}
+     * Creates CLI command
      */
-    getYargsCommand() {
-      return {
-        command: "list [repository]",
-        describe:
-          'if no repository name is given, lists all available packages that are compatible with the project\'s qooxdoo version ("--all" lists incompatible ones as well). Otherwise, list all compatible packages.',
-        builder: {
-          all: {
-            alias: "a",
-            describe: "Show all versions, including incompatible ones"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "list",
+        description: 'if no repository name is given, lists all available packages that are compatible with the project\'s qooxdoo version ("--all" lists incompatible ones as well). Otherwise, list all compatible packages.'
+      });
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("repository").set({
+          description: "repository name",
+          type: "string"
+        })
+      );
 
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("all").set({
+          shortCode: "a",
+          description: "Show all versions, including incompatible ones",
+          type: "boolean"
+        })
+      );
 
-          json: {
-            alias: "j",
-            describe: "Output list as JSON literal"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("json").set({
+          shortCode: "j",
+          description: "Output list as JSON literal",
+          type: "boolean"
+        })
+      );
 
-          installed: {
-            alias: "i",
-            describe: "Show only installed libraries"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("installed").set({
+          shortCode: "i",
+          description: "Show only installed libraries",
+          type: "boolean"
+        })
+      );
 
-          namespace: {
-            alias: "n",
-            describe: "Display library namespace"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("namespace").set({
+          shortCode: "n",
+          description: "Display library namespace",
+          type: "boolean"
+        })
+      );
 
-          match: {
-            alias: "m",
-            describe: "Filter by regular expression (case-insensitive)"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("match").set({
+          shortCode: "m",
+          description: "Filter by regular expression (case-insensitive)",
+          type: "string"
+        })
+      );
 
-          libraries: {
-            alias: "l",
-            describe: "List libraries only (no repositories)"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("libraries").set({
+          shortCode: "l",
+          description: "List libraries only (no repositories)",
+          type: "boolean"
+        })
+      );
 
-          short: {
-            alias: "s",
-            describe: "Omit title and description to make list more compact"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("short").set({
+          shortCode: "s",
+          description: "Omit title and description to make list more compact",
+          type: "boolean"
+        })
+      );
 
-          noheaders: {
-            alias: "H",
-            describe: "Omit header and footer"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("noheaders").set({
+          shortCode: "H",
+          description: "Omit header and footer",
+          type: "boolean"
+        })
+      );
 
-          prereleases: {
-            alias: "p",
-            describe: "Include prereleases into latest compatible releases"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("prereleases").set({
+          shortCode: "p",
+          description: "Include prereleases into latest compatible releases",
+          type: "boolean"
+        })
+      );
 
-          "uris-only": {
-            alias: "u",
-            describe:
-              "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries."
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("uris-only").set({
+          shortCode: "u",
+          description: "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries.",
+          type: "boolean"
+        })
+      );
 
-          "qx-version": {
-            check: argv => semver.valid(argv.qxVersion),
-            describe:
-              "A semver string. If given, the qooxdoo version for which to generate the listings"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version").set({
+          description: "A semver string. If given, the qooxdoo version for which to generate the listings",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -116,7 +143,6 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
      * Lists library packages compatible with the current project
      */
     async process() {
-      await super.process();
       this.__repositories = [];
       this.__libraries = {};
       this.__latestCompatible = {};

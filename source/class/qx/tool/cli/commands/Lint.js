@@ -25,71 +25,86 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
   extend: qx.tool.cli.Command,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "lint [files...]",
-        describe:
-          "runs eslint on the current application or as set of single files.",
-        builder: {
-          fix: {
-            describe: "runs eslint with --fix"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "lint",
+        description: "runs eslint on the current application or as set of single files."
+      });
 
-          "fix-jsdoc-params": {
-            describe:
-              "changes the order or @param name and {Type} to make it compatible for the generator ('name-first') or with JSDoc linting ('type-first').",
-            choices: ["off", "name-first", "type-first"],
-            default: "off"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("files").set({
+          description: "files to lint",
+          array: true,
+          type: "string"
+        })
+      );
 
-          "use-eslintrc": {
-            describe: "Use the .eslintrc file for configuration, if it exists",
-            type: "boolean",
-            default: true
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("fix").set({
+          description: "runs eslint with --fix",
+          type: "boolean"
+        })
+      );
 
-          cache: {
-            describe: "operate only on changed files",
-            type: "boolean",
-            default: false
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("fix-jsdoc-params").set({
+          description: "changes the order or @param name and {Type} to make it compatible for the generator ('name-first') or with JSDoc linting ('type-first').",
+          type: ["off", "name-first", "type-first"],
+          value: "off"
+        })
+      );
 
-          warnAsError: {
-            alias: "w",
-            describe: "handle warnings as error"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("use-eslintrc").set({
+          description: "Use the .eslintrc file for configuration, if it exists",
+          type: "boolean",
+          value: true
+        })
+      );
 
-          "print-config": {
-            alias: "p",
-            describe: "print the eslint configuration"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("cache").set({
+          description: "operate only on changed files",
+          type: "boolean",
+          value: false
+        })
+      );
 
-          format: {
-            alias: "f",
-            describe: "use a specific output format",
-            default: "codeframe"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("warnAsError").set({
+          shortCode: "w",
+          description: "handle warnings as error",
+          type: "boolean"
+        })
+      );
 
-          outputFile: {
-            alias: "o",
-            describe: "specify file to which the report will be written",
-            nargs: 1,
-            requiresArg: true,
-            type: "string"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("print-config").set({
+          shortCode: "p",
+          description: "print the eslint configuration",
+          type: "boolean"
+        })
+      );
 
-          verbose: {
-            alias: "v",
-            describe: "enables additional progress output to console",
-            type: "boolean"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("format").set({
+          shortCode: "f",
+          description: "use a specific output format",
+          type: "string",
+          value: "codeframe"
+        })
+      );
 
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("outputFile").set({
+          shortCode: "o",
+          description: "specify file to which the report will be written",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -113,7 +128,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         helperFilePath = path.dirname(helperFilePath);
       }
 
-      let config = qx.tool.cli.Cli.getInstance().getParsedArgs();
+      let config = this.getCompilerApi().getConfiguration();
       let lintOptions = config.eslintConfig || {};
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
       lintOptions.globals = Object.assign(

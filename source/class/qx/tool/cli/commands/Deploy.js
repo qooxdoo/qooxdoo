@@ -38,48 +38,41 @@ const path = require("upath");
 qx.Class.define("qx.tool.cli.commands.Deploy", {
   extend: qx.tool.cli.commands.Compile,
   statics: {
-    YARGS_BUILDER: {
-      out: {
-        describe: "Output directory for the deployment",
-        alias: "o"
-      },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Compile.createCliCommand(clazz);
+      cmd.set({
+        name: "deploy",
+        description: "deploys qooxdoo application(s)"
+      });
 
-      "app-name": {
-        describe:
-          "The name of the application to deploy (default is all apps), can be comma separated list",
-        nargs: 1,
-        type: "string"
-      },
+      // Remove flags that deploy doesn't use
+      cmd.removeFlag("watch");
+      cmd.removeFlag("write-library-info");
+      cmd.removeFlag("download");
+      cmd.removeFlag("update-po-files");
+      cmd.removeFlag("save-unminified");
+      cmd.removeFlag("bundling");
+      cmd.removeFlag("minify");
 
-      "source-maps": {
-        describe: "Enable source maps",
-        type: "boolean",
-        default: false,
-        alias: "m"
-      }
-    },
+      // Add deploy-specific flags
+      cmd.addFlag(
+        new qx.cli.Flag("out").set({
+          shortCode: "o",
+          description: "Output directory for the deployment",
+          type: "string"
+        })
+      );
 
-    getYargsCommand() {
-      return {
-        command: "deploy [options]",
-        describe: "deploys qooxdoo application(s)",
-        builder: (() => {
-          let res = Object.assign(
-            {},
-            qx.tool.cli.commands.Compile.YARGS_BUILDER,
-            qx.tool.cli.commands.Deploy.YARGS_BUILDER
-          );
+      cmd.addFlag(
+        new qx.cli.Flag("source-maps").set({
+          shortCode: "m",
+          description: "Enable source maps",
+          type: "boolean",
+          value: false
+        })
+      );
 
-          delete res.watch;
-          delete res["write-library-info"];
-          delete res.download;
-          delete res["update-po-files"];
-          delete res["save-unminified"];
-          delete res.bundling;
-          delete res.minify;
-          return res;
-        })()
-      };
+      return cmd;
     }
   },
 

@@ -29,47 +29,44 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
   extend: qx.tool.cli.commands.Compile,
 
   statics: {
-    YARGS_BUILDER: {
-      "listen-port": {
-        alias: "p",
-        describe: "The port for the web browser to listen on",
-        type: "number",
-        default: 8080
-      },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Compile.createCliCommand(clazz);
+      cmd.set({
+        name: "serve", 
+        description: "runs a webserver to run the current application with continuous compilation, using compile.json"
+      });
 
-      "show-startpage": {
-        alias: "S",
-        describe:
-          "Show the startpage with the list of applications and additional information",
-        type: "boolean",
-        default: null
-      },
+      // Remove watch flag since serve doesn't use it
+      cmd.removeFlag("watch");
 
-      "rebuild-startpage": {
-        alias: "R",
-        describe:
-          "Rebuild the startpage with the list of applications and additional information",
-        type: "boolean",
-        default: false
-      }
-    },
+      // Add serve-specific flags
+      cmd.addFlag(
+        new qx.cli.Flag("listen-port").set({
+          shortCode: "p",
+          description: "The port for the web browser to listen on",
+          type: "integer",
+          value: 8080
+        })
+      );
 
-    getYargsCommand() {
-      return {
-        command: "serve",
-        describe:
-          "runs a webserver to run the current application with continuous compilation, using compile.json",
-        builder: (() => {
-          let res = Object.assign(
-            {},
-            qx.tool.cli.commands.Compile.YARGS_BUILDER,
-            qx.tool.cli.commands.Serve.YARGS_BUILDER
-          );
+      cmd.addFlag(
+        new qx.cli.Flag("show-startpage").set({
+          shortCode: "S", 
+          description: "Show the startpage with the list of applications and additional information",
+          type: "boolean"
+        })
+      );
 
-          delete res.watch;
-          return res;
-        })()
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("rebuild-startpage").set({
+          shortCode: "R",
+          description: "Rebuild the startpage with the list of applications and additional information", 
+          type: "boolean",
+          value: false
+        })
+      );
+
+      return cmd;
     }
   },
 

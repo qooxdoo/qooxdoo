@@ -38,6 +38,14 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
           "adds a new script file to the current project, to be loaded before application startup."
       });
 
+      cmd.addArgument(
+        new qx.cli.Argument("scriptpath").set({
+          description: "path to the script file to add",
+          required: true,
+          type: "string"
+        })
+      );
+
       cmd.addFlag(
         new qx.cli.Flag("resourcedir").set({
           description:

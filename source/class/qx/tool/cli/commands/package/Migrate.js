@@ -22,7 +22,7 @@
 qx.Class.define("qx.tool.cli.commands.package.Migrate", {
   extend: qx.tool.cli.commands.Migrate,
   statics: {
-    getYargsCommand: qx.tool.cli.commands.Migrate.getYargsCommand
+    createCliCommand: qx.tool.cli.commands.Migrate.createCliCommand
   },
 
   members: {
@@ -30,8 +30,6 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
       qx.tool.compiler.Console.warn(
         "`qx package migrate` has been deprecated in favor of `qx migrate`."
       );
-
-      super.process();
     }
   }
 });

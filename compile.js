@@ -6,34 +6,42 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
   members: {
     async load() {
-      let yargs = qx.tool.cli.commands.Test.getYargsCommand;
-      qx.tool.cli.commands.Test.getYargsCommand = () => {
-        let args = yargs();
-        args.builder.diag = {
-          describe: "show diagnostic output",
-          type: "boolean",
-          default: false
-        };
+      let originalCreateCliCommand = qx.tool.cli.commands.Test.createCliCommand;
+      qx.tool.cli.commands.Test.createCliCommand = async function(clazz) {
+        let cmd = await originalCreateCliCommand.call(this, clazz);
+        
+        cmd.addFlag(
+          new qx.cli.Flag("diag").set({
+            description: "show diagnostic output",
+            type: "boolean",
+            value: false
+          })
+        );
 
-        args.builder.terse = {
-          describe: "show only summary and errors",
-          type: "boolean",
-          default: false
-        };
+        cmd.addFlag(
+          new qx.cli.Flag("terse").set({
+            description: "show only summary and errors", 
+            type: "boolean",
+            value: false
+          })
+        );
 
-        args.builder.headless = {
-          describe: "runs test headless",
-          type: "boolean",
-          default: false,
-        };
+        cmd.addFlag(
+          new qx.cli.Flag("headless").set({
+            description: "runs test headless",
+            type: "boolean", 
+            value: false
+          })
+        );
 
-        args.builder.browsers = {
-          describe:
-            "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
-          type: "string"
-        };
+        cmd.addFlag(
+          new qx.cli.Flag("browsers").set({
+            description: "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
+            type: "string"
+          })
+        );
 
-        return args;
+        return cmd;
       };
       this.addListener(
         "changeCommand",

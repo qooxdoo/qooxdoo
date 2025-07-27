@@ -51,18 +51,21 @@ module.exports = function (argv, data) {
     },
     "namespace": {
       "description": "the namespace of the application",
-      "default": argv.applicationnamespace || argv.namespace
+      "default": argv.application_namespace || argv.namespace
     },
     "out": {
       "description": "the output directory for the application content (use '.' if no subdirectory should be created)",
       "value": argv.out,
-      "default": path.join(process.cwd(), argv.applicationnamespace || argv.namespace)
+      "default": function() {
+        let namespace = argv.application_namespace || argv.namespace;
+        return namespace ? path.join(process.cwd(), namespace) : process.cwd();
+      }
     },
     "name": {
       "description": "the name of the application",
       "optional": true,
       "value": argv.name,
-      "default": argv.applicationnamespace || argv.namespace,
+      "default": argv.application_namespace || argv.namespace,
     },
     "summary": {
       "description": "a short summary of what the application does",

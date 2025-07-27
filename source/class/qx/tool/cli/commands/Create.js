@@ -34,57 +34,79 @@ const inquirer = require("inquirer");
 qx.Class.define("qx.tool.cli.commands.Create", {
   extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "create <application namespace> [options]",
-        describe: "create a new qooxdoo project",
-        builder: {
-          type: {
-            alias: "t",
-            describe:
-              "Type of the application to create. Must be one of " +
-              this.getSkeletonNames().join(", "),
-            nargs: 1,
-            requiresArg: true,
-            type: "string"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "create",
+        description: "create a new qooxdoo project"
+      });
 
-          out: {
-            alias: "o",
-            describe: "Output directory for the application content."
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("application_namespace").set({
+          description: "application namespace",
+          required: true,
+          type: "string"
+        })
+      );
 
-          namespace: {
-            alias: "s",
-            describe: "Top-level namespace."
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("type").set({
+          shortCode: "t",
+          description: "Type of the application to create. Must be one of " +
+            this.getSkeletonNames().join(", "),
+          type: "string"
+        })
+      );
 
-          name: {
-            alias: "n",
-            describe: "Name of application/library (defaults to namespace)."
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("out").set({
+          shortCode: "o",
+          description: "Output directory for the application content.",
+          type: "string"
+        })
+      );
 
-          theme: {
-            describe: "The name of the theme to be used.",
-            default: "indigo"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("namespace").set({
+          shortCode: "s",
+          description: "Top-level namespace.",
+          type: "string"
+        })
+      );
 
-          icontheme: {
-            describe: "The name of the icon theme to be used.",
-            default: "Tango"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("name").set({
+          shortCode: "n",
+          description: "Name of application/library (defaults to namespace).",
+          type: "string"
+        })
+      );
 
-          noninteractive: {
-            alias: "I",
-            describe: "Do not prompt for missing values"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("theme").set({
+          description: "The name of the theme to be used.",
+          type: "string",
+          value: "indigo"
+        })
+      );
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("icontheme").set({
+          description: "The name of the icon theme to be used.",
+          type: "string",
+          value: "Tango"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("noninteractive").set({
+          shortCode: "I",
+          description: "Do not prompt for missing values",
+          type: "boolean"
+        })
+      );
+
+      return cmd;
     },
     /**
      * Returns the names of the skeleton directories in the template folder
@@ -151,7 +173,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
         let deflt = typeof v.default === "function" ? v.default() : v.default;
 
         // we have a final value that doesn't need to be asked for / confirmed.
-        if (v.value !== undefined) {
+        if (v.value != null) {
           values[var_name] =
             typeof v.value === "function" ? v.value.call(values) : v.value;
           continue;

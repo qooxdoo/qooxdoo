@@ -45,40 +45,37 @@ qx.Class.define("qx.tool.cli.commands.Test", {
      */
     CONFIG_FILENAME: "compile-test.json",
 
-    YARGS_BUILDER: {
-      "fail-fast": {
-        describe: "Exit on first failing test",
-        default: false,
-        type: "boolean"
-      },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Serve.createCliCommand(clazz);
+      cmd.set({
+        name: "test",
+        description: "run test for current project"
+      });
 
-      "disable-webserver": {
-        describe: "Disables the start of the webserver",
-        default: false,
-        type: "boolean"
-      }
-    },
+      // Remove flags that test doesn't use
+      cmd.removeFlag("machine-readable");
+      cmd.removeFlag("feedback");
+      cmd.removeFlag("show-startpage");
+      cmd.removeFlag("rebuild-startpage");
 
-    getYargsCommand() {
-      return {
-        command: "test",
-        describe: "run test for current project",
-        builder: (() => {
-          let res = Object.assign(
-            {},
-            qx.tool.cli.commands.Compile.YARGS_BUILDER,
-            qx.tool.cli.commands.Serve.YARGS_BUILDER,
-            qx.tool.cli.commands.Test.YARGS_BUILDER
-          );
+      // Add test-specific flags
+      cmd.addFlag(
+        new qx.cli.Flag("fail-fast").set({
+          description: "Exit on first failing test",
+          type: "boolean",
+          value: false
+        })
+      );
 
-          delete res.watch;
-          delete res["machine-readable"];
-          delete res["feedback"];
-          delete res["show-startpage"];
-          delete res["rebuild-startpage"];
-          return res;
-        })()
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("disable-webserver").set({
+          description: "Disables the start of the webserver",
+          type: "boolean", 
+          value: false
+        })
+      );
+
+      return cmd;
     }
   },
 

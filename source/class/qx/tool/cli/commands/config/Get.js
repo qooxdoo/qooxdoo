@@ -19,15 +19,22 @@
 qx.Class.define("qx.tool.cli.commands.config.Get", {
   extend: qx.tool.cli.commands.Config,
   statics: {
-    /**
-     * Returns the yargs command data
-     * @return {Object}
-     */
-    getYargsCommand() {
-      return {
-        command: "get <key> [options]",
-        describe: "Gets a configuration value"
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Config.createCliCommand(clazz);
+      cmd.set({
+        name: "get",
+        description: "Gets a configuration value"
+      });
+
+      cmd.addArgument(
+        new qx.cli.Argument("key").set({
+          description: "Configuration key to get",
+          required: true,
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 

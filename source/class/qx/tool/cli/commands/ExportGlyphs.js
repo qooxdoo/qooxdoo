@@ -25,14 +25,33 @@ const tmp = require("tmp");
  * Exports font ligatures as a map
  */
 qx.Class.define("qx.tool.cli.commands.ExportGlyphs", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "export-glyphs font-file glyph-file",
-        describe: "export font glyphs & ligatures"
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "export-glyphs",
+        description: "export font glyphs & ligatures"
+      });
+
+      cmd.addArgument(
+        new qx.cli.Argument("fontFile").set({
+          description: "Font file to process",
+          required: true,
+          type: "string"
+        })
+      );
+
+      cmd.addArgument(
+        new qx.cli.Argument("glyphFile").set({
+          description: "Output glyph file",
+          required: true,
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 

@@ -30,46 +30,53 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
   extend: qx.tool.cli.commands.Package,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "update [repository]",
-        describe:
-          "updates information on packages from github. Has to be called before the other commands. If a package URI is supplied, only update information on that package",
-        builder: {
-          file: {
-            alias: "f",
-            describe: "Output result to a file"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "update",
+        description: "updates information on packages from github. Has to be called before the other commands. If a package URI is supplied, only update information on that package"
+      });
 
-          search: {
-            alias: "S",
-            describe:
-              "Search GitHub for repos (as opposed to using the cached nightly data)"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("repository").set({
+          description: "repository to update",
+          type: "string"
+        })
+      );
 
-          "all-versions": {
-            alias: "a",
-            describe:
-              "Retrieve all releases (as opposed to the latest minor/patch release of each major release)"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("file").set({
+          shortCode: "f",
+          description: "Output result to a file",
+          type: "string"
+        })
+      );
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("search").set({
+          shortCode: "S",
+          description: "Search GitHub for repos (as opposed to using the cached nightly data)",
+          type: "boolean"
+        })
+      );
 
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("all-versions").set({
+          shortCode: "a",
+          description: "Retrieve all releases (as opposed to the latest minor/patch release of each major release)",
+          type: "boolean"
+        })
+      );
 
-          "export-only": {
-            alias: "E",
-            describe:
-              "Export the current cache without updating it first (requires --file)"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("export-only").set({
+          shortCode: "E",
+          description: "Export the current cache without updating it first (requires --file)",
+          type: "boolean"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -80,7 +87,6 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
      * Updates the cache with information from GitHub.
      */
     async process() {
-      super.process();
 
       // init
       this.__names = [];

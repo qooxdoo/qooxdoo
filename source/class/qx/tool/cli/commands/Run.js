@@ -26,33 +26,37 @@ qx.Class.define("qx.tool.cli.commands.Run", {
   extend: qx.tool.cli.commands.Compile,
 
   statics: {
-    YARGS_BUILDER: {
-      inspect: {
-        describe:
-          "Whether to start node for debugging (ie with the --inspect argument)",
-        type: "boolean",
-        default: false
-      },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.commands.Compile.createCliCommand(clazz);
+      cmd.set({
+        name: "run",
+        description: "runs a server application (written in node) with continuous compilation, using compile.json"
+      });
 
-      "inspect-brk": {
-        describe:
-          "Whether to start node for debugging and break immediately (ie with the --inspect-brk argument)",
-        type: "boolean",
-        default: false
-      }
-    },
+      cmd.addArgument(
+        new qx.cli.Argument("configFile").set({
+          description: "config file to use",
+          type: "string"
+        })
+      );
 
-    getYargsCommand() {
-      return {
-        command: "run [configFile]",
-        describe:
-          "runs a server application (written in node) with continuous compilation, using compile.json",
-        builder: Object.assign(
-          {},
-          qx.tool.cli.commands.Compile.YARGS_BUILDER,
-          qx.tool.cli.commands.Run.YARGS_BUILDER
-        )
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("inspect").set({
+          description: "Whether to start node for debugging (ie with the --inspect argument)",
+          type: "boolean",
+          value: false
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("inspect-brk").set({
+          description: "Whether to start node for debugging and break immediately (ie with the --inspect-brk argument)",
+          type: "boolean",
+          value: false
+        })
+      );
+
+      return cmd;
     }
   },
 

@@ -31,61 +31,67 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
 
   statics: {
     /**
-     * Yarg commands data
-     * @return {{}}
+     * Creates CLI command
      */
-    getYargsCommand() {
-      return {
-        command: "install [uri[@release_tag]]",
-        describe: `installs the latest compatible release of package (as per Manifest.json). Use "-r <release tag>" or @<release tag> to install a particular release.
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "install",
+        description: `installs the latest compatible release of package (as per Manifest.json). Use "-r <release tag>" or @<release tag> to install a particular release.
         examples:
            * qx package install name: Install latest published version
            * qx package install name@v0.0.2: Install version 0.0.2,
-           * qx package install name@master: Install current master branch from github`,
-        builder: {
-          release: {
-            alias: "r",
-            describe:
-              "Use a specific release tag instead of the tag of the latest compatible release",
-            nargs: 1,
-            requiresArg: true,
-            type: "string"
-          },
+           * qx package install name@master: Install current master branch from github`
+      });
 
-          ignore: {
-            alias: "i",
-            describe: "Ignore unmatch of qooxdoo"
-          },
+      cmd.addArgument(
+        new qx.cli.Argument("uri").set({
+          description: "Package URI with optional @release_tag",
+          type: "string"
+        })
+      );
 
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("release").set({
+          shortCode: "r",
+          description: "Use a specific release tag instead of the tag of the latest compatible release",
+          type: "string"
+        })
+      );
 
-          quiet: {
-            alias: "q",
-            describe: "No output"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("ignore").set({
+          shortCode: "i",
+          description: "Ignore unmatch of qooxdoo",
+          type: "boolean"
+        })
+      );
 
-          save: {
-            alias: "s",
-            default: false,
-            describe: "Save the libraries as permanent dependencies"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("save").set({
+          shortCode: "s",
+          description: "Save the libraries as permanent dependencies",
+          type: "boolean",
+          value: false
+        })
+      );
 
-          "from-path": {
-            alias: "p",
-            nargs: 1,
-            describe: "Install a library/the given library from a local path"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("from-path").set({
+          shortCode: "p",
+          description: "Install a library/the given library from a local path",
+          type: "string"
+        })
+      );
 
-          "qx-version": {
-            check: argv => semver.valid(argv.qxVersion),
-            describe:
-              "A semver string. If given, the maximum qooxdoo version for which to install a package"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("qx-version").set({
+          description: "A semver string. If given, the maximum qooxdoo version for which to install a package",
+          type: "string"
+        })
+      );
+
+      return cmd;
     }
   },
 
@@ -152,13 +158,18 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
     /**
      * Installs a package
      */
-    async process() {
-      await super.process();
+    async process(argv = null) {
+      // If called programmatically, set argv from parameter
+      if (argv && !this.argv) {
+        this.argv = argv;
+      }
       await this.__updateCache();
       const [manifestModel, lockfileModel] = await this._getConfigData();
 
       // create shorthand for uri@id
-      this.argv.uri = this.argv.uri || this.argv["uri@release_tag"];
+      if (this.argv) {
+        this.argv.uri = this.argv.uri || this.argv["uri@release_tag"];
+      }
 
       // if no library uri has been passed, install from lockfile or manifest
 
