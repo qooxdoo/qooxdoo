@@ -105,7 +105,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       this.__pseudoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
       this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + upname : null;
-      this.__storage = new qx.core.property.PsuedoPropertyStorage(this, this.__clazz);
+      this.__storage = new qx.core.property.PseudoPropertyStorage(this, this.__clazz);
       this.__readOnly = this.__clazz.prototype["set" + upname] === undefined;
     },
 
@@ -763,8 +763,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj
      * @param {*} value
      * @param {"user" | "themed"} scope
-     * @param {Boolean} async whether to set the value asynchronously
      * @param {"set" | "reset" | "init"} method
+     * @param {Boolean} async whether to set the value asynchronously
      */
     _setImpl(thisObj, value, scope, method, async = false) {
       let error;
