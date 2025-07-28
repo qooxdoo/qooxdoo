@@ -756,7 +756,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     isUserValue(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (value !== undefined && value !== null) {
+      if (value !== undefined) {
         return true;
       }
       return false;
@@ -910,6 +910,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __applyValueToInheritedChildren(thisObj) {
       if (typeof thisObj._getChildren == "function") {
+        //!todo protected method
         for (let child of thisObj._getChildren()) {
           let property = child.constructor.prototype.$$allProperties[this.__propertyName];
           if (property && property.isInheritable()) {
@@ -940,36 +941,54 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (!this.__definition.inheritable) {
         throw new Error(`${this} is not inheritable`);
       }
-      let oldValue = this.__storage.get(thisObj, this);
-
-      // If there's a user value, it takes precedence
-      if (oldValue != undefined) {
-        return;
+      let oldValue = this.__getSafe(thisObj);
+      if (oldValue === undefined) {
+        oldValue = this.getInitValue(thisObj);
+      }
+      if (oldValue === undefined && this.__definition.nullable) {
+        oldValue = null;
       }
 
-      // If there's a layout parent and if it has a property (not
-      // a member!) of this name, ...
-      let layoutParent = typeof thisObj.getLayoutParent == "function" ? thisObj.getLayoutParent() : undefined;
-      if (!layoutParent) {
-        return;
-      }
+      const computeInherited = () => {
+        let layoutParent = typeof thisObj.getLayoutParent == "function" ? thisObj.getLayoutParent() : undefined;
+        if (!layoutParent) {
+          return;
+        }
 
-      let layoutParentProperty = layoutParent.constructor.prototype.$$allProperties[this.__propertyName];
-      if (!layoutParentProperty) {
-        return;
-      }
+        let layoutParentProperty = layoutParent.constructor.prototype.$$allProperties[this.__propertyName];
+        if (!layoutParentProperty) {
+          return;
+        }
 
-      let value = layoutParentProperty.__getSafe(layoutParent);
+        let value = layoutParentProperty.__getSafe(layoutParent);
+        if (value === undefined) {
+          value = layoutParentProperty.getInitValue(layoutParent);
+        }
+        if (value === undefined && layoutParentProperty.__definition.nullable) {
+          value = null;
+        }
+
+        return value;
+      };
+
+      let inherited = computeInherited();
+
       let state = this.getPropertyState(thisObj);
 
       // If we found a value to inherit...
-      if (value !== undefined) {
-        state.inheritedValue = value;
+      if (inherited !== undefined) {
+        state.inheritedValue = inherited;
       } else {
         delete state.inheritedValue;
       }
 
-      value = this.get(thisObj);
+      let value = this.__getSafe(thisObj);
+      if (value === undefined) {
+        value = this.getInitValue(thisObj);
+      }
+      if (value === undefined && this.__definition.nullable) {
+        value = null;
+      }
 
       if (value !== oldValue) {
         if (!this.isEqual(thisObj, value, oldValue)) {
@@ -979,7 +998,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             if (this.__eventName) {
               thisObj.fireDataEvent(this.__eventName, value, oldValue);
             }
-            this.__applyValueToInheritedChildren(thisObj, value, oldValue);
+            this.__applyValueToInheritedChildren(thisObj);
           } finally {
             this._setMutating(thisObj, false);
           }
