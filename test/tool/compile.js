@@ -4,12 +4,12 @@ const process = require("process");
 const { performance } = require('perf_hooks');
 
 qx.Class.define("qx.compiler.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
     /**
      * Register compiler tests
-     * @param {qx.tool.cli.Command} command
+     * @param {qx.tool.compiler.cli.Command} command
      * @return {Promise<void>}
      */
     async beforeTests(command) {
@@ -24,7 +24,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
             args.push(` --${arg}=${command.argv[arg]}`);
           }
         }
-        command.addTest(new qx.tool.cli.api.Test(test, async function () {
+        command.addTest(new qx.tool.compiler.cli.api.Test(test, async function () {
           this.info("*********************************************************************************************************");
           this.info("# Running " + test);
           this.info("**********************************************************************************************************");

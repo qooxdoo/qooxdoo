@@ -15,7 +15,7 @@ const appNamespace = "testConfigSchemaApp";
     }
     // create a test app
     const appConfig = {noninteractive:true, namespace:appNamespace, theme: "Indigo", icontheme: "Tango", verbose:false};
-    await (new qx.tool.cli.commands.Create(appConfig)).process();
+    await (new qx.tool.compiler.cli.commands.Create(appConfig)).process();
     process.chdir(appNamespace);
 
     // run tests

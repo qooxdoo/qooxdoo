@@ -1,0 +1,81 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+   2017 Christian Boulanger
+
+   License:
+   MIT: https://opensource.org/licenses/MIT
+   See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+   * Christian Boulanger (info@bibliograph.org, @cboulanger)
+   * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
+
+************************************************************************ */
+const columnify = require("columnify");
+
+/**
+ * Lists compatible packages
+ */
+qx.Class.define("qx.tool.compiler.cli.commands.config.List", {
+  extend: qx.tool.compiler.cli.commands.Config,
+  statics: {
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.compiler.cli.commands.Config.createCliCommand(clazz);
+      cmd.set({
+        name: "list",
+        description: "Lists all known configuration values"
+      });
+
+      cmd.addFlag(
+        new qx.cli.Flag("all").set({
+          description: "Shows all keys, including unset",
+          type: "boolean"
+        })
+      );
+
+      return cmd;
+    }
+  },
+
+  members: {
+    async process() {
+      await super.process();
+      let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
+
+      let keys = {};
+      function scan(obj, parentKey) {
+        for (let [key, value] of Object.entries(obj)) {
+          let fullKey = parentKey + (parentKey.length ? "." : "") + key;
+          if (qx.tool.utils.Utils.isPlainObject(value)) {
+            scan(value, fullKey);
+            continue;
+          }
+          keys[fullKey] = true;
+        }
+      }
+      if (this.argv.all) {
+        for (let key in qx.tool.compiler.cli.commands.Config.KNOWN_VALUES) {
+          keys[key] = true;
+        }
+      }
+
+      // Recursively get a list of all known keys
+      scan(cfg.db(), "");
+      keys = Object.keys(keys);
+      keys.sort();
+      keys = keys.map(key => ({
+        key: key,
+        value: cfg.db(key),
+        description: this._describe(key) || "Unrecognised key"
+      }));
+
+      // Display each value
+      qx.tool.compiler.Console.info(columnify(keys));
+    }
+  }
+});

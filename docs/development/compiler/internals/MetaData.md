@@ -139,5 +139,5 @@ Entries in `members` differ in that their `type` field can be "method" or
 ## Working example
 
 A good working example is the
-[TypeScript target](https://github.com/qooxdoo/qooxdoo/blob/master/source/class/qx/tool/compiler/targets/TypeScriptWriter.js)
+[TypeScript target](https://github.com/qooxdoo/qooxdoo/blob/master/source/class/qx/tool/compiler/compiler/targets/TypeScriptWriter.js)
 in Qooxdoo-compiler.

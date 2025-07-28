@@ -182,7 +182,7 @@ async function bootstrapCompiler(options) {
   await fsPromises.writeFile("bootstrap/qx",
 `#!/usr/bin/env node
 const path=require("path");
-require("../source/resource/qx/tool/loadsass.js");
+require("../source/resource/qx/tool/compiler/loadsass.js");
 require(path.join(__dirname, "compiled", "node", "${options.target}", "compiler"));
 `, "utf8");
 fs.chmodSync("bootstrap/qx", "777");

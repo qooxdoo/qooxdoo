@@ -45,7 +45,7 @@
   ],
   "applications": [
     {
-      "class": "qx.tool.cli.Application",
+      "class": "qx.tool.compiler.cli.Application",
       "name": "compiler",
       "title": "Qooxdoo Compiler",
       "type": "node",

@@ -1,13 +1,16 @@
 const path = require("path");
 const fs = require("fs");
+if (!qx.tool.compiler?.cli?.api) {
+  return;
+}
 
 qx.Class.define("qx.compiler.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
     async load() {
-      let originalCreateCliCommand = qx.tool.cli.commands.Test.createCliCommand;
-      qx.tool.cli.commands.Test.createCliCommand = async function(clazz) {
+      let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;
+      qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {
         let cmd = await originalCreateCliCommand.call(this, clazz);
         
         cmd.addFlag(
@@ -47,7 +50,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         "changeCommand",
         function () {
           let command = this.getCommand();
-          if (command instanceof qx.tool.cli.commands.package.Publish) {
+          if (command instanceof qx.tool.compiler.cli.commands.package.Publish) {
             command.addListener("beforeCommit", this.__fixDocVersion, this);
           }
         },
@@ -91,7 +94,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       if (res) {
         return;
       }
-      if (cmd.classname !== "qx.tool.cli.commands.package.Publish") {
+      if (cmd.classname !== "qx.tool.compiler.cli.commands.package.Publish") {
         return;
       }
       // token

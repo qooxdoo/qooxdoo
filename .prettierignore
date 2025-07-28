@@ -5,5 +5,5 @@
 /test/
 /docs/
 /bootstrap/
-/source/resource/qx/tool/cli/templates/
+/source/resource/qx/tool/compiler/cli/templates/
 /source/class/qx/dev/unit/Sinon.js

@@ -331,7 +331,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
           qxVersion: runner.getQxVersion()
         };
 
-        await new qx.tool.cli.commands.package.Upgrade(options).process();
+        await new qx.tool.compiler.cli.commands.package.Upgrade(options).process();
         this.markAsApplied();
       }
     }

@@ -35,8 +35,8 @@
   },
   "scripts": {
     "preinstall": "node ./addGitHook",
-    "devtools": "node source/resource/qx/tool/bin/build-devtools",
-    "website": "node source/resource/qx/tool/bin/build-website",
+    "devtools": "node source/resource/qx/tool/compiler/bin/build-devtools",
+    "website": "node source/resource/qx/tool/compiler/bin/build-website",
     "pretest": "node ./bootstrap-compiler",
     "test": "node ./bin/build/qx test --colorize=false --quiet",
     "prepack": "node ./bootstrap/qx deploy --clean"

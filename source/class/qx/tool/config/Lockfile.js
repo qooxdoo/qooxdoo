@@ -25,7 +25,7 @@ qx.Class.define("qx.tool.config.Lockfile", {
   type: "singleton",
   statics: {
     config: {
-      fileName: qx.tool.cli.commands.Package.lockfile.filename,
+      fileName: qx.tool.compiler.cli.commands.Package.lockfile.filename,
       version,
       validate: false,
       createIfNotExists: true,

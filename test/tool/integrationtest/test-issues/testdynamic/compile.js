@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 qx.Class.define("qxl.compilertests.testlib.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
   
   members: {
     async load() {
@@ -16,14 +16,14 @@ qx.Class.define("qxl.compilertests.testlib.CompilerApi", {
 });
 
 qx.Class.define("qxl.compilertests.testlib.LibraryApi", {
-  extend: qx.tool.cli.api.LibraryApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
   
   members: {
     /*
      * @Override
      */
     async initialize() {
-      let cli = qx.tool.cli.Cli.getInstance();
+      let cli = qx.tool.compiler.cli.Cli.getInstance();
       cli.yargs.command({
         command: "testlib <message> [options]",
         describe: "repeats a message to the console",
