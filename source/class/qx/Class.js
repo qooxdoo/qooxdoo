@@ -1710,7 +1710,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Class | null} The class which includes the property
      */
     getByProperty(clazz, name) {
-      return clazz.prototype.$$allProperties[name] || null;
+      return clazz.prototype.$$allProperties?.[name] ?? null;
     },
 
     /**

@@ -284,7 +284,7 @@ qx.Bootstrap.define("qx.Interface", {
       }
 
       var propertyName = qx.Bootstrap.firstLow(match[2]);
-      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(clazz, propertyName);
+      var isPropertyMethod = qx.Class.getByProperty(clazz, propertyName);
 
       if (!isPropertyMethod) {
         return false;
@@ -292,7 +292,7 @@ qx.Bootstrap.define("qx.Interface", {
 
       var isBoolean = match[0] === "is" || match[0] === "toggle";
       if (isBoolean) {
-        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).getCheck() instanceof qx.core.check.standard.BooleanCheck;
+        return qx.Class.getByProperty(clazz, propertyName).getCheck() instanceof qx.core.check.standard.BooleanCheck;
       }
 
       return true;
@@ -310,7 +310,7 @@ qx.Bootstrap.define("qx.Interface", {
     __checkProperties(clazz, iface, shouldThrow) {
       if (iface.$$properties) {
         for (var key in iface.$$properties) {
-          if (!qx.util.OOUtil.getPropertyDefinition(clazz, key)) {
+          if (!qx.Class.getByProperty(clazz, key)) {
             if (shouldThrow) {
               throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
             } else {

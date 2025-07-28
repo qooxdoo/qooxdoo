@@ -60,7 +60,7 @@ qx.Class.define("qx.test.data.marshal.Json", {
       this.assertTrue(qx.Class.isDefined("qx.data.model.$$a"), "Class not created.");
 
       var clazz = qx.Class.getByName("qx.data.model.$$a");
-      let prop = qx.Class.getPropertyDefinition(clazz, "$$a");
+      let prop = qx.Class.getByProperty(clazz, "$$a");
       this.assertEquals("change" + qx.lang.String.firstUp("$$a"), prop.getEventName(), "event has a wrong name.");
 
       qx.Class.undefine("qx.data.model.$$a");
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.data.marshal.Json", {
 
         this.assertEquals(
           "change" + qx.lang.String.firstUp(this.__propertyNames[i]),
-          qx.Class.getPropertyDefinition(clazz, name).getEventName(),
+          qx.Class.getByProperty(clazz, name).getEventName(),
           "event has a wrong name."
         );
 
