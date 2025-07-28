@@ -621,15 +621,20 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     async getAsync(thisObj) {
-      let value = await this.__storage.getAsync(thisObj, this);
-      if (value === undefined || value === null) {
+      let value = this.__storage.get(thisObj, this);
+
+      if (value === undefined) {
+        value = await this.__storage.getAsync(thisObj, this);
+      }
+
+      if (value === undefined) {
         if (this.isThemeable()) {
           let state = this.getPropertyState(thisObj);
           value = state.themeValue;
         }
       }
 
-      if (value === undefined || value === null) {
+      if (value === undefined) {
         if (this.__definition.inheritable) {
           let state = this.getPropertyState(thisObj);
           value = state.inheritedValue;
