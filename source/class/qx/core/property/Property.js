@@ -576,14 +576,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     get(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (value === undefined || value === null) {
+      if (value === undefined) {
         if (this.isThemeable()) {
           let state = this.getPropertyState(thisObj);
           value = state.themeValue;
         }
       }
 
-      if (value === undefined || value === null) {
+      if (value === undefined) {
         if (this.__definition.inheritable) {
           let state = this.getPropertyState(thisObj);
           value = state.inheritedValue;
@@ -800,7 +800,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
           let check = this.getCheck();
           if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
-            this.warn("Property " + this + " is being set to a promise, but its check is not a Promise.");
+            this.warn(
+              "Property " +
+                this +
+                " is being set to a promise, but its check is not a Promise. The property will be set to the promise itself."
+            );
           }
 
           if (check && !check.matches(value, thisObj)) {
