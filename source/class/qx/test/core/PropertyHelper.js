@@ -83,6 +83,13 @@ qx.Class.define("qx.test.core.PropertyHelper", {
       apply: "_applyInitApplyProp"
     },
 
+    initApplyProp3: {
+      check: "String",
+      init: "hello",
+      nullable: true,
+      apply: "_applyInitApplyProp"
+    },
+
     nullProp: {
       init: "bar",
       nullable: true

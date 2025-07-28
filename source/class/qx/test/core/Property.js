@@ -261,6 +261,7 @@ qx.Class.define("qx.test.core.Property", {
       this.assertNotUndefined(inst, "instance");
 
       this.assertUndefined(inst.lastApply);
+      this.assertEquals("hello", inst.getInitApplyProp3(), "init value");
       inst.setInitApplyProp1("juhu"); //set to init value
       this.assertJsonEquals(["juhu", "juhu"], inst.lastApply);
       inst.lastApply = undefined;
@@ -306,7 +307,7 @@ qx.Class.define("qx.test.core.Property", {
       if (qx.test.B) {
         qx.Class.undefine("qx.test.B");
         delete qx.test.B;
-      }      
+      }
 
       qx.Class.define("qx.test.A", {
         extend: qx.core.Object,
@@ -1117,8 +1118,8 @@ qx.Class.define("qx.test.core.Property", {
         members: {
           state: null,
 
-          async _applyPropOne(value) {
-            await promiseDelay(10, () => {
+          _applyPropOne(value) {
+            promiseDelay(10, () => {
               this.state.push("apply-one");
             });
             return "apply-one";
