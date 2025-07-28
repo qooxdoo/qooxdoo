@@ -277,6 +277,10 @@ qx.Class.define("qx.event.Manager", {
       if (entryMap && entryMap.size > 0) {
         var listeners = [...entryMap.values()];
 
+        if (qx.core.Environment.get("runtime.name") == "rhino") {
+          return listeners;
+        }
+
         return new Proxy(listeners, {
           deleteProperty(target, property) {
             if (property !== "length") {
