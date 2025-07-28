@@ -214,11 +214,12 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
         application: app,
         outputdir: defaultMaker.getTarget().getOutputDir()
       });
+      let listenPort = this.argv["listen-port"] ?? config.serve.listenPort;
       server.on("error", e => {
         if (e.code === "EADDRINUSE") {
           qx.tool.compiler.Console.print(
             "qx.tool.cli.serve.webAddrInUse",
-            config.serve.listenPort
+            listenPort
           );
 
           process.exit(1);
@@ -226,10 +227,10 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
           qx.tool.compiler.Console.log("Error when starting web server: " + e);
         }
       });
-      server.listen(config.serve.listenPort, () => {
+      server.listen(listenPort, () => {
         qx.tool.compiler.Console.print(
           "qx.tool.cli.serve.webStarted",
-          "http://localhost:" + config.serve.listenPort
+          "http://localhost:" + listenPort
         );
 
         this.fireEvent("afterStart");
