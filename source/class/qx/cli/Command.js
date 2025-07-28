@@ -17,6 +17,7 @@
 
 ************************************************************************ */
 const path = require("path");
+const process = require("process");
 
 qx.Class.define("qx.cli.Command", {
   extend: qx.core.Object,

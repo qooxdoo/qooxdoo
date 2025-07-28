@@ -46,26 +46,26 @@ module.exports = function (argv, data) {
       "type": "list", // doesn't support validation
       "choices": qx.tool.cli.commands.Create.getSkeletonNames(),
       "description": "type of the application:",
-      "value": argv.type,
+      "value": argv && argv.type,
       "default": "desktop"
     },
     "namespace": {
       "description": "the namespace of the application",
-      "default": argv.application_namespace || argv.namespace
+      "default": (argv && argv.application_namespace) || (argv && argv.namespace)
     },
     "out": {
       "description": "the output directory for the application content (use '.' if no subdirectory should be created)",
-      "value": argv.out,
+      "value": argv && argv.out,
       "default": function() {
-        let namespace = argv.application_namespace || argv.namespace;
+        let namespace = (argv && argv.application_namespace) || (argv && argv.namespace);
         return namespace ? path.join(process.cwd(), namespace) : process.cwd();
       }
     },
     "name": {
       "description": "the name of the application",
       "optional": true,
-      "value": argv.name,
-      "default": argv.application_namespace || argv.namespace,
+      "value": argv && argv.name,
+      "default": (argv && argv.application_namespace) || (argv && argv.namespace),
     },
     "summary": {
       "description": "a short summary of what the application does",
@@ -112,11 +112,11 @@ module.exports = function (argv, data) {
     },
     "theme": {
       "description": "the theme of the application",
-      "default": argv.theme
+      "default": argv && argv.theme
     },
     "icon_theme": {
       "description": "the icon theme of the application",
-      "default": argv.icontheme
+      "default": argv && argv.icontheme
     },
     "namespace_as_path": {
       "value": function () {
