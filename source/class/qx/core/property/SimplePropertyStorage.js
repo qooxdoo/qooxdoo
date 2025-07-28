@@ -30,9 +30,8 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
     get(thisObj, property) {
       let $$propertyValues = thisObj["$$propertyValues"];
       if ($$propertyValues == undefined) {
-        qx.log.Logger.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
+        this.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
         $$propertyValues = thisObj["$$propertyValues"] = {};
-        debugger; // eslint-disable-line no-debugger
       }
       let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
       return value;
@@ -84,6 +83,18 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      */
     isAsyncStorage() {
       return false;
+    },
+
+    /**
+     * Outputs a warning; the logging system is probably not loaded and working yet, so we
+     * have to implement our own
+     *
+     * @param  {...any} args
+     */
+    warn(...args) {
+      if (qx.core.Environment.get("qx.debug")) {
+        console.warn(...args);
+      }
     }
   }
 });
