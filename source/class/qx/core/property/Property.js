@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           if (!qx.Class.hasMixin(this.__clazz, qx.core.MEvent)) {
             this.warn(
               `Property ${this} has event "${this.__eventName}" but the class ${this.__clazz.classname} does not implement qx.core.MEvent, so event will not be fired.`
-            );            
+            );
           }
         }
       } else {
