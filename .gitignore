@@ -24,7 +24,7 @@ tmp/
 /build.log
 /html
 /lib
-/compiled
+/compiled*
 /apps
 /deploy
 /build
