@@ -1044,6 +1044,21 @@ qx.Class.define("qx.data.Array", {
       this.__array.forEach((element, index) => callback.call(context, element, index, this));
     },
 
+    /**
+     * Invokes the given function for every item in the array, using await to wait for the result
+     *
+     * @param callback {Function} The function which will be call for every
+     *   item in the array. It will be invoked with three parameters:
+     *   the item, the index and the array itself.
+     * @param context {var?} The context in which the callback will be invoked.
+     */
+    async forEachAsync(callback, context) {
+      for (var index = 0; index < this.__array.length; index++) {
+        var element = this.__array[index];
+        await callback.call(context, element, index, this);
+      }
+    },
+
     /*
     ---------------------------------------------------------------------------
       Additional JS1.6 methods
