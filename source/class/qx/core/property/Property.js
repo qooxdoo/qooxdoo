@@ -772,6 +772,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     *
+     * @returns {boolean} whether the property is read-only
+     */
+    isReadOnly() {
+      return this.__readOnly;
+    },
+
+    /**
      * Sets the actual value of the property
      *
      * @param {qx.core.Object} thisObj
