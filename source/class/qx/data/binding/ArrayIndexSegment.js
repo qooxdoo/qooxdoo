@@ -120,6 +120,9 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
      */
     setTargetValue(targetValue) {
       let input = this.getInput();
+      if (!input) {
+        return;
+      }
       let index = this.__index == -1 ? input.length - 1 : this.__index;
       if (input instanceof qx.data.Array) {
         input.setItem(index, targetValue);

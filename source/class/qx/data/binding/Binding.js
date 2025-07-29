@@ -406,7 +406,7 @@ qx.Class.define("qx.data.binding.Binding", {
         }
       }
 
-      let lastSegment = this.__targetSegments ? this.__targetSegments[this.__targetSegments.length - 1] : null;
+      let lastSegment = this.__targetSegments.at(-1);
 
       if (this.getTarget() && this.getSource()) {
         let value = this.getValue();

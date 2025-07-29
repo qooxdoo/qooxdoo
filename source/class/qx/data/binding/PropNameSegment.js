@@ -102,7 +102,9 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @override
      */
     setTargetValue(targetValue) {
-      return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+      if (this.getInput()) {
+        return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+      }
     },
 
     /**
