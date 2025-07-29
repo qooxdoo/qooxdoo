@@ -433,8 +433,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
       Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
-        addMethod("get" + upname, function () {
-          return self.get(this);
+        addMethod("get" + upname, function (cb) {
+          if (cb) {
+            if (qx.core.Environment.get("qx.debug")) {
+              if (typeof cb !== "function") {
+                throw new Error(`${self}: If an argument is passed into getter, it must be a callback.`);
+              }
+            }
+            return self.getAsync(this).then(cb);
+          } else {
+            return self.get(this);
+          }
         });
         addMethod("get" + upname + "Async", async function () {
           return await self.getAsync(this);
