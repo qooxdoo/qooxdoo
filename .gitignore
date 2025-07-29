@@ -42,3 +42,6 @@ npm-debug.log
 
 .nyc*
 /.vscode
+compiled-zen
+compiled-master
+compiled-v8
