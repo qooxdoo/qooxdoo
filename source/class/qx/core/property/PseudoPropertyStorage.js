@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.core.property.PseudoPropertyStorage", {
      * @Override
      */
     reset(thisObj, property, value) {
-      this.set(thisObj, property, value);
+      thisObj["reset" + this.__upname]();
     },
 
     /**
