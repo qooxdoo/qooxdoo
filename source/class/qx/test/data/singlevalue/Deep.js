@@ -80,7 +80,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
 
       // set the binding root to null
       m.setA(null);
-      this.assertEquals(2, called);
+      this.assertEquals(3, called);
       this.assertEquals(3, m.getB());
 
       m.dispose();
