@@ -16,7 +16,7 @@
      * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-qx.Class.define("qx.cli.AbstractCliApp", {
+qx.Class.define("qx.tool.cli.AbstractCliApp", {
   type: "abstract",
   extend: qx.application.Basic,
 
@@ -49,18 +49,18 @@ qx.Class.define("qx.cli.AbstractCliApp", {
 
     /**
      * creates the root command
-     * @returns qx.cli.Command
+     * @returns qx.tool.cli.Command
      *
      */
     async _createRoot() {
-      return new qx.cli.Command("*");
+      return new qx.tool.cli.Command("*");
     },
 
     /**
      * add all the commands to the root.
      * by sub classes.
      *
-     * @param {qx.cli.Command} rootCmd command to add sub commands.
+     * @param {qx.tool.cli.Command} rootCmd command to add sub commands.
      *
      */
     _addCommands(rootCmd) {

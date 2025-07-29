@@ -38,7 +38,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       });
 
       cmd.addFlag(
-        new qx.cli.Flag("type").set({
+        new qx.tool.cli.Flag("type").set({
           shortCode: "t",
           description: "Set the release type",
           type: ["major", "premajor", "minor", "preminor", "patch", "prepatch", "prerelease"]
@@ -46,7 +46,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("noninteractive").set({
+        new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
           description: "Do not prompt user",
           type: "boolean"
@@ -54,7 +54,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("use-version").set({
+        new qx.tool.cli.Flag("use-version").set({
           shortCode: "V",
           description: "Use given version number",
           type: "string"
@@ -62,7 +62,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("prerelease").set({
+        new qx.tool.cli.Flag("prerelease").set({
           shortCode: "p",
           description: "Publish as a prerelease (as opposed to a stable release)",
           type: "boolean"
@@ -70,7 +70,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("message").set({
+        new qx.tool.cli.Flag("message").set({
           shortCode: "m",
           description: "Set commit/release message",
           type: "string"
@@ -78,14 +78,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("dryrun").set({
+        new qx.tool.cli.Flag("dryrun").set({
           description: "Deprecated. Use --dry-run",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("dry-run").set({
+        new qx.tool.cli.Flag("dry-run").set({
           shortCode: "d",
           description: "Show result only, do not publish to GitHub",
           type: "boolean"
@@ -94,7 +94,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
 
       cmd.removeFlag("force");
       cmd.addFlag(
-        new qx.cli.Flag("force").set({
+        new qx.tool.cli.Flag("force").set({
           shortCode: "f",
           description: "Ignore warnings (such as demo check)",
           type: "boolean"
@@ -102,7 +102,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("create-index").set({
+        new qx.tool.cli.Flag("create-index").set({
           shortCode: "i",
           description: "Create an index file (qooxdoo.json) with paths to Manifest.json files",
           type: "boolean"
@@ -110,21 +110,21 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("qx-version").set({
+        new qx.tool.cli.Flag("qx-version").set({
           description: "A semver string. If given, the qooxdoo version for which to publish the package",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("breaking").set({
+        new qx.tool.cli.Flag("breaking").set({
           description: "Do not create a backwards-compatible release, i.e. allow compatibility with current version only",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("qx-version-range").set({
+        new qx.tool.cli.Flag("qx-version-range").set({
           description: "A semver range. If given, it overrides --qx-version and --breaking and sets this specific version range",
           type: "string"
         })

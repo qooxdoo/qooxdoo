@@ -41,7 +41,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       });
 
       cmd.addFlag(
-        new qx.cli.Flag("download").set({
+        new qx.tool.cli.Flag("download").set({
           shortCode: "d",
           description: "Whether to automatically download missing libraries",
           type: "boolean",
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("update-po-files").set({
+        new qx.tool.cli.Flag("update-po-files").set({
           shortCode: "u",
           description:
             "enables detection of translations and writing them out into .po files",
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("library-po").set({
+        new qx.tool.cli.Flag("library-po").set({
           description: "The policy for updating translations in libraries",
           array: true,
           type: ["ignore", "untranslated", "all"],
@@ -69,7 +69,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("write-all-translations").set({
+        new qx.tool.cli.Flag("write-all-translations").set({
           description:
             "enables output of all translations, not just those that are explicitly referenced",
           type: "boolean",
@@ -78,7 +78,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("target").set({
+        new qx.tool.cli.Flag("target").set({
           shortCode: "t",
           description:
             "Set the target type: source or build or class name. Default is first target in config file",
@@ -89,7 +89,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("output-path-prefix").set({
+        new qx.tool.cli.Flag("output-path-prefix").set({
           description:
             "Sets a prefix for the output path of the target - used to compile a version into a non-standard directory",
           type: "string"
@@ -97,7 +97,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("locale").set({
+        new qx.tool.cli.Flag("locale").set({
           shortCode: "l",
           description: "Compile for a given locale",
           array: true,
@@ -107,7 +107,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("app-class").set({
+        new qx.tool.cli.Flag("app-class").set({
           description: "sets the application class",
           array: true,
           type: "string"
@@ -115,7 +115,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("app-theme").set({
+        new qx.tool.cli.Flag("app-theme").set({
           description: "sets the theme class for the current application",
           array: true,
           type: "string"
@@ -123,7 +123,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("app-name").set({
+        new qx.tool.cli.Flag("app-name").set({
           description: "sets the name of the current application",
           array: true,
           type: "string"
@@ -131,14 +131,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("app-group").set({
+        new qx.tool.cli.Flag("app-group").set({
           description: "which application groups to compile (defaults to all)",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("watch").set({
+        new qx.tool.cli.Flag("watch").set({
           description:
             "enables watching for changes and continuous compilation",
           type: "boolean",
@@ -147,14 +147,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("watch-debug").set({
+        new qx.tool.cli.Flag("watch-debug").set({
           description: "enables debug messages for watching",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("machine-readable").set({
+        new qx.tool.cli.Flag("machine-readable").set({
           shortCode: "M",
           description: "output compiler messages in machine-readable format",
           type: "boolean"
@@ -162,7 +162,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("minify").set({
+        new qx.tool.cli.Flag("minify").set({
           shortCode: "m",
           description: "disables minification (build targets only)",
           type: ["off", "minify", "mangle", "beautify"],
@@ -171,7 +171,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("mangle-privates").set({
+        new qx.tool.cli.Flag("mangle-privates").set({
           description: "Whether to mangle private variables",
           value: true,
           type: "boolean"
@@ -179,7 +179,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("save-source-in-map").set({
+        new qx.tool.cli.Flag("save-source-in-map").set({
           description:
             "Saves the source code in the map file (build target only)",
           type: "boolean",
@@ -188,7 +188,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("source-map-relative-paths").set({
+        new qx.tool.cli.Flag("source-map-relative-paths").set({
           description:
             "If true, the source file will be saved in the map file if the target supports it. Can be overridden on a per application basis.",
           type: "boolean",
@@ -197,7 +197,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("save-unminified").set({
+        new qx.tool.cli.Flag("save-unminified").set({
           shortCode: "u",
           description:
             "Saves a copy of the unminified version of output files (build target only)",
@@ -207,14 +207,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("inline-external-scripts").set({
+        new qx.tool.cli.Flag("inline-external-scripts").set({
           description: "Inlines external Javascript",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("erase").set({
+        new qx.tool.cli.Flag("erase").set({
           shortCode: "e",
           description:
             "Enabled automatic deletion of the output directory when compiler version or environment variables change",
@@ -224,7 +224,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("feedback").set({
+        new qx.tool.cli.Flag("feedback").set({
           description: "Shows gas-gauge feedback",
           type: "boolean",
           shortCode: "f"
@@ -232,7 +232,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("typescript").set({
+        new qx.tool.cli.Flag("typescript").set({
           shortCode: "T",
           description: "Outputs typescript definitions in qooxdoo.d.ts",
           type: "boolean"
@@ -240,14 +240,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("add-created-at").set({
+        new qx.tool.cli.Flag("add-created-at").set({
           description: "Adds code to populate object's $$createdAt",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("clean").set({
+        new qx.tool.cli.Flag("clean").set({
           shortCode: "D",
           description: "Deletes the target dir before compile",
           type: "boolean"
@@ -255,7 +255,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("warn-as-error").set({
+        new qx.tool.cli.Flag("warn-as-error").set({
           shortCode: "E",
           description: "Handle compiler warnings as error",
           type: "boolean",
@@ -264,7 +264,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("write-library-info").set({
+        new qx.tool.cli.Flag("write-library-info").set({
           shortCode: "I",
           description:
             "Write library information to the script, for reflection",
@@ -274,7 +274,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("write-compile-info").set({
+        new qx.tool.cli.Flag("write-compile-info").set({
           description:
             "Write application summary information to the script, used mostly for unit tests",
           type: "boolean",
@@ -283,7 +283,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("bundling").set({
+        new qx.tool.cli.Flag("bundling").set({
           shortCode: "b",
           description: "Whether bundling is enabled",
           type: "boolean",
@@ -292,7 +292,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("set").set({
+        new qx.tool.cli.Flag("set").set({
           description: "sets an environment value for the compiler",
           type: "string",
           array: true
@@ -300,7 +300,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("set-env").set({
+        new qx.tool.cli.Flag("set-env").set({
           description: "sets an environment value for the application",
           type: "string",
           array: true

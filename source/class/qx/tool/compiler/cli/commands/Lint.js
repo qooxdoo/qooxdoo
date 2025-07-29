@@ -33,7 +33,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("files").set({
+        new qx.tool.cli.Argument("files").set({
           description: "files to lint",
           array: true,
           type: "string"
@@ -41,14 +41,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("fix").set({
+        new qx.tool.cli.Flag("fix").set({
           description: "runs eslint with --fix",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("fix-jsdoc-params").set({
+        new qx.tool.cli.Flag("fix-jsdoc-params").set({
           description: "changes the order or @param name and {Type} to make it compatible for the generator ('name-first') or with JSDoc linting ('type-first').",
           type: ["off", "name-first", "type-first"],
           value: "off"
@@ -56,7 +56,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("use-eslintrc").set({
+        new qx.tool.cli.Flag("use-eslintrc").set({
           description: "Use the .eslintrc file for configuration, if it exists",
           type: "boolean",
           value: true
@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("cache").set({
+        new qx.tool.cli.Flag("cache").set({
           description: "operate only on changed files",
           type: "boolean",
           value: false
@@ -72,7 +72,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("warnAsError").set({
+        new qx.tool.cli.Flag("warnAsError").set({
           shortCode: "w",
           description: "handle warnings as error",
           type: "boolean"
@@ -80,7 +80,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("print-config").set({
+        new qx.tool.cli.Flag("print-config").set({
           shortCode: "p",
           description: "print the eslint configuration",
           type: "boolean"
@@ -88,7 +88,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("format").set({
+        new qx.tool.cli.Flag("format").set({
           shortCode: "f",
           description: "use a specific output format",
           type: "string",
@@ -97,7 +97,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("outputFile").set({
+        new qx.tool.cli.Flag("outputFile").set({
           shortCode: "o",
           description: "specify file to which the report will be written",
           type: "string"

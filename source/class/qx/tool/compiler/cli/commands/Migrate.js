@@ -41,14 +41,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Migrate", {
       });
 
       cmd.addFlag(
-        new qx.cli.Flag("dry-run").set({
+        new qx.tool.cli.Flag("dry-run").set({
           description: "Do not apply migrations",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("qx-version").set({
+        new qx.tool.cli.Flag("qx-version").set({
           description: "A semver string. If given, the maximum qooxdoo version for which to run migrations",
           type: "string"
         })

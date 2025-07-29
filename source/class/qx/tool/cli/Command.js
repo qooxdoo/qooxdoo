@@ -19,7 +19,7 @@
 const path = require("path");
 const process = require("process");
 
-qx.Class.define("qx.cli.Command", {
+qx.Class.define("qx.tool.cli.Command", {
   extend: qx.core.Object,
 
   construct(name) {
@@ -29,7 +29,7 @@ qx.Class.define("qx.cli.Command", {
     this.__flags = [];
     this.__arguments = [];
     this.addFlag(
-      new qx.cli.Flag("help").set({
+      new qx.tool.cli.Flag("help").set({
         description: qx.locale.Manager.tr("Outputs usage summary"),
         type: "boolean"
       })

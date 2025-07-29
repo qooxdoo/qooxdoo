@@ -32,14 +32,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("library_uri").set({
+        new qx.tool.cli.Argument("library_uri").set({
           description: "library URI to upgrade",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("releases-only").set({
+        new qx.tool.cli.Flag("releases-only").set({
           shortCode: "r",
           description: "Upgrade regular releases only (this leaves versions based on branches, commits etc. untouched)",
           type: "boolean",
@@ -48,7 +48,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("reinstall").set({
+        new qx.tool.cli.Flag("reinstall").set({
           shortCode: "R",
           description: "Do not upgrade, reinstall current version",
           type: "boolean"
@@ -56,7 +56,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("prereleases").set({
+        new qx.tool.cli.Flag("prereleases").set({
           shortCode: "p",
           description: "Use prereleases if available",
           type: "boolean"
@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("dry-run").set({
+        new qx.tool.cli.Flag("dry-run").set({
           shortCode: "d",
           description: "Show result only, do not actually upgrade",
           type: "boolean"
@@ -72,7 +72,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("qx-version").set({
+        new qx.tool.cli.Flag("qx-version").set({
           description: "A semver string. If given, the qooxdoo version for which to upgrade the package",
           type: "string"
         })

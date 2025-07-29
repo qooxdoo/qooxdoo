@@ -42,7 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("application_namespace").set({
+        new qx.tool.cli.Argument("application_namespace").set({
           description: "application namespace",
           required: true,
           type: "string"
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("type").set({
+        new qx.tool.cli.Flag("type").set({
           shortCode: "t",
           description: "Type of the application to create. Must be one of " +
             this.getSkeletonNames().join(", "),
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("out").set({
+        new qx.tool.cli.Flag("out").set({
           shortCode: "o",
           description: "Output directory for the application content.",
           type: "string"
@@ -67,7 +67,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("namespace").set({
+        new qx.tool.cli.Flag("namespace").set({
           shortCode: "s",
           description: "Top-level namespace.",
           type: "string"
@@ -75,7 +75,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("name").set({
+        new qx.tool.cli.Flag("name").set({
           shortCode: "n",
           description: "Name of application/library (defaults to namespace).",
           type: "string"
@@ -83,7 +83,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("theme").set({
+        new qx.tool.cli.Flag("theme").set({
           description: "The name of the theme to be used.",
           type: "string",
           value: "indigo"
@@ -91,7 +91,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("icontheme").set({
+        new qx.tool.cli.Flag("icontheme").set({
           description: "The name of the icon theme to be used.",
           type: "string",
           value: "Tango"
@@ -99,7 +99,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("noninteractive").set({
+        new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
           description: "Do not prompt for missing values",
           type: "boolean"

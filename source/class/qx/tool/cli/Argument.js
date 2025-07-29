@@ -16,8 +16,8 @@
      * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-qx.Class.define("qx.cli.Argument", {
-  extend: qx.cli.AbstractValue,
+qx.Class.define("qx.tool.cli.Argument", {
+  extend: qx.tool.cli.AbstractValue,
 
   properties: {
     type: {

@@ -23,7 +23,7 @@
  *
  */
 qx.Class.define("qx.tool.compiler.cli.Application", {
-  extend: qx.cli.AbstractCliApp,
+  extend: qx.tool.cli.AbstractCliApp,
   members: {
     async main() {
       await qx.tool.compiler.cli.ConfigLoader.getInstance().load();

@@ -16,12 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.cli.Argument", {
+qx.Class.define("qx.test.tool.cli.Argument", {
   extend: qx.dev.unit.TestCase,
 
   members: {
     testBasicArgumentCreation() {
-      let arg = new qx.cli.Argument("input");
+      let arg = new qx.tool.cli.Argument("input");
       this.assertEquals("input", arg.getName());
       this.assertEquals("string", arg.getType()); // default type
       this.assertFalse(arg.isArray());
@@ -30,7 +30,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArgumentProperties() {
-      let arg = new qx.cli.Argument("input-file");
+      let arg = new qx.tool.cli.Argument("input-file");
       arg.set({
         type: "string",
         description: "Input file path",
@@ -44,7 +44,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testStringArgument() {
-      let arg = new qx.cli.Argument("filename").set({
+      let arg = new qx.tool.cli.Argument("filename").set({
         type: "string"
       });
       
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testStringArgumentWithEquals() {
-      let arg = new qx.cli.Argument("filename").set({
+      let arg = new qx.tool.cli.Argument("filename").set({
         type: "string"
       });
       
@@ -70,7 +70,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testBooleanArgument() {
-      let arg = new qx.cli.Argument("enable").set({
+      let arg = new qx.tool.cli.Argument("enable").set({
         type: "boolean"
       });
       
@@ -104,7 +104,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testBooleanArgumentInvalid() {
-      let arg = new qx.cli.Argument("enable").set({
+      let arg = new qx.tool.cli.Argument("enable").set({
         type: "boolean"
       });
       
@@ -118,7 +118,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testIntegerArgument() {
-      let arg = new qx.cli.Argument("count").set({
+      let arg = new qx.tool.cli.Argument("count").set({
         type: "integer"
       });
       
@@ -132,7 +132,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testIntegerArgumentInvalid() {
-      let arg = new qx.cli.Argument("count").set({
+      let arg = new qx.tool.cli.Argument("count").set({
         type: "integer"
       });
       
@@ -146,7 +146,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testFloatArgument() {
-      let arg = new qx.cli.Argument("ratio").set({
+      let arg = new qx.tool.cli.Argument("ratio").set({
         type: "float"
       });
       
@@ -160,7 +160,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testFloatArgumentInvalid() {
-      let arg = new qx.cli.Argument("ratio").set({
+      let arg = new qx.tool.cli.Argument("ratio").set({
         type: "float"
       });
       
@@ -174,7 +174,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArrayArgument() {
-      let arg = new qx.cli.Argument("files").set({
+      let arg = new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true
       });
@@ -201,7 +201,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArrayArgumentSingleValue() {
-      let arg = new qx.cli.Argument("files").set({
+      let arg = new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true
       });
@@ -220,7 +220,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArrayArgumentEmpty() {
-      let arg = new qx.cli.Argument("files").set({
+      let arg = new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true
       });
@@ -235,7 +235,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArgumentMatching() {
-      let arg = new qx.cli.Argument("input-file");
+      let arg = new qx.tool.cli.Argument("input-file");
       
       this.assertTrue(arg.is("--input-file"));
       this.assertTrue(arg.is("--inputFile")); // camelCase
@@ -243,14 +243,14 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testArgumentMatchingWithEquals() {
-      let arg = new qx.cli.Argument("output");
+      let arg = new qx.tool.cli.Argument("output");
       
       this.assertTrue(arg.is("--output=file.txt"));
       this.assertFalse(arg.is("--other=value"));
     },
 
     testUsageGeneration() {
-      let arg = new qx.cli.Argument("input").set({
+      let arg = new qx.tool.cli.Argument("input").set({
         type: "string",
         description: "Input file path"
       });
@@ -264,7 +264,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testUsageGenerationNonStringType() {
-      let arg = new qx.cli.Argument("count").set({
+      let arg = new qx.tool.cli.Argument("count").set({
         type: "integer",
         description: "Number of items"
       });
@@ -277,7 +277,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testUsageGenerationArray() {
-      let arg = new qx.cli.Argument("files").set({
+      let arg = new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true,
         description: "Input files"
@@ -290,7 +290,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testUsageGenerationArrayNonString() {
-      let arg = new qx.cli.Argument("numbers").set({
+      let arg = new qx.tool.cli.Argument("numbers").set({
         type: "integer",
         array: true,
         description: "List of numbers"
@@ -304,7 +304,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testUsageNoName() {
-      let arg = new qx.cli.Argument().set({
+      let arg = new qx.tool.cli.Argument().set({
         type: "string",
         description: "Unnamed argument"
       });
@@ -317,22 +317,22 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testHyphenatedName() {
-      let arg = new qx.cli.Argument("inputFile");
+      let arg = new qx.tool.cli.Argument("inputFile");
       this.assertEquals("input-file", arg.getHyphenatedName());
     },
 
     testToString() {
-      let arg = new qx.cli.Argument("input");
+      let arg = new qx.tool.cli.Argument("input");
       arg.setDescription("Input file");
       this.assertEquals("input", arg.toString());
       
-      let argNoName = new qx.cli.Argument();
+      let argNoName = new qx.tool.cli.Argument();
       argNoName.setDescription("Test description");
       this.assertEquals("Test description", argNoName.toString());
     },
 
     testParseWithMockGetMore() {
-      let arg = new qx.cli.Argument("files").set({
+      let arg = new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true
       });
@@ -358,7 +358,7 @@ qx.Class.define("qx.test.cli.Argument", {
     },
 
     testParseWithIntegerArray() {
-      let arg = new qx.cli.Argument("numbers").set({
+      let arg = new qx.tool.cli.Argument("numbers").set({
         type: "integer",
         array: true
       });

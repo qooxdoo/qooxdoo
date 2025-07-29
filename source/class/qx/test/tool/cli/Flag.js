@@ -16,12 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.cli.Flag", {
+qx.Class.define("qx.test.tool.cli.Flag", {
   extend: qx.dev.unit.TestCase,
 
   members: {
     testBasicFlagCreation() {
-      let flag = new qx.cli.Flag("verbose");
+      let flag = new qx.tool.cli.Flag("verbose");
       this.assertEquals("verbose", flag.getName());
       this.assertNull(flag.getShortCode());
       this.assertNull(flag.getDescription());
@@ -29,7 +29,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testFlagProperties() {
-      let flag = new qx.cli.Flag("output-file");
+      let flag = new qx.tool.cli.Flag("output-file");
       flag.set({
         type: "string",
         shortCode: "o",
@@ -45,7 +45,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testBooleanFlag() {
-      let flag = new qx.cli.Flag("verbose").set({
+      let flag = new qx.tool.cli.Flag("verbose").set({
         type: "boolean"
       });
       
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testBooleanFlagWithValue() {
-      let flag = new qx.cli.Flag("debug").set({
+      let flag = new qx.tool.cli.Flag("debug").set({
         type: "boolean"
       });
       
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testBooleanFlagInvalidValue() {
-      let flag = new qx.cli.Flag("debug").set({
+      let flag = new qx.tool.cli.Flag("debug").set({
         type: "boolean"
       });
       
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testStringFlag() {
-      let flag = new qx.cli.Flag("output").set({
+      let flag = new qx.tool.cli.Flag("output").set({
         type: "string"
       });
       
@@ -105,7 +105,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testStringFlagWithEquals() {
-      let flag = new qx.cli.Flag("output").set({
+      let flag = new qx.tool.cli.Flag("output").set({
         type: "string"
       });
       
@@ -114,7 +114,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testIntegerFlag() {
-      let flag = new qx.cli.Flag("count").set({
+      let flag = new qx.tool.cli.Flag("count").set({
         type: "integer"
       });
       
@@ -129,7 +129,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testIntegerFlagWithEquals() {
-      let flag = new qx.cli.Flag("port").set({
+      let flag = new qx.tool.cli.Flag("port").set({
         type: "integer"
       });
       
@@ -138,7 +138,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testIntegerFlagInvalid() {
-      let flag = new qx.cli.Flag("count").set({
+      let flag = new qx.tool.cli.Flag("count").set({
         type: "integer"
       });
       
@@ -148,7 +148,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testFloatFlag() {
-      let flag = new qx.cli.Flag("ratio").set({
+      let flag = new qx.tool.cli.Flag("ratio").set({
         type: "float"
       });
       
@@ -163,7 +163,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testFloatFlagInvalid() {
-      let flag = new qx.cli.Flag("ratio").set({
+      let flag = new qx.tool.cli.Flag("ratio").set({
         type: "float"
       });
       
@@ -173,7 +173,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testArrayFlag() {
-      let flag = new qx.cli.Flag("include").set({
+      let flag = new qx.tool.cli.Flag("include").set({
         type: "string",
         array: true
       });
@@ -199,7 +199,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testArrayFlagSingleValue() {
-      let flag = new qx.cli.Flag("exclude").set({
+      let flag = new qx.tool.cli.Flag("exclude").set({
         type: "string",
         array: true
       });
@@ -223,7 +223,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testArrayFlagEmpty() {
-      let flag = new qx.cli.Flag("tags").set({
+      let flag = new qx.tool.cli.Flag("tags").set({
         type: "string",
         array: true
       });
@@ -234,7 +234,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testFlagMatching() {
-      let flag = new qx.cli.Flag("verbose-output").set({
+      let flag = new qx.tool.cli.Flag("verbose-output").set({
         shortCode: "v"
       });
       
@@ -246,14 +246,14 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testFlagMatchingWithEquals() {
-      let flag = new qx.cli.Flag("output");
+      let flag = new qx.tool.cli.Flag("output");
       
       this.assertTrue(flag.is("--output=file.txt"));
       this.assertFalse(flag.is("--other=value"));
     },
 
     testUsageGeneration() {
-      let flag = new qx.cli.Flag("verbose").set({
+      let flag = new qx.tool.cli.Flag("verbose").set({
         type: "boolean",
         shortCode: "v",
         description: "Enable verbose output",
@@ -269,7 +269,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testUsageGenerationString() {
-      let flag = new qx.cli.Flag("output").set({
+      let flag = new qx.tool.cli.Flag("output").set({
         type: "string",
         shortCode: "o",
         description: "Output file path"
@@ -284,7 +284,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testUsageGenerationArray() {
-      let flag = new qx.cli.Flag("include").set({
+      let flag = new qx.tool.cli.Flag("include").set({
         type: "string",
         array: true,
         description: "Include paths"
@@ -298,7 +298,7 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testUsageGenerationEnum() {
-      let flag = new qx.cli.Flag("level").set({
+      let flag = new qx.tool.cli.Flag("level").set({
         type: ["debug", "info", "warn", "error"],
         description: "Log level"
       });
@@ -311,22 +311,22 @@ qx.Class.define("qx.test.cli.Flag", {
     },
 
     testHyphenatedName() {
-      let flag = new qx.cli.Flag("outputFile");
+      let flag = new qx.tool.cli.Flag("outputFile");
       this.assertEquals("output-file", flag.getHyphenatedName());
     },
 
     testToString() {
-      let flag = new qx.cli.Flag("verbose");
+      let flag = new qx.tool.cli.Flag("verbose");
       flag.setDescription("Enable verbose output");
       this.assertEquals("verbose", flag.toString());
       
-      let flagNoName = new qx.cli.Flag();
+      let flagNoName = new qx.tool.cli.Flag();
       flagNoName.setDescription("Test description");
       this.assertEquals("Test description", flagNoName.toString());
     },
 
     testParseWithMockGetMore() {
-      let flag = new qx.cli.Flag("files").set({
+      let flag = new qx.tool.cli.Flag("files").set({
         type: "string",
         array: true
       });

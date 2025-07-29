@@ -32,7 +32,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
       });
 
       cmd.addSubcommand(
-        new qx.cli.Command("").set({
+        new qx.tool.cli.Command("").set({
           name: "set",
           description: "Sets a configuration value",
           run() {
@@ -42,7 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
       );
 
       cmd.addSubcommand(
-        new qx.cli.Command("")
+        new qx.tool.cli.Command("")
           .set({
             name: "get",
             description: "Gets a configuration value",
@@ -51,7 +51,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
             }
           })
           .addFlag(
-            new qx.cli.Flag("bare").set({
+            new qx.tool.cli.Flag("bare").set({
               description: "Restricts output to just the value",
               type: "boolean"
             })
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
       );
 
       cmd.addSubcommand(
-        new qx.cli.Command("").set({
+        new qx.tool.cli.Command("").set({
           name: "delete",
           description: "Deletes a configuration value",
           run() {
@@ -69,7 +69,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
       );
 
       cmd.addSubcommand(
-        new qx.cli.Command("")
+        new qx.tool.cli.Command("")
           .set({
             name: "list",
             description: "Lists all known configuration values",
@@ -78,7 +78,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Config", {
             }
           })
           .addFlag(
-            new qx.cli.Flag("all").set({
+            new qx.tool.cli.Flag("all").set({
               description: "Shows all keys, including unset",
               type: "boolean"
             })

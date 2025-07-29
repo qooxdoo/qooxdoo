@@ -16,24 +16,13 @@
      * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-qx.Class.define("qx.cli.Parser", {
-  extend: qx.core.Object,
 
-  construct(argv, rootCmd) {
-    super();
-    this.__argv = argv;
-    this.__rootCmd = rootCmd;
-  },
-
-  members: {
-    parse() {
-      let argv = this.__argv;
-      let cmd = null;
-      for (let i = 0; i < argv.length; i++) {
-        let arg = argv[0];
-        if (arg.startsWith("--")) {
-        }
-      }
-    }
-  }
-});
+/**
+ * The qx.tool.cli namespace contains classes for building command line interface applications.
+ *
+ * This includes:
+ * - AbstractCliApp: Base class for CLI applications
+ * - Command: Command definitions with arguments and flags
+ * - Parser: Command line argument parser
+ * - AbstractValue, Argument, Flag: Value types for command line parameters
+ */

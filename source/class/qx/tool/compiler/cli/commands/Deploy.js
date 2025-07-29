@@ -56,7 +56,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Deploy", {
 
       // Add deploy-specific flags
       cmd.addFlag(
-        new qx.cli.Flag("out").set({
+        new qx.tool.cli.Flag("out").set({
           shortCode: "o",
           description: "Output directory for the deployment",
           type: "string"
@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Deploy", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("source-maps").set({
+        new qx.tool.cli.Flag("source-maps").set({
           shortCode: "m",
           description: "Enable source maps",
           type: "boolean",

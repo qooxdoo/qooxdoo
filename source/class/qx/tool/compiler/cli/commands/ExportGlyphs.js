@@ -36,7 +36,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.ExportGlyphs", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("fontFile").set({
+        new qx.tool.cli.Argument("fontFile").set({
           description: "Font file to process",
           required: true,
           type: "string"
@@ -44,7 +44,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.ExportGlyphs", {
       );
 
       cmd.addArgument(
-        new qx.cli.Argument("glyphFile").set({
+        new qx.tool.cli.Argument("glyphFile").set({
           description: "Output glyph file",
           required: true,
           type: "string"

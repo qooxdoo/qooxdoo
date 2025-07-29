@@ -52,7 +52,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Class", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("classname").set({
+        new qx.tool.cli.Argument("classname").set({
           description: "the name of the class to create",
           required: true,
           type: "string"
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Class", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("type").set({
+        new qx.tool.cli.Flag("type").set({
           shortCode: "t",
           description: "the type of the class (optional).",
           value: "default"
@@ -68,21 +68,21 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Class", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("extend").set({
+        new qx.tool.cli.Flag("extend").set({
           shortCode: "e",
           description: "the base class of the new class"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("import").set({
+        new qx.tool.cli.Flag("import").set({
           description:
             "import the template to the `templates/class` folder of the current project, where it can be customized"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("overwrite").set({
+        new qx.tool.cli.Flag("overwrite").set({
           shortCode: "o",
           description: "overwrite an existing file"
         })

@@ -18,7 +18,7 @@ const { assertAccessor } = require("@babel/types");
      * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-qx.Class.define("qx.cli.AbstractValue", {
+qx.Class.define("qx.tool.cli.AbstractValue", {
   type: "abstract",
   extend: qx.core.Object,
 

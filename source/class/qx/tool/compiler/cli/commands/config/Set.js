@@ -27,7 +27,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Set", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("key").set({
+        new qx.tool.cli.Argument("key").set({
           description: "Configuration key to set",
           required: true,
           type: "string"
@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Set", {
       );
 
       cmd.addArgument(
-        new qx.cli.Argument("value").set({
+        new qx.tool.cli.Argument("value").set({
           description: "Configuration value to set",
           required: true,
           type: "string"

@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("files").set({
+        new qx.tool.cli.Argument("files").set({
           description: "files to process",
           array: true,
           type: "string"
@@ -42,7 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("outputFilename").set({
+        new qx.tool.cli.Flag("outputFilename").set({
           description: "Output filename",
           type: "string",
           value: "qooxdoo.d.ts"
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("exclude").set({
+        new qx.tool.cli.Flag("exclude").set({
           description: "Paths to exclude",
           array: true,
           type: "string"
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
 
       if (qx.core.Environment.get("qx.debug")) {
         cmd.addFlag(
-          new qx.cli.Flag("meta-debug").set({
+          new qx.tool.cli.Flag("meta-debug").set({
             description: "Debug metadata output to console, implies --verbose and only one file",
             type: "boolean"
           })

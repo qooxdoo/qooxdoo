@@ -38,14 +38,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("repository").set({
+        new qx.tool.cli.Argument("repository").set({
           description: "repository to update",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("file").set({
+        new qx.tool.cli.Flag("file").set({
           shortCode: "f",
           description: "Output result to a file",
           type: "string"
@@ -53,7 +53,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("search").set({
+        new qx.tool.cli.Flag("search").set({
           shortCode: "S",
           description: "Search GitHub for repos (as opposed to using the cached nightly data)",
           type: "boolean"
@@ -61,7 +61,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("all-versions").set({
+        new qx.tool.cli.Flag("all-versions").set({
           shortCode: "a",
           description: "Retrieve all releases (as opposed to the latest minor/patch release of each major release)",
           type: "boolean"
@@ -69,7 +69,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("export-only").set({
+        new qx.tool.cli.Flag("export-only").set({
           shortCode: "E",
           description: "Export the current cache without updating it first (requires --file)",
           type: "boolean"

@@ -28,10 +28,10 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
   statics: {
     /**
      * abstract factory to create the command
-     * @returns {qx.cli.Command} the created command
+     * @returns {qx.tool.cli.Command} the created command
      */
     async createCliCommand(clazz = this) {
-      let cmd = new qx.cli.Command("");
+      let cmd = new qx.tool.cli.Command("");
       let cls = new clazz();
       cmd.setRun(async cmd => {
         let { argv } = cmd.getValues();
@@ -47,7 +47,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         return cls.process();
       });
       cmd.addFlag(
-        new qx.cli.Flag("verbose").set({
+        new qx.tool.cli.Flag("verbose").set({
           shortCode: "v",
           description: "enables additional progress output to console",
           type: "boolean",
@@ -56,7 +56,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("config-file").set({
+        new qx.tool.cli.Flag("config-file").set({
           description: "Specify the config file to use",
           type: "string",
           shortCode: "c"
@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("debug").set({
+        new qx.tool.cli.Flag("debug").set({
           description: "enables debug output",
           value: false,
           type: "boolean"
@@ -72,7 +72,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("quiet").set({
+        new qx.tool.cli.Flag("quiet").set({
           shortCode: "q",
           description: "suppresses normal progress output to console",
           type: "boolean"
@@ -80,7 +80,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("force").set({
+        new qx.tool.cli.Flag("force").set({
           description: "Override warnings",
           type: "boolean",
           value: false,
@@ -89,7 +89,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("colorize").set({
+        new qx.tool.cli.Flag("colorize").set({
           description:
             "colorize log output to the console using ANSI color codes",
           value: true,

@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
 
       // Add test-specific flags
       cmd.addFlag(
-        new qx.cli.Flag("fail-fast").set({
+        new qx.tool.cli.Flag("fail-fast").set({
           description: "Exit on first failing test",
           type: "boolean",
           value: false
@@ -68,7 +68,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("disable-webserver").set({
+        new qx.tool.cli.Flag("disable-webserver").set({
           description: "Disables the start of the webserver",
           type: "boolean", 
           value: false

@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Remove", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("uri").set({
+        new qx.tool.cli.Argument("uri").set({
           description: "package URI to remove",
           type: "string"
         })

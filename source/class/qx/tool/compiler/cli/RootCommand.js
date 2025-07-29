@@ -25,7 +25,7 @@ qx.Class.define("qx.tool.compiler.cli.RootCommand", {
     async createCliCommand(clazz = this) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.addFlag(
-        new qx.cli.Flag("version").set({
+        new qx.tool.cli.Flag("version").set({
           description: " Show version number",
           type: "boolean",
           value: false

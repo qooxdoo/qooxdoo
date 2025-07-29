@@ -16,12 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.cli.Command", {
+qx.Class.define("qx.test.tool.cli.Command", {
   extend: qx.dev.unit.TestCase,
 
   members: {
     testBasicCommandCreation() {
-      let cmd = new qx.cli.Command("test");
+      let cmd = new qx.tool.cli.Command("test");
       this.assertEquals("test", cmd.getName());
       this.assertNull(cmd.getParent());
       this.assertNull(cmd.getDescription());
@@ -29,7 +29,7 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testCommandProperties() {
-      let cmd = new qx.cli.Command("test-cmd");
+      let cmd = new qx.tool.cli.Command("test-cmd");
       cmd.set({
         description: "Test command description",
         shortCode: "t"
@@ -41,8 +41,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testAddFlag() {
-      let cmd = new qx.cli.Command("test");
-      let flag = new qx.cli.Flag("verbose").set({
+      let cmd = new qx.tool.cli.Command("test");
+      let flag = new qx.tool.cli.Flag("verbose").set({
         type: "boolean",
         description: "Enable verbose output"
       });
@@ -54,9 +54,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testAddFlagDuplicate() {
-      let cmd = new qx.cli.Command("test");
-      let flag1 = new qx.cli.Flag("verbose").set({type: "boolean"});
-      let flag2 = new qx.cli.Flag("verbose").set({type: "boolean"});
+      let cmd = new qx.tool.cli.Command("test");
+      let flag1 = new qx.tool.cli.Flag("verbose").set({type: "boolean"});
+      let flag2 = new qx.tool.cli.Flag("verbose").set({type: "boolean"});
       
       cmd.addFlag(flag1);
       
@@ -66,8 +66,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testRemoveFlag() {
-      let cmd = new qx.cli.Command("test");
-      let flag = new qx.cli.Flag("verbose").set({type: "boolean"});
+      let cmd = new qx.tool.cli.Command("test");
+      let flag = new qx.tool.cli.Flag("verbose").set({type: "boolean"});
       
       cmd.addFlag(flag);
       this.assertEquals(flag, cmd.getFlag("verbose"));
@@ -77,8 +77,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testAddArgument() {
-      let cmd = new qx.cli.Command("test");
-      let arg = new qx.cli.Argument("input").set({
+      let cmd = new qx.tool.cli.Command("test");
+      let arg = new qx.tool.cli.Argument("input").set({
         type: "string",
         required: true,
         description: "Input file"
@@ -91,9 +91,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testGetArgumentByIndex() {
-      let cmd = new qx.cli.Command("test");
-      let arg1 = new qx.cli.Argument("first").set({type: "string"});
-      let arg2 = new qx.cli.Argument("second").set({type: "string"});
+      let cmd = new qx.tool.cli.Command("test");
+      let arg1 = new qx.tool.cli.Argument("first").set({type: "string"});
+      let arg2 = new qx.tool.cli.Argument("second").set({type: "string"});
       
       cmd.addArgument(arg1);
       cmd.addArgument(arg2);
@@ -104,8 +104,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testAddSubcommand() {
-      let rootCmd = new qx.cli.Command("root");
-      let subCmd = new qx.cli.Command("sub");
+      let rootCmd = new qx.tool.cli.Command("root");
+      let subCmd = new qx.tool.cli.Command("sub");
       
       rootCmd.addSubcommand(subCmd);
       
@@ -113,7 +113,7 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testCommandMatching() {
-      let cmd = new qx.cli.Command("test-command");
+      let cmd = new qx.tool.cli.Command("test-command");
       cmd.setShortCode("t");
       
       this.assertTrue(cmd.is("testCommand")); // camelCase name
@@ -122,9 +122,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseSimpleFlags() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addFlag(new qx.cli.Flag("verbose").set({type: "boolean"}));
-      cmd.addFlag(new qx.cli.Flag("output").set({type: "string"}));
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({type: "boolean"}));
+      cmd.addFlag(new qx.tool.cli.Flag("output").set({type: "string"}));
       
       let result = cmd.parseRoot(["test", "--verbose", "--output", "file.txt"]);
       
@@ -134,9 +134,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseArguments() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addArgument(new qx.cli.Argument("input").set({type: "string"}));
-      cmd.addArgument(new qx.cli.Argument("output").set({type: "string"}));
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addArgument(new qx.tool.cli.Argument("input").set({type: "string"}));
+      cmd.addArgument(new qx.tool.cli.Argument("output").set({type: "string"}));
       
       let result = cmd.parseRoot(["test", "input.txt", "output.txt"]);
       
@@ -146,9 +146,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseFlagsAndArguments() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addFlag(new qx.cli.Flag("verbose").set({type: "boolean"}));
-      cmd.addArgument(new qx.cli.Argument("input").set({type: "string"}));
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({type: "boolean"}));
+      cmd.addArgument(new qx.tool.cli.Argument("input").set({type: "string"}));
       
       let result = cmd.parseRoot(["test", "--verbose", "input.txt"]);
       
@@ -158,9 +158,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseSubcommand() {
-      let rootCmd = new qx.cli.Command("root");
-      let subCmd = new qx.cli.Command("sub");
-      subCmd.addFlag(new qx.cli.Flag("flag").set({type: "boolean"}));
+      let rootCmd = new qx.tool.cli.Command("root");
+      let subCmd = new qx.tool.cli.Command("sub");
+      subCmd.addFlag(new qx.tool.cli.Flag("flag").set({type: "boolean"}));
       
       rootCmd.addSubcommand(subCmd);
       
@@ -171,8 +171,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseWithHelpFlag() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addArgument(new qx.cli.Argument("required").set({
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addArgument(new qx.tool.cli.Argument("required").set({
         type: "string", 
         required: true
       }));
@@ -186,8 +186,8 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseMissingRequiredArgument() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addArgument(new qx.cli.Argument("required").set({
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addArgument(new qx.tool.cli.Argument("required").set({
         type: "string",
         required: true
       }));
@@ -201,7 +201,7 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseUnrecognizedFlag() {
-      let cmd = new qx.cli.Command("test");
+      let cmd = new qx.tool.cli.Command("test");
       
       let result = cmd.parseRoot(["test", "--unknown"]);
       
@@ -212,10 +212,10 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testGetValues() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addFlag(new qx.cli.Flag("verbose").set({type: "boolean"}));
-      cmd.addFlag(new qx.cli.Flag("output-file").set({type: "string"}));
-      cmd.addArgument(new qx.cli.Argument("input").set({type: "string"}));
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({type: "boolean"}));
+      cmd.addFlag(new qx.tool.cli.Flag("output-file").set({type: "string"}));
+      cmd.addArgument(new qx.tool.cli.Argument("input").set({type: "string"}));
       
       cmd.parseRoot(["test", "--verbose", "--output-file", "out.txt", "in.txt"]);
       
@@ -238,9 +238,9 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testParseDoubleDash() {
-      let cmd = new qx.cli.Command("test");
-      cmd.addFlag(new qx.cli.Flag("verbose").set({type: "boolean"}));
-      cmd.addArgument(new qx.cli.Argument("files").set({
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({type: "boolean"}));
+      cmd.addArgument(new qx.tool.cli.Argument("files").set({
         type: "string",
         array: true
       }));
@@ -258,16 +258,16 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testUsageGeneration() {
-      let cmd = new qx.cli.Command("test");
+      let cmd = new qx.tool.cli.Command("test");
       cmd.set({
         description: "Test command for unit testing"
       });
-      cmd.addFlag(new qx.cli.Flag("verbose").set({
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({
         type: "boolean",
         shortCode: "v",
         description: "Enable verbose output"
       }));
-      cmd.addArgument(new qx.cli.Argument("input").set({
+      cmd.addArgument(new qx.tool.cli.Argument("input").set({
         type: "string",
         description: "Input file path"
       }));
@@ -284,7 +284,7 @@ qx.Class.define("qx.test.cli.Command", {
     },
 
     testToString() {
-      let cmd = new qx.cli.Command("test-command");
+      let cmd = new qx.tool.cli.Command("test-command");
       this.assertEquals("testCommand", cmd.toString());
     }
   }

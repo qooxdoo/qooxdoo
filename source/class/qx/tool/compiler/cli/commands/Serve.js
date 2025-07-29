@@ -41,7 +41,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
 
       // Add serve-specific flags
       cmd.addFlag(
-        new qx.cli.Flag("listen-port").set({
+        new qx.tool.cli.Flag("listen-port").set({
           shortCode: "p",
           description: "The port for the web browser to listen on",
           type: "integer",
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("show-startpage").set({
+        new qx.tool.cli.Flag("show-startpage").set({
           shortCode: "S", 
           description: "Show the startpage with the list of applications and additional information",
           type: "boolean"
@@ -58,7 +58,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("rebuild-startpage").set({
+        new qx.tool.cli.Flag("rebuild-startpage").set({
           shortCode: "R",
           description: "Rebuild the startpage with the list of applications and additional information", 
           type: "boolean",

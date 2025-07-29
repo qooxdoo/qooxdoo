@@ -27,7 +27,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Delete", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("key").set({
+        new qx.tool.cli.Argument("key").set({
           description: "Configuration key to delete",
           required: true,
           type: "string"

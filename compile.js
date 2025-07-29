@@ -14,7 +14,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         let cmd = await originalCreateCliCommand.call(this, clazz);
         
         cmd.addFlag(
-          new qx.cli.Flag("diag").set({
+          new qx.tool.cli.Flag("diag").set({
             description: "show diagnostic output",
             type: "boolean",
             value: false
@@ -22,7 +22,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         );
 
         cmd.addFlag(
-          new qx.cli.Flag("terse").set({
+          new qx.tool.cli.Flag("terse").set({
             description: "show only summary and errors", 
             type: "boolean",
             value: false
@@ -30,7 +30,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         );
 
         cmd.addFlag(
-          new qx.cli.Flag("headless").set({
+          new qx.tool.cli.Flag("headless").set({
             description: "runs test headless",
             type: "boolean", 
             value: false
@@ -38,7 +38,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         );
 
         cmd.addFlag(
-          new qx.cli.Flag("browsers").set({
+          new qx.tool.cli.Flag("browsers").set({
             description: "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
             type: "string"
           })

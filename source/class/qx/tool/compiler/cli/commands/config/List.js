@@ -32,7 +32,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.List", {
       });
 
       cmd.addFlag(
-        new qx.cli.Flag("all").set({
+        new qx.tool.cli.Flag("all").set({
           description: "Shows all keys, including unset",
           type: "boolean"
         })

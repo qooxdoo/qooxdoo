@@ -34,14 +34,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("configFile").set({
+        new qx.tool.cli.Argument("configFile").set({
           description: "config file to use",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("inspect").set({
+        new qx.tool.cli.Flag("inspect").set({
           description: "Whether to start node for debugging (ie with the --inspect argument)",
           type: "boolean",
           value: false
@@ -49,7 +49,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("inspect-brk").set({
+        new qx.tool.cli.Flag("inspect-brk").set({
           description: "Whether to start node for debugging and break immediately (ie with the --inspect-brk argument)",
           type: "boolean",
           value: false

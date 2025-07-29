@@ -16,13 +16,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.cli.AbstractValue", {
+qx.Class.define("qx.test.tool.cli.AbstractValue", {
   extend: qx.dev.unit.TestCase,
 
   members: {
     // Test concrete implementation using Flag since AbstractValue is abstract
     testBasicProperties() {
-      let value = new qx.cli.Flag("test-name");
+      let value = new qx.tool.cli.Flag("test-name");
       value.set({
         description: "Test description",
         type: "string",
@@ -38,18 +38,18 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testNameTransformation() {
-      let value = new qx.cli.Flag("kebab-case-name");
+      let value = new qx.tool.cli.Flag("kebab-case-name");
       this.assertEquals("kebabCaseName", value.getName());
       
-      let value2 = new qx.cli.Flag("snake_case_name");
+      let value2 = new qx.tool.cli.Flag("snake_case_name");
       this.assertEquals("snakeCaseName", value2.getName());
       
-      let value3 = new qx.cli.Flag("camelCaseName");
+      let value3 = new qx.tool.cli.Flag("camelCaseName");
       this.assertEquals("camelCaseName", value3.getName());
     },
 
     testTypeValidation() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Valid types
       value.setType("string");
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testTypeValidationArray() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Array types should be valid
       value.setType(["option1", "option2", "option3"]);
@@ -78,7 +78,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testApplyTypeArray() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Setting array type should automatically set array property
       value.setType(["opt1", "opt2"]);
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testCheckFunction() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Custom check function
       value.setCheck(val => val !== "forbidden");
@@ -107,7 +107,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testValueProperty() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       value.setValue("test-value");
       this.assertEquals("test-value", value.getValue());
@@ -120,18 +120,18 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testHyphenatedName() {
-      let value = new qx.cli.Flag("camelCaseName");
+      let value = new qx.tool.cli.Flag("camelCaseName");
       this.assertEquals("camel-case-name", value.getHyphenatedName());
       
-      let value2 = new qx.cli.Flag("simple");
+      let value2 = new qx.tool.cli.Flag("simple");
       this.assertEquals("simple", value2.getHyphenatedName());
       
-      let value3 = new qx.cli.Flag("multiWordTestName");
+      let value3 = new qx.tool.cli.Flag("multiWordTestName");
       this.assertEquals("multi-word-test-name", value3.getHyphenatedName());
     },
 
     testIsMethod() {
-      let value = new qx.cli.Flag("outputFile");
+      let value = new qx.tool.cli.Flag("outputFile");
       value.setShortCode("o");
       
       // Test long form matching
@@ -152,7 +152,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testIsMethodWithoutShortCode() {
-      let value = new qx.cli.Flag("verbose");
+      let value = new qx.tool.cli.Flag("verbose");
       // No short code set
       
       this.assertTrue(value.is("--verbose"));
@@ -161,21 +161,21 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testToString() {
-      let value = new qx.cli.Flag("testName");
+      let value = new qx.tool.cli.Flag("testName");
       this.assertEquals("testName", value.toString());
       
       // With description but no name
-      let value2 = new qx.cli.Flag();
+      let value2 = new qx.tool.cli.Flag();
       value2.setDescription("Test description");
       this.assertEquals("Test description", value2.toString());
       
       // No name or description should fall back to classname
-      let value3 = new qx.cli.Flag();
-      this.assertEquals("qx.cli.Flag", value3.toString());
+      let value3 = new qx.tool.cli.Flag();
+      this.assertEquals("qx.tool.cli.Flag", value3.toString());
     },
 
     testErrorHandling() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Initially no errors
       this.assertNull(value.getErrors());
@@ -192,18 +192,18 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testConstructorWithName() {
-      let value = new qx.cli.Flag("initial-name");
+      let value = new qx.tool.cli.Flag("initial-name");
       this.assertEquals("initialName", value.getName());
     },
 
     testConstructorWithoutName() {
-      let value = new qx.cli.Flag();
+      let value = new qx.tool.cli.Flag();
       this.assertNull(value.getName());
     },
 
     testParseMethodAbstract() {
       // AbstractValue.parse should throw an error since it's abstract
-      let value = new qx.cli.AbstractValue("test");
+      let value = new qx.tool.cli.AbstractValue("test");
       
       this.assertException(() => {
         value.parse("cmd", () => null);
@@ -217,7 +217,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
         return;
       }
       
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Should throw assertion error for invalid type in debug mode
       this.assertException(() => {
@@ -226,7 +226,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testRequiredProperty() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       this.assertFalse(value.isRequired()); // default
       
@@ -238,7 +238,7 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testArrayProperty() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       this.assertFalse(value.isArray()); // default
       
@@ -250,14 +250,14 @@ qx.Class.define("qx.test.cli.AbstractValue", {
     },
 
     testInitialValueProperty() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Default value should be null
       this.assertNull(value.getValue());
     },
 
     testValueValidationWithCheck() {
-      let value = new qx.cli.Flag("test");
+      let value = new qx.tool.cli.Flag("test");
       
       // Custom validator that only allows positive numbers
       value.setCheck(val => {

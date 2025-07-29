@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("files").set({
+        new qx.tool.cli.Argument("files").set({
           description: "files to process",
           array: true,
           type: "string"
@@ -42,14 +42,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("gitPreCommit").set({
+        new qx.tool.cli.Flag("gitPreCommit").set({
           description: "When used as a Git pre-commit hook",
           type: "boolean"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("overwrite").set({
+        new qx.tool.cli.Flag("overwrite").set({
           description: "Overwrite source files",
           type: "boolean",
           value: true
@@ -57,7 +57,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("exclude").set({
+        new qx.tool.cli.Flag("exclude").set({
           description: "Paths to exclude",
           array: true,
           type: "string"
@@ -65,7 +65,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("arrowFunctions").set({
+        new qx.tool.cli.Flag("arrowFunctions").set({
           description: "Arrow function conversion mode",
           type: ["never", "always", "careful", "aggressive"],
           value: "careful"
@@ -73,7 +73,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("singleLineBlocks").set({
+        new qx.tool.cli.Flag("singleLineBlocks").set({
           description: "Force braces around single line bodies for if, for, while, and do while",
           type: "boolean",
           value: false

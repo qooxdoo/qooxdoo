@@ -39,7 +39,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("scriptpath").set({
+        new qx.tool.cli.Argument("scriptpath").set({
           description: "path to the script file to add",
           required: true,
           type: "string"
@@ -47,7 +47,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("resourcedir").set({
+        new qx.tool.cli.Flag("resourcedir").set({
           description:
             "The subdirectory of the resource folder in which to place the file",
           shortCode: "d",
@@ -56,14 +56,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("rename").set({
+        new qx.tool.cli.Flag("rename").set({
           description: "Rename the file to the given name",
           shortCode: "r"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("undo").set({
+        new qx.tool.cli.Flag("undo").set({
           description:
             "Removes the file that would normally be added with the given arguments",
           shortCode: "z"
@@ -71,7 +71,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("noninteractive").set({
+        new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
           description: "Do not prompt user"
         })

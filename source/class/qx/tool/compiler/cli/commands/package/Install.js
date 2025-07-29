@@ -45,14 +45,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("uri").set({
+        new qx.tool.cli.Argument("uri").set({
           description: "Package URI with optional @release_tag",
           type: "string"
         })
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("release").set({
+        new qx.tool.cli.Flag("release").set({
           shortCode: "r",
           description: "Use a specific release tag instead of the tag of the latest compatible release",
           type: "string"
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("ignore").set({
+        new qx.tool.cli.Flag("ignore").set({
           shortCode: "i",
           description: "Ignore unmatch of qooxdoo",
           type: "boolean"
@@ -68,7 +68,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("save").set({
+        new qx.tool.cli.Flag("save").set({
           shortCode: "s",
           description: "Save the libraries as permanent dependencies",
           type: "boolean",
@@ -77,7 +77,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("from-path").set({
+        new qx.tool.cli.Flag("from-path").set({
           shortCode: "p",
           description: "Install a library/the given library from a local path",
           type: "string"
@@ -85,7 +85,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       );
 
       cmd.addFlag(
-        new qx.cli.Flag("qx-version").set({
+        new qx.tool.cli.Flag("qx-version").set({
           description: "A semver string. If given, the maximum qooxdoo version for which to install a package",
           type: "string"
         })

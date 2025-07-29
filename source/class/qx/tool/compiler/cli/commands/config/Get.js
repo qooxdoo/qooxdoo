@@ -27,7 +27,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Get", {
       });
 
       cmd.addArgument(
-        new qx.cli.Argument("key").set({
+        new qx.tool.cli.Argument("key").set({
           description: "Configuration key to get",
           required: true,
           type: "string"
