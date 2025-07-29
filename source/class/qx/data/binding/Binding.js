@@ -410,7 +410,11 @@ qx.Class.define("qx.data.binding.Binding", {
 
       if (this.getTarget() && this.getSource()) {
         let value = this.getValue();
-        if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
+        if (
+          value !== undefined &&
+          this.__options.converter &&
+          !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())
+        ) {
           let model = typeof this.getTarget().getModel == "function" ? this.getTarget().getModel() : null;
           value = this.__options.converter(value, model, this.getSource(), this.getTarget());
         }
@@ -629,6 +633,31 @@ qx.Class.define("qx.data.binding.Binding", {
         return prop.getAsync(target);
       } else {
         return prop.get(target);
+      }
+    },
+
+    /**
+     * Helper method that resets a named property
+     *
+     * @param {qx.core.Object} target object to have a property set
+     * @param {String} propertyName the name of the property
+     
+     */
+    reset(target, propertyName) {
+      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
+      if (!prop) {
+        let setFuncName = "reset" + qx.lang.String.firstUp(propertyName);
+        if (typeof target[setFuncName] == "function") {
+          return target[setFuncName]();
+        } else {
+          throw new Error(`Property ${propertyName} not found on ${target.classname}`);
+        }
+      }
+
+      if (prop.isAsync()) {
+        return prop.resetAsync(target);
+      } else {
+        return prop.reset(target);
       }
     },
 

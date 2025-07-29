@@ -102,7 +102,7 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
     __get() {
       let input = this.getInput();
       if (!input) {
-        return null;
+        return undefined;
       }
 
       if (input instanceof qx.data.Array) {
@@ -110,7 +110,7 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
       }
 
       if (this.__index >= input.length) {
-        return null;
+        return undefined;
       }
       return input.at(this.__index);
     },

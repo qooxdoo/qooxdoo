@@ -82,7 +82,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
     updateOutput() {
       let input = this.getInput();
       if (input == null) {
-        return this._setOutput(null);
+        return this._setOutput(undefined);
       } else {
         let property = qx.Class.getByProperty(input.constructor, this.__propName);
         if (property === null) {
@@ -102,8 +102,13 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @override
      */
     setTargetValue(targetValue) {
-      if (this.getInput()) {
+      if (this.getInput() == null || this.getInput() === undefined) {
+        return;
+      }
+      if (targetValue !== undefined) {
         return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+      } else {
+        return qx.data.binding.Binding.reset(this.getInput(), this.__propName);
       }
     },
 

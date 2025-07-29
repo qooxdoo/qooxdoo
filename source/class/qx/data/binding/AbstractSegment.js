@@ -137,7 +137,9 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     /**
      * Should be called when the output value has been computed and needs to be set
      * on the output receiver.
-     * @param {qx.core.Object} output
+     * @param {qx.core.Object | null | undefined} output The output to the next segment. Should be undefined if the input to this segment was nullish.
+     * Should be null if the input was not nullish but the output is null.
+     *
      * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
      * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
      * If it's synchrous, it returns null.
@@ -164,7 +166,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     /**
      * Sets the property on the `input` object depicted by this segment to the given value.
      * @abstract
-     * @param {*} value
+     * @param {* | null | undefined} value If undefined, this resets the target property. Otherwise, it sets the target property to the given value.
      * @returns {Promise?} If the operation is asynchronous, it should return a Promise which resolves when the value has been set.
      * If it's synchronous, it should return null.
      */
