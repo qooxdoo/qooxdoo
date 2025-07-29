@@ -564,7 +564,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __getSafe(thisObj) {
       let value = this.__storage.get(thisObj, this);
-      if (this.isThemeable() && (value === undefined || value === null)) {
+      if (this.isThemeable() && value === undefined) {
         let state = this.getPropertyState(thisObj);
         value = state.themeValue;
       }
@@ -743,10 +743,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
     isThemedValue(thisObj) {
       if (this.isThemeable()) {
         let value = this.__storage.get(thisObj, this);
-        if (value === undefined || value === null) {
+        if (value === undefined) {
           let state = this.getPropertyState(thisObj);
           value = state.themeValue;
-          return value !== undefined && value !== null;
+          return value !== undefined;
         }
       }
       return false;
