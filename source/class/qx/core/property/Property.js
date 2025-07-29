@@ -564,6 +564,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __getSafe(thisObj) {
       let value = this.__storage.get(thisObj, this);
+      if (this.isInheritable() && value === "inherit") {
+        if (this.__definition.inheritable) {
+          let state = this.getPropertyState(thisObj);
+          value = state.inheritedValue;
+        }
+      }
       if (this.isThemeable() && value === undefined) {
         let state = this.getPropertyState(thisObj);
         value = state.themeValue;
@@ -794,15 +800,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
           }
 
           let check = this.getCheck();
-          if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
-            this.warn(
-              "Property " +
-                this +
-                " is being set to a promise, but its check is not a Promise. The property will be set to the promise itself."
-            );
+          if (qx.core.Environment.get("qx.debug")) {
+            if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
+              this.warn(
+                "Property " +
+                  this +
+                  " is being set to a promise, but its check is not a Promise. The property will be set to the promise itself."
+              );
+            }
           }
 
-          if (check && !check.matches(value, thisObj)) {
+          if (!(this.isInheritable() && value === "inherit") && check && !check.matches(value, thisObj)) {
             let coerced = check.coerce(value, thisObj);
             if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
               throw new Error(`Invalid value for property ${this}: ${value}`);
