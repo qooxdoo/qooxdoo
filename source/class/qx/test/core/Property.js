@@ -557,6 +557,12 @@ qx.Class.define("qx.test.core.Property", {
       this.assertTrue(chh2.getEnabled(), "c4");
       this.assertTrue(chh3.getEnabled(), "c5");
 
+      ch2.setEnabled(false); // reset local value
+      this.assertFalse(chh1.getEnabled(), "d2");
+      ch2.setEnabled("inherit");
+      this.assertTrue(ch2.getEnabled(), "c2");
+      this.assertTrue(chh1.getEnabled(), "c2");
+
       pa.dispose();
       ch1.dispose();
       ch2.dispose();
