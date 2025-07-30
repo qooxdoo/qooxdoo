@@ -93,10 +93,15 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
       } else {
         let property = qx.Class.getByProperty(input.constructor, this.__propName);
         if (property === null) {
-          return this._setOutput(null);
+          // If the property is not defined, but there is a getter, use that
+          if (typeof input["get" + qx.lang.String.firstUp(this.__propName)] == "function") {
+            let output = input["get" + qx.lang.String.firstUp(this.__propName)]();
+            return this._setOutput(output);
+          }
+          return this._setOutput(undefined);
         }
         if (property.isInitialized(input)) {
-          let nextInput = property.get(input, this.__propName);
+          let nextInput = property.get(input);
           return this._setOutput(nextInput);
         } else {
           let promise = property.getAsync(input, this.__propName);
@@ -141,6 +146,10 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         return property.getEventName();
       }
 
+      let eventName = "change" + qx.lang.String.firstUp(this.__propName);
+      if (qx.Class.supportsEvent(input.constructor, eventName)) {
+        return eventName;
+      }
       if (qx.Class.supportsEvent(input.constructor, this.__propName)) {
         return this.__propName;
       }
