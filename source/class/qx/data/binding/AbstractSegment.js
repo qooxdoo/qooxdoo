@@ -63,7 +63,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     /**
      * @type {qx.core.Object}
      */
-    __input: null,
+    __input: undefined,
 
     /**
      * @type {qx.data.binding.IInputReceiver}

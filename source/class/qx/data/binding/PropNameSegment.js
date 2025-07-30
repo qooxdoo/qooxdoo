@@ -88,7 +88,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
 
     updateOutput() {
       let input = this.getInput();
-      if (input == null) {
+      if (input === null || input === undefined) {
         return this._setOutput(undefined);
       } else {
         let property = qx.Class.getByProperty(input.constructor, this.__propName);
