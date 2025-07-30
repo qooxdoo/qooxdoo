@@ -27,7 +27,13 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
    */
   construct(propName) {
     super();
-    this.__propName = propName;
+    let lower = qx.lang.String.firstLow(propName);
+    if (qx.core.Environment.get("qx.debug")) {
+      if (lower !== propName) {
+        this.warn(`Binding: property name "${propName}" should be lower case, using "${lower}" instead`);
+      }
+    }
+    this.__propName = lower;
   },
 
   /**
