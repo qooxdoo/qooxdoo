@@ -22,10 +22,11 @@
 qx.Class.define("qx.data.binding.ArrayIndexSegment", {
   extend: qx.data.binding.AbstractSegment,
   /**
+   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
    * @param {string} segment String representation of the segment, such as `[0]` or `[last]`
    */
-  construct(segment) {
-    super();
+  construct(binding, segment) {
+    super(binding);
     this.__string = segment;
 
     this.assertTrue(segment.startsWith("[") && segment.endsWith("]"), "Array index segment must start with [ and end with ]: " + segment);

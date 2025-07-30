@@ -26,6 +26,15 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
   extend: qx.core.Object,
   implement: [qx.data.binding.IInputReceiver],
 
+  /**
+   *
+   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
+   */
+  construct(binding) {
+    super();
+    this.__binding = binding;
+  },
+
   properties: {
     /**
      * Name of the event that this segment listens to on the input.
@@ -48,6 +57,10 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
   members: {
     /**
+     * @type {qx.data.binding.Binding}
+     */
+    __binding: null,
+    /**
      * @type {qx.core.Object}
      */
     __input: null,
@@ -56,6 +69,14 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * @type {qx.data.binding.IInputReceiver}
      */
     __outputReceiver: null,
+
+    /**
+     *
+     * @returns {qx.data.binding.Binding} the binding that this segment belongs to. Useful for debugging purposes.
+     */
+    getBinding() {
+      return this.__binding;
+    },
 
     /**
      * Sets the object which will receive the output of this segment after it's computed.

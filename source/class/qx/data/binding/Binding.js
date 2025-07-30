@@ -238,7 +238,7 @@ qx.Class.define("qx.data.binding.Binding", {
         throw new Error("Cannot change sourcePath after binding has been created");
       }
       this.__record = null; // invalidate record representation cache
-      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(value);
+      this.__sourceSegments = qx.data.binding.Binding.__parseSegments(this, value);
       let lastSegment = this.__sourceSegments.at(-1);
       lastSegment.setOutputReceiver(this);
     },
@@ -311,7 +311,7 @@ qx.Class.define("qx.data.binding.Binding", {
         throw new Error("Cannot change targetPath after binding has been created");
       }
       this.__record = null; // invalidate record representation cache
-      this.__targetSegments = qx.data.binding.Binding.__parseSegments(value);
+      this.__targetSegments = qx.data.binding.Binding.__parseSegments(this, value);
       this.__targetSegments.at(-1).addListener("changeInput", this.__updateTarget, this);
     },
 
@@ -491,7 +491,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * @param value {var} The value to set.
      */
     __setTargetValue(targetObject, targetPropertyChain, value) {
-      let segments = qx.data.binding.Binding.__parseSegments(targetPropertyChain);
+      let segments = qx.data.binding.Binding.__parseSegments(null, targetPropertyChain);
       let lastSegment = segments[segments.length - 1];
       segments[0].setInput(targetObject);
       let out = lastSegment.setTargetValue(value);
@@ -671,7 +671,7 @@ qx.Class.define("qx.data.binding.Binding", {
      * @return {var?undefined} Returns the set value if defined.
      */
     resolvePropertyChain(object, propertyChain) {
-      let segments = qx.data.binding.Binding.__parseSegments(propertyChain);
+      let segments = qx.data.binding.Binding.__parseSegments(null, propertyChain);
       let out;
       let receiver = {
         setInput(value) {
@@ -704,17 +704,17 @@ qx.Class.define("qx.data.binding.Binding", {
      * @param {String} path the path to parse
      * @return {qx.data.binding.AbstractSegment[]?} the new array of segments
      */
-    __parseSegments(path) {
+    __parseSegments(binding, path) {
       let segsStrings = qx.data.binding.Binding.splitSegments(path);
       let segments = [];
 
       for (let seg of segsStrings) {
         //if it's an array index:
         if (seg.startsWith("[")) {
-          segments.push(new qx.data.binding.ArrayIndexSegment(seg));
+          segments.push(new qx.data.binding.ArrayIndexSegment(binding, seg));
         } else {
           //otherwise, it's a normal path
-          segments.push(new qx.data.binding.PropNameSegment(seg));
+          segments.push(new qx.data.binding.PropNameSegment(binding, seg));
         }
       }
 

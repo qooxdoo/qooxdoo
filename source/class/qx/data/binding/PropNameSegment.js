@@ -23,10 +23,11 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
   extend: qx.data.binding.AbstractSegment,
 
   /**
+   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
    * @param {String} propName
    */
-  construct(propName) {
-    super();
+  construct(binding, propName) {
+    super(binding);
     let lower = qx.lang.String.firstLow(propName);
     if (qx.core.Environment.get("qx.debug")) {
       if (lower !== propName) {
