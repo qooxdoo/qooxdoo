@@ -848,7 +848,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
             let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
             if (qx.lang.Type.isPromise(out) && !this.isAsync()) {
               this.warn(
-                "Apply function for property " + this + " returned a Promise, but the property is not async. The promise will be ignored."
+                "Apply function for property " +
+                  this +
+                  " returned a Promise, but the property was set synchronously. The promise will be ignored."
               );
             }
             if (this.__eventName) {
