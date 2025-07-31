@@ -104,7 +104,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
           let nextInput = property.get(input);
           return this._setOutput(nextInput);
         } else {
-          let promise = property.getAsync(input, this.__propName);
+          let promise = property.get(input, this.__propName);
           return promise?.then(nextInput => this._setOutput(nextInput));
         }
       }
