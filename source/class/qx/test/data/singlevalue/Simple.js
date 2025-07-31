@@ -739,6 +739,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
 
       a.getB().setC(qx.data.marshal.Json.createModel({ d: {} }));
       this.assertNull(a.getTarget());
-    }
+    },
+
+    testIgnoreConverter() {}
   }
 });

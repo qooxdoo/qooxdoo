@@ -410,7 +410,14 @@ qx.Class.define("qx.data.binding.Binding", {
 
       if (this.getTarget() && this.getSource()) {
         let value = this.getValue();
-        if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
+
+        let ignoreConverter = false;
+        if (this.__options.ignoreConverter) {
+          var match = this.getSourcePath().match(new RegExp("^" + this.__options.ignoreConverter));
+          ignoreConverter = match ? match.length > 0 : false;
+        }
+
+        if (this.__options.converter && (value !== undefined || !ignoreConverter)) {
           let model = typeof this.getTarget().getModel == "function" ? this.getTarget().getModel() : null;
           value = this.__options.converter(value, model, this.getSource(), this.getTarget());
         }
