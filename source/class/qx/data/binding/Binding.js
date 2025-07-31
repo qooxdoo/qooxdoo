@@ -410,11 +410,7 @@ qx.Class.define("qx.data.binding.Binding", {
 
       if (this.getTarget() && this.getSource()) {
         let value = this.getValue();
-        if (
-          value !== undefined &&
-          this.__options.converter &&
-          !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())
-        ) {
+        if (this.__options.converter && !(this.__options.ignoreConverter && this.__options.ignoreConverter === this.getSourcePath())) {
           let model = typeof this.getTarget().getModel == "function" ? this.getTarget().getModel() : null;
           value = this.__options.converter(value, model, this.getSource(), this.getTarget());
         }
