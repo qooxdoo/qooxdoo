@@ -28,7 +28,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
   /**
    *
-   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
+   * @param {qx.data.SingleValueBinding} binding The binding that this segment belongs to.
    */
   construct(binding) {
     super();
@@ -57,7 +57,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
   members: {
     /**
-     * @type {qx.data.binding.Binding}
+     * @type {qx.data.SingleValueBinding}
      */
     __binding: null,
     /**
@@ -72,7 +72,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
     /**
      *
-     * @returns {qx.data.binding.Binding} the binding that this segment belongs to. Useful for debugging purposes.
+     * @returns {qx.data.SingleValueBinding} the binding that this segment belongs to. Useful for debugging purposes.
      */
     getBinding() {
       return this.__binding;
@@ -109,7 +109,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      *
      * Sets the input value for this segment.
      * We will find the output value by dereferencing the input value with this segment (e.g. property name or array index),
-     * and then relay it to the output receiver, which is usually another segment or the instance of `qx.data.binding.Binding`.
+     * and then relay it to the output receiver, which is usually another segment or the instance of `qx.data.SingleValueBinding`.
      *
      * @param {qx.core.Object} value the input that we are dereferencing with the path or array index
      * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
@@ -145,7 +145,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * This method should be overridden in subclasses,
      * and it should compute the output value based on the input,
      * and possibly add listeners to changes to the desired property in the input value,
-     * and then relay the output value to the output receiver, which is usually another segment but can also be an instance of `qx.data.binding.Binding`.
+     * and then relay the output value to the output receiver, which is usually another segment but can also be an instance of `qx.data.SingleValueBinding`.
      *
      * @param {qx.core.Object} value
      * @param {qx.core.Object} oldValue

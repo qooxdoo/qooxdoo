@@ -23,7 +23,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
   extend: qx.data.binding.AbstractSegment,
 
   /**
-   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
+   * @param {qx.data.SingleValueBinding} binding The binding that this segment belongs to.
    * @param {String} propName
    */
   construct(binding, propName) {
@@ -118,9 +118,9 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         return;
       }
       if (targetValue !== undefined) {
-        return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+        return qx.data.SingleValueBinding.set(this.getInput(), this.__propName, targetValue);
       } else {
-        return qx.data.binding.Binding.reset(this.getInput(), this.__propName);
+        return qx.data.SingleValueBinding.reset(this.getInput(), this.__propName);
       }
     },
 

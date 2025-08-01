@@ -22,7 +22,7 @@
 qx.Class.define("qx.data.binding.ArrayIndexSegment", {
   extend: qx.data.binding.AbstractSegment,
   /**
-   * @param {qx.data.binding.Binding} binding The binding that this segment belongs to.
+   * @param {qx.data.SingleValueBinding} binding The binding that this segment belongs to.
    * @param {string} segment String representation of the segment, such as `[0]` or `[last]`
    */
   construct(binding, segment) {

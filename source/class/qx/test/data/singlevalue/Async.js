@@ -129,7 +129,7 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
       const doit = async () => {
         this.__a.setAi(this.__a);
         this.__a.setSi("123");
-        let binding = new qx.data.binding.Binding("ai.si", "ao", null, null);
+        let binding = new qx.data.SingleValueBinding("ai.si", "ao", null, null);
         await binding.setTarget(this.__a);
         await binding.setSource(this.__a);
         await binding;
