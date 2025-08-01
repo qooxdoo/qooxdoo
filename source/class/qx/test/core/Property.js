@@ -1649,6 +1649,7 @@ qx.Class.define("qx.test.core.Property", {
       this.assertEquals(23, pp.pseudoProp);
       pp.pseudoProp = 42;
       this.assertEquals(42, pp.pseudoProp);
+      this.assertEquals(42, pp.getPseudoProp());
 
       pp = new classPseudoPropertyNoEvent();
       this.assertUndefined(pp.pseudoProp);
@@ -1854,6 +1855,10 @@ qx.Class.define("qx.test.core.Property", {
       } catch (e) {
         this.assertTrue(false, "validated property can be set to legal value");
       }
+
+      superinstance.positive = 2;
+      this.assertEquals(2, superinstance.getPositive(), "property can be set natively");
+      this.assertEquals(2, superinstance.positive, "property can be set natively");
 
       try {
         superinstance.setPositive(-1);
