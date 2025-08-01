@@ -454,6 +454,9 @@ qx.Class.define("qx.data.SingleValueBinding", {
     /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
     __bindingsByTarget: {},
 
+    /**
+     * @see {qx.data.SingleValueBinding#construct}
+     */
     bind(sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options) {
       // check for the arguments
       if (qx.core.Environment.get("qx.debug")) {
