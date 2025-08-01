@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     /**
      * Configures a psuedo property
      */
-    configurePsuedoProperty() {
+    configurePseudoProperty() {
       this.__definition = {};
       this.__pseudoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
