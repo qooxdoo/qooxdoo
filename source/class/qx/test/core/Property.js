@@ -1742,32 +1742,6 @@ qx.Class.define("qx.test.core.Property", {
       this.assertEquals(20, subinstance.externallyStored, "retrieved value of externallyStored === 20");
     },
 
-    // Demonstrate how qx.data.Array could be modified so that its
-    // getter and setter for array elements could be via first-class
-    // access rather than functional, e.g., `arr[3] = 23;` instead of
-    // `arr.setItem(3, 23);`. As of the time of writing (Version 8.0),
-    // qx.data.Array has not yet been so modified, as confirming that
-    // it doesn't break anything and writing tests for it will be a
-    // deep rabbit hole to explore.
-    testQxDataArraySimulationFirstClassAccess() {
-      let arr = new qx.test.cpnfv8.Arr();
-
-      arr.setItem(3, 42);
-      this.assertEquals("Item 0,Item 1,Item 2,42", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,Item 2,42'");
-
-      console.log("\nAbout to set arr[3] = 23");
-      arr[3] = 23;
-      console.log("\nJust set arr[3] = 23");
-      console.log("arr=", arr.getArr());
-
-      this.assertEquals(23, arr[3], "arr[3]=23 yields arr[3] === 23");
-      this.assertEquals("Item 0,Item 1,Item 2,23", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,Item 2,23'");
-
-      console.log("\nAbout to delete arr[2]");
-      delete arr[2];
-      this.assertEquals("Item 0,Item 1,23", arr.getArr().toString(), "arr.getArr() === 'Item 0,Item 1,23'");
-    },
-
     testNativeClassExtend() {
       class NativeClass extends qx.test.cpnfv8.Subclass {
         constructor(num = 13) {
