@@ -867,10 +867,13 @@ qx.Bootstrap.define("qx.Bootstrap", {
     },
 
     /**
-     * Whether the value is an object. Note that built-in types like Window are
-     * not reported to be objects.
+     * Whether the value is an POJO (ie {foo: 1})
+     * or an object which is created from a ES6-style class or prototypical-inheritance-based class;
+     * If you need to determine whether something is a POJO and not created from a class, use isPojo instead
      *
-     * @param value {var} Value to check.
+     * Note that built-in types like Window are not deemed to be objects.
+     *
+     * @param {*} value value to check.
      * @return {Boolean} Whether the value is an object.
      */
     isObject(value) {

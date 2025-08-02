@@ -158,12 +158,18 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       builtins.process = builtins._process;
 
       return new Promise((resolve, reject) => {
-        let b = browserify([], {
+        const options = {
           builtins: builtins,
           ignoreMissing: true,
           insertGlobals: true,
           detectGlobals: true
-        });
+        };
+        qx.lang.Object.mergeWith(
+          options,
+          this.getAppMeta().getAnalyser().getBrowserifyConfig()?.options || {},
+          false
+        );
+        let b = browserify([], options);
 
         b._mdeps.on("missing", (id, parent) => {
           let message = [];

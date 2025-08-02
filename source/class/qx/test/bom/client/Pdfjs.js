@@ -33,6 +33,10 @@ qx.Class.define("qx.test.bom.client.Pdfjs", {
     "test: is PDF.js available"() {
       this.require(["firefox"]);
 
+      if (navigator.plugins.length == 0) {
+        this.skip("test disabled on headless browsers");
+      }
+
       qx.core.Environment.getAsync(
         "plugin.pdfjs",
         function (result) {

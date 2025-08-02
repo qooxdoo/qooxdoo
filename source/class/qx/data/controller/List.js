@@ -207,14 +207,10 @@ qx.Class.define("qx.data.controller.List", {
     }
   },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members: {
-    // private members
+    /**
+     * Listener ID for the 'change' event of property `model`
+     */
     __changeModelListenerId: null,
     __lookupTable: null,
     __onUpdate: null,
@@ -376,12 +372,16 @@ qx.Class.define("qx.data.controller.List", {
         }
       }
 
-      // erase the selection if there is something selected
-      if (this.getSelection() != undefined && this.getSelection().length > 0) {
-        this.getSelection().splice(0, this.getSelection().length).dispose();
+      if (!this.getAllowSelectionNotInModel()) {
+        //erase the selection if there is something selected
+        if (
+          this.getSelection() != undefined &&
+          this.getSelection().length > 0
+        ) {
+          this.getSelection().splice(0, this.getSelection().length).dispose();
+        }
       }
 
-      // if a model is set
       if (value != null) {
         // add a new listener
         this.__changeModelListenerId = value.addListener(
@@ -392,27 +392,39 @@ qx.Class.define("qx.data.controller.List", {
 
         // renew the index lookup table
         this.__buildUpLookupTable();
+
         // check for the new length
         this.__changeModelLength();
 
-        // as we only change the labels of the items, the selection change event
-        // may be missing so we invoke it here
-        if (old == null) {
-          this._changeTargetSelection();
+        if (!this.getAllowSelectionNotInModel()) {
+          // as we only change the labels of the items, the selection change event
+          // may be missing so we invoke it here
+          if (old == null) {
+            this._changeTargetSelection();
+          } else {
+            // update the selection asynchronously
+            this.__syncTargetSelection = true;
+            qx.ui.core.queue.Widget.add(this);
+          }
         } else {
-          // update the selection asynchronously
-          this.__syncTargetSelection = true;
+          this.__syncModelSelection = true;
           qx.ui.core.queue.Widget.add(this);
         }
       } else {
         var target = this.getTarget();
         // if the model is set to null, we should remove all items in the target
         if (target != null) {
+          if (this.getAllowSelectionNotInModel()) {
+            this._startSelectionModification();
+          }
           // we need to remove the bindings too so use the controller method
           // for removing items
           var length = target.getChildren().length;
           for (var i = 0; i < length; i++) {
             this.__removeItem();
+          }
+          if (this.getAllowSelectionNotInModel()) {
+            this._endSelectionModification();
           }
         }
       }
@@ -430,6 +442,10 @@ qx.Class.define("qx.data.controller.List", {
     _applyTarget(value, old) {
       // add a listener for the target change
       this._addChangeTargetListener(value, old);
+
+      if (this.getAllowSelectionNotInModel()) {
+        this._startSelectionModification();
+      }
 
       // if there was an old target
       if (old != undefined) {
@@ -449,6 +465,10 @@ qx.Class.define("qx.data.controller.List", {
             this.__addItem(this.__lookup(i));
           }
         }
+      }
+
+      if (this.getAllowSelectionNotInModel()) {
+        this._endSelectionModification();
       }
     },
 
@@ -518,6 +538,9 @@ qx.Class.define("qx.data.controller.List", {
       var newLength = this.__lookupTable.length;
       var currentLength = this.getTarget().getChildren().length;
 
+      if (this.getAllowSelectionNotInModel()) {
+        this._startSelectionModification();
+      }
       // if there are more item
       if (newLength > currentLength) {
         // add the new elements
@@ -532,13 +555,19 @@ qx.Class.define("qx.data.controller.List", {
         }
       }
 
+      if (this.getAllowSelectionNotInModel()) {
+        this._endSelectionModification();
+      }
+
       // build up the look up table
       this.__buildUpLookupTable();
 
-      // sync the target selection in case someone deleted a item in
-      // selection mode "one" [BUG #4839]
-      this.__syncTargetSelection = true;
-      qx.ui.core.queue.Widget.add(this);
+      if (!this.getAllowSelectionNotInModel()) {
+        // sync the target selection in case someone deleted a item in
+        // selection mode "one" [BUG #4839]
+        this.__syncTargetSelection = true;
+        qx.ui.core.queue.Widget.add(this);
+      }
     },
 
     /**

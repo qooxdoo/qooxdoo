@@ -37,7 +37,9 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
          @param json {String}   qooxdoo style
     `;
       var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
-      qx.tool.compiler.jsdoc.Parser.parseJsDoc(test, "test", null);
+      qx.tool.compiler.jsdoc.Parser.parseJsDoc(test, {
+        resolveType: type => type
+      });
       console.log(test["@description"][0].body);
       this.assert(test["@description"][0].body === "");
       this.assert(test["@param"].length === 2);
@@ -259,7 +261,9 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
         body: "value {Boolean}, the new value of the widget"
       };
 
-      parser.parseCommand(pdoc, "abc.def.Ghi", null);
+      parser.parseCommand(pdoc, {
+        resolveType: type => type
+      });
       delete pdoc.name;
       delete pdoc.body;
       this.assert(
@@ -275,7 +279,9 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
         body: "cellInfo {Map}\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>"
       };
 
-      parser.parseCommand(pdoc, "abc.def.Ghi", null);
+      parser.parseCommand(pdoc, {
+        resolveType: type => type
+      });
       delete pdoc.name;
       delete pdoc.body;
       this.assert(

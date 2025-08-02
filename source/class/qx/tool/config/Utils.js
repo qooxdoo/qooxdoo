@@ -157,7 +157,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * If all strategies fail, an error is thrown.
      *
      * @param {String?} dir The base directory. If not given, the current working dir is used
-     * @return {Promise<*string>}
+     * @return {Promise<string>}
      */
     async getQxPath() {
       if (this.__qxPathPromise) {

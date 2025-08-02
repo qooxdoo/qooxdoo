@@ -1,13 +1,54 @@
 # Qooxdoo Release Notes
 
+## New feature for v7.9.0
+   - Add the possibility to use native promises instead of Bluebird (##10766)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2025-01-29&until=2025-05-15
+
+## Fixes and optimizations for v7.8.0
+In this release we did some optimizations:
+   - Feature: Add a cache for label size to speed up the calculation (#10732)
+   - Feature: Use Map instead of Array to register event listeners, this gives a huge Performance update searching the event listeners (#10736)
+   - Fix: Prevent .placeToWidget(..., true) from eating cpu (#10722)
+   - Feature: Allow runtime environment mutations for testing by setting environment settint "qx.environment.allowRuntimeMutations"=true  (implements #10747) (#10749)
+   - Fix: qx.io.jsonrpc.Client throws uncatchable error on server-side error (#10739) 
+   - Feature: Browserify options in compile.json (#10733)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-07-23&until=2025-01-28
+
+## Fixes for v7.7.2
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-05-03&until=2024-07-22
+
+## Fixes for v7.7.1
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2024-04-13&until=2024-05-02
+
+## New features in v7.7
+   - Better Typescript generation:
+   Previously, the compiler only output typescript definitions as it compiled, but this caused problems because not all targets support all javascript files (eg browser vs node code)
+   Now the meta data collection is moved into a separate parser which can scan every class file in every library, and generate meta data and typescript, see https://github.com/qooxdoo/qooxdoo/pull/10646
+   
+   - privateArtifacts property in compile.json:
+   This adds a privateArtifacts option to compile.json to allow all urls to be locked within an application directory, see https://github.com/qooxdoo/qooxdoo/pull/10681
+   
+   - Enhance Jsx: The Jsx system now has custom elements, slots, and several other useful pieces of functionality. There is also a setup for <qx:* /> special elements to be added in future for any purposes, which reserves the qx: namespace in the meantime, see https://github.com/qooxdoo/qooxdoo/pull/10637
+   
+   - Add cycle behaviour to ToggleButton, see https://github.com/qooxdoo/qooxdoo/pull/10655
+
+   - Implement cached objects top-level section, see https://github.com/qooxdoo/qooxdoo/issues/10641 and https://github.com/qooxdoo/qooxdoo/pull/10645
+
+   - add stack trace to $$createdAt, see https://github.com/qooxdoo/qooxdoo/pull/10683
+   
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-12-07&until=2024-04-12
+
+
 ## Fixes for v7.6.3
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-10-05&until==2023-12-06
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-10-05&until=2023-12-06
 
 ## Fixes for v7.6.2
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-07-29&until==2023-10-04
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-07-29&until=2023-10-04
 
 ## Fixes for v7.6.1
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-04-13&until==2023-07-28
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-04-13&until=2023-07-28
 
 ## New features in v7.6
 improved support for webfonts:
@@ -21,15 +62,15 @@ improved support for webfonts:
 
 The benefits of all this is faster compiles, with smaller build targets - and no space consumed by the `materialicon` fonts if they are not used (as this was the case in the earlier 7.x releases).
 
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-02-21&until==2023-04-13
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-02-21&until=2023-04-13
 
 
 ## Fixes for v7.5.1
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-01-17&until==2023-02-20
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-01-17&until=2023-02-20
 
 ## New features in v7.5
 - add Indigo dark theme to qooxdoo
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-11-27&until==2023-01-16
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-11-27&until=2023-01-16
 
 ## New features in v7.4
 - compile.json: localModules can now be used in the root of the file. So you can address the modules for all applications.

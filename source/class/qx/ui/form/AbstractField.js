@@ -35,19 +35,19 @@ qx.Class.define("qx.ui.form.AbstractField", {
   type: "abstract",
 
   statics: {
-    /** Stylesheet needed to style the native placeholder element. */
-    __stylesheet: null,
-
-    __addedPlaceholderRules: false,
+    __addedPlaceholderRules: "",
 
     /**
      * Adds the CSS rules needed to style the native placeholder element.
      */
     __addPlaceholderRules() {
-      if (qx.ui.form.AbstractField.__addedPlaceholderRules) {
+      const theme = qx.theme.manager.Meta.getInstance().getTheme();
+      const currentThemeName = theme ? theme.title || theme.name : "";
+
+      if (qx.ui.form.AbstractField.__addedPlaceholderRules === currentThemeName) {
         return;
       }
-      qx.ui.form.AbstractField.__addedPlaceholderRules = true;
+      qx.ui.form.AbstractField.__addedPlaceholderRules = currentThemeName;
       var engine = qx.core.Environment.get("engine.name");
       var browser = qx.core.Environment.get("browser.name");
       var colorManager = qx.theme.manager.Color.getInstance();
@@ -99,11 +99,14 @@ qx.Class.define("qx.ui.form.AbstractField", {
           "-ms-input-placeholder, textarea.qx-placeholder-color",
           "-ms-input-placeholder"
         ].join(separator);
-        qx.ui.style.Stylesheet.getInstance().addRule(
-          selector,
-          "color: " + color + " !important"
-        );
       }
+      if(qx.ui.style.Stylesheet.getInstance().hasRule(selector)) {
+        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
+      }
+      qx.ui.style.Stylesheet.getInstance().addRule(
+        selector,
+        "color: " + color + " !important"
+      );
     }
   },
 
@@ -127,7 +130,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
     }
     let el = this.getContentElement();
     el.addListener("change", this._onChangeContent, this);
-    
+
     // use qooxdoo placeholder if no native placeholder is supported
     if (this.__useQxPlaceholder) {
       // assign the placeholder text after the appearance has been applied
@@ -141,7 +144,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
 
     // translation support
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener(
+      this.__changeLocaleAbstractFieldListenerId = qx.locale.Manager.getInstance().addListener(
         "changeLocale",
         this._onChangeLocale,
         this
@@ -930,9 +933,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
         this._placeholder.dispose();
         this._placeholder = null;
       }
-      if (!this.__useQxPlaceholder && qx.ui.form.AbstractField.__stylesheet) {
-        qx.bom.Stylesheet.removeSheet(qx.ui.form.AbstractField.__stylesheet);
-        qx.ui.form.AbstractField.__stylesheet = null;
+      if (!this.__useQxPlaceholder) {
         qx.ui.form.AbstractField.__addPlaceholderRules();
       }
     },
@@ -1073,11 +1074,9 @@ qx.Class.define("qx.ui.form.AbstractField", {
 
     this._placeholder = this.__font = null;
 
-    if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener(
-        "changeLocale",
-        this._onChangeLocale,
-        this
+    if (qx.core.Environment.get("qx.dynlocale") && this.__changeLocaleAbstractFieldListenerId) {
+      qx.locale.Manager.getInstance().removeListenerById(
+        this.__changeLocaleAbstractFieldListenerId
       );
     }
 
