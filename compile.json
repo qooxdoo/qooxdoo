@@ -167,8 +167,16 @@
   },
   "eslintConfig": {
     "extends": ["@qooxdoo/qx/browser"],
+    "ignorePatterns": [
+      "bin/**",
+      "bootstrap/**",
+      "docs/**",
+      "known-good/**",
+      "compile.js",
+      "*.config.*"
+    ],
     "linterOptions": {
-      "reportUnusedDisableDirectives": false
+      "reportUnusedDisableDirectives": "off"
     },
     "parserOptions": {
       "ecmaVersion": "2020"
@@ -179,6 +187,7 @@
     "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
       "@qooxdoo/qx/no-refs-in-members": "off",
+
       "no-undef": "off",
       "no-duplicate-case": "off",
       "handle-callback-err": "off",

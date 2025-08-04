@@ -136,23 +136,45 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       lintOptions.parserOptions.sourceType = "script";
       
       // Create flat config format manually for ESLint 9 compatibility
-      let flatConfig = [{
+      let flatConfig = [];
+      
+      // Add ignores - always include standard ignores plus any custom ones
+      let standardIgnores = [
+        "compiled/**",
+        "node_modules/**",
+        "source/boot/**",
+        "source/resource/**", 
+        "source/translation/**"
+      ];
+      
+      let customIgnores = lintOptions.ignorePatterns || [];
+      let allIgnores = [...standardIgnores, ...customIgnores];
+      
+      flatConfig.push({
+        ignores: allIgnores
+      });
+      
+      // Add main config
+      flatConfig.push({
         languageOptions: {
           parser: require(lintOptions.parser),
           parserOptions: lintOptions.parserOptions,
           globals: lintOptions.globals || {}
         },
+        linterOptions: lintOptions.linterOptions || {},
         plugins: {
-          "@qooxdoo/qx": require("@qooxdoo/eslint-plugin-qx")
+          "@qooxdoo/qx": require("@qooxdoo/eslint-plugin-qx"),
+          "jsdoc": require("eslint-plugin-jsdoc")
         },
         rules: lintOptions.rules || {}
-      }];
+      });
       
       let linter = new ESLint({
-        cwd: helperFilePath,
+        cwd: process.cwd(),
         cache: this.argv.cache || false,
         overrideConfig: flatConfig,
-        fix: this.argv.fix
+        fix: this.argv.fix,
+        overrideConfigFile: true
       });
 
       if (this.argv.printConfig) {
