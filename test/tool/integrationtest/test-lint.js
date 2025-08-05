@@ -83,7 +83,11 @@ test("lint with legacy config format", async assert => {
   try {
     // Create legacy format eslint config
     const legacyConfig = {
-      "extends": ["@qooxdoo/qx/browser"],
+      "extends": [
+        "@qooxdoo/qx/browser",
+        "@qooxdoo/qx",
+        "@qooxdoo/jsdoc-disable"
+      ],
       "ignorePatterns": ["compiled/**", "node_modules/**"],
       "rules": {
         "curly": "error",

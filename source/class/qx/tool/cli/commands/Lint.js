@@ -198,6 +198,20 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       }
     },
 
+
+    __resolveConfigPkg(name) {
+      if (name.startsWith('@')) {
+        // Scoped: @scope/foo/bar → @scope/eslint-config-foo/bar
+        const parts = name.split('/');
+        const scope = parts[0];
+        const pkg = parts[1];
+        const rest = parts.slice(2).join('/');
+        const base = pkg.startsWith('eslint-config-') ? pkg : `eslint-config-${pkg}`;
+        return rest ? `${scope}/${base}/${rest}` : `${scope}/${base}`;
+      }
+      // Unscoped: foo → eslint-config-foo
+      return name.startsWith('eslint-config-') ? name : `eslint-config-${name}`;
+    },
     /**
      * Convert legacy ESLint configuration to flat format
      * @param {Object|Array} eslintConfig - ESLint configuration
@@ -214,14 +228,12 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       let flatConfig = [];
       let lintOptions = { ...eslintConfig };
 
+
       // Set defaults
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
       // Patch for new syntax. Name resolution in Eslint 9 do not work any longer
       for (let i = 0; i < lintOptions.extends.length; i++) {
-        lintOptions.extends[i] = lintOptions.extends[i].replace(
-          /^@qooxdoo\/qx/,
-          "@qooxdoo/eslint-config-qx"
-        );
+        lintOptions.extends[i] = this.__resolveConfigPkg(lintOptions.extends[i]);
       }
 
       lintOptions.globals = Object.assign(
@@ -279,7 +291,6 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
      * @return {Promise<Array>} Processed flat configuration
      */
     async __processFlatConfig(flatConfigInput, helperFilePath, config) {
-      
       let flatConfig = [];
       for (let configItem of flatConfigInput) {
         // Handle both extends and requires (support both legacy and flat config syntax)
