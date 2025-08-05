@@ -85,13 +85,14 @@ test("lint with legacy config format", async assert => {
     const legacyConfig = {
       "extends": [
         "@qooxdoo/qx/browser",
-        "@qooxdoo/qx",
-        "@qooxdoo/jsdoc-disable"
+        "@qooxdoo/qx"
       ],
       "ignorePatterns": ["compiled/**", "node_modules/**"],
       "rules": {
         "curly": "error",
-        "no-unused-vars": "error"
+        "no-unused-vars": "error",
+        "no-constant-condition": "off",
+        "no-console": "off"
       }
     };
     
@@ -125,7 +126,9 @@ test("lint with flat config format", async assert => {
         },
         "rules": {
           "curly": "error",
-          "no-unused-vars": "error"
+          "no-unused-vars": "error",
+          "no-constant-condition": "off",
+          "no-console": "off"
         }
       }
     ];
