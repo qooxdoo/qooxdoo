@@ -476,8 +476,20 @@
       "description": "Options given to @babel/preset-react to change how JSX HTML is transpiled"
     },
     "eslintConfig": {
-      "type": "object",
-      "description": "The syntax is the same as in in package.json. Explanation can be found here: <https://eslint.org/docs/user-guide/configuring>"
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "Legacy ESLint configuration format (object)"
+        },
+        {
+          "type": "array",
+          "description": "Flat ESLint configuration format (array of config objects)",
+          "items": {
+            "type": "object"
+          }
+        }
+      ],
+      "description": "ESLint configuration. Supports both legacy format (object) and flat config format (array). See: <https://eslint.org/docs/user-guide/configuring>"
     },
     "bundle": {
       "description": "Allows you to use wildcards to select classes which are to be bundled together into as few files as possible",

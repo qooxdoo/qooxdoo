@@ -114,74 +114,14 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       }
 
       let config = qx.tool.cli.Cli.getInstance().getParsedArgs();
-      let lintOptions = config.eslintConfig || {};
-      lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
-      lintOptions.globals = Object.assign(
-        lintOptions.globals || {},
-        await this.__addGlobals(config)
-      );
+      let eslintConfig = config.eslintConfig || {};
 
-      lintOptions.parser = "@babel/eslint-parser";
-      lintOptions.parserOptions = lintOptions.parserOptions || {};
-      lintOptions.parserOptions.requireConfigFile = false;
-      lintOptions.parserOptions.babelOptions = {
-        cwd: helperFilePath,
-        plugins: ["@babel/plugin-syntax-jsx"],
+      // Convert legacy format to flat format first
+      let flatConfigInput = await this.__convertToFlatConfig(eslintConfig, config);
 
-        parserOpts: {
-          allowSuperOutsideMethod: true
-        }
-      };
+      // Process flat format configuration
+      let flatConfig = await this.__processFlatConfig(flatConfigInput, helperFilePath, config);
 
-      lintOptions.parserOptions.sourceType = "script";
-      
-      // Create flat config format by importing the base configs and merging with overrides
-      let flatConfig = [];
-      
-      // Import base configurations from extends
-      let extendsConfigs = lintOptions.extends;
-      for (let extendConfig of extendsConfigs) {
-        try {
-          let importedConfig = require(extendConfig);
-          if (Array.isArray(importedConfig)) {
-            flatConfig.push(...importedConfig);
-          } else {
-            flatConfig.push(importedConfig);
-          }
-        } catch (err) {
-          qx.tool.compiler.Console.warn(`Failed to load extends config '${extendConfig}': ${err.message}`);
-        }
-      }
-      
-      // Add ignores - always include standard ignores plus any custom ones
-      let standardIgnores = [
-        "compiled/**",
-        "node_modules/**",
-        "source/boot/**",
-        "source/resource/**", 
-        "source/translation/**"
-      ];
-      
-      let customIgnores = lintOptions.ignorePatterns || [];
-      let allIgnores = [...standardIgnores, ...customIgnores];
-      
-      flatConfig.push({
-        ignores: allIgnores
-      });
-      
-      // Add override config with custom parser and options
-      if (lintOptions.parser || lintOptions.parserOptions || lintOptions.rules || lintOptions.globals) {
-        flatConfig.push({
-          languageOptions: {
-            ...(lintOptions.parser && { parser: require(lintOptions.parser) }),
-            ...(lintOptions.parserOptions && { parserOptions: lintOptions.parserOptions }),
-            ...(lintOptions.globals && { globals: lintOptions.globals })
-          },
-          ...(lintOptions.linterOptions && { linterOptions: lintOptions.linterOptions }),
-          ...(lintOptions.rules && { rules: lintOptions.rules })
-        });
-      }
-      
       let linter = new ESLint({
         cwd: process.cwd(),
         cache: this.argv.cache || false,
@@ -256,6 +196,154 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           qx.tool.compiler.Console.info("No errors found!");
         }
       }
+    },
+
+    /**
+     * Convert legacy ESLint configuration to flat format
+     * @param {Object|Array} eslintConfig - ESLint configuration
+     * @param {Object} config - Full configuration object
+     * @return {Promise<Array>} Flat configuration array
+     */
+    async __convertToFlatConfig(eslintConfig, config) {
+      // If already flat format, return as-is
+      if (Array.isArray(eslintConfig)) {
+        return eslintConfig;
+      }
+
+      // Convert legacy format to flat format
+      let flatConfig = [];
+      let lintOptions = { ...eslintConfig };
+
+      // Set defaults
+      lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
+      // Patch for new syntax. Name resolution in Eslint 9 do not work any longer
+      for (let i = 0; i < lintOptions.extends.length; i++) {
+        lintOptions.extends[i] = lintOptions.extends[i].replace(
+          /^@qooxdoo\/qx/,
+          "@qooxdoo/eslint-config-qx"
+        );
+      }
+
+      lintOptions.globals = Object.assign(
+        lintOptions.globals || {},
+        await this.__addGlobals(config)
+      );
+
+      // Add ignores config object
+      let standardIgnores = [
+        "compiled/**",
+        "node_modules/**",
+        "source/boot/**",
+        "source/resource/**",
+        "source/translation/**"
+      ];
+      let customIgnores = lintOptions.ignorePatterns || [];
+      let allIgnores = [...standardIgnores, ...customIgnores];
+
+      if (allIgnores.length > 0) {
+        flatConfig.push({
+          ignores: allIgnores
+        });
+      }
+
+      // Add main config object - use requires instead of extends for flat config
+      let mainConfig = {
+        requires: lintOptions.extends
+      };
+
+      if (lintOptions.globals && Object.keys(lintOptions.globals).length > 0) {
+        mainConfig.languageOptions = {
+          ...(lintOptions.ecmaVersion && { ecmaVersion: lintOptions.ecmaVersion }),
+          globals: lintOptions.globals
+        };
+      }
+
+      if (lintOptions.linterOptions) {
+        mainConfig.linterOptions = lintOptions.linterOptions;
+      }
+
+      if (lintOptions.rules && Object.keys(lintOptions.rules).length > 0) {
+        mainConfig.rules = lintOptions.rules;
+      }
+
+      flatConfig.push(mainConfig);
+
+      return flatConfig;
+    },
+
+    /**
+     * Process flat format ESLint configuration
+     * @param {Array} flatConfigInput - Flat configuration array
+     * @param {String} helperFilePath - Helper file path for Babel
+     * @param {Object} config - Full configuration object
+     * @return {Promise<Array>} Processed flat configuration
+     */
+    async __processFlatConfig(flatConfigInput, helperFilePath, config) {
+      
+      let flatConfig = [];
+      for (let configItem of flatConfigInput) {
+        // Handle both extends and requires (support both legacy and flat config syntax)
+        if (configItem.requires) {
+          for (let extendConfig of configItem.requires) {
+            try {
+              let importedConfig = require(extendConfig);
+              if (Array.isArray(importedConfig)) {
+                flatConfig.push(...importedConfig);
+              } else {
+                flatConfig.push(importedConfig);
+              }
+            } catch (err) {
+              qx.tool.compiler.Console.warn(`Failed to load extends config '${extendConfig}': ${err.message}`);
+            }
+          }
+        }
+        // Create processed config without extends/requires
+        let processedConfig = { ...configItem };
+        delete processedConfig.extends;
+        delete processedConfig.requires;
+
+        // Add default parser settings if languageOptions exist or need to be created
+        if (processedConfig.languageOptions || !configItem.ignores) {
+          processedConfig.languageOptions = {
+            parser: require("@babel/eslint-parser"),
+            parserOptions: {
+              requireConfigFile: false,
+              babelOptions: {
+                cwd: helperFilePath,
+                plugins: ["@babel/plugin-syntax-jsx"],
+                parserOpts: {
+                  allowSuperOutsideMethod: true
+                }
+              },
+              sourceType: "script",
+              ...(processedConfig.languageOptions?.parserOptions || {})
+            },
+            ...(processedConfig.languageOptions?.ecmaVersion && { ecmaVersion: processedConfig.languageOptions.ecmaVersion }),
+            globals: {
+              ...await this.__addGlobals(config),
+              ...(processedConfig.languageOptions?.globals || {})
+            }
+          };
+        }
+
+        flatConfig.push(processedConfig);
+      }
+
+      // Ensure we have ignores if none were provided
+      let hasIgnores = flatConfig.some(config => config.ignores);
+      if (!hasIgnores) {
+        flatConfig.unshift({
+          ignores: [
+            "compiled/**",
+            "node_modules/**",
+            "source/boot/**",
+            "source/resource/**",
+            "source/translation/**"
+          ]
+        });
+      }
+
+      return flatConfig;
     },
 
     /**
