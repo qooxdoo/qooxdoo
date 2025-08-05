@@ -135,8 +135,23 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
 
       lintOptions.parserOptions.sourceType = "script";
       
-      // Create flat config format manually for ESLint 9 compatibility
+      // Create flat config format by importing the base configs and merging with overrides
       let flatConfig = [];
+      
+      // Import base configurations from extends
+      let extendsConfigs = lintOptions.extends;
+      for (let extendConfig of extendsConfigs) {
+        try {
+          let importedConfig = require(extendConfig);
+          if (Array.isArray(importedConfig)) {
+            flatConfig.push(...importedConfig);
+          } else {
+            flatConfig.push(importedConfig);
+          }
+        } catch (err) {
+          qx.tool.compiler.Console.warn(`Failed to load extends config '${extendConfig}': ${err.message}`);
+        }
+      }
       
       // Add ignores - always include standard ignores plus any custom ones
       let standardIgnores = [
@@ -154,20 +169,18 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         ignores: allIgnores
       });
       
-      // Add main config
-      flatConfig.push({
-        languageOptions: {
-          parser: require(lintOptions.parser),
-          parserOptions: lintOptions.parserOptions,
-          globals: lintOptions.globals || {}
-        },
-        linterOptions: lintOptions.linterOptions || {},
-        plugins: {
-          "@qooxdoo/qx": require("@qooxdoo/eslint-plugin-qx"),
-          "jsdoc": require("eslint-plugin-jsdoc")
-        },
-        rules: lintOptions.rules || {}
-      });
+      // Add override config with custom parser and options
+      if (lintOptions.parser || lintOptions.parserOptions || lintOptions.rules || lintOptions.globals) {
+        flatConfig.push({
+          languageOptions: {
+            ...(lintOptions.parser && { parser: require(lintOptions.parser) }),
+            ...(lintOptions.parserOptions && { parserOptions: lintOptions.parserOptions }),
+            ...(lintOptions.globals && { globals: lintOptions.globals })
+          },
+          ...(lintOptions.linterOptions && { linterOptions: lintOptions.linterOptions }),
+          ...(lintOptions.rules && { rules: lintOptions.rules })
+        });
+      }
       
       let linter = new ESLint({
         cwd: process.cwd(),
