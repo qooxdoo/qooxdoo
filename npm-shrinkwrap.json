@@ -27,6 +27,7 @@
         "@metalsmith/layouts": "^2.7.0",
         "@metalsmith/markdown": "^1.10.0",
         "@octokit/rest": "^20.0.2",
+        "@qooxdoo/eslint-config-jsdoc-disable": "^2.0.3",
         "@qooxdoo/eslint-config-qx": "^3.0.1",
         "@qooxdoo/eslint-plugin-qx": "^2.0.1",
         "adm-zip": "^0.5.10",
@@ -2473,6 +2474,18 @@
       },
       "engines": {
         "node": ">=12"
+      }
+    },
+    "node_modules/@qooxdoo/eslint-config-jsdoc-disable": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/@qooxdoo/eslint-config-jsdoc-disable/-/eslint-config-jsdoc-disable-2.0.3.tgz",
+      "integrity": "sha512-DR75pOwnfke9KgKaS42wXqPqjhPUB3XE/A+t2kAUg9y8u8XcBYnA3WX0oShwVWE+r8Qf99AOBpwzBy7HQIBLtg==",
+      "license": "MIT",
+      "dependencies": {
+        "eslint": "^9.0.0"
+      },
+      "engines": {
+        "node": ">=18.18.0"
       }
     },
     "node_modules/@qooxdoo/eslint-config-qx": {
