@@ -72,7 +72,6 @@
     "@metalsmith/layouts": "^2.7.0",
     "@metalsmith/markdown": "^1.10.0",
     "@octokit/rest": "^20.0.2",
-    "@qooxdoo/eslint-config-jsdoc-disable": "^2.0.0",
     "@qooxdoo/eslint-config-qx": "^3.0.1",
     "@qooxdoo/eslint-plugin-qx": "^2.0.1",
     "ajv": "^8.12.0",
