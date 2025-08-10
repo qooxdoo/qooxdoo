@@ -78,14 +78,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       );
 
       cmd.addFlag(
-        new qx.tool.cli.Flag("dryrun").set({
-          description: "Deprecated. Use --dry-run",
-          type: "boolean"
-        })
-      );
-
-      cmd.addFlag(
-        new qx.tool.cli.Flag("dry-run").set({
+        new qx.cli.Flag("dry-run").set({
           shortCode: "d",
           description: "Show result only, do not publish to GitHub",
           type: "boolean"
