@@ -152,13 +152,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       // init
       const argv = this.argv;
 
-      if (argv.dryrun) {
-        qx.tool.compiler.Console.info(
-          'The "--dryrun" option is deprecated. Please use "--dry-run" instead.'
-        );
-        argv.dryRun = true
-      }
-
       // qooxdoo version
       let qxVersion = await this.getQxVersion();
       if (fs.existsSync("Manifest.json")) {
