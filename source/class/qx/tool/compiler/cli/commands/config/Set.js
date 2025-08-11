@@ -20,7 +20,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Set", {
   extend: qx.tool.compiler.cli.commands.Config,
   statics: {
     async createCliCommand(clazz = this) {
-      let cmd = await qx.tool.compiler.cli.commands.Config.createCliCommand(clazz);
+      let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
         name: "set",
         description: "Sets a configuration value"
@@ -48,7 +48,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Set", {
 
   members: {
     async process() {
-      await super.process();
       this._checkKey(this.argv);
       let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
       let setting = qx.tool.compiler.cli.commands.Config.KNOWN_VALUES[this.argv.key];

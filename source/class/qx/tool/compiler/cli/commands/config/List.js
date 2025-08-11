@@ -25,7 +25,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.List", {
   extend: qx.tool.compiler.cli.commands.Config,
   statics: {
     async createCliCommand(clazz = this) {
-      let cmd = await qx.tool.compiler.cli.commands.Config.createCliCommand(clazz);
+      let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
         name: "list",
         description: "Lists all known configuration values"
@@ -44,7 +44,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.List", {
 
   members: {
     async process() {
-      await super.process();
       let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
 
       let keys = {};

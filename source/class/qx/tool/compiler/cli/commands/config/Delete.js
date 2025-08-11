@@ -20,7 +20,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Delete", {
   extend: qx.tool.compiler.cli.commands.Config,
   statics: {
     async createCliCommand(clazz = this) {
-      let cmd = await qx.tool.compiler.cli.commands.Config.createCliCommand(clazz);
+      let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
         name: "delete",
         description: "Deletes a configuration value"
@@ -40,7 +40,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Delete", {
 
   members: {
     async process() {
-      await super.process();
       this._checkKey(this.argv);
       let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
       let keyInfo = this._breakout(this.argv.key);

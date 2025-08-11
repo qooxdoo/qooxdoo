@@ -20,7 +20,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Get", {
   extend: qx.tool.compiler.cli.commands.Config,
   statics: {
     async createCliCommand(clazz = this) {
-      let cmd = await qx.tool.compiler.cli.commands.Config.createCliCommand(clazz);
+      let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
         name: "get",
         description: "Gets a configuration value"
@@ -43,7 +43,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.config.Get", {
      * Lists library packages compatible with the current project
      */
     async process() {
-      await super.process();
       this._checkKey(this.argv);
       let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
       let value = cfg.db(this.argv.key);
