@@ -36,7 +36,7 @@ qx.Class.define("qx.tool.cli.Argument", {
       let str = "";
       if (this.getName()) {
         str += this.getName();
-        if (this.isArray()) str += "...";
+        if (this.isArray()) {str += "...";}
       }
 
       const TYPES = {
@@ -48,11 +48,11 @@ qx.Class.define("qx.tool.cli.Argument", {
 
       let type = this.getType();
       if (type && type != "string") {
-        if (this.isArray()) str += " (" + TYPES[type] + "s)";
-        else str += " (" + TYPES[type] + ")";
+        if (this.isArray()) {str += " (" + TYPES[type] + "s)";}
+        else {str += " (" + TYPES[type] + ")";}
       }
 
-      if (this.getDescription()) str += "  ::  " + this.getDescription();
+      if (this.getDescription()) {str += "  ::  " + this.getDescription();}
 
       return str;
     },
@@ -68,7 +68,7 @@ qx.Class.define("qx.tool.cli.Argument", {
 
       function parseNext(arg, index) {
         function noMatch(msg) {
-          if (index == 0) throw new Error(msg);
+          if (index == 0) {throw new Error(msg);}
           return null;
         }
         switch (type) {
@@ -77,8 +77,8 @@ qx.Class.define("qx.tool.cli.Argument", {
             return arg;
 
           case "boolean":
-            if (arg == "true" || arg == "yes" || arg == "1") return true;
-            if (arg == "false" || arg == "no" || arg == "0") return false;
+            if (arg == "true" || arg == "yes" || arg == "1") {return true;}
+            if (arg == "false" || arg == "no" || arg == "0") {return false;}
             return noMatch(
               "Invalid value for " +
                 this.toString() +
@@ -88,43 +88,43 @@ qx.Class.define("qx.tool.cli.Argument", {
           case "integer":
             var value = parseInt(arg, 10);
             if (isNaN(arg))
-              return noMatch(
+              {return noMatch(
                 `Invalid value for ${this.toString()}, expected an integer`
-              );
+              );}
             return value;
 
           case "float":
             var value = parseFloat(arg);
             if (isNaN(arg))
-              return noMatch(
+              {return noMatch(
                 `Invalid value for ${this.toString()}, expected a number`
-              );
+              );}
             return value;
         }
 
         if (arg === null)
-          return noMatch(
+          {return noMatch(
             `Invalid value for ${this.toString()}, expected a string`
-          );
+          );}
         return arg;
       }
 
       let argvIndex = 0;
       function next() {
         let value = fnGetMore(argvIndex++);
-        if (value === null) argvIndex--;
+        if (value === null) {argvIndex--;}
         return value;
       }
 
       let arg = initialValue;
       let pos = arg.indexOf("=");
-      if (pos > -1) arg = arg.substring(pos + 1);
+      if (pos > -1) {arg = arg.substring(pos + 1);}
       let result = null;
       if (this.isArray()) {
         if (arg === null)
-          throw new Error(
+          {throw new Error(
             `Invalid value for ${this.toString()}, expected at least one value`
-          );
+          );}
         result = [];
         let index = 0;
         do {

@@ -207,7 +207,7 @@ qx.Class.define("qx.test.tool.cli.Argument", {
       });
       
       function fnGetMore(index, rebase) {
-        if (rebase) return null;
+        if (rebase) {return null;}
         return null; // No additional arguments
       }
       
@@ -365,7 +365,7 @@ qx.Class.define("qx.test.tool.cli.Argument", {
       
       let args = ["2", "3", "invalid"]; // invalid should stop parsing
       function mockGetMore(index, rebase) {
-        if (rebase) return null;
+        if (rebase) {return null;}
         return args[index] || null;
       }
       

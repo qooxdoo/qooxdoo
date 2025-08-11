@@ -24,7 +24,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
 
   construct(name) {
     super();
-    if (name) this.setName(name);
+    if (name) {this.setName(name);}
   },
 
   properties: {
@@ -89,9 +89,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
       check(value) {
         let fct =
           this.getCheck() ||
-          (() => {
-            return true;
-          });
+          (() => true);
         return fct(value);
       }
     }
@@ -120,7 +118,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
      * @param {String} msg
      */
     _error(msg) {
-      if (!this.__errors) this.__errors = [];
+      if (!this.__errors) {this.__errors = [];}
       this.__errors.push(msg);
     },
 
@@ -141,7 +139,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
      */
     is(arg) {
       let pos = arg.indexOf("=");
-      if (pos > -1) arg = arg.substring(0, pos);
+      if (pos > -1) {arg = arg.substring(0, pos);}
       if (arg.startsWith("--")) {
         let tmp = qx.lang.String.camelCase(arg.substring(2));
         return tmp == this.getName();

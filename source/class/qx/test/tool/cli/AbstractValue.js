@@ -260,9 +260,7 @@ qx.Class.define("qx.test.tool.cli.AbstractValue", {
       let value = new qx.tool.cli.Flag("test");
       
       // Custom validator that only allows positive numbers
-      value.setCheck(val => {
-        return val === null || (typeof val === "number" && val > 0);
-      });
+      value.setCheck(val => val === null || (typeof val === "number" && val > 0));
       
       // Valid values
       value.setValue(null);
