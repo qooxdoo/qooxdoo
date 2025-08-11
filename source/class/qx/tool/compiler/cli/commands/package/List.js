@@ -142,7 +142,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
     /**
      * Lists library packages compatible with the current project
      */
-    async process() {
+    async process(argv = null) {
+      // If called programmatically, set argv from parameter
+      if (argv && !this.argv) {
+        this.argv = argv;
+      }
       this.__repositories = [];
       this.__libraries = {};
       this.__latestCompatible = {};
@@ -152,7 +156,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
 
       // implicit qx package update, disabled
       // if (repos_cache.list.length === 0 || this.getCache().version !== qx.tool.config.Lockfile.getInstance().getVersion()) {
-      //   await (new qx.tool.compiler.cli.commands.package.Update({quiet:true})).process();
+      //   await new qx.tool.compiler.cli.commands.package.Update().process({quiet:true});
       // }
 
       let qxVersion;

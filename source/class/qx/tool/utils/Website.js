@@ -404,7 +404,7 @@ qx.Class.define("qx.tool.utils.Website", {
         icontheme: "Tango"
       };
 
-      await new qx.tool.compiler.cli.commands.Create(opts).process();
+      await new qx.tool.compiler.cli.commands.Create().process(opts);
       process.chdir(apps_path);
       for (let name of [
         "apiviewer",
@@ -412,7 +412,7 @@ qx.Class.define("qx.tool.utils.Website", {
         "playground",
         "demobrowser"
       ]) {
-        await new qx.tool.compiler.cli.commands.package.Install({}).install(
+        await new qx.tool.compiler.cli.commands.package.Install().install(
           "qooxdoo/qxl." + name
         );
       }

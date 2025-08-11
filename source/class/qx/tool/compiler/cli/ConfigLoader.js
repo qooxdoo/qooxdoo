@@ -115,7 +115,8 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
               save: false
             };
 
-            const installer = new qx.tool.compiler.cli.commands.package.Install(config);
+            const installer = new qx.tool.compiler.cli.commands.package.Install();
+            installer.argv = config;
             let filepath = installer.getLockfilePath();
             let backup = filepath + ".old";
             await fs.copyFileAsync(filepath, backup);

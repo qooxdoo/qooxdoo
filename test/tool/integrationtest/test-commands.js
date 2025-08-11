@@ -33,10 +33,15 @@ test("test commands - CLI help works", async assert => {
     assert.ok(result.exitCode === 0, "Create help should work");
     assert.ok(result.output.includes("create"), "Help should mention create command");
     
+    // Test qx add without parameters (should show usage/help)
+    result = await testUtils.runCommand(__dirname, qxCmdPath, "add");
+    assert.ok(result.exitCode === 0, "Add without parameters should work");
+    assert.ok(result.output.includes("Usage") || result.output.includes("Commands"), "Output should contain usage information");
+
     result = await testUtils.runCommand(__dirname, qxCmdPath, "add", "--help");
     assert.ok(result.exitCode === 0, "Add help should work");
     assert.ok(result.output.includes("add"), "Help should mention add command");
-    
+   
     assert.end();
   } catch (ex) {
     assert.end(ex);

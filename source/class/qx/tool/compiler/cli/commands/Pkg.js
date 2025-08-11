@@ -27,7 +27,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Pkg", {
         name: "pkg",
         description: "alias for 'qx package'"
       });
-
+      cmd.setRun(null);
       await qx.tool.compiler.cli.Command.addSubcommands(cmd, qx.tool.compiler.cli.commands.package);
 
       return cmd;

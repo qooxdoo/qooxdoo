@@ -219,11 +219,7 @@ qx.Class.define("qx.tool.cli.Command", {
       }
       let columnify = require("columnify");
       function table(data) {
-        let str = columnify(data, { showHeaders: false });
-        str = str
-          .split("\n")
-          .map(row => "   " + row)
-          .join("\n");
+        let str = columnify(data, { showHeaders: false, maxWidth : 80 });  
         println(str);
       }
 

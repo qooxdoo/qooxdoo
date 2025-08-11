@@ -129,8 +129,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       }
       if (this.argv.verbose) {
         qx.tool.compiler.Console.info(
-          `>>> To be installed: ${
-            library_uri || "local libarary"
+          `>>> To be installed: ${library_uri || "local libarary"
           } from ${local_path}`
         );
       }
@@ -237,10 +236,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
         }
         this.clearCache();
         // implicit update
-        await new qx.tool.compiler.cli.commands.package.Update({
-          quiet: true
-        }).process();
-        await new qx.tool.compiler.cli.commands.package.List({ quiet: true }).process();
+        await new qx.tool.compiler.cli.commands.package.Update().process({ quiet: true });
+        await new qx.tool.compiler.cli.commands.package.List().process({ quiet: true });
       }
     },
 
@@ -291,7 +288,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
             qx.tool.compiler.Console.info(">>> Updating cache...");
           }
           let options = { quiet: true, all: true, qxVersion };
-          await new qx.tool.compiler.cli.commands.package.List(options).process();
+          await new qx.tool.compiler.cli.commands.package.List().process(options);
           cache = this.getCache(true);
         }
         tag_name =
@@ -475,8 +472,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
         lockfileModel.setValue(["libraries", index], lib);
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(
-            `>>> Updating already existing lockfile entry for ${info.name}, ${
-              info.version
+            `>>> Updating already existing lockfile entry for ${info.name}, ${info.version
             }, installed from '${uri ? uri : local_path}'.`
           );
         }
@@ -484,8 +480,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
         lockfileModel.transform("libraries", libs => libs.push(lib) && libs);
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(
-            `>>> Added new lockfile entry for ${info.name}, ${
-              info.version
+            `>>> Added new lockfile entry for ${info.name}, ${info.version
             }, installed from '${uri ? uri : local_path}'.`
           );
         }
@@ -685,8 +680,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
       if (!(await compileConfigModel.exists())) {
         qx.tool.compiler.Console.info(
           ">>> Cannot install application " +
-            (manifestApp.name || manifestApp["class"]) +
-            " because compile.json does not exist (you must manually add it)"
+          (manifestApp.name || manifestApp["class"]) +
+          " because compile.json does not exist (you must manually add it)"
         );
 
         return false;

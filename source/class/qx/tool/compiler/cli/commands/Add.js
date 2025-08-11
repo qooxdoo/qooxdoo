@@ -32,13 +32,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.Add", {
         description:
           "adds new elements to an existing qooxdoo application/library."
       });
-
+      cmd.setRun(null);
       await qx.tool.compiler.cli.Command.addSubcommands(cmd, qx.tool.compiler.cli.commands.add);
       return cmd;
     }
   },
 
   members: {
-    // place for common methods.
+    /*
+     * @Override
+     */
+    async process() {
+    }
+
   }
 });

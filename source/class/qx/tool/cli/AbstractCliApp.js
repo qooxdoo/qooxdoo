@@ -41,10 +41,14 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
       let run = (cmd && cmd.getRun()) || null;
       if (!cmd || run === null || errors || cmd.getFlag("help").getValue()) {
         console.log((cmd || rootCmd).usage());
-        process.exit(0);
+        process.exit((!cmd || errors) ? 1 : 0);
       }
-      let exitCode = await run.call(cmd, cmd);
-      if (typeof exitCode == "number") process.exit(exitCode);
+      try {
+        process.exit(await run.call(cmd, cmd) ?? 0);
+      } catch (ex) {
+        console.error("ERROR:\n" + ex.message + "\n");
+        process.exit(1);
+      }
     },
 
     /**

@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Package", {
         name: "package",
         description: "manages qooxdoo packages"
       });
-
+      cmd.setRun(null);
       await qx.tool.compiler.cli.Command.addSubcommands(cmd, qx.tool.compiler.cli.commands.package);
       return cmd;
     }
@@ -70,6 +70,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.Package", {
      * The current cache object
      */
     __cache: null,
+
+    /*
+     * @Override
+     */
+    async process() {
+    },
 
     /**
      * @override

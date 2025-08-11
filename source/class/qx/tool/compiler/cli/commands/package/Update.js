@@ -56,7 +56,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
         new qx.tool.cli.Flag("search").set({
           shortCode: "S",
           description: "Search GitHub for repos (as opposed to using the cached nightly data)",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -64,7 +65,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
         new qx.tool.cli.Flag("all-versions").set({
           shortCode: "a",
           description: "Retrieve all releases (as opposed to the latest minor/patch release of each major release)",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -72,7 +74,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
         new qx.tool.cli.Flag("export-only").set({
           shortCode: "E",
           description: "Export the current cache without updating it first (requires --file)",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -86,13 +89,16 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
     /**
      * Updates the cache with information from GitHub.
      */
-    async process() {
-
+    async process(argv = null) {
+      // If called programmatically, set argv from parameter
+      if (argv && !this.argv) {
+        this.argv = argv;
+      }
       // init
       this.__names = [];
 
       // export only
-      if (this.argv.exportOnly) {
+      if (this.argv.exportOnly || false) {
         if (!this.argv.file) {
           qx.tool.compiler.Console.error("Path required via --file argument.");
           process.exit(1);

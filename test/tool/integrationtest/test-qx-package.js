@@ -3,17 +3,35 @@ const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const path = require("path");
 const testDir = path.join(__dirname, "test-qx-package");
+if (!fs.existsSync(testDir)) {
+  fs.mkdirSync(testDir, { recursive: true });
+}
 const appDir = path.join(testDir, "myapp");
 
 // set DEBUG envvar to get colorized verbose output
 const debug = Boolean(process.env.DEBUG);
-const qxCmdPath = testUtils.getCompiler(debug ? "source":"build");
+//const qxCmdPath = testUtils.getCompiler(debug ? "source":"build");
+const qxCmdPath = testUtils.getCompiler("source");
 let debugArg = "";
 if (debug) {
   const colorize = require('tap-colorize');
   test.createStream().pipe(colorize()).pipe(process.stdout);
   debugArg += "--debug --colorize";
 }
+
+test("Test qx package command without parameters", async assert => {
+  try {
+    let result;
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package");
+    assert.ok(result.exitCode === 0, "qx package command should exit successfully");
+    result.output = result.output.toLowerCase();
+    assert.ok(result.output.includes("usage:") || result.output.includes("commands:"), "Output should contain help information");
+    assert.ok(result.output.includes("package"), "Output should mention package commands");
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
 
 test("Create app", async assert => {
   try {
@@ -29,6 +47,7 @@ test("Create app", async assert => {
     assert.end(ex);
   }
 });
+
 
 test("Install qxl.test1, latest version", async assert => {
   try {

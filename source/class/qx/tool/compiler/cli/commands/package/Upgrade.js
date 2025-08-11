@@ -89,15 +89,15 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
      */
     async process() {
       let qxVersion = await this.getAppQxVersion();
-      await new qx.tool.compiler.cli.commands.package.Update({
+      await new qx.tool.compiler.cli.commands.package.Update().process({
         quiet: true,
         prereleases: this.argv.prereleases
-      }).process();
-      await new qx.tool.compiler.cli.commands.package.List({
+      });
+      await new qx.tool.compiler.cli.commands.package.List().process({
         quiet: true,
         prereleases: this.argv.prereleases,
         qxVersion
-      }).process();
+      });
       if (!this.argv.quiet) {
         qx.tool.compiler.Console.info(
           `Upgrading project dependencies to the latest available release for qooxdoo version ${qxVersion}:`
@@ -105,11 +105,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
       }
       let data = await this.getLockfileData();
       let found = false;
-      const installer = new qx.tool.compiler.cli.commands.package.Install({
+      const installer = new qx.tool.compiler.cli.commands.package.Install();
+      installer.argv = {
         quiet: this.argv.quiet,
         verbose: this.argv.verbose,
         qxVersion
-      });
+      };
 
       for (const library of data.libraries) {
         // do not upggrade libraries that are not from a repository

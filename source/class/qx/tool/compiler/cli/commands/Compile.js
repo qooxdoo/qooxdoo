@@ -1570,11 +1570,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 )}...`
               );
             }
-            const installer = new qx.tool.compiler.cli.commands.package.Install({
+            const installer = new qx.tool.compiler.cli.commands.package.Install();
+            await installer.process({
               verbose: this.argv.verbose,
               save: false // save to lockfile only, not to manifest
             });
-            await installer.process();
             throw new qx.tool.utils.Utils.UserError(
               `Library ${lib.getNamespace()} requires ${urisToInstall.join(
                 ","
