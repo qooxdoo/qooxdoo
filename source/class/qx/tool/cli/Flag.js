@@ -36,7 +36,7 @@ qx.Class.define("qx.tool.cli.Flag", {
      */
     usage() {
       let str = "--" + qx.lang.String.hyphenate(this.getName());
-      if (this.getShortCode()) str += "|-" + this.getShortCode();
+      if (this.getShortCode()) {str += "|-" + this.getShortCode();}
 
       const TYPES = {
         string: "String",
@@ -47,7 +47,7 @@ qx.Class.define("qx.tool.cli.Flag", {
 
       let type = this.getType();
       if (this.isArray()) {
-        str += " [" + TYPES[type || "string"] + "]";
+         str += " [" + type + "]";
       } else {
         if (type) {
           if (qx.lang.Type.isArray(type)) {
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.cli.Flag", {
       str +=
         "  ::  " +
         (this.getValue() === null ? "-" : `[default: ${this.getValue()}]`);
-      if (this.getDescription()) str += "  ::  " + this.getDescription();
+      if (this.getDescription()) {str += "  ::  " + this.getDescription();}
       return str;
     },
 
@@ -83,7 +83,7 @@ qx.Class.define("qx.tool.cli.Flag", {
 
       function getArg(index) {
         if (initialValue !== null)
-          return index == 0 ? initialValue : fnGetMore(index - 1);
+          {return index == 0 ? initialValue : fnGetMore(index - 1);}
         return fnGetMore(index);
       }
 
@@ -94,9 +94,9 @@ qx.Class.define("qx.tool.cli.Flag", {
           value = getArg(argIndex++);
         }
         if (!eatAll && value) {
-          if (value[0] == "-") value = null;
+          if (value[0] == "-") {value = null;}
         }
-        if (value === null) argIndex--;
+        if (value === null) {argIndex--;}
         return value;
       }
 
@@ -106,16 +106,16 @@ qx.Class.define("qx.tool.cli.Flag", {
         switch (type) {
           case "string":
           case null:
-            if (arg === null) return null;
+            if (arg === null) {return null;}
             if (initialValue === null && pass == 0) {
               argIndex--;
             }
             return arg;
 
           case "boolean":
-            if (arg === null) return true;
-            if (arg == "true" || arg == "yes" || arg == "1") return true;
-            if (arg == "false" || arg == "no" || arg == "0") return false;
+            if (arg === null) {return true;}
+            if (arg == "true" || arg == "yes" || arg == "1") {return true;}
+            if (arg == "false" || arg == "no" || arg == "0") {return false;}
             if (initialValue === null && pass == 0) {
               argIndex--;
               return true;
@@ -128,33 +128,33 @@ qx.Class.define("qx.tool.cli.Flag", {
 
           case "integer":
             if (arg === null)
-              throw new Error(
+              {throw new Error(
                 `Invalid value for ${this.toString()}, expected an integer`
-              );
+              );}
             var value = parseInt(arg, 10);
             if (isNaN(arg))
-              throw new Error(
+              {throw new Error(
                 `Invalid value for ${this.toString()}, expected an integer`
-              );
+              );}
             return value;
 
           case "float":
             if (arg === null)
-              throw new Error(
+              {throw new Error(
                 `Invalid value for ${this.toString()}, expected a number`
-              );
+              );}
             var value = parseFloat(arg);
             if (isNaN(arg))
-              throw new Error(
+              {throw new Error(
                 `Invalid value for ${this.toString()}, expected a number`
-              );
+              );}
             return value;
         }
 
         if (arg === null)
-          throw new Error(
+          {throw new Error(
             `Invalid value for ${this.toString()}, expected a string`
-          );
+          );}
         return arg;
       };
 
@@ -162,9 +162,9 @@ qx.Class.define("qx.tool.cli.Flag", {
       let result = null;
       if (this.isArray()) {
         if (arg === null)
-          throw new Error(
+          {throw new Error(
             `Invalid value for ${this.toString()}, expected at least one value`
-          );
+          );}
         result = [];
         do {
           let value = parseNext(arg, result.length);
@@ -175,8 +175,8 @@ qx.Class.define("qx.tool.cli.Flag", {
         result = parseNext(arg, 0);
       }
 
-      if (initialValue) fnGetMore(argIndex - 1, true);
-      else fnGetMore(argIndex, true);
+      if (initialValue) {fnGetMore(argIndex - 1, true);}
+      else {fnGetMore(argIndex, true);}
       this.setValue(result);
     }
   }
