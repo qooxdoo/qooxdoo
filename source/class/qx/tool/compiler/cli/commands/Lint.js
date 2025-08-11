@@ -43,7 +43,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       cmd.addFlag(
         new qx.tool.cli.Flag("fix").set({
           description: "runs eslint with --fix",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -75,7 +76,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
         new qx.tool.cli.Flag("warnAsError").set({
           shortCode: "w",
           description: "handle warnings as error",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -83,7 +85,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
         new qx.tool.cli.Flag("print-config").set({
           shortCode: "p",
           description: "print the eslint configuration",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
