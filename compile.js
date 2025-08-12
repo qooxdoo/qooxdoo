@@ -160,7 +160,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
     async beforeTests(command) {
       const that = this;
       command.addTest(
-        new qx.tool.cli.api.Test("lint", async function () {
+        new qx.tool.compiler.cli.api.Test("lint", async function () {
           console.log("# ********* running lint ");
           this.setFailFast(true);  
           result = await qx.tool.utils.Utils.runCommand({
@@ -199,7 +199,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         "terse"
       ];
       command.addTest(
-        new qx.tool.cli.api.Test("compiler test", async function () {
+        new qx.tool.compiler.cli.api.Test("compiler test", async function () {
           qx.tool.compiler.Console.log("# ******** running compiler test");
           let args = argList;
           let curArgs = that.__getArgs(command, args);
@@ -216,7 +216,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       );
       if (command.argv["browsers"] != "none") {
         command.addTest(
-          new qx.tool.cli.api.Test("framework test", async function () {
+          new qx.tool.compiler.cli.api.Test("framework test", async function () {
             console.log("# ******** running framework test");
             this.setFailFast(true);  
             let args = argList.slice();

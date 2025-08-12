@@ -147,13 +147,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.tool.cli.Flag("watch-debug").set({
-          description: "enables debug messages for watching",
-          type: "boolean"
-        })
-      );
-
-      cmd.addFlag(
         new qx.tool.cli.Flag("machine-readable").set({
           shortCode: "M",
           description: "output compiler messages in machine-readable format",
@@ -697,7 +690,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           this.dispatchEvent(evt.clone());
         }
       };
-
+      let waiters = [];
       for await (const maker of makers) {
         var analyser = maker.getAnalyser();
         let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
@@ -833,9 +826,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
 
           watch.setConfigFilenames(arr);
-          return watch.start();
+          waiters.push(watch.start());
         }
       }
+      return qx.Promise.all(waiters);
     },
 
     /**
