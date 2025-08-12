@@ -41,7 +41,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
   },
 
   environment: {
+    /**
+     * @deprecated Changing this setting is deprecated.
+     * If set to true, then getting a property that is inheritable but has nothing to inherit from
+     * will return null, instead of throwing an error.
+     */
     "qx.core.property.Property.inheritableDefaultIsNull": false,
+    /**
+     * @deprecated Changing this setting is deprecated.
+     * In Qooxdoo V8, all apply methods of properties with init values will now be called during construction.
+     * To disable this and use old behaviour, set this to false.
+     */
     "qx.core.property.Property.applyDuringConstruct": true
   },
 
