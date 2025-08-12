@@ -305,6 +305,7 @@ qx.Class.define("qx.bom.Font", {
 
     // property apply
     _applyFamily(value, old) {
+      if (!value) return;
       var family = "";
 
       for (var i = 0, l = value.length; i < l; i++) {

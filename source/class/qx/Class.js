@@ -78,9 +78,8 @@ qx.Bootstrap.define("qx.Class", {
       async: "boolean", // Boolean
       deferredInit: "boolean", // Boolean
       validate: ["string", "function"], // String, Function
-      isEqual: ["string", "function"], // String, Function
-
-      // Not in original set of allowed keys:
+      isEqual: ["string", "function"], // String, Function      
+      autoApply: "boolean", // Boolean
       get: ["string", "function"], // String, Function
       set: ["string", "function"], // String, Function
       getAsync: ["string", "function"], // String, Function
@@ -654,6 +653,24 @@ qx.Bootstrap.define("qx.Class", {
                 mixin.$$constructor.apply(this, args);
               }
             });
+          }
+
+          if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
+            //Call apply function for properties of this class which have an init value and which haven't been initialized yet.
+            //This must be done once per instantiation, after the constructor of the concrete class has finished.
+            if (this.classname === subclass.classname) {
+              for (let property of Object.values(subclass.prototype.$$allProperties)) {
+                if (
+                  property instanceof qx.core.property.Property &&
+                  !property.toString().startsWith("qx.ui") &&
+                  property.hasInitValue() &&
+                  property.getDefinition().autoApply !== false &&
+                  !property.getPropertyState(this).initMethodCalled
+                ) {
+                  property.init(this);
+                }
+              }
+            }
           }
 
           if (config.delegate) {

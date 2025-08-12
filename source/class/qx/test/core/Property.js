@@ -45,7 +45,7 @@ qx.Class.define("qx.test.core.Property", {
             init: undefined,
             check: "Boolean",
             event: "changeRunning",
-            apply: "_applyRunning",
+            apply: "_applyXxx",
             isEqual(a, b) {
               return a === b;
             }
@@ -54,7 +54,8 @@ qx.Class.define("qx.test.core.Property", {
           nullableProp: {
             init: 10,
             check: "Number",
-            nullable: true
+            nullable: true,
+            apply: "_applyXxx"
           },
 
           nonNullableProp: {
@@ -70,7 +71,8 @@ qx.Class.define("qx.test.core.Property", {
 
           anyProp: {
             init: null,
-            nullable: true
+            nullable: true,
+            apply: "_applyXxx"
           },
 
           asyncProp: {
@@ -105,6 +107,8 @@ qx.Class.define("qx.test.core.Property", {
         },
 
         members: {
+          lastApply: null,
+          applyCount: 0,
           num: 23,
           str: "hello world",
 
@@ -112,10 +116,14 @@ qx.Class.define("qx.test.core.Property", {
             console.log("superclass publicMethod called");
           },
 
-          _applyRunning(value, old) {
-            if (value === old) {
-              throw new Error("superclass: _applyRunning called with identical value");
+          _applyXxx(value, old) {
+            if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
+              if (value === old) {
+                throw new Error("superclass: _applyXxx called with identical value");
+              }
             }
+            this.lastApply = [value, old];
+            this.applyCount++;
 
             console.log(`superclass apply running: value changing from ${old} to ${value}`);
           }
@@ -205,7 +213,10 @@ qx.Class.define("qx.test.core.Property", {
             init: 10,
             storage: qx.test.cpnfv8.ExternalStorage
           },
-
+          nullableProp: {
+            refine: true,
+            init: 12
+          },
           delay: {
             init: 0,
             async: true,
@@ -218,12 +229,15 @@ qx.Class.define("qx.test.core.Property", {
               });
               return p;
             },
-            apply: () =>
-              new qx.Promise((resolve, reject) => {
+            apply(value, oldValue) {
+              this.applyCount++;
+              this.lastApply = [value, oldValue];
+              return new qx.Promise((resolve, reject) => {
                 setTimeout(() => {
                   resolve(true);
                 }, 1200);
-              })
+              });
+            }
           }
         }
       });
@@ -517,6 +531,49 @@ qx.Class.define("qx.test.core.Property", {
       inst.dispose();
     },
 
+    testApply() {
+      let obj = new qx.test.cpnfv8.Superclass();
+      this.assertEquals(3, obj.applyCount, "initial apply count should be 2");
+      this.assertArrayEquals([null, undefined], obj.lastApply, "last apply call during construction");
+      obj.setRunning(false);
+      this.assertArrayEquals([false, true], obj.lastApply, "apply called with correct args");
+      this.assertEquals(4, obj.applyCount, "apply count 1");
+      obj.setAnyProp(null);
+      this.assertEquals(4, obj.applyCount, "apply count should not change");
+      obj.setAnyProp("juhu");
+      this.assertArrayEquals(["juhu", null], obj.lastApply, "apply called with correct args 2");
+      this.assertEquals(5, obj.applyCount, "apply count 2");
+
+      obj.resetAnyProp();
+      this.assertArrayEquals([null, "juhu"], obj.lastApply, "apply called with correct args 3");
+      this.assertEquals(6, obj.applyCount, "apply count 3");
+      this.assertNull(obj.getAnyProp(), "getAnyProp after reset should return null");
+
+      obj.resetRunning();
+      try {
+        obj.getRunning();
+        this.fail("getAnyProp should throw an error if no init value is set");
+      } catch (e) {}
+
+      obj.setRunning(true);
+      this.assertArrayEquals([true, undefined], obj.lastApply, "apply called with correct args 4");
+
+      obj.dispose();
+
+      obj = new qx.test.cpnfv8.Subclass(23, true);
+      this.assertEquals(4, obj.applyCount, "all properties should be initialized, including inherited ones");
+      obj.dispose();
+
+      //old, deprecated behaviour
+      qx.core.Environment.set("qx.core.property.Property.applyDuringConstruct", false);
+      obj = new qx.test.cpnfv8.Superclass();
+      this.assertEquals(1, obj.applyCount, "old behaviour: initial apply count should be 1");
+      obj.setAnyProp(null);
+      this.assertEquals(2, obj.applyCount, "old behaviour: apply count should be 2 after setting a value");
+      this.assertArrayEquals([null, null], obj.lastApply, "old behaviour: last apply call during construction");
+      qx.core.Environment.reset("qx.core.property.Property.applyDuringConstruct");
+    },
+
     testInheritance() {
       var pa = new qx.test.core.InheritanceDummy();
       var ch1 = new qx.test.core.InheritanceDummy();
@@ -525,16 +582,26 @@ qx.Class.define("qx.test.core.Property", {
       var chh1 = new qx.test.core.InheritanceDummy();
       var chh2 = new qx.test.core.InheritanceDummy();
       var chh3 = new qx.test.core.InheritanceDummy();
+      let ch4 = new qx.test.core.InheritanceDummy();
+
+      ch4.setEnabled(true);
+      this.assertEquals(0, ch2.applyCount, "ch2 initial apply count");
+      this.assertEquals(1, ch4.applyCount, "ch4 initial apply count");
+      this.assertArrayEquals([true, undefined], ch4.lastApply, "ch4 initial apply args");
 
       pa.add(ch1);
       pa.add(ch2);
       pa.add(ch3);
+      pa.add(ch4);
       ch2.add(chh1);
       ch2.add(chh2);
       ch2.add(chh3);
 
       // Simple: Only inheritance, no local values
       this.assertTrue(pa.setEnabled(true), "a1");
+      this.assertArrayEquals([true, undefined], ch2.lastApply, "ch2 initial apply args");
+      this.assertEquals(1, ch2.applyCount, "ch2 initial apply count");
+      this.assertEquals(1, ch2.eventCount, "ch2 initial event count");
       this.assertTrue(pa.getEnabled(), "a2");
       this.assertTrue(ch1.getEnabled(), "a3");
       this.assertTrue(ch2.getEnabled(), "a4");
@@ -542,24 +609,36 @@ qx.Class.define("qx.test.core.Property", {
       this.assertTrue(chh1.getEnabled(), "a6");
       this.assertTrue(chh2.getEnabled(), "a7");
       this.assertTrue(chh3.getEnabled(), "a8");
+      this.assertEquals(1, ch4.applyCount, "ch4 apply count after parent change");
 
       // Enabling local value
       this.assertFalse(ch2.setEnabled(false), "b1");
+      this.assertEquals(2, ch2.applyCount, "ch2 apply count after parent change");
+      this.assertArrayEquals([false, true], ch2.lastApply, "ch2 last apply after change");
+      this.assertEquals(2, ch2.eventCount, "ch2 event count after parent change");
       this.assertFalse(ch2.getEnabled(), "b2");
       this.assertFalse(chh1.getEnabled(), "b3");
       this.assertFalse(chh2.getEnabled(), "b4");
       this.assertFalse(chh3.getEnabled(), "b5");
 
       // Reset local value
+      this.assertEquals(2, chh1.applyCount, "chh1 apply count before parent value change");
       ch2.resetEnabled();
       this.assertTrue(ch2.getEnabled(), "c2");
+      this.assertEquals(3, chh1.applyCount, "chh1 apply count after parent value change");
       this.assertTrue(chh1.getEnabled(), "c3");
       this.assertTrue(chh2.getEnabled(), "c4");
       this.assertTrue(chh3.getEnabled(), "c5");
 
-      ch2.setEnabled(false); // reset local value
+      this.assertEquals(3, ch2.applyCount, "ch2 apply count before parent value change such that it matches child");
+      ch2.setEnabled(false);
+      pa.setEnabled(false);
+      this.assertEquals(4, ch2.applyCount, "ch2 apply count after parent value change such that it matches child");
+
+      pa.setEnabled(true);
       this.assertFalse(chh1.getEnabled(), "d2");
       ch2.setEnabled("inherit");
+      this.assertArrayEquals([true, false], ch2.lastApply, "d3");
       this.assertTrue(ch2.getEnabled(), "c2");
       this.assertTrue(chh1.getEnabled(), "c2");
 
@@ -572,39 +651,82 @@ qx.Class.define("qx.test.core.Property", {
       chh3.dispose();
     },
 
-    testParent() {
-      var pa = new qx.test.core.InheritanceDummy();
-      var ch1 = new qx.test.core.InheritanceDummy();
-      var ch2 = new qx.test.core.InheritanceDummy();
-      var ch3 = new qx.test.core.InheritanceDummy();
+    testInheritanceInitValue() {
+      let pa = new qx.test.core.InheritanceDummy();
+      try {
+        pa.getEnabled();
+        this.fail("getEnabled should throw an error if no init value is set");
+      } catch (e) {}
 
-      this.assertIdentical(pa.getEnabled(), null, "d1");
-      this.assertIdentical(ch1.getEnabled(), null, "d2");
-      this.assertIdentical(ch2.getEnabled(), null, "d3");
-      this.assertIdentical(ch3.getEnabled(), null, "d4");
-
-      pa.add(ch1);
-
-      this.assertTrue(pa.setEnabled(true), "a1"); // ch1 gets enabled, too
-      this.assertFalse(ch3.setEnabled(false), "a2");
-
-      this.assertTrue(pa.getEnabled(), "b1");
-      this.assertTrue(ch1.getEnabled(), "b2");
-      this.assertIdentical(ch2.getEnabled(), null, "b3");
-      this.assertFalse(ch3.getEnabled(), "b4");
-
-      pa.add(ch2); // make ch2 enabled_ through inheritance
-      pa.add(ch3); // keep ch2 disabled, user value has higher priority
-
-      this.assertTrue(pa.getEnabled(), "c1");
-      this.assertTrue(ch1.getEnabled(), "c2");
-      this.assertTrue(ch2.getEnabled(), "c3");
-      this.assertFalse(ch3.getEnabled(), "c4");
+      pa.setEnabled(true);
+      this.assertTrue(pa.getEnabled(), "After setting enabled to true, it should return true");
 
       pa.dispose();
-      ch1.dispose();
-      ch2.dispose();
-      ch3.dispose();
+
+      //old, deprecated behaviour
+      qx.core.Environment.set("qx.core.property.Property.inheritableDefaultIsNull", true);
+      pa = new qx.test.core.InheritanceDummy();
+      this.assertNull(pa.getEnabled(), "Initial value of enabled should be null");
+      pa.dispose();
+      qx.core.Environment.set("qx.core.property.Property.inheritableDefaultIsNull", false);
+    },
+
+    testRefine() {
+      qx.Class.undefine("qx.test.core.property.TestRefineBase");
+      qx.Class.define("qx.test.core.property.TestRefineBase", {
+        extend: qx.core.Object,
+        properties: {
+          nullableProp: {
+            init: 10,
+            check: "Number",
+            nullable: true,
+            apply: "_applyNullableProp"
+          }
+        },
+        members: {
+          applyCount: 0,
+          _applyNullableProp(value, old) {
+            if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
+              if (value === old) {
+                throw new Error("superclass: _applyNullableProp called with identical value");
+              }
+            }
+            this.lastApply = [value, old];
+            this.applyCount++;
+
+            console.log(`superclass apply running: value changing from ${old} to ${value}`);
+          }
+        }
+      });
+
+      qx.Class.undefine("qx.test.core.property.TestRefineChild");
+      qx.Class.define("qx.test.core.property.TestRefineChild", {
+        extend: qx.test.core.property.TestRefineBase,
+        properties: {
+          nullableProp: {
+            refine: true,
+            init: 12
+          }
+        }
+      });
+
+      let x = new qx.test.core.property.TestRefineChild();
+      this.assertEquals(12, x.getNullableProp(), "refined property should have init value 12");
+      this.assertEquals(1, x.applyCount, "apply count should be 1 after construction");
+      this.assertArrayEquals([12, undefined], x.lastApply, "apply should be called with correct args");
+
+      try {
+        qx.Class.define(null, {
+          extend: qx.test.core.property.TestRefineBase,
+          properties: {
+            nullableProp: {
+              init: 20,
+              check: "Integer"
+            }
+          }
+        });
+        this.fail("Redefining a property without refine should throw an error");
+      } catch (e) {}
     },
 
     testMultiValues() {
@@ -643,32 +765,6 @@ qx.Class.define("qx.test.core.Property", {
 
       // No prop
       this.assertIdentical(inst.getNoProp(), null, "c1");
-
-      inst.dispose();
-    },
-
-    testInitApply() {
-      var inst = new qx.test.core.PropertyHelper();
-      this.assertNotUndefined(inst, "instance");
-
-      this.assertUndefined(inst.lastApply);
-      this.assertEquals("hello", inst.getInitApplyProp3(), "init value");
-      inst.setInitApplyProp1("juhu"); //set to init value
-      this.assertJsonEquals(["juhu", "juhu"], inst.lastApply);
-      inst.lastApply = undefined;
-
-      inst.setInitApplyProp1("juhu"); // set to same value
-      this.assertUndefined(inst.lastApply); // apply must not be called
-      inst.lastApply = undefined;
-
-      inst.setInitApplyProp1("kinners"); // set to new value
-      this.assertJsonEquals(["kinners", "juhu"], inst.lastApply);
-      inst.lastApply = undefined;
-
-      this.assertUndefined(inst.lastApply);
-      inst.setInitApplyProp2(null); //set to init value
-      this.assertJsonEquals([null, null], inst.lastApply);
-      inst.lastApply = undefined;
 
       inst.dispose();
     },
@@ -1438,7 +1534,7 @@ qx.Class.define("qx.test.core.Property", {
 
         members: {
           __transform(value, oldValue) {
-            if (oldValue === undefined) {
+            if (oldValue == null) {
               return value;
             }
             if (!value) {
@@ -1562,7 +1658,7 @@ qx.Class.define("qx.test.core.Property", {
         this.assertArrayEquals(tp.state, []);
         result = await tmp;
         this.assertTrue(result === 16);
-        this.assertArrayEquals(tp.state, ["apply-two", "event-two"]);
+        this.assertArrayEquals(tp.state, ["apply-one", "apply-two", "apply-two", "event-two"]);
 
         tp = createTestPromise();
         tmp = tp.setPropTwoAsync(qx.Promise.resolve(18));
@@ -1570,7 +1666,7 @@ qx.Class.define("qx.test.core.Property", {
         this.assertArrayEquals(tp.state, []);
         result = await tmp;
         this.assertTrue(result === 18);
-        this.assertArrayEquals(tp.state, ["apply-two", "event-two"]);
+        this.assertArrayEquals(tp.state, ["apply-one", "apply-two", "apply-two", "event-two"]);
       };
       testImpl().finally(() => this.resume());
       this.wait(1000);
@@ -2116,7 +2212,7 @@ qx.Class.define("qx.test.core.Property", {
         await instance.setFooAsync(42);
         await instance.resetFooAsync();
         this.assertEquals(7, instance.getFoo(), "resetFooAsync should reset to initial value");
-        this.assertEquals(2, apply, "apply should be called twice");
+        this.assertEquals(3, apply, "apply should be called thrice");
       };
 
       doit().then(() => {

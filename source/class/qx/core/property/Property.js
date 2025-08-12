@@ -40,6 +40,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
     this.__clazz = clazz;
   },
 
+  environment: {
+    "qx.core.property.Property.inheritableDefaultIsNull": false,
+    "qx.core.property.Property.applyDuringConstruct": true
+  },
+
   members: {
     /** @type{String} the name of the property */
     __propertyName: null,
@@ -175,7 +180,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         } else {
           if (typeof def.get == "function" || typeof def.getAsync == "function") {
             this.__storage = new qx.core.property.ExplicitPropertyStorage(this, this.__clazz);
-            this.__readOnly = def.set === undefined;
           } else {
             this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.SimplePropertyStorage);
           }
@@ -201,7 +205,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
       this.__apply = getFunction(def.apply, "Apply") || this.__apply;
       this.__transform = getFunction(def.transform, "Transform") || this.__transform;
       this.__validate = getFunction(def.validate, "Validate") || this.__validate;
-      this.__readOnly = def.immutable === "readonly";
+      this.__readOnly =
+        def.immutable === "readonly" || (this.__storage.classname === "qx.core.property.ExplicitPropertyStorage" && !def.set);
 
       if (def.event !== undefined) {
         this.__eventName = def.event;
@@ -526,19 +531,29 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error(`${this}: init() called without a value`);
       }
 
-      this.__storage.set(thisObj, this, value);
+      if (!this.isReadOnly()) {
+        this.__storage.set(thisObj, this, value);
+      }
       this._setMutating(thisObj, true);
       thisObj["$$init_" + this.__propertyName] = value;
 
       try {
-        this.__callFunction(thisObj, this.__apply, value, null, this.__propertyName);
+        this.__callFunction(thisObj, this.__apply, value, undefined, this.__propertyName);
         if (this.__eventName) {
-          thisObj.fireDataEvent(this.__eventName, value, null);
+          thisObj.fireDataEvent(this.__eventName, value, undefined);
         }
         this.__applyValueToInheritedChildren(thisObj);
       } finally {
         this._setMutating(thisObj, false);
       }
+    },
+
+    /**
+     *
+     * @returns {Boolean} whether the property has an init value provided in the definition (either a constant init value or an init function)
+     */
+    hasInitValue() {
+      return this.__clazz.prototype["$$init_" + this.__propertyName] !== undefined || this.__initFunction !== undefined;
     },
 
     /**
@@ -565,10 +580,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
     __getSafe(thisObj) {
       let value = this.__storage.get(thisObj, this);
       if (this.isInheritable() && value === "inherit") {
-        if (this.__definition.inheritable) {
-          let state = this.getPropertyState(thisObj);
-          value = state.inheritedValue;
-        }
+        let state = this.getPropertyState(thisObj);
+        value = state.inheritedValue;
       }
       if (this.isThemeable() && value === undefined) {
         let state = this.getPropertyState(thisObj);
@@ -603,11 +616,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
         if (this.__definition.nullable) {
           return null;
         }
-        if (this.__definition.inheritable) {
-          if (this.__definition.check == "Boolean") {
-            return false;
+        if (qx.core.Environment.get("qx.core.property.Property.inheritableDefaultIsNull")) {
+          if (this.__definition.inheritable) {
+            return null;
           }
-          return null;
         }
         throw new Error("Property " + this + " has not been initialized");
       }
@@ -796,7 +808,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
             } else if (scope == "themed" || value === undefined) {
               delete state.themeValue;
             }
-            value = this.get(thisObj);
+            value = this.__getSafe(thisObj);
+            if (value === undefined) {
+              value = this.getInitValue(thisObj);
+            }
+            if (value === undefined && this.__definition.nullable) {
+              value = null;
+            }
           }
 
           let check = this.getCheck();
@@ -810,7 +828,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             }
           }
 
-          if (!(this.isInheritable() && value === "inherit") && check && !check.matches(value, thisObj)) {
+          if (method !== "reset" && !(this.isInheritable() && value === "inherit") && check && !check.matches(value, thisObj)) {
             let coerced = check.coerce(value, thisObj);
             if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
               throw new Error(`Invalid value for property ${this}: ${value}`);
@@ -833,6 +851,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
               // might be equal now, but if the theme value changes, the user's override needs to remain.
               if (method == "set" || method == "init") {
                 this.__storage.set(thisObj, this, value);
+              }
+              if (value == "inherit") {
+                value = this.get(thisObj);
               }
             } else if (scope == "themed") {
               if (method != "reset" && value !== undefined) {

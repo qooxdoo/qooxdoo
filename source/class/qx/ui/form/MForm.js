@@ -75,7 +75,9 @@ qx.Mixin.define("qx.ui.form.MForm", {
   members: {
     // apply method
     _applyValid(value, old) {
-      value ? this.removeState("invalid") : this.addState("invalid");
+      if (typeof this.addState === "function") {
+        value ? this.removeState("invalid") : this.addState("invalid");
+      }
     },
 
     /**
