@@ -46,7 +46,7 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
       try {
         process.exit(await run.call(cmd, cmd) ?? 0);
       } catch (ex) {
-        console.error("ERROR:\n" + ex.message + "\n");
+        console.error("ERROR:\n" + ex.stack + "\n");
         process.exit(1);
       }
     },

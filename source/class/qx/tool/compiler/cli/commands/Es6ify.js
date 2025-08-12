@@ -86,7 +86,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
 
   members: {
     async process() {
-      await super.process();
       const ignoreFileName = ".prettierignore";
       const ig = ignore();
       try {

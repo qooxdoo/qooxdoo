@@ -72,7 +72,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
 
   members: {
     async process() {
-      await super.process();
       const IGNORE_FILENAME = ".typescriptignore";
       const ig = ignore();
       try {
