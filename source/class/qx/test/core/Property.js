@@ -1508,12 +1508,12 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testTransform() {
+      qx.core.Environment.set("qx.core.property.Property.allowDeferredInit", true);
       qx.Class.undefine("qx.TestProperty");
       qx.Class.define("qx.TestProperty", {
         extend: qx.core.Object,
         construct() {
           super();
-          this.initPropTwo(new qx.data.Array());
         },
         properties: {
           prop: {
@@ -1528,7 +1528,7 @@ qx.Class.define("qx.test.core.Property", {
             nullable: true,
             event: "changePropTwo",
             transform: "__transform",
-            deferredInit: true
+            initFunction: () => new qx.data.Array()
           }
         },
 
@@ -1565,6 +1565,64 @@ qx.Class.define("qx.test.core.Property", {
       object.setPropTwo(arr2);
       this.assertIdentical(savePropTwo, object.getPropTwo());
       this.assertArrayEquals(["2", "3"], savePropTwo.toArray());
+      qx.core.Environment.set("qx.core.property.Property.allowDeferredInit", false);
+    },
+
+    testDeferredInit() {
+      try {
+        qx.Class.define("qx.TestProperty", {
+          extend: qx.core.Object,
+
+          construct() {
+            super();
+          },
+
+          properties: {
+            prop: {
+              check: "String",
+              deferredInit: true
+            }
+          }
+        });
+        this.fail("Deferred init should not be allowed unless environment setting `qx.core.property.Property.allowDeferredInit` is true");
+      } catch (e) {}
+      
+      qx.core.Environment.set("qx.core.property.Property.allowDeferredInit", true);
+      qx.Class.undefine("qx.TestProperty");
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.core.Object,
+
+        construct() {
+          super();
+          this.initProp("hello");
+          this.addListener("changeProp", () => {
+            throw new Error("Deferred init should not trigger change event");
+          });
+        },
+
+        properties: {
+          prop: {
+            check: "String",
+            deferredInit: true,
+            apply: "_applyProp",
+            event: "changeProp"
+          }
+        },
+
+        members: {
+          _applyProp(value, old) {
+            this.applyCalled = true;
+            this.assertEquals("hello", value, "Deferred init should set the value to 'hello'");
+            this.assertUndefined(old, "Deferred init should not have an old value");
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      this.assertEquals("hello", object.getProp());
+      this.assertTrue(object.applyCalled);
+      object.dispose();
+      qx.core.Environment.set("qx.core.property.Property.allowDeferredInit", false);
     },
 
     testPromises() {

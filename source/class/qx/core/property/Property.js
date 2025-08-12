@@ -52,7 +52,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * In Qooxdoo V8, all apply methods of properties with init values will now be called during construction.
      * To disable this and use old behaviour, set this to false.
      */
-    "qx.core.property.Property.applyDuringConstruct": true
+    "qx.core.property.Property.applyDuringConstruct": true,
+
+    /**
+     * @deprecated Changing this setting is deprecated.
+     * If set to true, this enables the deprecated `deferredInit` setting in property definitions,
+     * before initFunctions were introduced.
+     */
+    "qx.core.property.Property.allowDeferredInit": false
   },
 
   members: {
@@ -248,6 +255,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       if (def.initFunction) {
         this.__initFunction = def.initFunction;
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (def.deferredInit) {
+          if (qx.core.Environment.get("qx.core.property.Property.allowDeferredInit")) {
+            this.warn(`${this}: deferredInit is deprecated, use initFunction instead`);
+          } else {
+            throw new Error(`${this}: deferredInit is not allowed, set qx.core.property.Property.allowDeferredInit to true to allow it`);
+          }
+        }
       }
 
       if ((def.init !== undefined || def.initFunction) && def.deferredInit) {

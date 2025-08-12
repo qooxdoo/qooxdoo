@@ -76,11 +76,8 @@ qx.Class.define("qx.ui.list.List", {
 
     this._init();
 
-    this.__defaultGroups = new qx.data.Array();
-    this.initGroups(this.__defaultGroups);
-
     if (model != null) {
-      this.initModel(model);
+      this.setModel(model);
     }
 
     this.initItemHeight();
@@ -123,8 +120,7 @@ qx.Class.define("qx.ui.list.List", {
       check: "qx.data.IListData",
       apply: "_applyModel",
       event: "changeModel",
-      nullable: true,
-      deferredInit: true
+      nullable: true
     },
 
     /** Default item height */
@@ -231,7 +227,7 @@ qx.Class.define("qx.ui.list.List", {
       check: "qx.data.Array",
       event: "changeGroups",
       nullable: false,
-      deferredInit: true
+      initFunction: () => new qx.data.Array()
     },
 
     /**
@@ -288,8 +284,6 @@ qx.Class.define("qx.ui.list.List", {
      * @type {Boolean} indicates when a default group is used for grouping.
      */
     __defaultGroupUsed: false,
-
-    __defaultGroups: null,
 
     __deferredLayerUpdate: null,
 
@@ -836,7 +830,6 @@ qx.Class.define("qx.ui.list.List", {
     if (pane != null) {
       pane.removeListener("resize", this._onResize, this);
     }
-
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
@@ -845,11 +838,6 @@ qx.Class.define("qx.ui.list.List", {
       this._layer =
       this.__lookupTable =
       this.__lookupTableForGroup =
-      this.__groupHashMap =
-        null;
-
-    if (this.__defaultGroups) {
-      this.__defaultGroups.dispose();
-    }
+      this.__groupHashMap = null;
   }
 });

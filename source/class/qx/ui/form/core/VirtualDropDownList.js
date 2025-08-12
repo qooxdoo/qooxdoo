@@ -46,9 +46,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
 
     this._createChildControl("list");
     this.addListener("changeVisibility", this.__onChangeVisibility, this);
-
-    this.__defaultSelection = new qx.data.Array();
-    this.initSelection(this.__defaultSelection);
   },
 
   properties: {
@@ -70,7 +67,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
       event: "changeSelection",
       apply: "_applySelection",
       nullable: false,
-      deferredInit: true
+      initFunction: () => new qx.data.Array(),
     },
 
     /**
@@ -112,9 +109,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
 
     /** @type {Boolean} Indicator to ignore selection changes from the list. */
     __ignoreListSelection: false,
-
-    /** @type {qx.data.Array} The initial selection array. */
-    __defaultSelection: null,
+    
 
     /**
      * When the drop-down is allowed to grow wider than its parent,
@@ -587,12 +582,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
      */
     _getMaxListItemWidth() {
       return this.__cachedMaxListItemWidth;
-    }
-  },
-
-  destruct() {
-    if (this.__defaultSelection) {
-      this.__defaultSelection.dispose();
     }
   }
 });
