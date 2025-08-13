@@ -202,12 +202,10 @@ qx.Class.define("qx.test.tool.cli.AbstractValue", {
     },
 
     testParseMethodAbstract() {
-      // AbstractValue.parse should throw an error since it's abstract
-      let value = new qx.tool.cli.AbstractValue("test");
-      
+      // AbstractValue should not be instantiable since it's abstract
       this.assertException(() => {
-        value.parse("cmd", () => null);
-      }, Error, /No such implementation/);
+        new qx.tool.cli.AbstractValue("test");
+      }, Error, /abstract.*instantiate/);
     },
 
     testTypeValidationInDebugMode() {

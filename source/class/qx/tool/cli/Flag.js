@@ -41,7 +41,7 @@ qx.Class.define("qx.tool.cli.Flag", {
 
       let type = this.getType();
       if (this.isArray()) {
-         str += " [" + type + "]";
+         str += " [" + (TYPES[type] || type) + "]";
       } else {
         if (type) {
           if (qx.lang.Type.isArray(type)) {
@@ -85,7 +85,6 @@ qx.Class.define("qx.tool.cli.Flag", {
         let value = getArg(argIndex++);
         if (value == "--") {
           eatAll = true;
-          value = getArg(argIndex++);
         }
         if (!eatAll && value) {
           if (value[0] == "-") {value = null;}
@@ -101,9 +100,6 @@ qx.Class.define("qx.tool.cli.Flag", {
           case "string":
           case null:
             if (arg === null) {return null;}
-            if (initialValue === null && pass == 0) {
-              argIndex--;
-            }
             return arg;
 
           case "boolean":
@@ -154,6 +150,11 @@ qx.Class.define("qx.tool.cli.Flag", {
 
       let arg = next();
       let result = null;
+      if (arg == "--") {
+        result = parseNext(null, 0);
+        this.setValue(result);
+        return;
+      }
       if (this.isArray()) {
         if (arg === null)
           {throw new Error(

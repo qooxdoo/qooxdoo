@@ -24,6 +24,9 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
 
   construct(name) {
     super();
+    if (this.constructor === qx.tool.cli.AbstractValue) {
+      throw new Error("The class 'qx.tool.cli.AbstractValue' is abstract! It is not possible to instantiate it.");
+    }
     if (name) {this.setName(name);}
   },
 
@@ -72,7 +75,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
     check: {
       init: null,
       nullable: true,
-      check: "function"
+      check: "Function"
     },
 
     /** Whether this is an array */
@@ -91,12 +94,7 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
     value: {
       init: null,
       nullable: true,
-      check(value) {
-        let fct =
-          this.getCheck() ||
-          (() => true);
-        return fct(value);
-      }
+      apply: "_applyValue"
     }
   },
 
@@ -110,11 +108,21 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
       }
     },
 
+    _applyValue(value, old) {
+      // Validate the value using the check function if available
+      let checkFn = this.getCheck();
+      if (checkFn && !checkFn(value)) {
+        throw new Error(`Invalid value: ${value}`);
+      }
+    },
+
     /**
      * Transform for `name`
      */
     __transformName(value) {
-      return qx.lang.String.camelCase(value);
+      // Convert underscores to hyphens first, then apply camelCase
+      let normalized = value.replace(/_/g, '-');
+      return qx.lang.String.camelCase(normalized);
     },
 
     /**
@@ -125,6 +133,15 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
     _error(msg) {
       if (!this.__errors) {this.__errors = [];}
       this.__errors.push(msg);
+    },
+
+    /**
+     * Returns list of error messages
+     *
+     * @return {String[]?} error messages or null if no errors
+     */
+    getErrors() {
+      return this.__errors;
     },
 
     /**

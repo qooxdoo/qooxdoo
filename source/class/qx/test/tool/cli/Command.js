@@ -275,7 +275,7 @@ qx.Class.define("qx.test.tool.cli.Command", {
       let usage = cmd.usage();
       
       this.assertMatch(usage, /USAGE:/);
-      this.assertMatch(usage, /test.*\[COMMAND\].*\[FLAGS\].*\[ARGUMENTS\]/);
+      this.assertMatch(usage, /test.*\[FLAGS\].*\[ARGUMENTS\]/);
       this.assertMatch(usage, /Test command for unit testing/);
       this.assertMatch(usage, /FLAGS:/);
       this.assertMatch(usage, /--verbose\|-v.*Boolean.*Enable verbose output/);

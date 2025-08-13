@@ -260,7 +260,7 @@ qx.Class.define("qx.test.tool.cli.Argument", {
       this.assertMatch(usage, /input/);
       this.assertMatch(usage, /Input file path/);
       // String type is default, so it shouldn't appear in usage
-      this.assertNotMatch(usage, /String/);
+      this.assertFalse(/String/.test(usage));
     },
 
     testUsageGenerationNonStringType() {
@@ -313,7 +313,7 @@ qx.Class.define("qx.test.tool.cli.Argument", {
       
       this.assertMatch(usage, /Unnamed argument/);
       // Should not contain empty name
-      this.assertNotMatch(usage, /^\s/);
+      this.assertFalse(/^\s/.test(usage));
     },
 
     testHyphenatedName() {

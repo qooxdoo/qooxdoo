@@ -47,12 +47,18 @@ qx.Class.define("qx.tool.cli.Argument", {
       };
 
       let type = this.getType();
-      if (type && type != "string") {
+      if (type) {
         if (this.isArray()) {str += " (" + TYPES[type] + "s)";}
         else {str += " (" + TYPES[type] + ")";}
       }
 
-      if (this.getDescription()) {str += "  ::  " + this.getDescription();}
+      if (this.getDescription()) {
+        if (str.length > 0) {
+          str += "  ::  " + this.getDescription();
+        } else {
+          str += this.getDescription();
+        }
+      }
 
       return str;
     },
@@ -66,7 +72,7 @@ qx.Class.define("qx.tool.cli.Argument", {
     parse(initialValue, fnGetMore) {
       let type = this.getType();
 
-      function parseNext(arg, index) {
+      let parseNext = (arg, index) => {
         function noMatch(msg) {
           if (index == 0) {throw new Error(msg);}
           return null;
@@ -87,7 +93,7 @@ qx.Class.define("qx.tool.cli.Argument", {
 
           case "integer":
             var value = parseInt(arg, 10);
-            if (isNaN(arg))
+            if (isNaN(value))
               {return noMatch(
                 `Invalid value for ${this.toString()}, expected an integer`
               );}
@@ -95,7 +101,7 @@ qx.Class.define("qx.tool.cli.Argument", {
 
           case "float":
             var value = parseFloat(arg);
-            if (isNaN(arg))
+            if (isNaN(value))
               {return noMatch(
                 `Invalid value for ${this.toString()}, expected a number`
               );}
@@ -107,7 +113,7 @@ qx.Class.define("qx.tool.cli.Argument", {
             `Invalid value for ${this.toString()}, expected a string`
           );}
         return arg;
-      }
+      };
 
       let argvIndex = 0;
       function next() {
@@ -117,8 +123,10 @@ qx.Class.define("qx.tool.cli.Argument", {
       }
 
       let arg = initialValue;
-      let pos = arg.indexOf("=");
-      if (pos > -1) {arg = arg.substring(pos + 1);}
+      if (arg && arg.indexOf) {
+        let pos = arg.indexOf("=");
+        if (pos > -1) {arg = arg.substring(pos + 1);}
+      }
       let result = null;
       if (this.isArray()) {
         if (arg === null)
@@ -137,7 +145,7 @@ qx.Class.define("qx.tool.cli.Argument", {
           arg = next();
         } while (arg);
       } else {
-        result = parseNext(arg);
+        result = parseNext(arg, 0);
       }
 
       fnGetMore(argvIndex, true);

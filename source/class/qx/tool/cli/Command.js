@@ -246,6 +246,13 @@ qx.Class.define("qx.tool.cli.Command", {
         );
         table(data);
       }
+      if (this.__flags.length > 0) {
+        println();
+        println("FLAGS:");
+        let data = [];
+        this.__flags.forEach(flag => data.push(flag.usage().split(/\s+::\s+/)));
+        table(data);
+      }
       if (this.__arguments.length > 0) {
         println();
         println("ARGUMENTS:");
@@ -253,13 +260,6 @@ qx.Class.define("qx.tool.cli.Command", {
         this.__arguments.forEach(argument =>
           data.push(argument.usage().split(/\s+::\s+/))
         );
-        table(data);
-      }
-      if (this.__flags.length > 0) {
-        println();
-        println("FLAGS:");
-        let data = [];
-        this.__flags.forEach(flag => data.push(flag.usage().split(/\s+::\s+/)));
         table(data);
       }
       return out.join("\n");
@@ -410,17 +410,12 @@ qx.Class.define("qx.tool.cli.Command", {
 
         // Once we hit "--", then it's positional arguments only thereafter
         if (value == "--") {
-          while ((value = fnGetMore(argvIndex++))) {
-            if (currentArgumentIndex < this.__arguments.length) {
-              let argument = this.__arguments[currentArgumentIndex++];
-              parseArgument(argument, value);
-            }
-          }
-          break;
+          scanningForArguments = true;
+          continue;
         }
 
-        // Is it a flag?
-        if (value[0] == "-") {
+        // Is it a flag? (but not if we're scanning for arguments after --)
+        if (!scanningForArguments && value[0] == "-") {
           let flag = findFlag(value);
           if (!flag) {
             // Check for combined short flags (e.g., -fd = -f -d)
@@ -481,6 +476,12 @@ qx.Class.define("qx.tool.cli.Command", {
           if (currentArgumentIndex < this.__arguments.length) {
             let argument = this.__arguments[currentArgumentIndex++];
             parseArgument(argument, value);
+            
+            // If this is an array argument and we're scanning for arguments (after --),
+            // then this argument should consume all remaining values
+            if (argument.isArray() && scanningForArguments) {
+              done = true; // Exit the parsing loop to let array collect all remaining values
+            }
           }
         }
       }
