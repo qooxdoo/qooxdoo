@@ -25,9 +25,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
           }
         }
         command.addTest(new qx.tool.compiler.cli.api.Test(test, async function () {
-          this.info("*********************************************************************************************************");
-          this.info("# Running " + test);
-          this.info("**********************************************************************************************************");
+          qx.tool.compiler.Console.info("*********************************************************************************************************");
+          qx.tool.compiler.Console.info("# Running " + test);
+          qx.tool.compiler.Console.info("**********************************************************************************************************");
           that.__notOk = 0;
           that.__Ok = 0;
           that.__skipped = 0;

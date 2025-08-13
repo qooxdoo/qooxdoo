@@ -147,6 +147,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
+        new qx.tool.cli.Flag("watch-debug").set({
+          description: "enables debug messages for watching",
+          type: "boolean"
+        })
+      );
+      
+      cmd.addFlag(
         new qx.tool.cli.Flag("machine-readable").set({
           shortCode: "M",
           description: "output compiler messages in machine-readable format",
@@ -574,7 +581,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         this.addListener("writingApplication", evt =>
           this.__gauge.pulse(
             "Writing Application " +
-              evt.getData().appMeta.getApplication().getName()
+            evt.getData().appMeta.getApplication().getName()
           )
         );
 
@@ -587,9 +594,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         this.addListener("minifyingApplication", evt =>
           this.__gauge.pulse(
             "Minifying " +
-              evt.getData().application.getName() +
-              " " +
-              evt.getData().filename
+            evt.getData().application.getName() +
+            " " +
+            evt.getData().filename
           )
         );
       } else {
@@ -656,14 +663,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         ) {
           qx.tool.compiler.Console.warn(
             "   *******************************************************************************************\n" +
-              "   **                                                                                       **\n" +
-              "   **  Your compilation will include temporary files that are only necessary during         **\n" +
-              "   **  development; these files speed up the compilation, but take up space that you would  **\n" +
-              "   **  probably not want to put on a production server.                                     **\n" +
-              "   **                                                                                       **\n" +
-              "   **  When you are ready to deploy, try running `qx deploy` to get a minimised version     **\n" +
-              "   **                                                                                       **\n" +
-              "   *******************************************************************************************"
+            "   **                                                                                       **\n" +
+            "   **  Your compilation will include temporary files that are only necessary during         **\n" +
+            "   **  development; these files speed up the compilation, but take up space that you would  **\n" +
+            "   **  probably not want to put on a production server.                                     **\n" +
+            "   **                                                                                       **\n" +
+            "   **  When you are ready to deploy, try running `qx deploy` to get a minimised version     **\n" +
+            "   **                                                                                       **\n" +
+            "   *******************************************************************************************"
           );
         }
         process.exitCode = success ? 0 : 1;
@@ -944,8 +951,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             appTargetConfigs = [defaultTargetConfig];
           } else {
             throw new qx.tool.utils.Utils.UserError(
-              `Cannot find any suitable targets for application #${index} (named ${
-                appConfig.name || "unnamed"
+              `Cannot find any suitable targets for application #${index} (named ${appConfig.name || "unnamed"
               })`
             );
           }
@@ -1111,7 +1117,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (!targetClass) {
           throw new qx.tool.utils.Utils.UserError(
             "Cannot find target class: " +
-              (targetConfig.targetClass || targetConfig.type)
+            (targetConfig.targetClass || targetConfig.type)
           );
         }
         /* eslint-disable new-cap */
@@ -1383,9 +1389,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             if (!parts.boot) {
               throw new qx.tool.utils.Utils.UserError(
                 "Cannot determine a boot part for application " +
-                  (appConfig.index + 1) +
-                  " " +
-                  (appConfig.name || "")
+                (appConfig.index + 1) +
+                " " +
+                (appConfig.name || "")
               );
             }
             for (var partName in parts) {
@@ -1547,11 +1553,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
               Console.error(
                 "Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
-                  urisToInstall.join("\n     ") +
-                  "\nThe library which refers to the missing libraries is " +
-                  lib.getNamespace() +
-                  " in " +
-                  lib.getRootDir()
+                urisToInstall.join("\n     ") +
+                "\nThe library which refers to the missing libraries is " +
+                lib.getNamespace() +
+                " in " +
+                lib.getRootDir()
               );
 
               process.exit(1);

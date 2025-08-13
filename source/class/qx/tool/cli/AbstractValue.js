@@ -35,7 +35,12 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
       check: "String",
       transform: "__transformName"
     },
-
+    /** Short alternative */
+    shortCode: {
+      init: null,
+      nullable: true,
+      check: "String"
+    },
     /** Description, used in the usage statement */
     description: {
       init: null,

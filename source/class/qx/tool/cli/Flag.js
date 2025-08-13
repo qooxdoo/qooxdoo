@@ -20,12 +20,6 @@ qx.Class.define("qx.tool.cli.Flag", {
   extend: qx.tool.cli.AbstractValue,
 
   properties: {
-    /** Short alternative */
-    shortCode: {
-      init: null,
-      nullable: true,
-      check: "String"
-    }
   },
 
   members: {

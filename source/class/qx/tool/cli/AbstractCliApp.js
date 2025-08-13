@@ -22,14 +22,15 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
 
   members: {
     async main() {
-      qx.log.appender.Native;
+//      qx.log.Logger.register(qx.log.appender.NodeConsole);
+//      qx.log.Logger.register(qx.log.appender.Console);
       let rootCmd = await this._createRoot();
       await this._addCommands(rootCmd);
       let cmd = null;
       try {
         cmd = rootCmd.parseRoot();
       } catch (ex) {
-        console.error("ERROR:\n" + ex.message + "\n");
+        console.error("ERROR:\n" + ex.stack + "\n");
       }
       let errors = (cmd && cmd.getErrors()) || null;
       if (errors) {

@@ -70,7 +70,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
       cmd.addFlag(
         new qx.tool.cli.Flag("disable-webserver").set({
           description: "Disables the start of the webserver",
-          type: "boolean", 
+          type: "boolean",
           value: false
         })
       );
@@ -89,16 +89,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
     runTests: "qx.event.type.Data"
   },
 
-  construct(argv) {
-    super(argv);
+  construct() {
+    super();
     this.__tests = [];
-    this.addListener("changeExitCode", evt => {
-      let exitCode = evt.getData();
-      // overwrite error code only in case of errors
-      if (exitCode !== 0 && argv.failFast) {
-        process.exit(Math.min(255, exitCode));
-      }
-    });
   },
 
   properties: {
@@ -151,7 +144,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         if (exitCode !== 0) {
           if (test.getFailFast()) {
             this.argv.failFast = true;
-          }  
+          }
           this.setExitCode(exitCode);
         }
       });
@@ -176,6 +169,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
       ) {
         this.argv.configFile = qx.tool.compiler.cli.commands.Test.CONFIG_FILENAME;
       }
+      this.addListener("changeExitCode", evt => {
+        let exitCode = evt.getData();
+        // overwrite error code only in case of errors
+        if (exitCode !== 0 && this.argv.failFast) {
+          process.exit(Math.min(255, exitCode));
+        }
+      });
       this.addListener("making", () => {
         if (
           !this.hasListener("runTests") &&

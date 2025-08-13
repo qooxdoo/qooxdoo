@@ -43,6 +43,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         qx.tool.compiler.Console.getInstance().setVerbose(
           argv.verbose || false
         );
+        qx.log.Logger.setLevel(argv.loglevel);
         cls.argv = argv;
         return cls.process();
       });
@@ -64,10 +65,10 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       );
 
       cmd.addFlag(
-        new qx.tool.cli.Flag("debug").set({
-          description: "enables debug output",
-          value: false,
-          type: "boolean"
+        new qx.tool.cli.Flag("loglevel").set({
+          description: "sets the log level",
+          value: "info",
+          type: ["debug", "info", "warn", "error"],
         })
       );
 
@@ -166,8 +167,8 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         if (pending) {
           qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
-              `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n` +
-              `*** and '(npx) qx migrate' to apply the changes.`
+            `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n` +
+            `*** and '(npx) qx migrate' to apply the changes.`
           );
 
           if (!process.env.IGNORE_MIGRATION_WARNING) {
