@@ -40,7 +40,7 @@
  * @require(ImmutableObjectStorage)
  * @require(Property)
  * @require(PropertyStorageFactory)
- * @require(PsuedoPropertyStorage)
+ * @require(PseudoPropertyStorage)
  * @require(SimplePropertyStorage)
  * @require(qx.core.check.Any)
  * @require(qx.core.check.CheckFactory)

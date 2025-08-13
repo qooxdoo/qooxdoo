@@ -889,7 +889,7 @@ qx.Bootstrap.define("qx.Class", {
           if (events && events[eventName]) {
             let superProperty = clazz.prototype.$$superProperties ? clazz.prototype.$$superProperties[propertyName] : null;
             if (superProperty) {
-              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" with a psuedo-property is not allowed`);
+              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" with a pseudo-property is not allowed`);
             }
             let property = new qx.core.property.Property(propertyName, clazz);
             property.configurePseudoProperty();

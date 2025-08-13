@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 /**
- * Utility methods which implement a fast, psuedo-promises mechanism used by event handlers
+ * Utility methods which implement a fast, pseudo-promises mechanism used by event handlers
  * and dispatchers.
  *
  * Event handlers are allowed to return instances of `qx.Promise`, in which case the event

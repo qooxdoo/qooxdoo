@@ -120,7 +120,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     isRefineAllowed(def) {},
 
     /**
-     * Configures a psuedo property
+     * Configures a pseudo property
      */
     configurePseudoProperty() {
       this.__definition = {};

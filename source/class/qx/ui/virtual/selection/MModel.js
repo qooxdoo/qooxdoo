@@ -51,7 +51,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel", {
 
   properties: {
     /** Current selected items */
-    /* psuedo property - implemented manually in code below
+    /* pseudo property - implemented manually in code below
     selection :
     {
       check : "qx.data.Array",
