@@ -422,7 +422,44 @@ qx.Class.define("qx.tool.cli.Command", {
         if (value[0] == "-") {
           let flag = findFlag(value);
           if (!flag) {
-            this._error(`Unrecognised flag ${value} passed to ${this}`);
+            // Check for combined short flags (e.g., -fd = -f -d)
+            if (value.startsWith("-") && !value.startsWith("--") && value.length > 2 && !value.includes("=")) {
+              let combinedFlags = value.substring(1);
+              let allFlagsFound = true;
+              let foundFlags = [];
+              
+              // Check if all characters are valid short codes for boolean flags
+              for (let i = 0; i < combinedFlags.length; i++) {
+                let shortCode = combinedFlags[i];
+                let foundFlag = null;
+                
+                for (let j = 0; j < this.__flags.length; j++) {
+                  let testFlag = this.__flags[j];
+                  if (testFlag.getShortCode() === shortCode && testFlag.getType() === "boolean") {
+                    foundFlag = testFlag;
+                    break;
+                  }
+                }
+                
+                if (foundFlag) {
+                  foundFlags.push(foundFlag);
+                } else {
+                  allFlagsFound = false;
+                  break;
+                }
+              }
+              
+              if (allFlagsFound && foundFlags.length > 0) {
+                // Parse each combined flag
+                foundFlags.forEach(combinedFlag => {
+                  parseFlag(combinedFlag, "-" + combinedFlag.getShortCode());
+                });
+              } else {
+                this._error(`Unrecognised flag ${value} passed to ${this}`);
+              }
+            } else {
+              this._error(`Unrecognised flag ${value} passed to ${this}`);
+            }
           } else {
             parseFlag(flag, value);
           }

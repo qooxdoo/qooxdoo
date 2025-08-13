@@ -286,6 +286,60 @@ qx.Class.define("qx.test.tool.cli.Command", {
     testToString() {
       let cmd = new qx.tool.cli.Command("test-command");
       this.assertEquals("testCommand", cmd.toString());
+    },
+
+    testParseCombinedBooleanFlags() {
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("force").set({
+        type: "boolean",
+        shortCode: "f"
+      }));
+      cmd.addFlag(new qx.tool.cli.Flag("debug").set({
+        type: "boolean", 
+        shortCode: "d"
+      }));
+      
+      let result = cmd.parseRoot(["test", "-fd"]);
+      
+      this.assertEquals(cmd, result);
+      this.assertTrue(cmd.getFlag("force").getValue());
+      this.assertTrue(cmd.getFlag("debug").getValue());
+    },
+
+    testParseCombinedFlagsWithNonBoolean() {
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("verbose").set({
+        type: "boolean",
+        shortCode: "v"
+      }));
+      cmd.addFlag(new qx.tool.cli.Flag("output").set({
+        type: "string",
+        shortCode: "o"
+      }));
+      
+      // Should fail because 'o' is not a boolean flag
+      let result = cmd.parseRoot(["test", "-vo"]);
+      
+      this.assertEquals(cmd, result);
+      this.assertNotNull(cmd.getErrors());
+      this.assertTrue(cmd.getErrors().length > 0);
+      this.assertMatch(cmd.getErrors()[0], /Unrecognised flag -vo/);
+    },
+
+    testParseCombinedFlagsInvalidShortCode() {
+      let cmd = new qx.tool.cli.Command("test");
+      cmd.addFlag(new qx.tool.cli.Flag("force").set({
+        type: "boolean",
+        shortCode: "f"
+      }));
+      
+      // Should fail because 'x' is not a valid short code
+      let result = cmd.parseRoot(["test", "-fx"]);
+      
+      this.assertEquals(cmd, result);
+      this.assertNotNull(cmd.getErrors());
+      this.assertTrue(cmd.getErrors().length > 0);
+      this.assertMatch(cmd.getErrors()[0], /Unrecognised flag -fx/);
     }
   }
 });
