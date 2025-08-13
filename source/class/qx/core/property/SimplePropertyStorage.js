@@ -28,11 +28,7 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     get(thisObj, property) {
-      let $$propertyValues = thisObj["$$propertyValues"];
-      if ($$propertyValues == undefined) {
-        this.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
-        $$propertyValues = thisObj["$$propertyValues"] = {};
-      }
+      this.__checkPropertyValues(thisObj);      
       let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
       return value;
     },
@@ -48,6 +44,7 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     set(thisObj, property, value) {
+      this.__checkPropertyValues(thisObj);      
       let data = thisObj["$$propertyValues"][property.getPropertyName()];
       if (data == undefined) {
         thisObj["$$propertyValues"][property.getPropertyName()] = data = {};
@@ -94,6 +91,14 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
     warn(...args) {
       if (qx.core.Environment.get("qx.debug")) {
         console.warn(...args);
+      }
+    },
+
+    __checkPropertyValues(thisObj) {
+      let $$propertyValues = thisObj["$$propertyValues"];
+      if ($$propertyValues == undefined) {
+        this.warn("No $$propertyValues on " + thisObj.classname + ": possibly missing call to super() in the constructor");
+        $$propertyValues = thisObj["$$propertyValues"] = {};
       }
     }
   }
