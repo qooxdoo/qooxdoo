@@ -208,8 +208,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       cmd.addFlag(
         new qx.tool.cli.Flag("inline-external-scripts").set({
           description: "Inlines external Javascript",
-          type: "boolean",
-          value: false
+          type: "boolean"
         })
       );
 
