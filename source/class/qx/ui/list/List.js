@@ -833,11 +833,6 @@ qx.Class.define("qx.ui.list.List", {
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
-    this._background =
-      this._provider =
-      this._layer =
-      this.__lookupTable =
-      this.__lookupTableForGroup =
-      this.__groupHashMap = null;
+    this._background = this._provider = this._layer = this.__lookupTable = this.__lookupTableForGroup = this.__groupHashMap = null;
   }
 });
