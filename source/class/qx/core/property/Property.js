@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * Configures a pseudo property
      */
     configurePseudoProperty() {
-      this.__definition = {};
+      this.__definition = null;
       this.__pseudoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
       this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + upname : null;
@@ -405,7 +405,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let initValue = this.__initValue;
-      if (initValue === undefined && typeof this.__definition.check == "Boolean") {
+      if (initValue === undefined && typeof this.__definition?.check == "Boolean") {
         initValue = false;
       }
       if (initValue !== undefined) {
@@ -417,7 +417,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       });
 
       // theme-specified
-      if (this.__definition.themeable) {
+      if (this.__definition?.themeable) {
         addMethod("getThemed" + upname, function () {
           return self.getThemed(this);
         });
@@ -433,7 +433,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       // inheritable
-      if (this.__definition.inheritable) {
+      if (this.__definition?.inheritable) {
         patch && delete clazz.prototype[`$$inherit_${propertyName}`];
         Object.defineProperty(clazz.prototype, `$$inherit_${propertyName}`, {
           value: undefined,
@@ -482,7 +482,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         });
       }
 
-      if (this.__definition.check === "Boolean") {
+      if (this.__definition?.check === "Boolean") {
         addMethod("is" + upname, function () {
           return self.get(this);
         });
@@ -545,7 +545,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       state.initMethodCalled = true;
 
-      if (value !== undefined && this.__definition.init !== undefined) {
+      if (value !== undefined && this.__definition?.init !== undefined) {
         this.warn(
           `${this}: init() called with a value, ignoring - use deferredInit and do not specify an init value in the property definition`
         );
@@ -887,7 +887,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           value = state.themeValue;
         }
         if (value === undefined) {
-          if (this.__definition.inheritable) {
+          if (this.__definition?.inheritable) {
             let state = this.getPropertyState(thisObj);
             value = state.inheritedValue;
           }
@@ -896,11 +896,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
           value = this.getInitValue(thisObj);
         }
         if (value === undefined) {
-          if (this.__definition.nullable) {
+          if (this.__definition?.nullable) {
             return null;
           }
           if (qx.core.Environment.get("qx.core.property.Property.inheritableDefaultIsNull")) {
-            if (this.__definition.inheritable) {
+            if (this.__definition?.inheritable) {
               return null;
             }
           }
@@ -969,7 +969,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns
      */
     refresh(thisObj) {
-      if (!this.__definition.inheritable) {
+      if (!this.__definition?.inheritable) {
         throw new Error(`${this} is not inheritable`);
       }
       let oldValue = this.__getImpl(thisObj, true);
@@ -1211,7 +1211,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isAsync() {
-      return !!this.__definition.async;
+      return !!this.__definition?.async;
     },
 
     /**
@@ -1220,7 +1220,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isThemeable() {
-      return !!this.__definition.themeable;
+      return !!this.__definition?.themeable;
     },
 
     /**
@@ -1229,7 +1229,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isInheritable() {
-      return !!this.__definition.inheritable;
+      return !!this.__definition?.inheritable;
     },
 
     /**

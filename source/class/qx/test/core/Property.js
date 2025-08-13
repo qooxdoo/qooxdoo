@@ -1800,6 +1800,9 @@ qx.Class.define("qx.test.core.Property", {
       });
 
       let pp = new classPseudoProperty();
+      let prop = qx.Class.getByProperty(classPseudoProperty, "pseudoProp");
+      this.assertNotNull(prop, "pseudo prop should be defined as a property object");
+      this.assertNull(prop.getDefinition(), "pseudo prop should have no definition");
       this.assertEquals(23, pp.pseudoProp);
       pp.pseudoProp = 42;
       this.assertEquals(42, pp.pseudoProp);
@@ -1813,8 +1816,8 @@ qx.Class.define("qx.test.core.Property", {
 
       pp = new classPseudoPropertyNoSetter();
       this.assertNotUndefined(pp.pseudoProp);
-      let prop = qx.Class.getByProperty(classPseudoPropertyNoSetter, "pseudoProp");
-      this.assertTrue(prop.isReadOnly(), "pseudoProp with no setter must be read-only");
+      let prop2 = qx.Class.getByProperty(classPseudoPropertyNoSetter, "pseudoProp");
+      this.assertTrue(prop2.isReadOnly(), "pseudoProp with no setter must be read-only");
     },
 
     testImmutableArray() {
