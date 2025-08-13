@@ -61,7 +61,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         cmd.addFlag(
           new qx.tool.cli.Flag("meta-debug").set({
             description: "Debug metadata output to console, implies --verbose and only one file",
-            type: "boolean"
+            type: "boolean",
+            value: false
           })
         );
       }

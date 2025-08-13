@@ -142,14 +142,16 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
           description:
             "enables watching for changes and continuous compilation",
           type: "boolean",
-          shortCode: "w"
+          shortCode: "w",
+          value: false
         })
       );
 
       cmd.addFlag(
         new qx.tool.cli.Flag("watch-debug").set({
           description: "enables debug messages for watching",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
       
@@ -157,7 +159,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("machine-readable").set({
           shortCode: "M",
           description: "output compiler messages in machine-readable format",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -209,7 +212,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       cmd.addFlag(
         new qx.tool.cli.Flag("inline-external-scripts").set({
           description: "Inlines external Javascript",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -227,7 +231,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("feedback").set({
           description: "Shows gas-gauge feedback",
           type: "boolean",
-          shortCode: "f"
+          shortCode: "f",
+          value: false
         })
       );
 
@@ -235,14 +240,16 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("typescript").set({
           shortCode: "T",
           description: "Outputs typescript definitions in qooxdoo.d.ts",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
       cmd.addFlag(
         new qx.tool.cli.Flag("add-created-at").set({
           description: "Adds code to populate object's $$createdAt",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -250,7 +257,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("clean").set({
           shortCode: "D",
           description: "Deletes the target dir before compile",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

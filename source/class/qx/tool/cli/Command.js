@@ -31,7 +31,8 @@ qx.Class.define("qx.tool.cli.Command", {
     this.addFlag(
       new qx.tool.cli.Flag("help").set({
         description: qx.locale.Manager.tr("Outputs usage summary"),
-        type: "boolean"
+        type: "boolean",
+        value: false
       })
     );
   },

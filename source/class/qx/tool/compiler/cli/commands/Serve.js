@@ -53,7 +53,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
         new qx.tool.cli.Flag("show-startpage").set({
           shortCode: "S", 
           description: "Show the startpage with the list of applications and additional information",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

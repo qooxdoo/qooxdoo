@@ -77,14 +77,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Class", {
       cmd.addFlag(
         new qx.tool.cli.Flag("import").set({
           description:
-            "import the template to the `templates/class` folder of the current project, where it can be customized"
+            "import the template to the `templates/class` folder of the current project, where it can be customized",
+          type: "boolean",
+          value: false
         })
       );
 
       cmd.addFlag(
         new qx.tool.cli.Flag("overwrite").set({
           shortCode: "o",
-          description: "overwrite an existing file"
+          description: "overwrite an existing file",
+          type: "boolean",
+          value: false
         })
       );
 

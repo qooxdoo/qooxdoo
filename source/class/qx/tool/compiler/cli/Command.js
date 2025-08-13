@@ -76,7 +76,8 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         new qx.tool.cli.Flag("quiet").set({
           shortCode: "q",
           description: "suppresses normal progress output to console",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

@@ -51,7 +51,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("all").set({
           shortCode: "a",
           description: "Show all versions, including incompatible ones",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -59,7 +60,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("json").set({
           shortCode: "j",
           description: "Output list as JSON literal",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -67,7 +69,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("installed").set({
           shortCode: "i",
           description: "Show only installed libraries",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -75,7 +78,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("namespace").set({
           shortCode: "n",
           description: "Display library namespace",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -91,7 +95,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("libraries").set({
           shortCode: "l",
           description: "List libraries only (no repositories)",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -99,7 +104,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("short").set({
           shortCode: "s",
           description: "Omit title and description to make list more compact",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -107,7 +113,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("noheaders").set({
           shortCode: "H",
           description: "Omit header and footer",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -115,7 +122,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("prereleases").set({
           shortCode: "p",
           description: "Include prereleases into latest compatible releases",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -123,7 +131,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         new qx.tool.cli.Flag("uris-only").set({
           shortCode: "u",
           description: "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries.",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

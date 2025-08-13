@@ -102,7 +102,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
         new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
           description: "Do not prompt for missing values",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

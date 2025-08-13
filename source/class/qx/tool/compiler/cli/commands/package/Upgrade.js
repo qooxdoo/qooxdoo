@@ -51,7 +51,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
         new qx.tool.cli.Flag("reinstall").set({
           shortCode: "R",
           description: "Do not upgrade, reinstall current version",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -59,7 +60,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
         new qx.tool.cli.Flag("prereleases").set({
           shortCode: "p",
           description: "Use prereleases if available",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -67,7 +69,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Upgrade", {
         new qx.tool.cli.Flag("dry-run").set({
           shortCode: "d",
           description: "Show result only, do not actually upgrade",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 

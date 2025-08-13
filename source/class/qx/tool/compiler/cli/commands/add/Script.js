@@ -58,7 +58,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       cmd.addFlag(
         new qx.tool.cli.Flag("rename").set({
           description: "Rename the file to the given name",
-          shortCode: "r"
+          shortCode: "r",
+          type: "string"
         })
       );
 
@@ -66,14 +67,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
         new qx.tool.cli.Flag("undo").set({
           description:
             "Removes the file that would normally be added with the given arguments",
-          shortCode: "z"
+          shortCode: "z",
+          type: "boolean",
+          value: false
         })
       );
 
       cmd.addFlag(
         new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
-          description: "Do not prompt user"
+          description: "Do not prompt user",
+          type: "boolean",
+          value: false
         })
       );
 

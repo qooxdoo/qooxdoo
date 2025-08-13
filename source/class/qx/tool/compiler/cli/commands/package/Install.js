@@ -63,7 +63,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Install", {
         new qx.tool.cli.Flag("ignore").set({
           shortCode: "i",
           description: "Ignore unmatch of qooxdoo",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
