@@ -78,7 +78,8 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
         rootDir: ".",
         configFilename: compileJsonFilename
       }));
-
+      compilerApi.addListener("changeCommand", this.__notifyLibraries, this);
+      
       // Boot the compiler API, load the compile.json and create configuration data
       await compilerApi.load();
       let config = compilerApi.getConfiguration();
@@ -213,7 +214,6 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
 
           compilerApi.addLibraryApi(libraryApi);
           await libraryApi.initialize();
-          await this.__notifyLibraries();
         }
       }
     },
