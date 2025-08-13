@@ -49,7 +49,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         new qx.tool.cli.Flag("noninteractive").set({
           shortCode: "I",
           description: "Do not prompt user",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -65,7 +66,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         new qx.tool.cli.Flag("prerelease").set({
           shortCode: "p",
           description: "Publish as a prerelease (as opposed to a stable release)",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -81,24 +83,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         new qx.tool.cli.Flag("dry-run").set({
           shortCode: "d",
           description: "Show result only, do not publish to GitHub",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
-      cmd.removeFlag("force");
-      cmd.addFlag(
-        new qx.tool.cli.Flag("force").set({
-          shortCode: "f",
-          description: "Ignore warnings (such as demo check)",
-          type: "boolean"
-        })
-      );
 
       cmd.addFlag(
         new qx.tool.cli.Flag("create-index").set({
           shortCode: "i",
           description: "Create an index file (qooxdoo.json) with paths to Manifest.json files",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -112,7 +108,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       cmd.addFlag(
         new qx.tool.cli.Flag("breaking").set({
           description: "Do not create a backwards-compatible release, i.e. allow compatibility with current version only",
-          type: "boolean"
+          type: "boolean",
+          value: false
         })
       );
 
@@ -466,7 +463,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
           name: tag,
           body: message,
           draft: false,
-          prerelease: argv.prerelease
+          prerelease: argv.prerelease || false
         };
 
         await octokit.repos.createRelease(release_data);
