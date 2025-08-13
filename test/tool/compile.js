@@ -16,6 +16,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
       const COMPILER_TEST_PATH = "integrationtest";
       const that = this;
       this.__argv = command.argv;
+      if (this.__argv.method || this.__argv.class) {
+        return;
+      }
       function addTest(test) {
         let args = [];
         args.push(test + ".js");
