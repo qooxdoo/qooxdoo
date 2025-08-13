@@ -176,7 +176,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       cmd.addFlag(
         new qx.tool.cli.Flag("mangle-privates").set({
           description: "Whether to mangle private variables",
-          value: true,
           type: "boolean"
         })
       );
@@ -185,8 +184,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("save-source-in-map").set({
           description:
             "Saves the source code in the map file (build target only)",
-          type: "boolean",
-          value: false
+          type: "boolean"
         })
       );
 
@@ -194,8 +192,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("source-map-relative-paths").set({
           description:
             "If true, the source file will be saved in the map file if the target supports it. Can be overridden on a per application basis.",
-          type: "boolean",
-          value: false
+          type: "boolean"
         })
       );
 
@@ -204,8 +201,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
           shortCode: "u",
           description:
             "Saves a copy of the unminified version of output files (build target only)",
-          type: "boolean",
-          value: false
+          type: "boolean"
         })
       );
 
