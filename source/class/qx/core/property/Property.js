@@ -321,9 +321,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
         this.__needsDereference = def.dereference || this.__check.needsDereference();
       }
 
-      if (this.__check && this.__check.isNullable() && this.__initValue === undefined) {
-        this.__initValue = null;
-      }
       if (def["@"] && def["@"].length > 0) {
         this.__annotations = [...def["@"]];
       }
@@ -405,9 +402,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let initValue = this.__initValue;
-      if (initValue === undefined && typeof this.__definition?.check == "Boolean") {
-        initValue = false;
-      }
       if (initValue !== undefined) {
         clazz.prototype["$$init_" + propertyName] = initValue;
       }
