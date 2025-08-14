@@ -30,7 +30,7 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
       try {
         cmd = rootCmd.parseRoot();
       } catch (ex) {
-        console.error("ERROR:\n" + ex.stack + "\n");
+        console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
       }
       let errors = (cmd && cmd.getErrors()) || null;
       if (errors) {
@@ -47,7 +47,7 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
       try {
         process.exit(await run.call(cmd, cmd) ?? 0);
       } catch (ex) {
-        console.error("ERROR:\n" + ex.stack + "\n");
+        console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
         process.exit(1);
       }
     },

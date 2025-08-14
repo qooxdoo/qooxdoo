@@ -466,9 +466,6 @@ qx.Class.define("qx.tool.cli.Command", {
             if (subcommand)
               {finalCommand = subcommand.parse(value, fnGetMoreForChildren);}
 
-            // After a sub command, any argv that the subcommand has not consumed now
-            //  belongs to our positional arguments
-            scanningForArguments = true;
             if (subcommand) {continue;}
           }
 

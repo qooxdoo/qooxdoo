@@ -340,6 +340,48 @@ qx.Class.define("qx.test.tool.cli.Command", {
       this.assertNotNull(cmd.getErrors());
       this.assertTrue(cmd.getErrors().length > 0);
       this.assertMatch(cmd.getErrors()[0], /Unrecognised flag -fx/);
+    },
+
+    testParseCreateCommandNonInteractive() {
+      let cmd = new qx.tool.cli.Command("create");
+      
+      cmd.addArgument(
+        new qx.tool.cli.Argument("application_namespace").set({
+          description: "application namespace",
+          required: true,
+          type: "string"
+        })
+      );
+
+      // Add flags similar to qx create command
+      cmd.addFlag(new qx.tool.cli.Flag("noninteractive").set({
+        type: "boolean",
+        shortCode: "I",
+        description: "Do not prompt for missing values",
+        value: false
+      }));
+      cmd.addFlag(new qx.tool.cli.Flag("type").set({
+        type: "string",
+        shortCode: "t",
+        description: "Type of the application to create"
+      }));
+      cmd.addFlag(new qx.tool.cli.Flag("theme").set({
+        type: "string",
+        description: "The name of the theme to be used"
+      }));
+      cmd.addFlag(new qx.tool.cli.Flag("icontheme").set({
+        type: "string", 
+        description: "The name of the icon theme to be used"
+      }));
+      
+      let result = cmd.parseRoot(["create", "TestApp", "--noninteractive", "--type=desktop", "--theme=indigo", "--icontheme=Tango"]);
+      
+      this.assertEquals(cmd, result);
+      this.assertEquals("TestApp", cmd.getArgument("applicationNamespace").getValue());
+      this.assertTrue(cmd.getFlag("noninteractive").getValue());
+      this.assertEquals("desktop", cmd.getFlag("type").getValue());
+      this.assertEquals("indigo", cmd.getFlag("theme").getValue());
+      this.assertEquals("Tango", cmd.getFlag("icontheme").getValue());
     }
   }
 });
