@@ -42,7 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       });
 
       cmd.addArgument(
-        new qx.tool.cli.Argument("application_namespace").set({
+        new qx.tool.cli.Argument("namespace").set({
           description: "application namespace",
           required: true,
           type: "string"
