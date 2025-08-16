@@ -30,7 +30,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
     /** @type {CompilerApi} the CompilerApi instance */
     __compilerApi: null,
 
-    async load() {
+    async load(rootCmd) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand();
       cmd.parseRoot();
       let argv = cmd.getValues().argv;
@@ -213,7 +213,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
           });
 
           compilerApi.addLibraryApi(libraryApi);
-          await libraryApi.initialize();
+          await libraryApi.initialize(rootCmd);
         }
       }
     },
@@ -255,15 +255,11 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
     },
 
     async __notifyLibraries() {
-      for (
-        let i = 0, arr = this.getCompilerApi().getLibraryApis();
-        i < arr.length;
-        i++
-      ) {
-        let libraryApi = arr[i];
-        await libraryApi.load();
+      let arr = this.getCompilerApi().getLibraryApis();
+      for (const libraryApi of arr) {
+         await libraryApi.load();
       }
-      await this.getCompilerApi().afterLibrariesLoaded();
+      this.getCompilerApi().afterLibrariesLoaded();
     },
 
     /**

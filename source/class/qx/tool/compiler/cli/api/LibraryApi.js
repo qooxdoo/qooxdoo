@@ -35,9 +35,18 @@ qx.Class.define("qx.tool.compiler.cli.api.LibraryApi", {
 
   members: {
     /**
+     * Called by the compiler API during initialisation - this is an ideal
+     * place to install additional commands, because a command has not yet
+     * been selected
+     */
+    async initialize(rootCmd) {
+      // Nothing
+    },
+
+    /**
      * Called to load any library-specific configuration and update the compilerConfig
      *
-     * @overridden
+     * @Override
      */
     async load() {
       return super.load();

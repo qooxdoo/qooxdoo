@@ -36,10 +36,8 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       cmd.setRun(async cmd => {
         let { argv } = cmd.getValues();
         argv.$cmd = cmd.getName();
-        qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi().setCommand(cls);
-        cls.setCompilerApi(
-          qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi()
-        );
+        await qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi().setCommandAsync(cls);
+        await cls.setCompilerApi(qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi());
         qx.tool.compiler.Console.getInstance().setVerbose(
           argv.verbose || false
         );

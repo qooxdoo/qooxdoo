@@ -32,7 +32,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
     async createCliCommand(clazz = this) {
       let cmd = await qx.tool.compiler.cli.commands.Compile.createCliCommand(clazz);
       cmd.set({
-        name: "serve", 
+        name: "serve",
         description: "runs a webserver to run the current application with continuous compilation, using compile.json"
       });
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
 
       cmd.addFlag(
         new qx.tool.cli.Flag("show-startpage").set({
-          shortCode: "S", 
+          shortCode: "S",
           description: "Show the startpage with the list of applications and additional information",
           type: "boolean",
           value: false
@@ -61,7 +61,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       cmd.addFlag(
         new qx.tool.cli.Flag("rebuild-startpage").set({
           shortCode: "R",
-          description: "Rebuild the startpage with the list of applications and additional information", 
+          description: "Rebuild the startpage with the list of applications and additional information",
           type: "boolean",
           value: false
         })
@@ -95,14 +95,15 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       this.argv.watch = true;
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
-
-      // build website if it hasn't been built yet.
-      const website = new qx.tool.utils.Website();
-      if (!(await fs.existsAsync(website.getTargetDir()))) {
-        qx.tool.compiler.Console.info(">>> Building startpage...");
-        await website.rebuildAll();
-      } else if (this.argv.rebuildStartpage) {
-        website.startWatcher();
+      if (this.argv["show-startpage"]) {
+        // build website if it hasn't been built yet.
+        const website = new qx.tool.utils.Website();
+        if (!(await fs.existsAsync(website.getTargetDir()))) {
+          qx.tool.compiler.Console.info(">>> Building startpage...");
+          await website.rebuildAll();
+        } else if (this.argv.rebuildStartpage) {
+          website.startWatcher();
+        }
       }
       this.addListenerOnce("made", () => {
         this.runWebServer();
@@ -151,7 +152,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       if (this.__showStartpage === undefined || this.__showStartpage === null) {
         this.__showStartpage = defaultMaker === null;
       }
-      let config = this.getCompilerApi().getConfiguration();
       const app = express();
       app.use((req, res, next) => {
         res.set({
@@ -165,10 +165,10 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
 
         next();
       });
-      const website = new qx.tool.utils.Website();
       if (!this.__showStartpage) {
         app.use("/", express.static(defaultMaker.getTarget().getOutputDir()));
       } else {
+        const website = new qx.tool.utils.Website();
         let s = await qx.tool.config.Utils.getQxPath();
         if (!(await fs.existsAsync(path.join(s, "docs")))) {
           s = path.dirname(s);
@@ -206,6 +206,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
           res.send(JSON.stringify(appsData, null, 2));
         });
       }
+      let config = this.getCompilerApi().getConfiguration();
+      let listenPort = config?.serve?.listenPort ?? this.argv.listenPort;
       let server = http.createServer(app);
       this.fireDataEvent("beforeStart", {
         server: server,
@@ -216,7 +218,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
         if (e.code === "EADDRINUSE") {
           qx.tool.compiler.Console.print(
             "qx.tool.compiler.cli.serve.webAddrInUse",
-            config.serve.listenPort
+            listenPort
           );
 
           process.exit(1);
@@ -224,10 +226,10 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
           qx.tool.compiler.Console.log("Error when starting web server: " + e);
         }
       });
-      server.listen(config.serve.listenPort, () => {
+      server.listen(listenPort, () => {
         qx.tool.compiler.Console.print(
           "qx.tool.compiler.cli.serve.webStarted",
-          "http://localhost:" + config.serve.listenPort
+          "http://localhost:" + listenPort
         );
 
         this.fireEvent("afterStart");

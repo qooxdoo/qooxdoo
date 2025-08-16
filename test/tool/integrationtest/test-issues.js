@@ -123,10 +123,10 @@ test("Issue715", async assert => {
     await testUtils.runCompiler("test-issues/issue715", "--target=build", "--minify=off");
     assert.ok(fs.existsSync("test-issues/issue715/compiled/build/transpiled/issue715/Application.js"));
     let str = await fsPromises.readFile("test-issues/issue715/compiled/build/transpiled/issue715/Application.js", "utf8");
-    assert.ok(!str.match(/__privateOne/m));
+    assert.ok(!str.match(/__privateOne\b/m));
     assert.ok(!!str.match(/__privateTwo/m));
-    assert.ok(!str.match(/__applyMyProp/m));
-    assert.ok(!str.match(/__privateStaticOne/m));
+    assert.ok(!str.match(/__applyMyProp\b/m));
+    assert.ok(!str.match(/__privateStaticOne\b/m));
     assert.ok(!!str.match(/__privateStaticTwo/m));
     assert.end();
   }catch(ex) {

@@ -51,15 +51,6 @@ qx.Class.define("qx.tool.compiler.cli.api.AbstractApi", {
     },
 
     /**
-     * Called by the compiler API during initialisation - this is an ideal
-     * place to install additional commands, because a command has not yet
-     * been selected
-     */
-    async initialize() {
-      // Nothing
-    },
-
-    /**
      *
      * helper to load an npm module. Check if it can be loaded before
      * If not install the module with 'npm install --no-package-lock' to the current library

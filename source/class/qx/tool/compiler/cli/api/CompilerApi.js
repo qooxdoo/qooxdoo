@@ -51,7 +51,8 @@ qx.Class.define("qx.tool.compiler.cli.api.CompilerApi", {
       init: null,
       nullable: true,
       check: "qx.tool.compiler.cli.Command",
-      event: "changeCommand"
+      event: "changeCommand",
+      async: true
     }
   },
 
@@ -91,7 +92,7 @@ qx.Class.define("qx.tool.compiler.cli.api.CompilerApi", {
     /**
      * Loads the configuration data
      *
-     * @overridden
+     * @Override
      */
     async load() {
       let compileJsonPath = path.join(

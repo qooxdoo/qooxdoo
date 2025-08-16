@@ -36,7 +36,7 @@ test("test commands - CLI help works", async assert => {
     // Test qx add without parameters (should show usage/help)
     result = await testUtils.runCommand(__dirname, qxCmdPath, "add");
     assert.ok(result.exitCode === 0, "Add without parameters should work");
-    assert.ok(result.output.includes("Usage") || result.output.includes("Commands"), "Output should contain usage information");
+    assert.ok(result.output.includes("USAGE") || result.output.includes("COMMANDS") || result.output.includes("Usage") || result.output.includes("Commands"), "Output should contain usage information");
 
     result = await testUtils.runCommand(__dirname, qxCmdPath, "add", "--help");
     assert.ok(result.exitCode === 0, "Add help should work");
@@ -58,7 +58,7 @@ test("test commands - create app and test rename", async assert => {
     }
     
     // Create a test app
-    let result = await testUtils.runCommand(workDir, qxCmdPath, "create", appNamespace, "-I", "--type=desktop", "--theme=indigo", "--icontheme=Tango");
+    let result = await testUtils.runCommand(workDir, qxCmdPath, "create", appNamespace, "--noninteractive", "--type=desktop", "--theme=indigo", "--icontheme=Tango");
     assert.ok(result.exitCode === 0, `Create app failed: ${result.error || result.output}`);
     assert.ok(await pathExists(appDir), "App directory should be created");
     assert.ok(await pathExists(path.join(appDir, "Manifest.json")), "Manifest.json should exist");

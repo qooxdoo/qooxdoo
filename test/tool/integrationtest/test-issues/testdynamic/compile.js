@@ -22,24 +22,27 @@ qx.Class.define("qxl.compilertests.testlib.LibraryApi", {
     /*
      * @Override
      */
-    async initialize() {
-      let cli = qx.tool.compiler.cli.Cli.getInstance();
-      cli.yargs.command({
-        command: "testlib <message> [options]",
-        describe: "repeats a message to the console",
-        builder: {
-          "type": {
-            alias : "t",
-            describe : "A parameter",
-            nargs: 1,
-            requiresArg: true,
-            type: "string"
-          }
-        },
-        handler: function(argv) {
-          console.log(`The commmand testlib; message=${argv.message}, type=${argv.type}`);
-        }
+    async initialize(rootCmd) {
+      let cmd = new qx.tool.cli.Command("testlib");
+      cmd.addArgument(
+        new qx.tool.cli.Argument("message").set({
+          description: "The message to repeat",
+          type: "string",
+          required: true
+        })
+      );
+      cmd.addFlag(
+        new qx.tool.cli.Flag("type").set({
+          shortCode: "t",
+          description: "A parameter",
+          type: "string"
+        })
+      );
+      cmd.setRun(function(cmd) {
+        let { argv } = cmd.getValues();
+        console.log(`The commmand testlib; message=${argv.message}, type=${argv.type}`);
       });
+      rootCmd.addSubcommand(cmd);
     },
     
     /*

@@ -55,6 +55,31 @@ async function runCompiler(dir, ...cmd) {
   return result;
 }
 
+async function debugCompiler(dir, ...cmd) {
+  let result = await runCommand(dir, getCompiler("source"), "compile", "--machine-readable", ...cmd);
+  result.messages = [];
+  result.output.split("\n").forEach(line => {
+    let m = line.match(/^\#\#([^:]+):\[(.*)\]$/);
+    if (m) {
+      let args = m[2].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+      if (args) {
+        args = args.map(arg => {
+          if (arg.length && arg[0] == "\"" && arg[arg.length - 1] == "\"")
+            return arg.substring(1, arg.length - 1);
+          return arg;
+        });
+      } else {
+        args = [];
+      }
+      result.messages.push({
+        id: m[1],
+        args: args
+      });
+    }
+  });
+  return result;
+}
+
 async function runCommand(dir, ...args) {
   return new Promise((resolve, reject) => {
     let cmd = args.shift();
@@ -549,6 +574,7 @@ moreUtils = {
 module.exports = {
   getCompiler,
   runCompiler,
+  debugCompiler,
   runCommand,
   defaultOptions,
   bootstrapCompiler,

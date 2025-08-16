@@ -10,11 +10,11 @@
     },
     {
       "library_name": "Commandline Testrunner for Qooxdoo Apps",
-      "library_version": "4.0.0",
-      "path": "qx_packages/qooxdoo_qxl_testtapper_v4_0_0",
+      "library_version": "4.0.1",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v4_0_1",
       "uri": "qooxdoo/qxl.testtapper",
       "repo_name": "qooxdoo/qxl.testtapper",
-      "repo_tag": "v4.0.0"
+      "repo_tag": "v4.0.1"
     }
   ],
   "version": "2.1.0"

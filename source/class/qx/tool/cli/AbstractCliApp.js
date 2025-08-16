@@ -22,8 +22,6 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
 
   members: {
     async main() {
-//      qx.log.Logger.register(qx.log.appender.NodeConsole);
-//      qx.log.Logger.register(qx.log.appender.Console);
       let rootCmd = await this._createRoot();
       await this._addCommands(rootCmd);
       let cmd = null;
@@ -38,7 +36,6 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
         console.error(errors.join("\n"));
         console.error("\n");
       }
-
       let run = (cmd && cmd.getRun()) || null;
       if (!cmd || run === null || errors || cmd.getFlag("help").getValue()) {
         console.log((cmd || rootCmd).usage());

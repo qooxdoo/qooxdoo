@@ -26,21 +26,21 @@ qx.Class.define("qx.tool.compiler.cli.Application", {
   extend: qx.tool.cli.AbstractCliApp,
   members: {
     async main() {
-      await qx.tool.compiler.cli.ConfigLoader.getInstance().load();
       super();
     },
 
     /**
-     * @overridden
+     * @override
      */
     _createRoot() {
       return qx.tool.compiler.cli.RootCommand.createCliCommand();
     },
 
     /**
-     * @overridden
+     * @Override
      */
     async _addCommands(rootCmd) {
+      await qx.tool.compiler.cli.ConfigLoader.getInstance().load(rootCmd);
       await qx.tool.compiler.cli.Command.addSubcommands(rootCmd, qx.tool.compiler.cli.commands);
     }
   },
