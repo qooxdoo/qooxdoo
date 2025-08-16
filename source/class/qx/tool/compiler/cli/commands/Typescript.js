@@ -96,6 +96,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       const scanImpl = async filename => {
         let basename = path.basename(filename);
         let stat = await fs.promises.stat(filename);
+        
+        // Check if this file/directory should be ignored
+        let relativePath = path.relative(process.cwd(), filename);
+        if (ig.ignores(relativePath)) {
+          return;
+        }
+        
         if (stat.isFile() && basename.match(/\.js$/)) {
           classFiles.push(filename);
         } else if (

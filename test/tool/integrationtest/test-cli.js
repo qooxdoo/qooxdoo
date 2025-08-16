@@ -184,3 +184,16 @@ test("add class and add script", async assert => {
   }
 });
 
+test("pkg command (package alias)", async assert => {
+  try {
+    // Test that qx pkg is an alias for qx package
+    let result = await testUtils.runCommand(testDir, qxCmdPath, "pkg", "--help");
+    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.output.includes("package") || result.output.includes("pkg"), "pkg help should mention package functionality");
+    
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
