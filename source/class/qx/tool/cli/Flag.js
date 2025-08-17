@@ -61,8 +61,8 @@ qx.Class.define("qx.tool.cli.Flag", {
     /**
      * Parses the flag
      *
-     * @param {*} cmdName
-     * @param {*} fnGetMore
+     * @param {String} cmdName the command name/flag being parsed
+     * @param {Function} fnGetMore function to get more arguments
      */
     parse(cmdName, fnGetMore) {
       let pos = cmdName.indexOf("=");

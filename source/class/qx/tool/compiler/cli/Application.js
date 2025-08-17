@@ -40,8 +40,14 @@ qx.Class.define("qx.tool.compiler.cli.Application", {
      * @Override
      */
     async _addCommands(rootCmd) {
-      await qx.tool.compiler.cli.ConfigLoader.getInstance().load(rootCmd);
+      await qx.tool.compiler.cli.ConfigLoader.getInstance().load();
       await qx.tool.compiler.cli.Command.addSubcommands(rootCmd, qx.tool.compiler.cli.commands);
+      let compiler = qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi();
+      for (let cmd of rootCmd.getSubcommands()) {
+        for (let lib of compiler.getLibraryApis()) {
+          await lib.initialize(cmd);
+        }
+      }
     }
   },
 

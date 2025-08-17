@@ -30,9 +30,9 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
     /** @type {CompilerApi} the CompilerApi instance */
     __compilerApi: null,
 
-    async load(rootCmd) {
+    async load() {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand();
-      cmd.parseRootRelaxed();
+      cmd.parseRoot();
       let argv = cmd.getValues().argv;
       /*
        * Detect and load compile.json and compile.js
@@ -211,9 +211,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
             rootDir: aPath,
             compilerApi: compilerApi
           });
-
           compilerApi.addLibraryApi(libraryApi);
-          await libraryApi.initialize(rootCmd);
         }
       }
     },

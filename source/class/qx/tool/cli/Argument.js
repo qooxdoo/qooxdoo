@@ -66,8 +66,8 @@ qx.Class.define("qx.tool.cli.Argument", {
     /**
      * Parses the argument
      *
-     * @param {String} initialValue
-     * @param {Function} fnGetMore
+     * @param {String} initialValue the initial value to parse
+     * @param {Function} fnGetMore function to get more arguments
      */
     parse(initialValue, fnGetMore) {
       let type = this.getType();

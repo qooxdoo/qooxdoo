@@ -176,6 +176,12 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
       return this.getName() || this.getDescription() || this.classname;
     },
 
+    /**
+     * Parses the value
+     *
+     * @param {String} cmdName the command name
+     * @param {Function} fnGetMore function to get more arguments
+     */
     parse(cmdName, fnGetMore) {
       throw new Error(`No such implementation for ${this.classname}`);
     }

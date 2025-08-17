@@ -28,7 +28,6 @@ qx.Class.define("qx.tool.cli.Command", {
     this.__subcommands = [];
     this.__flags = [];
     this.__arguments = [];
-    this.__relaxedCheck = false;
     this.addFlag(
       new qx.tool.cli.Flag("help").set({
         description: qx.locale.Manager.tr("Outputs usage summary"),
@@ -68,28 +67,26 @@ qx.Class.define("qx.tool.cli.Command", {
   },
 
   members: {
-    /** @type{zx.cli.Command[]} subcommands */
+    /** @type{qx.tool.cli.Command[]} subcommands */
     __subcommands: null,
 
-    /** @type{zx.cli.Command} parent comamnd */
+    /** @type{qx.tool.cli.Command} parent command */
     __parent: null,
 
-    /** @type{zx.cli.Flag[]} list of flag definitions */
+    /** @type{qx.tool.cli.Flag[]} list of flag definitions */
     __flags: null,
 
-    /** @type{zx.cli.Argument} list of positional arguments */
+    /** @type{qx.tool.cli.Argument[]} list of positional arguments */
     __arguments: null,
 
     /** @type{String[]?} list of error messages */
     __errors: null,
 
-    __relaxedCheck: false,
-
     /**
      * Adds a sub command
      *
-     * @param {zx.cli.Command} cmd
-     * @returns {zx.cli.Command}
+     * @param {qx.tool.cli.Command} cmd
+     * @returns {qx.tool.cli.Command}
      */
     addSubcommand(cmd) {
       this.__subcommands.push(cmd);
@@ -100,7 +97,7 @@ qx.Class.define("qx.tool.cli.Command", {
     /**
      * Returns the parent command if this is a sub command
      *
-     * @returns {zx.cli.Command?}
+     * @returns {qx.tool.cli.Command?}
      */
     getParent() {
       return this.__parent;
@@ -109,8 +106,8 @@ qx.Class.define("qx.tool.cli.Command", {
     /**
      * Adds a flag
      *
-     * @param {zx.cli.Flag} flag
-     * @returns {zx.cli.Command}
+     * @param {qx.tool.cli.Flag} flag
+     * @returns {qx.tool.cli.Command}
      */
     addFlag(flag) {
       if (this.getFlag(flag.getName())) {
@@ -137,7 +134,7 @@ qx.Class.define("qx.tool.cli.Command", {
      * Locates a flag by name
      *
      * @param {String} name
-     * @return {zx.cli.Flag}
+     * @return {qx.tool.cli.Flag}
      */
     getFlag(name) {
       name = qx.lang.String.camelCase(name);
@@ -148,8 +145,8 @@ qx.Class.define("qx.tool.cli.Command", {
     /**
      * Adds a positional argument
      *
-     * @param {zx.cli.Argument} argument
-     * @returns {zx.cli.Command}
+     * @param {qx.tool.cli.Argument} argument
+     * @returns {qx.tool.cli.Command}
      */
     addArgument(argument) {
       this.__arguments.push(argument);
@@ -160,7 +157,7 @@ qx.Class.define("qx.tool.cli.Command", {
      * Locates an argument by name or index
      *
      * @param {String|Integer} name
-     * @return {zx.cli.Argument}
+     * @return {qx.tool.cli.Argument}
      */
     getArgument(name) {
       if (typeof name == "string") {
@@ -178,18 +175,6 @@ qx.Class.define("qx.tool.cli.Command", {
       return qx.lang.String.camelCase(value);
     },
 
-    /**
-     * Parses the command, where this is the root of the command structure
-     * No error if argument is not found.
-     * Needed for bootstrapping the first load where the compile.js files are not readed yet
-     *
-     * @param {String[]?} argv arguments, where argv[0] is the command name (typically the filename, what would be `$0` in bash)
-     */
-    parseRootRelaxed(argv) {
-      this.__relaxedCheck = true;
-      this.parseRoot(argv);
-      this.__relaxedCheck = false;
-    },
     /**
      * Parses the command, where this is the root of the command structure
      *
@@ -357,7 +342,7 @@ qx.Class.define("qx.tool.cli.Command", {
      *
      * @param {String} cmdName the name
      * @param {Function} fnGetMore look ahead function
-     * @returns {zx.cli.Command} the command to execute after parsing
+     * @returns {qx.tool.cli.Command} the command to execute after parsing
      */
     parse(cmdName, fnGetMore) {
       let argvIndex = 0;
@@ -524,6 +509,10 @@ qx.Class.define("qx.tool.cli.Command", {
 
     toString() {
       return this.getName();
+    },
+
+    getSubcommands() {
+       return this.__subcommands;  
     }
   }
 });
