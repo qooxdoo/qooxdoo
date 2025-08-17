@@ -73,7 +73,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Lint", {
       );
 
       cmd.addFlag(
-        new qx.tool.cli.Flag("warnAsError").set({
+        new qx.tool.cli.Flag("warn-as-error").set({
           shortCode: "w",
           description: "handle warnings as error",
           type: "boolean",

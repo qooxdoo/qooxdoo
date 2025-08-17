@@ -28,6 +28,7 @@ qx.Class.define("qx.tool.cli.Command", {
     this.__subcommands = [];
     this.__flags = [];
     this.__arguments = [];
+    this.__relaxedCheck = false;
     this.addFlag(
       new qx.tool.cli.Flag("help").set({
         description: qx.locale.Manager.tr("Outputs usage summary"),
@@ -81,6 +82,8 @@ qx.Class.define("qx.tool.cli.Command", {
 
     /** @type{String[]?} list of error messages */
     __errors: null,
+
+    __relaxedCheck: false,
 
     /**
      * Adds a sub command
@@ -138,8 +141,7 @@ qx.Class.define("qx.tool.cli.Command", {
      */
     getFlag(name) {
       name = qx.lang.String.camelCase(name);
-      for (let i = 0; i < this.__flags.length; i++)
-        {if (this.__flags[i].getName() == name) {return this.__flags[i];}}
+      for (let i = 0; i < this.__flags.length; i++) { if (this.__flags[i].getName() == name) { return this.__flags[i]; } }
       return null;
     },
 
@@ -163,8 +165,7 @@ qx.Class.define("qx.tool.cli.Command", {
     getArgument(name) {
       if (typeof name == "string") {
         name = qx.lang.String.camelCase(name);
-        for (let i = 0; i < this.__arguments.length; i++)
-          {if (this.__arguments[i].getName() == name) {return this.__arguments[i];}}
+        for (let i = 0; i < this.__arguments.length; i++) { if (this.__arguments[i].getName() == name) { return this.__arguments[i]; } }
         return null;
       }
       return this.__arguments[name] || null;
@@ -179,6 +180,18 @@ qx.Class.define("qx.tool.cli.Command", {
 
     /**
      * Parses the command, where this is the root of the command structure
+     * No error if argument is not found.
+     * Needed for bootstrapping the first load where the compile.js files are not readed yet
+     *
+     * @param {String[]?} argv arguments, where argv[0] is the command name (typically the filename, what would be `$0` in bash)
+     */
+    parseRootRelaxed(argv) {
+      this.__relaxedCheck = true;
+      this.parseRoot(argv);
+      this.__relaxedCheck = false;
+    },
+    /**
+     * Parses the command, where this is the root of the command structure
      *
      * @param {String[]?} argv arguments, where argv[0] is the command name (typically the filename, what would be `$0` in bash)
      */
@@ -190,14 +203,14 @@ qx.Class.define("qx.tool.cli.Command", {
 
       let exe = argv[0];
       let pos = exe.lastIndexOf(path.sep);
-      if (pos > -1) {exe = exe.substring(pos + 1);}
+      if (pos > -1) { exe = exe.substring(pos + 1); }
       this.setName(exe);
 
       let argvIndex = 1;
       function fnGetMore(index, rebase) {
         let value = null;
-        if (argv.length > index + argvIndex) {value = argv[index + argvIndex];}
-        if (rebase) {argvIndex += index;}
+        if (argv.length > index + argvIndex) { value = argv[index + argvIndex]; }
+        if (rebase) { argvIndex += index; }
         return value;
       }
 
@@ -218,19 +231,18 @@ qx.Class.define("qx.tool.cli.Command", {
       }
       let columnify = require("columnify");
       function table(data) {
-        let str = columnify(data, { showHeaders: false, maxWidth : 80 });  
+        let str = columnify(data, { showHeaders: false, maxWidth: 80 });
         println(str);
       }
 
       let verbs = [];
-      for (let tmp = this; tmp; tmp = tmp.getParent())
-        {verbs.unshift(qx.lang.String.hyphenate(tmp.getName()));}
+      for (let tmp = this; tmp; tmp = tmp.getParent()) { verbs.unshift(qx.lang.String.hyphenate(tmp.getName())); }
 
       println("USAGE:");
       print(`   ${verbs.join(" ")}`);
-      if (this.__subcommands.length > 0) {print(` [COMMAND]`);}
-      if (this.__flags.length > 0) {print(` [FLAGS]`);}
-      if (this.__arguments.length > 0) {print(` [ARGUMENTS]`);}
+      if (this.__subcommands.length > 0) { print(` [COMMAND]`); }
+      if (this.__flags.length > 0) { print(` [FLAGS]`); }
+      if (this.__arguments.length > 0) { print(` [ARGUMENTS]`); }
       println();
       if (this.getDescription()) {
         println();
@@ -273,8 +285,8 @@ qx.Class.define("qx.tool.cli.Command", {
     _quickUsage() {
       let str = this.getName();
       str = qx.lang.String.hyphenate(str);
-      if (this.__subcommands.length) {str += " (...)";}
-      if (this.getDescription()) {str += "  ::  " + this.getDescription();}
+      if (this.__subcommands.length) { str += " (...)"; }
+      if (this.getDescription()) { str += "  ::  " + this.getDescription(); }
       return str;
     },
 
@@ -301,10 +313,11 @@ qx.Class.define("qx.tool.cli.Command", {
           flag.getValue();
       });
       this.__arguments.forEach(argument => {
-        if (argument.getName())
-          {result.argv[argument.getName()] = result.argv[
+        if (argument.getName()) {
+          result.argv[argument.getName()] = result.argv[
             argument.getHyphenatedName()
-          ] = argument.getValue();}
+          ] = argument.getValue();
+        }
         result.arguments.push(argument.getValue());
       });
       return result;
@@ -316,7 +329,7 @@ qx.Class.define("qx.tool.cli.Command", {
      * @param {String} msg
      */
     _error(msg) {
-      if (!this.__errors) {this.__errors = [];}
+      if (!this.__errors) { this.__errors = []; }
       this.__errors.push(msg);
     },
 
@@ -350,8 +363,8 @@ qx.Class.define("qx.tool.cli.Command", {
       let argvIndex = 0;
       function nextCmdName() {
         let value = fnGetMore(argvIndex++);
-        if (value && value[0] == "-") {value = null;}
-        if (value === null) {argvIndex--;}
+        if (value && value[0] == "-") { value = null; }
+        if (value === null) { argvIndex--; }
         return value;
       }
 
@@ -383,7 +396,7 @@ qx.Class.define("qx.tool.cli.Command", {
         arg = qx.lang.String.camelCase(arg);
         for (let arr = this.__subcommands, i = 0; i < arr.length; i++) {
           let cmd = arr[i];
-          if (cmd.is(arg)) {return cmd;}
+          if (cmd.is(arg)) { return cmd; }
         }
         return null;
       };
@@ -391,11 +404,11 @@ qx.Class.define("qx.tool.cli.Command", {
       const findFlag = arg => {
         for (let i = 0; i < this.__flags.length; i++) {
           let flag = this.__flags[i];
-          if (flag.is(arg)) {return flag;}
+          if (flag.is(arg)) { return flag; }
         }
         for (let i = 0; i < this.__arguments.length; i++) {
           let flag = this.__arguments[i];
-          if (flag.is(arg)) {return flag;}
+          if (flag.is(arg)) { return flag; }
         }
         return null;
       };
@@ -406,7 +419,7 @@ qx.Class.define("qx.tool.cli.Command", {
       let scanningForArguments = false;
       while (!done) {
         let value = fnGetMore(argvIndex++);
-        if (!value) {break;}
+        if (!value) { break; }
 
         // Once we hit "--", then it's positional arguments only thereafter
         if (value == "--") {
@@ -423,12 +436,12 @@ qx.Class.define("qx.tool.cli.Command", {
               let combinedFlags = value.substring(1);
               let allFlagsFound = true;
               let foundFlags = [];
-              
+
               // Check if all characters are valid short codes for boolean flags
               for (let i = 0; i < combinedFlags.length; i++) {
                 let shortCode = combinedFlags[i];
                 let foundFlag = null;
-                
+
                 for (let j = 0; j < this.__flags.length; j++) {
                   let testFlag = this.__flags[j];
                   if (testFlag.getShortCode() === shortCode && testFlag.getType() === "boolean") {
@@ -436,7 +449,7 @@ qx.Class.define("qx.tool.cli.Command", {
                     break;
                   }
                 }
-                
+
                 if (foundFlag) {
                   foundFlags.push(foundFlag);
                 } else {
@@ -444,17 +457,21 @@ qx.Class.define("qx.tool.cli.Command", {
                   break;
                 }
               }
-              
+
               if (allFlagsFound && foundFlags.length > 0) {
                 // Parse each combined flag
                 foundFlags.forEach(combinedFlag => {
                   parseFlag(combinedFlag, "-" + combinedFlag.getShortCode());
                 });
               } else {
-                this._error(`Unrecognised flag ${value} passed to ${this}`);
+                if (!this.__relaxedCheck) {
+                  this._error(`Unrecognised flag ${value} passed to ${this}`);
+                }
               }
             } else {
-              this._error(`Unrecognised flag ${value} passed to ${this}`);
+              if (!this.__relaxedCheck) {
+                this._error(`Unrecognised flag ${value} passed to ${this}`);
+              }
             }
           } else {
             parseFlag(flag, value);
@@ -463,17 +480,16 @@ qx.Class.define("qx.tool.cli.Command", {
           if (!scanningForArguments) {
             // Sub command processing
             let subcommand = findSubcommand(value);
-            if (subcommand)
-              {finalCommand = subcommand.parse(value, fnGetMoreForChildren);}
+            if (subcommand) { finalCommand = subcommand.parse(value, fnGetMoreForChildren); }
 
-            if (subcommand) {continue;}
+            if (subcommand) { continue; }
           }
 
           // Positional arguments
           if (currentArgumentIndex < this.__arguments.length) {
             let argument = this.__arguments[currentArgumentIndex++];
             parseArgument(argument, value);
-            
+
             // If this is an array argument and we're scanning for arguments (after --),
             // then this argument should consume all remaining values
             if (argument.isArray() && scanningForArguments) {
@@ -496,8 +512,7 @@ qx.Class.define("qx.tool.cli.Command", {
 
         // Check for missing mandatory flags
         Object.values(this.__flags).forEach(flag => {
-          if (flag.isRequired() && flag.getValue() === null)
-            {this._error(`Missing value for ${flag}`);}
+          if (flag.isRequired() && flag.getValue() === null) { this._error(`Missing value for ${flag}`); }
         });
       }
 

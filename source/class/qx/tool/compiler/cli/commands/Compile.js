@@ -259,7 +259,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
 
       cmd.addFlag(
         new qx.tool.cli.Flag("warn-as-error").set({
-          shortCode: "E",
+          shortCode: "w",
           description: "Handle compiler warnings as error",
           type: "boolean",
           value: false

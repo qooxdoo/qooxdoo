@@ -32,7 +32,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
 
     async load(rootCmd) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand();
-      cmd.parseRoot();
+      cmd.parseRootRelaxed();
       let argv = cmd.getValues().argv;
       /*
        * Detect and load compile.json and compile.js

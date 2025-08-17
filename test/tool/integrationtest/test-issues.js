@@ -4,6 +4,7 @@ const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 process.chdir(__dirname);
 
+
 test("Issue553", async assert => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
@@ -52,6 +53,20 @@ test("Dynamic commands", async assert => {
     await testUtils.deleteRecursive("test-issues/testdynamic/compiled");
     let result = await testUtils.runCommand("test-issues/testdynamic", testUtils.getCompiler(), "testlib", "hello", "-t=4");
     assert.ok(result.output.match(/The commmand testlib; message=hello, type=4/));
+    assert.end();
+  }catch(ex) {
+    assert.end(ex);
+  }
+});
+
+test("Dynamic parameter", async assert => {
+  try {
+    // Test a simple dynamic command with just one parameter
+    let result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--help");
+    assert.ok(result.exitCode === 0, "Simple command should execute successfully");
+    assert.ok(result.output.match(/A simple compiler flag/), "Should show correct output with parameter value");
+    result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--simple", "--verbose");
+    assert.ok(result.exitCode === 0, "Simple command should execute successfully");
     assert.end();
   }catch(ex) {
     assert.end(ex);

@@ -174,7 +174,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
                 "qx"
               ),
               "lint",
-              "--warnAsError"
+              "--warn-as-error"
             ],
 
             shell: true,

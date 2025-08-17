@@ -13,15 +13,3 @@ msgstr ""
 #: tranapp/Application.js
 msgid "App Charlie"
 msgstr ""
-
-#
-msgid "Lib Beta"
-msgstr ""
-
-#
-msgid "Lib Charlie"
-msgstr ""
-
-#
-msgid "Lib Alpha"
-msgstr "lib-alpha-value"
