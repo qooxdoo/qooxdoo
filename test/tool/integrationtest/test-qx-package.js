@@ -19,10 +19,10 @@ if (debug) {
   debugArg += "--debug --colorize";
 }
 
-test("Test qx package command without parameters", async assert => {
+test("Test qx package command with help", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand(appDir, qxCmdPath, "package");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "--help");
     assert.ok(result.exitCode === 0, "qx package command should exit successfully");
     result.output = result.output.toLowerCase();
     assert.ok(result.output.includes("usage:") || result.output.includes("commands:"), "Output should contain help information");

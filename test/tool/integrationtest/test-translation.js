@@ -16,15 +16,19 @@ async function simpleParsePo(filename) {
   return po;
 }
 
-test("test translation file update", async assert => {
-  try {
-    await testUtils.deleteRecursive("test-translation/tranapp/compiled");
-    await testUtils.safeDelete("test-translation/tranapp/source/translation/en.po");
-    await fsPromises.writeFile("test-translation/tranapp/source/translation/en.po",
+async function prepare() {
+   await testUtils.deleteRecursive("test-translation/tranapp/compiled");
+   await testUtils.safeDelete("test-translation/tranapp/source/translation/en.po");
+   await fsPromises.writeFile("test-translation/tranapp/source/translation/en.po",
 `
 msgid "Lib Override"
 msgstr "lib-override-replaced-value"
 `, "utf8");
+}
+
+test("test translation file update", async assert => {
+  try {
+    await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u");
     let po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["App Alpha"] !== undefined);
@@ -34,12 +38,14 @@ msgstr "lib-override-replaced-value"
     assert.ok(po["Lib Beta"] === undefined);
     assert.ok(po["Lib Charlie"] === undefined);
 
+    await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=untranslated");
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === undefined);
     assert.ok(po["Lib Beta"] !== undefined);
     assert.ok(po["Lib Charlie"] !== undefined);
 
+    await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=all");
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === "lib-alpha-value");

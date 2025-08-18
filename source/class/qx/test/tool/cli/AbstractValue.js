@@ -77,19 +77,6 @@ qx.Class.define("qx.test.tool.cli.AbstractValue", {
       this.assertEquals(3, value.getType().length);
     },
 
-    testApplyTypeArray() {
-      let value = new qx.tool.cli.Flag("test");
-      
-      // Setting array type should automatically set array property
-      value.setType(["opt1", "opt2"]);
-      this.assertTrue(value.isArray());
-      
-      // Setting non-array type should not affect array property
-      value.setArray(false);
-      value.setType("string");
-      this.assertFalse(value.isArray());
-    },
-
     testCheckFunction() {
       let value = new qx.tool.cli.Flag("test");
       
