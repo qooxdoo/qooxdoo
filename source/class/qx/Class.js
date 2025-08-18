@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.Class", {
       async: "boolean", // Boolean
       deferredInit: "boolean", // Boolean
       validate: ["string", "function"], // String, Function
-      isEqual: ["string", "function"], // String, Function      
+      isEqual: ["string", "function"], // String, Function
       autoApply: "boolean", // Boolean
       get: ["string", "function"], // String, Function
       set: ["string", "function"], // String, Function
@@ -662,7 +662,10 @@ qx.Bootstrap.define("qx.Class", {
               for (let property of Object.values(subclass.prototype.$$allProperties)) {
                 if (
                   property instanceof qx.core.property.Property &&
-                  !property.toString().startsWith("qx.ui") &&
+                  !(
+                    this.classname &&
+                    qx.core.Environment.get("qx.core.property.Property.excludeAutoApply").find(match => this.classname.match(match))
+                  ) &&
                   property.hasInitValue() &&
                   property.getDefinition().autoApply !== false &&
                   !property.getPropertyState(this).initMethodCalled

@@ -55,6 +55,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
     "qx.core.property.Property.applyDuringConstruct": true,
 
     /**
+     * Only relevant when applyDuringConstruct is true.
+     * This contains regexes matching classnames which are excluded from the auto apply behaviour.
+     * They refer to concrete classes only, not the superclasses.
+     *
+     * @type {Array<RegExp | string>}
+     */
+    "qx.core.property.Property.excludeAutoApply": [/^qx\./],
+
+    /**
      * @deprecated Changing this setting is deprecated.
      * If set to true, this enables the deprecated `deferredInit` setting in property definitions,
      * before initFunctions were introduced.
