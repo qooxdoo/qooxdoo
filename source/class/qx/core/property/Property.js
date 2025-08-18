@@ -737,7 +737,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {Boolean} async whether to set the value asynchronously
      */
     __setImpl(thisObj, value, scope, method, async = false) {
-      //cbh
       let error;
       const doit = async () => {
         try {
@@ -900,7 +899,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
           value = this.getInitValue(thisObj);
         }
         if (value === undefined) {
-          if (this.__definition?.nullable) {
+          if (typeof this.__definition?.check == "Boolean") {
+            return false;
+          }
+          if (this.__definition?.nullable || this.__check?.isNullable()) {
             return null;
           }
           if (qx.core.Environment.get("qx.core.property.Property.inheritableDefaultIsNull")) {
