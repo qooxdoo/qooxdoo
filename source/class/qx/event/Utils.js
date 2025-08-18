@@ -97,13 +97,7 @@ qx.Class.define("qx.event.Utils", {
         if (tracker.promises === undefined) {
           tracker.promises = [];
         }
-        var ex = null;
-        try {
-          throw new Error("");
-        } catch (e) {
-          ex = e;
-        }
-        tracker.promises.push({ promise: newPromise, ex: ex });
+        tracker.promises.push({ promise: newPromise, ex: new Error("") });
       }
       tracker.promise = newPromise;
       return tracker.promise;
