@@ -4,19 +4,13 @@ const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
-const qxCmdPath = testUtils.getCompiler();
+const qxCmdPath = testUtils.getCompiler("source");
 const testDir = path.join(__dirname, "test-qx-es6ify");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
-function reportError(result) {
-  if (result.error) {
-    return new Error(`The command exited with an error: ${result.error}. Output was: ${result.output}`);
-  }
-  return "";
-}
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -29,15 +23,15 @@ async function assertPathExists(path){
 test("es6ify help", async assert => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "es6ify", "--help");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("es6ify"), "Help should mention es6ify command");
     assert.ok(result.output.includes("help migrate code to ES6"), "Help should mention ES6 migration");
     assert.ok(result.output.includes("files"), "Help should mention files argument");
     assert.ok(result.output.includes("--overwrite"), "Help should mention overwrite option");
     assert.ok(result.output.includes("--exclude"), "Help should mention exclude option");
-    assert.ok(result.output.includes("--arrowFunctions"), "Help should mention arrowFunctions option");
-    assert.ok(result.output.includes("--singleLineBlocks"), "Help should mention singleLineBlocks option");
-    assert.ok(result.output.includes("--gitPreCommit"), "Help should mention gitPreCommit option");
+    assert.ok(result.output.includes("--arrow-functions"), "Help should mention arrowFunctions option");
+    assert.ok(result.output.includes("--single-line-blocks"), "Help should mention singleLineBlocks option");
+    assert.ok(result.output.includes("--git-pre-commit"), "Help should mention gitPreCommit option");
     assert.end();
   } catch (ex) {
     assert.end(ex);
@@ -95,7 +89,7 @@ qx.Class.define("MyTestClass", {
     
     // Test es6ify command with careful arrow function mode (default)
     let result = await testUtils.runCommand(testDir, qxCmdPath, "es6ify", "--arrowFunctions=careful", "source/TestClass.js");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("Processing"), "Should show processing message");
     
     // Read the transformed content
@@ -143,7 +137,7 @@ test("es6ify with arrow function modes", async assert => {
       await fsp.writeFile(testFilePath, simpleContent);
       
       let result = await testUtils.runCommand(testDir, qxCmdPath, "es6ify", `--arrowFunctions=${mode}`, "source/ArrowTest.js");
-      assert.ok(result.exitCode === 0, `Should succeed with arrowFunctions=${mode}: ${reportError(result)}`);
+      assert.ok(result.exitCode === 0, `Should succeed with arrowFunctions=${mode}: ${testUtils.reportError(result)}`);
       
       // Verify file was processed
       const content = await fsp.readFile(testFilePath, "utf8");
@@ -193,7 +187,7 @@ test("es6ify with exclude option", async assert => {
     
     // Test es6ify with exclude pattern
     let result = await testUtils.runCommand(testDir, qxCmdPath, "es6ify", "--exclude=**/excluded/**", "source");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Check that main file was processed but excluded file was not
     const processedMainContent = await fsp.readFile(mainFilePath, "utf8");
@@ -241,7 +235,7 @@ test("es6ify with single line blocks option", async assert => {
     
     // Test es6ify with singleLineBlocks option
     let result = await testUtils.runCommand(testDir, qxCmdPath, "es6ify", "--singleLineBlocks=true", "source/SingleLineTest.js");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Check that the file was processed
     const transformedContent = await fsp.readFile(testFilePath, "utf8");
@@ -277,7 +271,7 @@ test("es6ify with no overwrite option", async assert => {
     
     // Test es6ify with overwrite=false
     let result = await testUtils.runCommand(testDir, qxCmdPath, "es6ify", "--overwrite=false", "source/NoOverwriteTest.js");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Check that original file was not modified when overwrite=false
     const fileContent = await fsp.readFile(testFilePath, "utf8");
@@ -299,11 +293,11 @@ test("es6ify default behavior", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Add a test class with ES5 syntax
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.Es6Test", "--extend=qx.core.Object", "--force");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Modify the generated class to have ES5 syntax
     const testFilePath = path.join(myAppDir, "source", "class", "myapp", "Es6Test.js");
@@ -326,7 +320,7 @@ test("es6ify default behavior", async assert => {
     
     // Test es6ify with default settings (should process source directory)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "es6ify");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("Processing"), "Should show processing messages");
     
     // Verify that files were processed

@@ -571,6 +571,10 @@ moreUtils = {
   }
 };
 
+function reportError(result) {
+   return new Error(`*** The command exited with an ExitCode: ${result.exitCode}\n*** ERROR:\n${result.error}.\n*** OUTPUT: ${result.output}. ` );
+}
+
 module.exports = {
   getCompiler,
   runCompiler,
@@ -587,6 +591,7 @@ module.exports = {
   copyFile: moreUtils.copyFile,
   safeStat: moreUtils.safeStat,
   safeRename: moreUtils.safeRename,
-  correctCase: moreUtils.correctCase
+  correctCase: moreUtils.correctCase,
+  reportError
 };
 

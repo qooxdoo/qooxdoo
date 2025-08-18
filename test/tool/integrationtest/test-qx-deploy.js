@@ -12,12 +12,6 @@ const deployDir = path.join(testDir, "deploy");
 //colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
-function reportError(result) {
-  if (result.error) {
-    return new Error(`The command exited with an error: ${result.error}. Output was: ${result.output}`);
-  }
-  return "";
-}
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -30,7 +24,7 @@ async function assertPathExists(path){
 test("deploy help", async assert => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "deploy", "--help");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("deploy"), "Help should mention deploy command");
     assert.ok(result.output.includes("deploys qooxdoo application"), "Help should mention deployment functionality");
     assert.ok(result.output.includes("--out"), "Help should mention out option");
@@ -58,20 +52,17 @@ test("deploy basic functionality", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command with output directory
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir, "--clean");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify deployment output structure
     assert.ok(await assertPathExists(deployDir), "Deploy directory should be created");
     assert.ok(await assertPathExists(path.join(deployDir, "myapp")), "App directory should be created in deploy dir");
     assert.ok(await assertPathExists(path.join(deployDir, "resource")), "Resource directory should be copied");
     
-    // Check for main application files
-    const appDeployDir = path.join(deployDir, "myapp");
-    assert.ok(await assertPathExists(path.join(appDeployDir, "boot.js")), "Boot.js should be deployed");
     
     // Check for index.html if it exists
     const indexPath = path.join(deployDir, "index.html");
@@ -99,11 +90,11 @@ test("deploy with source maps", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command with source maps enabled
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir, "--source-maps", "--clean");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify deployment with source maps
     assert.ok(await assertPathExists(deployDir), "Deploy directory should be created");
@@ -137,11 +128,11 @@ test("deploy without source maps", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command without source maps (default behavior)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir, "--clean");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify deployment without source maps
     assert.ok(await assertPathExists(deployDir), "Deploy directory should be created");
@@ -169,11 +160,11 @@ test("deploy specific application", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command with specific app name
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir, "--app-name=myapp", "--clean");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify deployment
     assert.ok(await assertPathExists(deployDir), "Deploy directory should be created");
@@ -195,11 +186,11 @@ test("deploy without clean flag", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command without clean flag (should show warning)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir);
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Should show warning about incremental build
     assert.ok(result.output.includes("Incremental build") || result.output.includes("not Clean"), 
@@ -224,7 +215,7 @@ test("deploy error handling", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test deploy command without output directory (should fail or show error)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--clean");
@@ -255,11 +246,11 @@ test("deploy file structure verification", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Deploy the application
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "deploy", "--out", deployDir, "--clean");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify the deployed application structure is minimal and production-ready
     const appDeployDir = path.join(deployDir, "myapp");

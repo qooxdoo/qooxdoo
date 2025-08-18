@@ -353,6 +353,33 @@ qx.Class.define("qx.test.tool.cli.Flag", {
       this.assertEquals(2, result.length);
       this.assertEquals("file1.txt", result[0]);
       this.assertEquals("file2.txt", result[1]);
+      this.assertEquals(2, consumed); // Verify correct number of arguments were consumed
+    },
+
+    testArrayFlagWithCommaSeparatedValues() {
+      let flag = new qx.tool.cli.Flag("array").set({
+        type: "string",
+        array: true
+      });
+      
+      let consumed = 0;
+      function mockGetMore(index, rebase) {
+        let values = ["additional-arg"];
+        if (rebase) {
+          consumed = index;
+          return null;
+        }
+        return values[index] || null;
+      }
+      
+      flag.parse("--array=test,test2", mockGetMore);
+      let values = flag.getValue();
+      
+      this.assertTrue(qx.lang.Type.isArray(values));
+      this.assertEquals(2, values.length);
+      this.assertEquals("test", values[0]);
+      this.assertEquals("test2", values[1]);
+      this.assertEquals(0, consumed); // Verify no additional arguments were consumed
     }
   }
 });

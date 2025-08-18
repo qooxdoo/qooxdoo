@@ -39,7 +39,7 @@ qx.Class.define("qx.tool.compiler.cli.api.LibraryApi", {
      * place to install additional commands, because a command has not yet
      * been selected
      */
-    async initialize(cmd) {
+    initialize(cmd) {
       // Nothing
     },
 

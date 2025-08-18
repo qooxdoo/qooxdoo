@@ -11,12 +11,6 @@ const myAppDir = path.join(testDir, "myapp");
 //colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
-function reportError(result) {
-  if (result.error) {
-    return new Error(`The command exited with an error: ${result.error}. Output was: ${result.output}`);
-  }
-  return "";
-}
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -29,7 +23,7 @@ async function assertPathExists(path){
 test("typescript help", async assert => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "typescript", "--help");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("typescript"), "Help should mention typescript command");
     assert.ok(result.output.includes("generate typescript definitions"), "Help should mention typescript definitions");
     assert.ok(result.output.includes("output-filename"), "Help should mention output-filename option");
@@ -47,20 +41,20 @@ test("typescript command with app", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Compile the app first to ensure it's valid
     result = await testUtils.runCompiler(myAppDir);
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test typescript command with default output filename
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "typescript", "-v");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(await assertPathExists(path.join(myAppDir, "qooxdoo.d.ts")), "Default TypeScript definition file should be created");
     
     // Test typescript command with specific files (the outputFilename parameter doesn't seem to work in current implementation)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "typescript", "--verbose", "source/class");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     // The TypeScript command currently always outputs to qooxdoo.d.ts regardless of --outputFilename
     assert.ok(await assertPathExists(path.join(myAppDir, "qooxdoo.d.ts")), "TypeScript definition file should be created with default name");
     
@@ -80,15 +74,15 @@ test("typescript command with exclude", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Add a custom test class to verify exclude functionality
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.test.CustomTest", "--extend=qx.core.Object", "--force");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Generate TypeScript definitions without exclude first
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "typescript", "--verbose");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Read the generated TypeScript file without exclude
     const fullContent = await fsp.readFile(path.join(myAppDir, "qooxdoo.d.ts"), "utf8");
@@ -99,7 +93,7 @@ test("typescript command with exclude", async assert => {
     
     // Test typescript command with exclude option for test directory
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "typescript", "--exclude=**/test/**", "--verbose");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(await assertPathExists(path.join(myAppDir, "qooxdoo.d.ts")), "TypeScript definition file with exclusions should be created");
     
     // Read the generated TypeScript file with exclude

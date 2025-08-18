@@ -10,12 +10,6 @@ const testDir = path.join(__dirname, "test-qx-export-glyphs");
 //colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
-function reportError(result) {
-  if (result.error) {
-    return new Error(`The command exited with an error: ${result.error}. Output was: ${result.output}`);
-  }
-  return "";
-}
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -28,7 +22,7 @@ async function assertPathExists(path){
 test("export-glyphs help", async assert => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", "--help");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("export-glyphs"), "Help should mention export-glyphs command");
     assert.ok(result.output.includes("export font glyphs"), "Help should mention glyph export functionality");
     assert.ok(result.output.includes("fontFile"), "Help should mention fontFile argument");
@@ -53,7 +47,7 @@ test("export-glyphs with MaterialIcons font", async assert => {
     
     // Test export-glyphs with MaterialIcons font
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", materialIconsFont, outputFile);
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify output file was created
     assert.ok(await assertPathExists(outputFile), "Glyph output file should be created");
@@ -126,7 +120,7 @@ test("export-glyphs with TTF font", async assert => {
     
     // Test export-glyphs with TTF font
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", materialIconsFont, outputFile);
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Verify output file was created
     assert.ok(await assertPathExists(outputFile), "Glyph output file should be created for TTF");
@@ -197,7 +191,7 @@ test("export-glyphs output verification", async assert => {
     
     // Test export-glyphs
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", materialIconsFont, outputFile);
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Read and verify the JSON content in detail
     const glyphData = JSON.parse(await fsp.readFile(outputFile, "utf8"));

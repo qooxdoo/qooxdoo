@@ -103,9 +103,6 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
     __errors: null,
 
     _applyType(value, old) {
-      if (qx.lang.Type.isArray(value)) {
-        this.setArray(true);
-      }
     },
 
     _applyValue(value, old) {

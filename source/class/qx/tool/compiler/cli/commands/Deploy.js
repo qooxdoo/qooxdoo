@@ -47,6 +47,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Deploy", {
 
       // Remove flags that deploy doesn't use
       cmd.removeFlag("watch");
+      cmd.removeFlag("watch-debug");
       cmd.removeFlag("write-library-info");
       cmd.removeFlag("download");
       cmd.removeFlag("update-po-files");
@@ -116,7 +117,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Deploy", {
       let appNames = null;
       if (argv.appName) {
         appNames = {};
-        argv.appName.split(",").forEach(appName => (appNames[appName] = true));
+        String(argv.appName).split(",").forEach(appName => (appNames[appName] = true));
       }
 
       if (argv.clean) {

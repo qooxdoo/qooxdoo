@@ -11,12 +11,6 @@ const myAppDir = path.join(testDir, "myapp");
 //colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
-function reportError(result) {
-  if (result.error) {
-    return new Error(`The command exited with an error: ${result.error}. Output was: ${result.output}`);
-  }
-  return "";
-}
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -29,16 +23,16 @@ async function assertPathExists(path){
 test("lint help", async assert => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "lint", "--help");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("lint"), "Help should mention lint command");
     assert.ok(result.output.includes("runs eslint"), "Help should mention eslint functionality");
     assert.ok(result.output.includes("--fix"), "Help should mention fix option");
     assert.ok(result.output.includes("--cache"), "Help should mention cache option");
     assert.ok(result.output.includes("--format"), "Help should mention format option");
-    assert.ok(result.output.includes("--outputFile"), "Help should mention outputFile option");
+    assert.ok(result.output.includes("--output-file"), "Help should mention output-file option");
     assert.ok(result.output.includes("--print-config"), "Help should mention print-config option");
     assert.ok(result.output.includes("--use-eslintrc"), "Help should mention use-eslintrc option");
-    assert.ok(result.output.includes("--warnAsError"), "Help should mention warnAsError option");
+    assert.ok(result.output.includes("--warn-as-error"), "Help should mention warn-as-error option");
     assert.ok(result.output.includes("--fix-jsdoc-params"), "Help should mention fix-jsdoc-params option");
     assert.end();
   } catch (ex) {
@@ -53,11 +47,11 @@ test("lint command with app", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Add a class with lint issues to test linting
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.LintTest", "--extend=qx.core.Object", "--force");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Create a file with intentional lint issues
     const lintTestContent = `qx.Class.define("myapp.LintTest", {
@@ -78,7 +72,8 @@ test("lint command with app", async assert => {
     // Test basic lint command (should find issues)
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "source/class/myapp/LintTest.js");
     // Lint should exit with non-zero code when issues are found, but we test for proper execution
-    assert.ok(result.output.includes("LintTest.js") || result.output.includes("No errors found!"), "Lint should process the file");
+    let output = result.output || result.error;
+    assert.ok(output.includes("LintTest.js") || output.includes("No errors found!"), testUtils.reportError(result));
     
     // Test lint with --format option
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "--format=compact", "source/class/myapp/LintTest.js");
@@ -87,7 +82,7 @@ test("lint command with app", async assert => {
     
     // Test lint with --print-config option  
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "--print-config", "source/class/myapp/LintTest.js");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("rules") || result.output.includes("extends"), "Print config should show ESLint configuration");
     
     // Test lint with --cache option
@@ -110,12 +105,12 @@ test("lint command with output file", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Test lint with output file (should create report even if no errors)
     const outputFile = path.join(myAppDir, "lint-report.txt");
-    result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "--outputFile=" + outputFile, "--verbose");
-    assert.ok(result.exitCode === 0, reportError(result));
+    result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "--output-file=" + outputFile, "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Check if output file was created
     const fileExists = await fsp.access(outputFile).then(() => true).catch(() => false);
@@ -137,11 +132,11 @@ test("lint command with fix option", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Add a class with fixable lint issues
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.FixableTest", "--extend=qx.core.Object", "--force");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Create a file with fixable lint issues (missing spaces, semicolons, etc.)
     const fixableContent = `qx.Class.define("myapp.FixableTest", {
@@ -205,11 +200,11 @@ test("lint command with jsdoc fixes", async assert => {
     await fsp.mkdir(testDir, { recursive: true });
     
     let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Add a class with JSDoc parameter ordering issues
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.JSDocTest", "--extend=qx.core.Object", "--force");
-    assert.ok(result.exitCode === 0, reportError(result));
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     
     // Create a file with JSDoc parameter ordering issues
     const jsdocContent = `qx.Class.define("myapp.JSDocTest", {
