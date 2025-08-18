@@ -87,6 +87,54 @@ qx.Mixin.define(
         return this;
       },
 
+
+      /**
+       * Sets a property or multiple properties asynchronously.
+       * First tries calling `setPropetyNameAsync` if it exists,
+       * otherwise falls back to `setPropertyName`.
+       * 
+       * @overload
+       * @param {string} data Name of property to set
+       * @param {*} value Value to set it to
+       * 
+       * @overload
+       * @param {Object<string, *>} data Map of properties to set
+       * 
+       * @returns {qx.core.Object | Promise<*>} This instance if a map was provided, 
+       * or, if a single property is set,
+       * a promise which resolves when the setting has completed
+       * to the set value of the property.
+       */
+      async setAsync(data, value) {
+        const setValueImpl = async (propName, value) => {
+          let upname = qx.Bootstrap.firstUp(propName);
+          let setterName = "set" + upname + "Async";
+
+          if (!this.setterName) {
+            setterName = "set" + upname;
+          }
+
+          if (qx.core.Environment.get("qx.debug")) {
+            if (!this[setterName]) {
+              throw new Error(
+                `No such property: ${propName} in ${this.classname} (${this})`
+              );
+            }
+          }
+
+          return await this[setterName](value);
+        };
+
+        if (qx.Bootstrap.isString(data)) {
+          return await setValueImpl(data, value);
+        }
+
+        for (let propName in data) {
+          await setValueImpl(propName, data[propName]);
+        }
+        return this;
+      },
+
       /**
        * Returns the value of the given property. If no generated getter could
        * be found, a fallback tries to access a handwritten getter.
