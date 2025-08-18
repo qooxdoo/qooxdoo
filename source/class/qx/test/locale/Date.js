@@ -21,7 +21,7 @@ qx.Class.define("qx.test.locale.Date", {
 
   members: {
     setUp() {
-      qx.locale.Manager.getInstance().setLocale("C");
+      qx.locale.Manager.getInstance().setLocale("en");
     },
 
     tearDown() {

@@ -28,8 +28,9 @@ msgstr "lib-override-replaced-value"
 
 test("test translation file update", async assert => {
   try {
+    let result;
     await prepare();
-    await testUtils.runCompiler("test-translation/tranapp", "-u");
+    result = await testUtils.runCompiler("test-translation/tranapp", "-u");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     let po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["App Alpha"] !== undefined);
@@ -40,7 +41,7 @@ test("test translation file update", async assert => {
     assert.ok(po["Lib Charlie"] === undefined);
 
     await prepare();
-    await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=untranslated");
+    result = await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=untranslated");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === undefined);
@@ -48,7 +49,7 @@ test("test translation file update", async assert => {
     assert.ok(po["Lib Charlie"] !== undefined);
 
     await prepare();
-    await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=all");
+    result = await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=all");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === "lib-alpha-value");

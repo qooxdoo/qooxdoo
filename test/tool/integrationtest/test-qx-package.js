@@ -22,7 +22,7 @@ if (debug) {
 test("Test qx package command with help", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "--help");
+    result = await testUtils.runCommand(testDir, qxCmdPath, "package", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     result.output = result.output.toLowerCase();
     assert.ok(result.output.includes("usage:") || result.output.includes("commands:"), "Output should contain help information");
