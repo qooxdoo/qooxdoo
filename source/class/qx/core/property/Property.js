@@ -618,6 +618,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Gets a property value; if not initialized, it will return undefined
+     * @param {qx.core.Object} thisObj
+     * @param {boolean?} async
+     * @returns {*}
+     */
+    getSafe(thisObj, async = false) {
+      return this.__getImpl(thisObj, true, async);
+    },
+
+    /**
      * Gets the themed value, if there is one
      *
      * @param {qx.core.Object} thisObj
@@ -890,13 +900,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
           value = state.themeValue;
         }
         if (value === undefined) {
-          if (this.__definition?.inheritable) {
+          if (this.isInheritable()) {
             let state = this.getPropertyState(thisObj);
             value = state.inheritedValue;
           }
         }
         if (value === undefined) {
           value = this.getInitValue(thisObj);
+        }
+        if (this.isInheritable() && value === "inherit") {
+          let state = this.getPropertyState(thisObj);
+          value = state.inheritedValue;
         }
         if (value === undefined) {
           if (typeof this.__definition?.check == "Boolean") {
@@ -922,11 +936,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       };
 
       let value = this.__storage.get(thisObj, this);
-
-      if (this.isInheritable() && value === "inherit") {
-        let state = this.getPropertyState(thisObj);
-        value = state.inheritedValue;
-      }
 
       if (value === undefined) {
         if (async) {
@@ -975,7 +984,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns
      */
     refresh(thisObj) {
-      if (!this.__definition?.inheritable) {
+      if (!this.isInheritable()) {
         throw new Error(`${this} is not inheritable`);
       }
       let oldValue = this.__getImpl(thisObj, true);
@@ -1235,7 +1244,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isInheritable() {
-      return !!this.__definition?.inheritable;
+      if (this.__superClass) {
+        let parent = this.__superClass.prototype.$$allProperties[this.__propertyName];
+        return parent.isInheritable();
+      } else {
+        return !!this.__definition?.inheritable;
+      }
     },
 
     /**

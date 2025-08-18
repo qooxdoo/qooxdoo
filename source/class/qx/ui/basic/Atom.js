@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control.setRich(this.getRich());
           control.setSelectable(this.getSelectable());
           this._add(control);
-          if (this.getLabel() == null || this.getShowFeatures() === "icon") {
+          if (this.getLabel() == null || this.getSafe("showFeatures") === "icon") {
             control.exclude();
           }
           break;
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.basic.Atom", {
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAnonymous(true);
           this._addAt(control, 0);
-          if (this.getIcon() == null || this.getShowFeatures() === "label") {
+          if (this.getIcon() == null || this.getSafe("showFeatures") === "label") {
             control.exclude();
           }
           break;
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the label
      */
     _handleLabel() {
-      if (this.getLabel() == null || this.getShowFeatures() === "icon") {
+      if (this.getLabel() == null || this.getSafe("showFeatures") === "icon") {
         this._excludeChildControl("label");
       } else {
         this._showChildControl("label");
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.basic.Atom", {
      * Updates the visibility of the icon
      */
     _handleIcon() {
-      if (this.getIcon() == null || this.getShowFeatures() === "label") {
+      if (this.getIcon() == null || this.getSafe("showFeatures") === "label") {
         this._excludeChildControl("icon");
       } else {
         this._showChildControl("icon");
