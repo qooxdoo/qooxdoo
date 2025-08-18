@@ -658,7 +658,7 @@ qx.Bootstrap.define("qx.Class", {
           if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
             //Call apply function for properties of this class which have an init value and which haven't been initialized yet.
             //This must be done once per instantiation, after the constructor of the concrete class has finished.
-            if (this.classname === subclass.classname) {
+            if (this.constructor === subclass) {
               for (let property of Object.values(subclass.prototype.$$allProperties)) {
                 if (
                   property instanceof qx.core.property.Property &&
