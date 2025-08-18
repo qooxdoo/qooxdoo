@@ -27,7 +27,8 @@ qx.Class.define("qx.test.core.Property", {
 
   members: {
     setUp() {
-      qx.core.Environment.set("qx.core.property.Property.excludeAutoApply", null);
+      qx.core.Environment.set("qx.core.property.Property.excludeAutoApply", []);
+      qx.core.Environment.set("qx.core.property.Property.applyDuringConstruct", true);
       qx.Class.define("qx.test.cpnfv8.Object", {
         extend: qx.core.Object
       });
@@ -413,6 +414,7 @@ qx.Class.define("qx.test.core.Property", {
 
     tearDown() {
       qx.core.Environment.reset("qx.core.property.Property.excludeAutoApply");
+      qx.core.Environment.reset("qx.core.property.Property.applyDuringConstruct");
       qx.Class.undefine("qx.test.cpnfv8.Object");
       qx.Class.undefine("qx.test.cpnfv8.Superclass");
       qx.Class.undefine("qx.test.cpnfv8.ExternalStorage");

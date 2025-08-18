@@ -48,11 +48,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     "qx.core.property.Property.inheritableDefaultIsNull": false,
     /**
-     * @deprecated Changing this setting is deprecated.
-     * In Qooxdoo V8, all apply methods of properties with init values will now be called during construction.
-     * To disable this and use old behaviour, set this to false.
+     * If set to true, then properties with init values will have their apply method called during construction.
      */
-    "qx.core.property.Property.applyDuringConstruct": true,
+    "qx.core.property.Property.applyDuringConstruct": false,
 
     /**
      * Only relevant when applyDuringConstruct is true.
@@ -68,7 +66,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * If set to true, this enables the deprecated `deferredInit` setting in property definitions,
      * before initFunctions were introduced.
      */
-    "qx.core.property.Property.allowDeferredInit": false
+    "qx.core.property.Property.allowDeferredInit": true
   },
 
   members: {
