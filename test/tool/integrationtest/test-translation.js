@@ -30,6 +30,7 @@ test("test translation file update", async assert => {
   try {
     await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     let po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["App Alpha"] !== undefined);
     assert.ok(po["App Beta"] !== undefined);
@@ -40,6 +41,7 @@ test("test translation file update", async assert => {
 
     await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=untranslated");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === undefined);
     assert.ok(po["Lib Beta"] !== undefined);
@@ -47,6 +49,7 @@ test("test translation file update", async assert => {
 
     await prepare();
     await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=all");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
     assert.ok(po["Lib Alpha"] === "lib-alpha-value");
     assert.ok(po["Lib Beta"] !== undefined);
