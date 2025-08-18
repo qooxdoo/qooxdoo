@@ -62,7 +62,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       cmd.addFlag(
         new qx.tool.cli.Flag("library-po").set({
           description: "The policy for updating translations in libraries",
-          array: true,
           type: ["ignore", "untranslated", "all"],
           value: "ignore"
         })

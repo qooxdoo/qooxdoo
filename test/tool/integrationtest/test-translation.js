@@ -44,18 +44,17 @@ test("test translation file update", async assert => {
     result = await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=untranslated");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
-    assert.ok(po["Lib Alpha"] === undefined);
-    assert.ok(po["Lib Beta"] !== undefined);
-    assert.ok(po["Lib Charlie"] !== undefined);
+    assert.ok(po["Lib Alpha"] === undefined, po["Lib Alpha"]);
+    assert.ok(po["Lib Beta"] !== undefined, po["Lib Beta"]);
+    assert.ok(po["Lib Charlie"] !== undefined, po["Lib Charlie"]);
 
     await prepare();
     result = await testUtils.runCompiler("test-translation/tranapp", "-u", "--library-po=all");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     po = await simpleParsePo("test-translation/tranapp/source/translation/en.po");
-    assert.ok(po["Lib Alpha"] === "lib-alpha-value");
-    assert.ok(po["Lib Beta"] !== undefined);
-    assert.ok(po["Lib Charlie"] !== undefined);
-    assert.ok(po["Lib Charlie"] !== undefined);
+    assert.ok(po["Lib Alpha"] === "lib-alpha-value", po["Lib Alpha"]);
+    assert.ok(po["Lib Beta"] !== undefined, po["Lib Beta"]);
+    assert.ok(po["Lib Charlie"] !== undefined, po["Lib Charlie"]);
 
     let data = await fsPromises.readFile("test-translation/tranapp/compiled/source/tranapp/package-0.js", "utf8");
     assert.ok(!!data.match(/lib-override-replaced-value/));
