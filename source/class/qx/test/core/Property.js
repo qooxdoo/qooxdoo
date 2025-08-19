@@ -1706,12 +1706,15 @@ qx.Class.define("qx.test.core.Property", {
         this.assertArrayEquals(tp.state, ["apply-one", "apply-two", "apply-two", "event-two"]);
 
         tp = createTestPromise();
-        tmp = tp.setPropTwoAsync(qx.Promise.resolve(18));
+        tmp = tp.setAsync("propTwo", qx.Promise.resolve(18));
         this.assertTrue(qx.lang.Type.isPromise(tmp));
         this.assertArrayEquals(tp.state, []);
         result = await tmp;
         this.assertTrue(result === 18);
         this.assertArrayEquals(tp.state, ["apply-one", "apply-two", "apply-two", "event-two"]);
+        tmp = await tp.setAsync({ propTwo: qx.Promise.resolve(18) });
+        this.assertIdentical(tp, tmp);
+        this.assertArrayEquals(tp.state, ["apply-one", "apply-two", "apply-two", "event-two", "apply-two", "event-two"]);
       };
       testImpl().finally(() => this.resume());
       this.wait(1000);
