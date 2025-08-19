@@ -62,7 +62,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
     "qx.core.property.Property.excludeAutoApply": [/^qx\./],
 
     /**
-     * @deprecated Changing this setting is deprecated.
      * If set to true, this enables the deprecated `deferredInit` setting in property definitions,
      * before initFunctions were introduced.
      */
@@ -776,6 +775,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
             value = this.__getImpl(thisObj, true);
           }
 
+          if (this.isInheritable() && value === "inherit") {
+            let state = this.getPropertyState(thisObj);
+            value = state.inheritedValue;
+          }
+
           let check = this.getCheck();
           if (qx.core.Environment.get("qx.debug")) {
             if (qx.lang.Type.isPromise(value) && (!check || check instanceof qx.core.check.Any)) {
@@ -787,7 +791,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             }
           }
 
-          if (method !== "reset" && !(this.isInheritable() && value === "inherit") && check && !check.matches(value, thisObj)) {
+          if (method !== "reset" && check && !check.matches(value, thisObj)) {
             let coerced = check.coerce(value, thisObj);
             if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
               throw new Error(`Invalid value for property ${this}: ${value}`);
