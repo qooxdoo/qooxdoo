@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
     this.addListener("pointerout", this._onPointerOut, this);
 
     this.__bindings = [];
-    
+    this.initSelection(this.getChildControl("dropdown").getSelection());
 
     this.__searchTimer = new qx.event.Timer(500);
     this.__searchTimer.addListener("interval", this.__preselect, this);
@@ -65,7 +65,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
       this.__initIncrementalSearch();
     }
 
-    
+    this.initHtmlMarkers([
+      '<span style="' + this.__getHighlightStyleFromAppearance() + '">',
+      "</span>"
+    ]);
   },
 
   properties: {
@@ -105,10 +108,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
      */
     htmlMarkers: {
       apply: "__applyMarkers",
-      initFunction: () => [
-      '<span style="' + this.__getHighlightStyleFromAppearance() + '">',
-      "</span>"
-    ],
+      deferredInit: true,
       check: "Array"
     },
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
       event: "changeSelection",
       apply: "_applySelection",
       nullable: false,
-      initFunction: () => this.getChildControl("dropdown").getSelection()
+      deferredInit: true
     }
   },
 

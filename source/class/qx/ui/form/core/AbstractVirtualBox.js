@@ -55,7 +55,10 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
     );
 
     if (model != null) {
-      this.setModel(model);
+      this.initModel(model);
+    } else {
+      this.__defaultModel = new qx.data.Array();
+      this.initModel(this.__defaultModel);
     }
   },
 
@@ -78,7 +81,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
       apply: "_applyModel",
       event: "changeModel",
       nullable: false,
-      initFunction: () => new qx.data.Array(),
+      deferredInit: true
     },
 
     /**
@@ -168,6 +171,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
 
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members: {
+    /** @type {qx.data.Array} The initial model array of this virtual box. */
+    __defaultModel: null,
 
     /**
      * @lint ignoreReferenceField(_forwardStates)
@@ -454,6 +459,12 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
       this.getChildControl("dropdown")
         .getChildControl("list")
         .setMaxHeight(value);
+    }
+  },
+
+  destruct() {
+    if (this.__defaultModel) {
+      this.__defaultModel.dispose();
     }
   }
 });
