@@ -559,6 +559,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         throw new Error(`${this}: init() called without a value`);
       }
 
+      if (!this.isReadOnly()) {
+        this.__storage.set(thisObj, this, value);
+      }
       this._setMutating(thisObj, true);
       thisObj["$$init_" + this.__propertyName] = value;
 
@@ -806,12 +809,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
               // Always set the value to the storage if it is a user value; this is because themable properties
               // might be equal now, but if the theme value changes, the user's override needs to remain.
               if (method == "set" || method == "init") {
-                let initValue = this.getInitValue(thisObj);
-
-                //this is important so that immutable storages work
-                if (initValue !== undefined) {
-                  this.__storage.set(thisObj, this, initValue);
-                }
                 this.__storage.set(thisObj, this, value);
               }
               if (value == "inherit") {
