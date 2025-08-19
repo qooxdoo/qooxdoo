@@ -35,6 +35,8 @@ qx.Class.define("qx.ui.virtual.cell.Date", {
 
     if (dateFormat) {
       this.setDateFormat(dateFormat);
+    } else {
+      this.initDateFormat(qx.util.format.DateFormat.getDateTimeInstance());
     }
   },
 
@@ -48,7 +50,7 @@ qx.Class.define("qx.ui.virtual.cell.Date", {
     /** The date format used to render the cell */
     dateFormat: {
       check: "qx.util.format.DateFormat",
-      initFunction: () => qx.util.format.DateFormat.getDateTimeInstance()
+      deferredInit: true
     }
   },
 
