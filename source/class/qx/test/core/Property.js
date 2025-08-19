@@ -792,6 +792,14 @@ qx.Class.define("qx.test.core.Property", {
       inst.dispose();
     },
 
+    testInitFunction() {
+      let inst = new qx.test.cpnfv8.Superclass();
+      let initial = inst.getJsdocProp();
+      let second = inst.getJsdocProp();
+      this.assertArrayEquals([10, 20, 30], initial, "properties created with initFunction returned by getter should be the same");
+      this.assertIdentical(initial, second, "properties created with initFunction returned by getter should be the same");      
+    },
+
     testDefinesThanSubClassWithInterface() {
       // see bug #2162 for details
       if (qx.test.A) {
