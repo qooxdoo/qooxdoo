@@ -110,7 +110,7 @@ qx.Mixin.define(
           let upname = qx.Bootstrap.firstUp(propName);
           let setterName = "set" + upname + "Async";
 
-          if (!this.setterName) {
+          if (!this[setterName]) {
             setterName = "set" + upname;
           }
 
