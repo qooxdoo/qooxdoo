@@ -591,8 +591,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     getInitValue(thisObj) {
       let value = thisObj["$$init_" + this.__propertyName];
+      if (value !== undefined) {
+        return value;
+      }
       if (this.__initFunction !== undefined) {
         value = this.__initFunction.call(thisObj, value, this);
+        thisObj["$$init_" + this.__propertyName] = value;
       }
       return value;
     },
