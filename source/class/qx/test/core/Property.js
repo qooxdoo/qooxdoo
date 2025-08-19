@@ -540,7 +540,7 @@ qx.Class.define("qx.test.core.Property", {
 
     testApply() {
       let obj = new qx.test.cpnfv8.Superclass();
-      this.assertEquals(3, obj.applyCount, "initial apply count should be 2");
+      this.assertEquals(3, obj.applyCount, "initial apply count should be 3");
       this.assertArrayEquals([null, undefined], obj.lastApply, "last apply call during construction");
       obj.setRunning(false);
       this.assertArrayEquals([false, true], obj.lastApply, "apply called with correct args");
@@ -575,6 +575,8 @@ qx.Class.define("qx.test.core.Property", {
       qx.core.Environment.set("qx.core.property.Property.applyDuringConstruct", false);
       obj = new qx.test.cpnfv8.Superclass();
       this.assertEquals(1, obj.applyCount, "old behaviour: initial apply count should be 1");
+      obj.resetAnyProp();
+      this.assertEquals(1, obj.applyCount, "old behaviour: apply count after reset should still be 1");
       obj.setAnyProp(null);
       this.assertEquals(2, obj.applyCount, "old behaviour: apply count should be 2 after setting a value");
       this.assertArrayEquals([null, null], obj.lastApply, "old behaviour: last apply call during construction");
