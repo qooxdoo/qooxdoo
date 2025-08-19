@@ -1160,26 +1160,6 @@ qx.Class.define("qx.test.core.Property", {
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Check whether the (numeric) value is negative zero (-0)
-     *
-     * @param value {number} Value to check
-     * @return {Boolean} whether the value is <code>-0</code>
-     */
-    __isNegativeZero(value) {
-      return value === 0 && 1 / value < 0; // 1/-0 => -Infinity
-    },
-
-    /**
-     * Check whether the (numeric) value is positive zero (+0)
-     *
-     * @param value {number} Value to check
-     * @return {Boolean} whether the value is <code>+0</code>
-     */
-    __isPositiveZero(value) {
-      return value === 0 && 1 / value > 0; // 1/+0 => +Infinity
-    },
-
     testWrongIsEqualDefinitions() {
       if (qx.core.Environment.get("qx.debug")) {
         var re = new RegExp("defined with wrong value type for key 'isEqual'");
@@ -2287,6 +2267,26 @@ qx.Class.define("qx.test.core.Property", {
         this.resume();
       });
       this.wait(1000);
+    },
+
+    /**
+     * Check whether the (numeric) value is negative zero (-0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>-0</code>
+     */
+    __isNegativeZero(value) {
+      return value === 0 && 1 / value < 0; // 1/-0 => -Infinity
+    },
+
+    /**
+     * Check whether the (numeric) value is positive zero (+0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>+0</code>
+     */
+    __isPositiveZero(value) {
+      return value === 0 && 1 / value > 0; // 1/+0 => +Infinity
     }
   }
 });
