@@ -808,9 +808,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
             this.warn("Property " + this + " is currently mutating");
           }
 
-          let isInitCalled = true;
-          isInitCalled = state.initMethodCalled;
-          state.initMethodCalled = true;
 
           const setSyncImpl = () => {
             if (scope == "user") {
@@ -856,7 +853,19 @@ qx.Bootstrap.define("qx.core.property.Property", {
             this.__applyValueToInheritedChildren(thisObj, value, oldValue);
           };
 
-          if (!isEqual || (value !== undefined && !isInitCalled)) {
+          let shouldApply = false;
+          if (method == "init" || method == "set") {
+            let isInitCalled = true;
+            isInitCalled = state.initMethodCalled;
+            state.initMethodCalled = true;
+            shouldApply = !isEqual || (value !== undefined && !isInitCalled);
+          } else if (method == "reset") {
+            shouldApply = !isEqual;
+          } else {
+            throw new Error(`Should not call here! Invalid method=${method}`);
+          }
+
+          if (shouldApply) {
             if (async) {
               let promise = setAsyncImpl();
               this._setMutating(thisObj, promise);
