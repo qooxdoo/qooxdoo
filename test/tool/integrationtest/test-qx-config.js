@@ -77,19 +77,6 @@ test("Create test app for config commands", async assert => {
   }
 });
 
-test("Test qx config list", async assert => {
-  try {
-    let result;
-    result = await testUtils.runCommand(appDir, qxCmdPath, "config", "list");
-    assert.ok(result.exitCode === 0, "Config list should work");
-    // Should list some default configuration values
-    assert.ok(result.output.length > 0, "Config list should produce output");
-    assert.end();
-  } catch (ex) {
-    assert.end(ex);
-  }
-});
-
 test("Test qx config set and get", async assert => {
   try {
     let result;
@@ -115,6 +102,19 @@ test("Test qx config get non-existent key", async assert => {
     result = await testUtils.runCommand(appDir, qxCmdPath, "config", "get", "non.existent.key");
     // This should either return empty or an error - let's accept both
     assert.ok(result.exitCode === 0 || result.exitCode === 1, "Config get for non-existent key should handle gracefully");
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Test qx config list", async assert => {
+  try {
+    let result;
+    result = await testUtils.runCommand(appDir, qxCmdPath, "config", "list");
+    assert.ok(result.exitCode === 0, "Config list should work");
+    // Should list some default configuration values
+    assert.ok(result.output.length > 0, "Config list should produce output");
     assert.end();
   } catch (ex) {
     assert.end(ex);

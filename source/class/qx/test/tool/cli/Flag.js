@@ -310,6 +310,34 @@ qx.Class.define("qx.test.tool.cli.Flag", {
       this.assertMatch(usage, /Log level/);
     },
 
+    testEnumFlagValueSelection() {
+      let flag = new qx.tool.cli.Flag("level").set({
+        type: ["debug", "info", "warn", "error"],
+        description: "Log level"
+      });
+      
+      // Test valid values
+      flag.parse("--level=debug", () => null);
+      this.assertEquals("debug", flag.getValue());
+      
+      flag.setValue(null);
+      flag.parse("--level=info", () => null);
+      this.assertEquals("info", flag.getValue());
+      
+      flag.setValue(null);
+      flag.parse("--level=warn", () => null);
+      this.assertEquals("warn", flag.getValue());
+      
+      flag.setValue(null);
+      flag.parse("--level=error", () => null);
+      this.assertEquals("error", flag.getValue());
+      
+      // Test invalid value should throw error
+      this.assertException(() => {
+        flag.parse("--level=invalid", () => null);
+      }, Error);
+    },
+
     testHyphenatedName() {
       let flag = new qx.tool.cli.Flag("outputFile");
       this.assertEquals("output-file", flag.getHyphenatedName());

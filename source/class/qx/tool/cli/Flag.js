@@ -144,6 +144,21 @@ qx.Class.define("qx.tool.cli.Flag", {
             return value;
         }
 
+        // Handle enum types (array of valid values)
+        if (qx.lang.Type.isArray(type)) {
+          if (arg === null) {
+            throw new Error(
+              `Invalid value for ${this.toString()}, expected one of: ${type.join(", ")}`
+            );
+          }
+          if (!type.includes(arg)) {
+            throw new Error(
+              `Invalid value for ${this.toString()}, expected one of: ${type.join(", ")}, but got: ${arg}`
+            );
+          }
+          return arg;
+        }
+
         if (arg === null) {
           throw new Error(
             `Invalid value for ${this.toString()}, expected a string`
