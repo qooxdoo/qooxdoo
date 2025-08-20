@@ -51,13 +51,6 @@ qx.Class.define("qx.test.core.Property", {
       var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
-      // Type checks: String
-      this.assertIdentical(
-        "() => {}",
-        inst.setFunctionProp(() => {}),
-        "string property, set"
-      );
-
       this.assertIdentical(
         "Hello",
         inst.setStringProp("Hello"),

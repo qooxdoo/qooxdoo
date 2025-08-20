@@ -71,8 +71,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         new qx.tool.cli.Flag("write-all-translations").set({
           description:
             "enables output of all translations, not just those that are explicitly referenced",
-          type: "boolean",
-          value: false
+          type: "boolean"
         })
       );
 
@@ -1274,24 +1273,36 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           maker.setWriteAllTranslations(data.writeAllTranslations);
         }
 
-        if (typeof targetConfig.typescript == "string") {
-          maker.set({
-            outputTypescript: true,
-            outputTypescriptTo: targetConfig.typescript
-          });
-        } else if (typeof targetConfig.typescript == "boolean") {
-          maker.set({ outputTypescript: true });
-        }
-        if (this.argv["typescript"]) {
-          maker.set({ outputTypescript: true });
-        }
 
         if (data.environment) {
           maker.setEnvironment(data.environment);
         }
-        if (targetConfig.environment) {
-          target.setEnvironment(targetConfig.environment);
+
+        /*
+        Libraries have to be added first because there is qx library
+        which includes a framework version
+        */
+        for (let ns in libraries) {
+          maker.getAnalyser().addLibrary(libraries[ns]);
         }
+
+        let targetEnvironment = {
+          "qx.version": maker.getAnalyser().getQooxdooVersion(),
+          "qx.compiler.targetType": target.getType(),
+          "qx.compiler.outputDir": target.getOutputDir(),
+          "qx.target.privateArtifacts": !!data["private-artifacts"]
+        };
+        if (data["private-artifacts"]) {
+          target.setPrivateArtifacts(true);
+        }
+
+        qx.lang.Object.mergeWith(
+          targetEnvironment,
+          targetConfig.environment,
+          false
+        );
+        target.setEnvironment(targetEnvironment);
+
         if (targetConfig.preserveEnvironment) {
           target.setPreserveEnvironment(targetConfig.preserveEnvironment);
         }
@@ -1325,14 +1336,19 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         maker.getAnalyser().setBabelConfig(babelConfig);
 
+        let browserifyConfig = qx.lang.Object.clone(data.browserify || {}, true);
+        browserifyConfig.options = browserifyConfig.options || {};
+        qx.lang.Object.mergeWith(
+          browserifyConfig.options,
+          targetConfig.browserifyOptions || {}
+        );
+        maker.getAnalyser().setBrowserifyConfig(browserifyConfig);
+
+
         var addCreatedAt =
           targetConfig["addCreatedAt"] || t.argv["addCreatedAt"];
         if (addCreatedAt) {
           maker.getAnalyser().setAddCreatedAt(true);
-        }
-
-        for (let ns in libraries) {
-          maker.getAnalyser().addLibrary(libraries[ns]);
         }
 
         let allApplicationTypes = {};
