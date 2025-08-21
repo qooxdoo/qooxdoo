@@ -30,6 +30,7 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
   construct(property, clazz) {
     super();
     let def = property.getDefinition();
+    this.__property = property;
     this.__get = def.get;
     this.__getAsync = def.getAsync || def.get;
     this.__set = def.set;
@@ -37,6 +38,10 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
   },
 
   members: {
+    /**
+     * @type {qx.core.property.Property}
+     */
+    __property: null,
     /**
      * @Override
      */
