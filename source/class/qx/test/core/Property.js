@@ -736,6 +736,17 @@ qx.Class.define("qx.test.core.Property", {
         });
         this.fail("Redefining a property without refine should throw an error");
       } catch (e) {}
+
+      let def = qx.Class.getPropertyDefinition(qx.test.core.property.TestRefineChild, "nullableProp");
+      this.assertObjectEquals(
+        {
+          init: 10,
+          check: "Number",
+          nullable: true,
+          apply: "_applyNullableProp"
+        },
+        def
+      );
     },
 
     testMultiValues() {

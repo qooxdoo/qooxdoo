@@ -266,7 +266,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (qx.core.Environment.get("qx.debug")) {
         if (def.deferredInit) {
           if (qx.core.Environment.get("qx.core.property.Property.allowDeferredInit")) {
-            this.warn(`${this}: deferredInit is deprecated, use initFunction instead`);
+            // this.warn(`${this}: deferredInit is deprecated, use initFunction instead`);
           } else {
             throw new Error(`${this}: deferredInit is not allowed, set qx.core.property.Property.allowDeferredInit to true to allow it`);
           }
@@ -645,6 +645,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return state.themeValue === undefined ? null : state.themeValue;
       }
       return null;
+    },
+
+    /**
+     * 
+     * @returns {Function?} If this property is refined, the superclass which this overrides. 
+     * Null otherwise.
+     */
+    getSuperClass() {
+      return this._superClass;
     },
 
     /**
