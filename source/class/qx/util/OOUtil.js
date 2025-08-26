@@ -42,7 +42,9 @@ qx.Bootstrap.define("qx.util.OOUtil", {
      */
     getPropertyDefinition(clazz, name) {
       let property = clazz.prototype.$$allProperties?.[name];
-      if (!property) return null;
+      if (!property) {
+        return null;
+      }
       while (property.getSuperClass()) {
         property = qx.Class.getByProperty(property.getSuperClass(), name);
       }
