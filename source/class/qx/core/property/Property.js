@@ -970,7 +970,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __applyValueToInheritedChildren(thisObj) {
       if (typeof thisObj._getChildren == "function") {
-        //!todo protected method
         for (let child of thisObj._getChildren()) {
           let property = child.constructor.prototype.$$allProperties[this.__propertyName];
           if (property && property.isInheritable()) {
@@ -1264,6 +1263,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       } else {
         return !!this.__definition?.inheritable;
       }
+    },
+
+    isPseudoProperty() {
+      return this._pseudoProperty;
     },
 
     /**
