@@ -662,9 +662,8 @@ qx.Bootstrap.define("qx.Class", {
               for (let property of Object.values(subclass.prototype.$$allProperties)) {
                 if (
                   property instanceof qx.core.property.Property &&
-                  !(
-                    this.classname &&
-                    qx.core.Environment.get("qx.core.property.Property.excludeAutoApply").find(match => this.classname.match(match))
+                  !qx.core.Environment.get("qx.core.property.Property.excludeAutoApply").find(match =>
+                    property.getClass().classname.match(match)
                   ) &&
                   property.hasInitValue() &&
                   property.getDefinition().autoApply !== false &&

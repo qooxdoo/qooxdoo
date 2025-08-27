@@ -126,6 +126,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
     isRefineAllowed(def) {},
 
     /**
+     * The class where this property is defined
+     * @returns {Function}
+     */
+    getClass() {
+      return this._clazz;
+    },
+
+    /**
      * Configures a pseudo property
      */
     configurePseudoProperty() {
