@@ -625,6 +625,7 @@ qx.Class.define("qx.test.Promise", {
 
     testBinding() {
       var t = this;
+      qx.Class.undefine("testBinding.AsyncClazz");
       var AsyncClazz = qx.Class.define("testBinding.AsyncClazz", {
         extend: qx.core.Object,
         properties: {
@@ -638,6 +639,7 @@ qx.Class.define("qx.test.Promise", {
         }
       });
 
+      qx.Class.undefine("testBinding.SyncClazz");
       var SyncClazz = qx.Class.define("testBinding.SyncClazz", {
         extend: qx.core.Object,
         properties: {
