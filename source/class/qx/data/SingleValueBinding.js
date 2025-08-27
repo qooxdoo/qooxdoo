@@ -253,7 +253,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * If everything was synchronous, then this will return null.
      */
     setSource(value) {
-      const Binding = qx.data.SingleValueBinding;
+      const SingleValueBinding = qx.data.SingleValueBinding;
       if (this.__source === value) {
         return;
       }
@@ -265,16 +265,16 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
       if (oldValue) {
         //Delete old source's bindings if there was one
-        delete Binding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
-        if (qx.lang.Object.isEmpty(Binding.__bindingsBySource[oldValue.toHashCode()])) {
-          delete Binding.__bindingsBySource[oldValue.toHashCode()];
+        delete SingleValueBinding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
+        if (qx.lang.Object.isEmpty(SingleValueBinding.__bindingsBySource[oldValue.toHashCode()])) {
+          delete SingleValueBinding.__bindingsBySource[oldValue.toHashCode()];
         }
       }
 
       if (value) {
         //Store the binding
-        Binding.__bindingsBySource[value.toHashCode()] ??= {};
-        Binding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
+        SingleValueBinding.__bindingsBySource[value.toHashCode()] ??= {};
+        SingleValueBinding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
 
         //Set the input on the first segment of the source path
         let promise = this.__sourceSegments[0].setInput(value);
@@ -333,19 +333,19 @@ qx.Class.define("qx.data.SingleValueBinding", {
       this.__initPromise = null; // reset the init promise, as the target has changed
       let oldValue = this.__target;
       this.__target = value;
-      const Binding = qx.data.SingleValueBinding;
+      const SingleValueBinding = qx.data.SingleValueBinding;
 
       if (oldValue) {
-        delete Binding.__bindingsByTarget[oldValue.toHashCode()][this.toHashCode()];
-        if (qx.lang.Object.isEmpty(Binding.__bindingsByTarget[oldValue.toHashCode()])) {
-          delete Binding.__bindingsByTarget[oldValue.toHashCode()];
+        delete SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()][this.toHashCode()];
+        if (qx.lang.Object.isEmpty(SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()])) {
+          delete SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()];
         }
       }
 
       if (value) {
-        const Binding = qx.data.SingleValueBinding;
-        Binding.__bindingsByTarget[value.toHashCode()] ??= {};
-        Binding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
+        const SingleValueBinding = qx.data.SingleValueBinding;
+        SingleValueBinding.__bindingsByTarget[value.toHashCode()] ??= {};
+        SingleValueBinding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
 
         let out = this.__targetSegments[0].setInput(value);
         this.__initPromise = Promise.resolve(out);
@@ -595,10 +595,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * @returns {BindingRecord[]} An array of the bindings represented as records.
      */
     getAllBindingsForObject(object) {
-      const Binding = qx.data.SingleValueBinding;
+      const SingleValueBinding = qx.data.SingleValueBinding;
       let allBindings = {
-        ...(Binding.__bindingsBySource[object.toHashCode()] ?? {}),
-        ...(Binding.__bindingsByTarget[object.toHashCode()] ?? {})
+        ...(SingleValueBinding.__bindingsBySource[object.toHashCode()] ?? {}),
+        ...(SingleValueBinding.__bindingsByTarget[object.toHashCode()] ?? {})
       };
       return Object.values(allBindings).map(binding => binding.asRecord());
     },
@@ -641,9 +641,9 @@ qx.Class.define("qx.data.SingleValueBinding", {
      *   removed.
      */
     removeRelatedBindings(object, relatedObject) {
-      const Binding = qx.data.SingleValueBinding;
+      const SingleValueBinding = qx.data.SingleValueBinding;
 
-      let bySourceObject = Binding.__bindingsBySource[object.toHashCode()];
+      let bySourceObject = SingleValueBinding.__bindingsBySource[object.toHashCode()];
 
       if (bySourceObject) {
         Object.values(bySourceObject).forEach(binding => {
@@ -653,7 +653,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
         });
       }
 
-      let byRelatedObject = Binding.__bindingsBySource[relatedObject.toHashCode()];
+      let byRelatedObject = SingleValueBinding.__bindingsBySource[relatedObject.toHashCode()];
       if (byRelatedObject) {
         Object.values(byRelatedObject).forEach(binding => {
           if (binding.getTarget() === object) {
