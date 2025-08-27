@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     /**
      * If set to true, then properties with init values will have their apply method called during construction.
      */
-    "qx.core.property.Property.applyDuringConstruct": false,
+    "qx.core.property.Property.applyDuringConstruct": true,
 
     /**
      * Only relevant when applyDuringConstruct is true.

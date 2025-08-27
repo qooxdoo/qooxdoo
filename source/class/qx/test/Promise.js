@@ -1102,10 +1102,8 @@ qx.Class.define("qx.test.Promise", {
         members: {
           _applyAlpha(value, oldValue) {
             var t = this;
-            console.log("pre applyAlpha[" + t.getValue() + "] = " + value);
             return new qx.Promise(function (resolve) {
               setTimeout(function () {
-                console.log("applyAlpha[" + t.getValue() + "] = " + value);
                 resolve("xyz");
               }, 50);
             });
