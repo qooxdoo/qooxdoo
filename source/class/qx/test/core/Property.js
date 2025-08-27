@@ -2303,6 +2303,46 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     /**
+     * Ensures that an error is thrown when trying to get an async property synchronously
+     * when the property is not ready yet, even if it has an init value.
+     */
+    testGetSyncWhenNotReady() {
+      qx.Class.undefine("qx.test.cpnfv8.GetSyncTest");
+      var Clazz = qx.Class.define("qx.test.cpnfv8.GetSyncTest", {
+        extend: qx.core.Object,
+        properties: {
+          foo: {
+            async: true,
+            init: 7
+          }
+        }
+      });
+
+      const doit = async () => {
+        let instance = new Clazz();
+        //The property storage will be set to the init value during construction,
+        //so we must reset it manually.
+        delete instance.$$propertyValues.foo;
+        let prop = qx.Class.getByProperty(Clazz, "foo");
+        this.assertFalse(prop.isInitialized(instance), "Property foo should not be initialized");
+        this.assertUndefined(instance.getSafe("foo"));
+        try {
+          instance.getFoo();
+          this.assertTrue(false, "getFoo should throw an error when the property is not ready");
+        } catch (e) {}
+        let value = await instance.getFooAsync();
+        this.assertEquals(7, value, "getFooAsync should return the initial value");
+        instance.setFoo(42);
+        this.assertEquals(42, instance.getFoo(), "getFoo should return the updated value");
+      };
+
+      doit().then(() => {
+        this.resume();
+      });
+      this.wait(1000);
+    },
+
+    /**
      * Check whether the (numeric) value is negative zero (-0)
      *
      * @param value {number} Value to check
