@@ -1973,16 +1973,14 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     _onFocusinCellEditorAddBlurListener(e) {
       this.debug("executed FOCUSIN event listener for hash: " + e.getTarget().$$hash);
       qx.event.Timer.once(function() {
-        this._cellEditor.addListenerOnce('blur', this._onBlurCellEditorStopEditing, this);
-        this.debug('added BLUR listener to hash: ' + this._cellEditor.$$hash);
+        this._cellEditor.addListener('focusout', this._onFocusoutCellEditorStopEditing, this);
+        this.debug('added FOCUSOUT listener to hash: ' + this._cellEditor.$$hash);
       }, this, 1);
     },
 
-    /**
-     * Stop editing whenever the cell editor blurs.
-     */
-    _onBlurCellEditorStopEditing(e) {
-      this.debug("executed BLUR listener for hash " + e.getTarget().$$hash);
+
+    _onFocusoutCellEditorStopEditing(e) {
+      this.debug("executed FOCUSOUT listener for hash " + e.getTarget().$$hash);
       if (this._cellEditor === e.getTarget()) {
         this.debug('hash: ' + this._cellEditor.$$hash);
         switch (this.getTable().getCellEditorBlurAction()) {
