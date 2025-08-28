@@ -95,12 +95,12 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         if (property === null) {
           return this._setOutput(null);
         }
-        if (property.isInitialized(input)) {
+        if (!property.isAsync() || property.isInitialized(input)) {
           let nextInput = property.get(input, this.__propName);
           return this._setOutput(nextInput);
         } else {
-          let promise = property.get(input, this.__propName);
-          return promise?.then(nextInput => this._setOutput(nextInput));
+          let promise = property.getAsync(input);
+          return promise.then(nextInput => this._setOutput(nextInput));
         }
       }
     },
