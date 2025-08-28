@@ -851,9 +851,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      var resolve;
-      var promise = new Promise(r => (resolve = r));
-      this.__setMutating(thisObj, promise);
+      this.__setMutating(thisObj, true);
 
       if (scope == "user") {
         // Always set the value to the storage if it is a user value; this is because themable properties
