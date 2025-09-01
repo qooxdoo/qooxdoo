@@ -39,10 +39,7 @@ copy of `en`). Qooxdoo supports this fall-back chain of locale settings by
 looking up a specific item e.g. first in `en_US` (if that were the current
 locale), then `en` and then in `C`.
 
-To support such regional settings, Qooxdoo uses data from the CLDR project, the
-"Common Locale Data Repository", which collects data for known locales in a set
-of XML files. See the project's [home page](http://cldr.unicode.org) and
-[terms of use](http://www.unicode.org/copyright.html).
+To support such regional settings, Qooxdoo uses data from the Intl module. See the article on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 
 ## Translation
 
@@ -233,9 +230,7 @@ the global `let` section, for example
 }
 ```
 
-This would add a German and a French translation to the project. For a more
-exhaustive list of available locales see
-[here](http://cldr.unicode.org/index/survey-tool) .
+This would add a German and a French translation to the project.
 
 A run of `npx qx compile --update-po-files` or its shorthand `npx qx compile -u`
 will generate a `.po` file for each configured locale, with all translatable
