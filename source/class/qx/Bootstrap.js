@@ -37,6 +37,7 @@ if (!window.qx) {
  * @param {Function} construct
  * @returns {Function}
  */
+// eslint-disable-next-line
 function createPlainFunction(construct) {
   return function () {
     return construct.apply(this, [].slice.call(arguments));

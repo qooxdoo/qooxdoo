@@ -42,3 +42,4 @@ npm-debug.log
 
 .nyc*
 /.vscode
+/.claude/settings.local.*
