@@ -96,15 +96,15 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
       this.assertTrue(atom.getIconWidget().isVisible());
       this.assertTrue(atom.getLabelWidget().isVisible());
 
-      atom.setShow("label");
+      atom.setShowFeatures("label");
       this.assertFalse(atom.getIconWidget().isVisible());
       this.assertTrue(atom.getLabelWidget().isVisible());
 
-      atom.setShow("icon");
+      atom.setShowFeatures("icon");
       this.assertTrue(atom.getIconWidget().isVisible());
       this.assertFalse(atom.getLabelWidget().isVisible());
 
-      atom.setShow("both");
+      atom.setShowFeatures("both");
       this.assertTrue(atom.getIconWidget().isVisible());
       this.assertTrue(atom.getLabelWidget().isVisible());
     },

@@ -162,11 +162,8 @@ qx.Class.define("qx.html.Element", {
       if (!qx.core.Environment.get("qx.headless")) {
         // blur elements, which will be removed
         var focusHandler = this.__getFocusHandler();
-        var focusedDomElement = focusHandler.getFocus();
-        if (
-          focusedDomElement &&
-          this.__willBecomeInvisible(focusedDomElement)
-        ) {
+        var focusedDomElement = focusHandler.getFocusedElement();
+        if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
           focusHandler.blur(focusedDomElement);
         }
 
@@ -178,10 +175,7 @@ qx.Class.define("qx.html.Element", {
 
         // release capture for elements, which will be removed
         var captureDomElement = this.__getCaptureElement();
-        if (
-          captureDomElement &&
-          this.__willBecomeInvisible(captureDomElement)
-        ) {
+        if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
           qx.bom.Element.releaseCapture(captureDomElement);
         }
       }
@@ -241,10 +235,7 @@ qx.Class.define("qx.html.Element", {
 
         if (qx.core.Environment.get("qx.debug")) {
           if (this.DEBUG) {
-            qx.log.Logger.debug(
-              this,
-              "Switching visibility to: " + obj.isVisible()
-            );
+            qx.log.Logger.debug(this, "Switching visibility to: " + obj.isVisible());
           }
         }
 
@@ -329,11 +320,7 @@ qx.Class.define("qx.html.Element", {
         for (var i = 0; i < this._actions.length; i++) {
           var action = this._actions[i];
           var element = action.element._domNode;
-          if (
-            !element ||
-            (!activityEndActions[action.type] &&
-              !action.element._willBeSeeable())
-          ) {
+          if (!element || (!activityEndActions[action.type] && !action.element._willBeSeeable())) {
             continue;
           }
           var args = action.args;
@@ -370,9 +357,7 @@ qx.Class.define("qx.html.Element", {
         }
         return this.__focusHandler;
       } else {
-        throw new Error(
-          "Unexpected use of qx.html.Element.__getFocusHandler in headless environment"
-        );
+        throw new Error("Unexpected use of qx.html.Element.__getFocusHandler in headless environment");
       }
     },
 
@@ -385,15 +370,11 @@ qx.Class.define("qx.html.Element", {
       if (!qx.core.Environment.get("qx.headless")) {
         if (!this.__mouseCapture) {
           var eventManager = qx.event.Registration.getManager(window);
-          this.__mouseCapture = eventManager.getDispatcher(
-            qx.event.dispatch.MouseCapture
-          );
+          this.__mouseCapture = eventManager.getDispatcher(qx.event.dispatch.MouseCapture);
         }
         return this.__mouseCapture.getCaptureElement();
       } else {
-        throw new Error(
-          "Unexpected use of qx.html.Element.__getCaptureElement in headless environment"
-        );
+        throw new Error("Unexpected use of qx.html.Element.__getCaptureElement in headless environment");
       }
     },
 
@@ -427,10 +408,7 @@ qx.Class.define("qx.html.Element", {
     setDefaultRoot(root) {
       if (qx.core.Environment.get("qx.debug")) {
         if (this._defaultRoot && root) {
-          qx.log.Logger.warn(
-            qx.html.Element,
-            "Changing default root, from " + this._defaultRoot + " to " + root
-          );
+          qx.log.Logger.warn(qx.html.Element, "Changing default root, from " + this._defaultRoot + " to " + root);
         }
       }
       this._defaultRoot = root;
@@ -490,6 +468,8 @@ qx.Class.define("qx.html.Element", {
   */
 
   members: {
+    __childrenHaveChanged: undefined,
+
     /*
     ---------------------------------------------------------------------------
       PROTECTED HELPERS/DATA
@@ -535,10 +515,7 @@ qx.Class.define("qx.html.Element", {
       // Copy attributes
       if (this.__attribValues) {
         for (var key in this.__attribValues) {
-          let result = qx.bom.element.Attribute.serialize(
-            key,
-            this.__attribValues[key]
-          );
+          let result = qx.bom.element.Attribute.serialize(key, this.__attribValues[key]);
 
           for (let key in result) {
             if (key != "data-qx-object-id") {
@@ -618,9 +595,7 @@ qx.Class.define("qx.html.Element", {
      */
     _addChildImpl(child) {
       if (this.getIsCustomElement()) {
-        throw new Error(
-          `Cannot add children to Custom Elements! (use ${this.classname}.inject and <slot> tags instead)`
-        );
+        throw new Error(`Cannot add children to Custom Elements! (use ${this.classname}.inject and <slot> tags instead)`);
       }
 
       super._addChildImpl(child);
@@ -650,9 +625,7 @@ qx.Class.define("qx.html.Element", {
         let id = target ? qx.core.Id.getAbsoluteIdOf(target, true) : null;
         return id;
       } else {
-        throw new Error(
-          "Cannot get qxObjectId because module.objectid is false"
-        );
+        throw new Error("Cannot get qxObjectId because module.objectid is false");
       }
     },
 
@@ -700,11 +673,7 @@ qx.Class.define("qx.html.Element", {
         return this.__slots.has(projection);
       }
 
-      throw new Error(
-        `Cannot lookup slot for projection: ${JSON.stringify(
-          projection
-        )} ! (expected: string, true, or null/undefined)`
-      );
+      throw new Error(`Cannot lookup slot for projection: ${JSON.stringify(projection)} ! (expected: string, true, or null/undefined)`);
     },
 
     /**
@@ -714,13 +683,8 @@ qx.Class.define("qx.html.Element", {
     __injectionSlotCheck(slotName) {
       if (!this.hasSlots(slotName)) {
         if (qx.core.Environment.get("qx.debug")) {
-          const what =
-            slotName === qx.html.Slot.DEFAULT
-              ? "default slot"
-              : `slot named "${slotName}"`;
-          const slotsList = Array.from(this.__slots.keys())
-            .join(", ")
-            .replace(qx.html.Slot.DEFAULT, "(default)");
+          const what = slotName === qx.html.Slot.DEFAULT ? "default slot" : `slot named "${slotName}"`;
+          const slotsList = Array.from(this.__slots.keys()).join(", ").replace(qx.html.Slot.DEFAULT, "(default)");
           console.warn(`No ${what} found! Available slots are: ${slotsList}`);
         }
         return false;
@@ -750,10 +714,7 @@ qx.Class.define("qx.html.Element", {
      * ```
      */
     inject(childNode, slotNameOverride) {
-      const slotName =
-        childNode.getAttribute?.("slot") ??
-        slotNameOverride ??
-        qx.html.Slot.DEFAULT;
+      const slotName = childNode.getAttribute?.("slot") ?? slotNameOverride ?? qx.html.Slot.DEFAULT;
 
       if (!this.__injectionSlotCheck(slotName)) {
         return;
@@ -777,9 +738,7 @@ qx.Class.define("qx.html.Element", {
         slots.push(element);
       }
 
-      element
-        .getChildren()
-        ?.forEach(child => slots.push(...this.__slotScan(child)));
+      element.getChildren()?.forEach(child => slots.push(...this.__slotScan(child)));
 
       return slots;
     },
@@ -1019,10 +978,7 @@ qx.Class.define("qx.html.Element", {
       this.setAttribute("qxSelectable", value ? "on" : "off");
       var userSelect = qx.core.Environment.get("css.userselect");
       if (userSelect) {
-        this.setStyle(
-          userSelect,
-          value ? "text" : qx.core.Environment.get("css.userselect.none")
-        );
+        this.setStyle(userSelect, value ? "text" : qx.core.Environment.get("css.userselect.none"));
       }
     },
 
@@ -1175,13 +1131,7 @@ qx.Class.define("qx.html.Element", {
       var thisEl = this._domNode;
       var childEl = elem.getDomElement();
 
-      if (
-        direct !== false &&
-        thisEl &&
-        thisEl.offsetWidth &&
-        childEl &&
-        childEl.offsetWidth
-      ) {
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth) {
         qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
       } else {
         this.__lazyScrollIntoViewX = {
@@ -1215,13 +1165,7 @@ qx.Class.define("qx.html.Element", {
       var thisEl = this._domNode;
       var childEl = elem.getDomElement();
 
-      if (
-        direct !== false &&
-        thisEl &&
-        thisEl.offsetWidth &&
-        childEl &&
-        childEl.offsetWidth
-      ) {
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth) {
         qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
       } else {
         this.__lazyScrollIntoViewY = {
@@ -1520,9 +1464,7 @@ qx.Class.define("qx.html.Element", {
 
         qx.html.Element._scheduleFlush("element");
       } else {
-        throw new Error(
-          "Unexpected use of qx.html.Element.__performAction in headles environment"
-        );
+        throw new Error("Unexpected use of qx.html.Element.__performAction in headles environment");
       }
     },
 
@@ -1679,7 +1621,7 @@ qx.Class.define("qx.html.Element", {
      * @param direct {Boolean?false} Whether the values should be applied
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
-     */ 
+     */
     setStyles(map, direct) {
       // inline calls to "set" because this method is very
       // performance critical!
@@ -1864,9 +1806,7 @@ qx.Class.define("qx.html.Element", {
     _applyIsCustomElement(value, oldValue) {
       // if currently `true` and trying to set `false`, throw an error
       if (!value && oldValue) {
-        throw new Error(
-          `Cannot change isCustomElement property of ${this.classname} after it has been set`
-        );
+        throw new Error(`Cannot change isCustomElement property of ${this.classname} after it has been set`);
       }
       // if no change, return
       if (value === oldValue) {
@@ -1929,12 +1869,7 @@ qx.Class.define("qx.html.Element", {
     canBeSeen() {
       if (this._domNode && this.isVisible()) {
         var rect = this._domNode.getBoundingClientRect();
-        if (
-          rect.top > 0 ||
-          rect.left > 0 ||
-          rect.width > 0 ||
-          rect.height > 0
-        ) {
+        if (rect.top > 0 || rect.left > 0 || rect.width > 0 || rect.height > 0) {
           return true;
         }
       }

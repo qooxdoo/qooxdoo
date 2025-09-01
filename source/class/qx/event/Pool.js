@@ -25,6 +25,13 @@ qx.Class.define("qx.event.Pool", {
   extend: qx.util.ObjectPool,
   type: "singleton",
 
+  properties: {
+    size: {
+      refine: true,
+      event: null
+    }
+  },
+
   // Even though this class contains almost no code it is required because the
   // legacy code needs a place to patch the event pooling behavior.
 

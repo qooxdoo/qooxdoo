@@ -111,7 +111,6 @@ qx.Class.define("qx.test.lang.Function", {
     testGetName() {
       qx.Class.define("qx.test.Name", {
         extend: qx.core.Object,
-        construct() {},
 
         properties: {
           prop: {}
@@ -129,37 +128,19 @@ qx.Class.define("qx.test.lang.Function", {
       });
 
       var name = new qx.test.Name();
-      this.assertEquals(
-        "qx.test.Name.constructor()",
-        qx.lang.Function.getName(qx.test.Name)
-      );
+      this.assertEquals("qx.test.Name.constructor()", qx.lang.Function.getName(qx.test.Name));
 
-      this.assertEquals(
-        "qx.test.Name.destruct()",
-        qx.lang.Function.getName(qx.test.Name.$$destructor)
-      );
+      this.assertEquals("qx.test.Name.destruct()", qx.lang.Function.getName(qx.test.Name.$$destructor));
 
       name.setProp(1);
       name.getProp();
-      this.assertEquals(
-        "qx.test.Name.prototype.setProp()",
-        qx.lang.Function.getName(name.setProp)
-      );
+      this.assertEquals("qx.test.Name.prototype.setProp()", qx.lang.Function.getName(name.setProp));
 
-      this.assertEquals(
-        "qx.test.Name.prototype.getProp()",
-        qx.lang.Function.getName(name.getProp)
-      );
+      this.assertEquals("qx.test.Name.prototype.getProp()", qx.lang.Function.getName(name.getProp));
 
-      this.assertEquals(
-        "qx.test.Name.foo()",
-        qx.lang.Function.getName(qx.test.Name.foo)
-      );
+      this.assertEquals("qx.test.Name.foo()", qx.lang.Function.getName(qx.test.Name.foo));
 
-      this.assertEquals(
-        "qx.test.Name.prototype.bar()",
-        qx.lang.Function.getName(name.bar)
-      );
+      this.assertEquals("qx.test.Name.prototype.bar()", qx.lang.Function.getName(name.bar));
 
       this.assertEquals(
         "anonymous()",

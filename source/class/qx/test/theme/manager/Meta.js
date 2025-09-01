@@ -88,6 +88,8 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       /(orange.*yellow|rgb\(255, 0, 0\).*rgb\(0, 0, 255\)|none|data:image\/png;base64,iVBORw0K)/,
 
     setUp() {
+      super.setUp();
+
       if (
         qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9
@@ -138,7 +140,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       var elem = this.__button.getContentElement().getDomElement();
 
       // mocked appearance theme defines a padding with 30px 80px
-      this.assertEquals(qx.bom.element.Style.get(elem, "padding"), "30px 80px");
+      this.assertEquals("30px 80px", qx.bom.element.Style.get(elem, "padding"));
 
       // mocked color theme defines a gradient with 'orange' and 'yellow';
       // also check for corresponding rgb values (need for FireFox)
@@ -150,8 +152,8 @@ qx.Class.define("qx.test.theme.manager.Meta", {
 
       // mocked decoration theme defines a border radius of 10 pixel
       this.assertEquals(
-        qx.bom.element.Style.get(elem, "borderTopLeftRadius"),
-        "10px"
+        "10px",
+        qx.bom.element.Style.get(elem, "borderTopLeftRadius")
       );
 
       // button label element
@@ -162,8 +164,8 @@ qx.Class.define("qx.test.theme.manager.Meta", {
 
       // mocked color theme defines red text color for button labels
       this.assertEquals(
-        qx.bom.element.Style.get(elem, "color"),
-        "rgb(255, 0, 0)"
+        "rgb(255, 0, 0)",
+        qx.bom.element.Style.get(elem, "color")
       );
     },
 

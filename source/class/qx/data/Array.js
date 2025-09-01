@@ -31,6 +31,72 @@ qx.Class.define("qx.data.Array", {
   include: qx.data.marshal.MEventBubbling,
   implement: [qx.data.IListData],
 
+  environment: {
+    /**
+     * the `delete` operator on arrays will normally leave a hole in the array,
+     * which `qx.data.Array` does not support; if this environment variable is
+     * set to `true`, then `delete` will be implemented as a call to `removeAt`,
+     * otherwise an error will be thrown (the default)
+     */
+    "qx.data.Array.deleteAsRemoveAt": false
+  },
+
+  /**
+   * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
+   * array. Instead of using the provided API to retrieve an indexed item
+   * (`getItem()`), store a value in an indexed item (`setItem()`), or remove
+   * an indexed item (`removeAt()`), this delegate allows those operations to
+   * use normal array operators, e.g., `value = arr[2]`, `arr[2] = 42;`,
+   * `delete arr[2]`.
+   *
+   * @EXPERIMENTAL
+   */
+  delegate: {
+    get(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for retrieving an item
+        return this.getItem(property);
+      } else {
+        // otherwise, use the default action
+        return this[property];
+      }
+    },
+
+    set(property, value) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for modifying an item
+        this.setItem(property, value);
+      } else {
+        // otherwise, use the default action
+        this[property] = value;
+      }
+    },
+
+    delete(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for removing an item, if so
+        // enabled; otherwise throw an error
+        if (qx.core.Environment.get("qx.data.Array.deleteAsRemoveAt")) {
+          this.removeAt(property);
+        } else {
+          throw new Error(
+            "qx.data.Array does not support deleting an array elelment " +
+              "like native arrays allow (leaving a hole). " +
+              "If you choose, you may set environment variable " +
+              "`qx.data.Array.deleteAsRemoveAt : true` to enable " +
+              "`delete` to be implemented as a call to `removeAt`."
+          );
+        }
+      } else {
+        // otherwise, use the default action
+        delete this[property];
+      }
+    }
+  },
+
   /**
    * Creates a new instance of an array.
    *
@@ -78,11 +144,6 @@ qx.Class.define("qx.data.Array", {
 
     // update the length at startup
     this.__updateLength();
-
-    // work against the console printout of the array
-    if (qx.core.Environment.get("qx.debug")) {
-      this[0] = "Please use 'toArray()' to see the content.";
-    }
   },
 
   /*
@@ -129,6 +190,8 @@ qx.Class.define("qx.data.Array", {
   },
 
   members: {
+    length: undefined,
+
     // private members
     __array: null,
 
@@ -408,8 +471,7 @@ qx.Class.define("qx.data.Array", {
           end = this.length - 1;
         } else {
           type = "add/remove";
-          end =
-            startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+          end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
 
         this.fireDataEvent(
@@ -436,10 +498,7 @@ qx.Class.define("qx.data.Array", {
         this._registerEventChaining(arguments[i], null, startIndex + (i - 2));
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(
-        startIndex + (arguments.length - 2) - amount,
-        this.length
-      );
+      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
 
       // fire the changeBubble event
       if (removed || added) {
@@ -448,8 +507,7 @@ qx.Class.define("qx.data.Array", {
           value[i - 2] = arguments[i];
         }
         var endIndex = startIndex + Math.max(arguments.length - 3, amount - 1);
-        var name =
-          startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
+        var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
         var eventData = {
           value: value,
@@ -849,10 +907,7 @@ qx.Class.define("qx.data.Array", {
       this.__updateLength();
 
       // fire change bubbles
-      var name =
-        oldLength == this.length - 1
-          ? oldLength
-          : oldLength + "-" + (this.length - 1);
+      var name = oldLength == this.length - 1 ? oldLength : oldLength + "-" + (this.length - 1);
       this.fireDataEvent("changeBubble", {
         value: array,
         name: name + "",
@@ -986,9 +1041,7 @@ qx.Class.define("qx.data.Array", {
      * @param context {var?} The context in which the callback will be invoked.
      */
     forEach(callback, context) {
-      this.__array.forEach((element, index) =>
-        callback.call(context, element, index, this)
-      );
+      this.__array.forEach((element, index) => callback.call(context, element, index, this));
     },
 
     /*

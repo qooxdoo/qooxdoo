@@ -206,6 +206,13 @@ be compiled. Each object can contain:
   a hidden property called `$$createdAt` which points to an object containing
   `filename`, `lineNumber`, and `column` properties
 
+- `qooxdooVersion` - (**optional**) if provided, this is a semver requirement expression that
+  describes the version of Qooxdoo to use for this target.  If the default Qooxdoo (ie the
+  one that ships with the compiler) is not compatible, the best release will be downloaded from
+  GitHub and cached.  This effectively allows the compiler to cross-compile, eg if you specify
+  `qooxdooVersion: "^7.6.0"` the Qooxdoo version 8.0.0 compiler will build your target using
+  v7.
+  
 - `verboseCreatedAt` - (**optional**) if true, all hidden `$$createdAt` objects
   will be provided with a stack trace at their time and place of creation, allowing
   for more detailed debugging.

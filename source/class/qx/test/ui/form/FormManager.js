@@ -33,15 +33,16 @@ qx.Class.define("qx.test.ui.form.FormManager", {
       implement: qx.ui.form.renderer.IFormRenderer,
 
       construct(form) {
-        this.groups = [];
-        this.buttons = [];
-
         super(form);
       },
 
       properties: {
-        buttons: {},
-        groups: {}
+        buttons: {
+          initFunction: () => []
+        },
+        groups: {
+          initFunction: () => []
+        }
       },
 
       members: {

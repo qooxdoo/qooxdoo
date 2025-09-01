@@ -47,6 +47,8 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
   */
 
   members: {
+    _manager : null,
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER HELPER

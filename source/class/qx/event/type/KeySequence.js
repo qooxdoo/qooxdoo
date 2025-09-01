@@ -34,6 +34,9 @@ qx.Class.define("qx.event.type.KeySequence", {
   */
 
   members: {
+    _keyCode: undefined,
+    _identifier: undefined,
+
     /**
      * Initialize the fields of the event.
      *

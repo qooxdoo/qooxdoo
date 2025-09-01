@@ -41,7 +41,7 @@ qx.Class.define("qx.test.ui.form.SplitButton", {
       this.assertTrue(arrow.isVisible(), "init arrow");
       this.assertTrue(icon.isVisible(), "init icon");
 
-      this._split.setShow("label");
+      this._split.setShowFeatures("label");
       this.flush();
 
       // check changed values

@@ -9,9 +9,9 @@ during the build process.
 The class system has been part of qooxdoo since 2005, when JavaScript had no 
 [`class` keyword](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 (it was introduced with ECMAScript 2015). At the moment, it is not possible 
-to mix Qooxdoo classes and ECMAScript 2015 classes; this is planned for a
-future release. In any case, as shown below, the Qooxdoo class system is still
-much more powerful than the native classes. 
+to extend a native class as a Qooxdoo class, although the opposite is possible: 
+you can create a native class that extends a Qooxdoo class. In any case, as shown below,
+the Qooxdoo class system is still much more powerful than the native classes. 
 
 ## Declaration
 
@@ -409,5 +409,100 @@ The concrete implementations of mixins are used in a class through the key
 ```javascript
 qx.Class.define("qx.test.Cat", {
   include: [qx.test.MPet, qx.test.MSleep]
+});
+```
+
+# Delegating a class' instances' setter, getter, and delete
+
+This feature is EXPERIMENTAL. Its interface may yet change.
+
+On occasion, it is desirable to change the behavior of accessing
+properties on all instances of a class. For example, a class that has
+`setItem` and `getItem` methods for accessing indexed values within
+the class, and a `removeItem` method for deleting an item, might allow
+the user to set the 3rd (zero-relative) value with
+`instance.setItem(2, 42);`; to retrieve it with `value =
+instance.getItem(2);`; and to delete it with `instance.removeAt(2);`.
+
+For usability, the developer might like for those statements to be
+accessed using the array index operator, as such:
+
+```
+instance[2] = 42;
+value = instance[2];
+delete instance[2];
+```
+
+To allow this, the `delegate` key of the class configuration can be
+provided. The `delegate` key should have, as its value, an object with
+two or three keys. At a minimum, the `get` and `set` keys must be
+provided. Optionally, a `delete` key can also be provided. Each is a
+function that replaces the default operation on the object. `get`
+accepts one argument, the instance's `property` being retrieved. `set`
+accepts two arguments, the `property` being set, and the `value` that
+property of the instance it to be set to. `delete` accepts one
+argument, the `property` to be deleted. In the above example, the
+`property` to be intercepted is one that is a number. Any other
+property should simply do the default action.
+
+This class demonstrates the use of a `delegate` to accomplish the needs of the example:
+
+```
+qx.Class.define("my.Arr", {
+  extend: qx.core.Object,
+
+  // use of delegate is currently EXPERIMENTAL
+  delegate: {
+    get : function(prop) {
+      if (+prop === +prop) {
+        // is a number or string representing a number
+        return this.getItem(prop);
+      } else {
+        return this[prop];
+      }
+    },
+
+    set : function(prop, value) {
+      if (+prop === +prop) {
+        // is a number or string representing a number
+        this.setItem(prop, value);
+      } else {
+        this[prop] = value;
+      }
+    },
+
+    delete : function(prop) {
+      this.removeAt(prop);
+    }
+  },
+
+  properties: {
+    arr: {
+      initFunction(key) {
+        return [];
+      }
+    }
+  },
+
+  construct() {
+    super();
+    for (let i = 0; i < 3; i++) {
+      this.setItem(i, "Item " + i);
+    }
+  },
+
+  members: {
+    getItem(i) {
+      return this.getArr()[i];
+    },
+
+    setItem(i, value) {
+      this.getArr()[i] = value;
+    },
+
+    removeAt(i) {
+      delete this.getArr()[i];
+    }
+  }
 });
 ```

@@ -11,6 +11,6 @@
     "class": ""
   },
   "requires": {
-    "@qooxdoo/framework": "^7.0.0"
+    "@qooxdoo/framework": "^8.0.0-beta"
   }
 }

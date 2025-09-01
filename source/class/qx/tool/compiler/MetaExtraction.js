@@ -358,40 +358,42 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           let type = propertyName;
           let annotations = {};
           metaData[type] = {};
-          path.get("value.properties").forEach(memberPath => {
-            let member = memberPath.node;
-            const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
-              member.key
-            );
-            if (name[0] == "@") {
-              annotations[name] = memberPath.get("value").toString();
-              return;
-            }
+          if (path.node.value.type == "ObjectExpression") {
+            path.get("value.properties").forEach(memberPath => {
+              let member = memberPath.node;
+              const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
+                member.key
+              );
+              if (name[0] == "@") {
+                annotations[name] = memberPath.get("value").toString();
+                return;
+              }
 
-            let memberMeta = (metaData[type][name] = {
-              jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(member.leadingComments)
+              let memberMeta = (metaData[type][name] = {
+                jsdoc: qx.tool.utils.BabelHelpers.getJsDoc(member.leadingComments)
+              });
+
+              memberMeta.access = name.startsWith("__")
+                ? "private"
+                : name.startsWith("_")
+                  ? "protected"
+                  : "public";
+              memberMeta.location = {
+                start: member.loc.start,
+                end: member.loc.end
+              };
+
+              if (
+                member.type === "ObjectMethod" ||
+                (member.type === "ObjectProperty" &&
+                  member.value.type === "FunctionExpression")
+              ) {
+                memberMeta.type = "function";
+                memberMeta.params = [];
+                collapseParamMeta(member, memberMeta);
+              }
             });
-
-            memberMeta.access = name.startsWith("__")
-              ? "private"
-              : name.startsWith("_")
-                ? "protected"
-                : "public";
-            memberMeta.location = {
-              start: member.loc.start,
-              end: member.loc.end
-            };
-
-            if (
-              member.type === "ObjectMethod" ||
-              (member.type === "ObjectProperty" &&
-                member.value.type === "FunctionExpression")
-            ) {
-              memberMeta.type = "function";
-              memberMeta.params = [];
-              collapseParamMeta(member, memberMeta);
-            }
-          });
+          }
           for (let metaName in annotations) {
             let bareName = metaName.substring(1);
             let memberMeta = metaData[type][bareName];

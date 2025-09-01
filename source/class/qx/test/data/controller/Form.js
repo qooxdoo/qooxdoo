@@ -632,16 +632,9 @@ qx.Class.define("qx.test.data.controller.Form", {
     testModelCreationWithListController() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
-      var listModel = qx.data.marshal.Json.createModel([
-        { name: "a" },
-        { name: "b" }
-      ]);
+      var listModel = qx.data.marshal.Json.createModel([{ name: "a" }, { name: "b" }]);
 
-      var listController = new qx.data.controller.List(
-        listModel,
-        selectBox,
-        "name"
-      );
+      var listController = new qx.data.controller.List(listModel, selectBox, "name");
 
       // add the selectBox to the form
       this.__form.add(selectBox, "sb");
@@ -654,6 +647,13 @@ qx.Class.define("qx.test.data.controller.Form", {
       var model = c.createModel();
 
       // check the init value of the model selection
+
+      // This test is BROKEN: `model` is based on the initial values of the
+      // form. The listController has nothing to do with the form yet. The
+      // initial value will be the first item in the `listModel` list, which
+      // is 'a', item 0, not 'b', item 1. This *should* and now does throw
+      // an error. The question is, why didn't it throw an error previously?
+      // What is causing the difference in behavior?
       this.assertEquals(listModel.getItem(1), model.getSb());
 
       // set the selection
@@ -833,10 +833,7 @@ qx.Class.define("qx.test.data.controller.Form", {
       this.__model.setTf2("b");
 
       // check the binding
-      this.assertEquals(
-        this.__tf1.getValue(),
-        this.__model.getTf1().substring(1)
-      );
+      this.assertEquals(this.__tf1.getValue(), this.__model.getTf1().substring(1));
 
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
 
@@ -871,6 +868,7 @@ qx.Class.define("qx.test.data.controller.Form", {
 
       // select the first item
       var listItems = list.getSelectables();
+      formController.setModel(listItems[0].getModel());
       list.setSelection([listItems[0]]);
 
       // check if the model is still the same
