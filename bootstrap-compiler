@@ -7,8 +7,8 @@ const utils = require("./bin/tools/utils");
     let arg = process.argv[i];
     if (arg == "--no-clean")
       options.clean = false;
-    else if (arg == "--target")
-      options.target = process.argv[++i];
+    else if (arg.startsWith("--target="))
+      options.target = arg.substring(9);
     else if (arg == "--incVersion")
       options.incVersion = true;
     else if (arg.startsWith("--"))
@@ -20,8 +20,7 @@ const utils = require("./bin/tools/utils");
   if (!options.version) {
      options.version = require("./package.json").version;
   }
-  await utils.bootstrapCompiler(options);
-  process.exit(0);
+  process.exit(await utils.bootstrapCompiler(options));
 })();
 
 

@@ -268,7 +268,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       }
       if (data.provides && data.provides.boot) {
         qx.tool.compiler.Console.print(
-          "qx.tool.cli.compile.deprecatedProvidesBoot",
+          "qx.tool.compiler.cli.compile.deprecatedProvidesBoot",
           rootDir
         );
       }

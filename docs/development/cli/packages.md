@@ -204,13 +204,13 @@ published using the Qooxdoo package registry, but you wish to use a locally
 stored version of it, you can use
 
 ```bash
-qx package install owner/library --from-path ../path/to/the/library
+qx package install owner/library --from-path=../path/to/the/library
 ```
 
 Otherwise, you can install it "anonymously" with
 
 ```bash
-qx package install --from-path ../path/to/the/library
+qx package install --from-path=../path/to/the/library
 ```
 
 If you want to install the package as an optional dependency, use the  
