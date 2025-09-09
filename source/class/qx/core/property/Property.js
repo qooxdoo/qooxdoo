@@ -69,6 +69,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
   },
 
   members: {
+    /**
+     * @type {Boolean} whether this property is inheritable or not
+     */
+    __inheritable: null,
     /** @type{String} the name of the property */
     __propertyName: null,
 
@@ -338,6 +342,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (def["@"] && def["@"].length > 0) {
         this.__annotations = [...def["@"]];
       }
+
+      if (this.__inheritable == null) {
+        this.__inheritable = !!def?.inheritable;
+      }
     },
 
     /**
@@ -345,6 +353,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     clone(clazz) {
       let clone = new qx.core.property.Property(this.__propertyName);
+      clone.__inheritable = this.__inheritable;
       clone.__propertyName = this.__propertyName;
       clone.__clazz = clazz;
       clone.__superClass = this.__clazz;
@@ -1354,12 +1363,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     isInheritable() {
-      if (this.__superClass) {
-        let parent = this.__superClass.prototype.$$allProperties[this.__propertyName];
-        return parent.isInheritable();
-      } else {
-        return !!this.__definition?.inheritable;
-      }
+      return this.__inheritable;
     },
 
     isPseudoProperty() {
