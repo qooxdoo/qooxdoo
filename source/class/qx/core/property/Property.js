@@ -530,14 +530,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Object}
      */
     getPropertyState(thisObj) {
-      if (thisObj.$$propertyState === undefined) {
-        thisObj.$$propertyState = {};
-      }
-      let state = thisObj.$$propertyState[this.__propertyName];
-      if (state === undefined) {
-        state = thisObj.$$propertyState[this.__propertyName] = {};
-      }
-      return state;
+      thisObj.$$propertyState ??= {};
+      return (thisObj.$$propertyState[this.__propertyName] ??= {});
     },
 
     /**
@@ -573,7 +567,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
       thisObj["$$init_" + this.__propertyName] = value;
 
       try {
-        this.__callFunction(thisObj, this.__apply, value, undefined, this.__propertyName);
+        if (this.__apply) {
+          this.__callFunction(thisObj, this.__apply, value, undefined, this.__propertyName);
+        }
         if (this.__eventName) {
           thisObj.fireDataEvent(this.__eventName, value, undefined);
         }
@@ -653,7 +649,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     getThemed(thisObj) {
       if (this.isThemeable()) {
         let state = this.getPropertyState(thisObj);
-        return state.themeValue === undefined ? null : state.themeValue;
+        return state.themeValue ?? null;
       }
       return null;
     },
@@ -1017,20 +1013,16 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return undefined;
         }
 
-        if (this.isThemeable()) {
-          state = this.getPropertyState(thisObj);
-          value = state.themeValue;
-          if (value !== undefined) {
-            return value;
-          }
+        let state = this.getPropertyState(thisObj);
+
+        value = state.themeValue;
+        if (value !== undefined) {
+          return value;
         }
 
-        if (this.isInheritable()) {
-          state = this.getPropertyState(thisObj);
-          value = state.inheritedValue;
-          if (value !== undefined) {
-            return value;
-          }
+        value = state.inheritedValue;
+        if (value !== undefined) {
+          return value;
         }
 
         return this.getInitValue(thisObj);
@@ -1179,7 +1171,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         if (!this.isEqual(thisObj, value, oldValue)) {
           this.__setMutating(thisObj, true);
           try {
-            this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+            if (this.__apply) {
+              this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+            }
             if (this.__eventName) {
               thisObj.fireDataEvent(this.__eventName, value, oldValue);
             }
@@ -1271,9 +1265,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Helper method to call a function, prefering an actual function over a named function.
-     * this is used so that inherited classes can override methods, ie because the method
-     * if located on demand.  This is used to call `apply` and `transform` methods.
+     * Helper method to call a function, which can either be a string being the function name or an actual function.
+     * This is used so that inherited classes can override methods, ie because the method
+     * is located on demand.  This is used to call `apply` and `transform` methods.
      *
      * @param {*} thisObj
      * @param {Function|String?} fn
@@ -1281,49 +1275,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns
      */
     __callFunction(thisObj, fn, ...args) {
-      if (fn === null || fn === undefined) {
-        return null;
-      }
-
-      if (typeof fn == "function") {
-        return fn.call(thisObj, ...args);
-      }
-
       if (typeof fn == "string") {
-        let memberFn = thisObj[fn];
-        if (memberFn) {
-          return memberFn.call(thisObj, ...args);
-        }
-
-        throw new Error(`${this}: method ${fn} does not exist`);
+        return thisObj[fn].call(thisObj, ...args);
       }
 
-      return null;
-    },
-
-    /**
-     * Helper method to call a function, prefering an actual function over a named function.
-     * this is used so that inherited classes can override methods, ie because the method
-     * if located on demand.  Same as `__callFunction` but async.
-     *
-     * @param {*} thisObj the this object
-     * @param {*} fnName the name of the function
-     * @param {*} fn the function, if not named
-     * @param  {...any} args
-     * @returns
-     */
-    async __callFunctionAsync(thisObj, fn, ...args) {
-      if (typeof fn == "function") {
-        return await fn.call(thisObj, ...args);
-      }
-      if (typeof fn == "string") {
-        let memberFn = thisObj[fn];
-        if (memberFn) {
-          return await memberFn.call(thisObj, ...args);
-        }
-
-        throw new Error(`${this}: method ${fn} does not exist`);
-      }
+      return fn.call(thisObj, ...args);
     },
 
     /**
