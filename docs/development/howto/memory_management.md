@@ -2,12 +2,12 @@
 
 ## Introduction
 
-NOTE: This is a new feature in Qooxdoo which is enabled by default since Qooxdoo
-v6 because it is a "breaking change"; for most applications however, you simply
-get free memory management, but you should read this page first to understand
-what the changes are and how they might affect your application. You can disable
-this feature by specifying the `qx.automaticMemoryManagement` as "false" in your
-application's config.json
+> NOTE: This is a new feature in Qooxdoo which is enabled by default since Qooxdoo
+> v6 because it is a "breaking change"; for most applications however, you simply
+> get free memory management, but you should read this page first to understand
+> what the changes are and how they might affect your application. You can disable
+> this feature by specifying the `qx.automaticMemoryManagement` as "false" in your
+> application's config.json
 
 Generally, Qooxdoo's runtime will take care of most of the issues around object
 disposal, so you don't have to be too anxious if you get those 'missing destruct
