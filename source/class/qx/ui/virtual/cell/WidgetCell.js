@@ -80,11 +80,9 @@ qx.Class.define("qx.ui.virtual.cell.WidgetCell", {
     updateData(widget, data) {
       for (var key in data) {
         if (qx.Class.hasProperty(widget.constructor, key)) {
-          qx.util.PropertyUtil.setUserValue(widget, key, data[key]);
+          widget[key] = data[key];
         } else {
-          throw new Error(
-            "Can't update data! The key '" + key + "' is not a Property!"
-          );
+          throw new Error("Can't update data! The key '" + key + "' is not a Property!");
         }
       }
     }

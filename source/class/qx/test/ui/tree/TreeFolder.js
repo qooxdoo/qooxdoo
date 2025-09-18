@@ -252,19 +252,17 @@ qx.Class.define("qx.test.ui.tree.TreeFolder", {
     //
 
     __themeValueIcon(item) {
-      return qx.util.PropertyUtil.getThemeValue(item, "icon");
+      let property = qx.util.PropertyUtil.getProperty(item, "icon");
+      return property.getThemed(item); // Undocumented access to theme value
     },
 
     __themeValueIconOpened(item) {
-      return qx.util.PropertyUtil.getThemeValue(item, "iconOpened");
+      let property = qx.util.PropertyUtil.getProperty(item, "iconOpened");
+      return property.getThemed(item); // Undocumented access to theme value
     },
 
     __assertIcon(item, expected) {
-      this.assertEquals(
-        expected,
-        item.getChildControl("icon").getSource(),
-        "Unexpected source for icon child control"
-      );
+      this.assertEquals(expected, item.getChildControl("icon").getSource(), "Unexpected source for icon child control");
     },
 
     tearDown() {

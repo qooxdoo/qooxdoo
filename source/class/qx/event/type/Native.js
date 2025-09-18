@@ -25,6 +25,9 @@ qx.Class.define("qx.event.type.Native", {
   extend: qx.event.type.Event,
 
   members: {
+    _native: undefined,
+    _returnValue: undefined,
+
     /**
      * Initialize the fields of the event. The event must be initialized before
      * it can be dispatched.

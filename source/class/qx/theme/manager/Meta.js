@@ -37,7 +37,8 @@ qx.Class.define("qx.theme.manager.Meta", {
     theme: {
       check: "Theme",
       nullable: false,
-      apply: "_applyTheme"
+      apply: "_applyTheme",
+      event: null
     }
   },
 

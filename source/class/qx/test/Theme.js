@@ -48,7 +48,18 @@ qx.Class.define("qx.test.Theme", {
       });
 
       var decorationManager = qx.theme.manager.Decoration.getInstance();
+
+      // djl notes:
+      //
+      // This fires a changeTheme event which causes the testtapper
+      // app to try to rerender based on the new theme, but the new
+      // thime is minimal: it contains only a single decoration; it
+      // does not contain required elements such as "inset" needed by
+      // Widget. Thus, an exception is thrown during this call.
+      //
+      // Why/how does it work in the v7 code?
       decorationManager.setTheme(qx.test.Theme.themes.B);
+
       this.assertInstance(
         decorationManager.resolve("main"),
         qx.ui.decoration.Decorator

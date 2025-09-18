@@ -58,6 +58,9 @@ qx.Class.define("qx.tool.cli.Cli", {
     /** @type {String} the compile.json filename, if there is one */
     _compileJsonFilename: null,
 
+    /** @type {Boolean} whether compile.js exists */
+    __compileJsExists: false,
+
     /** @type {Object} Parsed arguments */
     __parsedArgs: null,
 
@@ -359,7 +362,9 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
             (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
         } catch (ex) {
           // Nothing
-        } // check semver-type compatibility (i.e. compatible as long as major version stays the same)
+        }
+
+        // check semver-type compatibility (i.e. compatible as long as major version stays the same)
         let schemaVersion = semver.coerce(
           qx.tool.config.Lockfile.getInstance().getVersion(),
           true

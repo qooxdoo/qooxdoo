@@ -37,7 +37,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Error", {
      * The error object
      * @var {Object}
      */
-    error: {
+    errorDetail: {
       check: value =>
         qx.lang.Type.isObject(value) && "code" in value && "message" in value
     }
@@ -60,6 +60,6 @@ qx.Class.define("qx.io.jsonrpc.protocol.Error", {
     if (data) {
       errorObj.data = data;
     }
-    this.setError(errorObj);
+    this.setErrorDetail(errorObj);
   }
 });

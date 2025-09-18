@@ -198,10 +198,7 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
         items[i].getChild().setLabel("affe" + i);
-        this.assertEquals(
-          items[i].getChild().getLabel(),
-          this.__model.getItem(i)
-        );
+        this.assertEquals(items[i].getChild().getLabel(), this.__model.getItem(i));
       }
 
       // get rid of the created items
@@ -218,10 +215,7 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
       };
 
       this.__delegate.configureItem = function (item) {
-        var childItems = new qx.data.Array(
-          new qx.test.ListItem(),
-          new qx.test.ListItem()
-        );
+        var childItems = new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem());
 
         item.setChildren(childItems);
       };
@@ -237,10 +231,7 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
       var items = this.__list.getChildren();
       for (var i = 0; i < items.length; i++) {
         this.__model.setItem(i, "abc" + i);
-        this.assertEquals(
-          "abc" + i,
-          items[i].getChildren().getItem(0).getLabel()
-        );
+        this.assertEquals("abc" + i, items[i].getChildren().getItem(0).getLabel());
       }
 
       // check for the binding target(label) --> model
@@ -249,19 +240,13 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
           .getChildren()
           .getItem(0)
           .setLabel("affe" + i);
-        this.assertEquals(
-          items[i].getChildren().getItem(0).getLabel(),
-          this.__model.getItem(i)
-        );
+        this.assertEquals(items[i].getChildren().getItem(0).getLabel(), this.__model.getItem(i));
       }
 
       // check a change of the array order
       for (var i = 0; i < items.length; i++) {
         items[i].getChildren().reverse();
-        this.assertEquals(
-          items[i].getChildren().getItem(0).getLabel(),
-          this.__model.getItem(i)
-        );
+        this.assertEquals(items[i].getChildren().getItem(0).getLabel(), this.__model.getItem(i));
       }
 
       // get rid of the created items

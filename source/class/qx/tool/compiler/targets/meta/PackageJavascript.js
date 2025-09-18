@@ -50,6 +50,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
   },
 
   members: {
+    __pkg : undefined,
+    
     __sourceMapOffsets: null,
 
     /*
