@@ -166,6 +166,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       await metaDb.reparseAll();
 
       let tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
+      if (this.argv.outputFilename) {
+        tsWriter.setOutputTo(this.argv.outputFilename);
+      }
       await tsWriter.process();
     }
   }
