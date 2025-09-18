@@ -46,7 +46,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
         this
       );
       let data = await this.base(arguments);
-      if (!data.environment) data.environment = {};
+      if (!data.environment) {
+        data.environment = {};
+      }
       let manifestConfig = await qx.tool.config.Manifest.getInstance().load();
       let manifestData = manifestConfig.getData();
       data.environment["qx.compiler.version"] = manifestData.info.version;
@@ -165,8 +167,6 @@ qx.Class.define("qx.compiler.CompilerApi", {
               "lint",
               "--warnAsError"
             ],
-
-            shell: true,
             log: console.log,
             error: console.log
           });
@@ -235,7 +235,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       res.push("test");
       for (const arg of argList) {
         if (command.argv[arg]) {
-          res.push(` --${arg}=${command.argv[arg]}`);
+          res.push(`--${arg}=${command.argv[arg]}`);
         }
       }
       return res;

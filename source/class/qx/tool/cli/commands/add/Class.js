@@ -169,7 +169,7 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
       let absolute_path = path.join(process.cwd(), relative_path);
       let file_exists = false;
       try {
-        fs.accessSync(absolute_path);
+        fs.accessSync(absolute_path, fs.constants.F_OK);
         file_exists = true;
       } catch (e) {}
       if (file_exists && !argv.force) {

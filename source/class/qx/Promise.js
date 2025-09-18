@@ -233,6 +233,7 @@ qx.Class.define("qx.Promise", {
           );
         } else if (!qx.Promise.__cancelWarningShown) {
           qx.Promise.__cancelWarningShown = true;
+          // eslint-disable-next-line
           console.warn(
             "qx.Promise.cancel is deprecated and will be removed in the future"
           );

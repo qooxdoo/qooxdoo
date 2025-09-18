@@ -5,7 +5,7 @@ const utils = require("../tools/utils");
 
 async function main() {
   let knownGood = path.join(__dirname, "..", "..", "known-good");
-  let qx = path.join(knownGood, "node_modules", ".bin", "qx");
+  let qx = path.join(knownGood, "node_modules", ".bin", process.platform === "win32" ? "qx.cmd" : "qx");
   if (!fs.existsSync(qx)) {
     console.log("Loading working compiler with npm");
     await utils.runCommand(knownGood, "npm", "install", "--no-audit");
@@ -20,7 +20,8 @@ async function main() {
   console.log("*** Known Good Compiler Version: " + data.version);
   console.log("***");
   var myArgs = process.argv.slice(2);
-  console.log("run", qx, ...myArgs);
-  utils.runCommand(".", qx, ...myArgs);
+  let qxMain = path.join(knownGood, "node_modules", "@qooxdoo", "framework", "bin", "deploy", "qx");
+  console.log("run", qxMain, ...myArgs);
+  utils.runCommand(".", "node", qxMain, ...myArgs);
 }
 main();
