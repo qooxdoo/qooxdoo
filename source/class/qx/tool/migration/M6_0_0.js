@@ -67,7 +67,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
 
     async migrateConfigFiles() {
       let dryRun = this.getRunner().getDryRun();
-      let pkg = qx.tool.cli.commands.Package;
+      let pkg = qx.tool.compiler.cli.commands.Package;
       let cwd = process.cwd();
       // rename configuration files from initial names
       // replace those static variables with verbatims
@@ -76,11 +76,11 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         [path.join(cwd, pkg.cache_dir), path.join(cwd, "contrib")],
         [
           path.join(
-            qx.tool.cli.ConfigDb.getDirectory(),
+            qx.tool.compiler.cli.ConfigDb.getDirectory(),
             pkg.package_cache_name
           ),
 
-          path.join(qx.tool.cli.ConfigDb.getDirectory(), "contrib-cache.json")
+          path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "contrib-cache.json")
         ]
       ];
 

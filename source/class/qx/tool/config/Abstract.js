@@ -217,7 +217,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      */
     getSchemaPath() {
       return qx.util.ResourceManager.getInstance().toUri(
-        `qx/tool/schema/${this._getSchemaFileName()}`
+        `qx/tool/compiler/schema/${this._getSchemaFileName()}`
       );
     },
 
