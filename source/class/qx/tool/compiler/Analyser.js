@@ -57,7 +57,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     this.__libraries = [];
     this.__librariesByNamespace = {};
     this.__initialClassesToScan = new qx.tool.utils.IndexedArray();
-    this.__cldrs = {};
+    this.__locales = {};
     this.__translations = {};
     this.__classFiles = {};
     this.__environmentChecks = {};
@@ -206,7 +206,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
     __classes: null,
     __initialClassesToScan: null,
-    __cldrs: null,
+    __locales: null,
     __translations: null,
 
     /** @type{qx.tool.compiler.app.ManifestFont[]} list of fonts in provides.fonts */
@@ -655,19 +655,17 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     },
 
     /**
-     * Returns the CLDR data for a given locale
+     * Returns the locale data for a given locale
      * @param locale {String} the locale string
-     * @returns {Promise<qx.tool.compiler.app.Cldr>}
+     * @returns Promise({options})
      */
-    async getCldr(locale) {
-      var t = this;
-      var cldr = this.__cldrs[locale];
-      if (cldr) {
-        return cldr;
+    async getLocale(locale) {
+      var options = this.__locales[locale];
+      if (options) {
+        return options;
       }
-      return qx.tool.compiler.app.Cldr.loadCLDR(locale).then(
-        cldr => (t.__cldrs[locale] = cldr)
-      );
+      this.__locales[locale] = {};
+      return options;
     },
 
     /**
