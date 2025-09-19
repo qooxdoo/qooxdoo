@@ -61,7 +61,11 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
 
   members: {
     __executableBindingIds: null,
-    __semaphore: false,
+    
+    /**
+     * @type {Boolean} Whether the command already executed. The protection flag to stop the second command execution.
+     */
+    __commandExecuted: false,
     __executeListenerId: null,
 
     /**
@@ -83,10 +87,10 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
       var cmd = this.getCommand();
 
       if (cmd) {
-        if (this.__semaphore) {
-          this.__semaphore = false;
+        if (this.__commandExecuted) {
+          this.__commandExecuted = false;
         } else {
-          this.__semaphore = true;
+          this.__commandExecuted = true;
           cmd.execute(this);
         }
       }
@@ -100,15 +104,13 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
      * @param e {qx.event.type.Event} The execute event of the command.
      */
     __onCommandExecute(e) {
+      if (this.__commandExecuted) {
+        this.__commandExecuted = false;
+        return;
+      }
+      this.__commandExecuted = true;
       if (this.isEnabled()) {
-        if (this.__semaphore) {
-          this.__semaphore = false;
-          return;
-        }
-        if (this.isEnabled()) {
-          this.__semaphore = true;
-          this.execute();
-        }
+        this.execute();
       }
     },
 
