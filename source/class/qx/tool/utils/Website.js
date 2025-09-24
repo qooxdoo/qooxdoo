@@ -55,9 +55,9 @@ qx.Class.define("qx.tool.utils.Website", {
     );
 
     p = path.dirname(p);
-    this.initSourceDir(p);
-    this.initTargetDir(path.join(p, "build"));
-    this.initAppsNamespace(self.APP_NAMESPACE);
+    this.setSourceDir(p);
+    this.setTargetDir(path.join(p, "build"));
+    this.setAppsNamespace(self.APP_NAMESPACE);
 
     for (let key of Object.getOwnPropertyNames(options)) {
       this.set(key, options[key]);
@@ -67,17 +67,14 @@ qx.Class.define("qx.tool.utils.Website", {
   properties: {
     appsNamespace: {
       check: "String",
-      deferredInit: true
     },
 
     sourceDir: {
       check: "String",
-      deferredInit: true
     },
 
     targetDir: {
       check: "String",
-      deferredInit: true
     }
   },
 

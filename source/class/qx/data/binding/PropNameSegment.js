@@ -23,11 +23,18 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
   extend: qx.data.binding.AbstractSegment,
 
   /**
+   * @param {qx.data.SingleValueBinding} binding The binding that this segment belongs to.
    * @param {String} propName
    */
-  construct(propName) {
-    super();
-    this.__propName = propName;
+  construct(binding, propName) {
+    super(binding);
+    let lower = qx.lang.String.firstLow(propName);
+    if (qx.core.Environment.get("qx.debug")) {
+      if (lower !== propName) {
+        this.warn(`Binding: property name "${propName}" should be lower case, using "${lower}" instead`);
+      }
+    }
+    this.__propName = lower;
   },
 
   /**
@@ -81,19 +88,19 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
 
     updateOutput() {
       let input = this.getInput();
-      if (input == null) {
-        return this._setOutput(null);
+      if (input === null || input === undefined) {
+        return this._setOutput(undefined);
       } else {
         let property = qx.Class.getByProperty(input.constructor, this.__propName);
         if (property === null) {
           return this._setOutput(null);
         }
-        if (property.isInitialized(input)) {
+        if (!property.isAsync() || property.isInitialized(input)) {
           let nextInput = property.get(input, this.__propName);
           return this._setOutput(nextInput);
         } else {
-          let promise = property.get(input, this.__propName);
-          return promise?.then(nextInput => this._setOutput(nextInput));
+          let promise = property.getAsync(input);
+          return promise.then(nextInput => this._setOutput(nextInput));
         }
       }
     },
@@ -102,7 +109,14 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @override
      */
     setTargetValue(targetValue) {
-      return qx.data.binding.Binding.set(this.getInput(), this.__propName, targetValue);
+      if (this.getInput() == null || this.getInput() === undefined) {
+        return;
+      }
+      if (targetValue !== undefined) {
+        return qx.data.SingleValueBinding.set(this.getInput(), this.__propName, targetValue);
+      } else {
+        return qx.data.SingleValueBinding.reset(this.getInput(), this.__propName);
+      }
     },
 
     /**

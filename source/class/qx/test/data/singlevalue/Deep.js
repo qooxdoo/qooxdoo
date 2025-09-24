@@ -80,7 +80,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
 
       // set the binding root to null
       m.setA(null);
-      this.assertEquals(2, called);
+      this.assertEquals(3, called);
       this.assertEquals(3, m.getB());
 
       m.dispose();
@@ -299,6 +299,30 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
 
       this.__b1.setName("B1");
       this.assertEquals("B1", this.__label.getValue(), "Deep binding does not work.");
+    },
+
+    /**
+     * Tests that if the path becomes broken,
+     * the target is reset to the init value,
+     * which may not be null!
+     */
+    testTargetInitNotNull() {
+      this.__a.setArray(new qx.data.Array([this.__a]));
+      this.__a.setChild(this.__a);
+      this.__a.setName("Jakub");
+
+      this.assertEquals("b2", this.__b2.getName(), "b2 name changed unexpectedly");
+
+      qx.data.SingleValueBinding.bind(this.__a, "array[0].child.name", this.__b2, "name");
+
+      this.assertEquals("Jakub", this.__b2.getName());
+      this.__a.getArray().pop();
+      this.assertEquals("Juhu", this.__b2.getName());
+
+      this.__a.getArray().push(this.__a);
+      this.assertEquals("Jakub", this.__b2.getName());
+      this.__a.resetChild();
+      this.assertEquals("Juhu", this.__b2.getName(), "Resetting child does not work.");
     },
 
     testDeepTarget() {

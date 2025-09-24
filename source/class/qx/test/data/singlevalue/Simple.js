@@ -739,6 +739,58 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
 
       a.getB().setC(qx.data.marshal.Json.createModel({ d: {} }));
       this.assertNull(a.getTarget());
+    },
+
+    testIgnoreConverter() {
+      qx.Class.undefine("qx.test.data.singlevalue.simple.Person");
+      let Person = qx.Class.define("qx.test.data.singlevalue.simple.Person", {
+        extend: qx.core.Object,
+        construct(name) {
+          this.constructor.superclass.constructor.call(this);
+          if (name) {
+            this.setName(name);
+          }
+        },
+
+        properties: {
+          name: {
+            check: "String",
+            init: "Patryk",
+            nullable: true,
+            event: "changeName"
+          },
+          friend: {
+            check: "qx.test.data.singlevalue.simple.Person?",
+            event: "changePerson"
+          }
+        }
+      });
+
+      let person1 = new Person("Jake");
+      let person2 = new Person("Anna");
+      person1.setFriend(person2);
+      person2.setFriend(person2);
+
+      let person3 = new Person();
+
+      let timesCalled = 0;
+      person1.bind("friend.friend.name", person3, "name", {
+        converter(data, model, source, target) {
+          timesCalled++;
+          return data;
+        },
+        ignoreConverter: "friend"
+      });
+      this.assertEquals("Anna", person3.getName(), "Initial value not set correctly.");
+      this.assertEquals(1, timesCalled, "Converter should be called during initial set.");
+      person2.setName(null);
+      this.assertEquals(2, timesCalled, "Converter should be called during null set.");
+      this.assertNull(person3.getName(), "Null value should be set.");
+      person2.setName("Anna");
+      this.assertEquals(3, timesCalled, "Converter should be called after null set.");
+      person2.setFriend(null);
+      this.assertEquals(3, timesCalled, "Converter should not be called when chain is broken and ignoreConverter is set and matches.");
+      this.assertEquals("Patryk", person3.getName(), "Target should be reset when chain is broken");
     }
   }
 });

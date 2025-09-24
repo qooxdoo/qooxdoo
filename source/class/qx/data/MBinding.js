@@ -47,13 +47,7 @@ qx.Mixin.define("qx.data.MBinding", {
      *   target).
      */
     bind(sourcePropertyChain, targetObject, targetProperty, options) {
-      return qx.data.SingleValueBinding.bind(
-        this,
-        sourcePropertyChain,
-        targetObject,
-        targetProperty || "value",
-        options
-      );
+      return qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty || "value", options);
     },
 
     /**
@@ -83,22 +77,11 @@ qx.Mixin.define("qx.data.MBinding", {
      */
     bindAsync: qx.core.Environment.select("qx.promise", {
       true(sourcePropertyChain, targetObject, targetProperty, options) {
-        var binding = qx.data.SingleValueBinding.bind(
-          this,
-          sourcePropertyChain,
-          targetObject,
-          targetProperty || "value",
-          options
-        );
+        var binding = qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty || "value", options);
         return binding.getInitPromise().then(() => binding);
       },
       false(sourcePropertyChain, targetObject, targetProperty, options) {
-        return this.bind(
-          sourcePropertyChain,
-          targetObject,
-          targetProperty,
-          options
-        );
+        return this.bind(sourcePropertyChain, targetObject, targetProperty, options);
       }
     }),
 
@@ -145,7 +128,7 @@ qx.Mixin.define("qx.data.MBinding", {
      *   targetObject and targetProperty in that order.
      */
     getBindings() {
-      return qx.data.binding.Binding.getAllBindingsForObject(this);
+      return qx.data.SingleValueBinding.getAllBindingsForObject(this);
     }
   },
 

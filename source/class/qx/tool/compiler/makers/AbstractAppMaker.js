@@ -32,7 +32,8 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
     target: {
       nullable: false,
       check: "qx.tool.compiler.targets.Target",
-      apply: "__applyTarget"
+      apply: "__applyTarget",
+      init: null
     },
 
     /** Supported Locales */

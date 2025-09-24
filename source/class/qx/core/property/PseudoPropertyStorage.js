@@ -17,9 +17,9 @@
 ************************************************************************ */
 
 /**
- * Implementation of property storage for psuedo properties
+ * Implementation of property storage for pseudo properties
  */
-qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
+qx.Bootstrap.define("qx.core.property.PseudoPropertyStorage", {
   extend: Object,
   implement: qx.core.property.IPropertyStorage,
 
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.core.property.PsuedoPropertyStorage", {
      * @Override
      */
     reset(thisObj, property, value) {
-      this.set(thisObj, property, value);
+      thisObj["reset" + this.__upname]();
     },
 
     /**

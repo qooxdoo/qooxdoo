@@ -314,17 +314,6 @@ window.qx = Object.assign(window.qx || {}, {
             );
           }
 
-          // Call any initFunctions defined for properties of this class
-          if (this.$$initFunctions) {
-            this.$$initFunctions.forEach(prop => {
-              let propertyFirstUp = qx.Bootstrap.firstUp(prop);
-
-              // Initialize this property
-              this[`init${propertyFirstUp}`]();
-              this[`$$variant_${prop}`] = "init";
-            });
-          }
-
           return ret !== undefined ? ret : this;
         };
       } else {

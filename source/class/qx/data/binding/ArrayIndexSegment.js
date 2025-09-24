@@ -22,10 +22,11 @@
 qx.Class.define("qx.data.binding.ArrayIndexSegment", {
   extend: qx.data.binding.AbstractSegment,
   /**
+   * @param {qx.data.SingleValueBinding} binding The binding that this segment belongs to.
    * @param {string} segment String representation of the segment, such as `[0]` or `[last]`
    */
-  construct(segment) {
-    super();
+  construct(binding, segment) {
+    super(binding);
     this.__string = segment;
 
     this.assertTrue(segment.startsWith("[") && segment.endsWith("]"), "Array index segment must start with [ and end with ]: " + segment);
@@ -102,7 +103,7 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
     __get() {
       let input = this.getInput();
       if (!input) {
-        return null;
+        return undefined;
       }
 
       if (input instanceof qx.data.Array) {
@@ -110,7 +111,7 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
       }
 
       if (this.__index >= input.length) {
-        return null;
+        return undefined;
       }
       return input.at(this.__index);
     },
@@ -120,6 +121,9 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
      */
     setTargetValue(targetValue) {
       let input = this.getInput();
+      if (!input) {
+        return;
+      }
       let index = this.__index == -1 ? input.length - 1 : this.__index;
       if (input instanceof qx.data.Array) {
         input.setItem(index, targetValue);

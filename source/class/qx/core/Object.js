@@ -40,7 +40,7 @@
  * @require(ImmutableObjectStorage)
  * @require(Property)
  * @require(PropertyStorageFactory)
- * @require(PsuedoPropertyStorage)
+ * @require(PseudoPropertyStorage)
  * @require(SimplePropertyStorage)
  * @require(qx.core.check.Any)
  * @require(qx.core.check.CheckFactory)
@@ -69,17 +69,6 @@ qx.Class.define("qx.core.Object", {
    */
   construct() {
     this.$$propertyValues = {};
-    // Call any initFunctions defined for properties of this class
-    let classes = [];
-    for (let clazz = this.constructor; clazz != qx.core.Object.superclass; clazz = clazz.superclass) {
-      classes.push(clazz);
-    }
-    for (let index = classes.length - 1; index >= 0; index--) {
-      let clazz = classes[index];
-      clazz.prototype.$$initFunctions.forEach(propertyName => {
-        this.$$allProperties[propertyName].init(this);
-      });
-    }
   },
 
   /*
@@ -100,10 +89,6 @@ qx.Class.define("qx.core.Object", {
   */
 
   members: {
-    // __Property: qx.core.Environment.get("module.property")
-    //   ? qx.core.Property
-    //   : null,
-
     /*
     ---------------------------------------------------------------------------
       BASICS

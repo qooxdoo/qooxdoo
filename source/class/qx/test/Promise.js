@@ -625,6 +625,7 @@ qx.Class.define("qx.test.Promise", {
 
     testBinding() {
       var t = this;
+      qx.Class.undefine("testBinding.AsyncClazz");
       var AsyncClazz = qx.Class.define("testBinding.AsyncClazz", {
         extend: qx.core.Object,
         properties: {
@@ -638,6 +639,7 @@ qx.Class.define("qx.test.Promise", {
         }
       });
 
+      qx.Class.undefine("testBinding.SyncClazz");
       var SyncClazz = qx.Class.define("testBinding.SyncClazz", {
         extend: qx.core.Object,
         properties: {
@@ -1081,6 +1083,7 @@ qx.Class.define("qx.test.Promise", {
      */
     testWaterfallBinding() {
       var t = this;
+      qx.Class.undefine("testWaterfallBinding.Clazz");
       var Clazz = qx.Class.define("testWaterfallBinding.Clazz", {
         extend: qx.core.Object,
         properties: {
@@ -1099,10 +1102,8 @@ qx.Class.define("qx.test.Promise", {
         members: {
           _applyAlpha(value, oldValue) {
             var t = this;
-            console.log("pre applyAlpha[" + t.getValue() + "] = " + value);
             return new qx.Promise(function (resolve) {
               setTimeout(function () {
-                console.log("applyAlpha[" + t.getValue() + "] = " + value);
                 resolve("xyz");
               }, 50);
             });
@@ -1150,7 +1151,6 @@ qx.Class.define("qx.test.Promise", {
 
         p.then(function () {
           t.assertEquals("0:abc,1:abc,2:abc,3:abc,4:abc", str);
-          qx.Class.undefine("testWaterfallBinding.Clazz");
           t.resume();
         }, t);
       });

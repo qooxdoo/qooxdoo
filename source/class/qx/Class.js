@@ -79,8 +79,7 @@ qx.Bootstrap.define("qx.Class", {
       deferredInit: "boolean", // Boolean
       validate: ["string", "function"], // String, Function
       isEqual: ["string", "function"], // String, Function
-
-      // Not in original set of allowed keys:
+      autoApply: "boolean", // Boolean
       get: ["string", "function"], // String, Function
       set: ["string", "function"], // String, Function
       getAsync: ["string", "function"], // String, Function
@@ -656,6 +655,27 @@ qx.Bootstrap.define("qx.Class", {
             });
           }
 
+          if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
+            //Call apply function for properties of this class which have an init value and which haven't been initialized yet.
+            //This must be done once per instantiation, after the constructor of the concrete class has finished.
+            if (this.constructor === subclass) {
+              for (let property of Object.values(subclass.prototype.$$allProperties)) {
+                if (
+                  property instanceof qx.core.property.Property &&
+                  property.getClass().classname &&
+                  !qx.core.Environment.get("qx.core.property.Property.excludeAutoApply").find(match =>
+                    property.getClass().classname.match(match)
+                  ) &&
+                  property.hasInitValue() &&
+                  property.getDefinition().autoApply !== false &&
+                  !property.getPropertyState(this).initMethodCalled
+                ) {
+                  property.init(this);
+                }
+              }
+            }
+          }
+
           if (config.delegate) {
             return new Proxy(this, {
               get(target, propertyName, receiver) {
@@ -869,13 +889,13 @@ qx.Bootstrap.define("qx.Class", {
             continue;
           }
           let eventName = "change" + key.substr(3);
-          if (events && events[eventName] && members["set" + key.substr(3)]) {
+          if (events && events[eventName]) {
             let superProperty = clazz.prototype.$$superProperties ? clazz.prototype.$$superProperties[propertyName] : null;
             if (superProperty) {
-              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" with a psuedo-property is not allowed`);
+              throw new Error(`${clazz.classname}: ` + `Overwriting property "${propertyName}" with a pseudo-property is not allowed`);
             }
             let property = new qx.core.property.Property(propertyName, clazz);
-            property.configurePsuedoProperty();
+            property.configurePseudoProperty();
             clazz.prototype.$$properties[propertyName] = property;
             clazz.prototype.$$allProperties[propertyName] = property;
             property.defineProperty(clazz, patch);
@@ -1710,7 +1730,7 @@ qx.Bootstrap.define("qx.Class", {
      * @return {Class | null} The class which includes the property
      */
     getByProperty(clazz, name) {
-      return clazz.prototype.$$allProperties[name] || null;
+      return clazz.prototype.$$allProperties?.[name] ?? null;
     },
 
     /**

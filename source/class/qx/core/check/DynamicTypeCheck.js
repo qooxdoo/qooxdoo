@@ -32,6 +32,14 @@ qx.Bootstrap.define("qx.core.check.DynamicTypeCheck", {
     __typename: null,
 
     /**
+     *
+     * @returns {string} Name of the class for this check
+     */
+    getTypename() {
+      return this.__typename;
+    },
+
+    /**
      * @override
      */
     _matchesImpl(value) {

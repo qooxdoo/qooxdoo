@@ -36,7 +36,8 @@ qx.Mixin.define("qx.core.MObjectId", {
       init: null,
       check: "qx.core.Object",
       nullable: true,
-      apply: "_applyQxOwner"
+      apply: "_applyQxOwner",
+      autoApply: false
     },
 
     /** {String} The ID of the object.  */
@@ -48,7 +49,8 @@ qx.Mixin.define("qx.core.MObjectId", {
         );
       },
       nullable: true,
-      apply: "_applyQxObjectId"
+      apply: "_applyQxObjectId",
+      autoApply: false
     }
   },
 

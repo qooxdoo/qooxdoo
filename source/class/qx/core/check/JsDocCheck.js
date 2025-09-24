@@ -18,6 +18,7 @@
 
 /**
  * Implementation of check for any value
+ * @ignore(require)
  */
 qx.Bootstrap.define("qx.core.check.JsDocCheck", {
   extend: Object,
