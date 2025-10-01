@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 const process = require("process");
-const Gauge = require("gauge");
+const cliProgress = require("cli-progress");
 const semver = require("semver");
 const path = require("upath");
 const consoleControl = require("console-control-strings");
@@ -182,7 +182,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       },
 
       feedback: {
-        describe: "Shows gas-gauge feedback",
+        describe: "Shows progress bar feedback",
         type: "boolean",
         alias: "f"
       },
@@ -359,7 +359,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
   },
 
   members: {
-    __gauge: null,
+    __progressBar: null,
     __makers: null,
     __libraries: null,
     __outputDirWasCreated: false,
@@ -408,20 +408,15 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
 
         if (this.argv["feedback"]) {
-          var themes = require("gauge/themes");
-          var ourTheme = themes.newTheme(
-            themes({ hasUnicode: true, hasColor: true })
-          );
-
           let colorOn = qx.tool.compiler.Console.getInstance().getColorOn();
-          ourTheme.preProgressbar = colorOn + ourTheme.preProgressbar;
-          ourTheme.preSubsection = colorOn + ourTheme.preSubsection;
-          ourTheme.progressbarTheme.postComplete += colorOn;
-          ourTheme.progressbarTheme.postRemaining += colorOn;
-
-          this.__gauge = new Gauge();
-          this.__gauge.setTheme(ourTheme);
-          this.__gauge.show("Compiling", 0);
+          
+          this.__progressBar = new cliProgress.SingleBar({
+            format: colorOn + 'Progress |{bar}| {percentage}% | {status}',
+            barCompleteChar: '\u2588',
+            barIncompleteChar: '\u2591',
+            hideCursor: true
+          });
+          this.__progressBar.start(100, 0, { status: 'Compiling' });
           const TYPES = {
             error: "ERROR",
             warning: "Warning"
@@ -430,48 +425,49 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           qx.tool.compiler.Console.getInstance().setWriter((str, msgId) => {
             msgId = qx.tool.compiler.Console.MESSAGE_IDS[msgId];
             if (!msgId || msgId.type !== "message") {
-              this.__gauge.hide();
+              this.__progressBar.stop();
               qx.tool.compiler.Console.log(
                 colorOn + TYPES[(msgId || {}).type || "error"] + ": " + str
               );
-
-              this.__gauge.show();
+              this.__progressBar.start(100, this.__progressBar.value || 0, { 
+                status: this.__progressBar.payload?.status || 'Compiling' 
+              });
             } else {
-              this.__gauge.show(colorOn + str);
+              this.__progressBar.update(this.__progressBar.value || 0, { status: colorOn + str });
             }
           });
         }
       }
 
-      if (this.__gauge) {
+      if (this.__progressBar) {
         this.addListener("writingApplications", () =>
-          this.__gauge.show("Writing Applications", 0)
+          this.__progressBar.update(0, { status: "Writing Applications" })
         );
 
         this.addListener("writtenApplications", () =>
-          this.__gauge.show("Writing Applications", 1)
+          this.__progressBar.update(100, { status: "Writing Applications" })
         );
 
         this.addListener("writingApplication", evt =>
-          this.__gauge.pulse(
-            "Writing Application " +
+          this.__progressBar.increment({
+            status: "Writing Application " +
               evt.getData().appMeta.getApplication().getName()
-          )
+          })
         );
 
         this.addListener("compilingClass", evt =>
-          this.__gauge.pulse(
-            "Compiling " + evt.getData().classFile.getClassName()
-          )
+          this.__progressBar.increment({
+            status: "Compiling " + evt.getData().classFile.getClassName()
+          })
         );
 
         this.addListener("minifyingApplication", evt =>
-          this.__gauge.pulse(
-            "Minifying " +
+          this.__progressBar.increment({
+            status: "Minifying " +
               evt.getData().application.getName() +
               " " +
               evt.getData().filename
-          )
+          })
         );
       } else {
         this.addListener("writingApplication", evt => {
@@ -491,16 +487,16 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       this.addListener("making", evt => {
-        if (this.__gauge) {
-          this.__gauge.show("Compiling", 1);
+        if (this.__progressBar) {
+          this.__progressBar.update(100, { status: "Compiling" });
         } else {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.makeBegins");
         }
       });
 
       this.addListener("made", evt => {
-        if (this.__gauge) {
-          this.__gauge.show("Compiling", 1);
+        if (this.__progressBar) {
+          this.__progressBar.update(100, { status: "Compiling" });
         } else {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.makeEnds");
         }

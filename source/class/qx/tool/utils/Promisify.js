@@ -28,7 +28,7 @@ qx.Class.define("qx.tool.utils.Promisify", {
   statics: {
     MAGIC_KEY: "__isPromisified__",
     IGNORED_PROPS:
-      /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__)$/,
+      /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__|F_OK|R_OK|W_OK|X_OK)$/,
 
     promisifyAll(target, fn) {
       Object.getOwnPropertyNames(target).forEach(key => {

@@ -55,10 +55,13 @@ async function runCompiler(dir, ...cmd) {
   return result;
 }
 
+
 async function runCommand(dir, ...args) {
   return new Promise((resolve, reject) => {
-    let cmd = args.shift();
-    let proc = child_process.spawn(cmd, args, {
+    let originalCmd = args.shift();
+    
+    // Use shell for better command resolution
+    let proc = child_process.spawn(originalCmd, args, {
       cwd: dir,
       shell: true
     });
@@ -91,7 +94,7 @@ async function runCommand(dir, ...args) {
 
 async function deleteRecursive(name) {
   return new Promise((resolve, reject) => {
-    fs.access(name, err => {
+    fs.access(name, fs.constants.F_OK, err => {
       if (err) {
         return resolve();
       }
@@ -478,8 +481,8 @@ moreUtils = {
           made += "/";
         }
         made += seg;
-        fs.exists(made, function (exists) {
-          if (!exists) {
+        fs.access(made, fs.constants.F_OK, function (err) {
+          if (err) {
             fs.mkdir(made, function (err) {
               if (err && err.code === "EEXIST") {
                 err = null;

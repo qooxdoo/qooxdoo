@@ -636,7 +636,9 @@ file in your project root.
 
 ## Eslint
 
-The qx lint command is configured by an eslintConfig section in compile.js:
+The qx lint command is configured by an eslintConfig section in compile.json. The configuration supports both legacy ESLint format (object) and ESLint 9 flat config format (array).
+
+### Legacy Configuration Format (Object)
 
 ```json5
   "eslintConfig": {
@@ -653,7 +655,28 @@ The qx lint command is configured by an eslintConfig section in compile.js:
   }
 ```
 
-The syntax is the same as in package.json. Explanation can be found here:
+### ESLint 9 Flat Configuration Format (Array)
+
+```json5
+  "eslintConfig": [
+    {
+      "ignores": ["compiled/**", "node_modules/**"]
+    },
+    {
+      "requires": ["@qooxdoo/eslint-config-qx/browser"],
+      "languageOptions": {
+        "ecmaVersion": 2020
+      },
+      "rules": {
+        "curly": "error"
+      }
+    }
+  ]
+```
+
+For flat config format, use `requires` instead of `extends` to include shared configurations. The legacy `extends` configurations are automatically converted to work with ESLint 9.
+
+The syntax for legacy format is the same as in package.json. Explanation can be found here:
 <https://eslint.org/docs/user-guide/configuring> .
 
 If you omit the eslintConfig section a default will be used:

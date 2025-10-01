@@ -463,7 +463,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
 
           const installer = new qx.tool.cli.commands.package.Install({
             quiet: true,
-            save: false
+            save: false,
+            verbose: this.argv.verbose
           });
 
           await installer.process();
