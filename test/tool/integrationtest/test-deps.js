@@ -11,7 +11,7 @@ process.chdir(__dirname);
 
 async function createMaker() {
   const qxPath = path.resolve(__dirname + "/../../..");
-  const templatePath = path.resolve(qxPath + "/source/resource/qx/tool/cli/templates");
+  const templatePath = path.resolve(qxPath + "/source/resource/qx/tool/compiler/cli/templates");
   qx.tool.compiler.ClassFile.JSX_OPTIONS = {
     "pragma": "jsx.dom",
     "pragmaFrag": "jsx.Fragment"

@@ -4,18 +4,21 @@ const process = require("process");
 const { performance } = require('perf_hooks');
 
 qx.Class.define("qx.compiler.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
     /**
      * Register compiler tests
-     * @param {qx.tool.cli.commands.Command} command
+     * @param {qx.tool.compiler.cli.Command} command
      * @return {Promise<void>}
      */
     async beforeTests(command) {
       const COMPILER_TEST_PATH = "integrationtest";
       const that = this;
       this.__argv = command.argv;
+      if (this.__argv.method || this.__argv.class) {
+        return;
+      }
       function addTest(test) {
         let args = [];
         args.push(test + ".js");
@@ -24,10 +27,10 @@ qx.Class.define("qx.compiler.CompilerApi", {
             args.push(` --${arg}=${command.argv[arg]}`);
           }
         }
-        command.addTest(new qx.tool.cli.api.Test(test, async function () {
-          this.info("*********************************************************************************************************");
-          this.info("# Running " + test);
-          this.info("**********************************************************************************************************");
+        command.addTest(new qx.tool.compiler.cli.api.Test(test, async function () {
+          qx.tool.compiler.Console.info("*********************************************************************************************************");
+          qx.tool.compiler.Console.info("# Running " + test);
+          qx.tool.compiler.Console.info("**********************************************************************************************************");
           that.__notOk = 0;
           that.__Ok = 0;
           that.__skipped = 0;

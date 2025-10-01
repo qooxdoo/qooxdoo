@@ -185,6 +185,7 @@ hook methods which are triggered by these events:
 - `afterProcessFinished()`: runs after the whole process is finished
 
 `qx.tool.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.LibraryApi)
+- `initialize(rootCmd)`: Called just after loading config.js. Can be used to add special parameters or commands
 - `load()`: Called to load any library-specific configuration and update the compilerConfig
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
 

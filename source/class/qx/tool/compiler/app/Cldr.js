@@ -78,8 +78,8 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 reject(
                   new Error(
                     'Cannot find XML file for locale "' +
-                      locale +
-                      '" in CLDR folder'
+                    locale +
+                    '" in CLDR folder'
                   )
                 );
               }
@@ -537,62 +537,64 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               });
             });
             find(dayContext, "type", "stand-alone", function (row) {
-              cldr["cldr_day_stand-alone_narrow_fri"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "fri",
-                getText
-              );
+              find(row.dayWidth, "type", "narrow", function (row) {
+                cldr["cldr_day_stand-alone_narrow_fri"] = find(
+                  row.day,
+                  "type",
+                  "fri",
+                  getText
+                );
 
-              // "F";
-              cldr["cldr_day_stand-alone_narrow_mon"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "mon",
-                getText
-              );
+                // "F";
+                cldr["cldr_day_stand-alone_narrow_mon"] = find(
+                  row.day,
+                  "type",
+                  "mon",
+                  getText
+                );
 
-              // "M";
-              cldr["cldr_day_stand-alone_narrow_sat"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "sat",
-                getText
-              );
+                // "M";
+                cldr["cldr_day_stand-alone_narrow_sat"] = find(
+                  row.day,
+                  "type",
+                  "sat",
+                  getText
+                );
 
-              // "S";
-              cldr["cldr_day_stand-alone_narrow_sun"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "sun",
-                getText
-              );
+                // "S";
+                cldr["cldr_day_stand-alone_narrow_sun"] = find(
+                  row.day,
+                  "type",
+                  "sun",
+                  getText
+                );
 
-              // "S";
-              cldr["cldr_day_stand-alone_narrow_thu"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "thu",
-                getText
-              );
+                // "S";
+                cldr["cldr_day_stand-alone_narrow_thu"] = find(
+                  row.day,
+                  "type",
+                  "thu",
+                  getText
+                );
 
-              // "T";
-              cldr["cldr_day_stand-alone_narrow_tue"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "tue",
-                getText
-              );
+                // "T";
+                cldr["cldr_day_stand-alone_narrow_tue"] = find(
+                  row.day,
+                  "type",
+                  "tue",
+                  getText
+                );
 
-              // "T";
-              cldr["cldr_day_stand-alone_narrow_wed"] = find(
-                row.dayWidth[0].day,
-                "type",
-                "wed",
-                getText
-              );
+                // "T";
+                cldr["cldr_day_stand-alone_narrow_wed"] = find(
+                  row.day,
+                  "type",
+                  "wed",
+                  getText
+                );
 
-              // "W";
+                // "W";
+              });
             });
 
             var monthContext = get("months[0].monthContext", cal);

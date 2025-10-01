@@ -51,7 +51,6 @@ qx.Class.define("qx.test.core.Property", {
       var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
-      // Type checks: String
       this.assertIdentical(
         "Hello",
         inst.setStringProp("Hello"),
@@ -1063,12 +1062,13 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testPromises() {
-      const promiseDelay = (delay, fn) => new qx.Promise(resolve => {
-        setTimeout(async () => {
-          await fn();
-          resolve();
-        }, delay);
-      });
+      const promiseDelay = (delay, fn) =>
+        new qx.Promise(resolve => {
+          setTimeout(async () => {
+            await fn();
+            resolve();
+          }, delay);
+        });
 
       qx.Class.define("qxl.TestPromises", {
         extend: qx.core.Object,

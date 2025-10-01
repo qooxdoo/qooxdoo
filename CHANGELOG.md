@@ -1,8 +1,44 @@
 # Upcoming
 
-## Breaking changes
+# v8.0.0_beta
 
-- (>=v8.0.0) Setting model data for a `qx.ui.table.Table` when the table is still editing will
+## Breaking changes
+- Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
+Old:
+```
+async load() {
+    let yargs = qx.tool.cli.commands.Test.getYargsCommand;
+    qx.tool.cli.commands.Test.getYargsCommand = () => {
+    let args = yargs();
+    args.builder.diag = {
+        describe: "show diagnostic output",
+        type: "boolean",
+        default: false
+    };
+    }
+}  
+```
+New:
+```
+async load() {
+    let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;
+    qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {
+    let cmd = await originalCreateCliCommand.call(this, clazz);
+    
+    cmd.addFlag(
+        new qx.tool.cli.Flag("diag").set({
+        description: "show diagnostic output",
+        type: "boolean",
+        value: false
+        })
+    );
+    }
+}        
+
+```
+   
+
+- Setting model data for a `qx.ui.table.Table` when the table is still editing will
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
