@@ -40,6 +40,7 @@ qx.Class.define("qx.dev.unit.TestFunction", {
    *    parameter is set the other parameters are ignored.
    */
   construct(testCase, methodName, testFunction) {
+    super();
     if (testFunction) {
       this.setTestFunction(testFunction);
     }

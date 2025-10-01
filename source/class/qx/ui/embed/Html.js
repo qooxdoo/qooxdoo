@@ -136,8 +136,12 @@ qx.Class.define("qx.ui.embed.Html", {
 
     // property apply
     _applyCssClass(value, old) {
-      this.getContentElement().removeClass(old);
-      this.getContentElement().addClass(value);
+      if (old) {
+        this.getContentElement().removeClass(old);
+      }
+      if (value) {
+        this.getContentElement().addClass(value);
+      }
     },
 
     // overridden

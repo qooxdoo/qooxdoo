@@ -56,6 +56,8 @@ qx.Class.define("qx.event.dispatch.Direct", {
   */
 
   members: {
+    _manager : undefined,
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE

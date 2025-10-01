@@ -145,16 +145,16 @@ qx.Class.define("qx.ui.virtual.core.Scroller", {
 
     // overridden
     _onScrollBarX(e) {
-      // Use Math.round to convert possible decimal values to 
-      // integer values if a zoom level not equal to 100 is 
+      // Use Math.round to convert possible decimal values to
+      // integer values if a zoom level not equal to 100 is
       // set in the browser
       this.__pane.setScrollX(Math.round(e.getData()));
     },
 
     // overridden
     _onScrollBarY(e) {
-      // Use Math.round to convert possible decimal values to 
-      // integer values if a zoom level not equal to 100 is 
+      // Use Math.round to convert possible decimal values to
+      // integer values if a zoom level not equal to 100 is
       // set in the browser
       this.__pane.setScrollY(Math.round(e.getData()));
     }

@@ -114,6 +114,10 @@ qx.Class.define("qx.event.handler.Application", {
   */
 
   members: {
+    _window: null,
+    _onNativeLoadWrapped: undefined,
+    _onNativeUnloadWrapped: undefined,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE

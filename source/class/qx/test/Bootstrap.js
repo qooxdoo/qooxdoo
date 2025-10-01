@@ -56,7 +56,13 @@ qx.Class.define("qx.test.Bootstrap", {
 
       var o = new qx.test.MyClass();
       this.assertEquals("qx.test.MyClass", o.classname);
-      this.assertEquals("qx.test.MyClass", o.name);
+
+      // BC break for qooxdoo v8; `name` is no longer defined (use
+      // `classname` instead) because it conflicts with Property
+      // `name` used elsewhere, now that members and properties are in
+      // the same namespace.
+      //
+      // this.assertEquals("qx.test.MyClass", o.name);
 
       qx.Class.undefine("qx.test.MyClass");
     },
@@ -80,58 +86,67 @@ qx.Class.define("qx.test.Bootstrap", {
       qx.Class.undefine("vanillebaer.test.ROOT");
     },
 
-    "test: merge methods of same class (statics optimization)"() {
-      qx.Bootstrap.define("qx.test.MyClass", {
-        statics: {
-          methodA() {
-            return true;
-          }
-        }
-      });
+    //
+    // BC break for qooxdoo v8. Merging of classes is no longer
+    // supported. It's not clear why this was ever supported or how it
+    // was supposed to work. What if the two classes declare different
+    // superclasses? How are constructors merged? It's moot in most
+    // cases anyway, though, since the class name must match the
+    // directory path, so two definitions of the same class "can't
+    // happen".
+    //
+    // "test: merge methods of same class (statics optimization)"() {
+    //   qx.Bootstrap.define("qx.test.MyClass", {
+    //     statics: {
+    //       methodA() {
+    //         return true;
+    //       }
+    //     }
+    //   });
 
-      qx.Bootstrap.define("qx.test.MyClass", {
-        statics: {
-          methodB() {
-            return true;
-          }
-        }
-      });
+    //   qx.Bootstrap.define("qx.test.MyClass", {
+    //     statics: {
+    //       methodB() {
+    //         return true;
+    //       }
+    //     }
+    //   });
 
-      this.assertNotUndefined(qx.test.MyClass.methodA);
-      this.assertNotUndefined(qx.test.MyClass.methodB);
+    //   this.assertNotUndefined(qx.test.MyClass.methodA);
+    //   this.assertNotUndefined(qx.test.MyClass.methodB);
 
-      qx.Class.undefine("qx.test.MyClass");
-    },
+    //   qx.Class.undefine("qx.test.MyClass");
+    // },
 
-    "test: merge methods of same class (statics optimization) respect defer"() {
-      qx.Bootstrap.define("qx.test.MyClass", {
-        statics: {
-          methodA() {
-            return true;
-          },
-          methodB() {
-            return true;
-          }
-        }
-      });
+    // "test: merge methods of same class (statics optimization) respect defer"() {
+    //   qx.Bootstrap.define("qx.test.MyClass", {
+    //     statics: {
+    //       methodA() {
+    //         return true;
+    //       },
+    //       methodB() {
+    //         return true;
+    //       }
+    //     }
+    //   });
 
-      qx.Bootstrap.define("qx.test.MyClass", {
-        statics: {
-          methodA: null
-        },
+    //   qx.Bootstrap.define("qx.test.MyClass", {
+    //     statics: {
+    //       methodA: null
+    //     },
 
-        defer(statics) {
-          statics.methodA = function () {
-            return true;
-          };
-        }
-      });
+    //     defer(statics) {
+    //       statics.methodA = function () {
+    //         return true;
+    //       };
+    //     }
+    //   });
 
-      this.assertNotNull(qx.test.MyClass.methodA);
-      this.assertNotUndefined(qx.test.MyClass.methodB);
+    //   this.assertNotNull(qx.test.MyClass.methodA);
+    //   this.assertNotUndefined(qx.test.MyClass.methodB);
 
-      qx.Class.undefine("qx.test.MyClass");
-    },
+    //   qx.Class.undefine("qx.test.MyClass");
+    // },
 
     "test: define class with constructor"() {
       var c = qx.Bootstrap.define("qx.test.Construct", {

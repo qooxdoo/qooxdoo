@@ -16,6 +16,9 @@
 
 ************************************************************************ */
 
+/**
+ * @require(qx.module.Css)
+ */
 qx.Class.define("qx.test.mobile.container.Scroll", {
   extend: qx.test.mobile.MobileTestCase,
 
@@ -29,10 +32,7 @@ qx.Class.define("qx.test.mobile.container.Scroll", {
     testHorizontalWayPoint() {
       var scrollContainer = new qx.ui.mobile.container.Scroll();
       scrollContainer.setWaypointsX([200]);
-      qxWeb(scrollContainer.getContainerElement()).setStyle(
-        "overflow",
-        "hidden"
-      );
+      qxWeb(scrollContainer.getContainerElement()).setStyle("overflow", "hidden");
 
       scrollContainer.addListener("waypoint", wayPoint => {
         var wayPointData = wayPoint.getData();

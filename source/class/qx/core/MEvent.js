@@ -79,7 +79,7 @@ qx.Mixin.define("qx.core.MEvent", {
       var id; // store id in closure context
       var callback = function (e) {
         self.removeListenerById(id);
-        listener.call(context, e);
+        return listener.call(context, e);
       };
       // check for wrapped callback storage
       if (!listener.$$wrapped_callback) {

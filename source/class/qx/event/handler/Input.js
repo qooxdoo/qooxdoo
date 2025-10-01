@@ -113,6 +113,11 @@ qx.Class.define("qx.event.handler.Input", {
   */
 
   members: {
+    _onChangeCheckedWrapper: undefined,
+    _onChangeValueWrapper: undefined,
+    _onInputWrapper: undefined,
+    _onPropertyWrapper: undefined,
+
     // special handling for opera
     __enter: false,
     __onInputTimeoutId: null,

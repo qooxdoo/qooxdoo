@@ -121,11 +121,7 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
         old.removeListenerById(this.__executeListenerId);
       }
       if (value != null) {
-        this.__executeListenerId = value.addListener(
-          "execute",
-          this.__onCommandExecute,
-          this
-        );
+        this.__executeListenerId = value.addListener("execute", this.__onCommandExecute, this);
       }
 
       // binding stuff
@@ -134,42 +130,22 @@ qx.Mixin.define("qx.ui.core.MExecutable", {
         this.__executableBindingIds = ids = {};
       }
 
-      var selfPropertyValue;
       for (var i = 0; i < this._bindableProperties.length; i++) {
-        var property = this._bindableProperties[i];
+        let property = this._bindableProperties[i];
 
         // remove the old binding
         if (old != null && !old.isDisposed() && ids[property] != null) {
-          old.removeBinding(ids[property]);
+          old.removeListenerById(ids[property]);
           ids[property] = null;
         }
 
         // add the new binding
         if (value != null && qx.Class.hasProperty(this.constructor, property)) {
-          // handle the init value (don't sync the initial null)
-          var cmdPropertyValue = value.get(property);
-          if (cmdPropertyValue == null) {
-            selfPropertyValue = this.get(property);
-            // check also for themed values [BUG #5906]
-            if (selfPropertyValue == null) {
-              // update the appearance to make sure every themed property is up to date
-              this.$$resyncNeeded = true;
-              this.syncAppearance();
-              selfPropertyValue = qx.util.PropertyUtil.getThemeValue(
-                this,
-                property
-              );
-            }
-          } else {
-            // Reset the self property value [BUG #4534]
-            selfPropertyValue = null;
+          let cmdPropertyValue = value.get(property);
+          if (cmdPropertyValue !== null) {
+            this.set(property, cmdPropertyValue);
           }
-          // set up the binding
-          ids[property] = value.bind(property, this, property);
-          // reapply the former value
-          if (selfPropertyValue) {
-            this.set(property, selfPropertyValue);
-          }
+          ids[property] = value.addListener("change" + qx.lang.String.firstUp(property), evt => this.set(property, evt.getData()));
         }
       }
     }

@@ -192,12 +192,9 @@ qx.Class.define("qx.test.bom.Font", {
       this.getRoot().add(label);
       this.flush();
 
-      var checkValue = "blue";
       var color = label.getContentElement().getDomElement().style["color"];
-
-      // the current implementation has a higher priority for the color which is
-      // set using the color theme. So this default color should show up and not
-      // the defined color of the font.
+      var checkValue = "blue";
+      
       this.assertEquals(
         checkValue,
         color,

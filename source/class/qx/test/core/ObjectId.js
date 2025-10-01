@@ -30,6 +30,7 @@ qx.Class.define("qx.test.core.ObjectId", {
 
   members: {
     testGetObject() {
+      qx.Class.undefine("demo.MyClass");
       var clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         members: {
@@ -72,6 +73,7 @@ qx.Class.define("qx.test.core.ObjectId", {
     },
 
     testObjectsSection() {
+      qx.Class.undefine("demo.SuperClass");
       const SuperClass = qx.Class.define("demo.SuperClass", {
         extend: qx.core.Object,
         objects: {
