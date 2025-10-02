@@ -6,6 +6,8 @@
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
+- `qx.locale` classes implemented with [Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) instead of CLDR (Common Locale Data Repository) npm package which is installed with a lot of CLDR xml files. This change reduces a installed qooxdoo package size significantly. There may be some differences for some locales. For example, `getDateTimeFormat` method for `de_DE` and `yM` format gives `M/y` instead of MM/y of the CLDR implementation.
+
 # v7.0.0
 
 ## Breaking changes
