@@ -6,6 +6,38 @@
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
+- migration from ESLint 8 → ESLint 9.<br>
+    This needs **Node.js >= 18.18.0** for the compiler.<br>
+    The plugin resolution changes,  Plugin-Namen müssen vollständig sein<br>
+    - Alt: `@qooxdoo/qx`
+    - Neu: `@qooxdoo/eslint-plugin-qx` oder vollständiger Import
+
+    Hauptmerkmale der Flat Config
+    1. Array-Struktur: eslintConfig ist jetzt ein Array von Config-Objekten statt einem einzelnen Objekt
+    2. ignores: Ersetzt ignorePatterns, als separates Config-Objekt
+    3. languageOptions: Kombiniert parserOptions, globals und env
+    4. files: Spezifiziert welche Dateien die Config betrifft
+    5. plugins: Plugin-Konfiguration direkt im Config-Objekt
+    6. Mehrere Config-Objekte: Ermöglicht unterschiedliche Regeln für verschiedene Dateimuster
+
+     Alt (ESLint < 9):
+    ```
+  "eslintConfig": {
+    "extends": [...],
+    "rules": {...}
+  }
+    ``` 
+  Neu (ESLint >= 9 Flat Config):
+    ```
+  "eslintConfig": [
+    { "ignores": [...] },
+    { "files": [...], "rules": {...} }
+  ]
+    ```  
+    ✅ Alte `eslintConfig` in `compile.json` wird automatisch konvertiert<br/>
+    ✅ Alle bestehenden Qooxdoo-spezifischen Rules bleiben erhalten<br/>
+    ✅ Keine Änderungen an bestehenden Projekten erforderlich (außer Node.js Version)
+
 # v7.0.0
 
 ## Breaking changes
