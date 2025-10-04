@@ -1,5 +1,5 @@
 {
-  "$schema": "./source/resource/qx/tool/schema/Manifest-2-0-0.json",
+  "$schema": "./source/resource/qx/tool/compiler/schema/Manifest-2-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
@@ -302,6 +302,6 @@
     }
   },
   "requires": {
-    "@qooxdoo/framework": "^7.9.0 || ^7.0.0"
+    "@qooxdoo/framework": "^7.9.0 || ^8.0.0-beta"
   }
 }

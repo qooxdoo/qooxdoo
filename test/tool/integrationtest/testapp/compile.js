@@ -4,7 +4,7 @@ const runscript = require('runscript');
 const util = require('util');
 
 qx.Class.define("qxl.compilertests.testapp.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
   
   members: {
     async load() {
@@ -18,7 +18,7 @@ qx.Class.define("qxl.compilertests.testapp.CompilerApi", {
 });
 
 qx.Class.define("qxl.compilertests.testapp.LibraryApi", {
-  extend: qx.tool.cli.api.LibraryApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
   
   members: {
     __startedSassWatch: false,

@@ -119,14 +119,13 @@
     "unset-value": "^1.0.0",
     "upath": "^1.2.0",
     "update-notifier": "^6.0.2",
-    "xml2js": "^0.6.2",
-    "yargs": "^15.4.1"
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "dirsum": "^0.1.1",
     "source-map-support": "^0.5.21",
     "tape": "^5.9.0"
   },
-  "engine": "node >= 18",
+  "engine": "node >= 20",
   "overrides": {}
 }

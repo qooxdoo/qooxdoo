@@ -1,45 +1,56 @@
 const path = require("path");
 const fs = require("fs");
+if (!qx.tool.compiler?.cli?.api) {
+  return;
+}
 
 qx.Class.define("qx.compiler.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
     async load() {
-      let yargs = qx.tool.cli.commands.Test.getYargsCommand;
-      qx.tool.cli.commands.Test.getYargsCommand = () => {
-        let args = yargs();
-        args.builder.diag = {
-          describe: "show diagnostic output",
-          type: "boolean",
-          default: false
-        };
+      let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;
+      qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {
+        let cmd = await originalCreateCliCommand.call(this, clazz);
+        
+        cmd.addFlag(
+          new qx.tool.cli.Flag("diag").set({
+            description: "show diagnostic output",
+            type: "boolean",
+            value: false
+          })
+        );
 
-        args.builder.terse = {
-          describe: "show only summary and errors",
-          type: "boolean",
-          default: false
-        };
+        cmd.addFlag(
+          new qx.tool.cli.Flag("terse").set({
+            description: "show only summary and errors", 
+            type: "boolean",
+            value: false
+          })
+        );
 
-        args.builder.headless = {
-          describe: "runs test headless",
-          type: "boolean",
-          default: false,
-        };
+        cmd.addFlag(
+          new qx.tool.cli.Flag("headless").set({
+            description: "runs test headless",
+            type: "boolean", 
+            value: false
+          })
+        );
 
-        args.builder.browsers = {
-          describe:
-            "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
-          type: "string"
-        };
+        cmd.addFlag(
+          new qx.tool.cli.Flag("browsers").set({
+            description: "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
+            type: "string"
+          })
+        );
 
-        return args;
+        return cmd;
       };
       this.addListener(
         "changeCommand",
         function () {
           let command = this.getCommand();
-          if (command instanceof qx.tool.cli.commands.package.Publish) {
+          if (command instanceof qx.tool.compiler.cli.commands.package.Publish) {
             command.addListener("beforeCommit", this.__fixDocVersion, this);
           }
         },
@@ -78,14 +89,14 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
     /**
      * runs after the whole process is finished
-     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param cmd {qx.tool.cli.Command} current command
      * @param res {boolean} result of the just finished process
      */
     async afterProcessFinished(cmd, res) {
       if (res) {
         return;
       }
-      if (cmd.classname !== "qx.tool.cli.commands.package.Publish") {
+      if (cmd.classname !== "qx.tool.compiler.cli.commands.package.Publish") {
         return;
       }
       // token
@@ -145,13 +156,13 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
     /**
      * Register compiler tests
-     * @param {qx.tool.cli.commands.Command} command
+     * @param {qx.tool.cli.Command} command
      * @return {Promise<void>}
      */
     async beforeTests(command) {
       const that = this;
       command.addTest(
-        new qx.tool.cli.api.Test("lint", async function () {
+        new qx.tool.compiler.cli.api.Test("lint", async function () {
           console.log("# ********* running lint ");
           this.setFailFast(true);  
           result = await qx.tool.utils.Utils.runCommand({
@@ -165,7 +176,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
                 "qx"
               ),
               "lint",
-              "--warnAsError"
+              "--warn-as-error"
             ],
             log: console.log,
             error: console.log
@@ -188,7 +199,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         "terse"
       ];
       command.addTest(
-        new qx.tool.cli.api.Test("compiler test", async function () {
+        new qx.tool.compiler.cli.api.Test("compiler test", async function () {
           qx.tool.compiler.Console.log("# ******** running compiler test");
           let args = argList;
           let curArgs = that.__getArgs(command, args);
@@ -205,7 +216,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       );
       if (command.argv["browsers"] != "none") {
         command.addTest(
-          new qx.tool.cli.api.Test("framework test", async function () {
+          new qx.tool.compiler.cli.api.Test("framework test", async function () {
             console.log("# ******** running framework test");
             this.setFailFast(true);  
             let args = argList.slice();

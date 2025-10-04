@@ -1,4 +1,4 @@
-#. NO LONGER USED
+#
 msgid "Lib Override"
 msgstr "lib-override-replaced-value"
 
@@ -15,13 +15,13 @@ msgid "App Charlie"
 msgstr ""
 
 #
+msgid "Lib Alpha"
+msgstr "lib-alpha-value"
+
+#
 msgid "Lib Beta"
 msgstr ""
 
 #
 msgid "Lib Charlie"
 msgstr ""
-
-#
-msgid "Lib Alpha"
-msgstr "lib-alpha-value"

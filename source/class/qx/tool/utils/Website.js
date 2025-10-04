@@ -29,7 +29,7 @@ const markdown = require("@metalsmith/markdown");
 //const filenames = require("metalsmith-filenames");
 //var permalinks = require("metalsmith-permalinks");
 /**
- * @external(qx/tool/loadsass.js)
+ * @external(qx/tool/compiler/loadsass.js)
  * @ignore(loadSass)
  */
 /* global loadSass */
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.utils.Website", {
     qx.core.Object.apply(this, arguments);
     const self = qx.tool.utils.Website;
     let p = qx.util.ResourceManager.getInstance().toUri(
-      "qx/tool/website/.gitignore"
+      "qx/tool/compiler/website/.gitignore"
     );
 
     p = path.dirname(p);
@@ -122,8 +122,8 @@ qx.Class.define("qx.tool.utils.Website", {
       this._watcher.on("error", err => {
         qx.tool.compiler.Console.print(
           err.code == "ENOSPC"
-            ? "qx.tool.cli.watch.enospcError"
-            : "qx.tool.cli.watch.watchError",
+            ? "qx.tool.compiler.cli.watch.enospcError"
+            : "qx.tool.compiler.cli.watch.watchError",
           err
         );
       });
@@ -403,7 +403,7 @@ qx.Class.define("qx.tool.utils.Website", {
         icontheme: "Tango"
       };
 
-      await new qx.tool.cli.commands.Create(opts).process();
+      await new qx.tool.compiler.cli.commands.Create().process(opts);
       process.chdir(apps_path);
       for (let name of [
         "apiviewer",
@@ -411,7 +411,7 @@ qx.Class.define("qx.tool.utils.Website", {
         "playground",
         "demobrowser"
       ]) {
-        await new qx.tool.cli.commands.package.Install({}).install(
+        await new qx.tool.compiler.cli.commands.package.Install().install(
           "qooxdoo/qxl." + name
         );
       }

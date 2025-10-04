@@ -24,7 +24,7 @@
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 /**
- * @external(qx/tool/loadsass.js)
+ * @external(qx/tool/compiler/loadsass.js)
  * @ignore(loadSass)
  */
 /* global loadSass */

@@ -55,6 +55,30 @@ async function runCompiler(dir, ...cmd) {
   return result;
 }
 
+async function debugCompiler(dir, ...cmd) {
+  let result = await runCommand(dir, getCompiler("source"), "compile", "--machine-readable", ...cmd);
+  result.messages = [];
+  result.output.split("\n").forEach(line => {
+    let m = line.match(/^\#\#([^:]+):\[(.*)\]$/);
+    if (m) {
+      let args = m[2].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+      if (args) {
+        args = args.map(arg => {
+          if (arg.length && arg[0] == "\"" && arg[arg.length - 1] == "\"")
+            return arg.substring(1, arg.length - 1);
+          return arg;
+        });
+      } else {
+        args = [];
+      }
+      result.messages.push({
+        id: m[1],
+        args: args
+      });
+    }
+  });
+  return result;
+}
 
 async function runCommand(dir, ...args) {
   return new Promise((resolve, reject) => {
@@ -174,17 +198,18 @@ async function bootstrapCompiler(options) {
   }
 
   // Use the compiler in node_modules to compile a temporary version
-  console.log("Creating temporary compiler with known-good one");
+  console.log(`Creating temporary compiler with known-good one, target=${options.target}`);
   result = await runCommand("known-good", "node", "../bin/known-good/qx", "compile", "--target=" + options.target);
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling known-good:", result.exitCode);
+    return result.exitCode;
   }
 
   // Create a handy `qx` binary for that version
   await fsPromises.writeFile("bootstrap/qx",
 `#!/usr/bin/env node
 const path=require("path");
-require("../source/resource/qx/tool/loadsass.js");
+require("../source/resource/qx/tool/compiler/loadsass.js");
 require(path.join(__dirname, "compiled", "node", "${options.target}", "compiler"));
 `, "utf8");
 fs.chmodSync("bootstrap/qx", "777");
@@ -199,18 +224,21 @@ fs.copyFileSync("bin/build/qx.cmd", "bootstrap/qx.cmd");
    *  it does not matter if they use source or build, just make sure it is up to date
    */
   console.log("Compiling source version");
-  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--clean", "--verbose");
+  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=source", "--clean", "--verbose");
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling source version:", result.exitCode);
+    return result.exitCode;
   }
 
   console.log("Compiling build version");
   result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=build", "--clean", "--verbose");
   if (result.exitCode) {
-    process.exit(result.exitCode);
+    console.log("Error compiling build version:", result.exitCode);
+    return result.exitCode;
   }
 
   console.log("Compiler successfully bootstrapped");
+  return 0;
 }
 
 // this is simply a copy of qx.tool.utils.files.Utils
@@ -545,9 +573,14 @@ moreUtils = {
   }
 };
 
+function reportError(result) {
+   return new Error(`*** The command exited with an ExitCode: ${result.exitCode}\n*** ERROR:\n${result.error}.\n*** OUTPUT: ${result.output}. ` );
+}
+
 module.exports = {
   getCompiler,
   runCompiler,
+  debugCompiler,
   runCommand,
   defaultOptions,
   bootstrapCompiler,
@@ -560,6 +593,7 @@ module.exports = {
   copyFile: moreUtils.copyFile,
   safeStat: moreUtils.safeStat,
   safeRename: moreUtils.safeRename,
-  correctCase: moreUtils.correctCase
+  correctCase: moreUtils.correctCase,
+  reportError
 };
 

@@ -1,0 +1,72 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2019-2022 Zenesis Ltd, https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (john.spackman@zenesis.com, @johnspackman)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
+
+************************************************************************ */
+qx.Class.define("qx.tool.cli.AbstractCliApp", {
+  type: "abstract",
+  extend: qx.application.Basic,
+
+  members: {
+    async main() {
+      let rootCmd = await this._createRoot();
+      await this._addCommands(rootCmd);
+      let cmd = null;
+      try {
+        cmd = rootCmd.parseRoot();
+      } catch (ex) {
+        console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
+      }
+      let errors = (cmd && cmd.getErrors()) || null;
+      if (errors) {
+        console.error("ERROR:");
+        console.error(errors.join("\n"));
+        console.error("\n");
+      }
+      let run = (cmd && cmd.getRun()) || null;
+      if (!cmd || run === null || errors || cmd.getFlag("help").getValue()) {
+        console.log((cmd || rootCmd).usage());
+        process.exit((!cmd || errors) ? 1 : 0);
+      }
+      try {
+        process.exit(await run.call(cmd, cmd) ?? 0);
+      } catch (ex) {
+        console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
+        process.exit(1);
+      }
+    },
+
+    /**
+     * creates the root command
+     * @returns qx.tool.cli.Command
+     *
+     */
+    async _createRoot() {
+      return new qx.tool.cli.Command("*");
+    },
+
+    /**
+     * add all the commands to the root.
+     * by sub classes.
+     *
+     * @param {qx.tool.cli.Command} rootCmd command to add sub commands.
+     *
+     */
+    _addCommands(rootCmd) {
+      throw new Error("Abstract method call");
+    }
+  }
+});

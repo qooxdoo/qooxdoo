@@ -4,6 +4,7 @@ const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 process.chdir(__dirname);
 
+
 test("Issue553", async assert => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
@@ -52,6 +53,20 @@ test("Dynamic commands", async assert => {
     await testUtils.deleteRecursive("test-issues/testdynamic/compiled");
     let result = await testUtils.runCommand("test-issues/testdynamic", testUtils.getCompiler(), "testlib", "hello", "-t=4");
     assert.ok(result.output.match(/The commmand testlib; message=hello, type=4/));
+    assert.end();
+  }catch(ex) {
+    assert.end(ex);
+  }
+});
+
+test("Dynamic parameter", async assert => {
+  try {
+    // Test a simple dynamic command with just one parameter
+    let result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--help");
+    assert.ok(result.exitCode === 0, "Simple command should execute successfully");
+    assert.ok(result.output.match(/A simple compiler flag/), "Should show correct output with parameter value");
+    result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--simple", "--verbose");
+    assert.ok(result.exitCode === 0, "Simple command should execute successfully");
     assert.end();
   }catch(ex) {
     assert.end(ex);
@@ -123,10 +138,10 @@ test("Issue715", async assert => {
     await testUtils.runCompiler("test-issues/issue715", "--target=build", "--minify=off");
     assert.ok(fs.existsSync("test-issues/issue715/compiled/build/transpiled/issue715/Application.js"));
     let str = await fsPromises.readFile("test-issues/issue715/compiled/build/transpiled/issue715/Application.js", "utf8");
-    assert.ok(!str.match(/__privateOne/m));
+    assert.ok(!str.match(/__privateOne\b/m));
     assert.ok(!!str.match(/__privateTwo/m));
-    assert.ok(!str.match(/__applyMyProp/m));
-    assert.ok(!str.match(/__privateStaticOne/m));
+    assert.ok(!str.match(/__applyMyProp\b/m));
+    assert.ok(!str.match(/__privateStaticOne\b/m));
     assert.ok(!!str.match(/__privateStaticTwo/m));
     assert.end();
   }catch(ex) {

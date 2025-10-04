@@ -32,6 +32,11 @@ qx.Class.define("qx.test.core.PropertyHelper", {
     publicProp: { nullable: true },
 
     // types
+    functionProp: {
+      check: "function",
+      nullable: true
+    },
+
     stringProp: {
       check: "String",
       nullable: true
