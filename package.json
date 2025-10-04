@@ -106,7 +106,7 @@
     "prettier": "^2.5.1",
     "ps-tree": "^1.2.0",
     "regenerator-runtime": "^0.14.1",
-    "replace-in-file": "^5.0.0",
+    "replace-in-file": "^8.3.0",
     "rimraf": "^6.0.1",
     "sass": "1.69.4",
     "semver": "^7.5.4",
@@ -115,7 +115,7 @@
     "source-map-js": "^1.0.2",
     "tap-colorize": "^1.2.0",
     "terser": "^5.22.0",
-    "tmp": "0.2.1",
+    "tmp": "^0.2.5",
     "unset-value": "^1.0.0",
     "upath": "^1.2.0",
     "update-notifier": "^6.0.2",
@@ -125,7 +125,7 @@
   "devDependencies": {
     "dirsum": "^0.1.1",
     "source-map-support": "^0.5.21",
-    "tape": "^5.7.1"
+    "tape": "^5.9.0"
   },
   "engine": "node >= 18",
   "overrides": {}

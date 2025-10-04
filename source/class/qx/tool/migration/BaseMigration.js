@@ -19,7 +19,7 @@
 const process = require("process");
 const fs = qx.tool.utils.Promisify.fs;
 const fsp = require("fs").promises;
-const replaceInFile = require("replace-in-file");
+const { replaceInFile } = require("replace-in-file");
 const semver = require("semver");
 
 /**
