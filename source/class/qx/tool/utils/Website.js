@@ -21,7 +21,6 @@ const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const path = require("upath");
 
-const rimraf = require("rimraf");
 const dot = require("dot");
 require("jstransformer-dot");
 const metalsmith = require("metalsmith");
@@ -395,7 +394,7 @@ qx.Class.define("qx.tool.utils.Website", {
       process.chdir(this.getTargetDir());
       let apps_path = path.join(this.getTargetDir(), namespace);
       if (await fs.existsAsync(apps_path)) {
-        rimraf.sync(apps_path);
+        await qx.tool.utils.files.Utils.deleteRecursive(apps_path);
       }
       const opts = {
         noninteractive: true,

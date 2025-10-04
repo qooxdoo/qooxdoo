@@ -21,7 +21,7 @@ const process = require("process");
 const { Octokit } = require("@octokit/rest");
 const semver = require("semver");
 const inquirer = require("inquirer");
-const glob = require("glob");
+const { glob } = require("glob");
 
 /**
  * Publishes a release on GitHub
@@ -498,78 +498,72 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
      * Creates a qooxdoo.json file with paths to Manifest.json files in this repository
      * @private
      */
-    __createIndexFile: async argv =>
-      new Promise((resolve, reject) => {
-        if (argv.verbose && !argv.quiet) {
-          qx.tool.compiler.Console.info("Creating index file...");
-        }
-        glob(
-          qx.tool.config.Manifest.config.fileName,
-          { matchBase: true },
-          async (err, files) => {
-            if (err) {
-              reject(err);
-            }
-            if (!files || !files.length) {
-              reject(
-                new qx.tool.utils.Utils.UserError(
-                  "No Manifest.json files could be found"
-                )
-              );
-            }
-            let mainpath;
-            if (files.length > 1) {
-              let choices = files.map(p => {
-                let m = qx.tool.utils.Json.parseJson(
-                  fs.readFileSync(path.join(process.cwd(), p), "utf-8")
-                );
+    async __createIndexFile(argv) {
+      if (argv.verbose && !argv.quiet) {
+        qx.tool.compiler.Console.info("Creating index file...");
+      }
 
-                return {
-                  name:
-                    m.info.name + (m.info.summary ? ": " + m.info.summary : ""),
-                  value: p
-                };
-              });
-              let answer = await inquirer.prompt({
-                name: "mainpath",
-                message: "Please choose the main library",
-                type: "list",
-                choices
-              });
+      const files = await glob(
+        qx.tool.config.Manifest.config.fileName,
+        { matchBase: true }
+      );
 
-              mainpath = answer.mainpath;
-            }
-            let data = {
-              libraries: files.map(p =>
-                files.length > 1 && p === mainpath
-                  ? {
-                      path: path.dirname(p),
-                      main: true
-                    }
-                  : { path: path.dirname(p) }
-              )
-            };
-
-            // write index file
-            const registryModel = qx.tool.config.Registry.getInstance();
-            if (argv.dryRun) {
-              qx.tool.compiler.Console.info(
-                `Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`
-              );
-
-              qx.tool.compiler.Console.info(data);
-            } else {
-              await registryModel.load(data);
-              await registryModel.save();
-              if (!argv.quiet) {
-                qx.tool.compiler.Console.info(
-                  `Created index file ${registryModel.getRelativeDataPath()}'.`
-                );
-              }
-            }
-            resolve();
-          }
+      if (!files || !files.length) {
+        throw new qx.tool.utils.Utils.UserError(
+          "No Manifest.json files could be found"
         );
-      })
+      }
+
+      let mainpath;
+      if (files.length > 1) {
+        let choices = files.map(p => {
+          let m = qx.tool.utils.Json.parseJson(
+            fs.readFileSync(path.join(process.cwd(), p), "utf-8")
+          );
+
+          return {
+            name:
+              m.info.name + (m.info.summary ? ": " + m.info.summary : ""),
+            value: p
+          };
+        });
+        let answer = await inquirer.prompt({
+          name: "mainpath",
+          message: "Please choose the main library",
+          type: "list",
+          choices
+        });
+
+        mainpath = answer.mainpath;
+      }
+      let data = {
+        libraries: files.map(p =>
+          files.length > 1 && p === mainpath
+            ? {
+                path: path.dirname(p),
+                main: true
+              }
+            : { path: path.dirname(p) }
+        )
+      };
+
+      // write index file
+      const registryModel = qx.tool.config.Registry.getInstance();
+      if (argv.dryRun) {
+        qx.tool.compiler.Console.info(
+          `Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`
+        );
+
+        qx.tool.compiler.Console.info(data);
+      } else {
+        await registryModel.load(data);
+        await registryModel.save();
+        if (!argv.quiet) {
+          qx.tool.compiler.Console.info(
+            `Created index file ${registryModel.getRelativeDataPath()}'.`
+          );
+        }
+      }
+    }
   }
 });

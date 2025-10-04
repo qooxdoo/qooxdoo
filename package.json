@@ -54,7 +54,6 @@
     "bin/deploy"
   ],
   "dependencies": {
-    "adm-zip": "^0.5.10",
     "@babel/core": "^7.23.2",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/generator": "^7.23.0",
@@ -75,6 +74,7 @@
     "@qooxdoo/eslint-config-jsdoc-disable": "^2.0.3",
     "@qooxdoo/eslint-config-qx": "^3.0.1",
     "@qooxdoo/eslint-plugin-qx": "^2.0.1",
+    "adm-zip": "^0.5.10",
     "ajv": "^8.12.0",
     "app-module-path": "^2.2.0",
     "async": "^2.6.3",
@@ -83,6 +83,7 @@
     "browserify": "^17.0.1",
     "chokidar": "^3.5.3",
     "cldr": "^7.4.1",
+    "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",
     "console-control-strings": "^1.1.0",
     "core-js-bundle": "^3.33.1",
@@ -93,9 +94,8 @@
     "eslint-plugin-jsdoc": "^50.5.0",
     "express": "^4.18.2",
     "fontkit": "^2.0.2",
-    "cli-progress": "^3.12.0",
     "get-value": "^3.0.1",
-    "glob": "^7.2.3",
+    "glob": "^11.0.3",
     "image-size": "^0.8.3",
     "inquirer": "^7.3.3",
     "json-stable-stringify": "^1.0.2",
@@ -107,7 +107,7 @@
     "ps-tree": "^1.2.0",
     "regenerator-runtime": "^0.14.1",
     "replace-in-file": "^5.0.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.1",
     "sass": "1.69.4",
     "semver": "^7.5.4",
     "set-value": "^4.1.0",
@@ -128,6 +128,5 @@
     "tape": "^5.7.1"
   },
   "engine": "node >= 18",
-  "overrides": {
-  }
+  "overrides": {}
 }

@@ -20,7 +20,6 @@
 const fs = require("fs");
 const process = require("process");
 const path = require("upath");
-const rimraf = require("rimraf");
 
 /**
  * Cleans generated and cache files
@@ -68,15 +67,7 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(`Removing ${pathToRemove}...`);
         }
-        await new Promise((resolve, reject) => {
-          rimraf(pathToRemove, {}, err => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve();
-            }
-          });
-        });
+        await qx.tool.utils.files.Utils.deleteRecursive(pathToRemove);
       }
     }
   }

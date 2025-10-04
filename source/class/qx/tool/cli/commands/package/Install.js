@@ -21,7 +21,6 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 const process = require("process");
 const semver = require("semver");
-const rimraf = require("rimraf");
 
 /**
  *  Installs a package
@@ -840,7 +839,7 @@ async __downloadAndExtract(url, destination, options = {}) {
               `>>> Download failed: ${e.message}. Removing download folder.`
             );
           }
-          rimraf.sync(download_path);
+          await qx.tool.utils.files.Utils.deleteRecursive(download_path);
           qx.tool.compiler.Console.error(
             `Could not install '${repo_name}@${treeish}'. Use the --verbose flag for more information.`
           );
