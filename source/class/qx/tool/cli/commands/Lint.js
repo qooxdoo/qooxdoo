@@ -19,7 +19,7 @@
 const { ESLint } = require("eslint");
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("path");
-const replaceInFile = require("replace-in-file");
+const { replaceInFile } = require("replace-in-file");
 
 qx.Class.define("qx.tool.cli.commands.Lint", {
   extend: qx.tool.cli.commands.Command,
@@ -114,32 +114,20 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       }
 
       let config = qx.tool.cli.Cli.getInstance().getParsedArgs();
-      let lintOptions = config.eslintConfig || {};
-      lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
-      lintOptions.globals = Object.assign(
-        lintOptions.globals || {},
-        await this.__addGlobals(config)
-      );
+      let eslintConfig = config.eslintConfig || {};
 
-      lintOptions.parser = "@babel/eslint-parser";
-      lintOptions.parserOptions = lintOptions.parserOptions || {};
-      lintOptions.parserOptions.requireConfigFile = false;
-      lintOptions.parserOptions.babelOptions = {
-        cwd: helperFilePath,
-        plugins: ["@babel/plugin-syntax-jsx"],
+      // Convert legacy format to flat format first
+      let flatConfigInput = await this.__convertToFlatConfig(eslintConfig, config);
 
-        parserOpts: {
-          allowSuperOutsideMethod: true
-        }
-      };
+      // Process flat format configuration
+      let flatConfig = await this.__processFlatConfig(flatConfigInput, helperFilePath, config);
 
-      lintOptions.parserOptions.sourceType = "script";
       let linter = new ESLint({
-        cwd: helperFilePath,
+        cwd: process.cwd(),
         cache: this.argv.cache || false,
-        baseConfig: lintOptions,
-        useEslintrc: this.argv.useEslintrc,
-        fix: this.argv.fix
+        overrideConfig: flatConfig,
+        fix: this.argv.fix,
+        overrideConfigFile: true
       });
 
       if (this.argv.printConfig) {
@@ -208,6 +196,165 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           qx.tool.compiler.Console.info("No errors found!");
         }
       }
+    },
+
+
+    __resolveConfigPkg(name) {
+      if (name.startsWith('@')) {
+        // Scoped: @scope/foo/bar → @scope/eslint-config-foo/bar
+        const parts = name.split('/');
+        const scope = parts[0];
+        const pkg = parts[1];
+        const rest = parts.slice(2).join('/');
+        const base = pkg.startsWith('eslint-config-') ? pkg : `eslint-config-${pkg}`;
+        return rest ? `${scope}/${base}/${rest}` : `${scope}/${base}`;
+      }
+      // Unscoped: foo → eslint-config-foo
+      return name.startsWith('eslint-config-') ? name : `eslint-config-${name}`;
+    },
+    /**
+     * Convert legacy ESLint configuration to flat format
+     * @param {Object|Array} eslintConfig - ESLint configuration
+     * @param {Object} config - Full configuration object
+     * @return {Promise<Array>} Flat configuration array
+     */
+    async __convertToFlatConfig(eslintConfig, config) {
+      // If already flat format, return as-is
+      if (Array.isArray(eslintConfig)) {
+        return eslintConfig;
+      }
+
+      // Convert legacy format to flat format
+      let flatConfig = [];
+      let lintOptions = { ...eslintConfig };
+
+
+      // Set defaults
+      lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
+      // Patch for new syntax. Name resolution in Eslint 9 do not work any longer
+      for (let i = 0; i < lintOptions.extends.length; i++) {
+        lintOptions.extends[i] = this.__resolveConfigPkg(lintOptions.extends[i]);
+      }
+
+      lintOptions.globals = Object.assign(
+        lintOptions.globals || {},
+        await this.__addGlobals(config)
+      );
+
+      // Add ignores config object
+      let standardIgnores = [
+        "compiled/**",
+        "node_modules/**",
+        "source/boot/**",
+        "source/resource/**",
+        "source/translation/**"
+      ];
+      let customIgnores = lintOptions.ignorePatterns || [];
+      let allIgnores = [...standardIgnores, ...customIgnores];
+
+      if (allIgnores.length > 0) {
+        flatConfig.push({
+          ignores: allIgnores
+        });
+      }
+
+      // Add main config object - use requires instead of extends for flat config
+      let mainConfig = {
+        requires: lintOptions.extends
+      };
+
+      if (lintOptions.globals && Object.keys(lintOptions.globals).length > 0) {
+        mainConfig.languageOptions = {
+          ...(lintOptions.ecmaVersion && { ecmaVersion: lintOptions.ecmaVersion }),
+          globals: lintOptions.globals
+        };
+      }
+
+      if (lintOptions.linterOptions) {
+        mainConfig.linterOptions = lintOptions.linterOptions;
+      }
+
+      if (lintOptions.rules && Object.keys(lintOptions.rules).length > 0) {
+        mainConfig.rules = lintOptions.rules;
+      }
+
+      flatConfig.push(mainConfig);
+
+      return flatConfig;
+    },
+
+    /**
+     * Process flat format ESLint configuration
+     * @param {Array} flatConfigInput - Flat configuration array
+     * @param {String} helperFilePath - Helper file path for Babel
+     * @param {Object} config - Full configuration object
+     * @return {Promise<Array>} Processed flat configuration
+     */
+    async __processFlatConfig(flatConfigInput, helperFilePath, config) {
+      let flatConfig = [];
+      for (let configItem of flatConfigInput) {
+        // Handle both extends and requires (support both legacy and flat config syntax)
+        if (configItem.requires) {
+          for (let extendConfig of configItem.requires) {
+            try {
+              let importedConfig = require(extendConfig);
+              if (Array.isArray(importedConfig)) {
+                flatConfig.push(...importedConfig);
+              } else {
+                flatConfig.push(importedConfig);
+              }
+            } catch (err) {
+              qx.tool.compiler.Console.warn(`Failed to load extends config '${extendConfig}': ${err.message}`);
+            }
+          }
+        }
+        // Create processed config without extends/requires
+        let processedConfig = { ...configItem };
+        delete processedConfig.extends;
+        delete processedConfig.requires;
+
+        // Add default parser settings if languageOptions exist or need to be created
+        if (processedConfig.languageOptions || !configItem.ignores) {
+          processedConfig.languageOptions = {
+            parser: require("@babel/eslint-parser"),
+            parserOptions: {
+              requireConfigFile: false,
+              babelOptions: {
+                cwd: helperFilePath,
+                plugins: ["@babel/plugin-syntax-jsx"],
+                parserOpts: {
+                  allowSuperOutsideMethod: true
+                }
+              },
+              sourceType: "script",
+              ...(processedConfig.languageOptions?.parserOptions || {})
+            },
+            ...(processedConfig.languageOptions?.ecmaVersion && { ecmaVersion: processedConfig.languageOptions.ecmaVersion }),
+            globals: {
+              ...await this.__addGlobals(config),
+              ...(processedConfig.languageOptions?.globals || {})
+            }
+          };
+        }
+
+        flatConfig.push(processedConfig);
+      }
+
+      // Ensure we have ignores if none were provided
+      let hasIgnores = flatConfig.some(config => config.ignores);
+      if (!hasIgnores) {
+        flatConfig.unshift({
+          ignores: [
+            "compiled/**",
+            "node_modules/**",
+            "source/boot/**",
+            "source/resource/**",
+            "source/translation/**"
+          ]
+        });
+      }
+
+      return flatConfig;
     },
 
     /**

@@ -129,8 +129,8 @@ qx.Class.define("qx.tool.utils.Utils", {
             made += "/";
           }
           made += seg;
-          fs.exists(made, function (exists) {
-            if (!exists) {
+          fs.access(made, fs.constants.F_OK, function (err) {
+            if (err) {
               fs.mkdir(made, function (err) {
                 if (err && err.code === "EEXIST") {
                   err = null;
@@ -246,6 +246,7 @@ qx.Class.define("qx.tool.utils.Utils", {
       return false;
     },
 
+
     /**
      * Runs the given command and returns an object containing information on the
      * `exitCode`, the `output`, potential `error`s, and additional `messages`.
@@ -291,9 +292,11 @@ qx.Class.define("qx.tool.utils.Utils", {
           env = Object.assign({}, env);
           Object.assign(env, options.env);
         }
-        let proc = child_process.spawn(options.cmd, options.args, {
+        
+        // Use String array for arguments - no shell needed
+        let proc = child_process.spawn(options.cmd, options.args || [], {
           cwd: options.cwd,
-          shell: true,
+          shell: options.shell === true, // Only use shell if explicitly requested
           env: env
         });
 

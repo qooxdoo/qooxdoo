@@ -16,15 +16,15 @@
 
 ************************************************************************ */
 const process = require("process");
-const Search = require("github-api/dist/components/Search");
-const Repository = require("github-api/dist/components/Repository");
+const { Octokit } = require("@octokit/rest");
 const semver = require("semver");
 const inquirer = require("inquirer");
 const path = require("upath");
 
 /**
  * Updates the local cache with information of available library packages
- * @ignore(github.*)
+ *
+ * @ignore(Buffer.from)
  */
 qx.Class.define("qx.tool.cli.commands.package.Update", {
   extend: qx.tool.cli.commands.Package,
@@ -176,11 +176,9 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
      * @return {Promise<void>}
      */
     async updateFromGitHubAPI(token) {
-      const auth = {
-        token
-      };
-
-      const search = new Search({}, auth);
+      const octokit = new Octokit({
+        auth: token
+      });
       let num_libraries = 0;
 
       // repositories
@@ -194,13 +192,13 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       if (this.argv.repository) {
         query += " " + this.argv.repository;
       }
-      let result = await search.forRepositories({ q: query });
+      let result = await octokit.rest.search.repos({ q: query });
       // backwards-compatibility
       query = "topic:qooxdoo-contrib fork:true";
       if (this.argv.repository) {
         query += " " + this.argv.repository;
       }
-      let result2 = await search.forRepositories({ q: query });
+      let result2 = await octokit.rest.search.repos({ q: query });
       let repos = result.data.concat(result2.data);
       let repo_lookup = {};
 
@@ -222,7 +220,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           qx.tool.compiler.Console.info(`### Found ${name} ...`);
         }
         this.__names.push(name);
-        let repository = new Repository(name, auth);
+        const [owner, repoName] = name.split('/');
         repos_data[name] = {
           description: repo.description,
           url: repo.url,
@@ -234,7 +232,10 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
         // get releases
         try {
-          var releases_data = await repository.listReleases();
+          var releases_data = await octokit.rest.repos.listReleases({
+            owner,
+            repo: repoName
+          });
         } catch (e) {
           qx.tool.compiler.Console.error("Error retrieving releases: " + e);
           continue;
@@ -290,11 +291,15 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           }
           try {
             // @todo check if the method can return JSON to save parsing
-            qooxdoo_data = await repository.getContents(
-              tag_name,
-              "qooxdoo.json",
-              true
-            );
+            let qooxdoo_response = await octokit.rest.repos.getContent({
+              owner,
+              repo: repoName,
+              path: "qooxdoo.json",
+              ref: tag_name
+            });
+            qooxdoo_data = {
+              data: JSON.parse(Buffer.from(qooxdoo_response.data.content, 'base64').toString())
+            };
 
             if (this.argv.verbose) {
               this.debug(`>>>  File exists, checking for libraries...`);
@@ -338,11 +343,15 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                   `>>> Retrieving Manifest file '${manifest_path}' for ${name} ${tag_name}...`
                 );
               }
-              manifest_data = await repository.getContents(
-                tag_name,
-                manifest_path,
-                true
-              );
+              let manifest_response = await octokit.rest.repos.getContent({
+                owner,
+                repo: repoName,
+                path: manifest_path,
+                ref: tag_name
+              });
+              manifest_data = {
+                data: JSON.parse(Buffer.from(manifest_response.data.content, 'base64').toString())
+              };
             } catch (e) {
               if (e.message.match(/404/)) {
                 if (this.argv.verbose) {

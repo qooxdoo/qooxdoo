@@ -204,6 +204,8 @@ Options:
 Configuration is done in the `compile.json` file, see
 [here](../compiler/configuration/compile.md) .
 
+The lint command supports both legacy ESLint configuration format (object) and the new ESLint 9 flat configuration format (array). When using legacy format, the extends configuration is automatically converted to work with ESLint 9.
+
 If no special lint configuration is given in `compile.json` the configuration
 `@qooxdoo/qx/browser` from
 [eslint-qx-rules](https://github.com/qooxdoo/eslint-qx-rules/blob/master/README.md)

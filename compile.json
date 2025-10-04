@@ -166,7 +166,22 @@
     "compiler": "legacy"
   },
   "eslintConfig": {
-    "extends": ["@qooxdoo/qx/browser", "@qooxdoo/qx", "@qooxdoo/jsdoc-disable"],
+    "extends": [
+      "@qooxdoo/qx/browser",
+      "@qooxdoo/qx",
+      "@qooxdoo/jsdoc-disable"
+    ],
+    "ignorePatterns": [
+      "bin/**",
+      "bootstrap/**",
+      "docs/**",
+      "known-good/**",
+      "compile.js",
+      "*.config.*"
+    ],
+    "linterOptions": {
+      "reportUnusedDisableDirectives": "off"
+    },
     "parserOptions": {
       "ecmaVersion": "2020"
     },
@@ -176,6 +191,7 @@
     "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
       "@qooxdoo/qx/no-refs-in-members": "off",
+
       "no-undef": "off",
       "no-duplicate-case": "off",
       "handle-callback-err": "off",
@@ -185,7 +201,6 @@
       "no-regex-spaces": "off",
       "no-new-object": "off",
       "no-global-assign": "off",
-
       "no-extra-boolean-cast": "off",
       "no-new": "off",
       "no-unused-vars": "off",
@@ -251,7 +266,9 @@
       "func-call-spacing": "off",
       "no-unexpected-multiline": "off",
       "no-labels": "off",
-      "no-inner-declarations": "off"
+      "no-inner-declarations": "off",
+      "no-console": "off",
+      "no-implicit-globals": "off"
     }
   }
 }

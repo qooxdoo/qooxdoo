@@ -17,7 +17,6 @@
 ************************************************************************ */
 const fs = require("fs");
 const path = require("upath");
-const rimraf = require("rimraf");
 
 /**
  * Installs a package
@@ -80,7 +79,7 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
       }
       if (found.length) {
         for (const p of found) {
-          rimraf.sync(p);
+          await qx.tool.utils.files.Utils.deleteRecursive(p);
         }
         if (!this.argv.quiet) {
           qx.tool.compiler.Console.info(

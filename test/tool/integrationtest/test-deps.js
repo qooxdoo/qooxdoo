@@ -345,8 +345,8 @@ test("Checks dependencies and environment settings", assert => {
 
 async function deleteRecursive(name) {
   return new Promise((resolve, reject) => {
-    fs.exists(name, function (exists) {
-      if (!exists) {
+    fs.access(name, fs.constants.F_OK, function (err) {
+      if (err) {
         return resolve();
       }
       deleteRecursiveImpl(name, err => {
