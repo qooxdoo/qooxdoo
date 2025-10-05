@@ -25,6 +25,7 @@
  *
  * @ignore(Intl.DateTimeFormat)
  * @ignore(Intl.Locale)
+ * @ignore(Intl)
  */
 qx.Class.define("qx.locale.Date", {
   statics: {
