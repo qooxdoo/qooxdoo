@@ -18,11 +18,15 @@
 
 qx.Class.define("qx.test.locale.Locale", {
   extend: qx.dev.unit.TestCase,
-  include: qx.locale.MTranslation,
+  include: [qx.locale.MTranslation, qx.dev.unit.MRequirements],
 
   members: {
     __defaultLocale: null,
     __listenerId: null,
+
+    hasUi() {
+      return typeof qx.ui !== "undefined";
+    },
 
     setUp() {
       var manager = qx.locale.Manager.getInstance();
@@ -150,6 +154,7 @@ qx.Class.define("qx.test.locale.Locale", {
     },
 
     testInvalidMessage() {
+      this.require(["ui"]);
       this.assertNotUndefined(qx.locale.Manager);
       var manager = qx.locale.Manager.getInstance();
 
@@ -181,6 +186,7 @@ qx.Class.define("qx.test.locale.Locale", {
     },
 
     testMacCtrl() {
+      this.require(["ui"]);
       // check if the translation is working
       this.assertEquals(
         "Links",

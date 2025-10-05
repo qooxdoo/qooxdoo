@@ -18,12 +18,17 @@
 /* global test */
 qx.Class.define("qx.test.log.Logger", {
   extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
   statics: {
     TEST_CONSTANT: "abc"
   },
 
   members: {
+    hasQ() {
+      return typeof qxWeb !== "undefined";
+    },
+
     setUp() {
       this.__initialLogLevel = qx.log.Logger.getLevel();
     },
@@ -80,6 +85,7 @@ qx.Class.define("qx.test.log.Logger", {
      * @ignore(test.DisposableObject)
      */
     testContextObject() {
+      this.require(["q"]);
       var appender = new qx.log.appender.RingBuffer();
 
       qx.log.Logger.setLevel("debug");

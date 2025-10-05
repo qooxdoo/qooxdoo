@@ -231,7 +231,7 @@ qx.Class.define("qx.test.Class", {
         this.assertException(
           function () {
             qx.Class.define("qx.MyClass1", {
-              include: [qx.ui.core.MChildrenHandling]
+              include: [qx.core.MLogging]
             });
           },
           Error,
@@ -280,7 +280,7 @@ qx.Class.define("qx.test.Class", {
     },
 
     testSubClassOf() {
-      this.assertTrue(qx.Class.isSubClassOf(qx.ui.core.Widget, qx.core.Object));
+      this.assertTrue(qx.Class.isSubClassOf(qx.data.Array, qx.core.Object));
     },
 
     testClassUndefine() {

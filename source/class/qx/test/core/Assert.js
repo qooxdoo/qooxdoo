@@ -18,9 +18,19 @@
 ************************************************************************ */
 qx.Class.define("qx.test.core.Assert", {
   extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
   members: {
+    hasUi() {
+      return typeof qx.ui !== "undefined";
+    },
+
+    hasDocument() {
+      return typeof document !== "undefined" && document.body;
+    },
+
     testQxWidget() {
+      this.require(["ui"]);
       // working widget
       var widget = new qx.ui.core.Widget();
       this.assertQxWidget(widget);
@@ -63,6 +73,7 @@ qx.Class.define("qx.test.core.Assert", {
     },
 
     testQxObject() {
+      this.require(["ui"]);
       // working widget
       var o = new qx.core.Object();
       this.assertQxObject(o);
@@ -148,6 +159,7 @@ qx.Class.define("qx.test.core.Assert", {
     },
 
     testAssertElement() {
+      this.require(["document"]);
       // working
       this.assertElement(document.body);
       this.assertElement(document.createElement("div"));

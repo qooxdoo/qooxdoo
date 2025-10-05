@@ -89,7 +89,22 @@
         "qx.test.lang.*",
         "qx.test.type.*",
         "qx.tool.*",
-        "qx.dev.*"
+        "qx.dev.*",
+        "qx.test.Class",
+        "qx.test.Interface",
+        "qx.test.Mixin",
+        "qx.test.Promise",
+        "qx.test.Bootstrap",
+        "qx.test.Annotation",
+        "qx.test.EditDistance",
+        "qx.test.core.*",
+        "qx.test.log.*",
+        "qx.test.toolchain.*",
+        "qx.test.data.*",
+        "qx.test.event.Emitter",
+        "qx.test.event.Timer",
+        "qx.test.event.Messaging",
+        "qx.test.io.jsonrpc.Protocol"
       ],
       "exclude": [
         "q",
@@ -107,7 +122,14 @@
         "qx.bom.client.Pdfjs",
         "qx.event.handler.Pointer",
         "qx.event.handler.Gesture",
-        "qx.event.handler.PointerCore"
+        "qx.event.handler.PointerCore",
+        "qx.test.data.controller.*",
+        "qx.test.data.store.*",
+        "qx.test.data.singlevalue.TextFieldDummy",
+        "qx.test.core.Environment",
+        "qx.test.data.singlevalue.Simple",
+        "qx.test.data.singlevalue.Deep",
+        "qx.test.data.singlevalue.Array"
       ]
     }
   ],

@@ -26,10 +26,15 @@
 
 qx.Class.define("qx.test.core.ObjectId", {
   extend: qx.dev.unit.TestCase,
-  include: qx.dev.unit.MMock,
+  include: [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
 
   members: {
+    hasUi() {
+      return typeof qx.ui !== "undefined";
+    },
+
     testGetObject() {
+      this.require(["ui"]);
       var clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         members: {
