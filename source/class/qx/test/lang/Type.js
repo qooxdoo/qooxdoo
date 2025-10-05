@@ -39,7 +39,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isString(/juhu/));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isString(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isString(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsPojo() {
@@ -210,7 +212,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isArray(/juhu/));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isArray(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isArray(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsObject() {
@@ -239,7 +243,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isObject(/juhu/), "regexp is not an object");
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isObject(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isObject(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsRegExp() {
@@ -258,7 +264,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isRegExp({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isRegExp(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isRegExp(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsNumber() {
@@ -280,7 +288,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isNumber({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isNumber(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isNumber(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsBoolean() {
@@ -301,9 +311,11 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isBoolean({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(
-        Type.isBoolean(document.getElementById("ReturenedNull"))
-      );
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(
+          Type.isBoolean(document.getElementById("ReturenedNull"))
+        );
+      }
     },
 
     testIsFunction() {
@@ -322,9 +334,11 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isFunction({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(
-        Type.isFunction(document.getElementById("ReturenedNull"))
-      );
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(
+          Type.isFunction(document.getElementById("ReturenedNull"))
+        );
+      }
     },
 
     testIsDate() {
@@ -347,7 +361,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isDate(new Error()));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isDate(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isDate(document.getElementById("ReturenedNull")));
+      }
     },
 
     testIsError() {
@@ -371,7 +387,9 @@ qx.Class.define("qx.test.lang.Type", {
       this.assertFalse(Type.isError(new Date()));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isError(document.getElementById("ReturenedNull")));
+      if (qx.core.Environment.get("runtime.name") !== "node.js") {
+        this.assertFalse(Type.isError(document.getElementById("ReturenedNull")));
+      }
     },
 
     /**

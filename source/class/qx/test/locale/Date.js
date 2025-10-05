@@ -100,7 +100,7 @@ qx.Class.define("qx.test.locale.Date", {
         Hms: "hh:mm:ss",
         Ed: "E, d.",
         Md: "d.M.",
-        yM: "MM/y",
+        yM: "MM.y",
         yMEd: "E, d.M.y",
         yMMMEd: "E, d. MMM y",
         yMMMd: "d. MMM y",
@@ -159,7 +159,7 @@ qx.Class.define("qx.test.locale.Date", {
     testIsWeekend() {
       this.assertFalse(
         qx.locale.Date.isWeekend(4, "af_EG"),
-        "Thurday is not weekend for EG"
+        "Thursday is not weekend for EG"
       );
       this.assertTrue(
         qx.locale.Date.isWeekend(5, "af_EG"),

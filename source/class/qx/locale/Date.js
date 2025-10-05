@@ -384,7 +384,7 @@ qx.Class.define("qx.locale.Date", {
         yMMM: { year: "numeric", month: "short" },
         Ed: { weekday: "short", day: "numeric" },
         Md: { month: "numeric", day: "numeric" },
-        yM: { year: "numeric", month: "numeric" },
+        yM: { year: "numeric", month: "2-digit" },
         yMEd: {
           year: "numeric",
           month: "numeric",
@@ -888,10 +888,18 @@ qx.Class.define("qx.locale.Date", {
     },
 
     __isLocaleAPISupported(){
-      return !(
-        qx.core.Environment.get("engine.name") == "gecko" &&
-        qx.core.Environment.get("browser.version") < 124
-      );
+      try {
+        // Check if Intl.Locale exists
+        if (typeof Intl === 'undefined' || typeof Intl.Locale === 'undefined') {
+          return false;
+        }
+
+        // Try to create a locale and access weekInfo
+        const testLocale = new Intl.Locale('en-US');
+        return testLocale.weekInfo !== undefined;
+      } catch (e) {
+        return false;
+      }
     },
 
     /**
