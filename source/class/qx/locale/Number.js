@@ -15,6 +15,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Dmitrii Zolotov (goldim)
 
 ************************************************************************ */
 
@@ -22,7 +23,7 @@
  * Provides information about locale-dependent number formatting (like the decimal
  * separator).
  *
- * @cldr()
+ * @ignore(Intl.NumberFormat)
  */
 
 qx.Class.define("qx.locale.Number", {
@@ -34,10 +35,14 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} decimal separator.
      */
     getDecimalSeparator(locale) {
-      return qx.locale.Manager.getInstance().localize(
+      locale = this.__transformLocale(locale);
+      const f = new Intl.NumberFormat(locale);
+      const value = f.format(1.1).charAt(1);
+      return new qx.locale.LocalizedString(
+        value,
         "cldr_number_decimal_separator",
         [],
-        locale
+        true
       );
     },
 
@@ -48,10 +53,14 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} group separator.
      */
     getGroupSeparator(locale) {
-      return qx.locale.Manager.getInstance().localize(
+      locale = this.__transformLocale(locale);
+      const f = new Intl.NumberFormat(locale);
+      const value = f.format(1000).charAt(1);
+      return new qx.locale.LocalizedString(
+        value,
         "cldr_number_group_separator",
         [],
-        locale
+        true
       );
     },
 
@@ -62,11 +71,55 @@ qx.Class.define("qx.locale.Number", {
      * @return {String} percent format string.
      */
     getPercentFormat(locale) {
-      return qx.locale.Manager.getInstance().localize(
+      locale = this.__transformLocale(locale);
+
+      const option = {
+        style: 'percent',
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
+      };
+
+      const formatter = new Intl.NumberFormat(locale, option);
+      const n = 0.00001;
+      const parts = formatter.formatToParts(n);
+
+      const result = [];
+
+      for (let part of parts){
+        const t = part.type;
+        const value = part.value;
+        let lexem;
+        if (t === "decimal" || t === "percentSign" || t === "literal"){
+          lexem = value;
+        } else if (t === "integer"){
+          lexem = "#".repeat(value.length);
+        } else if (t === "fraction"){
+          lexem = "#".repeat(value.length - 1) + "0";
+        }
+        if (lexem !== undefined){
+          result.push(lexem);
+        }
+      }
+
+      return new qx.locale.LocalizedString(
+        result.join(""),
         "cldr_number_percent_format",
         [],
-        locale
+        true
       );
+    },
+
+    /**
+     * Transforms an input locale into locale supported by Intl API
+     * 
+     * @param {String} locale locale to be used
+     * @returns {String} transformed locale
+     */
+    __transformLocale(locale) {
+      if (locale === "C") {
+        return "en";
+      }
+      return locale.replace("_", "-");
     }
   }
 });

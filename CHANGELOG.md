@@ -74,6 +74,8 @@ that the table edits are completed or cancelled before refreshing table model da
     ✅ All existing Qooxdoo-specific rules are retained<br/>
     ✅ No changes to existing projects required (except Node.js version)
 
+- `qx.locale` classes implemented with [Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) instead of [Common Locale Data Repository](http://cldr.unicode.org) npm package which is installed with a lot of CLDR xml files. This change reduces a installed qooxdoo package size significantly. There may be some differences for some locales. For example, `getDateTimeFormat` method for `de_DE` and `yM` format gives `M/y` instead of `MM/y` of the CLDR implementation.
+
 # v7.0.0
 
 ## Breaking changes

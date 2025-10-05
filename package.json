@@ -82,7 +82,6 @@
     "better-ajv-errors": "^1.2.0",
     "browserify": "^17.0.1",
     "chokidar": "^3.5.3",
-    "cldr": "^7.4.1",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",
     "console-control-strings": "^1.1.0",

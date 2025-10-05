@@ -28,8 +28,6 @@
  *
  * Note: "translating" the empty string, e.g. tr("") will return the header
  * of the respective .po file. See also https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files
- *
- * @cldr()
  */
 
 qx.Class.define("qx.locale.Manager", {
@@ -343,7 +341,7 @@ qx.Class.define("qx.locale.Manager", {
     },
 
     /**
-     * Provide localization (CLDR) data.
+     * Provide localization data.
      *
      * Implements the lookup chain locale (e.g. en_US) -> language (e.g. en) ->
      * default locale (e.g. C). Localizes the arguments if possible and splices
