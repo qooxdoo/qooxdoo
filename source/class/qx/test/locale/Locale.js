@@ -220,6 +220,13 @@ qx.Class.define("qx.test.locale.Locale", {
 
     testResetLocale() {
       var locale = qx.core.Environment.get("locale");
+
+      // If navigator is not available or returns empty locale (Node.js < 21),
+      // resetLocale will fall back to the default locale "C"
+      if (!locale || locale === "") {
+        locale = qx.core.Environment.get("locale.default");
+      }
+
       var variant = qx.core.Environment.get("locale.variant");
       if (variant !== "") {
         locale += "_" + variant;
