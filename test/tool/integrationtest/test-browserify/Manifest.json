@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "test-browserify",
+    "version": "1.0.0",
+    "title": "Test Browserify",
+    "summary": "Test application for Browserify/esbuild bundling",
+    "description": "Test application that uses require() to load npm modules",
+    "authors": [
+      {
+        "name": "Qooxdoo Test"
+      }
+    ],
+    "license": "MIT"
+  },
+  "provides": {
+    "namespace": "testbrowserify",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  }
+}

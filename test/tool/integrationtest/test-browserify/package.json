@@ -1,0 +1,9 @@
+{
+  "name": "test-browserify",
+  "version": "1.0.0",
+  "description": "Test application for Browserify/esbuild bundling with npm modules",
+  "private": true,
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
+}
