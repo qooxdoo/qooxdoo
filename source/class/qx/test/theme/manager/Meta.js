@@ -82,7 +82,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
 
   members: {
     __formerTheme: null,
-    __formerListener: null,
+    __savedListeners: null,
 
     __linerGradientRegExp:
       /(orange.*yellow|rgb\(255, 0, 0\).*rgb\(0, 0, 255\)|none|data:image\/png;base64,iVBORw0K)/,
@@ -97,13 +97,15 @@ qx.Class.define("qx.test.theme.manager.Meta", {
 
       this.manager = qx.theme.manager.Meta.getInstance();
       this.__formerTheme = this.manager.getTheme();
-      let listener = qx.event.Registration.getManager(
-        this.manager
-      ).getAllListeners();
-      let hash =
-        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      this.__formerListener = { ...listener[hash] };
-      delete listener[hash];
+
+      let eventMgr = qx.event.Registration.getManager(this.manager);
+
+      // Serialize listeners (Array of {handler, self, type, capture})
+      this.__savedListeners = eventMgr.serializeListeners(this.manager);
+
+      // Remove all listeners
+      eventMgr.removeAllListeners(this.manager);
+
       // add a theme able widget
       this.__button = new qx.ui.form.Button("Foo").set({
         appearance: "test-button-gradient"
@@ -115,15 +117,24 @@ qx.Class.define("qx.test.theme.manager.Meta", {
 
     tearDown() {
       this.__button.destroy();
+
       this.manager.setTheme(this.__formerTheme);
       this.__formerTheme = null;
-      let listener = qx.event.Registration.getManager(
-        this.manager
-      ).getAllListeners();
-      let hash =
-        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      listener[hash] = this.__formerListener;
-      this.__formerListener = null;
+
+      // Restore all listeners
+      if (this.__savedListeners) {
+        this.__savedListeners.forEach(entry => {
+          qx.event.Registration.addListener(
+            this.manager,
+            entry.type,
+            entry.handler,
+            entry.self,
+            entry.capture
+          );
+        });
+        this.__savedListeners = null;
+      }
+
       qx.ui.core.queue.Manager.flush();
     },
 
