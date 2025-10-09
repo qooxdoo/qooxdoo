@@ -678,85 +678,84 @@ qx.Class.define("qx.locale.Date", {
      * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
      */
     getWeekStart(locale) {
-      locale = this.__transformLocale(locale);
-      if (this.__isLocaleAPISupported()) {
-        const info = new Intl.Locale(locale).weekInfo;
+      let intlLocale = this.__transformLocale(locale);
+      if (this.__isIntlWeekInfoSupported(intlLocale)) {
+        let info = new Intl.Locale(intlLocale).weekInfo;
         return info.firstDay !== 7 ? info.firstDay : 0;
-      } else {
-        // old implementation
-        const weekStart = {
-          // default is monday
-          MV: 5, // friday
-          AE: 6, // saturday
-          AF: 6,
-          BH: 6,
-          DJ: 6,
-          DZ: 6,
-          EG: 6,
-          ER: 6,
-          ET: 6,
-          IQ: 6,
-          IR: 6,
-          JO: 6,
-          KE: 6,
-          KW: 6,
-          LB: 6,
-          LY: 6,
-          MA: 6,
-          OM: 6,
-          QA: 6,
-          SA: 6,
-          SD: 6,
-          SO: 6,
-          TN: 6,
-          YE: 6,
-          AS: 0, // sunday
-          AU: 0,
-          AZ: 0,
-          BW: 0,
-          CA: 0,
-          CN: 0,
-          FO: 0,
-          GE: 0,
-          GL: 0,
-          GU: 0,
-          HK: 0,
-          IE: 0,
-          IL: 0,
-          IS: 0,
-          JM: 0,
-          JP: 0,
-          KG: 0,
-          KR: 0,
-          LA: 0,
-          MH: 0,
-          MN: 0,
-          MO: 0,
-          MP: 0,
-          MT: 0,
-          NZ: 0,
-          PH: 0,
-          PK: 0,
-          SG: 0,
-          TH: 0,
-          TT: 0,
-          TW: 0,
-          UM: 0,
-          US: 0,
-          UZ: 0,
-          VI: 0,
-          ZA: 0,
-          ZW: 0,
-          MW: 0,
-          NG: 0,
-          TJ: 0
-        };
-
-        const territory = qx.locale.Date._getTerritory(locale);
-
-        // default is monday
-        return weekStart[territory] != null ? weekStart[territory] : 1;
       }
+      // old implementation
+      const weekStart = {
+        // default is monday
+        MV: 5, // friday
+        AE: 6, // saturday
+        AF: 6,
+        BH: 6,
+        DJ: 6,
+        DZ: 6,
+        EG: 6,
+        ER: 6,
+        ET: 6,
+        IQ: 6,
+        IR: 6,
+        JO: 6,
+        KE: 6,
+        KW: 6,
+        LB: 6,
+        LY: 6,
+        MA: 6,
+        OM: 6,
+        QA: 6,
+        SA: 6,
+        SD: 6,
+        SO: 6,
+        TN: 6,
+        YE: 6,
+        AS: 0, // sunday
+        AU: 0,
+        AZ: 0,
+        BW: 0,
+        CA: 0,
+        CN: 0,
+        FO: 0,
+        GE: 0,
+        GL: 0,
+        GU: 0,
+        HK: 0,
+        IE: 0,
+        IL: 0,
+        IS: 0,
+        JM: 0,
+        JP: 0,
+        KG: 0,
+        KR: 0,
+        LA: 0,
+        MH: 0,
+        MN: 0,
+        MO: 0,
+        MP: 0,
+        MT: 0,
+        NZ: 0,
+        PH: 0,
+        PK: 0,
+        SG: 0,
+        TH: 0,
+        TT: 0,
+        TW: 0,
+        UM: 0,
+        US: 0,
+        UZ: 0,
+        VI: 0,
+        ZA: 0,
+        ZW: 0,
+        MW: 0,
+        NG: 0,
+        TJ: 0
+      };
+
+      const territory = qx.locale.Date._getTerritory(locale);
+
+      // default is monday
+      return weekStart[territory] != null ? weekStart[territory] : 1;
     },
 
     /**
@@ -766,40 +765,39 @@ qx.Class.define("qx.locale.Date", {
      * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
      */
     getWeekendStart(locale) {
-      locale = this.__transformLocale(locale);
-      if (this.__isLocaleAPISupported()) {
-        const info = new Intl.Locale(locale).weekInfo;
+      let intlLocale = this.__transformLocale(locale);
+      if (this.__isIntlWeekInfoSupported(intlLocale)) {
+        let info = new Intl.Locale(intlLocale).weekInfo;
         return info.weekend[0] !== 7 ? info.weekend[0] : 0;
-      } else {
-        // default is monday
-        const weekendStart = {
-          // default is saturday
-          EG: 5, // friday
-          IL: 5,
-          SY: 5,
-          IN: 0, // sunday
-          AE: 4, // thursday
-          BH: 4,
-          DZ: 4,
-          IQ: 4,
-          JO: 4,
-          KW: 4,
-          LB: 4,
-          LY: 4,
-          MA: 4,
-          OM: 4,
-          QA: 4,
-          SA: 4,
-          SD: 4,
-          TN: 4,
-          YE: 4
-        };
-
-        const territory = qx.locale.Date._getTerritory(locale);
-
-        // default is saturday
-        return weekendStart[territory] != null ? weekendStart[territory] : 6;
       }
+      // default is monday
+      const weekendStart = {
+        // default is saturday
+        EG: 5, // friday
+        IL: 5,
+        SY: 5,
+        IN: 0, // sunday
+        AE: 4, // thursday
+        BH: 4,
+        DZ: 4,
+        IQ: 4,
+        JO: 4,
+        KW: 4,
+        LB: 4,
+        LY: 4,
+        MA: 4,
+        OM: 4,
+        QA: 4,
+        SA: 4,
+        SD: 4,
+        TN: 4,
+        YE: 4
+      };
+
+      const territory = qx.locale.Date._getTerritory(locale);
+
+      // default is saturday
+      return weekendStart[territory] != null ? weekendStart[territory] : 6;
     },
 
     /**
@@ -809,42 +807,41 @@ qx.Class.define("qx.locale.Date", {
      * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
      */
     getWeekendEnd(locale) {
-      locale = this.__transformLocale(locale);
-      if (this.__isLocaleAPISupported()) {
-        const info = new Intl.Locale(locale).weekInfo;
+      let intlLocale = this.__transformLocale(locale);
+      if (this.__isIntlWeekInfoSupported(intlLocale)) {
+        let info = new Intl.Locale(intlLocale).weekInfo;
         const end = info.weekend[info.weekend.length - 1];
         return end !== 7 ? end : 0;
-      } else {
-        // old implementation
-        const weekendEnd = {
-          // default is sunday
-          AE: 5, // friday
-          BH: 5,
-          DZ: 5,
-          IQ: 5,
-          JO: 5,
-          KW: 5,
-          LB: 5,
-          LY: 5,
-          MA: 5,
-          OM: 5,
-          QA: 5,
-          SA: 5,
-          SD: 5,
-          TN: 5,
-          YE: 5,
-          AF: 5,
-          IR: 5,
-          EG: 6, // saturday
-          IL: 6,
-          SY: 6
-        };
-
-        const territory = qx.locale.Date._getTerritory(locale);
-
-        // default is sunday
-        return weekendEnd[territory] != null ? weekendEnd[territory] : 0;
       }
+      // old implementation
+      const weekendEnd = {
+        // default is sunday
+        AE: 5, // friday
+        BH: 5,
+        DZ: 5,
+        IQ: 5,
+        JO: 5,
+        KW: 5,
+        LB: 5,
+        LY: 5,
+        MA: 5,
+        OM: 5,
+        QA: 5,
+        SA: 5,
+        SD: 5,
+        TN: 5,
+        YE: 5,
+        AF: 5,
+        IR: 5,
+        EG: 6, // saturday
+        IL: 6,
+        SY: 6
+      };
+
+      const territory = qx.locale.Date._getTerritory(locale);
+
+      // default is sunday
+      return weekendEnd[territory] != null ? weekendEnd[territory] : 0;
     },
 
     /**
@@ -855,20 +852,19 @@ qx.Class.define("qx.locale.Date", {
      * @return {Boolean} whether the given day is a weekend day
      */
     isWeekend(day, locale) {
-      locale = this.__transformLocale(locale);
-      if (this.__isLocaleAPISupported()) {
-        const info = new Intl.Locale(locale).weekInfo;
+      let intlLocale = this.__transformLocale(locale);
+      if (this.__isIntlWeekInfoSupported(intlLocale)) {
+        let info = new Intl.Locale(intlLocale).weekInfo;
         return info.weekend.includes(day !== 0 ? day : 7);
-      } else {
-        // old implementation
-        const weekendStart = qx.locale.Date.getWeekendStart(locale);
-        const weekendEnd = qx.locale.Date.getWeekendEnd(locale);
+      }
+      // old implementation
+      const weekendStart = qx.locale.Date.getWeekendStart(locale);
+      const weekendEnd = qx.locale.Date.getWeekendEnd(locale);
 
-        if (weekendEnd > weekendStart) {
-          return day >= weekendStart && day <= weekendEnd;
-        } else {
-          return day >= weekendStart || day <= weekendEnd;
-        }
+      if (weekendEnd > weekendStart) {
+        return day >= weekendStart && day <= weekendEnd;
+      } else {
+        return day >= weekendStart || day <= weekendEnd;
       }
     },
 
@@ -888,19 +884,8 @@ qx.Class.define("qx.locale.Date", {
       return territory.toUpperCase();
     },
 
-    __isLocaleAPISupported(){
-      try {
-        // Check if Intl.Locale exists
-        if (typeof Intl === 'undefined' || typeof Intl.Locale === 'undefined') {
-          return false;
-        }
-
-        // Try to create a locale and access weekInfo
-        const testLocale = new Intl.Locale('en-US');
-        return testLocale.weekInfo !== undefined;
-      } catch (e) {
-        return false;
-      }
+    __isIntlWeekInfoSupported(locale){
+      return Intl.Locale && new Intl.Locale(locale).weekInfo;
     },
 
     /**
