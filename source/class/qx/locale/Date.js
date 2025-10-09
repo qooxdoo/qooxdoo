@@ -607,7 +607,7 @@ qx.Class.define("qx.locale.Date", {
       const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
         new Date(2000, 1, 1, 1, 1, 1)
       );
-      let result = [];
+      let lexems = [];
       parts.forEach(part => {
         let lexem = "";
         let value = part.value;
@@ -634,10 +634,11 @@ qx.Class.define("qx.locale.Date", {
           default:
             lexem = "";
         }
-        result.push(lexem);
+        lexems.push(lexem);
       });
 
-      return new qx.locale.LocalizedString(result.join(""), id, [], true);
+      let str = lexems.join("").replace(/[\u202F\u00A0]/g, ' ');
+      return new qx.locale.LocalizedString(str, id, [], true);
     },
 
     /**
