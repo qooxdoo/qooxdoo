@@ -259,7 +259,7 @@ test("Setup GitHub token for publish tests", async assert => {
                     (!result.output.trim() && result.exitCode === 0) ||
                     result.output.trim() === "github.token is not set";
 
-    if (noToken) {i
+    if (noToken) {
       // No token exists, create a temporary one
       result = await testUtils.runCommand(
         __dirname,
