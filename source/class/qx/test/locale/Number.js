@@ -31,7 +31,9 @@ qx.Class.define("qx.test.locale.Number", {
       testGetDecimalSeparator() {
         var entries = [
           { locale: "de_DE", expected: "," },
-          { locale: "en", expected: "." }
+          { locale: "en", expected: "." },
+          { locale: "en-us@posix", expected: "." }
+
         ];
 
         for (var entry of entries){
