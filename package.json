@@ -117,7 +117,7 @@
     "source-map-js": "^1.0.2",
     "tap-colorize": "^1.2.0",
     "terser": "^5.22.0",
-    "tmp": "0.2.1",
+    "tmp": "0.2.4",
     "unset-value": "^1.0.0",
     "upath": "^1.2.0",
     "update-notifier": "^6.0.2",

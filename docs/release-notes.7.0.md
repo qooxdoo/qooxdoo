@@ -1,5 +1,9 @@
 # Qooxdoo Release Notes
 
+## New feature for v7.9.2
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2025-05-15&until=2025-10-15
+
 ## New feature for v7.9.0
    - Add the possibility to use native promises instead of Bluebird (##10766)
 
