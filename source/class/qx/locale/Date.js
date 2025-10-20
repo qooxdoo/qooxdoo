@@ -901,7 +901,7 @@ qx.Class.define("qx.locale.Date", {
       if (locale === "C") {
         return "en";
       }
-      return locale.replace("_", "-");
+      return locale.replace("_", "-").split('@')[0];
     }
   }
 });
