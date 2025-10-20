@@ -385,7 +385,7 @@ qx.Class.define("qx.locale.Date", {
         yMMM: { year: "numeric", month: "short" },
         Ed: { weekday: "short", day: "numeric" },
         Md: { month: "numeric", day: "numeric" },
-        yM: { year: "numeric", month: "2-digit" },
+        yM: { year: "numeric", month: "numeric" },
         yMEd: {
           year: "numeric",
           month: "numeric",
