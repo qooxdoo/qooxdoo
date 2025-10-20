@@ -294,7 +294,7 @@ qx.Class.define("qx.locale.Date", {
      * @returns {qx.locale.LocalizedString} localized date
      */
     __localizeDate(id, locale, options) {
-      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+      const parts = new Intl.DateTimeFormat(locale, { ...options, calendar: "gregory" }).formatToParts(
         new Date(2000, 1, 1)
       );
       const nonLiteralPartCount = parts.filter(
@@ -604,7 +604,7 @@ qx.Class.define("qx.locale.Date", {
      * @returns {qx.locale.LocalizedString} localized time
      */
     __localizeTime(id, locale, options) {
-      const parts = new Intl.DateTimeFormat(locale, options).formatToParts(
+      const parts = new Intl.DateTimeFormat(locale, { ...options, calendar: "gregory" }).formatToParts(
         new Date(2000, 1, 1, 1, 1, 1)
       );
       let lexems = [];
