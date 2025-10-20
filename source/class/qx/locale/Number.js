@@ -119,7 +119,7 @@ qx.Class.define("qx.locale.Number", {
       if (locale === "C") {
         return "en";
       }
-      return locale.replace("_", "-");
+      return locale.replace("_", "-").split('@')[0];
     }
   }
 });
