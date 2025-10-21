@@ -1533,21 +1533,17 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       // so we'll override this method with a null one, and do the menu
       // placement and display handling in our _onContextMenu method.
     },
-
     /**
      * Event handler. Called when the user double tapped a pointer button over the pane.
      *
      * @param e {Map} the event.
-     */
-    _onDbltapPane(e) {
+     */ _onDbltapPane(e) {
       var pageX = e.getDocumentLeft();
       var pageY = e.getDocumentTop();
       var col = this._getColumnForPageX(pageX);
-
       if (col !== null) {
         this._focusCellAtPagePos(pageX, pageY);
         this.startEditing();
-
         var row = this._getRowForPagePos(pageX, pageY);
         if (row != -1 && row != null) {
           this.fireEvent(
@@ -1559,44 +1555,33 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
         }
       }
     },
-
     /**
      * Event handler. Called when the pointer moved out.
      *
      * @param e {Map} the event.
-     */
-    _onPointerout(e) {
+     */ _onPointerout(e) {
       var table = this.getTable();
-
       if (!table.getEnabled()) {
         return;
-      }
-
-      // Reset the resize cursor when the pointer leaves the header
+      } // Reset the resize cursor when the pointer leaves the header
       // If currently a column is resized then do nothing
       // (the cursor will be reset on pointerup)
       if (this.__resizeColumn == null) {
         this.setCursor(null);
         this.getApplicationRoot().setGlobalCursor(null);
       }
-
-      this.__header.setPointerOverColumn(null);
-
-      // in case the focus follows the pointer, it should be remove on pointerout
+      this.__header.setPointerOverColumn(null); // in case the focus follows the pointer, it should be remove on pointerout
       if (this.getFocusCellOnPointerMove()) {
         this.__table.setFocusedCell();
       }
     },
-
     /**
      * Shows the resize line.
      *
      * @param x {Integer} the position where to show the line (in pixels, relative to
      *      the left side of the pane).
-     */
-    _showResizeLine(x) {
+     */ _showResizeLine(x) {
       var resizeLine = this._showChildControl("resize-line");
-
       var width = resizeLine.getWidth();
       var paneBounds = this._paneClipper.getBounds();
       resizeLine.setUserBounds(

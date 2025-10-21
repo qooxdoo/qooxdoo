@@ -55,6 +55,9 @@ qx.Class.define("qx.ui.virtual.selection.Abstract", {
   */
 
   members: {
+    _pane: undefined,
+    _delegate: undefined,
+
     // Determines if automatically scrolling of selected item into view is active.
     _autoScrollIntoView: true,
 

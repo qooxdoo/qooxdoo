@@ -22,10 +22,11 @@ qx.Class.define("qx.test.core.InheritanceDummy", {
   construct() {
     super();
     this.children = [];
+    this.addListener("changeEnabled", () => this.eventCount++);
   },
 
   properties: {
-    enabled: { inheritable: true },
+    enabled: { inheritable: true, apply: "_applyEnabled", event: "changeEnabled" },
 
     width_: {
       inheritable: true,
@@ -49,6 +50,14 @@ qx.Class.define("qx.test.core.InheritanceDummy", {
   },
 
   members: {
+    applyCount: 0,
+    eventCount: 0,
+    lastApply: null,
+    _applyEnabled(value, old) {
+      this.applyCount++;
+      this.lastApply = [value, old];
+    },
+
     add(child) {
       this.children.push(child);
       child.parent = this;

@@ -95,7 +95,7 @@ qx.Class.define("qx.test.log.Logger", {
       var dispObj = new test.DisposableObject();
       qx.log.Logger.debug(qx.core.Object, "m1");
       qx.log.Logger.debug(obj, "m2");
-      qx.log.Logger.debug(qxWeb(), "m3");
+      qx.log.Logger.debug(qxWeb, "m3");
       qx.log.Logger.debug(dispObj, "m4");
 
       var events = appender.getAllLogEvents();

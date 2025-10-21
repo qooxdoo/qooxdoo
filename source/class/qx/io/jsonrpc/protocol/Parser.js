@@ -58,6 +58,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Parser", {
       }
       // individual message
       let { id, result, method, params, error } = message;
+      error = error || message.errorDetail;
       if (
         id !== undefined &&
         result !== undefined &&

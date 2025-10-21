@@ -87,11 +87,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom", {
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, text, icon
      */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       inheritable: true,
-      apply: "_applyShow"
+      apply: "_applyShowFeatures"
     },
 
     /**
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom", {
     },
 
     // property apply
-    _applyShow(value, old) {
+    _applyShowFeatures(value, old) {
       if (this.__label) {
         if (value === "both" || value === "label") {
           this.__label.show();
@@ -294,10 +294,10 @@ qx.Class.define("qx.ui.mobile.basic.Atom", {
       }
 
       // Show/Hide Label/Icon
-      if (this.getShow() === "icon" && this.__label) {
+      if (this.getShowFeatures() === "icon" && this.__label) {
         this.__label.exclude();
       }
-      if (this.getShow() === "label" && this.__icon) {
+      if (this.getShowFeatures() === "label" && this.__icon) {
         this.__icon.exclude();
       }
 

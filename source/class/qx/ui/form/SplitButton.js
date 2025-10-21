@@ -116,13 +116,13 @@ qx.Class.define("qx.ui.form.SplitButton", {
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, text, icon
      */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       themeable: true,
       inheritable: true,
-      apply: "_applyShow",
-      event: "changeShow"
+      apply: "_applyShowFeatures",
+      event: "changeShowFeatures"
     },
 
     /** The menu instance to show when tapping on the button */
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.form.SplitButton", {
         case "arrow":
           control = new qx.ui.form.MenuButton();
           control.setFocusable(false);
-          control.setShow("both");
+          control.setShowFeatures("both");
           this._addAt(control, 1);
           break;
       }
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.form.SplitButton", {
     },
 
     // property apply
-    _applyShow(value, old) {
+    _applyShowFeatures(value, old) {
       // pass: is already inherited to the button
     },
 

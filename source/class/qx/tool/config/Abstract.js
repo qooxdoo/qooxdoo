@@ -364,7 +364,7 @@ qx.Class.define("qx.tool.config.Abstract", {
       let originalValue = this.getValue(prop_path, options);
       set_value(this.getData(), prop_path, value, { preservePaths: false });
       try {
-        this.validate();
+        this._validate();
       } catch (e) {
         // revert change
         if (originalValue === undefined) {
@@ -391,7 +391,7 @@ qx.Class.define("qx.tool.config.Abstract", {
       let originalValue = this.getValue(prop_path, options);
       unset_value(this.getData(), prop_path);
       try {
-        this.validate();
+        this._validate();
       } catch (e) {
         // revert value
         set_value(this.getData(), prop_path, originalValue, {
@@ -451,7 +451,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      * Validates the stored config model data. Used when data is changed
      * outside of the API. Will not validate if validate property is false.
      */
-    validate() {
+    _validate() {
       this._validateData(this.getData());
     },
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      * @return {Promise<void>}
      */
     async save() {
-      this.validate();
+      this._validate();
       await qx.tool.utils.Json.saveJsonAsync(
         this.getDataPath(),
         this.getData()

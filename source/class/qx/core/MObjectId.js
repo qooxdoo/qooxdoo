@@ -36,7 +36,8 @@ qx.Mixin.define("qx.core.MObjectId", {
       init: null,
       check: "qx.core.Object",
       nullable: true,
-      apply: "_applyQxOwner"
+      apply: "_applyQxOwner",
+      autoApply: false
     },
 
     /** {String} The ID of the object.  */
@@ -48,7 +49,8 @@ qx.Mixin.define("qx.core.MObjectId", {
         );
       },
       nullable: true,
-      apply: "_applyQxObjectId"
+      apply: "_applyQxObjectId",
+      autoApply: false
     }
   },
 
@@ -59,15 +61,15 @@ qx.Mixin.define("qx.core.MObjectId", {
    */
   statics: {
     handleObjects(clazz, instance, id) {
-      const objectsDef = clazz.$$objects;
-      const clazzObject = objectsDef?.[id]?.call(instance);
+      let objectsDef = clazz.$$objects;
+      let clazzObject = objectsDef?.[id]?.call(instance);
 
       if (clazzObject !== undefined) {
         return clazzObject;
       }
 
-      for (const mixin of clazz.$$includes ?? []) {
-        const mixinObject = qx.core.MObjectId.handleObjects(
+      for (let mixin of clazz.$$includes ?? []) {
+        let mixinObject = qx.core.MObjectId.handleObjects(
           mixin,
           instance,
           id

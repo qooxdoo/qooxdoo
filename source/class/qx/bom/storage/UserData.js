@@ -30,6 +30,8 @@
  * @require(qx.bom.storage.UserData#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.UserData", {
+  extend: qx.core.Object,
+
   statics: {
     __local: null,
     __session: null,

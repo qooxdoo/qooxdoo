@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.Theme", {
      */
     define(name, config) {
       if (!config) {
-        var config = {};
+        config = {};
       }
 
       config.include = this.__normalizeArray(config.include);

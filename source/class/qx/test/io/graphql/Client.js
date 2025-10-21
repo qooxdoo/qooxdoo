@@ -35,6 +35,8 @@ qx.Class.define("qx.test.io.graphql.Client", {
   },
 
   members: {
+    client: undefined,
+
     __hasEndpoint: false,
     __skipMsg: "Skipping test as endpoint is not available.",
 

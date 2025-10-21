@@ -335,12 +335,7 @@ qx.Class.define("qx.data.controller.Tree", {
       // get the old ref and delete it
       var oldRef = this.__childrenRef[oldChildren.toHashCode()];
       oldChildren.removeListenerById(oldRef.changeListenerId);
-      this.debug(
-        "1: removing children=" +
-          oldChildren.toHashCode() +
-          " from this=" +
-          this.toHashCode()
-      );
+      this.debug("1: removing children=" + oldChildren.toHashCode() + " from this=" + this.toHashCode());
 
       delete this.__childrenRef[oldChildren.toHashCode()];
       // remove the old change listener for the children
@@ -348,26 +343,14 @@ qx.Class.define("qx.data.controller.Tree", {
 
       // add a new change listener
       var modelNode = oldRef.modelNode;
-      var property = qx.Class.getPropertyDefinition(
-        oldRef.modelNode.constructor,
-        this.getChildPath()
-      );
+      var property = qx.Class.getByProperty(oldRef.modelNode.constructor, this.getChildPath());
 
-      var eventName = property.event;
-      var changeChildernListenerId = modelNode.addListener(
-        eventName,
-        this.__changeChildrenArray,
-        this
-      );
+      var eventName = property.getEventName();
+      var changeChildernListenerId = modelNode.addListener(eventName, this.__changeChildrenArray, this);
 
       // add the new ref
       var treeNode = oldRef.treeNode;
-      this.debug(
-        "1: adding children=" +
-          children.toHashCode() +
-          " to this=" +
-          this.toHashCode()
-      );
+      this.debug("1: adding children=" + children.toHashCode() + " to this=" + this.toHashCode());
 
       this.__childrenRef[children.toHashCode()] = {
         modelNode: modelNode,
@@ -426,9 +409,7 @@ qx.Class.define("qx.data.controller.Tree", {
       // check for the binding knowledge
       if (
         (this.getLabelPath() == null && this.getDelegate() == null) ||
-        (this.getLabelPath() == null &&
-          this.getDelegate() != null &&
-          this.getDelegate().bindItem == null)
+        (this.getLabelPath() == null && this.getDelegate() != null && this.getDelegate().bindItem == null)
       ) {
         return;
       }
@@ -461,44 +442,24 @@ qx.Class.define("qx.data.controller.Tree", {
      */
     __updateTreeChildren(rootNode, modelNode) {
       // ignore items which don't have children
-      if (
-        modelNode["get" + qx.lang.String.firstUp(this.getChildPath())] ==
-        undefined
-      ) {
+      if (modelNode["get" + qx.lang.String.firstUp(this.getChildPath())] == undefined) {
         return;
       }
       // get all children of the current model node
-      var children =
-        modelNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
+      var children = modelNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
 
       // store the children reference
       if (this.__childrenRef[children.toHashCode()] == undefined) {
         // add the listener for the change
-        var changeListenerId = children.addListener(
-          "change",
-          this.__changeModelChildren,
-          this
-        );
+        var changeListenerId = children.addListener("change", this.__changeModelChildren, this);
 
         // add a listener for the change of the children array itself
-        var property = qx.Class.getPropertyDefinition(
-          modelNode.constructor,
-          this.getChildPath()
-        );
+        var property = qx.Class.getByProperty(modelNode.constructor, this.getChildPath());
 
-        var eventName = property.event;
-        var changeChildernListenerId = modelNode.addListener(
-          eventName,
-          this.__changeChildrenArray,
-          this
-        );
+        var eventName = property.getEventName();
+        var changeChildernListenerId = modelNode.addListener(eventName, this.__changeChildrenArray, this);
 
-        this.debug(
-          "2: adding children=" +
-            children.toHashCode() +
-            " to this=" +
-            this.toHashCode()
-        );
+        this.debug("2: adding children=" + children.toHashCode() + " to this=" + this.toHashCode());
 
         this.__childrenRef[children.toHashCode()] = {
           modelNode: modelNode,
@@ -511,10 +472,7 @@ qx.Class.define("qx.data.controller.Tree", {
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
         // if there is no node in the tree or the current node does not fit
-        if (
-          rootNode.getChildren()[i] == null ||
-          children.getItem(i) != rootNode.getChildren()[i].getModel()
-        ) {
+        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getModel()) {
           //check if the node was just moved
           for (var j = i; j < rootNode.getChildren().length; j++) {
             if (rootNode.getChildren()[j].getModel() === children.getItem(i)) {
@@ -553,11 +511,7 @@ qx.Class.define("qx.data.controller.Tree", {
         }
       }
       // remove the rest of the tree items if they exist
-      for (
-        var i = rootNode.getChildren().length - 1;
-        i >= children.length;
-        i--
-      ) {
+      for (var i = rootNode.getChildren().length - 1; i >= children.length; i--) {
         var treeFolder = rootNode.getChildren()[i];
         this.__removeFolder(treeFolder, rootNode);
       }
@@ -626,12 +580,7 @@ qx.Class.define("qx.data.controller.Tree", {
       if (model[childrenGetterName] != undefined) {
         // remove the old children listener
         var children = model[childrenGetterName]();
-        this.debug(
-          "2: removing children=" +
-            children.toHashCode() +
-            " from this=" +
-            this.toHashCode()
-        );
+        this.debug("2: removing children=" + children.toHashCode() + " from this=" + this.toHashCode());
 
         var oldRef = this.__childrenRef[children.toHashCode()];
         children.removeListenerById(oldRef.changeListenerId);
@@ -683,9 +632,7 @@ qx.Class.define("qx.data.controller.Tree", {
       qx.core.ObjectRegistry.register(modelNode);
       if (storage[modelNode.toHashCode()]) {
         if (storage[modelNode.toHashCode()].id) {
-          throw new Error(
-            "Can not bind the same target property '" + targetPath + "' twice."
-          );
+          throw new Error("Can not bind the same target property '" + targetPath + "' twice.");
         }
         storage[modelNode.toHashCode()].id = id;
       } else {
@@ -717,13 +664,7 @@ qx.Class.define("qx.data.controller.Tree", {
      * @param sourceWidget {qx.ui.tree.core.AbstractTreeItem} The source widget.
      * @param modelNode {var} The model node which should be bound to the target.
      */
-    bindPropertyReverse(
-      targetPath,
-      sourcePath,
-      options,
-      sourceWidget,
-      modelNode
-    ) {
+    bindPropertyReverse(targetPath, sourcePath, options, sourceWidget, modelNode) {
       // set up the binding
       var id = sourceWidget.bind(sourcePath, modelNode, targetPath, options);
 
@@ -736,11 +677,7 @@ qx.Class.define("qx.data.controller.Tree", {
       qx.core.ObjectRegistry.register(modelNode);
       if (storage[modelNode.toHashCode()]) {
         if (storage[modelNode.toHashCode()].reverseId) {
-          throw new Error(
-            "Can not reverse bind the same target property '" +
-              targetPath +
-              "' twice."
-          );
+          throw new Error("Can not reverse bind the same target property '" + targetPath + "' twice.");
         }
         storage[modelNode.toHashCode()].reverseId = id;
       } else {
@@ -771,23 +708,11 @@ qx.Class.define("qx.data.controller.Tree", {
      */
     bindDefaultProperties(treeNode, modelNode) {
       // label binding
-      this.bindProperty(
-        this.getLabelPath(),
-        "label",
-        this.getLabelOptions(),
-        treeNode,
-        modelNode
-      );
+      this.bindProperty(this.getLabelPath(), "label", this.getLabelOptions(), treeNode, modelNode);
 
       // icon binding
       if (this.getIconPath() != null) {
-        this.bindProperty(
-          this.getIconPath(),
-          "icon",
-          this.getIconOptions(),
-          treeNode,
-          modelNode
-        );
+        this.bindProperty(this.getIconPath(), "icon", this.getIconOptions(), treeNode, modelNode);
       }
     },
 
@@ -872,12 +797,7 @@ qx.Class.define("qx.data.controller.Tree", {
      * @param old {Object} The old delegate.
      */
     _setConfigureItem(value, old) {
-      if (
-        value != null &&
-        value.configureItem != null &&
-        this.getTarget() != null &&
-        this.getModel() != null
-      ) {
+      if (value != null && value.configureItem != null && this.getTarget() != null && this.getModel() != null) {
         var children = this.getTarget().getRoot().getItems(true, true, false);
         for (var i = 0; i < children.length; i++) {
           value.configureItem(children[i]);
@@ -902,13 +822,7 @@ qx.Class.define("qx.data.controller.Tree", {
         return;
       }
       // do nothing it the delegate function has not changed
-      if (
-        old &&
-        old.createItem &&
-        value &&
-        value.createItem &&
-        old.createItem == value.createItem
-      ) {
+      if (old && old.createItem && value && value.createItem && old.createItem == value.createItem) {
         return;
       }
       this._startSelectionModification();
@@ -931,11 +845,7 @@ qx.Class.define("qx.data.controller.Tree", {
       // if a new bindItem function is set
       if (value != null && value.bindItem != null) {
         // do nothing if the bindItem function did not change
-        if (
-          old != null &&
-          old.bindItem != null &&
-          value.bindItem == old.bindItem
-        ) {
+        if (old != null && old.bindItem != null && value.bindItem == old.bindItem) {
           return;
         }
         this.__buildTree();

@@ -112,8 +112,6 @@ qx.Class.define("qx.data.store.Json", {
         "timeout",
         "failed"
       ],
-
-      init: "configured",
       event: "changeState"
     },
 

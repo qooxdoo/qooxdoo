@@ -62,6 +62,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
    * @param method {String?"GET"} The HTTP method.
    */
   construct(url, method) {
+    super();
     if (url !== undefined) {
       this.setUrl(url);
     }
@@ -180,9 +181,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
       if (
         qx.lang.Type.isString(data) ||
         qx.lang.Type.isObject(data) ||
-        ["ArrayBuffer", "Blob", "FormData"].indexOf(
-          qx.lang.Type.getClass(data)
-        ) !== -1
+        ["ArrayBuffer", "Blob", "FormData"].indexOf(qx.lang.Type.getClass(data)) !== -1
       ) {
         this.__requestData = data;
       }
@@ -209,9 +208,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
       if (this.__response !== null) {
         return this.__response;
       } else {
-        return this._transport.responseXML !== null
-          ? this._transport.responseXML
-          : this._transport.responseText;
+        return this._transport.responseXML !== null ? this._transport.responseXML : this._transport.responseText;
       }
     },
 
@@ -363,22 +360,14 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
     send() {
       var curTimeout = this.getTimeout(),
         hasRequestData = this.getRequestData() !== null,
-        hasCacheControlHeader =
-          this.__requestHeaders.hasOwnProperty("Cache-Control"),
-        isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(
-          this.getMethod()
-        ),
+        hasCacheControlHeader = this.__requestHeaders.hasOwnProperty("Cache-Control"),
+        isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
         curContentType = this.getRequestHeader("Content-Type"),
-        serializedData = this._serializeData(
-          this.getRequestData(),
-          curContentType
-        );
+        serializedData = this._serializeData(this.getRequestData(), curContentType);
 
       // add GET params if needed
       if (this.getMethod() === "GET" && hasRequestData) {
-        this.setUrl(
-          qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData)
-        );
+        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData));
       }
 
       // cache prevention
@@ -412,15 +401,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
         // POST & PUT ...
         if (
           typeof curContentType === "undefined" &&
-          ["ArrayBuffer", "Blob", "FormData"].indexOf(
-            qx.Bootstrap.getClass(serializedData)
-          ) === -1
+          ["ArrayBuffer", "Blob", "FormData"].indexOf(qx.Bootstrap.getClass(serializedData)) === -1
         ) {
           // by default, set content-type urlencoded for requests with body
-          this._transport.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded"
-          );
+          this._transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         }
 
         this._transport.send(serializedData);
@@ -479,10 +463,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
      * @return {qx.bom.request.IRequest} Transport.
      */
     _registerTransportListener(transport) {
-      transport.onreadystatechange = qx.lang.Function.bind(
-        this._onReadyStateChange,
-        this
-      );
+      transport.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
 
       transport.onloadend = qx.lang.Function.bind(this._onLoadEnd, this);
       transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
@@ -529,10 +510,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
         return data;
       }
 
-      if (
-        isJson &&
-        (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))
-      ) {
+      if (isJson && (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))) {
         return qx.lang.Json.stringify(data);
       }
 
@@ -540,11 +518,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
         return qx.util.Uri.toParameter(data, isPost);
       }
 
-      if (
-        ["ArrayBuffer", "Blob", "FormData"].indexOf(
-          qx.Bootstrap.getClass(data)
-        ) !== -1
-      ) {
+      if (["ArrayBuffer", "Blob", "FormData"].indexOf(qx.Bootstrap.getClass(data)) !== -1) {
         return data;
       }
 
@@ -644,9 +618,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
      */
     __onReadyStateDone() {
       if (qx.core.Environment.get("qx.debug.io")) {
-        qx.Bootstrap.debug(
-          "Request completed with HTTP status: " + this._transport.status
-        );
+        qx.Bootstrap.debug("Request completed with HTTP status: " + this._transport.status);
       }
 
       var response = this._transport.responseText;

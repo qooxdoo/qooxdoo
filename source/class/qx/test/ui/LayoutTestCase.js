@@ -178,20 +178,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
     assertWidgetDispose(clazz, args, msg) {
       this.assertDestroy(
         function () {
-          var argStr = [];
-          for (var i = 0; i < args.length; i++) {
-            argStr.push("qx.test.ui.LayoutTestCase.$$args" + "[" + i + "]");
-          }
-
-          qx.test.ui.LayoutTestCase.$$clazz = clazz;
-          qx.test.ui.LayoutTestCase.$$args = args;
-          var str =
-            "new qx.test.ui.LayoutTestCase.$$clazz" +
-            "(" +
-            argStr.join(", ") +
-            ");";
-          var widget = eval(str);
-
+          var widget = new clazz(...args);
           this.getRoot().add(widget);
           this.flush();
 

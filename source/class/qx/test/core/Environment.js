@@ -160,7 +160,10 @@ qx.Class.define("qx.test.core.Environment", {
         return "AFFE";
       });
 
-      this.assertEquals("AFFE", qx.core.Environment.get("qx.test.core.Environment.affe"));
+      this.assertEquals(
+        "AFFE",
+        qx.core.Environment.get("qx.test.core.Environment.affe")
+      );
 
       // clear the check
       delete qx.core.Environment.getChecks()["qx.test.core.Environment.affe"];
@@ -170,7 +173,10 @@ qx.Class.define("qx.test.core.Environment", {
     testAddValue() {
       qx.core.Environment.add("qx.test.core.Environment.affe", "AFFE");
 
-      this.assertEquals("AFFE", qx.core.Environment.get("qx.test.core.Environment.affe"));
+      this.assertEquals(
+        "AFFE",
+        qx.core.Environment.get("qx.test.core.Environment.affe")
+      );
 
       // clear the check
       delete qx.core.Environment.getChecks()["qx.test.core.Environment.affe"];

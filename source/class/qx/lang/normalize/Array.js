@@ -124,6 +124,27 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
     },
 
     /**
+     * The <code>forEach()</code> method executes a provided function
+     * once per array element. You can not break the loop with this function.
+     * If you want to do so, use {@link #some} or {@link #every}.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">MDN documentation</a> |
+     * <a href="http://es5.github.com/#x15.4.4.18">Annotated ES5 Spec</a>
+     *
+     * @param callback {Function} Function to execute for each element.
+     * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
+     */
+    async forEachAsync(callback, obj) {
+      var l = this.length;
+      for (var i = 0; i < l; i++) {
+        var value = this[i];
+        if (value !== undefined) {
+          await callback.call(obj || window, value, i, this);
+        }
+      }
+    },
+
+    /**
      * The <code>filter()</code> method creates a new array with
      * all elements that pass the test implemented by the provided
      * function.
@@ -438,7 +459,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
    */
   defer(statics) {
     var install = function (key, name) {
-      if (!qx.core.Environment.get(key)) {
+      if (key === null || !qx.core.Environment.get(key)) {
         Object.defineProperty(Array.prototype, name, {
           enumerable: false,
           value: statics[name]
@@ -449,6 +470,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
     install("ecmascript.array.indexof", "indexOf");
     install("ecmascript.array.lastindexof", "lastIndexOf");
     install("ecmascript.array.foreach", "forEach");
+    install(null, "forEachAsync");
     install("ecmascript.array.filter", "filter");
     install("ecmascript.array.map", "map");
     install("ecmascript.array.some", "some");

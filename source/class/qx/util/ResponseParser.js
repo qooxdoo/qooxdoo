@@ -24,6 +24,8 @@
  * @require(qx.util.ResponseParser#parse)
  */
 qx.Bootstrap.define("qx.util.ResponseParser", {
+  extend: qx.core.Object,
+
   /**
    * @param parser {String|Function} See {@link #setParser}.
    */
