@@ -16,7 +16,7 @@ you output will be validated against the `compile.json` schema.
 
 ### Getting Started
 
-The compiler uses two API classes: `qx.tool.cli.api.CompilerApi` and
+The compiler uses two API classes: `qx.tool.compiler.cli.api.LibraryApi` and
 `qx.tool.cli.api.LibraryApi`; it will create an instance of `CompilerApi` in
 order to load the `compile.json` for your application, and in your `compile.js`
 you can change how this works by creating your own class which is derived from
@@ -32,7 +32,7 @@ For example, this is an empty `compile.js`:
 ```javascript
 module.exports = {
     LibraryApi: qx.tool.cli.api.LibraryApi,
-    CompilerApi: qx.tool.cli.api.CompilerApi
+    CompilerApi: qx.tool.compiler.cli.api.LibraryApi
 };
 ```
 
@@ -47,7 +47,7 @@ standard API classes and return that instead:
 
 ```javascript
 qx.Class.define("myapp.compile.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
 
   members: {
     async load() {
@@ -72,7 +72,7 @@ Let's do something more interesting, and edit the data on the fly:
 
 ```javascript
 qx.Class.define("myapp.compile.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
 
   members: {
     async load() {
@@ -176,7 +176,7 @@ Alternatively you can attach [event handlers](../internals/Events.md)
 directly to the [Compiler API](../compiler/API.md). In addition, both APIs provide
 hook methods which are triggered by these events:
 
-`qx.tool.cli.api.CompilerApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.CompilerApi)
+`qx.tool.compiler.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.compiler.cli.api.LibraryApi)
 - `load()`: Called to update the compilerConfig
 - `afterCommandLoaded()`: Called after the command is known to the CompilerApi. Can be used to register listeners to the command. Instead of overload this function you can add a listener to the `changeCommand` event.
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data

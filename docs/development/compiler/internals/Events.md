@@ -55,7 +55,7 @@ events:
 Here is an example how to add some stuff to the express server when you run qx start:
 ```javascript
 qx.Class.define("myApp.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
   members: {
     async load() {
       this.addListener("changeCommand", function () {
@@ -86,7 +86,7 @@ events:
 Here is an example how to write your own test using the events in your `compile.js` file:
 ```javascript
 qx.Class.define("myApp.CompilerApi", {
-  extend: qx.tool.cli.api.CompilerApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
   members: {
     async load() {
       this.addListener("changeCommand", function () {
