@@ -55,7 +55,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      */
     __getFilename() {
       return path.join(
-        qx.tool.cli.ConfigDb.getDirectory(),
+        qx.tool.compiler.cli.ConfigDb.getDirectory(),
         "versions",
         "versions.txt"
       );
@@ -102,7 +102,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
       this.__db = {};
       try {
         await fs.promises.rm(
-          path.join(qx.tool.cli.ConfigDb.getDirectory(), "versions"),
+          path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "versions"),
           {
             recursive: true,
             force: true
@@ -145,7 +145,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
           let version = match[1];
           if (semver.satisfies(version, versionToMatch)) {
             let dirname = path.join(
-              qx.tool.cli.ConfigDb.getDirectory(),
+              qx.tool.compiler.cli.ConfigDb.getDirectory(),
               "versions",
               "v" + version
             );

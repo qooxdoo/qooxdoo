@@ -4,7 +4,7 @@ if (!qx.tool.compiler?.cli?.api) {
   return;
 }
 
-qx.Class.define("qx.compiler.CompilerApi", {
+qx.Class.define("qx.compile.CompilerApi", {
   extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
@@ -100,7 +100,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         return;
       }
       // token
-      let cfg = await qx.tool.cli.ConfigDb.getInstance();
+      let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
       let npm = cfg.db("npm", {});
       if (!npm.token) {
         // call require("inquirer") here - not in the head.
@@ -255,5 +255,5 @@ qx.Class.define("qx.compiler.CompilerApi", {
 });
 
 module.exports = {
-  CompilerApi: qx.compiler.CompilerApi
+  CompilerApi: qx.compile.CompilerApi
 };

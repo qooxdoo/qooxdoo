@@ -3,7 +3,7 @@ const path = require("upath");
 const process = require("process");
 const { performance } = require('perf_hooks');
 
-qx.Class.define("qx.compiler.CompilerApi", {
+qx.Class.define("qx.test.tool.compile.CompilerApi", {
   extend: qx.tool.compiler.cli.api.CompilerApi,
 
   members: {
@@ -100,5 +100,5 @@ qx.Class.define("qx.compiler.CompilerApi", {
 });
 
 module.exports = {
-  CompilerApi: qx.compiler.CompilerApi
+  CompilerApi: qx.test.tool.compile.CompilerApi
 };
