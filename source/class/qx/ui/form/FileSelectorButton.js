@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
      * `user` indicates the user-facing camera.
      * `environment` indicates the camera facing away from the user.
      */
-    capture: {
+    captureCamera: {
       nullable: true,
       check: ["user", "environment"],
       apply: "_applyAttribute"

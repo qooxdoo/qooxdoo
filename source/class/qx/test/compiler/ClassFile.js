@@ -17,6 +17,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
   extend: qx.dev.unit.TestCase,
 
   construct() {
+    super();
     this.__lib = new qx.tool.compiler.app.Library();
     this.__analyser = new qx.tool.compiler.Analyser();
     this.__analyser.setOutputDir("tmp/unittest");

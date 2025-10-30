@@ -30,6 +30,22 @@
  * * user friendly OO interfaces like {@link #self} or {@link #base}
  *
  * @require(qx.core.ObjectRegistry)
+ * @require(qx.core.property.Property)
+ * @require(qx.core.property.PropertyStorageFactory)
+ * @require(qx.core.property.SimplePropertyStorage)
+ * @require(ExplicitPropertyStorage)
+ * @require(GroupProperty)
+ * @require(ImmutableArrayStorage)
+ * @require(ImmutableDataArrayStorage)
+ * @require(ImmutableObjectStorage)
+ * @require(Property)
+ * @require(PropertyStorageFactory)
+ * @require(PseudoPropertyStorage)
+ * @require(SimplePropertyStorage)
+ * @require(qx.core.check.Any)
+ * @require(qx.core.check.CheckFactory)
+ * @require(qx.core.check.JsDocCheck)
+ * @require(qx.core.check.SimpleCheck)
  */
 qx.Class.define("qx.core.Object", {
   extend: Object,
@@ -37,9 +53,9 @@ qx.Class.define("qx.core.Object", {
     "module.databinding": qx.data.MBinding,
     "module.logger": qx.core.MLogging,
     "module.events": qx.core.MEvent,
-    "module.property": qx.core.MProperty,
     "module.objectid": qx.core.MObjectId,
-    "qx.debug": qx.core.MAssert
+    "qx.debug": qx.core.MAssert,
+    true: qx.core.MProperty
   }),
 
   /*
@@ -51,7 +67,9 @@ qx.Class.define("qx.core.Object", {
   /**
    * Create a new instance
    */
-  construct() {},
+  construct() {
+    this.$$propertyValues = {};
+  },
 
   /*
   *****************************************************************************
@@ -61,7 +79,7 @@ qx.Class.define("qx.core.Object", {
 
   statics: {
     /** Internal type */
-    $$type: "Object"
+    $$type: "Class"
   },
 
   /*
@@ -71,10 +89,6 @@ qx.Class.define("qx.core.Object", {
   */
 
   members: {
-    __Property: qx.core.Environment.get("module.property")
-      ? qx.core.Property
-      : null,
-
     /*
     ---------------------------------------------------------------------------
       BASICS
@@ -88,10 +102,7 @@ qx.Class.define("qx.core.Object", {
      */
     toHashCode() {
       if (!this.$$hash && !this.$$disposed) {
-        if (
-          !qx.core.Environment.get("qx.automaticMemoryManagement") ||
-          qx.Class.hasInterface(this.constructor, qx.core.IDisposable)
-        ) {
+        if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
           qx.core.ObjectRegistry.register(this);
         } else {
           qx.core.ObjectRegistry.toHashCode(this);
@@ -160,10 +171,7 @@ qx.Class.define("qx.core.Object", {
 
       if (qx.core.Environment.get("qx.debug")) {
         if (!qx.Bootstrap.isFunctionOrAsyncFunction(func)) {
-          throw new Error(
-            "Cannot call super class. Method is not derived: " +
-              args.callee.displayName
-          );
+          throw new Error("Cannot call super class. Method is not derived: " + args.callee.displayName);
         }
       }
 
@@ -182,44 +190,6 @@ qx.Class.define("qx.core.Object", {
      */
     self(args) {
       return args.callee.self;
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      CLONE SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     *
-     * Returns a clone of this object. Copies over all user configured
-     * property values. Do not configure a parent nor apply the appearance
-     * styles directly.
-     *
-     * @return {qx.core.Object} The clone
-     */
-    clone() {
-      if (!qx.core.Environment.get("module.property")) {
-        throw new Error("Cloning only possible with properties.");
-      }
-
-      var clazz = this.constructor;
-      var clone = new clazz();
-      var props = qx.Class.getProperties(clazz);
-      var user = this.__Property.$$store.user;
-      var setter = this.__Property.$$method.set;
-      var name;
-
-      // Iterate through properties
-      for (var i = 0, l = props.length; i < l; i++) {
-        name = props[i];
-        if (this.hasOwnProperty(user[name])) {
-          clone[setter[name]](this[user[name]]);
-        }
-      }
-
-      // Return clone
-      return clone;
     },
 
     /*
@@ -310,10 +280,7 @@ qx.Class.define("qx.core.Object", {
       // Debug output
       if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
-          qx.Bootstrap.debug(
-            this,
-            "Disposing " + this.classname + "[" + this.toHashCode() + "]"
-          );
+          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -359,11 +326,7 @@ qx.Class.define("qx.core.Object", {
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (
-              value !== null &&
-              typeof value === "object" &&
-              !qx.Bootstrap.isString(value)
-            ) {
+            if (value !== null && typeof value === "object" && !qx.Bootstrap.isString(value)) {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
               // private variables (hint: checks in qx.Class.define). We accept both.
@@ -374,14 +337,7 @@ qx.Class.define("qx.core.Object", {
               if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
                 qx.Bootstrap.warn(
                   this,
-                  "Missing destruct definition for '" +
-                    key +
-                    "' in " +
-                    this.classname +
-                    "[" +
-                    this.toHashCode() +
-                    "]: " +
-                    value
+                  "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value
                 );
 
                 delete this[key];
@@ -475,36 +431,5 @@ qx.Class.define("qx.core.Object", {
 
     // Cleanup user data
     this.__userData = null;
-
-    // only of properties are available
-    if (qx.core.Environment.get("module.property")) {
-      // Cleanup properties
-      var clazz = this.constructor;
-      var properties;
-      var store = this.__Property.$$store;
-      var storeUser = store.user;
-      var storeTheme = store.theme;
-      var storeInherit = store.inherit;
-      var storeUseinit = store.useinit;
-      var storeInit = store.init;
-
-      while (clazz) {
-        properties = clazz.$$properties;
-        if (properties) {
-          for (var name in properties) {
-            if (properties[name].dereference) {
-              this[storeUser[name]] =
-                this[storeTheme[name]] =
-                this[storeInherit[name]] =
-                this[storeUseinit[name]] =
-                this[storeInit[name]] =
-                  undefined;
-            }
-          }
-        }
-
-        clazz = clazz.superclass;
-      }
-    }
   }
 });

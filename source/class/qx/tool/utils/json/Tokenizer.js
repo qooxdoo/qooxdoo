@@ -59,6 +59,11 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
   },
 
   members: {
+    input : undefined,
+    settings : undefined,
+    tokens : undefined,
+    tokenIndex : undefined,
+
     token() {
       if (this.tokens === null) {
         throw new Error("No tokens to return (have you called tokenize?)");

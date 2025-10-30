@@ -69,11 +69,11 @@ qx.Class.define("qx.io.request.Xhr", {
    * @param method {String?} The HTTP method.
    */
   construct(url, method) {
+    super(url);
     if (method !== undefined) {
       this.setMethod(method);
     }
 
-    super(url);
     this._parser = this._createResponseParser();
   },
 
@@ -237,9 +237,7 @@ qx.Class.define("qx.io.request.Xhr", {
     // overridden
     _getConfiguredRequestHeaders() {
       var headers = {},
-        isAllowsBody = qx.util.Request.methodAllowsRequestBody(
-          this.getMethod()
-        ),
+        isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
         isFormData = qx.Bootstrap.getClass(this.getRequestData()) == "FormData";
 
       // Follow convention to include X-Requested-With header when same origin
@@ -299,10 +297,7 @@ qx.Class.define("qx.io.request.Xhr", {
      * @return {String|Object} The parsed response of the request.
      */
     _getParsedResponse() {
-      var response =
-          this._transport.responseType === "blob"
-            ? this._transport.response
-            : this._transport.responseText,
+      var response = this._transport.responseType === "blob" ? this._transport.response : this._transport.responseText,
         contentType = this.getResponseContentType() || "",
         parsedResponse = "";
 

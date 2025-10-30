@@ -1199,6 +1199,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             environment: "object", // Map
             defer: "function" // Function
           },
+
           normal: {
             "@": "object",
             "@construct": "object",
@@ -1208,6 +1209,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             implement: "object", // Interface[]
             include: "object", // Mixin[]
             construct: "function", // Function
+            delegate: "object", // Map
             statics: "object", // Map
             properties: "object", // Map
             members: "object", // Map
@@ -1358,9 +1360,20 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         if (isSpecialFunctionName) {
           makeMeta(keyName, null, functionNode);
         }
-        enterFunction(path, functionNode);
+        const FUNCTION_NODE_TYPES = {
+          FunctionExpression: true,
+          ArrowFunctionExpression: true,
+          FunctionDeclaration: true,
+          ObjectMethod: true
+        };
+        let isFunction = FUNCTION_NODE_TYPES[functionNode.type];
+        if (isFunction) {
+          enterFunction(path, functionNode);
+        }
         path.traverse(VISITOR);
-        exitFunction(path, functionNode);
+        if (isFunction) {
+          exitFunction(path, functionNode);
+        }
         path.skip();
         t.__classMeta.functionName = null;
       }

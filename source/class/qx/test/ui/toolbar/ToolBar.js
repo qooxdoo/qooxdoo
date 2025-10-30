@@ -41,13 +41,13 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar", {
       this.__toolbar.add(this.__b2);
 
       // set a value and check if the buttons get synced
-      this.__toolbar.setShow("label");
-      this.assertEquals("label", this.__b1.getShow());
-      this.assertEquals("label", this.__b2.getShow());
+      this.__toolbar.setShowFeatures("label");
+      this.assertEquals("label", this.__b1.getShowFeatures());
+      this.assertEquals("label", this.__b2.getShowFeatures());
 
       // add another button and check if the value has been applied
       this.__toolbar.add(this.__b3);
-      this.assertEquals("label", this.__b3.getShow());
+      this.assertEquals("label", this.__b3.getShowFeatures());
     },
 
     testPositionStates() {
@@ -118,27 +118,27 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar", {
       this.__toolbar.add(this.__b2);
 
       // assert 'label' isn't default show val
-      this.assertNotEquals("label", this.__b1.getShow());
-      this.assertNotEquals("label", this.__b2.getShow());
+      this.assertNotEquals("label", this.__b1.getShowFeatures());
+      this.assertNotEquals("label", this.__b2.getShowFeatures());
 
       // initialize toolbar with 'label'
-      this.__toolbar.setShow("label");
-      this.assertEquals("label", this.__b1.getShow());
-      this.assertEquals("label", this.__b2.getShow());
+      this.__toolbar.setShowFeatures("label");
+      this.assertEquals("label", this.__b1.getShowFeatures());
+      this.assertEquals("label", this.__b2.getShowFeatures());
 
       // override it for button1
-      this.__b1.setShow("icon");
-      this.assertEquals("icon", this.__b1.getShow());
-      this.assertEquals("label", this.__b2.getShow());
+      this.__b1.setShowFeatures("icon");
+      this.assertEquals("icon", this.__b1.getShowFeatures());
+      this.assertEquals("label", this.__b2.getShowFeatures());
 
       // change it afterwards
-      this.__toolbar.setShow("both");
+      this.__toolbar.setShowFeatures("both");
       this.__toolbar.add(this.__b3);
 
       // assert all 'both'
-      this.assertEquals("both", this.__b1.getShow());
-      this.assertEquals("both", this.__b2.getShow());
-      this.assertEquals("both", this.__b3.getShow());
+      this.assertEquals("both", this.__b1.getShowFeatures());
+      this.assertEquals("both", this.__b2.getShowFeatures());
+      this.assertEquals("both", this.__b3.getShowFeatures());
     },
 
     testRemoveChildByIndex() {

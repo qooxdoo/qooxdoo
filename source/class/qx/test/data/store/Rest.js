@@ -83,7 +83,7 @@ qx.Class.define("qx.test.data.store.Rest", {
           store = new qx.data.store.Rest(null, "index");
         },
         Error,
-        /property res/
+        /property.+res/
       );
 
       store && store.dispose();
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.data.store.Rest", {
 
       this.assertException(function () {
         store = new qx.data.store.Rest({}, "index");
-      }, qx.core.AssertionError);
+      }, Error);
       store && store.dispose();
     },
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.data.store.Rest", {
           store = new qx.data.store.Rest(res, null);
         },
         Error,
-        /property actionName/
+        /property.*actionName/
       );
 
       store && store.dispose();

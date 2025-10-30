@@ -32,6 +32,49 @@ qx.Class.define("qx.data.Array", {
   implement: [qx.data.IListData],
 
   /**
+   * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
+   * array. Instead of using the provided API to retrieve an indexed item
+   * (`getItem()`), store a value in an indexed item (`setItem()`), or remove
+   * an indexed item (`removeAt()`), this delegate allows those operations to
+   * use normal array operators, e.g., `value = arr[2]`, `arr[2] = 42;`,
+   * `delete arr[2]`.
+   *
+   */
+  delegate: {
+    get(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for retrieving an item
+        return this.getItem(property);
+      } else {
+        // otherwise, use the default action
+        return this[property];
+      }
+    },
+
+    set(property, value) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        // ... then use the method for modifying an item
+        this.setItem(property, value);
+      } else {
+        // otherwise, use the default action
+        this[property] = value;
+      }
+    },
+
+    delete(property) {
+      // If the property is a number or string representing a number...
+      if (typeof property != "symbol" && +property === +property) {
+        this.setItem(property, undefined);
+      } else {
+        // otherwise, use the default action
+        delete this[property];
+      }
+    }
+  },
+
+  /**
    * Creates a new instance of an array.
    *
    * @param param {var} The parameter can be some types.<br/>
@@ -78,11 +121,6 @@ qx.Class.define("qx.data.Array", {
 
     // update the length at startup
     this.__updateLength();
-
-    // work against the console printout of the array
-    if (qx.core.Environment.get("qx.debug")) {
-      this[0] = "Please use 'toArray()' to see the content.";
-    }
   },
 
   /*
@@ -129,6 +167,8 @@ qx.Class.define("qx.data.Array", {
   },
 
   members: {
+    __length: undefined,
+
     // private members
     __array: null,
 
@@ -195,11 +235,11 @@ qx.Class.define("qx.data.Array", {
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener
-      this._registerEventChaining(null, item, this.length - 1);
+      this._registerEventChaining(null, item, this.__length - 1);
       // fire change bubble event
       this.fireDataEvent("changeBubble", {
         value: [],
-        name: this.length + "",
+        name: this.__length + "",
         old: [item],
         item: this
       });
@@ -207,8 +247,8 @@ qx.Class.define("qx.data.Array", {
       this.fireDataEvent(
         "change",
         {
-          start: this.length - 1,
-          end: this.length - 1,
+          start: this.__length - 1,
+          end: this.__length - 1,
           type: "remove",
           removed: [item],
           added: []
@@ -233,12 +273,12 @@ qx.Class.define("qx.data.Array", {
         this.__array.push(arguments[i]);
         this.__updateLength();
         // apply to every pushed item an event listener for the bubbling
-        this._registerEventChaining(arguments[i], null, this.length - 1);
+        this._registerEventChaining(arguments[i], null, this.__length - 1);
 
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
           value: [arguments[i]],
-          name: this.length - 1 + "",
+          name: this.__length - 1 + "",
           old: [],
           item: this
         });
@@ -247,8 +287,8 @@ qx.Class.define("qx.data.Array", {
         this.fireDataEvent(
           "change",
           {
-            start: this.length - 1,
-            end: this.length - 1,
+            start: this.__length - 1,
+            end: this.__length - 1,
             type: "add",
             added: [arguments[i]],
             removed: []
@@ -257,7 +297,7 @@ qx.Class.define("qx.data.Array", {
           null
         );
       }
-      return this.length;
+      return this.__length;
     },
 
     /**
@@ -265,20 +305,20 @@ qx.Class.define("qx.data.Array", {
      */
     reverse() {
       // ignore on empty arrays
-      if (this.length == 0) {
+      if (this.__length == 0) {
         return;
       }
 
       var oldArray = this.__array.concat();
       this.__array.reverse();
 
-      this.__updateEventPropagation(0, this.length);
+      this.__updateEventPropagation(0, this.__length);
 
       this.fireDataEvent(
         "change",
         {
           start: 0,
-          end: this.length - 1,
+          end: this.__length - 1,
           type: "order",
           added: [],
           removed: []
@@ -304,16 +344,16 @@ qx.Class.define("qx.data.Array", {
      */
     shift() {
       // ignore on empty arrays
-      if (this.length == 0) {
+      if (this.__length == 0) {
         return;
       }
 
       var item = this.__array.shift();
       this.__updateLength();
       // remove the possible added event listener
-      this._registerEventChaining(null, item, this.length - 1);
+      this._registerEventChaining(null, item, this.__length - 1);
       // as every item has changed its position, we need to update the event bubbling
-      this.__updateEventPropagation(0, this.length);
+      this.__updateEventPropagation(0, this.__length);
 
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
@@ -328,7 +368,7 @@ qx.Class.define("qx.data.Array", {
         "change",
         {
           start: 0,
-          end: this.length - 1,
+          end: this.__length - 1,
           type: "remove",
           removed: [item],
           added: []
@@ -405,11 +445,10 @@ qx.Class.define("qx.data.Array", {
           end = startIndex + addedItems.length;
         } else if (addedItems.length == 0) {
           type = "remove";
-          end = this.length - 1;
+          end = this.__length - 1;
         } else {
           type = "add/remove";
-          end =
-            startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+          end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
 
         this.fireDataEvent(
@@ -436,10 +475,7 @@ qx.Class.define("qx.data.Array", {
         this._registerEventChaining(arguments[i], null, startIndex + (i - 2));
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(
-        startIndex + (arguments.length - 2) - amount,
-        this.length
-      );
+      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.__length);
 
       // fire the changeBubble event
       if (removed || added) {
@@ -448,8 +484,7 @@ qx.Class.define("qx.data.Array", {
           value[i - 2] = arguments[i];
         }
         var endIndex = startIndex + Math.max(arguments.length - 3, amount - 1);
-        var name =
-          startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
+        var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
         var eventData = {
           value: value,
@@ -492,7 +527,7 @@ qx.Class.define("qx.data.Array", {
      */
     sort(func) {
       // ignore if the array is empty
-      if (this.length == 0) {
+      if (this.__length == 0) {
         return;
       }
       var oldArray = this.__array.concat();
@@ -504,13 +539,13 @@ qx.Class.define("qx.data.Array", {
         return;
       }
 
-      this.__updateEventPropagation(0, this.length);
+      this.__updateEventPropagation(0, this.__length);
 
       this.fireDataEvent(
         "change",
         {
           start: 0,
-          end: this.length - 1,
+          end: this.__length - 1,
           type: "order",
           added: [],
           removed: []
@@ -522,7 +557,7 @@ qx.Class.define("qx.data.Array", {
       // fire change bubbles event
       this.fireDataEvent("changeBubble", {
         value: this.__array,
-        name: "0-" + (this.length - 1),
+        name: "0-" + (this.__length - 1),
         old: oldArray,
         item: this
       });
@@ -540,7 +575,7 @@ qx.Class.define("qx.data.Array", {
         this.__array.unshift(arguments[i]);
         this.__updateLength();
         // apply to every item an event listener for the bubbling
-        this.__updateEventPropagation(0, this.length);
+        this.__updateEventPropagation(0, this.__length);
 
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
@@ -555,7 +590,7 @@ qx.Class.define("qx.data.Array", {
           "change",
           {
             start: 0,
-            end: this.length - 1,
+            end: this.__length - 1,
             type: "add",
             added: [arguments[i]],
             removed: []
@@ -564,7 +599,7 @@ qx.Class.define("qx.data.Array", {
           null
         );
       }
-      return this.length;
+      return this.__length;
     },
 
     /**
@@ -610,7 +645,7 @@ qx.Class.define("qx.data.Array", {
       // set an event listener for the bubbling
       this._registerEventChaining(item, oldItem, index);
       // only update the length if its changed
-      if (this.length != this.__array.length) {
+      if (this.__length != this.__array.length) {
         this.__updateLength();
       }
 
@@ -644,7 +679,7 @@ qx.Class.define("qx.data.Array", {
      * @return {Number} The current length of the array.
      */
     getLength() {
-      return this.length;
+      return this.__length;
     },
 
     /**
@@ -751,7 +786,7 @@ qx.Class.define("qx.data.Array", {
     insertAfter(after, item) {
       var index = this.indexOf(after);
 
-      if (index == -1 || index == this.length - 1) {
+      if (index == -1 || index == this.__length - 1) {
         this.push(item);
       } else {
         this.splice(index + 1, 0, item).dispose();
@@ -845,14 +880,11 @@ qx.Class.define("qx.data.Array", {
         this._registerEventChaining(array[i], null, oldLength + i);
       }
 
-      var oldLength = this.length;
+      var oldLength = this.__length;
       this.__updateLength();
 
       // fire change bubbles
-      var name =
-        oldLength == this.length - 1
-          ? oldLength
-          : oldLength + "-" + (this.length - 1);
+      var name = oldLength == this.__length - 1 ? oldLength : oldLength + "-" + (this.__length - 1);
       this.fireDataEvent("changeBubble", {
         value: array,
         name: name + "",
@@ -865,7 +897,7 @@ qx.Class.define("qx.data.Array", {
         "change",
         {
           start: oldLength,
-          end: this.length - 1,
+          end: this.__length - 1,
           type: "add",
           added: array,
           removed: []
@@ -910,12 +942,12 @@ qx.Class.define("qx.data.Array", {
      * @return {Boolean} Whether the two arrays are equal.
      */
     equals(array) {
-      if (this.length !== array.length) {
+      if (this.__length !== array.length) {
         return false;
       }
 
       array = qx.lang.Array.toNativeArray(array);
-      for (var i = 0; i < this.length; i++) {
+      for (var i = 0; i < this.__length; i++) {
         if (this.getItem(i) !== array[i]) {
           return false;
         }
@@ -932,7 +964,7 @@ qx.Class.define("qx.data.Array", {
      */
     sum() {
       var result = 0;
-      for (var i = 0; i < this.length; i++) {
+      for (var i = 0; i < this.__length; i++) {
         result += this.getItem(i);
       }
 
@@ -949,7 +981,7 @@ qx.Class.define("qx.data.Array", {
     max() {
       var result = this.getItem(0);
 
-      for (var i = 1; i < this.length; i++) {
+      for (var i = 1; i < this.__length; i++) {
         if (this.getItem(i) > result) {
           result = this.getItem(i);
         }
@@ -968,7 +1000,7 @@ qx.Class.define("qx.data.Array", {
     min() {
       var result = this.getItem(0);
 
-      for (var i = 1; i < this.length; i++) {
+      for (var i = 1; i < this.__length; i++) {
         if (this.getItem(i) < result) {
           result = this.getItem(i);
         }
@@ -986,9 +1018,22 @@ qx.Class.define("qx.data.Array", {
      * @param context {var?} The context in which the callback will be invoked.
      */
     forEach(callback, context) {
-      this.__array.forEach((element, index) =>
-        callback.call(context, element, index, this)
-      );
+      this.__array.forEach((element, index) => callback.call(context, element, index, this));
+    },
+
+    /**
+     * Invokes the given function for every item in the array, using await to wait for the result
+     *
+     * @param callback {Function} The function which will be call for every
+     *   item in the array. It will be invoked with three parameters:
+     *   the item, the index and the array itself.
+     * @param context {var?} The context in which the callback will be invoked.
+     */
+    async forEachAsync(callback, context) {
+      for (var index = 0; index < this.__array.length; index++) {
+        var element = this.__array[index];
+        await callback.call(context, element, index, this);
+      }
     },
 
     /*
@@ -1119,9 +1164,9 @@ qx.Class.define("qx.data.Array", {
      * event will be fired.
      */
     __updateLength() {
-      var oldLength = this.length;
-      this.length = this.__array.length;
-      this.fireDataEvent("changeLength", this.length, oldLength);
+      var oldLength = this.__length;
+      this.__length = this.__array.length;
+      this.fireDataEvent("changeLength", this.__length, oldLength);
     },
 
     /**

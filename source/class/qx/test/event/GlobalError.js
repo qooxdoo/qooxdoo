@@ -198,7 +198,7 @@ qx.Class.define("qx.test.event.GlobalError", {
       window.onerror = function (msg, uri, lineNumber) {
         wasNativeHandled = true;
 
-        self.assertMatch(msg, "Doofer Fehler");
+        self.assertMatch(msg, "Doofer Fehler 2");
         self.assertString(uri);
         self.assertInteger(lineNumber);
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.test.event.GlobalError", {
 
       // callback is NOT wrapped!
       window.setTimeout(function () {
-        throw new Error("Doofer Fehler");
+        throw new Error("Doofer Fehler 2");
       }, 0);
 
       // Opera and Webkit do not support window.onerror

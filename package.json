@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.9.2",
+  "version": "8.0.0-beta",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "keywords": [
@@ -99,6 +99,7 @@
     "glob": "^7.1.6",
     "image-size": "^0.8.3",
     "inquirer": "^7.3.3",
+    "jsdoctypeparser": "^9.0.0",
     "json-stable-stringify": "^1.0.2",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.6.1",
@@ -121,7 +122,8 @@
     "upath": "^1.2.0",
     "update-notifier": "^6.0.2",
     "xml2js": "^0.6.2",
-    "yargs": "^15.4.1"
+    "yargs": "^15.4.1",
+    "yauzl-promise": "^4.0.0"
   },
   "devDependencies": {
     "dirsum": "^0.1.1",
