@@ -168,7 +168,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       );
 
       focusedWidget = qx.ui.core.Widget.getWidgetByElement(
-        focusHandler.getFocus()
+        focusHandler.getFocusedElement()
       );
 
       this.assertFalse(
@@ -188,7 +188,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       this.assertTrue(activeWidget === txt1, "text field 1 must be active");
 
       focusedWidget = qx.ui.core.Widget.getWidgetByElement(
-        focusHandler.getFocus()
+        focusHandler.getFocusedElement()
       );
 
       this.assertTrue(focusedWidget === txt2, "text field 2 must be focused");
@@ -227,7 +227,8 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
 
       // text field must not be focused
-      widget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      widget =
+        qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocusedElement());
       this.assertFalse(
         widget === txt,
         "text field must be focused, because it is destroyed"

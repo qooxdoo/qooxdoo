@@ -53,6 +53,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp", {
   extend: qx.bom.request.Script,
 
   construct() {
+    super();
     // Borrow super-class constructor
     qx.bom.request.Script.apply(this);
 
@@ -128,9 +129,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp", {
       this.__callbackCalled = false;
 
       callbackParam = this.__callbackParam || "callback";
-      callbackName =
-        this.__callbackName ||
-        this.__prefix + "qx.bom.request.Jsonp." + this.__id + ".callback";
+      callbackName = this.__callbackName || this.__prefix + "qx.bom.request.Jsonp." + this.__id + ".callback";
 
       // Default callback
       if (!this.__callbackName) {
@@ -149,19 +148,13 @@ qx.Bootstrap.define("qx.bom.request.Jsonp", {
           };
         } else {
           if (qx.core.Environment.get("qx.debug.io")) {
-            qx.Bootstrap.debug(
-              qx.bom.request.Jsonp,
-              "Callback " + this.__callbackName + " already exists"
-            );
+            qx.Bootstrap.debug(qx.bom.request.Jsonp, "Callback " + this.__callbackName + " already exists");
           }
         }
       }
 
       if (qx.core.Environment.get("qx.debug.io")) {
-        qx.Bootstrap.debug(
-          qx.bom.request.Jsonp,
-          "Expecting JavaScript response to call: " + callbackName
-        );
+        qx.Bootstrap.debug(qx.bom.request.Jsonp, "Expecting JavaScript response to call: " + callbackName);
       }
 
       query[callbackParam] = callbackName;
@@ -313,8 +306,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp", {
     __generateId() {
       // Add random digits to date to allow immediately following requests
       // that may be send at the same time
-      this.__id =
-        "qx" + new Date().valueOf() + ("" + Math.random()).substring(2, 5);
+      this.__id = "qx" + new Date().valueOf() + ("" + Math.random()).substring(2, 5);
     }
   }
 });

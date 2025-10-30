@@ -24,7 +24,7 @@ tmp/
 /build.log
 /html
 /lib
-/compiled
+/compiled*
 /apps
 /deploy
 /build
@@ -43,3 +43,6 @@ npm-debug.log
 .nyc*
 /.vscode
 /.claude/settings.local.*
+compiled-zen
+compiled-master
+compiled-v8

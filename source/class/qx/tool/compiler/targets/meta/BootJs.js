@@ -43,6 +43,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
   },
 
   members: {
+    __embeddedJsLookup : undefined,
+
     __embeddedJs: null,
     __sourceMapOffsets: null,
 

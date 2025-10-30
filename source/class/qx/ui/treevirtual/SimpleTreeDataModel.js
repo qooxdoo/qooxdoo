@@ -871,7 +871,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
     clearData(bRerender = true) {
       this._checkEditing();
       this._clearSelections();
-      this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()], bRerender);
+      this.setData(
+        [qx.ui.treevirtual.MTreePrimitive._getEmptyTree()],
+        bRerender
+      );
     },
 
     /**

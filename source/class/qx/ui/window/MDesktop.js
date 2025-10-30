@@ -38,7 +38,8 @@ qx.Mixin.define("qx.ui.window.MDesktop", {
       apply: "_applyActiveWindow",
       event: "changeActiveWindow",
       init: null,
-      nullable: true
+      nullable: true,
+      autoApply: false
     }
   },
 

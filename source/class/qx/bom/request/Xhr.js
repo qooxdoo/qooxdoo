@@ -80,26 +80,19 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
   implement: [qx.core.IDisposable],
 
   construct() {
+    super();
     var boundFunc = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
 
     // GlobalError shouldn't be included in qx.Website builds so use it
     // if it's available but otherwise ignore it (see ignore stated above).
-    if (
-      qx.event &&
-      qx.event.GlobalError &&
-      qx.event.GlobalError.observeMethod
-    ) {
-      this.__onNativeReadyStateChangeBound =
-        qx.event.GlobalError.observeMethod(boundFunc);
+    if (qx.event && qx.event.GlobalError && qx.event.GlobalError.observeMethod) {
+      this.__onNativeReadyStateChangeBound = qx.event.GlobalError.observeMethod(boundFunc);
     } else {
       this.__onNativeReadyStateChangeBound = boundFunc;
     }
 
     this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
-    this.__onNativeProgressBound = qx.Bootstrap.bind(
-      this.__onNativeProgress,
-      this
-    );
+    this.__onNativeProgressBound = qx.Bootstrap.bind(this.__onNativeProgress, this);
 
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
@@ -252,10 +245,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
 
       // BUGFIX
       // IE < 9 and FF < 3.5 cannot reuse the native XHR to issue many requests
-      if (
-        !this.__supportsManyRequests() &&
-        this.readyState > qx.bom.request.Xhr.UNSENT
-      ) {
+      if (!this.__supportsManyRequests() && this.readyState > qx.bom.request.Xhr.UNSENT) {
         // XmlHttpRequest Level 1 requires open() to abort any pending requests
         // associated to the object. Since we're dealing with a new object here,
         // we have to emulate this behavior. Moreover, allow old native XHR to be garbage collected
@@ -270,20 +260,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       }
 
       // Restore handler in case it was removed before
-      this.__nativeXhr.onreadystatechange =
-        this.__onNativeReadyStateChangeBound;
+      this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       try {
         if (qx.core.Environment.get("qx.debug.io")) {
-          qx.Bootstrap.debug(
-            qx.bom.request.Xhr,
-            "Open native request with method: " +
-              method +
-              ", url: " +
-              url +
-              ", async: " +
-              async
-          );
+          qx.Bootstrap.debug(qx.bom.request.Xhr, "Open native request with method: " + method + ", url: " + url + ", async: " + async);
         }
 
         this.__nativeXhr.open(method, url, async, user, password);
@@ -323,12 +304,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
             if (qx.core.Environment.get("qx.debug.io")) {
               qx.Bootstrap.debug(
                 qx.bom.request.Xhr,
-                "Retry open native request with method: " +
-                  method +
-                  ", url: " +
-                  url +
-                  ", async: " +
-                  async
+                "Retry open native request with method: " + method + ", url: " + url + ", async: " + async
               );
             }
             this.__nativeXhr.open(method, url, async, user, password);
@@ -393,12 +369,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       this.__checkDisposed();
 
       // Detect conditional requests
-      if (
-        key == "If-Match" ||
-        key == "If-Modified-Since" ||
-        key == "If-None-Match" ||
-        key == "If-Range"
-      ) {
+      if (key == "If-Match" || key == "If-Modified-Since" || key == "If-None-Match" || key == "If-Range") {
         this.__conditional = true;
       }
 
@@ -435,10 +406,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       // browsers there is an additional call to ontimeout(), but this call
       // should not harm.
       //
-      if (
-        qx.core.Environment.get("engine.name") === "opera" &&
-        this.timeout === 0
-      ) {
+      if (qx.core.Environment.get("engine.name") === "opera" && this.timeout === 0) {
         this.timeout = 10000;
       }
 
@@ -457,10 +425,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       // an SendError in Firefox (at least <= 31) and to harmonize it with the
       // behaviour of all other browsers (Chrome, IE and Safari)
       var dataType = qx.Bootstrap.getClass(data);
-      data =
-        data !== null && this.__dataTypeWhiteList.indexOf(dataType) === -1
-          ? data.toString()
-          : data;
+      data = data !== null && this.__dataTypeWhiteList.indexOf(dataType) === -1 ? data.toString() : data;
 
       // Some browsers may throw an error when sending of async request fails.
       // This violates the spec which states only sync requests should.
@@ -626,10 +591,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
     getResponseHeader(header) {
       this.__checkDisposed();
 
-      if (
-        qx.core.Environment.get("browser.documentmode") === 9 &&
-        this.__nativeXhr.aborted
-      ) {
+      if (qx.core.Environment.get("browser.documentmode") === 9 && this.__nativeXhr.aborted) {
         return "";
       }
 
@@ -644,10 +606,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
     getAllResponseHeaders() {
       this.__checkDisposed();
 
-      if (
-        qx.core.Environment.get("browser.documentmode") === 9 &&
-        this.__nativeXhr.aborted
-      ) {
+      if (qx.core.Environment.get("browser.documentmode") === 9 && this.__nativeXhr.aborted) {
         return "";
       }
 
@@ -889,8 +848,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       this.__nativeXhr = this._createNativeXhr();
 
       // Track native ready state changes
-      this.__nativeXhr.onreadystatechange =
-        this.__onNativeReadyStateChangeBound;
+      this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       // Track native abort, when supported
       if (qx.Bootstrap.getClass(this.__nativeXhr.onabort) !== "Undefined") {
@@ -912,14 +870,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       this.__disposed = this.__send = this.__abort = false;
 
       // Initialize data white list
-      this.__dataTypeWhiteList = [
-        "ArrayBuffer",
-        "Blob",
-        "File",
-        "HTMLDocument",
-        "String",
-        "FormData"
-      ];
+      this.__dataTypeWhiteList = ["ArrayBuffer", "Blob", "File", "HTMLDocument", "String", "FormData"];
     },
 
     /**
@@ -958,10 +909,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
         propertiesReadable = true;
 
       if (qx.core.Environment.get("qx.debug.io")) {
-        qx.Bootstrap.debug(
-          qx.bom.request.Xhr,
-          "Received native readyState: " + nxhr.readyState
-        );
+        qx.Bootstrap.debug(qx.bom.request.Xhr, "Received native readyState: " + nxhr.readyState);
       }
 
       // BUGFIX: IE, Firefox
@@ -978,11 +926,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       // BUGFIX: IE
       // Superfluous onreadystatechange DONE when aborting OPENED
       // without send flag
-      if (
-        this.readyState === qx.bom.request.Xhr.DONE &&
-        this.__abort &&
-        !this.__send
-      ) {
+      if (this.readyState === qx.bom.request.Xhr.DONE && this.__abort && !this.__send) {
         return;
       }
 
@@ -1179,9 +1123,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       // responseText as XML.
       if (
         qx.core.Environment.get("engine.name") == "mshtml" &&
-        (this.getResponseHeader("Content-Type") || "").match(
-          /[^\/]+\/[^\+]+\+xml/
-        ) &&
+        (this.getResponseHeader("Content-Type") || "").match(/[^\/]+\/[^\+]+\+xml/) &&
         this.responseXML &&
         !this.responseXML.documentElement
       ) {
@@ -1214,10 +1156,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       var name = qx.core.Environment.get("engine.name");
       var version = qx.core.Environment.get("browser.version");
 
-      return !(
-        (name == "mshtml" && version < 9) ||
-        (name == "gecko" && version < 3.5)
-      );
+      return !((name == "mshtml" && version < 9) || (name == "gecko" && version < 3.5));
     },
 
     /**

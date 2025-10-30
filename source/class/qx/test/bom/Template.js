@@ -40,7 +40,7 @@ qx.Class.define("qx.test.bom.Template", {
       this.assertEquals(expected, result);
     },
 
-    testFunc() {
+    testFunction() {
       var template = "{{name}} xyz";
       var view = {
         name() {

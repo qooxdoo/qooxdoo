@@ -214,6 +214,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
         application: app,
         outputdir: defaultMaker.getTarget().getOutputDir()
       });
+      let listenPort = this.argv["listen-port"] ?? config.serve.listenPort;
       server.on("error", e => {
         if (e.code === "EADDRINUSE") {
           qx.tool.compiler.Console.print(

@@ -55,19 +55,18 @@
  */
 
 qx.Bootstrap.define("qx.bom.request.Script", {
+  extend: qx.core.Object,
   implement: [qx.core.IDisposable],
 
   construct() {
+    super();
     this.__initXhrProperties();
 
     this.__onNativeLoadBound = qx.Bootstrap.bind(this._onNativeLoad, this);
     this.__onNativeErrorBound = qx.Bootstrap.bind(this._onNativeError, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this._onTimeout, this);
 
-    this.__headElement =
-      document.head ||
-      document.getElementsByTagName("head")[0] ||
-      document.documentElement;
+    this.__headElement = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
 
     this._emitter = new qx.event.Emitter();
 
@@ -177,10 +176,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
       this.__url = url;
 
       if (this.__environmentGet("qx.debug.io")) {
-        qx.Bootstrap.debug(
-          qx.bom.request.Script,
-          "Open native request with " + "url: " + url
-        );
+        qx.Bootstrap.debug(qx.bom.request.Script, "Open native request with " + "url: " + url);
       }
 
       this._readyStateChange(1);
@@ -231,10 +227,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
         that = this;
 
       if (this.timeout > 0) {
-        this.__timeoutId = window.setTimeout(
-          this.__onTimeoutBound,
-          this.timeout
-        );
+        this.__timeoutId = window.setTimeout(this.__onTimeoutBound, this.timeout);
       }
 
       if (this.__environmentGet("qx.debug.io")) {
@@ -354,10 +347,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.Bootstrap.debug(
-          "Response header cannot be determined for " +
-            "requests made with script transport."
-        );
+        qx.Bootstrap.debug("Response header cannot be determined for " + "requests made with script transport.");
       }
       return "unknown";
     },
@@ -376,10 +366,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
       }
 
       if (this.__environmentGet("qx.debug")) {
-        qx.Bootstrap.debug(
-          "Response headers cannot be determined for" +
-            "requests made with script transport."
-        );
+        qx.Bootstrap.debug("Response headers cannot be determined for" + "requests made with script transport.");
       }
 
       return "Unknown response headers";
@@ -484,18 +471,12 @@ qx.Bootstrap.define("qx.bom.request.Script", {
       // BUGFIX: IE < 9
       // When handling "readystatechange" event, skip if readyState
       // does not signal loaded script
-      if (
-        this.__environmentGet("engine.name") === "mshtml" &&
-        this.__environmentGet("browser.documentmode") < 9
-      ) {
+      if (this.__environmentGet("engine.name") === "mshtml" && this.__environmentGet("browser.documentmode") < 9) {
         if (!/loaded|complete/.test(script.readyState)) {
           return;
         } else {
           if (this.__environmentGet("qx.debug.io")) {
-            qx.Bootstrap.debug(
-              qx.bom.request.Script,
-              "Received native readyState: loaded"
-            );
+            qx.Bootstrap.debug(qx.bom.request.Script, "Received native readyState: loaded");
           }
         }
       }
@@ -646,9 +627,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
      * @return {Boolean} Whether browser supports error handler.
      */
     __supportsErrorHandler() {
-      var isLegacyIe =
-        this.__environmentGet("engine.name") === "mshtml" &&
-        this.__environmentGet("browser.documentmode") < 9;
+      var isLegacyIe = this.__environmentGet("engine.name") === "mshtml" && this.__environmentGet("browser.documentmode") < 9;
 
       var isOpera = this.__environmentGet("engine.name") === "opera";
 
@@ -670,10 +649,7 @@ qx.Bootstrap.define("qx.bom.request.Script", {
       // BUGFIX: IE < 9
       // Legacy IEs do not fire the "load" event for script elements.
       // Instead, they support the "readystatechange" event
-      if (
-        this.__environmentGet("engine.name") === "mshtml" &&
-        this.__environmentGet("browser.documentmode") < 9
-      ) {
+      if (this.__environmentGet("engine.name") === "mshtml" && this.__environmentGet("browser.documentmode") < 9) {
         script.onreadystatechange = this.__onNativeLoadBound;
       }
 

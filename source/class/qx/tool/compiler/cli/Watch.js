@@ -42,7 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
   },
 
   properties: {
-    debug: {
+    debugging: {
       init: false,
       check: "Boolean"
     }
@@ -66,6 +66,8 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
   },
 
   members: {
+    _watcher: undefined,
+
     __runningPromise: null,
     __applications: null,
     __watcherReady: false,
@@ -119,6 +121,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
       console.log(
         "Starting application: " + config._cmd + " " + config._args.join(" ")
       );
+
       config._processPromise = new qx.Promise((resolve, reject) => {
         let child = (config._process = require("child_process").spawn(
           config._cmd,
@@ -142,7 +145,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
     },
 
     start() {
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         qx.tool.compiler.Console.debug("DEBUG: Starting watch");
       }
       if (this.__runningPromise) {
@@ -190,7 +193,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
           }
         }
       });
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         qx.tool.compiler.Console.debug(
           `DEBUG: applications=${JSON.stringify(
             applications.map(d => d.application.getName()),
@@ -228,7 +231,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
             })
         )
       ).then(() => {
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           qx.tool.compiler.Console.debug(
             `DEBUG: confirmed=${JSON.stringify(confirmed, 2)}`
           );
@@ -240,10 +243,12 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
           watcher.on("change", filename =>
             this.__onFileChange("change", filename)
           );
+
           watcher.on("add", filename => this.__onFileChange("add", filename));
           watcher.on("unlink", filename =>
             this.__onFileChange("unlink", filename)
           );
+
           watcher.on("ready", () => {
             qx.tool.compiler.Console.log(`Start watching ...`);
             this.__watcherReady = true;
@@ -392,7 +397,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
         var outOfDate = false;
 
         if (this.__configFilenames.find(str => str == filename)) {
-          if (this.isDebug()) {
+          if (this.isDebugging()) {
             Console.debug(`DEBUG: onFileChange: configChanged`);
           }
           this.fireEvent("configChanged");
@@ -416,7 +421,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
           }
         });
         let outOfDateAppNames = Object.keys(outOfDateApps);
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           if (outOfDateAppNames.length) {
             Console.debug(
               `DEBUG: onFileChange: ${filename} impacted applications: ${JSON.stringify(
@@ -469,7 +474,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
         if (fileType == "resource" || fileType == "theme") {
           let rm = analyser.getResourceManager();
           let target = this.__maker.getTarget();
-          if (this.isDebug()) {
+          if (this.isDebugging()) {
             Console.debug(`DEBUG: onFileChange: ${filename} is a resource`);
           }
           let asset = rm.getAsset(fName, type != "unlink");
@@ -506,7 +511,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
 
       dbc.types[type] = true;
       if (dbc.promise) {
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           Console.debug(
             `DEBUG: onFileChange: seen '${filename}', but restarting promise`
           );
@@ -519,7 +524,7 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
         dbc.timerId = null;
       }
 
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         Console.debug(`DEBUG: onFileChange: seen '${filename}', queuing`);
       }
       dbc.timerId = setTimeout(() => {

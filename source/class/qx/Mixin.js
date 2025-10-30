@@ -83,10 +83,7 @@ qx.Bootstrap.define("qx.Mixin", {
     define(name, config) {
       if (config) {
         // Normalize include
-        if (
-          config.include &&
-          !(qx.Bootstrap.getClass(config.include) === "Array")
-        ) {
+        if (config.include && !(qx.Bootstrap.getClass(config.include) === "Array")) {
           config.include = [config.include];
         }
 
@@ -148,7 +145,7 @@ qx.Bootstrap.define("qx.Mixin", {
 
       // Add basics
       mixin.$$type = "Mixin";
-      mixin.name = name;
+      mixin.mixinName = name;
 
       // Attach toString
       mixin.toString = this.genericToString;
@@ -188,50 +185,26 @@ qx.Bootstrap.define("qx.Mixin", {
 
         for (var key in mixin.events) {
           if (events[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.name +
-                '" and "' +
-                events[key] +
-                '" in member "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + events[key] + '" in member "' + key + '"!');
           }
 
-          events[key] = mixin.name;
+          events[key] = mixin.mixinName;
         }
 
         for (var key in mixin.properties) {
           if (properties[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.name +
-                '" and "' +
-                properties[key] +
-                '" in property "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + properties[key] + '" in property "' + key + '"!');
           }
 
-          properties[key] = mixin.name;
+          properties[key] = mixin.mixinName;
         }
 
         for (var key in mixin.members) {
           if (members[key]) {
-            throw new Error(
-              'Conflict between mixin "' +
-                mixin.name +
-                '" and "' +
-                members[key] +
-                '" in member "' +
-                key +
-                '"!'
-            );
+            throw new Error('Conflict between mixin "' + mixin.mixinName + '" and "' + members[key] + '" in member "' + key + '"!');
           }
 
-          members[key] = mixin.name;
+          members[key] = mixin.mixinName;
         }
       }
 
@@ -306,50 +279,58 @@ qx.Bootstrap.define("qx.Mixin", {
     },
 
     /**
-     * This method is used to determine the base method to call at runtime, and is used
-     * by Mixins where the mixin method calls `this.base()`.  It is only required by the
-     * compiler, and not the generator.
+     * This method is used to determine the base method to call at runtime,
+     * and is used by Mixins where the mixin method calls `this.base()`. It is
+     * only required by the compiler, and not the generator.
      *
-     * The problem is that while Mixin's cannot override the same methods in a single class,
-     * they can override methods that were implemented in a base base - but the compiler
-     * cannot emit compile-time code which knows the base class method because that depends
-     * on the class that the mixin is mixed-into.
+     * The problem is that while Mixin's cannot override the same methods in a
+     * single class, they can override methods that were implemented in a base
+     * base - but the compiler cannot emit compile-time code which knows the
+     * base class method because that depends on the class that the mixin is
+     * mixed-into.
      *
-     * This method will search the hierarchy of the class at runtime, and figure out the
-     * nearest superclass method to call; the result is cached, and it is acceptable for
-     * a mixin's method to override a method mixed into a superclass.
+     * This method will search the hierarchy of the class at runtime, and
+     * figure out the nearest superclass method to call; the result is cached,
+     * and it is acceptable for a mixin's method to override a method mixed
+     * into a superclass.
      *
-     * Technically, this method should be private - it is internal and no notification will
-     * be given if the API changes.  However, because it needs to be called by generated code
-     * in any class, it has to appear as public.  Do not use it directly.
+     * Technically, this method should be private - it is internal and no
+     * notification will be given if the API changes. However, because it
+     * needs to be called by generated code in any class, it has to appear as
+     * public. Do not use it directly.
      *
-     * @param clazz {Class} the class that is to be examined
-     * @param mixin {Mixin} the mixin that is calling `this.base`
-     * @param methodName {String} the name of the method in `mixin` that is calling `this.base`
-     * @return {Function} the base class function to call
+     * @param clazz {Class}
+     *   The class that is to be examined
+     *
+     * @param mixin {Mixin}
+     *   The mixin that is calling `this.base`
+     *
+     * @param methodName {String}
+     *   The name of the method in `mixin` that is calling `this.base` @return
+     *   {Function} the base class function to call
      */
     baseClassMethod(clazz, mixin, methodName) {
       if (!qx.core.Environment.get("qx.compiler")) {
         qx.log.Logger.error(
-          "qx.Mixin.baseClassMethod should not be used except with code compiled by the compiler (ie NOT the generator / python toolchain)"
+          "qx.Mixin.baseClassMethod should not be used " +
+            "except with code compiled by the compiler " +
+            "(ie NOT the generator / python toolchain)"
         );
+        return undefined;
       } else {
         if (
           clazz.$$mixinBaseClassMethods &&
-          clazz.$$mixinBaseClassMethods[mixin.name] !== undefined &&
-          clazz.$$mixinBaseClassMethods[mixin.name][methodName] !== undefined
+          clazz.$$mixinBaseClassMethods[mixin.mixinName] !== undefined &&
+          clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName] !== undefined
         ) {
-          return clazz.$$mixinBaseClassMethods[mixin.name][methodName];
+          return clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName];
         }
 
-        // Find the class which added the mixin; if it is mixed in twice, we pick the super-most class
+        // Find the class which added the mixin; if it is mixed in
+        // twice, we pick the super-most class
         var mixedInAt = null;
         var mixedInIndex = -1;
-        for (
-          var searchClass = clazz;
-          searchClass;
-          searchClass = searchClass.superclass
-        ) {
+        for (var searchClass = clazz; searchClass; searchClass = searchClass.superclass) {
           if (searchClass.$$flatIncludes) {
             var pos = searchClass.$$flatIncludes.indexOf(mixin);
             if (pos > -1) {
@@ -362,8 +343,9 @@ qx.Bootstrap.define("qx.Mixin", {
         var fn = null;
 
         if (mixedInAt) {
-          // Multiple mixins can provide an implementation, in which case the mixin which was
-          //  added second's "base" implementation is the first mixin's method
+          // Multiple mixins can provide an implementation, in which
+          //  case the mixin which was added second's "base"
+          //  implementation is the first mixin's method
           for (var i = mixedInIndex - 1; i > -1; i--) {
             var peerMixin = mixedInAt.$$flatIncludes[i];
             if (peerMixin.$$members[methodName]) {
@@ -394,18 +376,13 @@ qx.Bootstrap.define("qx.Mixin", {
           if (!clazz.$$mixinBaseClassMethods) {
             clazz.$$mixinBaseClassMethods = {};
           }
-          if (!clazz.$$mixinBaseClassMethods[mixin.name]) {
-            clazz.$$mixinBaseClassMethods[mixin.name] = {};
+          if (!clazz.$$mixinBaseClassMethods[mixin.mixinName]) {
+            clazz.$$mixinBaseClassMethods[mixin.mixinName] = {};
           }
-          clazz.$$mixinBaseClassMethods[mixin.name][methodName] = fn;
+          clazz.$$mixinBaseClassMethods[mixin.mixinName][methodName] = fn;
         } else if (qx.core.Environment.get("qx.debug")) {
           throw new Error(
-            "Cannot find base class method called " +
-              methodName +
-              " for mixin " +
-              mixin.name +
-              ", when viewed from " +
-              clazz.classname
+            "Cannot find base class method called " + methodName + " for mixin " + mixin.mixinName + ", when viewed from " + clazz.classname
           );
         }
 
@@ -427,7 +404,7 @@ qx.Bootstrap.define("qx.Mixin", {
      * @return {String} The mixin identifier
      */
     genericToString() {
-      return "[Mixin " + this.name + "]";
+      return "[Mixin " + this.mixinName + "]";
     },
 
     /** Registers all defined mixins */
@@ -462,34 +439,16 @@ qx.Bootstrap.define("qx.Mixin", {
         var allowed = this.__allowedKeys;
         for (var key in config) {
           if (!allowed[key]) {
-            throw new Error(
-              'The configuration key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '" is not allowed!'
-            );
+            throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
           }
 
           if (config[key] == null) {
-            throw new Error(
-              'Invalid key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The value is undefined/null!'
-            );
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
           }
 
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
             throw new Error(
-              'Invalid type of key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The type of the key must be "' +
-                allowed[key] +
-                '"!'
+              'Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowed[key] + '"!'
             );
           }
         }
@@ -501,18 +460,9 @@ qx.Bootstrap.define("qx.Mixin", {
 
           if (
             config[key] !== undefined &&
-            (["Array", "RegExp", "Date"].indexOf(
-              qx.Bootstrap.getClass(config[key])
-            ) != -1 ||
-              config[key].classname !== undefined)
+            (["Array", "RegExp", "Date"].indexOf(qx.Bootstrap.getClass(config[key])) != -1 || config[key].classname !== undefined)
           ) {
-            throw new Error(
-              'Invalid key "' +
-                key +
-                '" in mixin "' +
-                name +
-                '"! The value needs to be a map!'
-            );
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
           }
         }
 
@@ -521,21 +471,13 @@ qx.Bootstrap.define("qx.Mixin", {
           for (var i = 0, a = config.include, l = a.length; i < l; i++) {
             if (a[i] == null) {
               throw new Error(
-                "Includes of mixins must be mixins. The include number '" +
-                  (i + 1) +
-                  "' in mixin '" +
-                  name +
-                  "'is undefined/null!"
+                "Includes of mixins must be mixins. The include number '" + (i + 1) + "' in mixin '" + name + "'is undefined/null!"
               );
             }
 
             if (a[i].$$type !== "Mixin") {
               throw new Error(
-                "Includes of mixins must be mixins. The include number '" +
-                  (i + 1) +
-                  "' in mixin '" +
-                  name +
-                  "'is not a mixin!"
+                "Includes of mixins must be mixins. The include number '" + (i + 1) + "' in mixin '" + name + "'is not a mixin!"
               );
             }
           }

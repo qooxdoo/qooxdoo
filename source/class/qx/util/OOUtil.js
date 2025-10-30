@@ -41,15 +41,14 @@ qx.Bootstrap.define("qx.util.OOUtil", {
      * @return {Map|null} whether the object support the given event.
      */
     getPropertyDefinition(clazz, name) {
-      while (clazz) {
-        if (clazz.$$properties && clazz.$$properties[name]) {
-          return clazz.$$properties[name];
-        }
-
-        clazz = clazz.superclass;
+      let property = clazz.prototype.$$allProperties?.[name];
+      if (!property) {
+        return null;
       }
-
-      return null;
+      while (property.getSuperClass()) {
+        property = qx.Class.getByProperty(property.getSuperClass(), name);
+      }
+      return property.getDefinition();
     },
 
     /**
@@ -72,7 +71,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
      * @return {String|null} Event type of the given event.
      */
     getEventType(clazz, name) {
-      var clazz = clazz.constructor;
+      clazz = clazz.constructor;
 
       while (clazz.superclass) {
         if (clazz.$$events && clazz.$$events[name] !== undefined) {

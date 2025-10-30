@@ -16,11 +16,14 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
+
 /**
  * CSS/Style property manipulation module
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Css", {
+  extend: qx.core.Object,
+
   statics: {
     /**
      * INTERNAL
@@ -43,12 +46,7 @@ qx.Bootstrap.define("qx.module.Css", {
               visibility: "hidden"
             };
 
-            elementHeight = qx.module.Css.__swap(
-              elem,
-              stylesToSwap,
-              "_getHeight",
-              this
-            );
+            elementHeight = qx.module.Css.__swap(elem, stylesToSwap, "_getHeight", this);
           } else {
             elementHeight = qx.bom.element.Dimension.getHeight(elem);
           }
@@ -85,12 +83,7 @@ qx.Bootstrap.define("qx.module.Css", {
               visibility: "hidden"
             };
 
-            elementWidth = qx.module.Css.__swap(
-              elem,
-              stylesToSwap,
-              "_getWidth",
-              this
-            );
+            elementWidth = qx.module.Css.__swap(elem, stylesToSwap, "_getWidth", this);
           } else {
             elementWidth = qx.bom.element.Dimension.getWidth(elem);
           }
@@ -127,12 +120,7 @@ qx.Bootstrap.define("qx.module.Css", {
             display: "block"
           };
 
-          contentHeight = qx.module.Css.__swap(
-            obj,
-            stylesToSwap,
-            "_getContentHeight",
-            this
-          );
+          contentHeight = qx.module.Css.__swap(obj, stylesToSwap, "_getContentHeight", this);
         } else {
           contentHeight = qx.bom.element.Dimension.getContentHeight(obj);
         }
@@ -164,12 +152,7 @@ qx.Bootstrap.define("qx.module.Css", {
             display: "block"
           };
 
-          contentWidth = qx.module.Css.__swap(
-            obj,
-            stylesToSwap,
-            "_getContentWidth",
-            this
-          );
+          contentWidth = qx.module.Css.__swap(obj, stylesToSwap, "_getContentWidth", this);
         } else {
           contentWidth = qx.bom.element.Dimension.getContentWidth(obj);
         }

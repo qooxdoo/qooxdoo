@@ -36,6 +36,7 @@ qx.Class.define("qx.dev.unit.AsyncWrapper", {
    * @param context {Object?window} Optional execution context for deferredFunction
    */
   construct(delay, deferredFunction, context) {
+    super();
     if (delay === undefined && deferredFunction === undefined) {
       // scale default delay if wait() is called without arguments
       if (qx.core.Environment.get("qx.test.delay.scale")) {

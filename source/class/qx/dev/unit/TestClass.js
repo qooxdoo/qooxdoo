@@ -61,6 +61,8 @@ qx.Class.define("qx.dev.unit.TestClass", {
       return;
     }
 
+    this.setName(clazz.classname);
+    
     if (!qx.Class.isSubClassOf(clazz, qx.dev.unit.TestCase)) {
       this.addFail(
         "Sub class check.",
@@ -83,8 +85,6 @@ qx.Class.define("qx.dev.unit.TestClass", {
         this.addTestMethod(testCase, test);
       }
     }
-
-    this.setName(clazz.classname);
   },
 
   /*

@@ -85,13 +85,15 @@ qx.Class.define("qx.ui.form.Button", {
     // does not immediately focus it before triggering the tap event
     // this causes problem with change events for any input field that
     // previously held focus, as their change event will arrive AFTER
-    // the execute event on the button ... 
+    // the execute event on the button ...
     // we have to call focus on the dom element itself, to make
     // sure we are in time. Otherwhise the virtual dom in qooxdoo will
-    // delay the effect and the fix will only work when tapping 'slowly' ... 
-    this.addListenerOnce('appear',() => {
+    // delay the effect and the fix will only work when tapping 'slowly' ...
+    this.addListenerOnce("appear", () => {
       let el = this.getContentElement().getDomElement();
-      this.addListener('touchstart', () => { el.focus();  });
+      this.addListener("touchstart", () => {
+        el.focus();
+      });
     });
 
     this.addListener("tap", this._onTap);

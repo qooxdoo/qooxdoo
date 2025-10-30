@@ -18,7 +18,10 @@ property_feature := nullable_spec      |
                     apply_spec         |
                     event_spec         |
                     init_spec          |
+                    initFunc_spec      |
                     refine_spec        |
+                    immutable_spec     |
+                    storage_spec       |
                     check_spec         |
                     themeable_spec     |
                     inheritable_spec   |
@@ -32,13 +35,22 @@ nullable_spec    := 'nullable'     ':' bool_val
 apply_spec       := 'apply'        ':' '"' <FunctionName> '"'
 event_spec       := 'event'        ':' '"' <EventName> '"'
 init_spec        := 'init'         ':' <InitVal>
+initFunc_spec    := 'initFunction' ':' '<Function>'
 refine_spec      := 'refine'       ':' bool_val
 
+immutable_spec   := `immutable`    ':' '"readonly"' |
+                                       '"replace"' 
+
+storage_spec     := `storage`      ':' { init : <Function>,
+                                         get : <Function>,
+                                         set : <Function>,
+                                         dereference : <Function> }
+
 check_spec       := 'check'        ':' '"' type_spec '"'       |
+                                       '<Function>'            |
                                        '"' <ClassName> '"'     |
                                        '"' <InterfaceName> '"' |
                                        enum_spec               |
-                                       inline_function         |
                                        '"' bool_expression '"'
 
 validate_spec    := 'validate'     ':' '"' <FunctionName> '"'  |
@@ -53,15 +65,15 @@ inheritable_spec := 'inheritable'  ':' bool_val
 group_spec       := 'group'        ':' enum_spec
 mode_spec        := 'mode'         ':' '"' 'shorthand' '"'
 
-type_spec        := 'Boolean' | 'String' | 'Number' | 'Integer' | 'Float' |
-                    'Double'  | 'Object' | 'Array'  | 'Map'     | 'Class' |
-                    'Mixin'   | 'Interface'         | 'Theme'   | 'Error' |
-                    'RegExp'  | 'Function'          | 'Date'    | 'Node'  |
-                    'Element' | 'Document'          | 'Window'  | 'Event'
+type_spec        := 'Boolean' | 'String'         | 'Number' | 'Integer' | 'Float' |
+                    'Double'  | 'PositiveNumber' | 'PositiveInteger',   |
+                    'Object'  | 'Array'          | 'Map'    | 'Class'   |
+                    'Mixin'   | 'Interface'      |
+                    'Theme'   | 'Decorator'      | 'Font'   | 'Color'   | 'Error' |
+                    'RegExp'  | 'Function'       | 'Date'   | 'Node'    |
+                    'Element' | 'Document'       | 'Window' | 'Event'
 
 bool_val         := 'true' | 'false'
 enum_spec        := '[' <val1>',' <val2> ',' ... ',' <valN> ']'
-inline_function  := ? JavaScript anonymous function 'function (..)
-                      { ... }' ?
 bool_expression  := ? JavaScript expression evaluating to true/false ?
 ```

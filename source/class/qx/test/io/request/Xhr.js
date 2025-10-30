@@ -40,11 +40,7 @@
 qx.Class.define("qx.test.io.request.Xhr", {
   extend: qx.dev.unit.TestCase,
 
-  include: [
-    qx.test.io.request.MRequest,
-    qx.dev.unit.MMock,
-    qx.dev.unit.MRequirements
-  ],
+  include: [qx.test.io.request.MRequest, qx.dev.unit.MMock, qx.dev.unit.MRequirements],
 
   members: {
     setUp() {
@@ -80,23 +76,11 @@ qx.Class.define("qx.test.io.request.Xhr", {
 
       this.server = this.getServer();
 
-      this.server.respondWith("GET", "/found", [
-        200,
-        { "Content-Type": "text/html" },
-        "FOUND"
-      ]);
+      this.server.respondWith("GET", "/found", [200, { "Content-Type": "text/html" }, "FOUND"]);
 
-      this.server.respondWith("GET", "/found.json", [
-        200,
-        { "Content-Type": "application/json; charset=utf-8" },
-        "JSON"
-      ]);
+      this.server.respondWith("GET", "/found.json", [200, { "Content-Type": "application/json; charset=utf-8" }, "JSON"]);
 
-      this.server.respondWith("GET", "/found.other", [
-        200,
-        { "Content-Type": "application/other" },
-        "OTHER"
-      ]);
+      this.server.respondWith("GET", "/found.other", [200, { "Content-Type": "application/other" }, "OTHER"]);
     },
 
     setUpFakeXhr() {
@@ -166,11 +150,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
       this.req.setRequestData("Affe");
       this.req.send();
 
-      this.assertCalledWith(
-        this.transport.setRequestHeader,
-        "Content-Type",
-        "application/x-www-form-urlencoded"
-      );
+      this.assertCalledWith(this.transport.setRequestHeader, "Content-Type", "application/x-www-form-urlencoded");
     },
 
     "test: not set content type urlencoded for POST request with body when type given"() {
@@ -184,10 +164,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
 
       msg = "Must not set content type urlencoded when other type given";
       this.assert(
-        !this.transport.setRequestHeader.calledWith(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        ),
+        !this.transport.setRequestHeader.calledWith("Content-Type", "application/x-www-form-urlencoded"),
 
         msg
       );
@@ -276,19 +253,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
       this.setUpFakeTransport();
       this.req.send();
 
-      this.assertCalledWith(
-        this.transport.setRequestHeader,
-        "X-Requested-With",
-        "XMLHttpRequest"
-      );
+      this.assertCalledWith(this.transport.setRequestHeader, "X-Requested-With", "XMLHttpRequest");
     },
 
     "test: not set requested-with header when cross-origin"() {
       this.setUpFakeTransport();
-      var spy = this.transport.setRequestHeader.withArgs(
-        "X-Requested-With",
-        "XMLHttpRequest"
-      );
+      var spy = this.transport.setRequestHeader.withArgs("X-Requested-With", "XMLHttpRequest");
 
       this.req.setUrl("http://example.com");
       this.req.send();
@@ -301,11 +271,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
       this.req.setCache("no-cache");
       this.req.send();
 
-      this.assertCalledWith(
-        this.transport.setRequestHeader,
-        "Cache-Control",
-        "no-cache"
-      );
+      this.assertCalledWith(this.transport.setRequestHeader, "Cache-Control", "no-cache");
     },
 
     "test: set accept header"() {
@@ -313,21 +279,14 @@ qx.Class.define("qx.test.io.request.Xhr", {
       this.req.setAccept("application/json");
       this.req.send();
 
-      this.assertCalledWith(
-        this.transport.setRequestHeader,
-        "Accept",
-        "application/json"
-      );
+      this.assertCalledWith(this.transport.setRequestHeader, "Accept", "application/json");
     },
 
     "test: override response content type"() {
       this.setUpFakeTransport();
       this.req.overrideResponseContentType("text/plain;charset=Shift-JIS");
 
-      this.assertCalledWith(
-        this.transport.overrideMimeType,
-        "text/plain;charset=Shift-JIS"
-      );
+      this.assertCalledWith(this.transport.overrideMimeType, "text/plain;charset=Shift-JIS");
     },
 
     "test: get response content type"() {
@@ -569,10 +528,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been fulfilled but should have been rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
           })
         )
         .catch(
@@ -603,10 +559,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been fulfilled but should have been rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
           })
         )
         .catch(
@@ -636,19 +589,13 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been fulfilled but should have been rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
           })
         )
         .catch(
           this.resumeHandler(function (result) {
             this.assertInstance(result, qx.type.BaseError);
-            this.assertEquals(
-              "timeout: Request failed with timeout after 1 ms.",
-              result.toString()
-            );
+            this.assertEquals("timeout: Request failed with timeout after 1 ms.", result.toString());
           }, this)
         );
 
@@ -673,11 +620,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
       promise.catch(
         this.resumeHandler(function () {
           var length = qx.event.Registration.serializeListeners(req).length;
-          this.assertNotEquals(
-            length,
-            listeners.length,
-            "The number of listeners remains the same before and after setling the promise."
-          );
+          this.assertNotEquals(length, listeners.length, "The number of listeners remains the same before and after setling the promise.");
         })
       );
 
@@ -697,10 +640,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been fulfilled but should have been rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
           })
         )
         .catch(
@@ -732,19 +672,13 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been fulfilled but should have been rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
           })
         )
         .catch(
           this.resumeHandler(function (result) {
             this.assertInstance(result, qx.type.BaseError);
-            this.assertEquals(
-              "parseError: Error parsing the response.",
-              result.toString()
-            );
+            this.assertEquals("parseError: Error parsing the response.", result.toString());
           }, this)
         );
 
@@ -775,18 +709,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
       var promise1 = promise
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "This path should not be fulfilled."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
           }, this)
         )
         .catch(
           this.resumeHandler(function (result) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "This path should not be rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be rejected.");
           }, this)
         )
 
@@ -804,10 +732,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         )
         .catch(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "Promise has been rejected but should have been fulfilled."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been rejected but should have been fulfilled.");
           }, this)
         );
 
@@ -839,18 +764,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
       var promise1 = promise
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "promise1 should not be fulfilled."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be fulfilled.");
           })
         )
         .catch(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "promise1 should not be rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be rejected.");
           }, this)
         );
 
@@ -887,18 +806,12 @@ qx.Class.define("qx.test.io.request.Xhr", {
         .sendWithPromise(this)
         .then(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "promise should not be fulfilled."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be fulfilled.");
           })
         )
         .catch(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "promise should not be rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be rejected.");
           })
         )
         .finally(
@@ -933,10 +846,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         )
         .catch(
           this.resumeHandler(function (_) {
-            throw new qx.type.BaseError(
-              "Error in sendWithPromise()",
-              "promise should not be rejected."
-            );
+            throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be rejected.");
           })
         )
         .finally(function () {

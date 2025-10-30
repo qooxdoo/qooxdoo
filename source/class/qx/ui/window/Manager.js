@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.window.Manager", {
      * {@link qx.ui.core.queue.Widget widget queue}.
      */
     syncWidget() {
-      if (this.isDisposed()){
+      if (this.isDisposed()) {
         return;
       }
       this.__desktop.forceUnblock();

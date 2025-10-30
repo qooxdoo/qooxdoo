@@ -26,15 +26,11 @@
 
 qx.Class.define("qx.test.core.ObjectId", {
   extend: qx.dev.unit.TestCase,
-  include: [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
+  include: qx.dev.unit.MMock,
 
   members: {
-    hasUi() {
-      return typeof qx.ui !== "undefined";
-    },
-
     testGetObject() {
-      this.require(["ui"]);
+      qx.Class.undefine("demo.MyClass");
       var clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         members: {
@@ -77,6 +73,7 @@ qx.Class.define("qx.test.core.ObjectId", {
     },
 
     testObjectsSection() {
+      qx.Class.undefine("demo.SuperClass");
       const SuperClass = qx.Class.define("demo.SuperClass", {
         extend: qx.core.Object,
         objects: {

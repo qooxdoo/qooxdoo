@@ -231,7 +231,7 @@ fs.copyFileSync("bin/build/qx.cmd", "bootstrap/qx.cmd");
   }
 
   console.log("Compiling build version");
-  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=build", "--clean", "--verbose");
+  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=build", "--clean");
   if (result.exitCode) {
     console.log("Error compiling build version:", result.exitCode);
     return result.exitCode;

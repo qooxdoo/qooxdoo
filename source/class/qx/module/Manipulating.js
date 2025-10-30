@@ -24,6 +24,8 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
+  extend: qx.core.Object,
+
   statics: {
     /** Default animation descriptions for animated scrolling **/
     _animationDescription: {

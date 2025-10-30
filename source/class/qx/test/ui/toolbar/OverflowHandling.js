@@ -65,15 +65,15 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
     testShow() {
       this.__addButtons();
 
-      this.__toolbar.setShow("label");
-      this.assertEquals(this.__toolbar.getShow(), this.__b1.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b2.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b3.getShow());
+      this.__toolbar.setShowFeatures("label");
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b1.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b2.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b3.getShowFeatures());
 
-      this.__toolbar.setShow("icon");
-      this.assertEquals(this.__toolbar.getShow(), this.__b1.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b2.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b3.getShow());
+      this.__toolbar.setShowFeatures("icon");
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b1.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b2.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b3.getShowFeatures());
     },
 
     testSpacing() {
@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
         this.__toolbar,
         "showItem",
         function () {
-          self.__container.setWidth(100);
+          self.__container.setWidth(140);
           self.flush();
         },
         function (e) {
@@ -280,16 +280,15 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
       var self = this;
       setTimeout(function () {
         self.resume(function () {
-          console.log("" + JSON.stringify(self.__container.getBounds()));
+          console.log("C:" + JSON.stringify(self.__container.getBounds()));
           console.log("1: " + JSON.stringify(self.__b1.getBounds()));
           console.log("2: " + JSON.stringify(self.__b2.getBounds()));
           console.log("3: " + JSON.stringify(self.__b3.getBounds()));
 
           var bounds = self.__b2.getBounds();
-          console.log(JSON.stringify(bounds));
-          self.__container.setWidth(bounds.left + 60);
+          self.__container.setWidth(bounds.left + 70);
           self.flush();
-          console.log("" + JSON.stringify(self.__container.getBounds()));
+          console.log("C:" + JSON.stringify(self.__container.getBounds()));
 
           this.assertEventFired(
             this.__toolbar,

@@ -28,6 +28,8 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Traversing", {
+  extend: qx.core.Object,
+
   statics: {
     /**
      * String attributes used to determine if two DOM nodes are equal

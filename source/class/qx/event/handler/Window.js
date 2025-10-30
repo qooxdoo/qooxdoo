@@ -64,6 +64,7 @@ qx.Class.define("qx.event.handler.Window", {
 
     /** @type {Map} Supported event types */
     SUPPORTED_TYPES: {
+      appinitialized: 1,
       error: 1,
       load: 1,
       beforeunload: 1,
@@ -87,6 +88,10 @@ qx.Class.define("qx.event.handler.Window", {
   */
 
   members: {
+    _window: undefined,
+    _manager: undefined,
+    _onNativeWrapper: undefined,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE

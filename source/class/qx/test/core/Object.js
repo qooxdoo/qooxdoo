@@ -94,12 +94,7 @@ qx.Class.define("qx.test.core.Object", {
     },
 
     testRemoveListenerById() {
-      var id = this.addListener(
-        "testRemoveListenerById",
-        function () {},
-        this,
-        false
-      );
+      var id = this.addListener("testRemoveListenerById", function () {}, this, false);
 
       this.assertTrue(this.hasListener("testRemoveListenerById", false));
       this.removeListenerById(id);
@@ -107,12 +102,7 @@ qx.Class.define("qx.test.core.Object", {
     },
 
     testRemoveListenerOnceById() {
-      var id = this.addListenerOnce(
-        "testRemoveListenerOnceById",
-        function () {},
-        this,
-        false
-      );
+      var id = this.addListenerOnce("testRemoveListenerOnceById", function () {}, this, false);
 
       this.assertTrue(this.hasListener("testRemoveListenerOnceById", false));
       this.removeListenerById(id);
@@ -226,6 +216,7 @@ qx.Class.define("qx.test.core.Object", {
       o._disposeObjects("x");
 
       // object dispose with a singleton
+      qx.Class.undefine("qx.test.Single");
       qx.Class.define("qx.test.Single", {
         extend: qx.core.Object,
         type: "singleton"
@@ -238,12 +229,12 @@ qx.Class.define("qx.test.core.Object", {
       this.assertException(function () {
         o._disposeObjects("s");
       });
-      qx.Class.undefine("qx.test.Single");
       o.dispose();
     },
 
     testDisposeBindingWithChain() {
       // object dispose with a singleton
+      qx.Class.undefine("qx.test.Single");
       qx.Class.define("qx.test.Single", {
         extend: qx.core.Object,
         properties: {
@@ -269,12 +260,11 @@ qx.Class.define("qx.test.core.Object", {
 
       o2.dispose();
       o3.dispose();
-
-      qx.Class.undefine("qx.test.Single");
     },
 
     testDisposeBindingWithSelfChain() {
       // object dispose with a singleton
+      qx.Class.undefine("qx.test.Single");
       qx.Class.define("qx.test.Single", {
         extend: qx.core.Object,
         properties: {
@@ -283,7 +273,8 @@ qx.Class.define("qx.test.core.Object", {
         },
 
         members: {
-          applyB() {},
+          applyB() {
+          },
           init() {
             this.bind("a.a", this, "b");
           }
@@ -306,12 +297,11 @@ qx.Class.define("qx.test.core.Object", {
       this.assertCalledOnce(spy);
 
       o2.dispose();
-
-      qx.Class.undefine("qx.test.Single");
     },
 
     testDisposeBinding() {
       // object dispose with a singleton
+      qx.Class.undefine("qx.test.Single");
       qx.Class.define("qx.test.Single", {
         extend: qx.core.Object,
         properties: {
@@ -333,14 +323,13 @@ qx.Class.define("qx.test.core.Object", {
       o.dispose();
       o2.dispose();
 
-      qx.Class.undefine("qx.test.Single");
-
       this.assertEquals(0, o.getBindings().length);
       this.assertEquals(0, o2.getBindings().length);
     },
 
     testDisposeSingletonObject() {
       // object dispose with a singleton and an object
+      qx.Class.undefine("qx.test.Single");
       qx.Class.define("qx.test.Single", {
         extend: qx.core.Object,
         type: "singleton"
@@ -353,7 +342,6 @@ qx.Class.define("qx.test.core.Object", {
       this.assertTrue(o.o == null);
       this.assertTrue(o.s == null);
 
-      qx.Class.undefine("qx.test.Single");
       o.dispose();
     },
 
@@ -371,10 +359,10 @@ qx.Class.define("qx.test.core.Object", {
 
       var o = new qx.test.MyClass();
 
-      this.assertFalse(o.isPropertyInitialized("a"));
+      this.assertFalse(qx.Class.isPropertyInitialized(o, "a"));
       o.setA(false);
-      this.assertTrue(o.isPropertyInitialized("a"));
-      this.assertTrue(o.isPropertyInitialized("b"));
+      this.assertTrue(qx.Class.isPropertyInitialized(o, "a"));
+      this.assertTrue(qx.Class.isPropertyInitialized(o, "b"));
 
       qx.Class.undefine("qx.test.MyClass");
       o.dispose();

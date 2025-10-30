@@ -57,6 +57,7 @@ qx.Class.define("qx.tool.compiler.cli.api.CompilerApi", {
   },
 
   members: {
+    __compileJsonExists: true,
     __libraryApis: null,
 
     /**
@@ -105,13 +106,12 @@ qx.Class.define("qx.tool.compiler.cli.api.CompilerApi", {
         config = await qx.tool.utils.Json.loadJsonAsync(compileJsonPath);
       } else {
         this.__compileJsonExists = false;
-        
       }
       this.setConfiguration(config);
       return super.load();
     },
 
-    compileJsonExists(){
+    compileJsonExists() {
       return this.__compileJsonExists;
     },
 

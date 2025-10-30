@@ -113,6 +113,7 @@ qx.Class.define("qx.ui.table.selection.Model", {
   */
 
   members: {
+    hasBatchModeRefCount: 0,
     __hadChangeEventInBatchMode: null,
     __anchorSelectionIndex: null,
     __leadSelectionIndex: null,

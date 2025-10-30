@@ -24,7 +24,7 @@
  * is the complete array of items that can be selected, and that array is used to populate
  * the UI widget (ie as normal).
  *
- * The `checked` psuedo property in this `CheckedList` controller relates to the checked
+ * The `checked` pseudo property in this `CheckedList` controller relates to the checked
  * property of the UI widget.
  */
 qx.Class.define("qx.data.controller.CheckedList", {

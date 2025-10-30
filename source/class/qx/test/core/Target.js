@@ -25,6 +25,7 @@ qx.Class.define("qx.test.core.Target", {
 
   members: {
     testEvents() {
+      qx.Class.undefine("qx.Event");
       qx.Class.define("qx.Event", {
         extend: qx.core.Object,
         events: { click: "qx.event.type.Event" }

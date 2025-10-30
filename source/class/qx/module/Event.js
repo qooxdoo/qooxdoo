@@ -26,6 +26,8 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Event", {
+  extend : qx.core.Object,
+
   statics: {
     /**
      * Event normalization registry

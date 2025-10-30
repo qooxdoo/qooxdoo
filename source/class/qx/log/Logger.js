@@ -557,7 +557,7 @@ qx.Bootstrap.define("qx.log.Logger", {
 
       // Add relation fields
       if (object) {
-        if (qx.Bootstrap.isQxCoreObject(object)) {
+        if (qx.Bootstrap.isQxCoreObject(object) && object.toHashCode) {
           entry.object = object.toHashCode();
         }
         if (object.$$type) {

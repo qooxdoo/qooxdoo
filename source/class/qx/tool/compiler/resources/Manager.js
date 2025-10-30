@@ -54,6 +54,8 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
   },
 
   members: {
+    __assets: undefined,
+
     /** {String} filename of database */
     __dbFilename: null,
 

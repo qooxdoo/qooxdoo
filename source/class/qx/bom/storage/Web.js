@@ -29,6 +29,8 @@
  * @require(qx.bom.storage.Web#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.Web", {
+  extend: qx.core.Object,
+
   statics: {
     __local: null,
     __session: null,

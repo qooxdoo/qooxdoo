@@ -25,6 +25,14 @@
 qx.Class.define("qx.util.Serializer", {
   statics: {
     /**
+     * These properties are ignored when serializing qooxdoo objects
+     * because they are qooxdoo metadata.
+     */
+    __IGNORE_PROPERTIES: {
+      qxObjectId: true,
+      qxOwner: true
+    },
+    /**
      * Serializes the properties of the given qooxdoo object. To get the
      * serialization working, every property needs to have a string
      * representation because the value of the property will be concatenated to the
@@ -42,37 +50,27 @@ qx.Class.define("qx.util.Serializer", {
      */
     toUriParameter(object, qxSerializer, dateFormat) {
       var result = "";
-      var properties = qx.util.PropertyUtil.getAllProperties(
-        object.constructor
-      );
+      var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
 
       for (var name in properties) {
+        let property = properties[name];
+
         // ignore property groups
-        if (properties[name].group != undefined) {
+        if (property instanceof qx.core.property.GroupProperty || qx.util.Serializer.__IGNORE_PROPERTIES[name]) {
           continue;
         }
-        var value = object["get" + qx.lang.String.firstUp(name)]();
+        var value = object[name];
 
         // handle arrays
         if (qx.lang.Type.isArray(value)) {
-          var isdataArray =
-            qx.data &&
-            qx.data.IListData &&
-            qx.Class.hasInterface(
-              value && value.constructor,
-              qx.data.IListData
-            );
+          var isdataArray = qx.data && qx.data.IListData && qx.Class.hasInterface(value && value.constructor, qx.data.IListData);
 
           for (var i = 0; i < value.length; i++) {
             var valueAtI = isdataArray ? value.getItem(i) : value[i];
             result += this.__toUriParameter(name, valueAtI, qxSerializer);
           }
         } else if (qx.lang.Type.isDate(value) && dateFormat != null) {
-          result += this.__toUriParameter(
-            name,
-            dateFormat.format(value),
-            qxSerializer
-          );
+          result += this.__toUriParameter(name, dateFormat.format(value), qxSerializer);
         } else {
           result += this.__toUriParameter(name, value, qxSerializer);
         }
@@ -90,12 +88,9 @@ qx.Class.define("qx.util.Serializer", {
      * @return {String} The serialized name value pair.
      */
     __toUriParameter(name, value, qxSerializer) {
-      if (value && value.$$type == "Class") {
-        value = value.classname;
-      }
-
-      if (value && (value.$$type == "Interface" || value.$$type == "Mixin")) {
-        value = value.name;
+      const Serializer = qx.util.Serializer;
+      if (value && Serializer.__isClassy(value)) {
+        value = Serializer.__getNameOfClassy(value);
       }
 
       if (value instanceof qx.core.Object && qxSerializer != null) {
@@ -129,6 +124,7 @@ qx.Class.define("qx.util.Serializer", {
      *   type will vary.
      */
     toNativeObject(object, qxSerializer, dateFormat) {
+      const Serializer = qx.util.Serializer;
       var result;
 
       // null or undefined
@@ -137,20 +133,10 @@ qx.Class.define("qx.util.Serializer", {
       }
 
       // data array
-      if (
-        qx.data &&
-        qx.data.IListData &&
-        qx.Class.hasInterface(object.constructor, qx.data.IListData)
-      ) {
+      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
         result = [];
         for (var i = 0; i < object.getLength(); i++) {
-          result.push(
-            qx.util.Serializer.toNativeObject(
-              object.getItem(i),
-              qxSerializer,
-              dateFormat
-            )
-          );
+          result.push(qx.util.Serializer.toNativeObject(object.getItem(i), qxSerializer, dateFormat));
         }
 
         return result;
@@ -160,26 +146,14 @@ qx.Class.define("qx.util.Serializer", {
       if (qx.lang.Type.isArray(object)) {
         result = [];
         for (var i = 0; i < object.length; i++) {
-          result.push(
-            qx.util.Serializer.toNativeObject(
-              object[i],
-              qxSerializer,
-              dateFormat
-            )
-          );
+          result.push(qx.util.Serializer.toNativeObject(object[i], qxSerializer, dateFormat));
         }
 
         return result;
       }
 
-      // return names for qooxdoo classes
-      if (object.$$type == "Class") {
-        return object.classname;
-      }
-
-      // return names for qooxdoo interfaces and mixins
-      if (object.$$type == "Interface" || object.$$type == "Mixin") {
-        return object.name;
+      if (Serializer.__isClassy(object)) {
+        return Serializer.__getNameOfClassy(object);
       }
 
       // qooxdoo object
@@ -197,22 +171,16 @@ qx.Class.define("qx.util.Serializer", {
 
         result = {};
 
-        var properties = qx.util.PropertyUtil.getAllProperties(
-          object.constructor
-        );
+        var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
 
         for (var name in properties) {
           // ignore property groups
-          if (properties[name].group != undefined) {
+          if (properties[name] instanceof qx.core.property.GroupProperty || Serializer.__IGNORE_PROPERTIES[name]) {
             continue;
           }
 
-          var value = object["get" + qx.lang.String.firstUp(name)]();
-          result[name] = qx.util.Serializer.toNativeObject(
-            value,
-            qxSerializer,
-            dateFormat
-          );
+          var value = object[name];
+          result[name] = qx.util.Serializer.toNativeObject(value, qxSerializer, dateFormat);
         }
 
         return result;
@@ -224,11 +192,7 @@ qx.Class.define("qx.util.Serializer", {
       }
 
       // localized strings
-      if (
-        qx.locale &&
-        qx.locale.LocalizedString &&
-        object instanceof qx.locale.LocalizedString
-      ) {
+      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
         return object.toString();
       }
 
@@ -237,11 +201,7 @@ qx.Class.define("qx.util.Serializer", {
         result = {};
 
         for (var key in object) {
-          result[key] = qx.util.Serializer.toNativeObject(
-            object[key],
-            qxSerializer,
-            dateFormat
-          );
+          result[key] = qx.util.Serializer.toNativeObject(object[key], qxSerializer, dateFormat);
         }
 
         return result;
@@ -265,6 +225,7 @@ qx.Class.define("qx.util.Serializer", {
      * @return {String} The serialized object.
      */
     toJson(object, qxSerializer, dateFormat) {
+      const Serializer = qx.util.Serializer;
       var result = "";
 
       // null or undefined
@@ -273,19 +234,10 @@ qx.Class.define("qx.util.Serializer", {
       }
 
       // data array
-      if (
-        qx.data &&
-        qx.data.IListData &&
-        qx.Class.hasInterface(object.constructor, qx.data.IListData)
-      ) {
+      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
         result += "[";
         for (var i = 0; i < object.getLength(); i++) {
-          result +=
-            qx.util.Serializer.toJson(
-              object.getItem(i),
-              qxSerializer,
-              dateFormat
-            ) + ",";
+          result += qx.util.Serializer.toJson(object.getItem(i), qxSerializer, dateFormat) + ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -297,9 +249,7 @@ qx.Class.define("qx.util.Serializer", {
       if (qx.lang.Type.isArray(object)) {
         result += "[";
         for (var i = 0; i < object.length; i++) {
-          result +=
-            qx.util.Serializer.toJson(object[i], qxSerializer, dateFormat) +
-            ",";
+          result += qx.util.Serializer.toJson(object[i], qxSerializer, dateFormat) + ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -307,14 +257,8 @@ qx.Class.define("qx.util.Serializer", {
         return result + "]";
       }
 
-      // return names for qooxdoo classes
-      if (object.$$type == "Class") {
-        return '"' + object.classname + '"';
-      }
-
-      // return names for qooxdoo interfaces and mixins
-      if (object.$$type == "Interface" || object.$$type == "Mixin") {
-        return '"' + object.name + '"';
+      if (Serializer.__isClassy(object)) {
+        return `"${Serializer.__getNameOfClassy(object)}"`;
       }
 
       // qooxdoo object
@@ -328,22 +272,15 @@ qx.Class.define("qx.util.Serializer", {
           // continue otherwise
         }
         result += "{";
-        var properties = qx.util.PropertyUtil.getAllProperties(
-          object.constructor
-        );
+        var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
 
         for (var name in properties) {
           // ignore property groups
-          if (properties[name].group != undefined) {
+          if (properties[name] instanceof qx.core.property.GroupProperty || Serializer.__IGNORE_PROPERTIES[name]) {
             continue;
           }
-          var value = object["get" + qx.lang.String.firstUp(name)]();
-          result +=
-            '"' +
-            name +
-            '":' +
-            qx.util.Serializer.toJson(value, qxSerializer, dateFormat) +
-            ",";
+          var value = object[name];
+          result += '"' + name + '":' + qx.util.Serializer.toJson(value, qxSerializer, dateFormat) + ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
@@ -352,11 +289,7 @@ qx.Class.define("qx.util.Serializer", {
       }
 
       // localized strings
-      if (
-        qx.locale &&
-        qx.locale.LocalizedString &&
-        object instanceof qx.locale.LocalizedString
-      ) {
+      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
         object = object.toString();
         // no return here because we want to have the string checks as well!
       }
@@ -370,12 +303,7 @@ qx.Class.define("qx.util.Serializer", {
       if (qx.lang.Type.isObject(object)) {
         result += "{";
         for (var key in object) {
-          result +=
-            '"' +
-            key +
-            '":' +
-            qx.util.Serializer.toJson(object[key], qxSerializer, dateFormat) +
-            ",";
+          result += '"' + key + '":' + qx.util.Serializer.toJson(object[key], qxSerializer, dateFormat) + ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
@@ -404,6 +332,33 @@ qx.Class.define("qx.util.Serializer", {
 
       // all other stuff
       return object + "";
+    },
+
+    /**
+     * Checks whether object is classy i.e. a class, interface, or mixin.
+     * @param {Object} object Any object
+     * @returns {boolean}
+     */
+    __isClassy(object) {
+      return ["Class", "Interface", "Mixin"].includes(object.$$type);
+    },
+
+    /**
+     *
+     * @param {Object} object Qooxdoo classy object i.e. class or interface or mixin
+     * @returns {string} The name of the classy object, that was passed into the define call
+     */
+    __getNameOfClassy(object) {
+      switch (object.$$type) {
+        case "Class":
+          return object.classname;
+        case "Interface":
+          return object.name;
+        case "Mixin":
+          return object.mixinName;
+        default:
+          throw new Error("Unknown classy type: " + object.$$type);
+      }
     }
   }
 });

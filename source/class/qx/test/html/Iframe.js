@@ -168,7 +168,7 @@ qx.Class.define("qx.test.html.Iframe", {
         });
       });
 
-      frame.setSource("http://example.com");
+      frame.setSource("http://www.example.com");
 
       this.__alredyRun = true;
       this.wait();

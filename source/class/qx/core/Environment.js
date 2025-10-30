@@ -819,6 +819,10 @@
  *     <tr>
  *       <td>qx.blankpage</td><td><i>String</i></td><td><code>URI to blank.html page</code></td>
  *     </tr>
+ *     <tr>
+ *       <td>qx.future.checkjsdoc</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>false</code></td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>module</b></td>
@@ -829,10 +833,6 @@
  *     </tr>
  *     <tr>
  *       <td>module.logger</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
- *       <td>module.property</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
@@ -905,7 +905,6 @@ qx.Bootstrap.define("qx.core.Environment", {
       // qooxdoo modules
       "module.databinding": true,
       "module.logger": true,
-      "module.property": true,
       "module.events": true,
       "module.objectid": true,
       "qx.nativeScrollBars": false,
@@ -1229,9 +1228,16 @@ qx.Bootstrap.define("qx.core.Environment", {
       }
       if (this.__environmentBackup === undefined) {
         qx.Bootstrap.warn("Modifying environment settings at runtime is enabled. This is a security risk and should not be done in production code.");
-        this.__environmentBackup = Object.assign({}, this.__cache);
-        this.__checksBackup = Object.assign({}, this._checks);
+        this.__environmentBackup = {};
+        this.__checksBackup = {};
       }
+
+      if (this.__environmentBackup[key] === undefined) {
+        //this means there is no override for that key, so we back up the current values
+        this.__environmentBackup[key] = this.__cache[key];
+        this.__checksBackup[key] = this._checks[key];
+      }
+
       this.__cache[key] = value;
       delete this._checks[key];
       delete this._checksMap[key];
@@ -1244,15 +1250,7 @@ qx.Bootstrap.define("qx.core.Environment", {
      * @param key {String} The key of the environment setting to remove.
      */
     remove: qx.Bootstrap.getEnvironmentSetting("qx.environment.allowRuntimeMutations") ? function(key) {
-      if (key === undefined) {
-        throw new TypeError("Key must be provided to remove an environment setting.");
-      }
-      if (this.__environmentBackup === undefined || this.__environmentBackup[key] === undefined) {
-        throw new TypeError(`Environment setting "${key}" does not exist.`);
-      }
-      delete this.__cache[key];
-      delete this._checks[key];
-      delete this._checksMap[key];
+      qx.core.Environment.set(key, undefined);
     }: undefined,
 
     /**
@@ -1267,17 +1265,23 @@ qx.Bootstrap.define("qx.core.Environment", {
         return;
       }
       if (key !== undefined && this.__environmentBackup[key] === undefined) {
-        throw new TypeError(`Environment setting "${key}" does not exist.`);
+        // no backup available, nothing to reset
+        return;
       }
+      
       if (key === undefined) {
         // reset all keys
-        this.__cache = Object.assign({}, this.__environmentBackup);
-        this._checks = Object.assign({}, this.__checksBackup);
+        Object.assign(this.__cache, this.__environmentBackup);
+        this.__environmentBackup = {};
+        Object.assign(this._checks, this.__checksBackup);
+        this.__checksBackup = {};
         return;
       }
       // only reset the particular key 
       this.__cache[key] = this.__environmentBackup[key];
+      delete this.__environmentBackup[key];
       this._checks[key] = this.__checksBackup[key];
+      delete this.__checksBackup[key];
     }: undefined,
 
     /**

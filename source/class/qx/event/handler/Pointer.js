@@ -47,9 +47,7 @@ qx.Class.define("qx.event.handler.Pointer", {
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK:
-      qx.event.IEventHandler.TARGET_DOMNODE +
-      qx.event.IEventHandler.TARGET_DOCUMENT,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE: true
@@ -90,10 +88,7 @@ qx.Class.define("qx.event.handler.Pointer", {
     // overridden
     _initPointerObserver() {
       var useEmitter = false;
-      if (
-        qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") < 9
-      ) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") < 9) {
         // Workaround for bug #8293: Use an emitter to listen to the
         // pointer events fired by a pointer handler attached by qxWeb.
         useEmitter = true;
@@ -114,11 +109,7 @@ qx.Class.define("qx.event.handler.Pointer", {
       }
 
       // respect anonymous elements
-      while (
-        target &&
-        target.getAttribute &&
-        target.getAttribute("qxanonymous")
-      ) {
+      while (target && target.getAttribute && target.getAttribute("qxanonymous")) {
         target = target.parentNode;
       }
 
@@ -126,15 +117,11 @@ qx.Class.define("qx.event.handler.Pointer", {
         type = domEvent.type;
       }
 
-      type =
-        qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[type] || type;
+      type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[type] || type;
 
       if (target && target.nodeType) {
         qx.event.type.dom.Pointer.normalize(domEvent);
-        if (
-          qx.core.Environment.get("browser.name") === "msie" &&
-          qx.core.Environment.get("browser.version") < 9
-        ) {
+        if (qx.core.Environment.get("browser.name") === "msie" && qx.core.Environment.get("browser.version") < 9) {
           // ensure compatibility with native events for IE8
           try {
             domEvent.srcElement = target;
@@ -146,22 +133,13 @@ qx.Class.define("qx.event.handler.Pointer", {
         var tracker = {};
         var self = this;
         qx.event.Utils.track(tracker, function () {
-          return qx.event.Registration.fireEvent(
-            target,
-            type,
-            qx.event.type.Pointer,
-            [domEvent, target, null, true, true]
-          );
+          return qx.event.Registration.fireEvent(target, type, qx.event.type.Pointer, [domEvent, target, null, true, true]);
         });
 
         qx.event.Utils.then(tracker, function () {
           if (
-            (domEvent.getPointerType() !== "mouse" ||
-              domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
-            (type == "pointerdown" ||
-              type == "pointerup" ||
-              type == "pointermove" ||
-              type == "pointercancel")
+            (domEvent.getPointerType() !== "mouse" || domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
+            (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel")
           ) {
             return qx.event.Registration.fireEvent(
               self.__root,
@@ -173,12 +151,7 @@ qx.Class.define("qx.event.handler.Pointer", {
         });
         qx.event.Utils.then(tracker, function () {
           // Fire user action event
-          return qx.event.Registration.fireEvent(
-            self.__window,
-            "useraction",
-            qx.event.type.Data,
-            [type]
-          );
+          return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, [type]);
         });
         return tracker.promise;
       }
@@ -190,10 +163,7 @@ qx.Class.define("qx.event.handler.Pointer", {
         return;
       }
 
-      var type =
-        qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[
-          domEvent.type
-        ] || domEvent.type;
+      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
       return this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
     },
 

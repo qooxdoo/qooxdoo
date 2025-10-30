@@ -132,7 +132,13 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar", {
      * on this, please use {@link #scrollTo} instead.
      */
     position: {
-      check: "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getMaximum()",
+      check: function(value)
+      {
+        return (
+          qx.lang.Type.isNumber(value) &&
+            value >= 0 &&
+            value <= this.getMaximum());
+      },
       init: 0,
       apply: "_applyPosition",
       event: "scroll"

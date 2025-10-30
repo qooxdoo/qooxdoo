@@ -60,16 +60,16 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
   },
 
   events: {
-    /** Event for psuedo property selection */
+    /** Event for pseudo property selection */
     changeSelection: "qx.event.type.Data",
 
-    /** Event for psuedo property checked */
+    /** Event for pseudo property checked */
     changeChecked: "qx.event.type.Data",
 
-    /** Event for psuedo property value */
+    /** Event for pseudo property value */
     changeValue: "qx.event.type.Data",
 
-    /** Event for psuedo property modelSelection */
+    /** Event for pseudo property modelSelection */
     changeModelSelection: "qx.event.type.Data",
 
     /** Fired when a tag widget is added to the results; data is a map containing:
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
   },
 
   members: {
-    /** @type {qx.data.Array} the modelSelection psuedo property */
+    /** @type {qx.data.Array} the modelSelection pseudo property */
     __modelSelection: null,
 
     /** @type {qx.ui.basic.Atom[]} atoms used to show the selection */
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     },
 
     /**
-     * Getter for psuedo property "checked"
+     * Getter for pseudo property "checked"
      *
      * @return {qx.ui.form.IListItem[]}
      */
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     },
 
     /**
-     * Setter for psuedo property "checked"
+     * Setter for pseudo property "checked"
      *
      * @param checked {qx.ui.form.IListItem[]}
      */
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     },
 
     /**
-     * Reset for psuedo property "checked"
+     * Reset for pseudo property "checked"
      */
     resetChecked() {
       this.getChildControl("list").resetChecked();

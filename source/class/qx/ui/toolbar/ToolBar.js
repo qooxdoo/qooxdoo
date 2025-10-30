@@ -80,12 +80,12 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     },
 
     /** Whether icons, labels, both or none should be shown. */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       inheritable: true,
-      apply: "_applyShow",
-      event: "changeShow"
+      apply: "_applyShowFeatures",
+      event: "changeShowFeatures"
     },
 
     /** The spacing between every child of the toolbar */
@@ -212,8 +212,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
             return;
           }
           // get margins or spacing
-          var margins =
-            childToHide.getMarginLeft() + childToHide.getMarginRight();
+          var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
           margins = Math.max(margins, this.getSpacing());
           var childWidth = childToHide.getSizeHint().width + margins;
           this.__hideChild(childToHide);
@@ -227,8 +226,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
             // if we need to add the overflow indicator, we need to add its width
             requiredWidth += overflowWidgetWidth;
             // add spacing or margins
-            var overflowWidgetMargins =
-              overflowWidget.getMarginLeft() + overflowWidget.getMarginRight();
+            var overflowWidgetMargins = overflowWidget.getMarginLeft() + overflowWidget.getMarginRight();
             requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
           }
         } while (requiredWidth > width);
@@ -240,8 +238,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
           // if we have something we can show
           if (removedChild) {
             // get the margins or spacing
-            var margins =
-              removedChild.getMarginLeft() + removedChild.getMarginRight();
+            var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
             margins = Math.max(margins, this.getSpacing());
 
             // check if the element has been rendered before [BUG #4542]
@@ -261,11 +258,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
 
             if (this.__removedItems.length == 1 && overflowWidgetWidth > 0) {
               var addedMargin = margins - this.getSpacing();
-              var wouldRequiredWidth =
-                requiredWidth -
-                overflowWidgetWidth +
-                removedChildWidth +
-                addedMargin;
+              var wouldRequiredWidth = requiredWidth - overflowWidgetWidth + removedChildWidth + addedMargin;
               fits = width > wouldRequiredWidth;
             }
 
@@ -461,11 +454,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     },
 
     // property apply
-    _applyShow(value) {
+    _applyShowFeatures(value) {
       var children = this._getChildren();
       for (var i = 0; i < children.length; i++) {
-        if (children[i].setShow) {
-          children[i].setShow(value);
+        if (children[i].setShowFeatures) {
+          children[i].setShowFeatures(value);
         }
       }
     },
@@ -479,14 +472,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _add(child, options) {
       super._add(child, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue(child)) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
-      var newWidth =
-        this.getSizeHint().width +
-        child.getSizeHint().width +
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width + child.getSizeHint().width + 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
 
@@ -494,14 +484,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAt(child, index, options) {
       super._addAt(child, index, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue(child)) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
-      var newWidth =
-        this.getSizeHint().width +
-        child.getSizeHint().width +
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width + child.getSizeHint().width + 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
 
@@ -509,14 +496,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addBefore(child, before, options) {
       super._addBefore(child, before, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue()) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
-      var newWidth =
-        this.getSizeHint().width +
-        child.getSizeHint().width +
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width + child.getSizeHint().width + 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
 
@@ -524,24 +508,18 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAfter(child, after, options) {
       super._addAfter(child, after, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
-        child.setShow(this.getShow());
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue()) {
+        child.setShowFeatures(this.getShowFeatures());
       }
 
-      var newWidth =
-        this.getSizeHint().width +
-        child.getSizeHint().width +
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width + child.getSizeHint().width + 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
 
     // overridden
     _remove(child) {
       super._remove(child);
-      var newWidth =
-        this.getSizeHint().width -
-        child.getSizeHint().width -
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width - child.getSizeHint().width - 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
     },
 
@@ -549,10 +527,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _removeAt(index) {
       var child = this._getChildren()[index];
       super._removeAt(index);
-      var newWidth =
-        this.getSizeHint().width -
-        child.getSizeHint().width -
-        2 * this.getSpacing();
+      var newWidth = this.getSizeHint().width - child.getSizeHint().width - 2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
       return child;
     },

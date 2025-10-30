@@ -295,7 +295,7 @@ qx.Class.define("qx.dev.Debug", {
         return message + newLine;
       } else if (model.constructor != null) {
         // go threw all properties
-        var properties = model.constructor.$$properties;
+        var properties = model.constructor.prototype.$$properties;
         for (var key in properties) {
           message += newLine;
           // print out the indentation

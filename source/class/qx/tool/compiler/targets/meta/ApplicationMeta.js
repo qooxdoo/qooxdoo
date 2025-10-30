@@ -64,10 +64,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       check: "Boolean"
     },
 
-    appLibrary: {
-      check: "qx.tool.compiler.app.Library"
-    },
-
     bootMetaJs: {
       check: "qx.tool.compiler.targets.meta.AbstractJavascriptMeta"
     },
@@ -82,6 +78,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
   },
 
   members: {
+    __partsLookup : undefined,
+
     /** {qx.tool.compiler.targets.Target} the target */
     __target: null,
 

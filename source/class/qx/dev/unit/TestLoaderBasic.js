@@ -30,6 +30,7 @@ qx.Class.define("qx.dev.unit.TestLoaderBasic", {
    * @param nameSpace {String} Test namespace, e.g. myapplication.test.*
    */
   construct(nameSpace) {
+    super();
     if (nameSpace) {
       this.setTestNamespace(nameSpace);
     }

@@ -37,7 +37,6 @@ qx.Class.define("qx.tool.utils.Debounce", {
       init: "ignored",
       nullable: false,
       check: ["ignore", "restart", "repeat", "queue"],
-      apply: "_applyRepeatedTrigger",
       event: "changeRepeatedTrgger"
     }
   },

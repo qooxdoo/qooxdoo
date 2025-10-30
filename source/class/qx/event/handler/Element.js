@@ -84,6 +84,9 @@ qx.Class.define("qx.event.handler.Element", {
   */
 
   members: {
+    _manager: undefined,
+    _registeredEvents: undefined,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE

@@ -61,11 +61,11 @@ qx.Class.define("qx.ui.toolbar.Part", {
     },
 
     /** Whether icons, labels, both or none should be shown. */
-    show: {
+    showFeatures: {
       init: "both",
       check: ["both", "label", "icon"],
       inheritable: true,
-      event: "changeShow"
+      event: "changeShowFeatures"
     },
 
     /** The spacing between every child of the toolbar */

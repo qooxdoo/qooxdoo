@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
     _applyIcon(value, old) {
       // Set "closed" icon - even when "opened" - if no "opened" icon was
       // user-defined
-      if (!this.__getUserValueIconOpened()) {
+      if (!this.__hasUserValueIconOpened()) {
         this.__setIconSource(value);
       } else if (!this.isOpen()) {
         this.__setIconSource(value);
@@ -279,15 +279,12 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
     _applyIconOpened(value, old) {
       if (this.isOpen()) {
         // ... both "closed" and "opened" icon were user-defined
-        if (this.__getUserValueIcon() && this.__getUserValueIconOpened()) {
+        if (this.__hasUserValueIcon() && this.__hasUserValueIconOpened()) {
           this.__setIconSource(value);
         }
 
         // .. only "opened" icon was user-defined
-        else if (
-          !this.__getUserValueIcon() &&
-          this.__getUserValueIconOpened()
-        ) {
+        else if (!this.__hasUserValueIcon() && this.__hasUserValueIconOpened()) {
           this.__setIconSource(value);
         }
       }
@@ -316,7 +313,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
       // Opened
       if (value) {
         // Never overwrite user-defined icon with themed "opened" icon
-        source = this.__getUserValueIconOpened() ? this.getIconOpened() : null;
+        source = this.__hasUserValueIconOpened() ? this.getIconOpened() : null;
       }
 
       // Closed
@@ -336,8 +333,8 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
      *
      * @return {var} The user value of the property "icon"
      */
-    __getUserValueIcon() {
-      return qx.util.PropertyUtil.getUserValue(this, "icon");
+    __hasUserValueIcon() {
+      return qx.util.PropertyUtil.getProperty(this, "icon").isUserValue(this);
     },
 
     /**
@@ -345,8 +342,8 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
      *
      * @return {var} The user value of the property "iconOpened"
      */
-    __getUserValueIconOpened() {
-      return qx.util.PropertyUtil.getUserValue(this, "iconOpened");
+    __hasUserValueIconOpened() {
+      return qx.util.PropertyUtil.getProperty(this, "iconOpened").isUserValue(this);
     },
 
     /**
@@ -374,9 +371,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
      */
     isOpenable() {
       var openMode = this.getOpenSymbolMode();
-      return (
-        openMode === "always" || (openMode === "auto" && this.hasChildren())
-      );
+      return openMode === "always" || (openMode === "auto" && this.hasChildren());
     },
 
     /**
@@ -416,9 +411,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem", {
       }
 
       if (this.__spacer) {
-        this.__spacer.setWidth(
-          (this.getLevel() + 1) * this.getIndent() - openWidth
-        );
+        this.__spacer.setWidth((this.getLevel() + 1) * this.getIndent() - openWidth);
       }
     },
 

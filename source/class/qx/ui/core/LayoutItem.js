@@ -30,11 +30,7 @@ qx.Class.define("qx.ui.core.LayoutItem", {
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      this.__changeThemeLayoutItemListenerId = qx.theme.manager.Meta.getInstance().addListener(
-        "changeTheme",
-        this._onChangeTheme,
-        this
-      );
+      this.__changeThemeLayoutItemListenerId = qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._onChangeTheme, this);
     }
   },
 
@@ -298,11 +294,8 @@ qx.Class.define("qx.ui.core.LayoutItem", {
         for (var name in props) {
           var desc = props[name];
           // only themeable properties not having a user value
-          if (desc.themeable) {
-            var userValue = qx.util.PropertyUtil.getUserValue(this, name);
-            if (userValue == null) {
-              qx.util.PropertyUtil.resetThemed(this, name);
-            }
+          if (desc instanceof qx.core.property.Property && desc.isThemeable() && !desc.isUserValue(this)) {
+            desc.resetThemed(this);
           }
         }
       },
@@ -387,8 +380,7 @@ qx.Class.define("qx.ui.core.LayoutItem", {
       }
 
       if (qx.core.Environment.get("qx.debug")) {
-        var msg =
-          "Something went wrong with the layout of " + this.toString() + "!";
+        var msg = "Something went wrong with the layout of " + this.toString() + "!";
         this.assertInteger(left, "Wrong 'left' argument. " + msg);
         this.assertInteger(top, "Wrong 'top' argument. " + msg);
         this.assertInteger(width, "Wrong 'width' argument. " + msg);
@@ -447,10 +439,7 @@ qx.Class.define("qx.ui.core.LayoutItem", {
       if (this.getHeight() == null && this._hasHeightForWidth()) {
         var flowHeight = this._getHeightForWidth(width);
 
-        if (
-          flowHeight != null &&
-          flowHeight !== this.__computedHeightForWidth
-        ) {
+        if (flowHeight != null && flowHeight !== this.__computedHeightForWidth) {
           // This variable is used in the next computation of the size hint
           this.__computedHeightForWidth = flowHeight;
 
@@ -545,11 +534,7 @@ qx.Class.define("qx.ui.core.LayoutItem", {
       hint = this.__sizeHint = this._computeSizeHint();
 
       // Respect height for width
-      if (
-        this._hasHeightForWidth() &&
-        this.__computedHeightForWidth &&
-        this.getHeight() == null
-      ) {
+      if (this._hasHeightForWidth() && this.__computedHeightForWidth && this.getHeight() == null) {
         hint.height = this.__computedHeightForWidth;
       }
 
@@ -934,16 +919,8 @@ qx.Class.define("qx.ui.core.LayoutItem", {
   destruct() {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme") && this.__changeThemeLayoutItemListenerId) {
-      qx.theme.manager.Meta.getInstance().removeListenerById(
-        this.__changeThemeLayoutItemListenerId
-      );
+      qx.theme.manager.Meta.getInstance().removeListenerById(this.__changeThemeLayoutItemListenerId);
     }
-    this.$$parent =
-      this.$$subparent =
-      this.__layoutProperties =
-      this.__computedLayout =
-      this.__userBounds =
-      this.__sizeHint =
-        null;
+    this.$$parent = this.$$subparent = this.__layoutProperties = this.__computedLayout = this.__userBounds = this.__sizeHint = null;
   }
 });

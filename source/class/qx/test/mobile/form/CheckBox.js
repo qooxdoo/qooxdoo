@@ -16,6 +16,9 @@
 
 ************************************************************************ */
 
+/**
+ * @require(qx.module.Css)
+ */
 qx.Class.define("qx.test.mobile.form.CheckBox", {
   extend: qx.test.mobile.MobileTestCase,
 
@@ -25,17 +28,11 @@ qx.Class.define("qx.test.mobile.form.CheckBox", {
       this.getRoot().add(checkBox);
 
       this.assertEquals(false, checkBox.getValue());
-      this.assertEquals(
-        false,
-        qxWeb(checkBox.getContainerElement()).hasClass("checked")
-      );
+      this.assertEquals(false, qxWeb(checkBox.getContainerElement()).hasClass("checked"));
 
       checkBox.setValue(true);
       this.assertEquals(true, checkBox.getValue());
-      this.assertEquals(
-        true,
-        qxWeb(checkBox.getContainerElement()).hasClass("checked")
-      );
+      this.assertEquals(true, qxWeb(checkBox.getContainerElement()).hasClass("checked"));
 
       checkBox.destroy();
     },
@@ -44,10 +41,7 @@ qx.Class.define("qx.test.mobile.form.CheckBox", {
       this.getRoot().add(checkBox);
       checkBox.setEnabled(false);
       this.assertEquals(false, checkBox.getEnabled());
-      this.assertEquals(
-        true,
-        qx.bom.element.Class.has(checkBox.getContainerElement(), "disabled")
-      );
+      this.assertEquals(true, qx.bom.element.Class.has(checkBox.getContainerElement(), "disabled"));
 
       checkBox.destroy();
     }

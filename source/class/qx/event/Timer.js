@@ -158,6 +158,8 @@ qx.Class.define("qx.event.Timer", {
   */
 
   members: {
+    __onceFunc: undefined,
+
     __intervalHandler: null,
     __oninterval: null,
 

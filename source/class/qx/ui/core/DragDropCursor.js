@@ -61,7 +61,8 @@ qx.Class.define("qx.ui.core.DragDropCursor", {
     action: {
       check: ["alias", "copy", "move"],
       apply: "_applyAction",
-      nullable: true
+      nullable: true,
+      autoApply: false
     }
   },
 
