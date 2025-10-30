@@ -476,8 +476,9 @@ qx.Class.define("qx.util.format.DateFormat", {
 
       var timezoneOffset = date.getTimezoneOffset();
       var timezoneSign = timezoneOffset > 0 ? 1 : -1;
-      var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
-      var timezoneMinutes = Math.abs(timezoneOffset) % 60;
+      var absTimezoneOffset = Math.abs(timezoneOffset);
+      var timezoneHours = Math.floor(absTimezoneOffset / 60);
+      var timezoneMinutes = Math.trunc(absTimezoneOffset) % 60;
 
       // Create the output
       this.__initFormatTree();
