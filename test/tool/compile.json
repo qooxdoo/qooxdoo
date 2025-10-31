@@ -79,7 +79,8 @@
       "type": "node",
       "deploy": false,
       "environment": {
-        "qxl.testnode.testNameSpace": "qx.test"
+        "qxl.testnode.testNameSpace": "qx.test",
+        "qx.environment.allowRuntimeMutations": true
       },
       "include": [
         "qx.core.BaseInit",

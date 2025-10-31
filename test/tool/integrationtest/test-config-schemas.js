@@ -1,5 +1,5 @@
-const qx = require("../qx");
-const rimraf = require("rimraf");
+const qx = require("../../../compiled/node/build/compilerLibrary");
+const { rimraf } = require("rimraf");
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const assert = require("assert");
@@ -11,7 +11,7 @@ const appNamespace = "testConfigSchemaApp";
     console.info("Running config file schema tests...");
     // delete existing app
     if (await fs.existsAsync(appNamespace) && await fs.statAsync(appNamespace)) {
-      rimraf.sync(appNamespace);
+      await rimraf(appNamespace);
     }
     // create a test app
     let create = new qx.tool.compiler.cli.commands.Create();
@@ -50,7 +50,7 @@ const appNamespace = "testConfigSchemaApp";
     assert.ok(manifestConfig.getValue("info.authors").length === 2);
     // manipulating the data outside the api requires manual validation
     manifestConfig.getValue("info.authors").push({name: "Jane Miller", email:"jane@acme.com"});
-    manifestConfig.validate();
+    manifestConfig._validate();
     assert.ok(manifestConfig.getValue("info.authors").length === 3);
     // do something illegal according to the schema
     assert.throws(() => manifestConfig.setValue("requires.@qooxdoo/framework", 42));
@@ -64,7 +64,7 @@ const appNamespace = "testConfigSchemaApp";
 
     // delete the test app
     process.chdir("..");
-    rimraf.sync(appNamespace);
+    await rimraf(appNamespace);
     console.info("All tests passed.");
   } catch (e) {
     console.error(e);
