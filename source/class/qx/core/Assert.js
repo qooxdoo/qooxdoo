@@ -863,6 +863,20 @@ qx.Bootstrap.define("qx.core.Assert", {
      * @param msg {String?} Message to be shown if the assertion fails.
      */
     assertInterface(value, iface, msg) {
+      // Check if parameters are swapped (common mistake)
+      if (value && value.$$type === "Interface" && iface && typeof iface === "object" && !iface.$$type) {
+        this.__fail(
+          "",
+          "assertInterface() parameters appear to be in wrong order. ",
+          "Correct usage: assertInterface(object, interface, message). ",
+          "Did you mean: assertInterface(",
+          iface,
+          ", ",
+          value,
+          ")?"
+        );
+      }
+
       (qx.Class && qx.Class.implementsInterface(value, iface)) ||
         this.__fail(
           msg || "",

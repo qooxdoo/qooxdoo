@@ -5,6 +5,7 @@
 ## Fixes
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
 - Fixed `qx.ui.form.Form.add()` to automatically convert the name parameter to lowercase, preventing property binding errors in v8. The third parameter (name) is now automatically lowercased internally.
+- Improved `assertInterface()` to detect and report when parameters are in wrong order. If you accidentally swap the object and interface parameters, you now get a helpful error message explaining the correct usage.
 
 ## Breaking changes
 
