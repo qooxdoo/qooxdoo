@@ -238,6 +238,49 @@ qx.Class.define("qx.core.Object", {
 
     /*
     ---------------------------------------------------------------------------
+      CLONE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns a clone of this object. Copies over all user configured
+     * property values. Do not configure a parent nor apply the appearance
+     * styles directly.
+     *
+     * @return {qx.core.Object} The clone
+     */
+    clone() {
+      if (!qx.core.Environment.get("module.property")) {
+        throw new Error("Cloning only possible with properties.");
+      }
+
+      var clazz = this.constructor;
+      var clone = new clazz();
+      var props = qx.Class.getProperties(clazz);
+      var name;
+
+      // Iterate through properties and copy user values
+      for (var i = 0, l = props.length; i < l; i++) {
+        name = props[i];
+        var property = clazz.prototype.$$allProperties[name];
+
+        if (property && this.$$propertyValues && this.$$propertyValues[name] !== undefined) {
+          var value = this.$$propertyValues[name].value;
+          if (value !== undefined) {
+            var setter = "set" + qx.lang.String.firstUp(name);
+            if (clone[setter]) {
+              clone[setter](value);
+            }
+          }
+        }
+      }
+
+      // Return clone
+      return clone;
+    },
+
+    /*
+    ---------------------------------------------------------------------------
       DISPOSER
     ---------------------------------------------------------------------------
     */

@@ -2,6 +2,9 @@
 
 # v8.0.0_beta
 
+## Fixes
+- Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
+
 ## Breaking changes
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
 Old:
