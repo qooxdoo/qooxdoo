@@ -19,6 +19,26 @@
   }
   ```
 
+- **Property setters must be called AFTER parent constructor:** In v8, any property setters called BEFORE `super()` or `this.base(arguments)` will be reset when the parent constructor executes. You must move all property setter calls to occur after the parent constructor invocation.
+
+  **v7 (worked but now broken in v8):**
+  ```javascript
+  construct(svg, width, height) {
+    this.setWidth(width);   // These values will be lost!
+    this.setHeight(height);
+    this.base(arguments);
+  }
+  ```
+
+  **v8 (correct approach):**
+  ```javascript
+  construct(svg, width, height) {
+    this.base(arguments);   // Call parent first!
+    this.setWidth(width);   // Now set properties
+    this.setHeight(height);
+  }
+  ```
+
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
 Old:
 ```
