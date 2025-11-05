@@ -12,6 +12,26 @@
 
 ## Breaking changes
 
+- **CRITICAL: Apply methods now execute during initialization:** This is the most significant breaking change in v8. Property `apply` methods are now automatically called during object construction when properties have `init` values, whereas v7 skipped them. This can cause issues if your apply methods depend on the object being fully constructed or access other properties that aren't initialized yet.
+
+  **What changed:**
+  - v7: `apply` methods were NOT called during initialization
+  - v8: `apply` methods ARE called during initialization (default behavior)
+
+  **Impact:** Your apply methods may execute before the object is fully initialized, potentially causing errors if they:
+  - Access properties that haven't been set yet
+  - Depend on DOM elements that aren't ready
+  - Call methods that require full object initialization
+
+  **How to disable (if needed):** You can disable auto-apply during construction by setting the environment variable in your `compile.json`:
+  ```json
+  "environment": {
+    "qx.core.property.Property.applyDuringConstruct": false
+  }
+  ```
+
+  **Note:** By default, qooxdoo framework classes (starting with `qx.`) are excluded from auto-apply. This primarily affects user-defined classes.
+
 - **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
 
   Example:
