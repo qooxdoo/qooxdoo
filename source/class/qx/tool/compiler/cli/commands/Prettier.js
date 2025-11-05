@@ -12,7 +12,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Henner Kollmann (mne)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
