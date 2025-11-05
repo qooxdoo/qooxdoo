@@ -210,6 +210,87 @@ test("Checks dependencies and environment settings", assert => {
       })
 
       /*
+       * Test Issue 10693 - Property accessor metadata generation
+       */
+      .then(async () => {
+        let metaDb = new qx.tool.compiler.MetaDatabase().set({
+          rootDir: "meta"
+        });
+        await metaDb.addFile("testapp/source/class/testapp/Issue10693.js");
+        await metaDb.reparseAll();
+        return readJson("meta/testapp/Issue10693.json");
+      })
+      .then(issue10693Meta => {
+        // Verify class metadata
+        assert.equal(issue10693Meta.className, "testapp.Issue10693", "Issue10693: className");
+        assert.equal(issue10693Meta.superClass, "qx.core.Object", "Issue10693: superClass");
+
+        // Verify properties exist
+        assert.ok(issue10693Meta.properties, "Issue10693: properties section exists");
+        assert.ok(issue10693Meta.properties.myString, "Issue10693: myString property exists");
+        assert.ok(issue10693Meta.properties.myBoolean, "Issue10693: myBoolean property exists");
+        assert.ok(issue10693Meta.properties.myNumber, "Issue10693: myNumber property exists");
+        assert.ok(issue10693Meta.properties.myAsync, "Issue10693: myAsync property exists");
+
+        // Verify members section exists
+        assert.ok(issue10693Meta.members, "Issue10693: members section exists");
+
+        // Test string property accessors
+        assert.ok(issue10693Meta.members.getMyString, "Issue10693: getMyString exists");
+        assert.equal(issue10693Meta.members.getMyString.property, "myString", "Issue10693: getMyString has property field");
+        assert.equal(issue10693Meta.members.getMyString.type, "function", "Issue10693: getMyString is a function");
+
+        assert.ok(issue10693Meta.members.setMyString, "Issue10693: setMyString exists");
+        assert.equal(issue10693Meta.members.setMyString.property, "myString", "Issue10693: setMyString has property field");
+
+        assert.ok(issue10693Meta.members.resetMyString, "Issue10693: resetMyString exists");
+        assert.equal(issue10693Meta.members.resetMyString.property, "myString", "Issue10693: resetMyString has property field");
+
+        // Test boolean property accessors (should have both get and is)
+        assert.ok(issue10693Meta.members.getMyBoolean, "Issue10693: getMyBoolean exists");
+        assert.equal(issue10693Meta.members.getMyBoolean.property, "myBoolean", "Issue10693: getMyBoolean has property field");
+
+        assert.ok(issue10693Meta.members.isMyBoolean, "Issue10693: isMyBoolean exists");
+        assert.equal(issue10693Meta.members.isMyBoolean.property, "myBoolean", "Issue10693: isMyBoolean has property field");
+
+        assert.ok(issue10693Meta.members.setMyBoolean, "Issue10693: setMyBoolean exists");
+        assert.equal(issue10693Meta.members.setMyBoolean.property, "myBoolean", "Issue10693: setMyBoolean has property field");
+
+        assert.ok(issue10693Meta.members.resetMyBoolean, "Issue10693: resetMyBoolean exists");
+        assert.equal(issue10693Meta.members.resetMyBoolean.property, "myBoolean", "Issue10693: resetMyBoolean has property field");
+
+        // Test number property accessors
+        assert.ok(issue10693Meta.members.getMyNumber, "Issue10693: getMyNumber exists");
+        assert.equal(issue10693Meta.members.getMyNumber.property, "myNumber", "Issue10693: getMyNumber has property field");
+
+        assert.ok(issue10693Meta.members.setMyNumber, "Issue10693: setMyNumber exists");
+        assert.equal(issue10693Meta.members.setMyNumber.property, "myNumber", "Issue10693: setMyNumber has property field");
+
+        assert.ok(issue10693Meta.members.resetMyNumber, "Issue10693: resetMyNumber exists");
+        assert.equal(issue10693Meta.members.resetMyNumber.property, "myNumber", "Issue10693: resetMyNumber has property field");
+
+        // Test async property accessors
+        assert.ok(issue10693Meta.members.getMyAsync, "Issue10693: getMyAsync exists");
+        assert.equal(issue10693Meta.members.getMyAsync.property, "myAsync", "Issue10693: getMyAsync has property field");
+
+        assert.ok(issue10693Meta.members.getMyAsyncAsync, "Issue10693: getMyAsyncAsync exists");
+        assert.equal(issue10693Meta.members.getMyAsyncAsync.property, "myAsync", "Issue10693: getMyAsyncAsync has property field");
+
+        assert.ok(issue10693Meta.members.setMyAsync, "Issue10693: setMyAsync exists");
+        assert.equal(issue10693Meta.members.setMyAsync.property, "myAsync", "Issue10693: setMyAsync has property field");
+
+        assert.ok(issue10693Meta.members.setMyAsyncAsync, "Issue10693: setMyAsyncAsync exists");
+        assert.equal(issue10693Meta.members.setMyAsyncAsync.property, "myAsync", "Issue10693: setMyAsyncAsync has property field");
+
+        assert.ok(issue10693Meta.members.resetMyAsync, "Issue10693: resetMyAsync exists");
+        assert.equal(issue10693Meta.members.resetMyAsync.property, "myAsync", "Issue10693: resetMyAsync has property field");
+
+        // Verify explicit method is not overwritten
+        assert.ok(issue10693Meta.members.customMethod, "Issue10693: customMethod exists");
+        assert.notOk(issue10693Meta.members.customMethod.property, "Issue10693: customMethod does not have property field");
+      })
+
+      /*
        * Test unresolved symbols
        */
       .then(() => {
