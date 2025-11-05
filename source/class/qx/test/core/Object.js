@@ -366,6 +366,45 @@ qx.Class.define("qx.test.core.Object", {
 
       qx.Class.undefine("qx.test.MyClass");
       o.dispose();
+    },
+
+    /**
+     * @ignore(qx.test.CloneClass)
+     */
+    testClone() {
+      qx.Class.define("qx.test.CloneClass", {
+        extend: qx.core.Object,
+        properties: {
+          name: { init: null, nullable: true },
+          value: { init: 0 },
+          enabled: { init: true }
+        }
+      });
+
+      var original = new qx.test.CloneClass();
+      original.setName("test");
+      original.setValue(42);
+      original.setEnabled(false);
+
+      var clone = original.clone();
+
+      // Check that clone is a different instance
+      this.assertNotIdentical(original, clone);
+      this.assertInstance(clone, qx.test.CloneClass);
+
+      // Check that properties were copied correctly
+      this.assertEquals("test", clone.getName());
+      this.assertEquals(42, clone.getValue());
+      this.assertEquals(false, clone.getEnabled());
+
+      // Check that modifying clone doesn't affect original
+      clone.setName("modified");
+      this.assertEquals("test", original.getName());
+      this.assertEquals("modified", clone.getName());
+
+      qx.Class.undefine("qx.test.CloneClass");
+      original.dispose();
+      clone.dispose();
     }
   }
 });
