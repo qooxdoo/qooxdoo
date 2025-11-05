@@ -4,6 +4,7 @@
 
 ## Fixes
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
+- Fixed `qx.ui.form.Form.add()` to automatically convert the name parameter to lowercase, preventing property binding errors in v8. The third parameter (name) is now automatically lowercased internally.
 
 ## Breaking changes
 
