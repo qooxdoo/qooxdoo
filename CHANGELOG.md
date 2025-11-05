@@ -6,6 +6,17 @@
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
 
 ## Breaking changes
+
+- **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
+
+  Example:
+  ```javascript
+  construct() {
+    super();  // Required in v8!
+    this.setMyProperty("value");
+  }
+  ```
+
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
 Old:
 ```
