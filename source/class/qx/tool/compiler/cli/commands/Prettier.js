@@ -5,14 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 Zenesis Ltd
+     2025 Henner Kollmann and others
 
    License:
      MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * John Spackman (john.spackman@zenesis.com, @johnspackman)
+     * Henner Kollmann (mne)
 
 ************************************************************************ */
 
