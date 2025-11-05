@@ -199,6 +199,8 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
 
         meta.fixupJsDoc(typeResolver);
 
+        this.__addPropertyAccessors(metaData);
+
         this.__fixupMembers(metaData);
 
         this.__fixupEntries(metaData, "members");
@@ -311,6 +313,207 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
       }
 
       return appearances;
+    },
+
+    /**
+     * Adds property accessor methods (get, set, reset, is) to the members section
+     *
+     * @param {*} metaData
+     */
+    __addPropertyAccessors(metaData) {
+      if (!metaData.properties) {
+        return;
+      }
+      if (!metaData.members) {
+        metaData.members = {};
+      }
+
+      for (let propertyName in metaData.properties) {
+        let propertyMeta = metaData.properties[propertyName];
+        let upname = qx.lang.String.firstUp(propertyName);
+
+        // Determine property type from check field
+        let propertyType = propertyMeta.json?.check;
+        let isBoolean = false;
+        if (typeof propertyType === "string") {
+          isBoolean = propertyType.toLowerCase() === "boolean";
+        }
+
+        // Don't generate accessors for group properties
+        if (!propertyMeta.json?.group) {
+          // Generate getter: getSomeProperty()
+          let getterName = "get" + upname;
+          if (!metaData.members[getterName]) {
+            metaData.members[getterName] = {
+              type: "function",
+              access: "public",
+              location: propertyMeta.location,
+              jsdoc: {
+                raw: [`Gets the (${propertyName}) property.`],
+                "@description": [
+                  {
+                    name: "@description",
+                    body: `Gets the (${propertyName}) property.`
+                  }
+                ]
+              },
+              property: propertyName,
+              params: []
+            };
+          }
+
+          // Generate is getter for boolean properties: isSomeProperty()
+          if (isBoolean) {
+            let isGetterName = "is" + upname;
+            if (!metaData.members[isGetterName]) {
+              metaData.members[isGetterName] = {
+                type: "function",
+                access: "public",
+                location: propertyMeta.location,
+                jsdoc: {
+                  raw: [`Checks the (${propertyName}) property.`],
+                  "@description": [
+                    {
+                      name: "@description",
+                      body: `Checks the (${propertyName}) property.`
+                    }
+                  ]
+                },
+                property: propertyName,
+                params: []
+              };
+            }
+          }
+        }
+
+        // Generate setter: setSomeProperty(value)
+        let setterName = "set" + upname;
+        if (!metaData.members[setterName]) {
+          metaData.members[setterName] = {
+            type: "function",
+            access: "public",
+            location: propertyMeta.location,
+            jsdoc: {
+              raw: [`Sets the (${propertyName}) property.`],
+              "@description": [
+                {
+                  name: "@description",
+                  body: `Sets the (${propertyName}) property.`
+                }
+              ],
+              "@param": [
+                {
+                  name: "@param",
+                  paramName: "value",
+                  body: `{${propertyType || "var"}} value`,
+                  type: propertyType || "var",
+                  desc: `New value for property ${propertyName}`
+                }
+              ]
+            },
+            property: propertyName,
+            params: [{ name: "value" }]
+          };
+        }
+
+        // Generate reset: resetSomeProperty()
+        let resetName = "reset" + upname;
+        if (!metaData.members[resetName]) {
+          metaData.members[resetName] = {
+            type: "function",
+            access: "public",
+            location: propertyMeta.location,
+            jsdoc: {
+              raw: [`Resets the (${propertyName}) property.`],
+              "@description": [
+                {
+                  name: "@description",
+                  body: `Resets the (${propertyName}) property.`
+                }
+              ]
+            },
+            property: propertyName,
+            params: []
+          };
+        }
+
+        // Generate async accessors if property is async
+        if (propertyMeta.json?.async) {
+          // Generate async getter: getSomePropertyAsync()
+          let asyncGetterName = "get" + upname + "Async";
+          if (!metaData.members[asyncGetterName]) {
+            metaData.members[asyncGetterName] = {
+              type: "function",
+              access: "public",
+              location: propertyMeta.location,
+              jsdoc: {
+                raw: [`Gets the (${propertyName}) property asynchronously.`],
+                "@description": [
+                  {
+                    name: "@description",
+                    body: `Gets the (${propertyName}) property asynchronously.`
+                  }
+                ]
+              },
+              property: propertyName,
+              params: []
+            };
+          }
+
+          // Generate async is getter for boolean properties
+          if (isBoolean) {
+            let asyncIsGetterName = "is" + upname + "Async";
+            if (!metaData.members[asyncIsGetterName]) {
+              metaData.members[asyncIsGetterName] = {
+                type: "function",
+                access: "public",
+                location: propertyMeta.location,
+                jsdoc: {
+                  raw: [`Checks the (${propertyName}) property asynchronously.`],
+                  "@description": [
+                    {
+                      name: "@description",
+                      body: `Checks the (${propertyName}) property asynchronously.`
+                    }
+                  ]
+                },
+                property: propertyName,
+                params: []
+              };
+            }
+          }
+
+          // Generate async setter: setSomePropertyAsync(value)
+          let asyncSetterName = "set" + upname + "Async";
+          if (!metaData.members[asyncSetterName]) {
+            metaData.members[asyncSetterName] = {
+              type: "function",
+              access: "public",
+              location: propertyMeta.location,
+              jsdoc: {
+                raw: [`Sets the (${propertyName}) property asynchronously.`],
+                "@description": [
+                  {
+                    name: "@description",
+                    body: `Sets the (${propertyName}) property asynchronously.`
+                  }
+                ],
+                "@param": [
+                  {
+                    name: "@param",
+                    paramName: "value",
+                    body: `{${propertyType || "var"}} value`,
+                    type: propertyType || "var",
+                    desc: `New value for property ${propertyName}`
+                  }
+                ]
+              },
+              property: propertyName,
+              params: [{ name: "value" }]
+            };
+          }
+        }
+      }
     },
 
     /**
