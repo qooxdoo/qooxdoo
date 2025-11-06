@@ -49,8 +49,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
     "qx.core.property.Property.inheritableDefaultIsNull": false,
     /**
      * If set to true, then properties with init values will have their apply method called during construction.
+     * Default is false to maintain backward compatibility with v7 behavior.
      */
-    "qx.core.property.Property.applyDuringConstruct": true,
+    "qx.core.property.Property.applyDuringConstruct": false,
 
     /**
      * Only relevant when applyDuringConstruct is true.

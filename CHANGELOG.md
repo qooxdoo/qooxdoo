@@ -9,27 +9,23 @@
 ## Known Issues
 - **qxWeb constructor warning:** You may see a console warning: "The constructor of class 'qxWeb' returned a different instance than 'this'". This is expected behavior due to qxWeb's factory pattern (similar to jQuery) and does not affect functionality. This warning will be addressed in a future release.
 
-## Breaking changes
+## New Features
 
-- **CRITICAL: Apply methods now execute during initialization:** This is the most significant breaking change in v8. Property `apply` methods are now automatically called during object construction when properties have `init` values, whereas v7 skipped them. This can cause issues if your apply methods depend on the object being fully constructed or access other properties that aren't initialized yet.
+- **Apply method initialization (opt-in):** v8 introduces the ability to automatically call property `apply` methods during object construction when properties have `init` values. This is **disabled by default** to maintain backward compatibility with v7 behavior.
 
-  **What changed:**
-  - v7: `apply` methods were NOT called during initialization
-  - v8: `apply` methods ARE called during initialization (default behavior)
+  **Default behavior (v7 compatible):**
+  - `apply` methods are NOT called during initialization (same as v7)
 
-  **Impact:** Your apply methods may execute before the object is fully initialized, potentially causing errors if they:
-  - Access properties that haven't been set yet
-  - Depend on DOM elements that aren't ready
-  - Call methods that require full object initialization
-
-  **How to disable (if needed):** You can disable auto-apply during construction by setting the environment variable in your `compile.json`:
+  **How to enable new behavior (opt-in):** If you want apply methods to execute during construction, set this environment variable in your `compile.json`:
   ```json
   "environment": {
-    "qx.core.property.Property.applyDuringConstruct": false
+    "qx.core.property.Property.applyDuringConstruct": true
   }
   ```
 
-  **Note:** By default, qooxdoo framework classes (starting with `qx.`) are excluded from auto-apply. This primarily affects user-defined classes.
+  **Note:** When enabled, qooxdoo framework classes (starting with `qx.`) are excluded by default. This primarily affects user-defined classes.
+
+## Breaking changes
 
 - **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
 
