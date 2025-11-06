@@ -157,7 +157,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           Program(path) {
             path.skip();
             let found = false;
-            path.get("body").forEach(path => {
+            let bodyPaths = path.get("body");
+            if (!Array.isArray(bodyPaths)) {
+              bodyPaths = [bodyPaths];
+            }
+            bodyPaths.forEach(path => {
               let node = path.node;
               if (
                 node.type == "ExpressionStatement" &&
@@ -228,7 +232,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
       path.skip();
       let ctorAnnotations = {};
-      path.get("properties").forEach(path => {
+      let propertiesPaths = path.get("properties");
+      if (!Array.isArray(propertiesPaths)) {
+        propertiesPaths = [propertiesPaths];
+      }
+      propertiesPaths.forEach(path => {
         let property = path.node;
         let propertyName;
         if (property.key.type === "Identifier") {
@@ -359,7 +367,11 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           let annotations = {};
           metaData[type] = {};
           if (path.node.value.type == "ObjectExpression") {
-            path.get("value.properties").forEach(memberPath => {
+            let memberPaths = path.get("value.properties");
+            if (!Array.isArray(memberPaths)) {
+              memberPaths = [memberPaths];
+            }
+            memberPaths.forEach(memberPath => {
               let member = memberPath.node;
               const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
                 member.key

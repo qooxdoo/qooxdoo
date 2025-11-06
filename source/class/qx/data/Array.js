@@ -32,49 +32,6 @@ qx.Class.define("qx.data.Array", {
   implement: [qx.data.IListData],
 
   /**
-   * Allow a `qx.data.Array` instance to be indexed as if it were an ordinary
-   * array. Instead of using the provided API to retrieve an indexed item
-   * (`getItem()`), store a value in an indexed item (`setItem()`), or remove
-   * an indexed item (`removeAt()`), this delegate allows those operations to
-   * use normal array operators, e.g., `value = arr[2]`, `arr[2] = 42;`,
-   * `delete arr[2]`.
-   *
-   */
-  delegate: {
-    get(property) {
-      // If the property is a number or string representing a number...
-      if (typeof property != "symbol" && +property === +property) {
-        // ... then use the method for retrieving an item
-        return this.getItem(property);
-      } else {
-        // otherwise, use the default action
-        return this[property];
-      }
-    },
-
-    set(property, value) {
-      // If the property is a number or string representing a number...
-      if (typeof property != "symbol" && +property === +property) {
-        // ... then use the method for modifying an item
-        this.setItem(property, value);
-      } else {
-        // otherwise, use the default action
-        this[property] = value;
-      }
-    },
-
-    delete(property) {
-      // If the property is a number or string representing a number...
-      if (typeof property != "symbol" && +property === +property) {
-        this.setItem(property, undefined);
-      } else {
-        // otherwise, use the default action
-        delete this[property];
-      }
-    }
-  },
-
-  /**
    * Creates a new instance of an array.
    *
    * @param param {var} The parameter can be some types.<br/>
@@ -1205,5 +1162,62 @@ qx.Class.define("qx.data.Array", {
     statics.prototype[Symbol.iterator] = function () {
       return this.iterator();
     };
+
+    // Wrap the constructor to return a Proxy for array-like indexing
+    let originalConstructor = statics;
+    let ProxyConstructor = function(...args) {
+      let instance = new originalConstructor(...args);
+
+      // Create a Proxy handler for array-like access
+      let handler = {
+        get(target, property, receiver) {
+          // If the property is a number or string representing a number...
+          if (typeof property != "symbol" && +property === +property) {
+            // ... then use the method for retrieving an item
+            return target.getItem(property);
+          } else {
+            // otherwise, use the default action
+            return Reflect.get(target, property, receiver);
+          }
+        },
+
+        set(target, property, value, receiver) {
+          // If the property is a number or string representing a number...
+          if (typeof property != "symbol" && +property === +property) {
+            // ... then use the method for modifying an item
+            target.setItem(property, value);
+            return true;
+          } else {
+            // otherwise, use the default action
+            return Reflect.set(target, property, value, receiver);
+          }
+        },
+
+        deleteProperty(target, property) {
+          // If the property is a number or string representing a number...
+          if (typeof property != "symbol" && +property === +property) {
+            target.setItem(property, undefined);
+            return true;
+          } else {
+            // otherwise, use the default action
+            return Reflect.deleteProperty(target, property);
+          }
+        }
+      };
+
+      return new Proxy(instance, handler);
+    };
+
+    // Copy all properties from the original constructor
+    Object.setPrototypeOf(ProxyConstructor, originalConstructor);
+    ProxyConstructor.prototype = originalConstructor.prototype;
+    for (let key in originalConstructor) {
+      if (originalConstructor.hasOwnProperty(key)) {
+        ProxyConstructor[key] = originalConstructor[key];
+      }
+    }
+
+    // Replace the class in the namespace
+    qx.data.Array = ProxyConstructor;
   }
 });

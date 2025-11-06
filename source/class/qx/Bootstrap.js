@@ -280,6 +280,7 @@ window.qx = Object.assign(window.qx || {}, {
         //
         subclass = function (...args) {
           let ret;
+          let instance = this;
 
           // add abstract and singleton checks
           if (type === "abstract") {
@@ -302,19 +303,46 @@ window.qx = Object.assign(window.qx || {}, {
           // Call the constructor; note that we catch the return value of the constructor - this is allowed only because
           //   of `qxWeb` and backwards compatibility, but it is nonsense to return a different instance than `this`
           if (initialConstruct) {
-            ret = initialConstruct.apply(this, args);
+            ret = initialConstruct.apply(instance, args);
           } else if (superclass === Object) {
-            superclass.apply(this, args);
+            superclass.apply(instance, args);
           } else {
-            ret = superclass.apply(this, args);
+            ret = superclass.apply(instance, args);
           }
-          if (ret !== undefined && ret !== this) {
+          if (ret !== undefined && ret !== instance) {
             qx.log.Logger.error(
               `The constructor of class '${classname}' returned a different instance than 'this'. This is highly suspect, not recommended, and should be removed.`
             );
           }
 
-          return ret !== undefined ? ret : this;
+          // If delegate is defined, wrap the instance in a Proxy
+          if (config.delegate) {
+            let handler = {};
+
+            // Bind delegate methods to the instance
+            if (config.delegate.get) {
+              handler.get = function(target, property, receiver) {
+                return config.delegate.get.call(target, property);
+              };
+            }
+
+            if (config.delegate.set) {
+              handler.set = function(target, property, value, receiver) {
+                config.delegate.set.call(target, property, value);
+                return true;
+              };
+            }
+
+            if (config.delegate.delete) {
+              handler.deleteProperty = function(target, property) {
+                return config.delegate.delete.call(target, property);
+              };
+            }
+
+            instance = new Proxy(instance, handler);
+          }
+
+          return ret !== undefined ? ret : instance;
         };
       } else {
         subclass = function () {
