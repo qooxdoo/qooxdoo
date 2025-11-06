@@ -95,8 +95,6 @@ qx.Class.define("qx.ui.form.Form", {
           ""
         );
       }
-      // Ensure name is lowercase for property binding compatibility (v8 requirement)
-      name = name.toLowerCase();
       this.__groups[this._groupCounter].names.push(name);
 
       // add the item to the validation manager

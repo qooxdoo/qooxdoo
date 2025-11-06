@@ -4,7 +4,6 @@
 
 ## Fixes
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
-- Fixed `qx.ui.form.Form.add()` to automatically convert the name parameter to lowercase, preventing property binding errors in v8. The third parameter (name) is now automatically lowercased internally.
 - Improved `assertInterface()` to detect and report when parameters are in wrong order. If you accidentally swap the object and interface parameters, you now get a helpful error message explaining the correct usage.
 
 ## Known Issues
@@ -60,6 +59,17 @@
     this.setWidth(width);   // Now set properties
     this.setHeight(height);
   }
+  ```
+
+- **Form.add() name parameter must be lowercase:** In v8, the third parameter (name) of `qx.ui.form.Form.add()` must be lowercase to avoid property binding errors. Mixed case or uppercase names will cause issues.
+
+  **Example:**
+  ```javascript
+  // Wrong - will cause binding errors
+  form.add(widget, "My Label", null, "MyField");
+
+  // Correct - name must be lowercase
+  form.add(widget, "My Label", null, "myfield");
   ```
 
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
