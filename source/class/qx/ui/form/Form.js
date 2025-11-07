@@ -88,12 +88,20 @@ qx.Class.define("qx.ui.form.Form", {
       this.__groups[this._groupCounter].items.push(item);
       this.__groups[this._groupCounter].labels.push(label);
       this.__groups[this._groupCounter].options.push(options);
+
+      // remember if name was explicitly provided
+      var nameWasProvided = name != null;
+
       // if no name is given, use the label without not working character
       if (name == null) {
         name = label.replace(
           /\s+|&|-|\+|\*|\/|\||!|\.|,|:|\?|;|~|%|\{|\}|\(|\)|\[|\]|<|>|=|\^|@|\\/g,
           ""
         );
+      } else {
+        // convert first character to lowercase for consistency with v8 property naming conventions (camelCase)
+        // only when name was explicitly provided (not auto-generated from label)
+        name = qx.lang.String.firstLow(name);
       }
       this.__groups[this._groupCounter].names.push(name);
 

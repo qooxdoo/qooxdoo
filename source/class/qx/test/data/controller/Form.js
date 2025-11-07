@@ -947,6 +947,57 @@ qx.Class.define("qx.test.data.controller.Form", {
       // destroy the objects
       tf.destroy();
       c.dispose();
+    },
+
+    testCamelCaseNameConversion() {
+      // Test for issue #10808: capitalized names should be converted to camelCase
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var usernameField = new qx.ui.form.TextField();
+      var emailField = new qx.ui.form.TextField();
+      var passwordField = new qx.ui.form.PasswordField();
+
+      // Add fields with capitalized names - should be converted to camelCase
+      this.__form.add(usernameField, "Username", null, "Username");
+      this.__form.add(emailField, "Email", null, "EmailAddress");
+      this.__form.add(passwordField, "Password", null, "PassWord");
+
+      // Create controller and model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Verify that camelCase getters exist and work
+      this.assertFunction(model.getUsername, "getUsername() should exist");
+      this.assertFunction(model.getEmailAddress, "getEmailAddress() should exist");
+      this.assertFunction(model.getPassWord, "getPassWord() should exist");
+
+      // Test data binding: set values via model
+      model.setUsername("testuser");
+      model.setEmailAddress("test@example.com");
+      model.setPassWord("secret123");
+
+      // Verify values are bound to form fields
+      this.assertEquals("testuser", usernameField.getValue());
+      this.assertEquals("test@example.com", emailField.getValue());
+      this.assertEquals("secret123", passwordField.getValue());
+
+      // Test reverse binding: set values in form
+      usernameField.setValue("newuser");
+      emailField.setValue("new@example.com");
+      passwordField.setValue("newpass");
+
+      // Verify values are reflected in model
+      this.assertEquals("newuser", model.getUsername());
+      this.assertEquals("new@example.com", model.getEmailAddress());
+      this.assertEquals("newpass", model.getPassWord());
+
+      // Cleanup
+      usernameField.dispose();
+      emailField.dispose();
+      passwordField.dispose();
+      c.dispose();
+      model.dispose();
     }
   }
 });
