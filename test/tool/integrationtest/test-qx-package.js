@@ -125,3 +125,116 @@ test("Install qxl.test1@commit", async assert => {
   }
 });
 
+/**
+ * Tests for Issue #10194: Adding a package requires "clean" for `npx qx serve` to notice it
+ *
+ * These tests verify that the compiler automatically detects newly added/removed packages
+ * without requiring the --clean flag.
+ */
+
+test("Issue #10194: Setup - Initial compile for baseline", async assert => {
+  try {
+    // Clean up from previous tests
+    let result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test1");
+    // Ignore exit code - package may not be installed
+
+    // Initial compile to establish baseline
+    result = await testUtils.runCompiler(appDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify db.json exists
+    const dbPath = path.join(appDir, "compiled/source/db.json");
+    assert.ok(fs.existsSync(dbPath), "db.json should exist after initial compile");
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue #10194: Add package and compile WITHOUT --clean", async assert => {
+  try {
+    let result;
+
+    // Install package
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1@latest");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Compile WITHOUT --clean flag - should auto-detect the new package
+    result = await testUtils.runCompiler(appDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify the package is in db.json
+    const dbPath = path.join(appDir, "compiled/source/db.json");
+    assert.ok(fs.existsSync(dbPath), "db.json should exist");
+
+    const dbContent = JSON.parse(fs.readFileSync(dbPath, "utf8"));
+    assert.ok(dbContent.libraries, "Database should contain libraries");
+    assert.ok(dbContent.libraries["qxl.test1"], "qxl.test1 should be in the libraries list (auto-detected without --clean)");
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue #10194: Add second package and compile WITHOUT --clean", async assert => {
+  try {
+    let result;
+
+    // Install second package
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test2/qxl.test2A@2.0.2");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Compile WITHOUT --clean flag - should auto-detect the second package
+    result = await testUtils.runCompiler(appDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify both packages are in db.json
+    const dbPath = path.join(appDir, "compiled/source/db.json");
+    const dbContent = JSON.parse(fs.readFileSync(dbPath, "utf8"));
+
+    assert.ok(dbContent.libraries["qxl.test1"], "qxl.test1 should still be in the libraries list");
+    assert.ok(dbContent.libraries["qxl.test2A"], "qxl.test2A should be in the libraries list (auto-detected without --clean)");
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue #10194: Remove package and compile WITHOUT --clean", async assert => {
+  try {
+    let result;
+
+    // Remove first package
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test1");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Compile WITHOUT --clean flag - should auto-detect the removal
+    result = await testUtils.runCompiler(appDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify the package is no longer in db.json
+    const dbPath = path.join(appDir, "compiled/source/db.json");
+    const dbContent = JSON.parse(fs.readFileSync(dbPath, "utf8"));
+
+    assert.notOk(dbContent.libraries["qxl.test1"], "qxl.test1 should NOT be in the libraries list (removal auto-detected without --clean)");
+    assert.ok(dbContent.libraries["qxl.test2A"], "qxl.test2A should still be in the libraries list");
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue #10194: Cleanup - Remove remaining test packages", async assert => {
+  try {
+    let result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test2/qxl.test2A");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
