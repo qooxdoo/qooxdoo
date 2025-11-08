@@ -392,6 +392,23 @@ qx.Class.define("qx.core.Object", {
      */
     _disposeMap(field) {
       qx.util.DisposeUtil.disposeMap(this, field);
+    },
+
+    /**
+     * Returns the property descriptor (Property object) for the given property.
+     * Returns null if the property does not exist.
+     *
+     * This provides access to the first-class Property object in qooxdoo v8,
+     * which contains the property configuration and metadata.
+     *
+     * The returned descriptor includes set() and get() methods that can be called
+     * with .call(instance, ...) syntax, where the instance is bound as 'this'.
+     *
+     * @param propertyName {String} name of the property
+     * @return {qx.core.property.Property|null} Property object or null if not found
+     */
+    getPropertyDescriptor(propertyName) {
+      return qx.Class.getPropertyDescriptor(this.constructor, propertyName);
     }
   },
 

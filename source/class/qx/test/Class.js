@@ -479,6 +479,275 @@ qx.Class.define("qx.test.Class", {
       });
 
       qx.Class.undefine("qx.DeferFoo");
+    },
+
+    testGetPropertyDescriptorStatic() {
+      // Define a test class with properties
+      var TestClass = qx.Class.define(null, {
+        extend: qx.core.Object,
+        properties: {
+          myProp: {
+            init: "default",
+            check: "String",
+            nullable: false
+          },
+
+          anotherProp: {
+            init: 42,
+            check: "Integer"
+          }
+        }
+      });
+
+      // Test static method on qx.Class
+      var descriptor = qx.Class.getPropertyDescriptor(TestClass, "myProp");
+      this.assertNotNull(descriptor, "Property descriptor should not be null");
+      this.assertInstance(
+        descriptor,
+        qx.core.property.Property,
+        "Should return Property object"
+      );
+
+      this.assertEquals("myProp", descriptor.getPropertyName(), "Property name should match");
+
+      var definition = descriptor.getDefinition();
+      this.assertEquals(
+        "default",
+        definition.init,
+        "Init value should match"
+      );
+
+      this.assertEquals(
+        "String",
+        definition.check,
+        "Check type should match"
+      );
+
+      // Test with another property
+      descriptor = qx.Class.getPropertyDescriptor(TestClass, "anotherProp");
+      this.assertNotNull(
+        descriptor,
+        "Second property descriptor should not be null"
+      );
+
+      this.assertEquals(
+        "anotherProp",
+        descriptor.getPropertyName(),
+        "Second property name should match"
+      );
+
+      // Test with non-existent property
+      descriptor = qx.Class.getPropertyDescriptor(TestClass, "nonExistent");
+      this.assertNull(
+        descriptor,
+        "Non-existent property descriptor should be null"
+      );
+    },
+
+    testGetPropertyDescriptorInstance() {
+      // Define a test class with properties
+      var TestClass = qx.Class.define(null, {
+        extend: qx.core.Object,
+        properties: {
+          instanceProp: {
+            init: "test",
+            check: "String",
+            event: "changeInstanceProp"
+          },
+
+          inheritableProp: {
+            init: null,
+            nullable: true,
+            inheritable: true
+          }
+        }
+      });
+
+      var instance = new TestClass();
+
+      // Test accessing via instance.getPropertyDescriptor
+      var descriptor = instance.getPropertyDescriptor("instanceProp");
+      this.assertNotNull(
+        descriptor,
+        "Property descriptor should not be null"
+      );
+
+      this.assertInstance(
+        descriptor,
+        qx.core.property.Property,
+        "Should return Property object"
+      );
+
+      this.assertEquals(
+        "instanceProp",
+        descriptor.getPropertyName(),
+        "Property name should match"
+      );
+
+      var definition = descriptor.getDefinition();
+      this.assertEquals(
+        "test",
+        definition.init,
+        "Init value should match"
+      );
+
+      this.assertEquals(
+        "changeInstanceProp",
+        definition.event,
+        "Event should match"
+      );
+
+      // Test inheritable property
+      descriptor = instance.getPropertyDescriptor("inheritableProp");
+      this.assertNotNull(
+        descriptor,
+        "Inheritable property descriptor should not be null"
+      );
+
+      this.assertTrue(
+        descriptor.isInheritable(),
+        "Inheritable property should be marked as inheritable"
+      );
+
+      // Test with non-existent property
+      descriptor = instance.getPropertyDescriptor("nonExistent");
+      this.assertNull(
+        descriptor,
+        "Non-existent property descriptor should be null"
+      );
+
+      instance.dispose();
+    },
+
+    testGetPropertyDescriptorSetGet() {
+      // Define a test class with properties
+      var TestClass = qx.Class.define(null, {
+        extend: qx.core.Object,
+        properties: {
+          count: {
+            init: 0,
+            check: "Integer"
+          },
+
+          label: {
+            init: "default",
+            check: "String",
+            event: "changeLabel"
+          }
+        }
+      });
+
+      var instance = new TestClass();
+
+      // Get property descriptor via instance
+      var countDescriptor = instance.getPropertyDescriptor("count");
+      this.assertNotNull(
+        countDescriptor,
+        "Property descriptor should not be null"
+      );
+
+      // Test using descriptor's set method with .call()
+      countDescriptor.set.call(instance, 42);
+      this.assertEquals(42, instance.getCount(), "Value set via descriptor should be retrievable via getter");
+
+      // Test using descriptor's get method with .call()
+      var value = countDescriptor.get.call(instance);
+      this.assertEquals(42, value, "Value should be retrievable via descriptor's get method");
+
+      // Test with another property
+      var labelDescriptor = instance.getPropertyDescriptor("label");
+
+      // Set value via descriptor
+      labelDescriptor.set.call(instance, "test value");
+      this.assertEquals(
+        "test value",
+        labelDescriptor.get.call(instance),
+        "Property value set and get via descriptor should match"
+      );
+
+      // Verify the value is also accessible via normal getter
+      this.assertEquals(
+        "test value",
+        instance.getLabel(),
+        "Value set via descriptor should be accessible via normal getter"
+      );
+
+      // Verify change event was fired
+      var eventFired = false;
+      instance.addListener("changeLabel", function(e) {
+        eventFired = true;
+        this.assertEquals("new value", e.getData(), "Event data should match new value");
+      }, this);
+
+      labelDescriptor.set.call(instance, "new value");
+      this.assertTrue(eventFired, "Change event should have been fired");
+
+      instance.dispose();
+    },
+
+    testGetPropertyDescriptorInheritance() {
+      // Define a base class with a property
+      var BaseClass = qx.Class.define(null, {
+        extend: qx.core.Object,
+        properties: {
+          baseProp: {
+            init: "base",
+            check: "String"
+          }
+        }
+      });
+
+      // Define a derived class with its own property
+      var DerivedClass = qx.Class.define(null, {
+        extend: BaseClass,
+        properties: {
+          derivedProp: {
+            init: "derived",
+            check: "String"
+          }
+        }
+      });
+
+      var instance = new DerivedClass();
+
+      // Test that we can get the base class property from derived instance
+      var baseDescriptor = instance.getPropertyDescriptor("baseProp");
+      this.assertNotNull(
+        baseDescriptor,
+        "Base property should be accessible from derived instance"
+      );
+
+      this.assertEquals(
+        "baseProp",
+        baseDescriptor.getPropertyName(),
+        "Base property name should match"
+      );
+
+      // Test that we can get the derived class property
+      var derivedDescriptor = instance.getPropertyDescriptor("derivedProp");
+      this.assertNotNull(
+        derivedDescriptor,
+        "Derived property should be accessible"
+      );
+
+      this.assertEquals(
+        "derivedProp",
+        derivedDescriptor.getPropertyName(),
+        "Derived property name should match"
+      );
+
+      // Test static method with inheritance
+      var staticBaseDescriptor = qx.Class.getPropertyDescriptor(
+        DerivedClass,
+        "baseProp"
+      );
+
+      this.assertNotNull(
+        staticBaseDescriptor,
+        "Base property should be accessible via static method on derived class"
+      );
+
+      instance.dispose();
     }
   }
 });
