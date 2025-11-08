@@ -1126,18 +1126,31 @@ property doesn't exist.
 
 ### Using Property Descriptors
 
-The descriptor provides `set()` and `get()` methods that can be used with
-`.call()` to bind the instance as `this`:
+When obtained via an instance, the descriptor's `set()` and `get()` methods are
+already bound to that instance, allowing direct calls:
 
 ```javascript
 let instance = new MyClass();
 let descriptor = instance.getPropertyDescriptor("myProp");
 
-// Set a value using the descriptor
-descriptor.set.call(instance, 42);
+// Set a value using the descriptor - simple and direct!
+descriptor.set(42);
 
 // Get the value using the descriptor
-let value = descriptor.get.call(instance);
+let value = descriptor.get();
+```
+
+When using the static method, you can optionally provide an instance to get a
+bound descriptor, or use `.call()` for unbound descriptors:
+
+```javascript
+// Get a bound descriptor (direct calls)
+let boundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp", instance);
+boundDesc.set(42);
+
+// Get an unbound descriptor (use with .call())
+let unboundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp");
+unboundDesc.set.call(instance, 42);
 ```
 
 This is particularly useful when you need to:

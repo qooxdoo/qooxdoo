@@ -401,14 +401,14 @@ qx.Class.define("qx.core.Object", {
      * This provides access to the first-class Property object in qooxdoo v8,
      * which contains the property configuration and metadata.
      *
-     * The returned descriptor includes set() and get() methods that can be called
-     * with .call(instance, ...) syntax, where the instance is bound as 'this'.
+     * The returned descriptor's set() and get() methods are bound to this instance,
+     * allowing direct calls like descriptor.set(value) and descriptor.get().
      *
      * @param propertyName {String} name of the property
      * @return {qx.core.property.Property|null} Property object or null if not found
      */
     getPropertyDescriptor(propertyName) {
-      return qx.Class.getPropertyDescriptor(this.constructor, propertyName);
+      return qx.Class.getPropertyDescriptor(this.constructor, propertyName, this);
     }
   },
 

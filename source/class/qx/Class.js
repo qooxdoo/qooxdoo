@@ -1740,32 +1740,43 @@ qx.Bootstrap.define("qx.Class", {
      * This provides access to the first-class Property object in qooxdoo v8,
      * which contains the property configuration and metadata.
      *
-     * The returned descriptor includes set() and get() methods that can be called
-     * with .call(instance, ...) syntax, where the instance is bound as 'this'.
+     * When an instance is provided, the returned descriptor's set() and get() methods
+     * are bound to that instance, allowing direct calls like descriptor.set(value).
      *
      * @param clazz {Class} class to check
      * @param name {String} name of the property to check for
+     * @param instance {qx.core.Object?} optional instance to bind the descriptor to
      * @return {qx.core.property.Property|null} Property object or null if not found
      */
-    getPropertyDescriptor(clazz, name) {
+    getPropertyDescriptor(clazz, name, instance) {
       let property = this.getByProperty(clazz, name);
       if (!property) {
         return null;
       }
 
-      // Create a wrapper that delegates to the property but provides
-      // set/get methods with the correct signature for .call(instance, ...)
+      // Create a wrapper that delegates to the property
       let descriptor = Object.create(property);
 
-      // Override set to work with .call(instance, value)
-      descriptor.set = function(value) {
-        property.set(this, value);
-      };
+      if (instance) {
+        // If instance is provided, bind set/get methods to the instance
+        // This allows descriptor.set(value) instead of descriptor.set.call(instance, value)
+        descriptor.set = function(value) {
+          property.set(instance, value);
+        };
 
-      // Override get to work with .call(instance)
-      descriptor.get = function() {
-        return property.get(this);
-      };
+        descriptor.get = function() {
+          return property.get(instance);
+        };
+      } else {
+        // Without instance, provide unbound methods that work with .call()
+        descriptor.set = function(value) {
+          property.set(this, value);
+        };
+
+        descriptor.get = function() {
+          return property.get(this);
+        };
+      }
 
       return descriptor;
     },

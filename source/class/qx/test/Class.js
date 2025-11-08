@@ -646,22 +646,22 @@ qx.Class.define("qx.test.Class", {
         "Property descriptor should not be null"
       );
 
-      // Test using descriptor's set method with .call()
-      countDescriptor.set.call(instance, 42);
+      // Test using descriptor's set method directly (bound to instance)
+      countDescriptor.set(42);
       this.assertEquals(42, instance.getCount(), "Value set via descriptor should be retrievable via getter");
 
-      // Test using descriptor's get method with .call()
-      var value = countDescriptor.get.call(instance);
+      // Test using descriptor's get method directly (bound to instance)
+      var value = countDescriptor.get();
       this.assertEquals(42, value, "Value should be retrievable via descriptor's get method");
 
       // Test with another property
       var labelDescriptor = instance.getPropertyDescriptor("label");
 
-      // Set value via descriptor
-      labelDescriptor.set.call(instance, "test value");
+      // Set value via descriptor (no .call needed, already bound)
+      labelDescriptor.set("test value");
       this.assertEquals(
         "test value",
-        labelDescriptor.get.call(instance),
+        labelDescriptor.get(),
         "Property value set and get via descriptor should match"
       );
 
@@ -679,7 +679,7 @@ qx.Class.define("qx.test.Class", {
         this.assertEquals("new value", e.getData(), "Event data should match new value");
       }, this);
 
-      labelDescriptor.set.call(instance, "new value");
+      labelDescriptor.set("new value");
       this.assertTrue(eventFired, "Change event should have been fired");
 
       instance.dispose();
@@ -746,6 +746,45 @@ qx.Class.define("qx.test.Class", {
         staticBaseDescriptor,
         "Base property should be accessible via static method on derived class"
       );
+
+      instance.dispose();
+    },
+
+    testGetPropertyDescriptorStaticWithCall() {
+      // Test that static method without instance parameter works with .call()
+      var TestClass = qx.Class.define(null, {
+        extend: qx.core.Object,
+        properties: {
+          value: {
+            init: 0,
+            check: "Integer"
+          }
+        }
+      });
+
+      var instance = new TestClass();
+
+      // Get descriptor via static method WITHOUT instance parameter
+      var descriptor = qx.Class.getPropertyDescriptor(TestClass, "value");
+      this.assertNotNull(descriptor, "Descriptor should not be null");
+
+      // Should work with .call() syntax
+      descriptor.set.call(instance, 100);
+      this.assertEquals(100, instance.getValue(), "Value should be set via .call()");
+
+      var value = descriptor.get.call(instance);
+      this.assertEquals(100, value, "Value should be retrievable via .call()");
+
+      // Get descriptor via static method WITH instance parameter
+      var boundDescriptor = qx.Class.getPropertyDescriptor(TestClass, "value", instance);
+      this.assertNotNull(boundDescriptor, "Bound descriptor should not be null");
+
+      // Should work with direct calls (no .call needed)
+      boundDescriptor.set(200);
+      this.assertEquals(200, instance.getValue(), "Value should be set directly");
+
+      var boundValue = boundDescriptor.get();
+      this.assertEquals(200, boundValue, "Value should be retrievable directly");
 
       instance.dispose();
     }
