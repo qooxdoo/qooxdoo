@@ -267,6 +267,15 @@ qx.Class.define("issue10407watch.WatchTestClass", {
 `;
 
     await fsPromises.writeFile(newClassPath, newClassContent, "utf8");
+
+    // Also modify Application.js to reference the new class so it gets compiled
+    const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
+    let appContent = await fsPromises.readFile(appFilePath, "utf8");
+    const modifiedAppContent = appContent.replace(
+      '// This application starts clean without errors.',
+      '// This application starts clean without errors.\n      var testClass = new issue10407watch.WatchTestClass();'
+    );
+    await fsPromises.writeFile(appFilePath, modifiedAppContent, "utf8");
     fileModified = true;
 
     // Wait for recompilation after file change (max 15s)
@@ -287,6 +296,9 @@ qx.Class.define("issue10407watch.WatchTestClass", {
     // Give it time to cleanup
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // Restore Application.js
+    await fsPromises.writeFile(appFilePath, appContent, "utf8");
+
     // Check output for warning about the new unresolved class
     const combinedOutput = output + errorOutput;
     assert.ok(
@@ -303,6 +315,16 @@ qx.Class.define("issue10407watch.WatchTestClass", {
     assert.end();
   } catch(ex) {
     // Cleanup on error
+    const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
+    try {
+      let appContent = await fsPromises.readFile(appFilePath, "utf8");
+      if (appContent.includes("issue10407watch.WatchTestClass")) {
+        appContent = appContent.replace(/\n\s*var testClass = new issue10407watch\.WatchTestClass\(\);/, '');
+        await fsPromises.writeFile(appFilePath, appContent, "utf8");
+      }
+    } catch(restoreEx) {
+      // Ignore restore errors
+    }
     if (fs.existsSync(newClassPath)) {
       try {
         await fsPromises.unlink(newClassPath);
