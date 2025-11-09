@@ -198,7 +198,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
 
     // Start watch mode in background
     let watchProcess = child_process.spawn(testUtils.getCompiler(),
-      ["compile", "--watch", "--machine-readable"],
+      ["compile", "--watch"],
       {
         cwd: "test-issues/issue10407-watch",
         shell: true
@@ -288,7 +288,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
 
     // Start watch mode in background
     let watchProcess = child_process.spawn(testUtils.getCompiler(),
-      ["compile", "--watch", "--machine-readable"],
+      ["compile", "--watch"],
       {
         cwd: "test-issues/issue10407-watch",
         shell: true
