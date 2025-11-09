@@ -258,7 +258,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       this.assertTrue(blockerElement.isIncluded(), "blocker element should be included");
 
       // Verify blocker dimensions match container
-      var styles = blockerElement.getStyles();
+      var styles = blockerElement.getAllStyles();
       this.assertEquals("200px", styles.width, "blocker width should match container width");
       this.assertEquals("150px", styles.height, "blocker height should match container height");
 
@@ -289,7 +289,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       blocker.blockContent(5);
       this.flush();
 
-      var styles = blockerElement.getStyles();
+      var styles = blockerElement.getAllStyles();
 
       // The blocker should be positioned at 0,0 relative to the container
       // NOT at the container's position (150, 100)
@@ -327,13 +327,13 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       blocker1.block();
       this.flush();
 
-      var styles1 = blocker1.getBlockerElement().getStyles();
+      var styles1 = blocker1.getBlockerElement().getAllStyles();
 
       // BlockContent - blocker is added to the widget itself
       blocker2.blockContent(5);
       this.flush();
 
-      var styles2 = blocker2.getBlockerElement().getStyles();
+      var styles2 = blocker2.getBlockerElement().getAllStyles();
 
       // Normal block: blocker positioned at container's position in layout parent
       this.assertEquals("50px", styles1.left, "normal block uses container's left position");
