@@ -213,7 +213,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
       data = data.toString().trim();
       console.log(data);
       output += data + "\n";
-      if (data.includes("Start watching")) {
+      if (data.includes("Applications are made")) {
         watchReady = true;
       }
     });
@@ -224,7 +224,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
       errorOutput += data + "\n";
     });
 
-    // Wait for watch mode to become ready (max 40s)
+    // Wait for initial compilation to complete (max 40s)
     const maxWait = 40000;
     const checkInterval = 1000;
     let waited = 0;
@@ -238,7 +238,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
       if (fs.existsSync(newClassPath)) {
         await fsPromises.unlink(newClassPath);
       }
-      assert.fail("Watch mode did not start within 40s");
+      assert.fail("Initial compilation did not complete within 40s");
       assert.end();
       return;
     }
@@ -326,7 +326,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
       data = data.toString().trim();
       console.log(data);
       output += data + "\n";
-      if (data.includes("Start watching")) {
+      if (data.includes("Applications are made")) {
         watchReady = true;
       }
     });
@@ -337,7 +337,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
       errorOutput += data + "\n";
     });
 
-    // Wait for watch mode to become ready (max 40s)
+    // Wait for initial compilation to complete (max 40s)
     const maxWait = 40000;
     const checkInterval = 1000;
     let waited = 0;
@@ -349,7 +349,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     if (!watchReady) {
       kill(watchProcess.pid, 'SIGKILL');
       await fsPromises.writeFile(appFilePath, originalContent, "utf8");
-      assert.fail("Watch mode did not start within 40s");
+      assert.fail("Initial compilation did not complete within 40s");
       assert.end();
       return;
     }
