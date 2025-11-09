@@ -1,5 +1,6 @@
 const test = require("tape");
 const fs = require("fs");
+const kill = require("tree-kill");
 const child_process = require("child_process");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
@@ -220,7 +221,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
     });
 
     // Wait for initial compilation to complete
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 16000));
 
     // Create a new file with nonexistent class reference
     const newClassContent = `/* Test class for watch mode */
@@ -243,7 +244,7 @@ qx.Class.define("issue10407watch.WatchTestClass", {
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Kill watch process
-    watchProcess.kill('SIGTERM');
+    kill(watchProcess.pid, 'SIGKILL');
 
     // Give it time to cleanup
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -310,7 +311,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     });
 
     // Wait for initial compilation to complete
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 16000));
 
     // Modify existing file to add a new unresolved class reference
     const modifiedContent = originalContent.replace(
@@ -324,7 +325,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Kill watch process
-    watchProcess.kill('SIGTERM');
+    kill(watchProcess.pid, 'SIGKILL');
 
     // Give it time to cleanup
     await new Promise(resolve => setTimeout(resolve, 1000));
