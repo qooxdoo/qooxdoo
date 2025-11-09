@@ -207,21 +207,44 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
 
     let output = "";
     let errorOutput = "";
+    let watchReady = false;
 
     watchProcess.stdout.on('data', (data) => {
       data = data.toString().trim();
       console.log(data);
-      output += data;
+      output += data + "\n";
+      if (data.includes("Start watching")) {
+        watchReady = true;
+      }
     });
 
     watchProcess.stderr.on('data', (data) => {
       data = data.toString().trim();
       console.error(data);
-      errorOutput += data;
+      errorOutput += data + "\n";
     });
 
-    // Wait for initial compilation to complete
-    await new Promise(resolve => setTimeout(resolve, 16000));
+    // Wait for watch mode to become ready (max 40s)
+    const maxWait = 40000;
+    const checkInterval = 1000;
+    let waited = 0;
+    while (!watchReady && waited < maxWait) {
+      await new Promise(resolve => setTimeout(resolve, checkInterval));
+      waited += checkInterval;
+    }
+
+    if (!watchReady) {
+      kill(watchProcess.pid, 'SIGKILL');
+      if (fs.existsSync(newClassPath)) {
+        await fsPromises.unlink(newClassPath);
+      }
+      assert.fail("Watch mode did not start within 40s");
+      assert.end();
+      return;
+    }
+
+    // Give it a bit more time to stabilize
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Create a new file with nonexistent class reference
     const newClassContent = `/* Test class for watch mode */
@@ -297,21 +320,42 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
 
     let output = "";
     let errorOutput = "";
+    let watchReady = false;
 
     watchProcess.stdout.on('data', (data) => {
       data = data.toString().trim();
       console.log(data);
-      output += data;
+      output += data + "\n";
+      if (data.includes("Start watching")) {
+        watchReady = true;
+      }
     });
 
     watchProcess.stderr.on('data', (data) => {
       data = data.toString().trim();
       console.error(data);
-      errorOutput += data;
+      errorOutput += data + "\n";
     });
 
-    // Wait for initial compilation to complete
-    await new Promise(resolve => setTimeout(resolve, 16000));
+    // Wait for watch mode to become ready (max 40s)
+    const maxWait = 40000;
+    const checkInterval = 1000;
+    let waited = 0;
+    while (!watchReady && waited < maxWait) {
+      await new Promise(resolve => setTimeout(resolve, checkInterval));
+      waited += checkInterval;
+    }
+
+    if (!watchReady) {
+      kill(watchProcess.pid, 'SIGKILL');
+      await fsPromises.writeFile(appFilePath, originalContent, "utf8");
+      assert.fail("Watch mode did not start within 40s");
+      assert.end();
+      return;
+    }
+
+    // Give it a bit more time to stabilize
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Modify existing file to add a new unresolved class reference
     const modifiedContent = originalContent.replace(
