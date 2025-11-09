@@ -190,16 +190,16 @@ test("Issue10407 - Compiler should fail with --warnAsError", async assert => {
 });
 
 test("Issue10407 - Watch mode should detect new unresolved classes in new files", async assert => {
-  const newClassPath = "test-issues/issue10407/source/class/issue10407/WatchTestClass.js";
+  const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
 
   try {
-    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+    await testUtils.deleteRecursive("test-issues/issue10407-watch/compiled");
 
     // Start watch mode in background
     let watchProcess = child_process.spawn(testUtils.getCompiler(),
       ["compile", "--watch", "--machine-readable"],
       {
-        cwd: "test-issues/issue10407",
+        cwd: "test-issues/issue10407-watch",
         shell: true
       }
     );
@@ -224,7 +224,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
 
     // Create a new file with nonexistent class reference
     const newClassContent = `/* Test class for watch mode */
-qx.Class.define("issue10407.WatchTestClass", {
+qx.Class.define("issue10407watch.WatchTestClass", {
   extend: qx.core.Object,
 
   members: {
@@ -276,11 +276,11 @@ qx.Class.define("issue10407.WatchTestClass", {
 });
 
 test("Issue10407 - Watch mode should detect unresolved classes in modified files", async assert => {
-  const appFilePath = "test-issues/issue10407/source/class/issue10407/Application.js";
+  const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
   let originalContent = "";
 
   try {
-    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+    await testUtils.deleteRecursive("test-issues/issue10407-watch/compiled");
 
     // Read original file content
     originalContent = await fsPromises.readFile(appFilePath, "utf8");
@@ -289,7 +289,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     let watchProcess = child_process.spawn(testUtils.getCompiler(),
       ["compile", "--watch", "--machine-readable"],
       {
-        cwd: "test-issues/issue10407",
+        cwd: "test-issues/issue10407-watch",
         shell: true
       }
     );
@@ -298,11 +298,15 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     let errorOutput = "";
 
     watchProcess.stdout.on('data', (data) => {
-      output += data.toString();
+      data = data.toString().trim();
+      console.log(data);
+      output += data;
     });
 
     watchProcess.stderr.on('data', (data) => {
-      errorOutput += data.toString();
+      data = data.toString().trim();
+      console.error(data);
+      errorOutput += data;
     });
 
     // Wait for initial compilation to complete
@@ -310,8 +314,8 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
 
     // Modify existing file to add a new unresolved class reference
     const modifiedContent = originalContent.replace(
-      'var result = qx.util.NonExistentUtil.someMethod();',
-      'var result = qx.util.NonExistentUtil.someMethod();\n      var watchObj = new qx.watch.ModifiedFileTestClass();'
+      '// This application starts clean without errors.',
+      '// This application starts clean without errors.\n      var watchObj = new qx.watch.ModifiedFileTestClass();'
     );
 
     await fsPromises.writeFile(appFilePath, modifiedContent, "utf8");
