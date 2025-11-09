@@ -162,10 +162,10 @@ test("Issue10407 - Compiler should warn about nonexistent classes", async assert
     // The compiler should warn about: qx.dddd.eeekeje, qx.ui.NonExistentWidget,
     // qx.core.ThisClassDoesNotExist, qx.util.NonExistentUtil
     assert.ok(
-      result.output.match(/qx\.dddd\.eeekeje|qx\.dddd/i) ||
-      result.output.match(/unresolved/i) ||
-      result.output.match(/cannot find/i) ||
-      result.output.match(/not found/i),
+      result.error.match(/qx\.dddd\.eeekeje|qx\.dddd/i) ||
+      result.error.match(/unresolved/i) ||
+      result.error.match(/cannot find/i) ||
+      result.error.match(/not found/i),
       "Should warn about nonexistent class qx.dddd.eeekeje"
     );
 
@@ -208,11 +208,15 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
     let errorOutput = "";
 
     watchProcess.stdout.on('data', (data) => {
-      output += data.toString();
+      data = data.toString().trim();
+      console.log(data);
+      output += data;
     });
 
     watchProcess.stderr.on('data', (data) => {
-      errorOutput += data.toString();
+      data = data.toString().trim();
+      console.error(data);
+      errorOutput += data;
     });
 
     // Wait for initial compilation to complete
@@ -345,4 +349,5 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
     assert.end(ex);
   }
 });
+
 
