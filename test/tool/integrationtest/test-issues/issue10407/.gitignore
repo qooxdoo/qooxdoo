@@ -1,0 +1,4 @@
+/compiled
+*.log
+*.lockb
+/node_modules

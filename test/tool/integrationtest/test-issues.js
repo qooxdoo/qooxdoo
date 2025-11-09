@@ -1,5 +1,6 @@
 const test = require("tape");
 const fs = require("fs");
+const child_process = require("child_process");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 process.chdir(__dirname);
@@ -145,6 +146,202 @@ test("Issue715", async assert => {
     assert.ok(!!str.match(/__privateStaticTwo/m));
     assert.end();
   }catch(ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue10407 - Compiler should warn about nonexistent classes", async assert => {
+  try {
+    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+
+    // Test 1: Compile without --warnAsError should succeed but produce warnings
+    let result = await testUtils.runCompiler("test-issues/issue10407");
+    assert.ok(result.exitCode === 0, "Compilation without --warnAsError should succeed");
+
+    // Check for warnings about nonexistent classes
+    // The compiler should warn about: qx.dddd.eeekeje, qx.ui.NonExistentWidget,
+    // qx.core.ThisClassDoesNotExist, qx.util.NonExistentUtil
+    assert.ok(
+      result.output.match(/qx\.dddd\.eeekeje|qx\.dddd/i) ||
+      result.output.match(/unresolved/i) ||
+      result.output.match(/cannot find/i) ||
+      result.output.match(/not found/i),
+      "Should warn about nonexistent class qx.dddd.eeekeje"
+    );
+
+    assert.end();
+  }catch(ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue10407 - Compiler should fail with --warnAsError", async assert => {
+  try {
+    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+
+    // Test 2: Compile with --warnAsError should fail
+    let result = await testUtils.runCompiler("test-issues/issue10407", "--warnAsError");
+    assert.ok(result.exitCode !== 0, "Compilation with --warnAsError should fail when there are unresolved symbols");
+
+    assert.end();
+  }catch(ex) {
+    assert.end(ex);
+  }
+});
+
+test("Issue10407 - Watch mode should detect new unresolved classes in new files", async assert => {
+  const newClassPath = "test-issues/issue10407/source/class/issue10407/WatchTestClass.js";
+
+  try {
+    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+
+    // Start watch mode in background
+    let watchProcess = child_process.spawn(testUtils.getCompiler(),
+      ["compile", "--watch", "--machine-readable"],
+      {
+        cwd: "test-issues/issue10407",
+        shell: true
+      }
+    );
+
+    let output = "";
+    let errorOutput = "";
+
+    watchProcess.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    watchProcess.stderr.on('data', (data) => {
+      errorOutput += data.toString();
+    });
+
+    // Wait for initial compilation to complete
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
+    // Create a new file with nonexistent class reference
+    const newClassContent = `/* Test class for watch mode */
+qx.Class.define("issue10407.WatchTestClass", {
+  extend: qx.core.Object,
+
+  members: {
+    testMethod: function() {
+      // This should trigger a warning for unresolved symbol
+      var obj = new qx.nonexistent.WatchModeTestClass();
+      return obj;
+    }
+  }
+});
+`;
+
+    await fsPromises.writeFile(newClassPath, newClassContent, "utf8");
+
+    // Wait for watch to detect change and recompile
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
+    // Kill watch process
+    watchProcess.kill('SIGTERM');
+
+    // Give it time to cleanup
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Check output for warning about the new unresolved class
+    const combinedOutput = output + errorOutput;
+    assert.ok(
+      combinedOutput.match(/unresolved.*qx\.nonexistent\.WatchModeTestClass/i) ||
+      combinedOutput.match(/qx\.nonexistent\.WatchModeTestClass/i),
+      "Watch mode should warn about newly added unresolved class in new file"
+    );
+
+    // Cleanup: remove the test file
+    if (fs.existsSync(newClassPath)) {
+      await fsPromises.unlink(newClassPath);
+    }
+
+    assert.end();
+  } catch(ex) {
+    // Cleanup on error
+    if (fs.existsSync(newClassPath)) {
+      try {
+        await fsPromises.unlink(newClassPath);
+      } catch(cleanupEx) {
+        // Ignore cleanup errors
+      }
+    }
+    assert.end(ex);
+  }
+});
+
+test("Issue10407 - Watch mode should detect unresolved classes in modified files", async assert => {
+  const appFilePath = "test-issues/issue10407/source/class/issue10407/Application.js";
+  let originalContent = "";
+
+  try {
+    await testUtils.deleteRecursive("test-issues/issue10407/compiled");
+
+    // Read original file content
+    originalContent = await fsPromises.readFile(appFilePath, "utf8");
+
+    // Start watch mode in background
+    let watchProcess = child_process.spawn(testUtils.getCompiler(),
+      ["compile", "--watch", "--machine-readable"],
+      {
+        cwd: "test-issues/issue10407",
+        shell: true
+      }
+    );
+
+    let output = "";
+    let errorOutput = "";
+
+    watchProcess.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    watchProcess.stderr.on('data', (data) => {
+      errorOutput += data.toString();
+    });
+
+    // Wait for initial compilation to complete
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
+    // Modify existing file to add a new unresolved class reference
+    const modifiedContent = originalContent.replace(
+      'var result = qx.util.NonExistentUtil.someMethod();',
+      'var result = qx.util.NonExistentUtil.someMethod();\n      var watchObj = new qx.watch.ModifiedFileTestClass();'
+    );
+
+    await fsPromises.writeFile(appFilePath, modifiedContent, "utf8");
+
+    // Wait for watch to detect change and recompile
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
+    // Kill watch process
+    watchProcess.kill('SIGTERM');
+
+    // Give it time to cleanup
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Restore original file
+    await fsPromises.writeFile(appFilePath, originalContent, "utf8");
+
+    // Check output for warning about the new unresolved class
+    const combinedOutput = output + errorOutput;
+    assert.ok(
+      combinedOutput.match(/unresolved.*qx\.watch\.ModifiedFileTestClass/i) ||
+      combinedOutput.match(/qx\.watch\.ModifiedFileTestClass/i),
+      "Watch mode should warn about unresolved class in modified file"
+    );
+
+    assert.end();
+  } catch(ex) {
+    // Restore original file on error
+    if (originalContent) {
+      try {
+        await fsPromises.writeFile(appFilePath, originalContent, "utf8");
+      } catch(cleanupEx) {
+        // Ignore cleanup errors
+      }
+    }
     assert.end(ex);
   }
 });
