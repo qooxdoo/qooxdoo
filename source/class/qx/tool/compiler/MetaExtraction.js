@@ -157,6 +157,8 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           Program(path) {
             path.skip();
             let found = false;
+            // Babel's path.get() may return either an array or a single NodePath object
+            // depending on the AST structure and Babel version, so we normalize to array
             let bodyPaths = path.get("body");
             if (!Array.isArray(bodyPaths)) {
               bodyPaths = [bodyPaths];
@@ -232,6 +234,8 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
       path.skip();
       let ctorAnnotations = {};
+      // Babel's path.get() may return either an array or a single NodePath object
+      // depending on the AST structure and Babel version, so we normalize to array
       let propertiesPaths = path.get("properties");
       if (!Array.isArray(propertiesPaths)) {
         propertiesPaths = [propertiesPaths];
@@ -367,6 +371,8 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           let annotations = {};
           metaData[type] = {};
           if (path.node.value.type == "ObjectExpression") {
+            // Babel's path.get() may return either an array or a single NodePath object
+            // depending on the AST structure and Babel version, so we normalize to array
             let memberPaths = path.get("value.properties");
             if (!Array.isArray(memberPaths)) {
               memberPaths = [memberPaths];
