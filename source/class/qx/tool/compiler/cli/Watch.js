@@ -502,16 +502,6 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
             if (this.isDebugging()) {
               Console.debug(`DEBUG: onFileChange: rescanning library ${fileLibrary.getNamespace()} for new file`);
             }
-            await new Promise((resolve, reject) => {
-              fileLibrary.scanForClasses(err => {
-                if (err) {
-                  Console.error(`Error rescanning library ${fileLibrary.getNamespace()}:`, err);
-                  reject(err);
-                } else {
-                  resolve();
-                }
-              });
-            });
           }
 
           outOfDate = true;
