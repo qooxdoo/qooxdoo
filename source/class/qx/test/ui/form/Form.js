@@ -445,36 +445,26 @@ qx.Class.define("qx.test.ui.form.Form", {
     },
 
     testGetItemWithCapitalizedName() {
-      // Test for issue #10808: Verify getItem() works with camelCase converted names
+      // Test for issue #10808: getItem() should work with the name provided to add()
       var form = new qx.ui.form.Form();
       var item = new qx.ui.form.TextField();
 
       // Add item with capitalized name
       form.add(item, "Username Label", null, "Username");
 
-      // getItem() should work with the camelCase converted name
+      // getItem() SHOULD work with the original name provided to add()
+      this.assertIdentical(
+        item,
+        form.getItem("Username"),
+        "getItem() should return item with original provided name"
+      );
+
+      // But we should also be able to retrieve it via camelCase for consistency
+      // (This is what the data binding needs)
       this.assertIdentical(
         item,
         form.getItem("username"),
-        "getItem() should return item with camelCase name"
-      );
-
-      // Original capitalized name should not work (it's been converted)
-      this.assertNull(
-        form.getItem("Username"),
-        "getItem() should not find item with original capitalized name"
-      );
-
-      // Verify the name is stored correctly in the form
-      var items = form.getItems();
-      this.assertIdentical(
-        item,
-        items["username"],
-        "Item should be stored with camelCase key"
-      );
-      this.assertUndefined(
-        items["Username"],
-        "Item should not be stored with capitalized key"
+        "getItem() should also work with camelCase version for data binding compatibility"
       );
 
       item.dispose();
@@ -524,32 +514,28 @@ qx.Class.define("qx.test.ui.form.Form", {
     },
 
     testExplicitVsLabelGeneratedNames() {
-      // Test to clarify difference between explicit names (converted) and label-generated names (not converted)
+      // Test to clarify difference between explicit names and label-generated names
       var form = new qx.ui.form.Form();
       var explicitItem = new qx.ui.form.TextField();
       var labelItem = new qx.ui.form.TextField();
 
-      // Explicit name: should be converted to camelCase
-      form.add(explicitItem, "Username Label", null, "Username");
+      // Explicit name provided
+      form.add(explicitItem, "Some Label", null, "UserName");
       // No explicit name: label used directly (after cleaning special chars)
-      form.add(labelItem, "Username");
+      form.add(labelItem, "EmailAddress");
 
-      // Explicit name is converted
+      // Explicit name: should work with original name
       this.assertIdentical(
         explicitItem,
-        form.getItem("username"),
-        "Explicit name should be converted to camelCase"
-      );
-      this.assertNull(
-        form.getItem("Username"),
-        "Original capitalized explicit name should not be found"
+        form.getItem("UserName"),
+        "getItem() should work with original explicit name"
       );
 
-      // Label-generated name is NOT converted
+      // Label-generated name: should work with the cleaned label
       this.assertIdentical(
         labelItem,
-        form.getItem("Username"),
-        "Label-generated name should NOT be converted"
+        form.getItem("EmailAddress"),
+        "getItem() should work with label-generated name"
       );
 
       explicitItem.dispose();

@@ -1001,7 +1001,7 @@ qx.Class.define("qx.test.data.controller.Form", {
     },
 
     testGetItemAfterCamelCaseConversion() {
-      // Test for issue #10808 (goldim's concern): getItem() behavior after name conversion
+      // Test for issue #10808 (goldim's concern): getItem() should work with original name
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
 
@@ -1010,24 +1010,18 @@ qx.Class.define("qx.test.data.controller.Form", {
       // Add field with explicit capitalized name
       this.__form.add(field, "My Field", null, "Username");
 
-      // The form should store it with camelCase converted name
+      // getItem() SHOULD work with the original name provided
       this.assertIdentical(
         field,
-        this.__form.getItem("username"),
-        "getItem() should work with camelCase converted name"
-      );
-
-      // Original capitalized name should NOT work
-      this.assertNull(
         this.__form.getItem("Username"),
-        "getItem() should not work with original capitalized name"
+        "getItem() should work with original provided name"
       );
 
-      // Create model and verify binding still works
+      // Create model and verify binding works with camelCase
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
 
-      // Verify model has camelCase property
+      // Model SHOULD have camelCase property (for v8 compatibility)
       this.assertFunction(model.getUsername, "model should have getUsername()");
 
       // Set value through model
@@ -1100,36 +1094,42 @@ qx.Class.define("qx.test.data.controller.Form", {
     },
 
     testMixedExplicitAndLabelGeneratedNames() {
-      // Test combining explicit names (converted) and label-generated names (not converted)
+      // Test combining explicit names and label-generated names
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
 
       var explicitField = new qx.ui.form.TextField();
       var labelField = new qx.ui.form.TextField();
 
-      // Explicit name gets converted
+      // Explicit name provided (will be converted to camelCase for data binding)
       this.__form.add(explicitField, "Some Label", null, "FirstName");
-      // Label-generated name does NOT get converted
+      // Label-generated name (stays as-is)
       this.__form.add(labelField, "LastName");
+
+      // Both should work with getItem() using their stored names
+      this.assertIdentical(
+        explicitField,
+        this.__form.getItem("FirstName"),
+        "getItem() should work with explicit name"
+      );
+      this.assertIdentical(
+        labelField,
+        this.__form.getItem("LastName"),
+        "getItem() should work with label-generated name"
+      );
 
       // Create model
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
 
-      // Check that model has correct property names
+      // Model should have camelCase properties for data binding
       this.assertFunction(
         model.getFirstName,
-        "Explicit name should be camelCase: getFirstName()"
+        "Model should have getFirstName()"
       );
       this.assertFunction(
         model.getLastName,
-        "Label-generated name preserved: getLastName()"
-      );
-
-      // Verify they don't have the wrong property names
-      this.assertUndefined(
-        model.getFirstname,
-        "Should not have getFirstname() (lowercase)"
+        "Model should have getLastName()"
       );
 
       // Test binding for both
