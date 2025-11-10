@@ -1535,6 +1535,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               });
             }
             path.traverse(VISITOR);
+          } else if (keyName == "delegate") {
+            path.skip();
+            path.traverse(VISITOR);
           } else if (keyName == "aliases") {
             path.skip();
             if (!prop.value.properties) {
