@@ -49,7 +49,7 @@ qx.Class.define("qx.tool.utils.Website", {
     qx.core.Object.apply(this, arguments);
     const self = qx.tool.utils.Website;
     let p = qx.util.ResourceManager.getInstance().toUri(
-      "qx/tool/compiler/website/.gitignore"
+      "qx/tool/website/.gitignore"
     );
 
     p = path.dirname(p);
@@ -197,7 +197,7 @@ qx.Class.define("qx.tool.utils.Website", {
             lang: "en",
             partials: {}
           })
-          .source(path.join(this.getSourceDir(), "src"))
+          .source("src")
           .destination(this.getTargetDir())
           .clean(true)
           .use(this.loadPartials.bind(this))
