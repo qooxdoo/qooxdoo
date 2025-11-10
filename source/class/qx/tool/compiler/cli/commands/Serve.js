@@ -96,13 +96,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
       if (this.argv["show-startpage"]) {
-        // build website if it hasn't been built yet.
+        // build website if it hasn't been built yet or if rebuild is requested
         const website = new qx.tool.utils.Website();
-        if (!(await fs.existsAsync(website.getTargetDir()))) {
+        if (!(await fs.existsAsync(website.getTargetDir())) || this.argv.rebuildStartpage) {
           qx.tool.compiler.Console.info(">>> Building startpage...");
           await website.rebuildAll();
-        } else if (this.argv.rebuildStartpage) {
-          website.startWatcher();
         }
       }
       this.addListenerOnce("made", () => {

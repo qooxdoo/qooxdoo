@@ -34,7 +34,6 @@ const markdown = require("@metalsmith/markdown");
  */
 /* global loadSass */
 const sass = loadSass();
-const chokidar = require("chokidar");
 
 // config
 dot.templateSettings.strip = false;
@@ -78,146 +77,12 @@ qx.Class.define("qx.tool.utils.Website", {
   },
 
   members: {
-    /** @type {chokidar} watcher */
-    __watcher: null,
-
-    /** @type {Boolean} whether the watcher is ready yet */
-    __watcherReady: false,
-
-    /** @type {Integer} setTimeout timer ID for debouncing builds */
-    __rebuildTimer: null,
-
-    /** @type {Boolean} Whether the build is currently taking place */
-    __rebuilding: false,
-
-    /** @type {Boolean} Whether a rebuild is needed ASAP */
-    __needsRebuild: false,
-
-    /**
-     * Starts the watcher for files in the source directory and compiles as needed
-     */
-    async startWatcher() {
-      await this.stopWatcher();
-      let sourceDir = await qx.tool.utils.files.Utils.correctCase(
-        this.getSourceDir()
-      );
-
-      this._watcher = chokidar.watch([sourceDir], {});
-      this._watcher.on("change", filename =>
-        this.__onFileChange("change", filename)
-      );
-
-      this._watcher.on("add", filename => this.__onFileChange("add", filename));
-      this._watcher.on("unlink", filename =>
-        this.__onFileChange("unlink", filename)
-      );
-
-      this._watcher.on("ready", async () => {
-        await this.triggerRebuild(true);
-        this.__watcherReady = true;
-      });
-      this._watcher.on("error", err => {
-        qx.tool.compiler.Console.print(
-          err.code == "ENOSPC"
-            ? "qx.tool.compiler.cli.watch.enospcError"
-            : "qx.tool.compiler.cli.watch.watchError",
-          err
-        );
-      });
-    },
-
-    /**
-     * Stops the watcher, if its running
-     */
-    async stopWatcher() {
-      if (this._watcher) {
-        await this._watcher.stop();
-        this._watcher = null;
-        this.__watcherReady = false;
-      }
-    },
-
-    /**
-     * Whether the watcher is running
-     *
-     * @return {Boolean} true if its running
-     */
-    isWatching() {
-      return Boolean(this._watcher);
-    },
-
-    /**
-     * Waits for the rebuild process to complete, if it is running
-     */
-    async waitForRebuildComplete() {
-      if (this.__rebuildPromise) {
-        await this.__rebuildPromise;
-      }
-    },
-
     /**
      * Rebuilds everything needed for the website
      */
     async rebuildAll() {
       await this.generateSite();
       await this.compileScss();
-    },
-
-    /**
-     * Event handler for changes to the source files
-     *
-     * @param type {String} type of change, one of "change", "add", "unlink"
-     * @param filename {String} the file that changed
-     */
-    __onFileChange(type, filename) {
-      if (this.__watcherReady) {
-        if (
-          !filename.toLowerCase().startsWith(this.getTargetDir().toLowerCase())
-        ) {
-          this.triggerRebuild(false);
-        }
-      }
-    },
-
-    /**
-     * Triggers a rebuild of the website, asynchronously.  Unless immediate is true,
-     * the rebuild will only happen after a short delay; but each time this is called,
-     * the delay is restarted.  This is to allow multiple files to be changed without
-     * swamping the processor with compilations.
-     *
-     * @param immediate {Boolean?} if true, rebuild starts ASAP
-     */
-    triggerRebuild(immediate) {
-      if (this.__rebuilding) {
-        this.__needsRebuild = true;
-        return;
-      }
-
-      let rebuilderImpl = async () => {
-        await this.rebuildAll();
-
-        if (this.__needsRebuild) {
-          this.__needsRebuild = false;
-          await rebuilderImpl();
-        }
-      };
-
-      let rebuilder = async () => {
-        this.__rebuilding = true;
-        try {
-          this.__rebuildPromise = rebuilderImpl();
-          await this.__rebuildPromise;
-          this.__rebuildPromise = null;
-        } finally {
-          this.__rebuilding = false;
-        }
-      };
-
-      if (this.__rebuildTimer) {
-        clearTimeout(this.__rebuildTimer);
-        this.__rebuildTimer = null;
-      }
-      this.__rebuildTimer = setTimeout(rebuilder, immediate ? 1 : 250);
     },
 
     /**
