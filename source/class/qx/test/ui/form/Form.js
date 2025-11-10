@@ -459,12 +459,19 @@ qx.Class.define("qx.test.ui.form.Form", {
         "getItem() should return item with original provided name"
       );
 
-      // But we should also be able to retrieve it via camelCase for consistency
-      // (This is what the data binding needs)
+      // getItem() should NOT work with camelCase - that conversion only happens
+      // in the data controller for model properties
+      this.assertNull(
+        form.getItem("username"),
+        "getItem() should not work with camelCase - form stores original name only"
+      );
+
+      // Verify getItems() returns the item with the original key
+      var items = form.getItems();
       this.assertIdentical(
         item,
-        form.getItem("username"),
-        "getItem() should also work with camelCase version for data binding compatibility"
+        items["Username"],
+        "getItems() should have item under original name key"
       );
 
       item.dispose();
