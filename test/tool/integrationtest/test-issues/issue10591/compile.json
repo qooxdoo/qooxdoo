@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "libraries": [
+    ".",
+    "../../../../.."
+  ],
+  "applications": [
+    {
+      "class": "issue10591.Application",
+      "theme": "qx.theme.Simple",
+      "name": "issue10591"
+    }
+  ]
+}

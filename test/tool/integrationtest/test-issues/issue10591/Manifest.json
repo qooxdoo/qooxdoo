@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "issue10591",
+    "summary": "Test for ES6 shorthand methods in delegate objects",
+    "description": "Tests that ES6 shorthand method syntax in delegate objects compiles without spurious unresolved symbol warnings",
+    "homepage": "https://github.com/qooxdoo/qooxdoo/issues/10591",
+    "license": "MIT license",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "issue10591",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^8.0.0"
+  }
+}
