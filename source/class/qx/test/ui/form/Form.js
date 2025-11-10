@@ -442,6 +442,119 @@ qx.Class.define("qx.test.ui.form.Form", {
 
       item.dispose();
       form.dispose();
+    },
+
+    testGetItemWithCapitalizedName() {
+      // Test for issue #10808: Verify getItem() works with camelCase converted names
+      var form = new qx.ui.form.Form();
+      var item = new qx.ui.form.TextField();
+
+      // Add item with capitalized name
+      form.add(item, "Username Label", null, "Username");
+
+      // getItem() should work with the camelCase converted name
+      this.assertIdentical(
+        item,
+        form.getItem("username"),
+        "getItem() should return item with camelCase name"
+      );
+
+      // Original capitalized name should not work (it's been converted)
+      this.assertNull(
+        form.getItem("Username"),
+        "getItem() should not find item with original capitalized name"
+      );
+
+      // Verify the name is stored correctly in the form
+      var items = form.getItems();
+      this.assertIdentical(
+        item,
+        items["username"],
+        "Item should be stored with camelCase key"
+      );
+      this.assertUndefined(
+        items["Username"],
+        "Item should not be stored with capitalized key"
+      );
+
+      item.dispose();
+      form.dispose();
+    },
+
+    testGetItemWithLabelGeneratedName() {
+      // Test for issue #10808: Verify label-based name generation preserves original behavior
+      var form = new qx.ui.form.Form();
+      var item1 = new qx.ui.form.TextField();
+      var item2 = new qx.ui.form.TextField();
+
+      // Add item without explicit name - name generated from label (with special chars removed)
+      form.add(item1, "Username");
+      form.add(item2, "Email Address");
+
+      // When no explicit name is provided, the label is used (with special chars stripped)
+      // and the camelCase conversion should NOT apply
+      this.assertIdentical(
+        item1,
+        form.getItem("Username"),
+        "getItem() should work with label-generated name (no conversion)"
+      );
+
+      this.assertIdentical(
+        item2,
+        form.getItem("EmailAddress"),
+        "getItem() should work with label-generated name (spaces removed, no conversion)"
+      );
+
+      // Verify getItems() returns correct keys
+      var items = form.getItems();
+      this.assertIdentical(
+        item1,
+        items["Username"],
+        "Item should be stored with label-generated key"
+      );
+      this.assertIdentical(
+        item2,
+        items["EmailAddress"],
+        "Item should be stored with label-generated key (spaces removed)"
+      );
+
+      item1.dispose();
+      item2.dispose();
+      form.dispose();
+    },
+
+    testExplicitVsLabelGeneratedNames() {
+      // Test to clarify difference between explicit names (converted) and label-generated names (not converted)
+      var form = new qx.ui.form.Form();
+      var explicitItem = new qx.ui.form.TextField();
+      var labelItem = new qx.ui.form.TextField();
+
+      // Explicit name: should be converted to camelCase
+      form.add(explicitItem, "Username Label", null, "Username");
+      // No explicit name: label used directly (after cleaning special chars)
+      form.add(labelItem, "Username");
+
+      // Explicit name is converted
+      this.assertIdentical(
+        explicitItem,
+        form.getItem("username"),
+        "Explicit name should be converted to camelCase"
+      );
+      this.assertNull(
+        form.getItem("Username"),
+        "Original capitalized explicit name should not be found"
+      );
+
+      // Label-generated name is NOT converted
+      this.assertIdentical(
+        labelItem,
+        form.getItem("Username"),
+        "Label-generated name should NOT be converted"
+      );
+
+      explicitItem.dispose();
+      labelItem.dispose();
+      form.dispose();
     }
   }
 });

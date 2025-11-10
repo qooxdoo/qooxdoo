@@ -998,6 +998,158 @@ qx.Class.define("qx.test.data.controller.Form", {
       passwordField.dispose();
       c.dispose();
       model.dispose();
+    },
+
+    testGetItemAfterCamelCaseConversion() {
+      // Test for issue #10808 (goldim's concern): getItem() behavior after name conversion
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var field = new qx.ui.form.TextField();
+
+      // Add field with explicit capitalized name
+      this.__form.add(field, "My Field", null, "Username");
+
+      // The form should store it with camelCase converted name
+      this.assertIdentical(
+        field,
+        this.__form.getItem("username"),
+        "getItem() should work with camelCase converted name"
+      );
+
+      // Original capitalized name should NOT work
+      this.assertNull(
+        this.__form.getItem("Username"),
+        "getItem() should not work with original capitalized name"
+      );
+
+      // Create model and verify binding still works
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Verify model has camelCase property
+      this.assertFunction(model.getUsername, "model should have getUsername()");
+
+      // Set value through model
+      model.setUsername("testvalue");
+      this.assertEquals(
+        "testvalue",
+        field.getValue(),
+        "Value should be bound from model to field"
+      );
+
+      // Set value through field
+      field.setValue("fieldvalue");
+      this.assertEquals(
+        "fieldvalue",
+        model.getUsername(),
+        "Value should be bound from field to model"
+      );
+
+      field.dispose();
+      c.dispose();
+      model.dispose();
+    },
+
+    testLabelGeneratedNameNotConverted() {
+      // Test for issue #10808 (goldim's concern): label-based names should NOT be converted
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var field1 = new qx.ui.form.TextField();
+      var field2 = new qx.ui.form.TextField();
+
+      // Add fields WITHOUT explicit names - names will be generated from labels
+      this.__form.add(field1, "Username");
+      this.__form.add(field2, "Email Address");
+
+      // Label-generated names should NOT be converted
+      this.assertIdentical(
+        field1,
+        this.__form.getItem("Username"),
+        "getItem() with label-generated name should work"
+      );
+      this.assertIdentical(
+        field2,
+        this.__form.getItem("EmailAddress"),
+        "getItem() with label-generated name (spaces removed) should work"
+      );
+
+      // Create model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Model should have properties matching the label-generated names (NOT converted)
+      this.assertFunction(model.getUsername, "model should have getUsername()");
+      this.assertFunction(
+        model.getEmailAddress,
+        "model should have getEmailAddress()"
+      );
+
+      // Verify binding works with label-generated names
+      model.setUsername("user1");
+      model.setEmailAddress("user@test.com");
+
+      this.assertEquals("user1", field1.getValue());
+      this.assertEquals("user@test.com", field2.getValue());
+
+      field1.dispose();
+      field2.dispose();
+      c.dispose();
+      model.dispose();
+    },
+
+    testMixedExplicitAndLabelGeneratedNames() {
+      // Test combining explicit names (converted) and label-generated names (not converted)
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var explicitField = new qx.ui.form.TextField();
+      var labelField = new qx.ui.form.TextField();
+
+      // Explicit name gets converted
+      this.__form.add(explicitField, "Some Label", null, "FirstName");
+      // Label-generated name does NOT get converted
+      this.__form.add(labelField, "LastName");
+
+      // Create model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Check that model has correct property names
+      this.assertFunction(
+        model.getFirstName,
+        "Explicit name should be camelCase: getFirstName()"
+      );
+      this.assertFunction(
+        model.getLastName,
+        "Label-generated name preserved: getLastName()"
+      );
+
+      // Verify they don't have the wrong property names
+      this.assertUndefined(
+        model.getFirstname,
+        "Should not have getFirstname() (lowercase)"
+      );
+
+      // Test binding for both
+      model.setFirstName("John");
+      model.setLastName("Doe");
+
+      this.assertEquals("John", explicitField.getValue());
+      this.assertEquals("Doe", labelField.getValue());
+
+      // Test reverse binding
+      explicitField.setValue("Jane");
+      labelField.setValue("Smith");
+
+      this.assertEquals("Jane", model.getFirstName());
+      this.assertEquals("Smith", model.getLastName());
+
+      explicitField.dispose();
+      labelField.dispose();
+      c.dispose();
+      model.dispose();
     }
   }
 });
