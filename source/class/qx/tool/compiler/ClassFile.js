@@ -810,7 +810,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           } else if (param.type == "ArrayPattern") {
             param.elements.forEach(elem => addDecl(elem));
           } else if (param.type == "ObjectPattern") {
-            param.properties.forEach(prop => addDecl(prop.value));
+            param.properties.forEach(prop => {
+              if (prop.type == "RestElement") {
+                addDecl(prop);
+              } else {
+                addDecl(prop.value);
+              }
+            });
           } else {
             t.addMarker("testForFunctionParameterType", node.loc, param.type);
           }
@@ -2400,7 +2406,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 // Object destructuring `var {a,b} = {...}`
               } else if (decl.id.type == "ObjectPattern") {
                 decl.id.properties.forEach(prop => {
-                  if (prop.value.type == "AssignmentPattern") {
+                  if (prop.type == "RestElement") {
+                    t.addDeclaration(prop.argument.name);
+                  } else if (prop.value.type == "AssignmentPattern") {
                     t.addDeclaration(prop.value.left.name);
                   } else {
                     t.addDeclaration(prop.value.name);
