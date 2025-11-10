@@ -14,9 +14,12 @@
    Authors:
      * John Spackman (john.spackman@zenesis.com, @johnspackman)
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
+   
 
 ************************************************************************ */
-
+/**
+ *  @asset(qx/tool/website/*)
+ */
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const path = require("upath");
@@ -28,12 +31,6 @@ const layouts = require("@metalsmith/layouts");
 const markdown = require("@metalsmith/markdown");
 //const filenames = require("metalsmith-filenames");
 //var permalinks = require("metalsmith-permalinks");
-/**
- * @external(qx/tool/compiler/loadsass.js)
- * @ignore(loadSass)
- */
-/* global loadSass */
-const sass = loadSass();
 
 // config
 dot.templateSettings.strip = false;
@@ -48,10 +45,7 @@ qx.Class.define("qx.tool.utils.Website", {
   construct(options = {}) {
     qx.core.Object.apply(this, arguments);
     const self = qx.tool.utils.Website;
-    let p = qx.util.ResourceManager.getInstance().toUri(
-      "qx/tool/website/.gitignore"
-    );
-
+    let p = qx.util.ResourceManager.getInstance().toUri("qx/tool/website/.gitignore");
     p = path.dirname(p);
     this.setSourceDir(p);
     this.setTargetDir(path.join(p, "build"));
@@ -77,13 +71,6 @@ qx.Class.define("qx.tool.utils.Website", {
   },
 
   members: {
-    /**
-     * Rebuilds everything needed for the website
-     */
-    async rebuildAll() {
-      await this.generateSite();
-      await this.compileScss();
-    },
 
     /**
      * Metalsmith Plugin that collates a list of pages that are to be included in the site navigation
@@ -197,7 +184,7 @@ qx.Class.define("qx.tool.utils.Website", {
             lang: "en",
             partials: {}
           })
-          .source("src")
+          .source(path.join(this.getSourceDir(), "src"))
           .destination(this.getTargetDir())
           .clean(true)
           .use(this.loadPartials.bind(this))
@@ -216,67 +203,6 @@ qx.Class.define("qx.tool.utils.Website", {
             }
           });
       });
-    },
-
-    /**
-     * Compiles SCSS into CSS
-     *
-     * @returns {Promise}
-     */
-    async compileScss() {
-      let result = await new Promise((resolve, reject) => {
-        sass.render(
-          {
-            file: path.join(this.getSourceDir(), "sass", "qooxdoo.scss"),
-            outFile: path.join(this.getTargetDir(), "qooxdoo.css")
-          },
-
-          function (err, result) {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(result);
-            }
-          }
-        );
-      });
-      await fs.writeFileAsync(
-        path.join(this.getTargetDir(), "qooxdoo.css"),
-        result.css,
-        "utf8"
-      );
-    },
-
-    /**
-     * Build the development tool apps (APIViewer, Playground, Widgetbrowser, Demobrowser)
-     * @return {Promise<void>}
-     */
-    async buildDevtools() {
-      const namespace = this.getAppsNamespace();
-      process.chdir(this.getTargetDir());
-      let apps_path = path.join(this.getTargetDir(), namespace);
-      if (await fs.existsAsync(apps_path)) {
-        await qx.tool.utils.files.Utils.deleteRecursive(apps_path);
-      }
-      const opts = {
-        noninteractive: true,
-        namespace,
-        theme: "indigo",
-        icontheme: "Tango"
-      };
-
-      await new qx.tool.compiler.cli.commands.Create().process(opts);
-      process.chdir(apps_path);
-      for (let name of [
-        "apiviewer",
-        "widgetbrowser",
-        "playground",
-        "demobrowser"
-      ]) {
-        await new qx.tool.compiler.cli.commands.package.Install().install(
-          "qooxdoo/qxl." + name
-        );
-      }
     }
   }
 });

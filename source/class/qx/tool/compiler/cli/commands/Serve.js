@@ -61,7 +61,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       cmd.addFlag(
         new qx.tool.cli.Flag("rebuild-startpage").set({
           shortCode: "R",
-          description: "Rebuild the startpage with the list of applications and additional information",
+          description: "Rebuild the startpage with additional information",
           type: "boolean",
           value: false
         })
@@ -95,12 +95,17 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       this.argv.watch = true;
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
+      if (this.argv.rebuildStartpage) {
+          qx.tool.compiler.Console.info(">>> Building startpage...");
+          await website.generateSite();
+          return;
+      }
       if (this.argv["show-startpage"]) {
         // build website if it hasn't been built yet or if rebuild is requested
         const website = new qx.tool.utils.Website();
-        if (!(await fs.existsAsync(website.getTargetDir())) || this.argv.rebuildStartpage) {
+        if (!(await fs.existsAsync(website.getTargetDir()))) {
           qx.tool.compiler.Console.info(">>> Building startpage...");
-          await website.rebuildAll();
+          await website.generateSite();
         }
       }
       this.addListenerOnce("made", () => {
