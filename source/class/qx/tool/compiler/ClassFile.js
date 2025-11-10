@@ -1725,7 +1725,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             ClassDeclaration: 1,
             ClassMethod: 1,
             LabeledStatement: 1,
-            BreakStatement: 1
+            BreakStatement: 1,
+            ContinueStatement: 1
           };
 
           // These are AST node types we expect to find at the root of the identifier, and which will
