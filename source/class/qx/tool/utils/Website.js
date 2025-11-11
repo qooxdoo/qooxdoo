@@ -184,7 +184,7 @@ qx.Class.define("qx.tool.utils.Website", {
             lang: "en",
             partials: {}
           })
-          .source(path.join(this.getSourceDir(), "src"))
+          .source("src")
           .destination(this.getTargetDir())
           .clean(true)
           .use(this.loadPartials.bind(this))
