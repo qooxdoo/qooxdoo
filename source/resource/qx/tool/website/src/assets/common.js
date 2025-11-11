@@ -1,34 +1,30 @@
-// Using qxWeb for better readability and qooxdoo consistency
-qx.ready(function() {
+// Common JavaScript for qooxdoo startpage
+$(function() {
   // Set current year
   var currentYear = new Date().getFullYear();
-  q('.current-year').setHtml(currentYear);
+  $('.current-year').html(currentYear);
 
-  // Initialize Bootstrap tooltips (if Bootstrap is available)
-  var tooltipElements = q('[data-toggle="tooltip"]');
-  if (tooltipElements.length > 0 && typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-    tooltipElements.forEach(function(elem) {
-      new bootstrap.Tooltip(elem);
-    });
-  }
+  // Initialize Bootstrap tooltips
+  $('[data-toggle="tooltip"]').tooltip();
 
   // Navigation bar scroll effect
   var scroll = function() {
-    var scrollPosition = q(window).getScrollTop();
-    var navigationBar = q('#navigationBar');
-    var navigationLogo = q('#navigationLogo');
+    var scrollPosition = $(window).scrollTop();
+    var navigationBar = $('#navigationBar');
+    var navigationLogo = $('#navigationLogo');
 
     if (navigationBar.length > 0 && navigationLogo.length > 0) {
       if (scrollPosition < 250) {
-        navigationBar.setStyle('backgroundColor', 'transparent');
-        navigationLogo.setStyle('width', '0').addClass('invisible');
+        navigationBar.css('backgroundColor', 'transparent');
+        navigationLogo.css('width', '0').addClass('invisible');
       } else {
-        navigationBar.setStyle('backgroundColor', 'rgba(0, 40, 56, 0.9)');
-        navigationLogo.setStyle('width', '').removeClass('invisible');
+        navigationBar.css('backgroundColor', 'rgba(0, 40, 56, 0.9)');
+        navigationLogo.css('width', '').removeClass('invisible');
       }
     }
   };
 
-  q(window).on('scroll', scroll);
+  $(window).on('scroll', scroll);
   scroll();
 });
+
