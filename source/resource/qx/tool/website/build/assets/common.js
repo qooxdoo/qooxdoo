@@ -1,38 +1,32 @@
-// Set current year
-document.addEventListener('DOMContentLoaded', function() {
+// Common JavaScript for qooxdoo startpage using qxWeb
+qx.ready(function() {
+  // Set current year
   var currentYear = new Date().getFullYear();
-  var yearElements = document.querySelectorAll('.current-year');
-  yearElements.forEach(function(elem) {
-    elem.textContent = currentYear;
-  });
+  q('.current-year').setHtml(currentYear);
 
-  // Initialize Bootstrap tooltips (if Bootstrap tooltips are used)
-  var tooltipElements = document.querySelectorAll('[data-toggle="tooltip"]');
-  if (tooltipElements.length > 0 && typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-    tooltipElements.forEach(function(elem) {
-      new bootstrap.Tooltip(elem);
-    });
-  }
+  // Navigation bar scroll effect
+  var scroll = function() {
+    var scrollPosition = q(window).getScrollTop();
+    var navigationBar = q('#navigationBar');
+    var navigationLogo = q('#navigationLogo');
+
+    if (navigationBar.length > 0 && navigationLogo.length > 0) {
+      if (scrollPosition < 250) {
+        navigationBar.setStyle('backgroundColor', 'transparent');
+        navigationLogo.setStyle('width', '0').addClass('invisible');
+      } else {
+        navigationBar.setStyle('backgroundColor', 'rgba(0, 40, 56, 0.9)');
+        navigationLogo.setStyle('width', '').removeClass('invisible');
+      }
+    }
+  };
+
+  q(window).on('scroll', scroll);
+  scroll();
+
+  // Simple navbar toggle for mobile
+  q('.navbar-toggler').on('click', function() {
+    q('#navbarNav').toggleClass('show');
+  });
 });
 
-// Navigation bar scroll effect
-var scroll = function() {
-  var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-  var navigationBar = document.getElementById('navigationBar');
-  var navigationLogo = document.getElementById('navigationLogo');
-
-  if (navigationBar && navigationLogo) {
-    if (scrollPosition < 250) {
-      navigationBar.style.backgroundColor = 'transparent';
-      navigationLogo.style.width = '0';
-      navigationLogo.classList.add('invisible');
-    } else {
-      navigationBar.style.backgroundColor = 'rgba(0, 40, 56, 0.9)';
-      navigationLogo.style.width = '';
-      navigationLogo.classList.remove('invisible');
-    }
-  }
-};
-
-window.addEventListener('scroll', scroll);
-scroll();
