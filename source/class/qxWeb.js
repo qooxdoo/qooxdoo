@@ -41,6 +41,23 @@
 qx.Bootstrap.define("qxWeb", {
   extend: qx.type.BaseArray,
   statics: {
+    EVENT_HANDLER: {
+      /** @type {Integer} Priority of this handler */
+      PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
+
+      /** @type {Map} Supported event types */
+      SUPPORTED_TYPES: {
+        ready: 1,
+        shutdown: 1
+      },
+
+      /** @type {Integer} Which target check to use */
+      TARGET_CHECK: qx.event.IEventHandler.TARGET_WINDOW,
+
+      /** @type {Integer} Whether the method "canHandleEvent" must be called */
+      IGNORE_CAN_HANDLE: true,
+    },
+
     // internal storage for all initializers
     __init: [],
 
@@ -529,5 +546,6 @@ qx.Bootstrap.define("qxWeb", {
     if (window.q == undefined) {
       window.q = statics;
     }
+    qx.event.Registration.addHandler(statics.EVENT_HANDLER);
   }
 });

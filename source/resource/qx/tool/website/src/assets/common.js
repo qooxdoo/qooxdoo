@@ -1,7 +1,7 @@
 // Common JavaScript for qooxdoo startpage using qxWeb
-qx.ready(function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Set current year
-  var currentYear = new Date().getFullYear();
+  var currentYear = new Date().getFullYear().toString();
   q('.current-year').setHtml(currentYear);
 
   // Navigation bar scroll effect

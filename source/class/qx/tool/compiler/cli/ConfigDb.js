@@ -45,7 +45,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigDb", {
      * Apply for path property
      * @returns
      */
-    async _applyPath(value, oldValue) {
+    _applyPath(value, oldValue) {
       this.__db = {};
     },
 
