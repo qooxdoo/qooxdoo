@@ -487,13 +487,7 @@ qx.Class.define("qx.test.ui.basic.Image", {
 
       var image = new qx.ui.basic.Image("qx/static/drawer.png");
       this.addAutoDispose(image);
-      // Create test decorator directly instead of using theme
-      var decorator = new qx.ui.decoration.Background().set({
-        backgroundImage: "decoration/toolbar/toolbar-part.gif",
-        backgroundRepeat: "repeat-y"
-      });
-      this.addAutoDispose(decorator);
-      image.setDecorator(decorator);
+      image.setDecorator("test-ui-basic-image-toolbar-part");
       var resourceManager = qx.util.ResourceManager.getInstance();
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
@@ -524,13 +518,7 @@ qx.Class.define("qx.test.ui.basic.Image", {
 
       var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
-      // Create test decorator directly instead of using theme
-      var decorator = new qx.ui.decoration.Background().set({
-        backgroundImage: "decoration/toolbar/toolbar-part.gif",
-        backgroundRepeat: "repeat-y"
-      });
-      this.addAutoDispose(decorator);
-      image.setDecorator(decorator);
+      image.setDecorator("test-ui-basic-image-toolbar-part");
       image.setSource("qx/static/drawer.png");
       var resourceManager = qx.util.ResourceManager.getInstance();
 

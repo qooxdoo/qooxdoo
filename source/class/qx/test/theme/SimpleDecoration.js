@@ -1,0 +1,26 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2025 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Claude Code (AI Assistant)
+
+************************************************************************ */
+
+/**
+ * Test decoration theme that extends the Simple decoration theme with
+ * test-specific decorations.
+ */
+qx.Theme.define("qx.test.theme.SimpleDecoration", {
+  extend: qx.theme.simple.Decoration,
+  include: [qx.test.MDecoration]
+});
