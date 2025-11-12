@@ -20,6 +20,7 @@
  * The simple qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.simple.Decoration", {
+  include: [qx.test.MDecoration],
 
   aliases: {
     decoration: "qx/decoration/Simple"

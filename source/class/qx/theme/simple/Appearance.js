@@ -34,6 +34,7 @@
  * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
 qx.Theme.define("qx.theme.simple.Appearance", {
+  include: [qx.test.MAppearance],
 
   appearances: {
     /*
