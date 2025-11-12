@@ -565,8 +565,8 @@ qx.Class.define("qx.test.Class", {
 
       var instance = new TestClass();
 
-      // Test accessing via instance.getPropertyDescriptor
-      var descriptor = instance.getPropertyDescriptor("instanceProp");
+      // Test accessing via static method with bound instance
+      var descriptor = qx.Class.getPropertyDescriptor(TestClass, "instanceProp", instance);
       this.assertNotNull(
         descriptor,
         "Property descriptor should not be null"
@@ -598,7 +598,7 @@ qx.Class.define("qx.test.Class", {
       );
 
       // Test inheritable property
-      descriptor = instance.getPropertyDescriptor("inheritableProp");
+      descriptor = qx.Class.getPropertyDescriptor(TestClass, "inheritableProp", instance);
       this.assertNotNull(
         descriptor,
         "Inheritable property descriptor should not be null"
@@ -610,7 +610,7 @@ qx.Class.define("qx.test.Class", {
       );
 
       // Test with non-existent property
-      descriptor = instance.getPropertyDescriptor("nonExistent");
+      descriptor = qx.Class.getPropertyDescriptor(TestClass, "nonExistent", instance);
       this.assertNull(
         descriptor,
         "Non-existent property descriptor should be null"
@@ -639,8 +639,8 @@ qx.Class.define("qx.test.Class", {
 
       var instance = new TestClass();
 
-      // Get property descriptor via instance
-      var countDescriptor = instance.getPropertyDescriptor("count");
+      // Get property descriptor via static method with bound instance
+      var countDescriptor = qx.Class.getPropertyDescriptor(TestClass, "count", instance);
       this.assertNotNull(
         countDescriptor,
         "Property descriptor should not be null"
@@ -655,7 +655,7 @@ qx.Class.define("qx.test.Class", {
       this.assertEquals(42, value, "Value should be retrievable via descriptor's get method");
 
       // Test with another property
-      var labelDescriptor = instance.getPropertyDescriptor("label");
+      var labelDescriptor = qx.Class.getPropertyDescriptor(TestClass, "label", instance);
 
       // Set value via descriptor (no .call needed, already bound)
       labelDescriptor.set("test value");
@@ -711,7 +711,7 @@ qx.Class.define("qx.test.Class", {
       var instance = new DerivedClass();
 
       // Test that we can get the base class property from derived instance
-      var baseDescriptor = instance.getPropertyDescriptor("baseProp");
+      var baseDescriptor = qx.Class.getPropertyDescriptor(DerivedClass, "baseProp", instance);
       this.assertNotNull(
         baseDescriptor,
         "Base property should be accessible from derived instance"
@@ -724,7 +724,7 @@ qx.Class.define("qx.test.Class", {
       );
 
       // Test that we can get the derived class property
-      var derivedDescriptor = instance.getPropertyDescriptor("derivedProp");
+      var derivedDescriptor = qx.Class.getPropertyDescriptor(DerivedClass, "derivedProp", instance);
       this.assertNotNull(
         derivedDescriptor,
         "Derived property should be accessible"

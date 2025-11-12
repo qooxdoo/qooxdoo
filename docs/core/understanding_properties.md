@@ -1106,51 +1106,31 @@ retrieve values from a property.
 
 ### Getting a Property Descriptor
 
-There are two ways to obtain a property descriptor:
-
-**1. Via an instance method:**
+You can obtain a property descriptor using the static `qx.Class.getPropertyDescriptor()` method:
 
 ```javascript
 let instance = new MyClass();
-let descriptor = instance.getPropertyDescriptor("myProp");
-```
-
-**2. Via the static `qx.Class.getPropertyDescriptor()` method:**
-
-```javascript
 let descriptor = qx.Class.getPropertyDescriptor(MyClass, "myProp");
 ```
 
-Both methods return the same property descriptor object, or `null` if the
-property doesn't exist.
+The method returns a property descriptor object, or `null` if the property doesn't exist.
 
 ### Using Property Descriptors
 
-When obtained via an instance, the descriptor's `set()` and `get()` methods are
-already bound to that instance, allowing direct calls:
-
-```javascript
-let instance = new MyClass();
-let descriptor = instance.getPropertyDescriptor("myProp");
-
-// Set a value using the descriptor - simple and direct!
-descriptor.set(42);
-
-// Get the value using the descriptor
-let value = descriptor.get();
-```
-
-When using the static method, you can optionally provide an instance to get a
-bound descriptor, or use `.call()` for unbound descriptors:
+You can optionally provide an instance as the third parameter to get a descriptor
+with `set()` and `get()` methods bound to that instance:
 
 ```javascript
 // Get a bound descriptor (direct calls)
+let instance = new MyClass();
 let boundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp", instance);
 boundDesc.set(42);
+let value = boundDesc.get();
 
 // Get an unbound descriptor (use with .call())
 let unboundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp");
 unboundDesc.set.call(instance, 42);
+let value = unboundDesc.get.call(instance);
 ```
 
 This is particularly useful when you need to:
@@ -1163,7 +1143,7 @@ This is particularly useful when you need to:
 The descriptor provides access to all property metadata and configuration:
 
 ```javascript
-let descriptor = instance.getPropertyDescriptor("myProp");
+let descriptor = qx.Class.getPropertyDescriptor(MyClass, "myProp");
 
 // Get property metadata
 let name = descriptor.getPropertyName();        // "myProp"
