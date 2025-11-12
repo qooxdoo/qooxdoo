@@ -18,9 +18,33 @@
 
 /**
  * Test appearance theme that extends the Simple appearance theme with
- * test-specific appearances.
+ * test-specific appearances for the test runner.
  */
 qx.Theme.define("qx.test.theme.SimpleAppearance", {
   extend: qx.theme.simple.Appearance,
-  include: [qx.test.MAppearance]
+
+  appearances: {
+    "test-slider": {},
+
+    "test-slider/knob": {
+      include: "button-frame",
+
+      style(states) {
+        return {
+          height: 14,
+          width: 14,
+          padding: 0,
+          margin: 0
+        };
+      }
+    },
+
+    "test-font-label": {
+      style(states) {
+        return {
+          textColor: "blue"
+        };
+      }
+    }
+  }
 });
