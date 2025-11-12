@@ -50,8 +50,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree", {
      *   </code>false</code> when item is a leaf.
      */
     isNode(item) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(item, qx.core.Object);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertInterface(item, qx.core.Object);
+      }
     },
 
     /**
