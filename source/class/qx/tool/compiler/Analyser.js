@@ -1088,7 +1088,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
     /**
      * Whether the compilation context has changed since last analysis
-     * e.g. compiler version, environment variables
+     * e.g. compiler version, environment variables, or available libraries
      *
      * @return {Boolean}
      */
@@ -1114,6 +1114,31 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       // And Qooxdoo version (this can differ from the compiler version when cross compiling)
       if (db.libraries.qx !== this.findLibrary("qx").getVersion()) {
         return true;
+      }
+
+      // Check if the list of available libraries has changed (issue #10194)
+      // This ensures that newly added packages are detected without requiring --clean
+      if (db.libraries) {
+        const currentLibraries = this.getLibraries().reduce((acc, library) => {
+          acc[library.getNamespace()] = library.getVersion();
+          return acc;
+        }, {});
+
+        const dbLibraryKeys = Object.keys(db.libraries).sort();
+        const currentLibraryKeys = Object.keys(currentLibraries).sort();
+
+        // Check if a library was added or removed
+        if (dbLibraryKeys.length !== currentLibraryKeys.length ||
+            !dbLibraryKeys.every((key, index) => key === currentLibraryKeys[index])) {
+          return true;
+        }
+
+        // Check if any library version changed
+        for (let ns in currentLibraries) {
+          if (db.libraries[ns] !== currentLibraries[ns]) {
+            return true;
+          }
+        }
       }
 
       return false;
