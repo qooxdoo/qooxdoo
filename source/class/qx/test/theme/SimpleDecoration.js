@@ -5,14 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2025 1&1 Internet AG, Germany, http://www.1und1.de
-
+     2020 Zenesis Limited https://www.zenesis.com
    License:
      MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Claude Code (AI Assistant)
+     * John Spackman (github.com/johnspackman john.spackman@zenesis.com)
+
 
 ************************************************************************ */
 
