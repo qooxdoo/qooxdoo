@@ -1734,6 +1734,54 @@ qx.Bootstrap.define("qx.Class", {
     },
 
     /**
+     * Returns the property descriptor (Property object) of the given property.
+     * Returns null if the property does not exist.
+     *
+     * This provides access to the first-class Property object in qooxdoo v8,
+     * which contains the property configuration and metadata.
+     *
+     * When an instance is provided, the returned descriptor's set() and get() methods
+     * are bound to that instance, allowing direct calls like descriptor.set(value).
+     *
+     * @param clazz {Class} class to check
+     * @param name {String} name of the property to check for
+     * @param instance {qx.core.Object?} optional instance to bind the descriptor to
+     * @return {qx.core.property.Property|null} Property object or null if not found
+     */
+    getPropertyDescriptor(clazz, name, instance) {
+      let property = this.getByProperty(clazz, name);
+      if (!property) {
+        return null;
+      }
+
+      // Create a wrapper that delegates to the property
+      let descriptor = Object.create(property);
+
+      if (instance) {
+        // If instance is provided, bind set/get methods to the instance
+        // This allows descriptor.set(value) instead of descriptor.set.call(instance, value)
+        descriptor.set = function(value) {
+          property.set(instance, value);
+        };
+
+        descriptor.get = function() {
+          return property.get(instance);
+        };
+      } else {
+        // Without instance, provide unbound methods that work with .call()
+        descriptor.set = function(value) {
+          property.set(this, value);
+        };
+
+        descriptor.get = function() {
+          return property.get(this);
+        };
+      }
+
+      return descriptor;
+    },
+
+    /**
      * Whether a class has the given property
      *
      * @signature function(clazz, name)

@@ -1099,37 +1099,62 @@ your object.
 
 ## Property Descriptors
 
-A property descriptor contains the definition of the methods which can
-manipulate and retrieve values from a property. Each of the property
-methods is actually a reference to a function in the property
-descriptor, so, for example, on property `myProp`, the methods
-`setMyProp`, `getMyProp`, `resetMyProp`, etc., are methods held in the
-property descriptor for property `myProp`.
+In qooxdoo v8, properties are first-class objects that provide access to
+property configuration and metadata. A property descriptor is an instance
+of `qx.core.property.Property` that provides methods to manipulate and
+retrieve values from a property.
 
-You can access properties through the instance object to which the
-properties are attached, as has been discussed throughout this
-description of properites. Alteratively, though, if many property
-manipulations on a given property are to be made, you may prefer to
-obtain and keep a reference to the property descriptor for that
-property to manipulate it, rather than manipulating it through the
-instance object.
+### Getting a Property Descriptor
 
-The property descriptor for a property can be obtained, through the
-instance object, by calling the `getPropertyDescriptor` method, and
-passing as an argument, the name of the property for which the
-property descriptor is desired. For example, to obtain the property
-descriptor for the property `myProp`:
+You can obtain a property descriptor using the static `qx.Class.getPropertyDescriptor()` method:
 
 ```javascript
-let propDesc = myClassInstance.getPropertyDescriptor("myProp");
+let instance = new MyClass();
+let descriptor = qx.Class.getPropertyDescriptor(MyClass, "myProp");
 ```
 
-With that property descriptor in hand, you can now manipulate the
-property with it, e.g.:
+The method returns a property descriptor object, or `null` if the property doesn't exist.
+
+### Using Property Descriptors
+
+You can optionally provide an instance as the third parameter to get a descriptor
+with `set()` and `get()` methods bound to that instance:
 
 ```javascript
-propDesc.set(2);
+// Get a bound descriptor (direct calls)
+let instance = new MyClass();
+let boundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp", instance);
+boundDesc.set(42);
+let value = boundDesc.get();
+
+// Get an unbound descriptor (use with .call())
+let unboundDesc = qx.Class.getPropertyDescriptor(MyClass, "myProp");
+unboundDesc.set.call(instance, 42);
+let value = unboundDesc.get.call(instance);
 ```
 
-For more details of using property descriptors, see the API
-documentation for class `qx.core.PropertyDescriptorRegistry`.
+This is particularly useful when you need to:
+- Manipulate properties generically based on their name
+- Access property metadata and configuration
+- Work with properties in a functional programming style
+
+### Property Descriptor Methods
+
+The descriptor provides access to all property metadata and configuration:
+
+```javascript
+let descriptor = qx.Class.getPropertyDescriptor(MyClass, "myProp");
+
+// Get property metadata
+let name = descriptor.getPropertyName();        // "myProp"
+let definition = descriptor.getDefinition();    // { init: ..., check: ... }
+let eventName = descriptor.getEventName();      // "changeMyProp"
+
+// Check property capabilities
+let isInheritable = descriptor.isInheritable();
+let isThemeable = descriptor.isThemeable();
+let isReadOnly = descriptor.isReadOnly();
+```
+
+For more details on all available methods, see the API documentation
+for `qx.core.property.Property`.
