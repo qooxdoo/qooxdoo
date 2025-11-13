@@ -47,6 +47,9 @@ qx.Class.define("issue10407.Application",
       // Test Case 4: Using nonexistent class in a static method call
       var result = qx.util.NonExistentUtil.someMethod();
 
+      // Test Case 5: Simple nonexistent class qx.ddde.eee
+      var x = new qx.ddde.eee();
+
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
       {

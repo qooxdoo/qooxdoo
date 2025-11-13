@@ -161,13 +161,20 @@ test("Issue10407 - Compiler should warn about nonexistent classes", async assert
 
     // Check for warnings about nonexistent classes
     // The compiler should warn about: qx.dddd.eeekeje, qx.ui.NonExistentWidget,
-    // qx.core.ThisClassDoesNotExist, qx.util.NonExistentUtil
+    // qx.core.ThisClassDoesNotExist, qx.util.NonExistentUtil, qx.ddde.eee
     assert.ok(
       result.error.match(/qx\.dddd\.eeekeje|qx\.dddd/i) ||
       result.error.match(/unresolved/i) ||
       result.error.match(/cannot find/i) ||
       result.error.match(/not found/i),
       "Should warn about nonexistent class qx.dddd.eeekeje"
+    );
+
+    // Check specifically for qx.ddde.eee (Test Case 5)
+    assert.ok(
+      result.error.match(/qx\.ddde\.eee/i) ||
+      result.error.match(/qx\.ddde/i),
+      "Should warn about nonexistent class qx.ddde.eee"
     );
 
     assert.end();
