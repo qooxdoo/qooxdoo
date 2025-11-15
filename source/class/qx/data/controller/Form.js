@@ -183,9 +183,29 @@ qx.Class.define("qx.data.controller.Form", {
 
       var items = target.getItems();
       var data = {};
+      var nameMapping = {}; // Track original -> camelCase mappings for collision detection
+
       for (var name in items) {
         // Convert name to camelCase for v8 compatibility (issue #10808)
         var camelCaseName = this.__convertNameToCamelCase(name);
+
+        // Check for naming collision: two different original names mapping to same camelCase name
+        if (nameMapping[camelCaseName] && nameMapping[camelCaseName] !== name) {
+          throw new Error(
+            "Form field naming collision detected for issue #10808: " +
+            "Fields '" + nameMapping[camelCaseName] + "' and '" + name + "' both map to the same " +
+            "camelCase property name '" + camelCaseName + "'. " +
+            "\n\nThis typically happens when you have fields that differ only in capitalization " +
+            "(e.g., 'Username' and 'username'). " +
+            "\n\nTo fix this:" +
+            "\n  1. Rename one of the fields to have a different name" +
+            "\n  2. Or set qx.allowFormFieldCollisions=true in compile.json to allow collisions " +
+            "(last field wins, may cause data loss)" +
+            "\n\nConflicting fields: '" + nameMapping[camelCaseName] + "' and '" + name + "'"
+          );
+        }
+        nameMapping[camelCaseName] = name;
+
         var names = camelCaseName.split(".");
         var currentData = data;
         for (var i = 0; i < names.length; i++) {

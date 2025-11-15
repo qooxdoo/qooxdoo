@@ -1150,6 +1150,50 @@ qx.Class.define("qx.test.data.controller.Form", {
       labelField.dispose();
       c.dispose();
       model.dispose();
+    },
+
+    testNamingCollisionDetection() {
+      // Test for naming collision when two fields would map to same camelCase name
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var field1 = new qx.ui.form.TextField();
+      var field2 = new qx.ui.form.TextField();
+
+      // Add two fields that differ only in first letter capitalization
+      this.__form.add(field1, "User 1", null, "Username");
+      this.__form.add(field2, "User 2", null, "username");
+
+      // Create controller
+      var c = new qx.data.controller.Form(null, this.__form);
+
+      // Creating model should throw an error about naming collision
+      var errorThrown = false;
+      var errorMessage = "";
+      try {
+        var model = c.createModel();
+      } catch (e) {
+        errorThrown = true;
+        errorMessage = e.message;
+      }
+
+      // Should throw error about collision
+      this.assertTrue(
+        errorThrown,
+        "Should throw error when two names map to same camelCase property"
+      );
+      this.assertTrue(
+        errorMessage.indexOf("Username") > -1 || errorMessage.indexOf("username") > -1,
+        "Error message should mention the conflicting names"
+      );
+
+      // Cleanup
+      field1.dispose();
+      field2.dispose();
+      c.dispose();
+      if (model) {
+        model.dispose();
+      }
     }
   }
 });
