@@ -323,6 +323,14 @@ qx.Class.define("qx.test.ui.basic.Label", {
         // Flush to ensure layout is calculated
         this.flush();
 
+        // Trigger the changeLocale event to simulate the fix for issue #9564
+        // In a real application, this is automatically triggered by qx.bom.Lifecycle.onReady()
+        // but in the test context, we need to trigger it manually
+        localeManager.fireDataEvent("changeLocale", localeManager.getLocale());
+
+        // Flush again to apply the changes from the changeLocale event
+        this.flush();
+
         // Both labels should display the same translated text
         this.assertEquals(
           longTranslation,
