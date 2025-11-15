@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal Test: Capitalized Form Names</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .info { color: blue; }
+        pre { background: #f0f0f0; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Minimal Test: Can qooxdoo handle capitalized property names?</h1>
+
+    <div id="status">Loading qooxdoo...</div>
+
+    <h2>Test Steps:</h2>
+    <ol>
+        <li>Create a form with capitalized field names (Username, EmailAddress, PassWord)</li>
+        <li>Create a data controller</li>
+        <li>Call createModel()</li>
+        <li>Check if model properties exist (getUsername, getEmailAddress, getPassWord)</li>
+        <li>Test data binding</li>
+    </ol>
+
+    <h2>Results:</h2>
+    <div id="results"></div>
+
+    <h2>Console Output:</h2>
+    <pre id="console"></pre>
+
+    <script>
+        // Capture console output
+        var consoleOutput = [];
+        var originalLog = console.log;
+        var originalError = console.error;
+
+        console.log = function(...args) {
+            consoleOutput.push('[LOG] ' + args.join(' '));
+            originalLog.apply(console, args);
+            updateConsole();
+        };
+
+        console.error = function(...args) {
+            consoleOutput.push('[ERROR] ' + args.join(' '));
+            originalError.apply(console, args);
+            updateConsole();
+        };
+
+        function updateConsole() {
+            document.getElementById('console').textContent = consoleOutput.join('\n');
+        }
+
+        function addResult(message, isPass) {
+            var div = document.getElementById('results');
+            var p = document.createElement('p');
+            p.className = isPass ? 'pass' : (isPass === null ? 'info' : 'fail');
+            p.textContent = (isPass ? '✓ ' : (isPass === null ? 'ℹ ' : '✗ ')) + message;
+            div.appendChild(p);
+        }
+
+        // This should be run after qooxdoo loads
+        // For now, just show instructions
+        document.getElementById('status').innerHTML =
+            '<p class="info">This test requires qooxdoo to be loaded.</p>' +
+            '<p>To run this test properly:</p>' +
+            '<ol>' +
+            '<li>Compile the framework: <code>npm run compile</code></li>' +
+            '<li>Or use the actual test suite: <code>npm test</code></li>' +
+            '<li>Or check TEST_INSTRUCTIONS.md for detailed steps</li>' +
+            '</ol>';
+
+        addResult('To test capitalized names, qooxdoo framework must be loaded', null);
+        addResult('See TEST_INSTRUCTIONS.md for proper test commands', null);
+    </script>
+</body>
+</html>
