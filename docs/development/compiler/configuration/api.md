@@ -16,8 +16,8 @@ you output will be validated against the `compile.json` schema.
 
 ### Getting Started
 
-The compiler uses two API classes: `qx.tool.compiler.cli.api.LibraryApi` and
-`qx.tool.cli.api.LibraryApi`; it will create an instance of `CompilerApi` in
+The compiler uses two API classes: `qx.tool.compiler.cli.api.CompilerApi` and
+`qx.tool.compiler.cli.api.LibraryApi`; it will create an instance of `CompilerApi` in
 order to load the `compile.json` for your application, and in your `compile.js`
 you can change how this works by creating your own class which is derived from
 `CompilerApi`.
@@ -31,8 +31,8 @@ For example, this is an empty `compile.js`:
 
 ```javascript
 module.exports = {
-    LibraryApi: qx.tool.cli.api.LibraryApi,
-    CompilerApi: qx.tool.compiler.cli.api.LibraryApi
+    LibraryApi: myapp.compile.LibaryApi,
+    CompilerApi: myapp.compile.CompilerApi
 };
 ```
 
@@ -47,7 +47,7 @@ standard API classes and return that instead:
 
 ```javascript
 qx.Class.define("myapp.compile.CompilerApi", {
-  extend: qx.tool.compiler.cli.api.LibraryApi,
+  extend: qx.tool.compiler.cli.api.Compiler,
 
   members: {
     async load() {
@@ -71,7 +71,7 @@ demonstrate how to override the class which is used to load `compile.json`.
 Let's do something more interesting, and edit the data on the fly:
 
 ```javascript
-qx.Class.define("myapp.compile.CompilerApi", {
+qx.Class.define("myapp.compile.LibaryApi", {
   extend: qx.tool.compiler.cli.api.LibraryApi,
 
   members: {
@@ -87,7 +87,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 });
 
 module.exports = {
-    CompilerApi: myapp.compile.CompilerApi
+    LibraryApi: myapp.compile.LibraryApi
 };
 
 ```
@@ -131,12 +131,26 @@ For example:
 
 ```javascript
 qx.Class.define("abc.somepackage.LibraryApi", {
-  extend: qx.tool.cli.api.LibraryApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
 
   members: {
-    async load() {
-      const command = this.getCompilerApi().getCommand();
-      command.addListener("checkEnvironment", e => this._appCompiling(e.getData().application, e.getData().environment));
+    initialize(cmd) {
+      if (cmd.getName() !== "test") {
+        return;
+      }
+      cmd.addFlag(
+        new qx.tool.cli.Flag("class").set({
+          description: "only run tests of this class",
+          type: "string"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.tool.cli.Flag("method").set({
+          description: "only run tests of this method",
+          type: "string"
+        })
+      );
     },
 
     afterLibrariesLoaded() {
@@ -153,7 +167,7 @@ qx.Class.define("abc.somepackage.LibraryApi", {
 });
 
 module.exports = {
-    LibraryApi: qxl.compilertests.testapp.LibraryApi
+    LibraryApi: abc.somepackage.LibraryApi
 };
 
 ```
@@ -176,7 +190,7 @@ Alternatively you can attach [event handlers](../internals/Events.md)
 directly to the [Compiler API](../compiler/API.md). In addition, both APIs provide
 hook methods which are triggered by these events:
 
-`qx.tool.compiler.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.compiler.cli.api.LibraryApi)
+`qx.tool.compiler.cli.api.CompilerApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.compiler.cli.api.CompilerApi)
 - `load()`: Called to update the compilerConfig
 - `afterCommandLoaded()`: Called after the command is known to the CompilerApi. Can be used to register listeners to the command. Instead of overload this function you can add a listener to the `changeCommand` event.
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
@@ -184,7 +198,7 @@ hook methods which are triggered by these events:
 - `beforeTests()`: Register compiler test or run your own tests in compile.js.
 - `afterProcessFinished()`: runs after the whole process is finished
 
-`qx.tool.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.LibraryApi)
+`qx.tool.compiler.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.compiler.cli.api.LibraryApi)
 - `initialize(rootCmd)`: Called just after loading config.js. Can be used to add special parameters or commands
 - `load()`: Called to load any library-specific configuration and update the compilerConfig
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
