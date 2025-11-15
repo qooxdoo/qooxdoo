@@ -1184,6 +1184,102 @@ qx.Class.define("qx.test.data.controller.Form", {
       field1.dispose();
       field2.dispose();
       c.dispose();
+    },
+
+    testDeepBindingConversion() {
+      // Test for issue #10808: Deep binding paths should be converted correctly
+      // "User.Name" → "user.name", "Company.Owner.FirstName" → "company.owner.firstName"
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var nameField = new qx.ui.form.TextField();
+      var ownerField = new qx.ui.form.TextField();
+
+      // Add fields with deep binding paths (capitalized)
+      this.__form.add(nameField, "Name", null, "User.Name");
+      this.__form.add(ownerField, "Owner First Name", null, "Company.Owner.FirstName");
+
+      // Create controller and model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Model should have nested structure with camelCase property names
+      this.assertObject(model.getUser(), "Model should have 'user' object");
+      this.assertObject(model.getCompany(), "Model should have 'company' object");
+      this.assertObject(model.getCompany().getOwner(), "Company should have 'owner' object");
+
+      // Set values through model (using camelCase deep paths)
+      model.getUser().setName("John Doe");
+      model.getCompany().getOwner().setFirstName("Jane");
+
+      // Verify values are bound to form fields
+      this.assertEquals("John Doe", nameField.getValue(), "User.Name should be bound");
+      this.assertEquals("Jane", ownerField.getValue(), "Company.Owner.FirstName should be bound");
+
+      // Test reverse binding: set values in form fields
+      nameField.setValue("Bob Smith");
+      ownerField.setValue("Alice");
+
+      // Verify values are reflected in model (camelCase nested properties)
+      this.assertEquals("Bob Smith", model.getUser().getName(), "user.name should be updated");
+      this.assertEquals("Alice", model.getCompany().getOwner().getFirstName(), "company.owner.firstName should be updated");
+
+      // Cleanup
+      nameField.dispose();
+      ownerField.dispose();
+      c.dispose();
+      model.dispose();
+    },
+
+    testUpdateModelWithCamelCaseConversion() {
+      // Test for issue #10808: updateModel() should use camelCase conversion
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var usernameField = new qx.ui.form.TextField();
+      var emailField = new qx.ui.form.TextField();
+
+      // Add fields with capitalized names
+      this.__form.add(usernameField, "Username", null, "Username");
+      this.__form.add(emailField, "Email", null, "EmailAddress");
+
+      // Create controller with selfUpdate=true (manual update mode)
+      var c = new qx.data.controller.Form(null, this.__form, true);
+      var model = c.createModel();
+
+      // Initially, model should be empty or have default values
+      this.assertFunction(model.getUsername, "Model should have getUsername()");
+      this.assertFunction(model.getEmailAddress, "Model should have getEmailAddress()");
+
+      // Set values in form fields (but model is NOT auto-updated due to selfUpdate=true)
+      usernameField.setValue("testuser");
+      emailField.setValue("test@example.com");
+
+      // Values should NOT be in model yet (selfUpdate mode)
+      // Note: We can't assert the old values because they might be undefined initially
+      // So we just verify the method exists and then call updateModel
+
+      // Call updateModel() - this should transfer values from form to model using camelCase
+      c.updateModel();
+
+      // Now model should have the values (with camelCase property names)
+      this.assertEquals("testuser", model.getUsername(), "username should be updated via updateModel()");
+      this.assertEquals("test@example.com", model.getEmailAddress(), "emailAddress should be updated via updateModel()");
+
+      // Change values again and update
+      usernameField.setValue("newuser");
+      emailField.setValue("new@example.com");
+      c.updateModel();
+
+      // Verify updated values
+      this.assertEquals("newuser", model.getUsername(), "username should be updated again");
+      this.assertEquals("new@example.com", model.getEmailAddress(), "emailAddress should be updated again");
+
+      // Cleanup
+      usernameField.dispose();
+      emailField.dispose();
+      c.dispose();
+      model.dispose();
     }
   }
 });
