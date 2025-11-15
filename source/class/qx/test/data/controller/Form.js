@@ -949,8 +949,9 @@ qx.Class.define("qx.test.data.controller.Form", {
       c.dispose();
     },
 
-    testNoConversionNeeded() {
-      // TEST: Verify that capitalized names work WITHOUT camelCase conversion
+    testCamelCaseConversion() {
+      // Test for issue #10808: Verify camelCase conversion works correctly
+      // v8's binding system requires lowercase-first property names
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
 
@@ -958,7 +959,7 @@ qx.Class.define("qx.test.data.controller.Form", {
       var emailField = new qx.ui.form.TextField();
       var passwordField = new qx.ui.form.PasswordField();
 
-      // Add fields with capitalized names - testing if they work as-is
+      // Add fields with capitalized names
       this.__form.add(usernameField, "Username", null, "Username");
       this.__form.add(emailField, "Email", null, "EmailAddress");
       this.__form.add(passwordField, "Password", null, "PassWord");
@@ -967,12 +968,12 @@ qx.Class.define("qx.test.data.controller.Form", {
       var c = new qx.data.controller.Form(null, this.__form);
       var model = c.createModel();
 
-      // If NO conversion happens, property names should match original names EXACTLY
-      this.assertFunction(model.getUsername, "getUsername() should exist with original name");
-      this.assertFunction(model.getEmailAddress, "getEmailAddress() should exist with original name");
-      this.assertFunction(model.getPassWord, "getPassWord() should exist with original name");
+      // WITH conversion: property names should be camelCase (lowercase first letter)
+      this.assertFunction(model.getUsername, "getUsername() should exist (camelCase)");
+      this.assertFunction(model.getEmailAddress, "getEmailAddress() should exist (camelCase)");
+      this.assertFunction(model.getPassWord, "getPassWord() should exist (camelCase)");
 
-      // Test data binding: set values via model
+      // Test data binding: set values via model (using camelCase)
       model.setUsername("testuser");
       model.setEmailAddress("test@example.com");
       model.setPassWord("secret123");
@@ -987,7 +988,7 @@ qx.Class.define("qx.test.data.controller.Form", {
       emailField.setValue("new@example.com");
       passwordField.setValue("newpass");
 
-      // Verify values are reflected in model
+      // Verify values are reflected in model (camelCase properties)
       this.assertEquals("newuser", model.getUsername());
       this.assertEquals("new@example.com", model.getEmailAddress());
       this.assertEquals("newpass", model.getPassWord());
@@ -1152,9 +1153,9 @@ qx.Class.define("qx.test.data.controller.Form", {
       model.dispose();
     },
 
-    testNoCollisionWithoutConversion() {
-      // TEST: With NO conversion, "Username" and "username" are different properties
-      // This should work fine (no collision)
+    testCollisionDetection() {
+      // Test for issue #10808: Collision detection with camelCase conversion
+      // "Username" and "username" both convert to "username" - should throw error
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
 
@@ -1168,27 +1169,21 @@ qx.Class.define("qx.test.data.controller.Form", {
       // Create controller
       var c = new qx.data.controller.Form(null, this.__form);
 
-      // This should work fine without errors (no conversion = no collision)
-      var model = c.createModel();
-
-      // Both properties should exist as separate properties
-      this.assertFunction(model.getUsername, "getUsername() should exist");
-      this.assertFunction(model.getUsername, "getUsername() should exist (lowercase is same in JS)");
-
-      // Set values
-      field1.setValue("value1");
-      field2.setValue("value2");
-
-      // Verify both work independently
-      this.assertEquals("value1", model.getUsername());
-      // Note: "Username" and "username" map to same getter in JavaScript!
-      // This shows a potential issue with the "no conversion" approach
+      // WITH conversion: both "Username" and "username" map to "username"
+      // This should throw a collision detection error
+      this.assertException(
+        function () {
+          c.createModel();
+        },
+        Error,
+        /Form field naming collision detected.*issue #10808/,
+        "Should throw collision error when Username and username both exist"
+      );
 
       // Cleanup
       field1.dispose();
       field2.dispose();
       c.dispose();
-      model.dispose();
     }
   }
 });
