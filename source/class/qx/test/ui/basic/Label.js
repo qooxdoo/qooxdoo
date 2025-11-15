@@ -264,6 +264,89 @@ qx.Class.define("qx.test.ui.basic.Label", {
         label.getContentElement().getValue(),
         "label must have the current locale set"
       );
+    },
+
+    /**
+     * Test for issue #9564: Translated string as property init value causes
+     * invalid calculation of label width.
+     *
+     * This test reproduces the issue where a LocalizedString created before
+     * translations are loaded (typical for property init values) causes the
+     * label to calculate its width based on the untranslated message ID
+     * instead of the actual translated text.
+     */
+    testTranslatedStringPropertyInitWidth() {
+      this.require(["qx.dynlocale"]);
+
+      var localeManager = qx.locale.Manager.getInstance();
+
+      // Save the current locale to restore it later
+      var originalLocale = localeManager.getLocale();
+
+      try {
+        // Set up a translation with a short message ID and a long translation
+        var shortMsgId = "MSG";
+        var longTranslation =
+          "This is a very long translated string that should be much wider than the message ID";
+
+        localeManager.addTranslation("en", {});
+        localeManager.addTranslation("en", {
+          [shortMsgId]: longTranslation
+        });
+
+        localeManager.setLocale("en");
+
+        // Create a LocalizedString - simulating a property init value
+        var localizedStr = qx.locale.Manager.tr(shortMsgId);
+
+        // Create two labels for comparison
+        // Label 1: Uses the LocalizedString directly (simulates property init)
+        var labelWithLocalizedString = new qx.ui.basic.Label();
+        labelWithLocalizedString.setValue(localizedStr);
+
+        // Label 2: Uses the plain translated string for comparison
+        var labelWithPlainString = new qx.ui.basic.Label(longTranslation);
+
+        // Add both labels to the root
+        this.getRoot().add(labelWithLocalizedString);
+        this.getRoot().add(labelWithPlainString);
+
+        // Flush to ensure layout is calculated
+        this.flush();
+
+        // Both labels should display the same translated text
+        this.assertEquals(
+          longTranslation,
+          labelWithLocalizedString.getContentElement().getValue(),
+          "Label with LocalizedString should display the translated text"
+        );
+
+        this.assertEquals(
+          longTranslation,
+          labelWithPlainString.getContentElement().getValue(),
+          "Label with plain string should display the translated text"
+        );
+
+        // Get the bounds of both labels
+        var boundsWithLocalizedString =
+          labelWithLocalizedString.getBounds();
+        var boundsWithPlainString = labelWithPlainString.getBounds();
+
+        // Both labels should have the same width since they display the same text
+        // This is the core assertion for issue #9564
+        this.assertEquals(
+          boundsWithPlainString.width,
+          boundsWithLocalizedString.width,
+          "Label with LocalizedString should have the same width as label with plain translated string"
+        );
+
+        // Clean up
+        labelWithLocalizedString.destroy();
+        labelWithPlainString.destroy();
+      } finally {
+        // Restore the original locale
+        localeManager.setLocale(originalLocale);
+      }
     }
   }
 });
