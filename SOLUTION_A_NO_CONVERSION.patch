@@ -1,0 +1,87 @@
+# Lösung A: KEINE camelCase Konvertierung
+# Nutze diese Lösung wenn Tests BESTEHEN (Konvertierung nicht nötig)
+
+## Änderungen an Data Controller
+
+### File: source/class/qx/data/controller/Form.js
+
+# OPTION 1: Namen komplett unverändert lassen
+# - Einfachste Lösung
+# - ABER: Warnung bei potentiellen Kollisionen
+
+```javascript
+createModel(includeBubbleEvents) {
+  var target = this.getTarget();
+  if (target == null) {
+    throw new Error("No target is set.");
+  }
+
+  var items = target.getItems();
+  var data = {};
+
+  // WARNUNG: Prüfe auf gefährliche Kollisionen
+  var lowercaseMap = {};
+  for (var name in items) {
+    var lowerName = name.toLowerCase();
+    if (lowercaseMap[lowerName]) {
+      console.warn(
+        "Potential naming collision: Fields '" + lowercaseMap[lowerName] +
+        "' and '" + name + "' have similar names and may cause confusion. " +
+        "Consider renaming one of them."
+      );
+    }
+    lowercaseMap[lowerName] = name;
+  }
+
+  // Nutze Namen wie sie sind
+  for (var name in items) {
+    var names = name.split(".");
+    var currentData = data;
+    for (var i = 0; i < names.length; i++) {
+      if (i + 1 == names.length) {
+        var clazz = items[name].constructor;
+        var itemValue = null;
+        if (qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection)) {
+          itemValue = items[name].getModelSelection().getItem(0) || null;
+        } else {
+          itemValue = items[name].getValue();
+        }
+        if (this.__bindingOptions[name] && this.__bindingOptions[name][1]) {
+          itemValue = this.__bindingOptions[name][1].converter(itemValue);
+        }
+        currentData[names[i]] = itemValue;
+      } else {
+        if (!currentData[names[i]]) {
+          currentData[names[i]] = {};
+        }
+        currentData = currentData[names[i]];
+      }
+    }
+  }
+
+  var model = qx.data.marshal.Json.createModel(data, includeBubbleEvents);
+  this.setModel(model);
+  return model;
+}
+```
+
+## Vorteile
+- ✅ Einfach
+- ✅ Keine Breaking Changes
+- ✅ form.getItem("Username") funktioniert
+- ✅ Kein Konvertierungsoverhead
+
+## Nachteile
+- ⚠️ Verletzt qooxdoo Convention (properties sollten lowercase starten)
+- ⚠️ Warnung ist nur eine Warning, nicht ein Error
+- ⚠️ "Username" und "username" könnten theoretisch beide existieren
+
+## Test-Erwartungen
+- model.getUsername() sollte existieren für property "Username"
+- model.getEmailAddress() sollte existieren für property "EmailAddress"
+- Binding sollte funktionieren
+
+## Wann nutzen?
+- Wenn Tests BESTEHEN
+- Wenn qooxdoo v8 Property System capitalisierte Namen akzeptiert
+- Wenn keine stricten Validations in v8 eingebaut sind
