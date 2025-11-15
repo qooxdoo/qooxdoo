@@ -25,6 +25,7 @@
  * @require(qx.event.dispatch.Direct)
  * @require(qx.locale.LocalizedString)
  * @require(qx.bom.client.Locale)
+ * @require(qx.bom.Lifecycle)
  *
  * Note: "translating" the empty string, e.g. tr("") will return the header
  * of the respective .po file. See also https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files
@@ -48,6 +49,18 @@ qx.Class.define("qx.locale.Manager", {
 
     this.initLocale();
     this.__clientLocale = this.getLocale();
+
+    // Fix for issue #9564: Fire changeLocale event after application is ready
+    // to ensure LocalizedStrings created before translations were loaded
+    // (e.g., in property init values) are properly re-translated
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.bom.Lifecycle.onReady(
+        function () {
+          this.fireDataEvent("changeLocale", this.getLocale());
+        },
+        this
+      );
+    }
   },
 
   /*
