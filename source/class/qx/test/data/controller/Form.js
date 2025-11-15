@@ -1280,6 +1280,184 @@ qx.Class.define("qx.test.data.controller.Form", {
       emailField.dispose();
       c.dispose();
       model.dispose();
+    },
+
+    testAlreadyCamelCaseNames() {
+      // Test for issue #10808: Names already in camelCase should not be broken
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var usernameField = new qx.ui.form.TextField();
+      var emailField = new qx.ui.form.TextField();
+      var passwordField = new qx.ui.form.PasswordField();
+
+      // Add fields with names already in camelCase (lowercase first letter)
+      this.__form.add(usernameField, "Username", null, "username");
+      this.__form.add(emailField, "Email", null, "emailAddress");
+      this.__form.add(passwordField, "Password", null, "password");
+
+      // Create controller and model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Model properties should remain unchanged (already camelCase)
+      this.assertFunction(model.getUsername, "getUsername() should exist (unchanged)");
+      this.assertFunction(model.getEmailAddress, "getEmailAddress() should exist (unchanged)");
+      this.assertFunction(model.getPassword, "getPassword() should exist (unchanged)");
+
+      // Test bidirectional binding works correctly
+      model.setUsername("testuser");
+      model.setEmailAddress("test@example.com");
+      model.setPassword("secret");
+
+      this.assertEquals("testuser", usernameField.getValue());
+      this.assertEquals("test@example.com", emailField.getValue());
+      this.assertEquals("secret", passwordField.getValue());
+
+      // Reverse binding
+      usernameField.setValue("newuser");
+      emailField.setValue("new@example.com");
+      passwordField.setValue("newsecret");
+
+      this.assertEquals("newuser", model.getUsername());
+      this.assertEquals("new@example.com", model.getEmailAddress());
+      this.assertEquals("newsecret", model.getPassword());
+
+      // Cleanup
+      usernameField.dispose();
+      emailField.dispose();
+      passwordField.dispose();
+      c.dispose();
+      model.dispose();
+    },
+
+    testMultipleFieldCollisions() {
+      // Test for issue #10808: Multiple fields that collide to same camelCase name
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var field1 = new qx.ui.form.TextField();
+      var field2 = new qx.ui.form.TextField();
+      var field3 = new qx.ui.form.TextField();
+
+      // Add fields that all map to "userName" in camelCase
+      this.__form.add(field1, "User 1", null, "UserName");
+      this.__form.add(field2, "User 2", null, "userName");  // This will collide with UserName
+      this.__form.add(field3, "User 3", null, "username");  // This would also collide
+
+      var c = new qx.data.controller.Form(null, this.__form);
+
+      // Should throw error on FIRST collision (UserName vs userName)
+      this.assertException(
+        function () {
+          c.createModel();
+        },
+        Error,
+        /Form field naming collision detected.*issue #10808/,
+        "Should throw collision error for multiple conflicting fields"
+      );
+
+      // Cleanup
+      field1.dispose();
+      field2.dispose();
+      field3.dispose();
+      c.dispose();
+    },
+
+    testAddBindingOptionsWithConversion() {
+      // Test for issue #10808: addBindingOptions should work with camelCase conversion
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var numberField = new qx.ui.form.TextField();
+
+      // Add field with capitalized name
+      this.__form.add(numberField, "Age", null, "UserAge");
+
+      // Create controller and model
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Add binding options with a converter (string to number)
+      var converterCalled = false;
+      c.addBindingOptions(
+        "UserAge",  // Original field name
+        null,  // model to target options
+        {
+          converter: function(value) {
+            converterCalled = true;
+            return value ? parseInt(value, 10) : 0;
+          }
+        }
+      );
+
+      // Set value in field (as string)
+      numberField.setValue("25");
+
+      // Model should have the converted number value
+      // The binding should work with camelCase property name
+      this.assertTrue(converterCalled, "Converter should have been called");
+      this.assertEquals(25, model.getUserAge(), "Model should have converted number value");
+
+      // Test with different value
+      converterCalled = false;
+      numberField.setValue("30");
+      this.assertTrue(converterCalled, "Converter should be called again");
+      this.assertEquals(30, model.getUserAge(), "Model should have new converted value");
+
+      // Cleanup
+      numberField.dispose();
+      c.dispose();
+      model.dispose();
+    },
+
+    testDeepBindingEdgeCases() {
+      // Test for issue #10808: Edge cases for deep binding conversion
+      this.__form.dispose();
+      this.__form = new qx.ui.form.Form();
+
+      var field1 = new qx.ui.form.TextField();
+      var field2 = new qx.ui.form.TextField();
+      var field3 = new qx.ui.form.TextField();
+
+      // Test various edge cases for deep binding
+      this.__form.add(field1, "Name", null, "A.B.C");  // Short parts
+      this.__form.add(field2, "Data", null, "VeryLongName.AnotherLongName.FinalName");
+      this.__form.add(field3, "Single", null, "SingleLevel");  // No dot (not really deep)
+
+      var c = new qx.data.controller.Form(null, this.__form);
+      var model = c.createModel();
+
+      // Verify deep nested structure with camelCase
+      this.assertObject(model.getA(), "Model should have 'a' object");
+      this.assertObject(model.getA().getB(), "a should have 'b' object");
+      this.assertFunction(model.getA().getB().setC, "a.b should have setC method");
+
+      this.assertObject(model.getVeryLongName(), "Model should have 'veryLongName' object");
+      this.assertObject(model.getVeryLongName().getAnotherLongName(), "veryLongName should have 'anotherLongName'");
+      this.assertFunction(
+        model.getVeryLongName().getAnotherLongName().setFinalName,
+        "veryLongName.anotherLongName should have setFinalName"
+      );
+
+      // Single level should work as normal property
+      this.assertFunction(model.setSingleLevel, "Model should have setSingleLevel method");
+
+      // Test binding
+      model.getA().getB().setC("value1");
+      model.getVeryLongName().getAnotherLongName().setFinalName("value2");
+      model.setSingleLevel("value3");
+
+      this.assertEquals("value1", field1.getValue());
+      this.assertEquals("value2", field2.getValue());
+      this.assertEquals("value3", field3.getValue());
+
+      // Cleanup
+      field1.dispose();
+      field2.dispose();
+      field3.dispose();
+      c.dispose();
+      model.dispose();
     }
   }
 });
