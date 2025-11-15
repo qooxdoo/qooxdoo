@@ -1,3 +1,4 @@
+// Common JavaScript for qooxdoo startpage using qxWeb
 document.addEventListener('DOMContentLoaded', function () {
   // Set current year
   var currentYear = new Date().getFullYear().toString();
