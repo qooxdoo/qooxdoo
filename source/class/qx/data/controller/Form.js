@@ -147,8 +147,8 @@ qx.Class.define("qx.data.controller.Form", {
         ? "modelSelection[0]"
         : "value";
 
-      // Convert name to camelCase for model property (issue #10808)
-      var modelPropertyName = this.__convertNameToCamelCase(name);
+      // TEST: Use original name without conversion
+      var modelPropertyName = name;
 
       // remove the binding
       this.__objectController.removeTarget(item, targetProperty, modelPropertyName);
@@ -183,30 +183,11 @@ qx.Class.define("qx.data.controller.Form", {
 
       var items = target.getItems();
       var data = {};
-      var nameMapping = {}; // Track original -> camelCase mappings for collision detection
 
       for (var name in items) {
-        // Convert name to camelCase for v8 compatibility (issue #10808)
-        var camelCaseName = this.__convertNameToCamelCase(name);
-
-        // Check for naming collision: two different original names mapping to same camelCase name
-        if (nameMapping[camelCaseName] && nameMapping[camelCaseName] !== name) {
-          throw new Error(
-            "Form field naming collision detected for issue #10808: " +
-            "Fields '" + nameMapping[camelCaseName] + "' and '" + name + "' both map to the same " +
-            "camelCase property name '" + camelCaseName + "'. " +
-            "\n\nThis typically happens when you have fields that differ only in capitalization " +
-            "(e.g., 'Username' and 'username'). " +
-            "\n\nTo fix this:" +
-            "\n  1. Rename one of the fields to have a different name" +
-            "\n  2. Or set qx.allowFormFieldCollisions=true in compile.json to allow collisions " +
-            "(last field wins, may cause data loss)" +
-            "\n\nConflicting fields: '" + nameMapping[camelCaseName] + "' and '" + name + "'"
-          );
-        }
-        nameMapping[camelCaseName] = name;
-
-        var names = camelCaseName.split(".");
+        // TEST: Use original names WITHOUT camelCase conversion
+        // to verify if conversion is actually technically necessary
+        var names = name.split(".");
         var currentData = data;
         for (var i = 0; i < names.length; i++) {
           // if its the last item
@@ -265,8 +246,8 @@ qx.Class.define("qx.data.controller.Form", {
         var options = this.__bindingOptions[name];
         options = options && this.__bindingOptions[name][1];
 
-        // Convert name to camelCase for model property (issue #10808)
-        var modelPropertyName = this.__convertNameToCamelCase(name);
+        // TEST: Use original name without conversion
+        var modelPropertyName = name;
 
         qx.data.SingleValueBinding.updateTarget(
           item,
@@ -311,8 +292,8 @@ qx.Class.define("qx.data.controller.Form", {
           var targetProperty = this.__isModelSelectable(item)
             ? "modelSelection[0]"
             : "value";
-          // Use camelCase name for model property (issue #10808)
-          var modelPropertyName = this.__convertNameToCamelCase(name);
+          // TEST: Use original name without conversion
+          var modelPropertyName = name;
           this.__objectController.removeTarget(
             item,
             targetProperty,
@@ -365,8 +346,8 @@ qx.Class.define("qx.data.controller.Form", {
           : "value";
         var options = this.__bindingOptions[name];
 
-        // Convert name to camelCase for model binding (issue #10808)
-        var modelPropertyName = this.__convertNameToCamelCase(name);
+        // TEST: Use original name without conversion
+        var modelPropertyName = name;
 
         // try to bind all given items in the form
         try {
@@ -426,8 +407,8 @@ qx.Class.define("qx.data.controller.Form", {
         var targetProperty = this.__isModelSelectable(item)
           ? "modelSelection[0]"
           : "value";
-        // Use camelCase name for model property (issue #10808)
-        var modelPropertyName = this.__convertNameToCamelCase(name);
+        // TEST: Use original name without conversion
+        var modelPropertyName = name;
         this.__objectController.removeTarget(
           item,
           targetProperty,
