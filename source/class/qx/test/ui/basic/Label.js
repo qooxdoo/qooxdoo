@@ -285,19 +285,28 @@ qx.Class.define("qx.test.ui.basic.Label", {
 
       try {
         // Set up a translation with a short message ID and a long translation
-        var shortMsgId = "MSG";
+        var shortMsgId = "ISSUE_9564_TEST_MESSAGE";
         var longTranslation =
           "This is a very long translated string that should be much wider than the message ID";
 
-        localeManager.addTranslation("en", {});
+        localeManager.setLocale("en");
+
+        // IMPORTANT: Create LocalizedString BEFORE the translation is loaded
+        // This simulates the typical scenario where tr() is called in a property init
+        var localizedStr = qx.locale.Manager.tr(shortMsgId);
+
+        // At this point, localizedStr contains the message ID as fallback text
+        // because the translation hasn't been loaded yet
+        this.assertEquals(
+          shortMsgId,
+          localizedStr.toString(),
+          "LocalizedString should contain message ID before translation is loaded"
+        );
+
+        // NOW load the translation (simulating translations loading after class definition)
         localeManager.addTranslation("en", {
           [shortMsgId]: longTranslation
         });
-
-        localeManager.setLocale("en");
-
-        // Create a LocalizedString - simulating a property init value
-        var localizedStr = qx.locale.Manager.tr(shortMsgId);
 
         // Create two labels for comparison
         // Label 1: Uses the LocalizedString directly (simulates property init)
@@ -334,10 +343,16 @@ qx.Class.define("qx.test.ui.basic.Label", {
 
         // Both labels should have the same width since they display the same text
         // This is the core assertion for issue #9564
+        // In the buggy version, labelWithLocalizedString would have a width based on
+        // the short message ID, not the long translated text
         this.assertEquals(
           boundsWithPlainString.width,
           boundsWithLocalizedString.width,
-          "Label with LocalizedString should have the same width as label with plain translated string"
+          "Label with LocalizedString should have the same width as label with plain translated string. " +
+            "Expected: " +
+            boundsWithPlainString.width +
+            ", Actual: " +
+            boundsWithLocalizedString.width
         );
 
         // Clean up
