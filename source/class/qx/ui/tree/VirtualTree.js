@@ -760,7 +760,10 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
           }
         }
 
-        if (this.__lookupTable.indexOf(item) != -1) {
+        // Issue #9390: When hideRoot is true, the root is not in the lookup table,
+        // but we still need to update when its children change
+        var isRootAndHidden = this.isHideRoot() && item === this.getModel();
+        if (this.__lookupTable.indexOf(item) != -1 || isRootAndHidden) {
           this.__applyModelChanges();
         }
       }
