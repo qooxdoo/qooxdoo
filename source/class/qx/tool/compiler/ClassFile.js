@@ -2162,7 +2162,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   t.addMarker(
                     "translate.invalidMessageId",
                     path.node.loc,
-                    arg0
+                    arg0 ?? ""
                   );
                 } else {
                   addTranslation({ msgid: arg0 });
@@ -2177,8 +2177,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   t.addMarker(
                     "translate.invalidMessageIds",
                     path.node.loc,
-                    arg0,
-                    arg1
+                    arg0 ?? "",
+                    arg1 ?? ""
                   );
                 } else {
                   addTranslation({ msgid: arg0, msgid_plural: arg1 });
