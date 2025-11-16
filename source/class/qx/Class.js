@@ -924,18 +924,24 @@ qx.Bootstrap.define("qx.Class", {
       }
 
       // Restore class-defined members that were overridden by mixin members (issue #9142)
-      // This allows classes to override mixin methods while still supporting super calls
+      // This allows classes to override mixin methods while still supporting base calls
       for (let key in classOwnMembers) {
         let classMember = classOwnMembers[key];
 
         // Re-add the class member, which will now have member.base set to the mixin version
         if (typeof classMember == "function") {
-          // Save the mixin member before we overwrite proto[key]
+          // Save the mixin member that's currently in the prototype
           let mixinMember = proto[key];
 
-          // Set the class member's base to the mixin member
+          // Set up base call: the class member's base should point to the mixin member
+          // This is crucial for this.base(arguments) to work correctly
           classMember.base = mixinMember;
 
+          // Also set member.self for proper context (similar to patch behavior)
+          classMember.self = clazz;
+
+          // Delete the mixin member and replace with the class member
+          delete proto[key];
           Object.defineProperty(proto, key, {
             value: classMember,
             writable: qx.Class.$$options.propsAccessible || true,
