@@ -1,0 +1,15 @@
+{
+  "info": {
+    "name": "issue10407",
+    "summary": "Test for Issue 10407 - Compiler should mention the use of nonexistent classes",
+    "description": "Test application to verify compiler warnings for nonexistent class references",
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "issue10407",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  }
+}

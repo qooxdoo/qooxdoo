@@ -2585,7 +2585,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__scope.vars[name] = valueName || true;
         var unresolved = this.__scope.unresolved;
         delete unresolved[name];
-        var re = new RegExp(name + "\\.");
+        // Escape special regex characters and anchor to start of string
+        // to prevent "x" from matching "qx.foo" (only match "x.foo")
+        var escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var re = new RegExp("^" + escapedName + "\\.");
         for (var tmp in unresolved) {
           if (re.test(tmp)) {
             delete unresolved[tmp];
