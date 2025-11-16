@@ -930,8 +930,11 @@ qx.Bootstrap.define("qx.Class", {
 
         // Re-add the class member, which will now have member.base set to the mixin version
         if (typeof classMember == "function") {
-          // The mixin member is already in proto[key], so set it as base
-          classMember.base = proto[key];
+          // Save the mixin member before we overwrite proto[key]
+          let mixinMember = proto[key];
+
+          // Set the class member's base to the mixin member
+          classMember.base = mixinMember;
 
           Object.defineProperty(proto, key, {
             value: classMember,
