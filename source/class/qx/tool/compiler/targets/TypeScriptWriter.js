@@ -487,7 +487,11 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       typename = typename.replace("Promise<", "globalThis.Promise<");
       typename = typename.replace(
-        /(^|[^.a-zA-Z])(var|\*)([^.a-zA-Z]|$)/g,
+        /(^|[^.a-zA-Z])(var)([^.a-zA-Z]|$)/g,
+        "$1unknown$3"
+      );
+      typename = typename.replace(
+        /(^|[^.a-zA-Z])(\*)([^.a-zA-Z]|$)/g,
         "$1any$3"
       );
 
@@ -841,7 +845,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Array: "Array<any>",
       RegEx: "RegExp",
       // TODO: deprecate the below types as they are non-standard aliases for builtin types without any tangible benefit
-      var: "any",
+      var: "unknown",
       "*": "any",
       arguments: "any"
     }
