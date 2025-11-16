@@ -21,6 +21,7 @@
  * @ignore(qx.MMix2, qx.MPatch, qx.Patch1, qx.Patch2, qx.UseLog1, qx.UseLog2)
  * @ignore(qx.UseLog3, qx.MOverridable, qx.MOverridable2, qx.OverrideClass1)
  * @ignore(qx.OverrideClass2, qx.OverrideClass3, qx.OverrideClass4)
+ * @ignore(qx.PatchIncludeTest)
  */
 
 qx.Class.define("qx.test.Mixin", {
@@ -67,6 +68,7 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("red", mix.getColor());
 
       if (this.isDebugOn()) {
+        // Test that including multiple mixins with conflicting members still throws an error
         this.assertException(
           function () {
             qx.Class.define("qx.Mix1", {
@@ -79,26 +81,25 @@ qx.Class.define("qx.test.Mixin", {
           "Overwriting member",
           "t1"
         );
-
-        this.assertException(
-          function () {
-            qx.Class.define("qx.Mix2", {
-              extend: Object,
-              include: qx.MMix1,
-              construct() {},
-
-              members: {
-                bar() {
-                  return "bar";
-                }
-              }
-            });
-          },
-          Error,
-          "Overwriting member",
-          "t2"
-        );
       }
+
+      // Test that class members can override mixin members (issue #9142)
+      // This should now be allowed
+      qx.Class.define("qx.Mix2", {
+        extend: Object,
+        include: qx.MMix1,
+        construct() {},
+
+        members: {
+          bar() {
+            return "bar from class";
+          }
+        }
+      });
+
+      // Verify that the class's version of bar() is used
+      var mix2 = new qx.Mix2();
+      this.assertEquals("bar from class", mix2.bar());
 
       // this is allowed
       qx.Class.define("qx.Mix3", {
@@ -148,7 +149,8 @@ qx.Class.define("qx.test.Mixin", {
       qx.Class.include(qx.UseLog1, qx.MLogger);
       this.assertEquals("Juhu", new qx.UseLog1().log("Juhu"));
 
-      // not allowed to overwrite!
+      // With issue #9142 fix: Class members can override mixin members
+      // When including a mixin after class definition, the class's version is preserved
       qx.Class.define("qx.UseLog2", {
         extend: Object,
         construct() {},
@@ -160,15 +162,9 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
-      if (this.isDebugOn()) {
-        this.assertException(
-          function () {
-            qx.Class.include(qx.UseLog2, qx.MLogger);
-          },
-          Error,
-          "Overwriting member"
-        );
-      }
+      // This should now be allowed - the class's log() is preserved
+      qx.Class.include(qx.UseLog2, qx.MLogger);
+      this.assertEquals("foo", new qx.UseLog2().log("Juhu"));
 
       // allowed to overwrite!
       qx.Class.define("qx.UseLog3", {
@@ -281,16 +277,27 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
+      // With issue #9142 fix: qx.Class.include no longer throws an error
+      // when class members conflict with mixin members. The class's version is preserved.
       if (this.isDebugOn()) {
-        this.assertException(
-          function () {
-            qx.Class.include(qx.Patch1, qx.MPatch);
-          },
-          Error,
-          new RegExp('Overwriting member or property ".*" of Class ".*" is not allowed.')
-        );
+        // Create a temporary class to test include behavior
+        qx.Class.define("qx.PatchIncludeTest", {
+          extend: qx.core.Object,
+          members: {
+            sayJuhu() {
+              return "Original";
+            }
+          }
+        });
+
+        // This should not throw an error
+        qx.Class.include(qx.PatchIncludeTest, qx.MPatch);
+        var oTest = new qx.PatchIncludeTest();
+        this.assertEquals("Original", oTest.sayJuhu()); // Class's version is preserved
+        oTest.dispose();
       }
 
+      // qx.Class.patch still overwrites as before
       qx.Class.patch(qx.Patch1, qx.MPatch);
       qx.Class.patch(qx.Patch2, qx.MPatch);
 

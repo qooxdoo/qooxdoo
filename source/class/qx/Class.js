@@ -487,6 +487,17 @@ qx.Bootstrap.define("qx.Class", {
       // Members, properties, events, and mixins are only allowed for
       // non-static classes.
       if (config.extend) {
+        // Track members defined by the class itself (not from mixins)
+        // This allows class members to override mixin members
+        if (config.members) {
+          if (!clazz.prototype.$$ownMembers) {
+            clazz.prototype.$$ownMembers = {};
+          }
+          for (let key in config.members) {
+            clazz.prototype.$$ownMembers[key] = true;
+          }
+        }
+
         // Add members
         if (config.members) {
           qx.Class.addMembers(clazz, config.members, config.events, false);
@@ -805,19 +816,29 @@ qx.Bootstrap.define("qx.Class", {
               throw new Error(`Cannot annotate private member ${key.substring(1)} ` + `of Class ${clazz.classname}`);
             }
           } else {
-            if (
-              patch !== true &&
-              (proto.$$allProperties.hasOwnProperty(key) || proto.hasOwnProperty(key)) &&
-              key != "_createQxObjectImpl"
-            ) {
-              throw new Error(
-                clazz.classname +
-                  ': Overwriting member or property "' +
-                  key +
-                  '" of Class "' +
+            // Check if we're trying to overwrite an existing member
+            let isOverwriting = (proto.$$allProperties.hasOwnProperty(key) || proto.hasOwnProperty(key)) &&
+                                key != "_createQxObjectImpl";
+
+            if (isOverwriting && patch !== true) {
+              // Check if this is a class-defined member (issue #9142)
+              // Classes should be able to override mixin methods
+              let isOwnMember = proto.$$ownMembers && proto.$$ownMembers.hasOwnProperty(key);
+
+              if (isOwnMember) {
+                // Skip adding this mixin member - the class's version takes precedence
+                continue;
+              } else {
+                // Not an own member, so this is a conflict
+                throw new Error(
                   clazz.classname +
-                  '" is not allowed! (Members and properties are in the same namespace.)'
-              );
+                    ': Overwriting member or property "' +
+                    key +
+                    '" of Class "' +
+                    clazz.classname +
+                    '" is not allowed! (Members and properties are in the same namespace.)'
+                );
+              }
             } else if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
               throw new Error(`Overwriting private member "${key}" ` + `of Class "${clazz.classname}" ` + "is not allowed");
             }
