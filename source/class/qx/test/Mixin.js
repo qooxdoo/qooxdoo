@@ -959,18 +959,21 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("Hello from Class", obj1.greet());
       obj1.dispose();
 
-      // Test 2: Class overrides mixin method and calls super
+      // Test 2: Class overrides mixin method and calls base
+      // Note: We use this.base(arguments) instead of super because
+      // JavaScript's super keyword looks in the superclass, not in mixins
       qx.Class.define("qx.OverrideClass2", {
         extend: qx.core.Object,
         include: qx.MOverridable,
 
         members: {
           greet() {
-            return super.greet() + " and Class";
+            var mixinGreeting = this.base(arguments);
+            return mixinGreeting + " and Class";
           },
 
           calculate(a, b) {
-            var mixinResult = super.calculate(a, b);
+            var mixinResult = this.base(arguments, a, b);
             return mixinResult * 2;
           }
         }
@@ -1005,7 +1008,7 @@ qx.Class.define("qx.test.Mixin", {
 
         members: {
           getValue() {
-            return "Overridden: " + super.getValue();
+            return "Overridden: " + this.base(arguments);
           }
         }
       });
