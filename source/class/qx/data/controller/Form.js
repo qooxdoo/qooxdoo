@@ -97,6 +97,28 @@ qx.Class.define("qx.data.controller.Form", {
     __bindingOptions: null,
 
     /**
+     * Helper method to convert a form item name to camelCase for model property names.
+     * This ensures v8 compatibility where property names follow camelCase conventions.
+     * For deep binding (names with dots), each part is converted separately.
+     *
+     * @param name {String} The form item name (may contain dots for deep binding)
+     * @return {String} The camelCase converted name
+     */
+    __convertNameToCamelCase(name) {
+      if (!name) {
+        return name;
+      }
+
+      // For deep binding, split by dot and convert each part
+      var parts = name.split(".");
+      var convertedParts = parts.map(function (part) {
+        return qx.lang.String.firstLow(part);
+      });
+
+      return convertedParts.join(".");
+    },
+
+    /**
      * The form controller uses for setting up the bindings the fundamental
      * binding layer, the {@link qx.data.SingleValueBinding}. To achieve a
      * binding in both directions, two bindings are needed. With this method,
@@ -125,13 +147,16 @@ qx.Class.define("qx.data.controller.Form", {
         ? "modelSelection[0]"
         : "value";
 
+      // Convert to camelCase for v8 compatibility (issue #10808)
+      var modelPropertyName = this.__convertNameToCamelCase(name);
+
       // remove the binding
-      this.__objectController.removeTarget(item, targetProperty, name);
+      this.__objectController.removeTarget(item, targetProperty, modelPropertyName);
       // set up the new binding with the options
       this.__objectController.addTarget(
         item,
         targetProperty,
-        name,
+        modelPropertyName,
         !this._selfUpdate,
         model2target,
         target2model
@@ -158,8 +183,35 @@ qx.Class.define("qx.data.controller.Form", {
 
       var items = target.getItems();
       var data = {};
+      var nameMapping = {}; // For collision detection (issue #10808)
+
       for (var name in items) {
-        var names = name.split(".");
+        // Convert to camelCase for v8 compatibility (issue #10808)
+        // v8's binding system automatically converts property names to lowercase
+        var camelCaseName = this.__convertNameToCamelCase(name);
+
+        // COLLISION DETECTION: Detect if multiple fields map to same camelCase name
+        // Example: "Username" and "username" both map to "username"
+        if (nameMapping[camelCaseName] && nameMapping[camelCaseName] !== name) {
+          throw new Error(
+            "Form field naming collision detected (issue #10808): " +
+            "Fields '" + nameMapping[camelCaseName] + "' and '" + name + "' " +
+            "both convert to the same camelCase property name '" + camelCaseName + "'.\n\n" +
+            "This happens when field names differ only in capitalization.\n" +
+            "qooxdoo v8's binding system automatically converts property names to lowercase first letter,\n" +
+            "which causes both field names to map to the same model property.\n\n" +
+            "To fix this issue:\n" +
+            "  1. Rename one of the conflicting fields to have a distinct name\n" +
+            "  2. Ensure all field names are unique when converted to camelCase\n\n" +
+            "Conflicting fields:\n" +
+            "  - '" + nameMapping[camelCaseName] + "'\n" +
+            "  - '" + name + "'\n" +
+            "Both map to model property: '" + camelCaseName + "'"
+          );
+        }
+        nameMapping[camelCaseName] = name;
+
+        var names = camelCaseName.split(".");
         var currentData = data;
         for (var i = 0; i < names.length; i++) {
           // if its the last item
@@ -218,11 +270,14 @@ qx.Class.define("qx.data.controller.Form", {
         var options = this.__bindingOptions[name];
         options = options && this.__bindingOptions[name][1];
 
+        // Convert to camelCase for v8 compatibility (issue #10808)
+        var modelPropertyName = this.__convertNameToCamelCase(name);
+
         qx.data.SingleValueBinding.updateTarget(
           item,
           sourceProperty,
           this.getModel(),
-          name,
+          modelPropertyName,
           options
         );
       }
@@ -261,7 +316,13 @@ qx.Class.define("qx.data.controller.Form", {
           var targetProperty = this.__isModelSelectable(item)
             ? "modelSelection[0]"
             : "value";
-          this.__objectController.removeTarget(item, targetProperty, name);
+          // Convert to camelCase for v8 compatibility (issue #10808)
+          var modelPropertyName = this.__convertNameToCamelCase(name);
+          this.__objectController.removeTarget(
+            item,
+            targetProperty,
+            modelPropertyName
+          );
         }
       }
 
@@ -309,20 +370,23 @@ qx.Class.define("qx.data.controller.Form", {
           : "value";
         var options = this.__bindingOptions[name];
 
+        // Convert to camelCase for v8 compatibility (issue #10808)
+        var modelPropertyName = this.__convertNameToCamelCase(name);
+
         // try to bind all given items in the form
         try {
           if (options == null) {
             this.__objectController.addTarget(
               item,
               targetProperty,
-              name,
+              modelPropertyName,
               !this._selfUpdate
             );
           } else {
             this.__objectController.addTarget(
               item,
               targetProperty,
-              name,
+              modelPropertyName,
               !this._selfUpdate,
               options[0],
               options[1]
@@ -367,7 +431,13 @@ qx.Class.define("qx.data.controller.Form", {
         var targetProperty = this.__isModelSelectable(item)
           ? "modelSelection[0]"
           : "value";
-        this.__objectController.removeTarget(item, targetProperty, name);
+        // Convert to camelCase for v8 compatibility (issue #10808)
+        var modelPropertyName = this.__convertNameToCamelCase(name);
+        this.__objectController.removeTarget(
+          item,
+          targetProperty,
+          modelPropertyName
+        );
       }
     },
 

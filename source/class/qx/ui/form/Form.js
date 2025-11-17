@@ -88,6 +88,7 @@ qx.Class.define("qx.ui.form.Form", {
       this.__groups[this._groupCounter].items.push(item);
       this.__groups[this._groupCounter].labels.push(label);
       this.__groups[this._groupCounter].options.push(options);
+
       // if no name is given, use the label without not working character
       if (name == null) {
         name = label.replace(
@@ -95,6 +96,8 @@ qx.Class.define("qx.ui.form.Form", {
           ""
         );
       }
+      // Store the name as provided (no conversion here)
+      // The data controller will convert to camelCase when creating the model
       this.__groups[this._groupCounter].names.push(name);
 
       // add the item to the validation manager
