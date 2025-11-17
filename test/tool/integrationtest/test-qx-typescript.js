@@ -149,3 +149,86 @@ test("typescript command with custom output filename", async assert => {
     assert.end(ex);
   }
 });
+
+test("typescript var type should map to unknown (issue #10555)", async assert => {
+  try {
+    // Create a test app for typescript generation
+    await testUtils.deleteRecursive(myAppDir);
+    await fsp.mkdir(testDir, { recursive: true });
+
+    let result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I", "--type=desktop");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Create a test class with a method that returns {var} type
+    const testClassPath = path.join(myAppDir, "source", "class", "myapp", "TestVarType.js");
+    const testClassContent = `
+/**
+ * Test class for issue #10555 - var type should map to unknown
+ */
+qx.Class.define("myapp.TestVarType", {
+  extend: qx.core.Object,
+
+  statics: {
+    /**
+     * Returns a value of unknown type (JSDoc uses {var})
+     * @param {String} key The key to get
+     * @return {var} The value for the key
+     */
+    getValue(key) {
+      return null;
+    },
+
+    /**
+     * Returns a wildcard type (JSDoc uses {*})
+     * @param {String} key The key to get
+     * @return {*} Any value for the key
+     */
+    getAnyValue(key) {
+      return null;
+    }
+  }
+});
+`;
+    await fsp.writeFile(testClassPath, testClassContent);
+
+    // Compile the app first to ensure it's valid
+    result = await testUtils.runCompiler(myAppDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Generate TypeScript definitions
+    result = await testUtils.runCommand(myAppDir, qxCmdPath, "typescript", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Read the generated TypeScript file
+    const tsDefPath = path.join(myAppDir, "qooxdoo.d.ts");
+    const content = await fsp.readFile(tsDefPath, "utf8");
+
+    // Verify that the TestVarType class exists in the generated file
+    assert.ok(content.includes("TestVarType"), "TypeScript file should include TestVarType class");
+
+    // Find the getValue method declaration
+    // The method should return 'unknown', not 'void' or 'any'
+    const getValueMatch = content.match(/static\s+getValue\s*\([^)]*\)\s*:\s*(\w+)/);
+    assert.ok(getValueMatch, "Should find getValue method declaration");
+    assert.equal(getValueMatch[1], "unknown", "getValue with @return {var} should return 'unknown' type");
+
+    // Find the getAnyValue method declaration
+    // The method should return 'any' (because * maps to any)
+    const getAnyValueMatch = content.match(/static\s+getAnyValue\s*\([^)]*\)\s*:\s*(\w+)/);
+    assert.ok(getAnyValueMatch, "Should find getAnyValue method declaration");
+    assert.equal(getAnyValueMatch[1], "any", "getAnyValue with @return {*} should return 'any' type");
+
+    // Verify qx.core.Environment.get also returns unknown
+    const environmentGetMatch = content.match(/(?:static\s+)?get\s*\(\s*key\s*:\s*string\s*\)\s*:\s*(\w+)/);
+    if (environmentGetMatch) {
+      assert.equal(environmentGetMatch[1], "unknown", "qx.core.Environment.get should return 'unknown' type");
+    }
+
+    // Clean up
+    await testUtils.deleteRecursive(testDir);
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
