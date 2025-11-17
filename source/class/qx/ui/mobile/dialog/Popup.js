@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
           this._updatePosition();
         }
         else {
-          this.__updateAnchorCaused = false;
+          this.__updatePositionStarted = false;
         }
       }, this);
 
