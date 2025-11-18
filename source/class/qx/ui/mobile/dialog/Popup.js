@@ -140,11 +140,16 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
     __widget: null,
     __titleWidget: null,
     __lastPopupDimension: null,
+    /**
+     * Flag which ignores event domupdated caused by this widget and stopps infinite recursive `_updatePosition` calls
+     */
+    __updatePositionStarted: false,
 
     /**
      * Event handler. Called whenever the position of the popup should be updated.
      */
     _updatePosition() {
+      this.__updatePositionStarted = true;
       // Traverse single anchor classes for removal, for preventing 'domupdated' event if no CSS classes changed.
       var anchorClasses = ["top", "bottom", "left", "right", "anchor"];
       for (var i = 0; i < anchorClasses.length; i++) {
@@ -446,7 +451,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
         flex: 1
       });
 
-      widget.addListener("domupdated", this._updatePosition, this);
+      widget.addListener("domupdated", () => {
+        if (!this.__updatePositionStarted){
+          this._updatePosition();
+        }
+        else {
+          this.__updatePositionStarted = false;
+        }
+      }, this);
 
       this.__widget = widget;
     },
