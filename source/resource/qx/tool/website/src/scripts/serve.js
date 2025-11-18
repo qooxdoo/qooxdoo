@@ -93,13 +93,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         let p = document.createElement('p');
         p.style.fontSize = '10px';
+        <!-- tools needs to be reworked -->
+        p.style.display = 'none';
         p.innerHTML = "<input type='checkbox' id='cbxShowTools'>Show Tools";
         root.appendChild(p);
 
         document.getElementById('cbxShowTools').addEventListener('change', function () {
           let tools = document.querySelectorAll('.tools');
           tools.forEach(function (tool) {
-            tool.style.display = this.checked ? '' : 'none';
+            tool.style.display = this.checked ? 'inherit' : 'none';
           }.bind(this));
         });
       });
