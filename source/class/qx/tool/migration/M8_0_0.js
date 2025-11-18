@@ -129,11 +129,10 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       }
 
       const content = await fs.readFileAsync(compileJsPath, "utf8");
-      let warnings = [];
 
       // Check if using old yargs API
       if (content.includes("getYargsCommand") || content.includes("yargs")) {
-        warnings.push(
+        this.announce(
           "*** IMPORTANT: CLI System Breaking Change ***\n" +
           "The CLI system has been migrated from yargs to custom CLI classes.\n" +
           "If your compile.js extends commands, you need to update the syntax.\n\n" +
@@ -148,39 +147,40 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           "  };\n\n" +
           "See CHANGELOG.md for detailed migration guide."
         );
+        this.markAsPending("Manual migration of compile.js yargs API required");
       }
 
-      // Check for old class names that need to be updated
-      const classNameMappings = [
-        { old: "qx.tool.cli.commands.", new: "qx.tool.compiler.cli.commands." },
-        { old: "qx.tool.cli.ConfigDb", new: "qx.tool.compiler.cli.ConfigDb" },
-        { old: "qx.tool.cli.commands.Package", new: "qx.tool.compiler.cli.commands.Package" }
+      // Automatically update old class names to new ones
+      // Order matters! Most specific patterns first to avoid partial replacements
+      const replacements = [
+        {
+          files: compileJsPath,
+          from: /qx\.tool\.cli\.commands\.Package/g,
+          to: "qx.tool.compiler.cli.commands.Package"
+        },
+        {
+          files: compileJsPath,
+          from: /qx\.tool\.cli\.ConfigDb/g,
+          to: "qx.tool.compiler.cli.ConfigDb"
+        },
+        {
+          files: compileJsPath,
+          from: /qx\.tool\.cli\.commands\./g,
+          to: "qx.tool.compiler.cli.commands."
+        }
       ];
 
-      let foundOldClassNames = [];
-      for (const mapping of classNameMappings) {
-        if (content.includes(mapping.old)) {
-          foundOldClassNames.push(mapping);
+      // Check if any replacements are needed
+      let needsReplacement = false;
+      for (const replacement of replacements) {
+        if (content.match(replacement.from)) {
+          needsReplacement = true;
+          break;
         }
       }
 
-      if (foundOldClassNames.length > 0) {
-        let classNameWarning = "*** IMPORTANT: Class Name Changes in compile.js ***\n" +
-          "The following old class names were found and need to be updated:\n\n";
-
-        for (const mapping of foundOldClassNames) {
-          classNameWarning += `  OLD: ${mapping.old}\n`;
-          classNameWarning += `  NEW: ${mapping.new}\n\n`;
-        }
-
-        classNameWarning += "Please update all references to use the new class names.";
-        warnings.push(classNameWarning);
-      }
-
-      // Output all warnings
-      if (warnings.length > 0) {
-        this.announce(warnings.join("\n\n"));
-        this.markAsPending("Manual migration of compile.js required");
+      if (needsReplacement) {
+        await this.replaceInFilesUnlessDryRun(replacements);
       }
     },
 
