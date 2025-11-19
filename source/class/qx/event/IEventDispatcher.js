@@ -32,8 +32,10 @@ qx.Interface.define("qx.event.IEventDispatcher", {
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
     canDispatchEvent(target, event, type) {
-      this.assertInstance(event, qx.event.type.Event);
-      this.assertString(type);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(event, qx.event.type.Event);
+        this.assertString(type);
+      }
     },
 
     /**
@@ -45,8 +47,10 @@ qx.Interface.define("qx.event.IEventDispatcher", {
      * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
     dispatchEvent(target, event, type) {
-      this.assertInstance(event, qx.event.type.Event);
-      this.assertString(type);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(event, qx.event.type.Event);
+        this.assertString(type);
+      }
     }
   }
 });

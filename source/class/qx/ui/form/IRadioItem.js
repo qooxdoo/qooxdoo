@@ -61,7 +61,9 @@ qx.Interface.define("qx.ui.form.IRadioItem", {
      *     manage the item.
      */
     setGroup(value) {
-      this.assertInstance(value, qx.ui.form.RadioGroup);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(value, qx.ui.form.RadioGroup);
+      }
     },
 
     /**

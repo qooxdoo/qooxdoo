@@ -359,16 +359,18 @@ qx.Bootstrap.define("qx.Interface", {
      *  @param iface {Interface} The interface to verify
      */
     assertObject(object, iface) {
-      var clazz = object.constructor;
-      this.__checkMembers(object, clazz, iface, false, true);
-      this.__checkProperties(clazz, iface, true);
-      this.__checkEvents(clazz, iface, true);
+      if (qx.core.Environment.get("qx.debug")) {
+        var clazz = object.constructor;
+        this.__checkMembers(object, clazz, iface, false, true);
+        this.__checkProperties(clazz, iface, true);
+        this.__checkEvents(clazz, iface, true);
 
-      // Validate extends, recursive
-      var extend = iface.$$extends;
-      if (extend) {
-        for (var i = 0, l = extend.length; i < l; i++) {
-          this.assertObject(object, extend[i]);
+        // Validate extends, recursive
+        var extend = iface.$$extends;
+        if (extend) {
+          for (var i = 0, l = extend.length; i < l; i++) {
+            this.assertObject(object, extend[i]);
+          }
         }
       }
     },
@@ -382,15 +384,17 @@ qx.Bootstrap.define("qx.Interface", {
      *     check parameters etc.
      */
     assert(clazz, iface, wrap) {
-      this.__checkMembers(clazz.prototype, clazz, iface, wrap, true);
-      this.__checkProperties(clazz, iface, true);
-      this.__checkEvents(clazz, iface, true);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.__checkMembers(clazz.prototype, clazz, iface, wrap, true);
+        this.__checkProperties(clazz, iface, true);
+        this.__checkEvents(clazz, iface, true);
 
-      // Validate extends, recursive
-      var extend = iface.$$extends;
-      if (extend) {
-        for (var i = 0, l = extend.length; i < l; i++) {
-          this.assert(clazz, extend[i], wrap);
+        // Validate extends, recursive
+        var extend = iface.$$extends;
+        if (extend) {
+          for (var i = 0, l = extend.length; i < l; i++) {
+            this.assert(clazz, extend[i], wrap);
+          }
         }
       }
     },

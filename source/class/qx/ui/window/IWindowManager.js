@@ -30,8 +30,10 @@ qx.Interface.define("qx.ui.window.IWindowManager", {
      * @param desktop {qx.ui.window.IDesktop|null} The connected desktop or null
      */
     setDesktop(desktop) {
-      if (desktop !== null) {
-        this.assertInterface(desktop, qx.ui.window.IDesktop);
+      if (qx.core.Environment.get("qx.debug")) {
+        if (desktop !== null) {
+          this.assertInterface(desktop, qx.ui.window.IDesktop);
+        }
       }
     },
 
@@ -54,7 +56,9 @@ qx.Interface.define("qx.ui.window.IWindowManager", {
      * @param win {qx.ui.window.Window} window to bring to front
      */
     bringToFront(win) {
-      this.assertInstance(win, qx.ui.window.Window);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(win, qx.ui.window.Window);
+      }
     },
 
     /**
@@ -63,7 +67,9 @@ qx.Interface.define("qx.ui.window.IWindowManager", {
      * @param win {qx.ui.window.Window} window to sent to back
      */
     sendToBack(win) {
-      this.assertInstance(win, qx.ui.window.Window);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(win, qx.ui.window.Window);
+      }
     }
   }
 });

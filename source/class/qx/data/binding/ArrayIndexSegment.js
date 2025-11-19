@@ -29,7 +29,9 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
     super(binding);
     this.__string = segment;
 
-    this.assertTrue(segment.startsWith("[") && segment.endsWith("]"), "Array index segment must start with [ and end with ]: " + segment);
+    if (qx.core.Environment.get("qx.debug")) {
+      this.assertTrue(segment.startsWith("[") && segment.endsWith("]"), "Array index segment must start with [ and end with ]: " + segment);
+    }
 
     let index = segment.substring(1, segment.length - 1);
     if (index === "last") {

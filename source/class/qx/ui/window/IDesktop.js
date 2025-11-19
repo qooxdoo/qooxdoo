@@ -27,7 +27,9 @@ qx.Interface.define("qx.ui.window.IDesktop", {
      * @param manager {qx.ui.window.IWindowManager} The window manager
      */
     setWindowManager(manager) {
-      this.assertInterface(manager, qx.ui.window.IWindowManager);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInterface(manager, qx.ui.window.IWindowManager);
+      }
     },
 
     /**
@@ -52,7 +54,9 @@ qx.Interface.define("qx.ui.window.IDesktop", {
      *     will be blocked
      */
     blockContent(zIndex) {
-      this.assertInteger(zIndex);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInteger(zIndex);
+      }
     },
 
     /**
