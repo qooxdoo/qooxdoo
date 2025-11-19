@@ -359,6 +359,31 @@
   property changes anyway). This no longer happens, and ordinary
   bindings are used instead.
 
+- **Deprecated APIs Removed**: The following deprecated APIs from v6.0 and v6.1 have been removed in v8:
+
+  **Entire Classes Removed:**
+  - `qx.dev.ObjectSummary` - deprecated since v6.0 (automatic memory management makes this unnecessary)
+  - `qx.log.appender.Util` - deprecated since v6.0 (use `qx.log.appender.Formatter` instead)
+  - `qx.ui.table.model.Filtered` - deprecated since v6.0 (use `Array.filter()` method instead)
+
+  **Methods Removed:**
+  - `qx.Promise.toPromise()` - deprecated since v6.0 (internal implementation subject to change)
+  - `qx.data.Array.contains(item)` - deprecated since v6.0 (use `includes(item)` instead)
+  - `qx.lang.Array.contains(arr, obj)` - deprecated since v6.0 (use `arr.includes(obj)` instead)
+  - `qx.lang.Object.getValues(map)` - deprecated since v6.0 (use `Object.values(map)` instead)
+  - `qx.ui.virtual.selection.Abstract.detatchPointerEvents()` - deprecated since v6.0 (use `detachPointerEvents()` instead)
+  - `qx.core.ObjectRegistry.inShutDown` - deprecated since v6.0 (shutdown is not a valid mechanism)
+  - `qx.core.ObjectRegistry.shutdown()` - deprecated since v6.0 (automatic garbage collection preferred)
+  - `qx.log.appender.Formatter.toTextArray(entry)` - deprecated since v6.0 (use `toText()` instead)
+  - `qx.html.Node._flush()` - deprecated since v6.0 (use `flush()` instead)
+  - `qx.html.Node._applyProperty(name, value)` - deprecated since v6.0 (use `registerProperty()` instead)
+  - `qx.ui.table.Table._onKeyPress(evt)` - deprecated since v6.0 (use `_onKeyDown()` instead)
+  - `qx.event.Manager.getGlobalEventMonitor()` - deprecated since v6.0 (use `addGlobalEventMonitor()` instead)
+  - `qx.event.Manager.setGlobalEventMonitor(fn)` - deprecated since v6.0 (use `addGlobalEventMonitor()` instead)
+  - `qx.html.Element.fromDomElement(domElement)` - deprecated since v6.1 (use `qx.html.Node.fromDomNode()` instead)
+  - `qx.html.Element.connectWidget(widget)` - deprecated since v6.1 (use `connectObject()` instead)
+  - `qx.html.Element.disconnectWidget(widget)` - deprecated since v6.1 (use `disconnectObject()` instead)
+
 
 ## Migration from v7 to v8
 

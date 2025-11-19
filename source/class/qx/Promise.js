@@ -452,22 +452,6 @@ qx.Class.define("qx.Promise", {
     _callMethod(methodName, args) {
       args = qx.Promise.__bindArgs(args);
       return qx.Promise.__wrap(this.__p[methodName].apply(this.__p, args));
-    },
-
-    /**
-     * Returns the actual Promise implementation.
-     * If the environment key `qx.Promise.useNativePromise` is set to true,
-     * it will be qx.promise.NativeWrapper, otherwise it will be qx.promise.BluebirdImpl.Bluebird.
-     *
-     * The underlying implementation may change without
-     * notice in the future; if you use this API you accept that this is a private
-     * implementation detail exposed for debugging or diagnosis purposes only.  For
-     * this reason, the toPromise() method is listed as deprecated starting from the
-     * first release
-     * @deprecated {6.0} this API method is subject to change
-     */
-    toPromise() {
-      return this.__p;
     }
   },
 

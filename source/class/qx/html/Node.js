@@ -445,17 +445,6 @@ qx.Class.define("qx.html.Node", {
     /**
      * Syncs data of an HtmlElement object to the DOM.
      *
-     * This is just a public wrapper around `flush`, because the scope has changed
-     *
-     * @deprecated {6.0} Please use `.flush()` instead
-     */
-    _flush() {
-      this.flush();
-    },
-
-    /**
-     * Syncs data of an HtmlElement object to the DOM.
-     *
      */
     flush() {
       if (qx.core.Environment.get("qx.debug")) {
@@ -1322,25 +1311,6 @@ qx.Class.define("qx.html.Node", {
       };
     },
 
-    /**
-     * Applies a special property with the given value.
-     *
-     * This property apply routine can be easily overwritten and
-     * extended by sub classes to add new low level features which
-     * are not easily possible using styles and attributes.
-     *
-     * Note that this implementation is for backwards compatibility and
-     * implementations
-     *
-     * @param name {String} Unique property identifier
-     * @param value {var} Any valid value (depends on the property)
-     * @return {qx.html.Element} this object (for chaining support)
-     * @abstract
-     * @deprecated {6.0} please use `registerProperty` instead
-     */
-    _applyProperty(name, value) {
-      // empty implementation
-    },
     /**
      * Set up the given property.
      *
