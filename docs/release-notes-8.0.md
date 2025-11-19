@@ -371,8 +371,9 @@
   - `qx.data.Array.contains(item)` - deprecated since v6.0 (use `includes(item)` instead)
   - `qx.lang.Array.contains(arr, obj)` - deprecated since v6.0 (use `arr.includes(obj)` instead)
   - `qx.lang.Object.getValues(map)` - deprecated since v6.0 (use `Object.values(map)` instead)
+  - `qx.lang.String.startsWith(fullstr, substr)` - deprecated since v6.0 (use native `String.prototype.startsWith()` instead)
+  - `qx.lang.String.endsWith(fullstr, substr)` - deprecated since v6.0 (use native `String.prototype.endsWith()` instead)
   - `qx.ui.virtual.selection.Abstract.detatchPointerEvents()` - deprecated since v6.0 (use `detachPointerEvents()` instead)
-  - `qx.core.ObjectRegistry.inShutDown` - deprecated since v6.0 (shutdown is not a valid mechanism)
   - `qx.core.ObjectRegistry.shutdown()` - deprecated since v6.0 (automatic garbage collection preferred)
   - `qx.log.appender.Formatter.toTextArray(entry)` - deprecated since v6.0 (use `toText()` instead)
   - `qx.html.Node._flush()` - deprecated since v6.0 (use `flush()` instead)
@@ -383,6 +384,9 @@
   - `qx.html.Element.fromDomElement(domElement)` - deprecated since v6.1 (use `qx.html.Node.fromDomNode()` instead)
   - `qx.html.Element.connectWidget(widget)` - deprecated since v6.1 (use `connectObject()` instead)
   - `qx.html.Element.disconnectWidget(widget)` - deprecated since v6.1 (use `disconnectObject()` instead)
+
+  **Properties Removed:**
+  - `qx.core.ObjectRegistry.inShutDown` - deprecated since v6.0 (shutdown is not a valid mechanism)
 
 
 ## Migration from v7 to v8
