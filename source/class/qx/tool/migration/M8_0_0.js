@@ -85,7 +85,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       // Inform about deprecated APIs
       this.announce(
         "*** INFO: Deprecated APIs ***\n" +
-        "The following APIs are deprecated and are removed in this versions:\n" +
+        "The following APIs are deprecated and may be removed in future versions:\n" +
         "- qx.lang.normalize.Date (deprecated since v7.0) - Use native Date methods\n" +
         "- qx.lang.String.startsWith/endsWith (deprecated since v6.0) - Use native String methods\n\n" +
         "Please review your code for usage of these deprecated APIs."
