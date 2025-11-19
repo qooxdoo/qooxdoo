@@ -31,12 +31,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry", {
   */
 
   statics: {
-    /**
-     * @type {Boolean} Whether the application is in the shutdown phase
-     * @deprecated {6.0} shutdown is not a valid mechanism to terminate apps
-     * */
-    inShutDown: false,
-
     /** @type {Map} Internal data structure to store objects */
     __registry: {},
 
@@ -200,64 +194,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry", {
      */
     hasHashCode(hash) {
       return !!this.__registry[hash];
-    },
-
-    /**
-     * Disposing all registered object and cleaning up registry. This is
-     * automatically executed at application shutdown.
-     *
-     * @deprecated {6.0} shutdown is not a valid means to clean up because destruction order
-     * is not defined and dispose()/destructors are deprecated in favour of automatic
-     * garbage collection
-     */
-    shutdown() {
-      this.inShutDown = true;
-
-      var registry = this.__registry;
-      var hashes = [];
-
-      for (var hash in registry) {
-        hashes.push(hash);
-      }
-
-      // sort the objects! Remove the objecs created at startup
-      // as late as possible
-      hashes.sort(function (a, b) {
-        return parseInt(b, 10) - parseInt(a, 10);
-      });
-
-      var obj,
-        i = 0,
-        l = hashes.length;
-      while (true) {
-        try {
-          for (; i < l; i++) {
-            hash = hashes[i];
-            obj = registry[hash];
-
-            if (obj && obj.dispose) {
-              obj.dispose();
-            }
-          }
-        } catch (ex) {
-          qx.Bootstrap.error(
-            this,
-            "Could not dispose object " + obj.toString() + ": " + ex,
-            ex
-          );
-
-          if (i !== l) {
-            i++;
-            continue;
-          }
-        }
-
-        break;
-      }
-
-      qx.Bootstrap.debug(this, "Disposed " + l + " objects");
-
-      delete this.__registry;
     },
 
     /**

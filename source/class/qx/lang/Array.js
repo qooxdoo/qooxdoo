@@ -356,19 +356,6 @@ qx.Bootstrap.define("qx.lang.Array", {
     },
 
     /**
-     * Whether the array contains the given element
-     *
-     * @deprecated {6.0} Please use Array instance include method instead
-     *
-     * @param arr {Array} the array
-     * @param obj {var} object to look for
-     * @return {Boolean} whether the arr contains the element
-     */
-    contains(arr, obj) {
-      return arr.includes(obj);
-    },
-
-    /**
      * Check whether the two arrays have the same content. Checks only the
      * equality of the arrays' content.
      *

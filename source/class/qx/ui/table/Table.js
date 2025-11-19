@@ -1318,27 +1318,6 @@ qx.Class.define("qx.ui.table.Table", {
     },
 
     /**
-     * Event handler. Called when a key was pressed.
-     *
-     * @param evt {qx.event.type.KeySequence} the event.
-     * @deprecated {6.0} please use _onKeyDown instead!
-     */
-    _onKeyPress(evt) {
-      qx.log.Logger.deprecatedMethodWarning(
-        this._onKeyPress,
-        "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead."
-      );
-
-      qx.log.Logger.deprecateMethodOverriding(
-        this,
-        qx.ui.table.Table,
-        "_onKeyPress",
-        "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead."
-      );
-
-      this._onKeyDown(evt);
-    },
-    /**
      * Event handler. Called when on key down event
      *
      * @param evt {qx.event.type.KeySequence} the event.

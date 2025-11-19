@@ -87,18 +87,6 @@ qx.Bootstrap.define("qx.lang.Object", {
     getLength: qx.Bootstrap.objectGetLength,
 
     /**
-     * Get the values of a map as array
-     *
-     * @deprecated {6.0} Please use Object instance values method instead
-     *
-     * @param map {Object} the map
-     * @return {Array} array of the values of the map
-     */
-    getValues(map) {
-      return Object.values(map);
-    },
-
-    /**
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
      *
