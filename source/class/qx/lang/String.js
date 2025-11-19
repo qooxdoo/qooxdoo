@@ -230,32 +230,7 @@ qx.Bootstrap.define("qx.lang.String", {
       return str.replace(/\s+$/, "");
     },
 
-    /**
-     * Check whether the string starts with the given substring
-     *
-     * @deprecated {6.0} Please use String instance startsWith method instead
-     *
-     * @param fullstr {String} the string to search in
-     * @param substr {String} the substring to look for
-     * @return {Boolean} whether the string starts with the given substring
-     */
-    startsWith(fullstr, substr) {
-      return fullstr.startsWith(substr);
-    },
-
-    /**
-     * Check whether the string ends with the given substring
-     *
-     * @deprecated {6.0} Please use String instance endsWith method instead
-     *
-     * @param fullstr {String} the string to search in
-     * @param substr {String} the substring to look for
-     * @return {Boolean} whether the string ends with the given substring
-     */
-    endsWith(fullstr, substr) {
-      return fullstr.endsWith(substr);
-    },
-
+    
     /**
      * Returns a string, which repeats a string 'length' times
      *

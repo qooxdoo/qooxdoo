@@ -79,10 +79,10 @@
     attempts to set or get values on an instance that are not
     properties.
 
-- `qx.data.Array` has experimental support, using the new class
-  `delegate` feature, for native access to array items. An instance of
-  `qx.data.Array` now intercepts access to numeric properties, so that
-  the following code would work as intuitively expected:
+  - `qx.data.Array` has experimental support, using the new class
+    `delegate` feature, for native access to array items. An instance of
+    `qx.data.Array` now intercepts access to numeric properties, so that
+    the following code would work as intuitively expected:
 
     ```
     let arr = new qx.data.Array( [ 10, 11, 12 ] );
@@ -91,6 +91,20 @@
     arr[1] = 21;        // new expermental way to change values
     delete arr[1];      // identical to arr.removeAt(1)
     ```
+
+  -  v8 introduces the ability to automatically call property `apply` methods during object construction when properties have `init` values. 
+       - This is **disabled by default** to maintain backward compatibility with v7 behavior.
+       - **Default behavior (v7 compatible):**
+    `apply` methods are NOT called during initialization (same as v7)<br/>
+       - **How to enable new behavior (opt-in):** If you want apply methods to execute during construction, set this environment variable in your `compile.json`:
+
+        ```
+        "environment": {
+        "qx.core.property.Property.applyDuringConstruct": true
+        }
+        ```
+    
+        **Note:** When enabled, qooxdoo framework classes (starting with `qx.`) are excluded by default. This primarily affects user-defined classes.
 
 - **New CLI Architecture**: The CLI system has been modernized by
   moving from yargs to a custom CLI class-based architecture. This
@@ -209,13 +223,43 @@
   - `qx.ui.basic.Atom`, property `show`, renamed to `showFeatures`
   - `qx.ui.mobile.basic.Atom`, property `show`, renamed to `showFeatures`
 
+- Classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
+
+  Example:
+  ```javascript
+  construct() {
+    super();  // Required in v8!
+    this.setMyProperty("value");
+  }
+  ```
+
+- Any property setters called BEFORE `super()` or `this.base(arguments)` will be reset when the parent constructor executes. You must move all property setter calls to occur after the parent constructor invocation.
+
+  v7 (worked but now broken in v8):
+  ```javascript
+  construct(svg, width, height) {
+    this.setWidth(width);   // These values will be lost!
+    this.setHeight(height);
+    this.base(arguments);
+  }
+  ```
+
+  v8 (correct approach):
+  ```javascript
+  construct(svg, width, height) {
+    this.base(arguments);   // Call parent first!
+    this.setWidth(width);   // Now set properties
+    this.setHeight(height);
+  }
+  ```
+
 - Because the entire class and property system was rewritten, there
   may be other obscure backward-compatibility changes that pop up.
   Those listed above are the only ones that reared their heads while
   confirming that the entire qooxdoo test suite successfully runs to
   completion.
 
-- **CLI System Migration**: Moves from yArgs to own CLI classes. If you
+- Moves from yArgs to own CLI classes. If you
   use `compile.js` to add commands to existing commands, the syntax has
   changed:
 
@@ -252,13 +296,13 @@
   }
   ```
 
-- **qx.ui.table.Table**: Setting model data for a `qx.ui.table.Table`
+- Setting model data for a `qx.ui.table.Table`
   when the table is still editing will now raise an error as this could
   have lead to an invalid edit. To prevent any errors, ensure that the
   table edits are completed or cancelled before refreshing table model
   data.
 
-- **ESLint 8 → ESLint 9 Migration**: This requires **Node.js >= 20.0.0**
+- ESLint 8 → ESLint 9 Migration: This requires **Node.js >= 20.0.0**
   for the compiler. Plugin resolution changes, plugin names must be
   complete:
   - Old: `@qooxdoo/qx`
@@ -292,7 +336,7 @@
   ✅ All existing Qooxdoo-specific rules are retained
   ✅ No changes to existing projects required (except Node.js version)
 
-- **qx.locale Implementation**: `qx.locale` classes are now implemented
+- `qx.locale` classes are now implemented
   with the [Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
   instead of the [Common Locale Data Repository](http://cldr.unicode.org)
   npm package which is installed with a lot of CLDR xml files. This
@@ -301,38 +345,20 @@
   `getDateTimeFormat` method for `de_DE` and `yM` format gives `M/y`
   instead of `MM/y` of the CLDR implementation.
 
-- **qx.util.PropertyUtil**: It was previously possible to get and set
+- It was previously possible to get and set
   theme and user values, independently of the proper property mechanism;
   this is no longer allowed, although there are ways to detect if a user
   or theme value is set. The methods in this class now return instances
   of `qx.core.property.Property` (or maps etc) and not the POJOs used in
   previous versions of Qooxdoo.
 
-- **qx.ui.core.MExecutable**: Bindings are setup to copy between the
+- Bindings are setup to copy between the
   command and the widget, which are then overwritten by theme values;
   why this happens is not explained, and IMHO changes the property
   values in unexpected ways (and will be overwritten by subsequent
   property changes anyway). This no longer happens, and ordinary
   bindings are used instead.
 
-- **qx.ui.form.Form.add() Name Parameter**: The name parameter (third
-  or fourth argument) of `qx.ui.form.Form.add()` must now start with a
-  **lowercase letter** to avoid property binding errors. This is
-  required because properties and members now share the same namespace,
-  and property names must follow JavaScript naming conventions.
-
-  Example:
-  ```javascript
-  // Wrong - will cause binding errors
-  form.add(widget, "My Label", null, "MyField");
-
-  // Correct - name must start with lowercase
-  form.add(widget, "My Label", null, "myField");
-  ```
-
-  The migration tool will scan your source code and report any
-  `.add()` calls with uppercase name parameters, suggesting the correct
-  lowercase versions.
 
 ## Migration from v7 to v8
 
