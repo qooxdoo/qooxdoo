@@ -162,28 +162,6 @@ qx.Class.define("qx.log.appender.Formatter", {
     },
 
     /**
-     * Converts a single log entry to an array of plain text.
-     *
-     * This use of arrays is an outdated performance improvement, and as there is no
-     * specification of what is in each of the elements of the array, there is no value
-     * in preserving this.  This method is deprecated because it will be removed in 7.0
-     * and only toText will remain.  Note that toTextArray is not used anywhere in Qooxdoo.
-     *
-     * @param entry {Map} The entry to process
-     * @return {Array} Argument list ready message array.
-     * @deprecated {6.0} See toText instead
-     */
-    toTextArray(entry) {
-      var output = [];
-
-      output.push(this.formatEntryTime(entry));
-      output.push(this.formatEntryObjectAndClass(entry));
-      output.push(this.formatEntryItems(entry));
-
-      return output;
-    },
-
-    /**
      * Converts a single log entry to HTML
      *
      * @signature function(entry)

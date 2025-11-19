@@ -385,19 +385,8 @@ qx.Class.define("qx.html.Element", {
      * @return {Boolean} Whether the element will become invisible
      */
     __willBecomeInvisible(domElement) {
-      var element = this.fromDomElement(domElement);
+      var element = qx.html.Node.fromDomNode(domElement);
       return element && !element._willBeSeeable();
-    },
-
-    /**
-     * Finds the Widget for a given DOM element
-     *
-     * @param domElement {Node} the DOM element
-     * @return {qx.ui.core.Widget} the Widget that created the DOM element
-     * @deprecated {6.1} see qx.html.Node.fromDomNode
-     */
-    fromDomElement(domElement) {
-      return qx.html.Node.fromDomNode(domElement);
     },
 
     /**
@@ -566,28 +555,6 @@ qx.Class.define("qx.html.Element", {
       }
       serializer.closeTag();
       serializer.popQxObject(this);
-    },
-
-    /**
-     * Connects a widget to this element, and to the DOM element in this Element.  They
-     * remain associated until disposed or disconnectWidget is called
-     *
-     * @param widget {qx.ui.core.Widget} the widget to associate
-     * @deprecated {6.1} see connectObject
-     */
-    connectWidget(widget) {
-      return this.connectObject(widget);
-    },
-
-    /**
-     * Disconnects a widget from this element and the DOM element.  The DOM element remains
-     * untouched, except that it can no longer be used to find the Widget.
-     *
-     * @param qxObject {qx.core.Object} the Widget
-     * @deprecated {6.1} see disconnectObject
-     */
-    disconnectWidget(widget) {
-      return this.disconnectObject(widget);
     },
 
     /*

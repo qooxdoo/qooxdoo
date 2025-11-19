@@ -101,15 +101,6 @@ qx.Class.define("qx.ui.virtual.selection.Abstract", {
 
     /**
      * Detach pointer events from the managed pane.
-     *
-     * @deprecated {6.0} misspelled, please use detachPointerEvents instead!
-     */
-    detatchPointerEvents() {
-      this.detachPointerEvents();
-    },
-
-    /**
-     * Detach pointer events from the managed pane.
      */
     detachPointerEvents() {
       var paneElement = this._pane.getContentElement();

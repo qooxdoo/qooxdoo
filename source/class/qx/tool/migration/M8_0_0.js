@@ -78,17 +78,38 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
     },
 
     /**
-     * Check for usage of deprecated APIs from v6 and v7
-     * that might be removed in v8
+     * Check for usage of deprecated APIs from v6 and v7 that have been removed in v8
      */
     async migrateDeprecatedAPIs() {
-      // Inform about deprecated APIs
+      // Inform about removed deprecated APIs
       this.announce(
-        "*** INFO: Deprecated APIs ***\n" +
-        "The following APIs are deprecated and may be removed in future versions:\n" +
-        "- qx.lang.normalize.Date (deprecated since v7.0) - Use native Date methods\n" +
-        "- qx.lang.String.startsWith/endsWith (deprecated since v6.0) - Use native String methods\n\n" +
-        "Please review your code for usage of these deprecated APIs."
+        "*** INFO: Deprecated APIs Removed in v8 ***\n" +
+        "The following deprecated APIs have been removed. Please update your code:\n\n" +
+        "Entire Classes Removed:\n" +
+        "- qx.dev.ObjectSummary (v6.0) - automatic memory management makes this unnecessary\n" +
+        "- qx.log.appender.Util (v6.0) - use qx.log.appender.Formatter instead\n" +
+        "- qx.ui.table.model.Filtered (v6.0) - use Array.filter() instead\n" +
+        "- qx.lang.normalize.Date (v7.0) - use native Date methods\n\n" +
+        "Methods Removed:\n" +
+        "- qx.Promise.toPromise() - internal implementation subject to change\n" +
+        "- qx.data.Array.contains() - use includes() instead\n" +
+        "- qx.lang.Array.contains() - use arr.includes() instead\n" +
+        "- qx.lang.Object.getValues() - use Object.values() instead\n" +
+        "- qx.lang.String.startsWith/endsWith (v6.0) - use native String methods\n" +
+        "- qx.ui.virtual.selection.Abstract.detatchPointerEvents() - use detachPointerEvents() instead\n" +
+        "- qx.core.ObjectRegistry.shutdown() - automatic garbage collection preferred\n" +
+        "- qx.log.appender.Formatter.toTextArray() - use toText() instead\n" +
+        "- qx.html.Node._flush() - use flush() instead\n" +
+        "- qx.html.Node._applyProperty() - use registerProperty() instead\n" +
+        "- qx.ui.table.Table._onKeyPress() - use _onKeyDown() instead\n" +
+        "- qx.event.Manager.getGlobalEventMonitor() - use addGlobalEventMonitor() instead\n" +
+        "- qx.event.Manager.setGlobalEventMonitor() - use addGlobalEventMonitor() instead\n" +
+        "- qx.html.Element.fromDomElement() (v6.1) - use qx.html.Node.fromDomNode() instead\n" +
+        "- qx.html.Element.connectWidget() (v6.1) - use connectObject() instead\n" +
+        "- qx.html.Element.disconnectWidget() (v6.1) - use disconnectObject() instead\n\n" +
+        "Properties Removed:\n" +
+        "- qx.core.ObjectRegistry.inShutDown - shutdown mechanism removed\n\n" +
+        "Please review your code for usage of these removed APIs."
       );
     },
 
