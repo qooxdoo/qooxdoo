@@ -93,8 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         let p = document.createElement('p');
         p.style.fontSize = '10px';
-        <!-- tools needs to be reworked -->
-        p.style.display = 'none';
         p.innerHTML = "<input type='checkbox' id='cbxShowTools'>Show Tools";
         root.appendChild(p);
 
