@@ -1,26 +1,25 @@
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   var db;
   var appDb;
   var CLASSES = {};
   var expanded = {};
 
   function expand(parent) {
-    var $parent = $(parent);
-    var className = $parent.attr("data-classname");
-    var $ul = $("ul", parent);
+    var className = parent.getAttribute("data-classname");
+    var ul = parent.querySelector("ul");
 
     expanded[className] = true;
-    if ($ul.length) {
-      $ul.remove();
+    if (ul) {
+      ul.remove();
       return;
     }
-    var $ul = $("<ul>");
-    $parent.append($ul);
-    show(className, $ul);
+    ul = document.createElement('ul');
+    parent.appendChild(ul);
+    show(className, ul);
     updateDisplay();
   }
 
-  function show(name, $list) {
+  function show(name, list) {
     var def = db.classInfo[name];
     if (!def || !def.dependsOn) return;
     for (var depName in def.dependsOn) {
@@ -28,72 +27,82 @@ $(function () {
         continue;
       }
       var isLoad = def.dependsOn[depName].load;
-      var $li = $("<li>").text(depName).attr("data-classname", depName);
+      var li = document.createElement('li');
+      li.textContent = depName;
+      li.setAttribute("data-classname", depName);
       if (isLoad) {
-        $li.addClass("load");
+        li.classList.add("load");
       } else {
-        $li.addClass("runtime");
+        li.classList.add("runtime");
       }
-      $li.click(function (e) {
+      li.addEventListener('click', function (e) {
         e.stopPropagation();
         expand(this);
       });
-      $list.append($li);
+      list.appendChild(li);
     }
   }
 
-  function showAll($list) {
-    if (!$list) {
-      $list = $("#root ul");
+  function showAll(list) {
+    if (!list) {
+      list = document.querySelector("#root ul");
     }
-    $list.children("li").each(function () {
-      let $li = $(this);
-      if ($li.children("li").length != 0) {
+    Array.from(list.children).forEach(function (li) {
+      if (li.querySelectorAll("li").length != 0) {
         return;
       }
-      let classname = $li.attr("data-classname");
+      let classname = li.getAttribute("data-classname");
       if (expanded[classname]) {
         return;
       }
-      expand($li);
-      showAll($("ul", $li));
+      expand(li);
+      let childUl = li.querySelector("ul");
+      if (childUl) {
+        showAll(childUl);
+      }
     });
   }
   window.showAll = showAll;
 
   function selectClass(name) {
-    $("#root").append($("<h3>").text(name + " Depends On"));
-    var $root = $("<ul>");
-    $("#root").append($root);
-    show(name, $root);
+    let root = document.getElementById("root");
+    let h3 = document.createElement('h3');
+    h3.textContent = name + " Depends On";
+    root.appendChild(h3);
+    var ul = document.createElement('ul');
+    root.appendChild(ul);
+    show(name, ul);
   }
 
   function updateDisplay() {
-    var value = $("#show").val();
+    var value = document.getElementById("show").value;
+    let loadElems = document.querySelectorAll(".load");
+    let runtimeElems = document.querySelectorAll(".runtime");
+
     switch (value) {
       case "runtime":
-        $(".load").hide();
-        $(".runtime").show();
+        loadElems.forEach(el => el.style.display = 'none');
+        runtimeElems.forEach(el => el.style.display = '');
         break;
 
       case "load":
-        $(".load").show();
-        $(".runtime").hide();
+        loadElems.forEach(el => el.style.display = '');
+        runtimeElems.forEach(el => el.style.display = 'none');
         break;
 
       default:
-        $(".load").show();
-        $(".runtime").show();
+        loadElems.forEach(el => el.style.display = '');
+        runtimeElems.forEach(el => el.style.display = '');
         break;
     }
   }
 
-  var query = $.qxcli.query;
-  $.qxcli
+  var query = window.qxcli.query;
+  window.qxcli
     .get(query.targetDir + "/db.json")
     .then(function (tmp) {
       db = tmp;
-      return $.qxcli.get(
+      return window.qxcli.get(
         query.targetDir + "/" + query.appDir + "/compile-info.json"
       );
     })
@@ -102,7 +111,7 @@ $(function () {
       appDb.parts.forEach(function (part) {
         part.classes.forEach(classname => (CLASSES[classname] = true));
       });
-      selectClass($.qxcli.query.appClass);
-      $("#show").change(updateDisplay);
+      selectClass(window.qxcli.query.appClass);
+      document.getElementById("show").addEventListener('change', updateDisplay);
     });
 });

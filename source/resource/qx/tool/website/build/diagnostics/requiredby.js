@@ -1,66 +1,73 @@
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   var db;
   var CLASSES = {};
 
-  function show(name, $list) {
+  function show(name, list) {
     var def = db.classInfo[name];
     if (!def || !def.requiredBy) return;
     for (var depName in def.requiredBy) {
       if (!CLASSES[depName]) continue;
-      var $li = $("<li>").text(depName).attr("data-classname", depName);
-      if (def.requiredBy[depName].load) $li.addClass("load");
-      else $li.addClass("runtime");
-      $li.click(function (e) {
+      var li = document.createElement('li');
+      li.textContent = depName;
+      li.setAttribute("data-classname", depName);
+      if (def.requiredBy[depName].load) li.classList.add("load");
+      else li.classList.add("runtime");
+      li.addEventListener('click', function (e) {
         e.stopPropagation();
-        var $this = $(this);
-        var className = $this.attr("data-classname");
-        var $ul = $("ul", this);
-        if ($ul.length) {
-          $ul.remove();
+        var className = this.getAttribute("data-classname");
+        var ul = this.querySelector("ul");
+        if (ul) {
+          ul.remove();
           return;
         }
-        var $ul = $("<ul>");
-        $this.append($ul);
-        show(className, $ul);
+        ul = document.createElement('ul');
+        this.appendChild(ul);
+        show(className, ul);
         updateDisplay();
       });
-      $list.append($li);
+      list.appendChild(li);
     }
   }
 
   function selectClass(name) {
-    $("#root").append($("<h3>").text(name + " Required By"));
-    var $root = $("<ul>");
-    $("#root").append($root);
-    show(name, $root);
+    let root = document.getElementById("root");
+    let h3 = document.createElement('h3');
+    h3.textContent = name + " Required By";
+    root.appendChild(h3);
+    var ul = document.createElement('ul');
+    root.appendChild(ul);
+    show(name, ul);
   }
 
   function updateDisplay() {
-    var value = $("#show").val();
+    var value = document.getElementById("show").value;
+    let loadElems = document.querySelectorAll(".load");
+    let runtimeElems = document.querySelectorAll(".runtime");
+
     switch (value) {
       case "runtime":
-        $(".load").hide();
-        $(".runtime").show();
+        loadElems.forEach(el => el.style.display = 'none');
+        runtimeElems.forEach(el => el.style.display = '');
         break;
 
       case "load":
-        $(".load").show();
-        $(".runtime").hide();
+        loadElems.forEach(el => el.style.display = '');
+        runtimeElems.forEach(el => el.style.display = 'none');
         break;
 
       default:
-        $(".load").show();
-        $(".runtime").show();
+        loadElems.forEach(el => el.style.display = '');
+        runtimeElems.forEach(el => el.style.display = '');
         break;
     }
   }
 
-  var query = $.qxcli.query;
-  $.qxcli
+  var query = window.qxcli.query;
+  window.qxcli
     .get(query.targetDir + "/db.json")
     .then(function (tmp) {
       db = tmp;
-      return $.qxcli.get(
+      return window.qxcli.get(
         query.targetDir + "/" + query.appDir + "/compile-info.json"
       );
     })
@@ -83,8 +90,8 @@ $(function () {
         }
       }
 
-      selectClass($.qxcli.query.appClass);
+      selectClass(window.qxcli.query.appClass);
 
-      $("#show").change(updateDisplay);
+      document.getElementById("show").addEventListener('change', updateDisplay);
     });
 });

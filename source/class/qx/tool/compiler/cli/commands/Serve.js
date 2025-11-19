@@ -61,7 +61,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       cmd.addFlag(
         new qx.tool.cli.Flag("rebuild-startpage").set({
           shortCode: "R",
-          description: "Rebuild the startpage with the list of applications and additional information",
+          description: "Rebuild the startpage with additional information",
           type: "boolean",
           value: false
         })
@@ -95,14 +95,17 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       this.argv.watch = true;
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
+      this.__website = new qx.tool.utils.Website();
+      if (this.argv.rebuildStartpage) {
+          qx.tool.compiler.Console.info(">>> Building startpage and exit...");
+          await this.__website.generateSite();
+          return;
+      }
       if (this.argv["show-startpage"]) {
-        // build website if it hasn't been built yet.
-        const website = new qx.tool.utils.Website();
-        if (!(await fs.existsAsync(website.getTargetDir()))) {
+        // build website if it hasn't been built yet or if rebuild is requested
+        if (!(await fs.existsAsync(this.__website.getTargetDir()))) {
           qx.tool.compiler.Console.info(">>> Building startpage...");
-          await website.rebuildAll();
-        } else if (this.argv.rebuildStartpage) {
-          website.startWatcher();
+          await this.__website.generateSite();
         }
       }
       this.addListenerOnce("made", () => {
@@ -168,14 +171,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       if (!this.__showStartpage) {
         app.use("/", express.static(defaultMaker.getTarget().getOutputDir()));
       } else {
-        const website = new qx.tool.utils.Website();
         let s = await qx.tool.config.Utils.getQxPath();
         if (!(await fs.existsAsync(path.join(s, "docs")))) {
           s = path.dirname(s);
         }
         app.use("/docs", express.static(path.join(s, "docs")));
         app.use("/apps", express.static(path.join(s, "apps")));
-        app.use("/", express.static(website.getTargetDir()));
+        app.use("/", express.static(this.__website.getTargetDir()));
         var appsData = [];
         makers.forEach(maker => {
           let target = maker.getTarget();
@@ -220,7 +222,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
             "qx.tool.compiler.cli.serve.webAddrInUse",
             listenPort
           );
-
           process.exit(1);
         } else {
           qx.tool.compiler.Console.log("Error when starting web server: " + e);
@@ -236,7 +237,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       });
     },
 
-    __showStartpage: null
+    __showStartpage: null,
+    __website: null
   },
 
   defer(statics) {

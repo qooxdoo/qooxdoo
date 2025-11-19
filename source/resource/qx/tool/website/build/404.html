@@ -6,31 +6,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+    <!-- Custom CSS and Abel font -->
+    <link rel="stylesheet" href="/assets/custom.css">
     <link rel="stylesheet" href="/assets/abel.css" >
     <link rel="icon" href="/assets/favicon.png" type="image/png">
 
+
     <!-- Github buttons -->
-    <script src="/assets/buttons.js"></script>
-    <script src="/assets/fontawesome-all.js"></script>
+    <script src="/assets/buttons.js" type="text/javascript"></script>
+    <script src="/assets/fontawesome-all.js" type="text/javascript"></script>
 
     <title>Qooxdoo Application Server</title>
     <meta name="description" content="">
-    <link rel="stylesheet" type="text/css" href="/qooxdoo.css">
-    <script type="text/javascript" src="/assets/jquery.js"></script>
-    <script type="text/javascript" src="/scripts/serve.js"></script>
+
+    <script src="/assets/qxWeb.js"  type="text/javascript"></script>
+    <script src="/assets/common.js" type="text/javascript"></script>
+    <script src="/scripts/serve.js" type="text/javascript" ></script>
 </head>
 
 
   <body>
 
         <div class="container-fluid pt-0">
-      <nav class="navbar fixed-top navbar-expand-sm pl-1" id="navigatopnBar">
+      <nav class="navbar fixed-top navbar-expand-sm pl-1" id="navigationBar">
         <a class="navbar-brand invisible" href="#" style="width: 0" id="navigationLogo">
           <img src="/assets/logo.svg" width="auto" height="30" alt="">
         </a>
-        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-dark" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-dark" id="navbarNav">
@@ -52,7 +54,7 @@
               <a class="nav-link text-light" target="docs" href="/docs">Documentation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" target="api" href="/apps/apiviewer">API</a>
+              <a class="nav-link text-light" target="api" href="/apiviewer">API</a>
             </li>
           </ul>
         </div>
@@ -135,10 +137,10 @@
                 <h5 style="color: #EEE">Learn &amp; Code</h5>
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                    <a class="nav-link p-0" style="color: #BBB" target="docs" href="/docs">Documentation</a>
+                    <a class="nav-link p-0" style="color: #BBB" target="docs" href="https://qooxdoo.org/documentation">Documentation</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link p-0" style="color: #BBB" target="apiviewer" href="/apps/apiviewer">API Viewer</a>
+                    <a class="nav-link p-0" style="color: #BBB" target="apiviewer" href="https://qooxdoo.org/qxl.apiviewer/">API Viewer</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link p-0" style="color: #BBB" target="demobrowser" href="https://qooxdoo.org/qxl.demobrowser">Demobrowser</a>
@@ -180,19 +182,19 @@
             </div>
           </div>
           <div class="col-md text-center pb-5">
-            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://github.com/qooxdoo/qooxdoo" data-original-title="Qooxdoo on GitHub">
+            <a class="btn btn-link p-0 mx-1 text-light" title="Qooxdoo on GitHub" target="extern" href="https://github.com/qooxdoo/qooxdoo">
               <i class="fab fa-2x fa-github mx-1"></i>
             </a>
-            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://gitter.im/qooxdoo/qooxdoo" data-original-title="Chat with us on Gitter">
+            <a class="btn btn-link p-0 mx-1 text-light" title="Chat with us on Gitter" target="extern" href="https://gitter.im/qooxdoo/qooxdoo">
               <i class="fab fa-2x fa-gitter mx-1"></i>
             </a>
-            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://news.qooxdoo.org" data-original-title="Qooxdoo Blog">
+            <a class="btn btn-link p-0 mx-1 text-light" title="Qooxdoo Blog" target="extern" href="https://news.qooxdoo.org">
               <i class="fab fa-2x fa-medium mx-1"></i>
             </a>
-            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://twitter.com/qooxdoo" data-original-title="Qooxdoo on Twitter">
+            <a class="btn btn-link p-0 mx-1 text-light" title="Qooxdoo on Twitter" target="extern" href="https://twitter.com/qooxdoo">
               <i class="fab fa-2x fa-twitter mx-1"></i>
             </a>
-            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://stackoverflow.com/questions/tagged/qooxdoo" data-original-title="Qooxdoo Q/A">
+            <a class="btn btn-link p-0 mx-1 text-light" title="Qooxdoo Q/A" target="extern" href="https://stackoverflow.com/questions/tagged/qooxdoo">
               <i class="fab fa-2x fa-stack-overflow mx-1"></i>
             </a>
           </div>
@@ -208,11 +210,9 @@
       </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-    <script src="/assets/common.js" type="text/javascript"></script>
+    
+
+
   </body>
 
 </html>

@@ -158,8 +158,17 @@
       "type": "browser",
       "deploy": true,
       "bootPath": "source/boot",
-      "include": ["qx.ui.website.*", "qx.module.*", "qxWeb", "q"],
-      "exclude": []
+      "include": [
+        "qx.Bootstrap", 
+        "qx.ui.website.*", 
+        "qx.module.*", 
+        "qxWeb", 
+        "q"
+      ],
+      "exclude": [
+        "qx.test.*",
+        "qx.dev.*"
+      ]
     }
   ],
   "sass": {

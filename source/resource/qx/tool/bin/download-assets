@@ -6,7 +6,6 @@ ASSET_DIR=$(dirname $DIR)/website/src/assets
 # versions
 BOOTSTRAP_VERSION=4.0.0-beta.3
 FONTAWESOME_VERSION=v5.0.2
-JQUERY_VERSION=3.2.1
 
 # download
 FILES=(
@@ -15,7 +14,6 @@ FILES=(
  "abel.css https://fonts.googleapis.com/css?family=Abel"
  "buttons.js https://buttons.github.io/buttons.js"
  "fontawesome-all.js https://use.fontawesome.com/releases/$FONTAWESOME_VERSION/js/all.js"
- "jquery.js https://code.jquery.com/jquery-$JQUERY_VERSION.min.js"
 )
 
 for CMD in "${FILES[@]}"; do

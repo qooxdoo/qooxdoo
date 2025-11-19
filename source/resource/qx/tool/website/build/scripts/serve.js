@@ -1,4 +1,4 @@
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   var query = {};
   (document.location.search.substring(1) || "")
     .split("&")
@@ -11,98 +11,96 @@ $(function () {
       }
     });
 
-  $.qxcli = {
+  window.qxcli = {
     query: query,
 
     get(uri) {
-      return new Promise(function (resolve, reject) {
-        $.ajax(uri, {
-          cache: false,
-          dataType: "json",
-
-          error(jqXHR, textStatus, errorThrown) {
-            reject(textStatus || errorThrown);
-          },
-
-          success: resolve
-        });
+      return fetch(uri, {
+        cache: 'no-cache'
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('HTTP error ' + response.status);
+        }
+        return response.json();
       });
     }
   };
 
-  $.qxcli.serve = {
-    apps: $.qxcli.get("/serve.api/apps.json")
+  window.qxcli.serve = {
+    apps: window.qxcli.get("/serve.api/apps.json")
   };
 
-  $.qxcli.pages = {
+  window.qxcli.pages = {
     homepage() {
-      $.qxcli.serve.apps.then(function (data) {
+      window.qxcli.serve.apps.then(function (data) {
         console.log(JSON.stringify(data, null, 2));
-        let $root = $("#applications");
-        $root.empty();
+        let root = document.getElementById("applications");
+        root.innerHTML = '';
         data.forEach(targetData => {
-          $root.append(
-            $("<h2>").text(
-              (targetData.target.type == "build" ? "Build" : "Source") +
-                " Target in " +
-                targetData.target.outputDir
-            )
-          );
+          let h2 = document.createElement('h2');
+          h2.textContent = (targetData.target.type == "build" ? "Build" : "Source") +
+            " Target in " +
+            targetData.target.outputDir;
+          root.appendChild(h2);
 
-          var $ul = $("<ul>");
+          var ul = document.createElement('ul');
           targetData.apps.sort(function (l, r) {
             l = l.title || l.name;
             r = r.title || r.name;
             return l < r ? -1 : l > r ? 1 : 0;
           });
           targetData.apps.forEach(function (appData) {
-            var $li = $("<li>");
+            var li = document.createElement('li');
             if (appData.isBrowser) {
-              var $a = $("<a>");
-              $a.text(appData.title || appData.name);
-              $a.attr(
-                "href",
+              var a = document.createElement('a');
+              a.textContent = appData.title || appData.name;
+              a.setAttribute('href',
                 targetData.target.outputDir + appData.outputPath + "/index.html"
               );
-
-              $li.append($a);
+              li.appendChild(a);
             } else {
-              var $p = $("<p>");
-              $p.text(appData.title || appData.name);
-              $li.append($p);
+              var p = document.createElement('p');
+              p.textContent = appData.title || appData.name;
+              li.appendChild(p);
             }
-            if (appData.description)
-              $li.append($("<p>").text(appData.description));
-            $li.append(
-              "<p class='tools'>" +
-                "<a href='diagnostics/dependson.html?targetDir=" +
-                targetData.target.outputDir +
-                "&appDir=" +
-                appData.outputPath +
-                "&appClass=" +
-                appData.appClass +
-                "'>Depends-On Analysis</a>, " +
-                "<a href='diagnostics/requiredby.html?targetDir=" +
-                targetData.target.outputDir +
-                "&appDir=" +
-                appData.outputPath +
-                "&appClass=" +
-                appData.appClass +
-                "'>Required-By Analysis</a>" +
-                "</p>"
-            );
+            if (appData.description) {
+              let p = document.createElement('p');
+              p.textContent = appData.description;
+              li.appendChild(p);
+            }
+            let toolsP = document.createElement('p');
+            toolsP.className = 'tools';
+            toolsP.innerHTML =
+              "<a href='diagnostics/dependson.html?targetDir=" +
+              targetData.target.outputDir +
+              "&appDir=" +
+              appData.outputPath +
+              "&appClass=" +
+              appData.appClass +
+              "'>Depends-On Analysis</a>, " +
+              "<a href='diagnostics/requiredby.html?targetDir=" +
+              targetData.target.outputDir +
+              "&appDir=" +
+              appData.outputPath +
+              "&appClass=" +
+              appData.appClass +
+              "'>Required-By Analysis</a>";
+            li.appendChild(toolsP);
 
-            $ul.append($li);
+            ul.appendChild(li);
           });
-          $root.append($ul);
+          root.appendChild(ul);
         });
-        $root.append(
-          "<p style='font-size: 10px'><input type='checkbox' id='cbxShowTools'>Show Tools</p>"
-        );
+        let p = document.createElement('p');
+        p.style.fontSize = '10px';
+        p.innerHTML = "<input type='checkbox' id='cbxShowTools'>Show Tools";
+        root.appendChild(p);
 
-        $("#cbxShowTools").change(function () {
-          if (this.checked) $(".tools").show();
-          else $(".tools").hide();
+        document.getElementById('cbxShowTools').addEventListener('change', function () {
+          let tools = document.querySelectorAll('.tools');
+          tools.forEach(function (tool) {
+            tool.style.display = this.checked ? 'inherit' : 'none';
+          }.bind(this));
         });
       });
     }

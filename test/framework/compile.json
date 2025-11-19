@@ -40,7 +40,7 @@
     {
       "class": "qxl.testtapper.Application",
       "name": "testtapper",
-      "theme": "qx.theme.Simple",
+      "theme": "qx.test.theme.Simple",
       "title": "Qooxdoo TestTAPper",
       "environment": {
         "qx.icontheme": "Tango",
