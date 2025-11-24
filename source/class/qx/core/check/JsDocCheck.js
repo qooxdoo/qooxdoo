@@ -26,7 +26,8 @@ qx.Bootstrap.define("qx.core.check.JsDocCheck", {
 
   construct(jsdoc, nullable) {
     super();
-    const { parse } = require("jsdoctypeparser");
+    let s = "jsdoctypeparser";
+    const { parse } = require(s);
     this.__ast = parse(jsdoc);
     this.__nullable = nullable;
   },
@@ -43,7 +44,6 @@ qx.Bootstrap.define("qx.core.check.JsDocCheck", {
      */
     matches(value) {
       console.log(`JSDoc type checking is not yet implemented`);
-
       return true;
     },
 

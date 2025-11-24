@@ -442,6 +442,112 @@ qx.Class.define("qx.test.ui.form.Form", {
 
       item.dispose();
       form.dispose();
+    },
+
+    testGetItemWithCapitalizedName() {
+      // Test for issue #10808: getItem() should work with the name provided to add()
+      var form = new qx.ui.form.Form();
+      var item = new qx.ui.form.TextField();
+
+      // Add item with capitalized name
+      form.add(item, "Username Label", null, "Username");
+
+      // getItem() SHOULD work with the original name provided to add()
+      this.assertIdentical(
+        item,
+        form.getItem("Username"),
+        "getItem() should return item with original provided name"
+      );
+
+      // getItem() should NOT work with camelCase - that conversion only happens
+      // in the data controller for model properties
+      this.assertNull(
+        form.getItem("username"),
+        "getItem() should not work with camelCase - form stores original name only"
+      );
+
+      // Verify getItems() returns the item with the original key
+      var items = form.getItems();
+      this.assertIdentical(
+        item,
+        items["Username"],
+        "getItems() should have item under original name key"
+      );
+
+      item.dispose();
+      form.dispose();
+    },
+
+    testGetItemWithLabelGeneratedName() {
+      // Test for issue #10808: Verify label-based name generation preserves original behavior
+      var form = new qx.ui.form.Form();
+      var item1 = new qx.ui.form.TextField();
+      var item2 = new qx.ui.form.TextField();
+
+      // Add item without explicit name - name generated from label (with special chars removed)
+      form.add(item1, "Username");
+      form.add(item2, "Email Address");
+
+      // When no explicit name is provided, the label is used (with special chars stripped)
+      // and the camelCase conversion should NOT apply
+      this.assertIdentical(
+        item1,
+        form.getItem("Username"),
+        "getItem() should work with label-generated name (no conversion)"
+      );
+
+      this.assertIdentical(
+        item2,
+        form.getItem("EmailAddress"),
+        "getItem() should work with label-generated name (spaces removed, no conversion)"
+      );
+
+      // Verify getItems() returns correct keys
+      var items = form.getItems();
+      this.assertIdentical(
+        item1,
+        items["Username"],
+        "Item should be stored with label-generated key"
+      );
+      this.assertIdentical(
+        item2,
+        items["EmailAddress"],
+        "Item should be stored with label-generated key (spaces removed)"
+      );
+
+      item1.dispose();
+      item2.dispose();
+      form.dispose();
+    },
+
+    testExplicitVsLabelGeneratedNames() {
+      // Test to clarify difference between explicit names and label-generated names
+      var form = new qx.ui.form.Form();
+      var explicitItem = new qx.ui.form.TextField();
+      var labelItem = new qx.ui.form.TextField();
+
+      // Explicit name provided
+      form.add(explicitItem, "Some Label", null, "UserName");
+      // No explicit name: label used directly (after cleaning special chars)
+      form.add(labelItem, "EmailAddress");
+
+      // Explicit name: should work with original name
+      this.assertIdentical(
+        explicitItem,
+        form.getItem("UserName"),
+        "getItem() should work with original explicit name"
+      );
+
+      // Label-generated name: should work with the cleaned label
+      this.assertIdentical(
+        labelItem,
+        form.getItem("EmailAddress"),
+        "getItem() should work with label-generated name"
+      );
+
+      explicitItem.dispose();
+      labelItem.dispose();
+      form.dispose();
     }
   }
 });

@@ -157,7 +157,13 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           Program(path) {
             path.skip();
             let found = false;
-            path.get("body").forEach(path => {
+            // Babel's path.get() may return either an array or a single NodePath object
+            // depending on the AST structure and Babel version, so we normalize to array
+            let bodyPaths = path.get("body");
+            if (!Array.isArray(bodyPaths)) {
+              bodyPaths = [bodyPaths];
+            }
+            bodyPaths.forEach(path => {
               let node = path.node;
               if (
                 node.type == "ExpressionStatement" &&
@@ -228,7 +234,13 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
 
       path.skip();
       let ctorAnnotations = {};
-      path.get("properties").forEach(path => {
+      // Babel's path.get() may return either an array or a single NodePath object
+      // depending on the AST structure and Babel version, so we normalize to array
+      let propertiesPaths = path.get("properties");
+      if (!Array.isArray(propertiesPaths)) {
+        propertiesPaths = [propertiesPaths];
+      }
+      propertiesPaths.forEach(path => {
         let property = path.node;
         let propertyName;
         if (property.key.type === "Identifier") {
@@ -359,7 +371,13 @@ qx.Class.define("qx.tool.compiler.MetaExtraction", {
           let annotations = {};
           metaData[type] = {};
           if (path.node.value.type == "ObjectExpression") {
-            path.get("value.properties").forEach(memberPath => {
+            // Babel's path.get() may return either an array or a single NodePath object
+            // depending on the AST structure and Babel version, so we normalize to array
+            let memberPaths = path.get("value.properties");
+            if (!Array.isArray(memberPaths)) {
+              memberPaths = [memberPaths];
+            }
+            memberPaths.forEach(memberPath => {
               let member = memberPath.node;
               const name = qx.tool.utils.BabelHelpers.collapseMemberExpression(
                 member.key

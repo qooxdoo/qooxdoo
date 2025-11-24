@@ -132,6 +132,7 @@ qx.Class.define("qx.ui.core.Blocker", {
   members: {
     __blocker: null,
     __blockerCount: 0,
+    __blockingContent: false,
 
     __activeElements: null,
     __focusElements: null,
@@ -186,11 +187,17 @@ qx.Class.define("qx.ui.core.Blocker", {
      * @param bounds {Map} Map with the new width, height, left and top values
      */
     _updateBlockerBounds(bounds) {
+      // When blocking content, the blocker is a child of the widget itself,
+      // so it should be positioned at 0,0 relative to the widget.
+      // Otherwise, it's positioned relative to the layout parent.
+      var left = this.__blockingContent ? 0 : bounds.left;
+      var top = this.__blockingContent ? 0 : bounds.top;
+
       this.getBlockerElement().setStyles({
         width: bounds.width + "px",
         height: bounds.height + "px",
-        left: bounds.left + "px",
-        top: bounds.top + "px"
+        left: left + "px",
+        top: top + "px"
       });
     },
 
@@ -338,7 +345,7 @@ qx.Class.define("qx.ui.core.Blocker", {
         if (!this.__appearListener) {
           this.__appearListener = this._widget.addListenerOnce(
             "appear",
-            this._block.bind(this, zIndex)
+            this._block.bind(this, zIndex, blockContent)
           );
         }
         return;
@@ -358,6 +365,9 @@ qx.Class.define("qx.ui.core.Blocker", {
 
       this.__blockerCount++;
       if (this.__blockerCount < 2) {
+        // Track if we're blocking content (blocker is child of widget)
+        this.__blockingContent = blockContent === true;
+
         this._backupActiveWidget();
 
         var bounds = this._widget.getBounds();
@@ -441,6 +451,9 @@ qx.Class.define("qx.ui.core.Blocker", {
       blocker.removeListener("keydown", this.__stopTabEvent, this);
       blocker.removeListener("keyup", this.__stopTabEvent, this);
       blocker.exclude();
+
+      // Reset blocking content state
+      this.__blockingContent = false;
 
       this.fireEvent("unblocked", qx.event.type.Event);
     },

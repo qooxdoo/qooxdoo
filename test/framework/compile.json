@@ -33,6 +33,9 @@
   "libraries": [
     "../.."
   ],
+  "ignores": [
+    "loadSass"
+  ],
   "applications": [
     {
       "class": "qxl.testtapper.Application",

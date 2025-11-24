@@ -44,8 +44,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider", {
      * @param value {String} The child property name.
      */
     setChildProperty(value) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertString(value);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertString(value);
+      }
     },
 
     /**
@@ -55,8 +57,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider", {
      * @param value {String} The label path.
      */
     setLabelPath(value) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertString(value);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertString(value);
+      }
     },
 
     /**
@@ -65,8 +69,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider", {
      * @param row {Integer} row to style.
      */
     styleSelectabled(row) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertInteger(row);
+      }
     },
 
     /**
@@ -75,8 +81,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider", {
      * @param row {Integer} row to style.
      */
     styleUnselectabled(row) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertInteger(row);
+      }
     },
 
     /**
@@ -87,8 +95,10 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider", {
      *    <code>false</code> otherwise.
      */
     isSelectable(row) {
-      this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+        this.assertInteger(row);
+      }
     }
   }
 });

@@ -67,7 +67,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar", {
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
     scrollTo(position, duration) {
-      this.assertNumber(position);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertNumber(position);
+      }
     },
 
     /**
@@ -80,7 +82,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar", {
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
     scrollBy(offset, duration) {
-      this.assertNumber(offset);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertNumber(offset);
+      }
     },
 
     /**
@@ -93,7 +97,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar", {
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
     scrollBySteps(steps, duration) {
-      this.assertNumber(steps);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertNumber(steps);
+      }
     }
   }
 });

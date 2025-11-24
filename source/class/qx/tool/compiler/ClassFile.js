@@ -810,7 +810,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           } else if (param.type == "ArrayPattern") {
             param.elements.forEach(elem => addDecl(elem));
           } else if (param.type == "ObjectPattern") {
-            param.properties.forEach(prop => addDecl(prop.value));
+            param.properties.forEach(prop => {
+              if (prop.type == "RestElement") {
+                addDecl(prop);
+              } else {
+                addDecl(prop.value);
+              }
+            });
           } else {
             t.addMarker("testForFunctionParameterType", node.loc, param.type);
           }
@@ -1529,6 +1535,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               });
             }
             path.traverse(VISITOR);
+          } else if (keyName == "delegate") {
+            path.skip();
+            path.traverse(VISITOR);
           } else if (keyName == "aliases") {
             path.skip();
             if (!prop.value.properties) {
@@ -1716,7 +1725,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             ClassDeclaration: 1,
             ClassMethod: 1,
             LabeledStatement: 1,
-            BreakStatement: 1
+            BreakStatement: 1,
+            ContinueStatement: 1
           };
 
           // These are AST node types we expect to find at the root of the identifier, and which will
@@ -2162,7 +2172,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   t.addMarker(
                     "translate.invalidMessageId",
                     path.node.loc,
-                    arg0
+                    arg0 ?? ""
                   );
                 } else {
                   addTranslation({ msgid: arg0 });
@@ -2177,8 +2187,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   t.addMarker(
                     "translate.invalidMessageIds",
                     path.node.loc,
-                    arg0,
-                    arg1
+                    arg0 ?? "",
+                    arg1 ?? ""
                   );
                 } else {
                   addTranslation({ msgid: arg0, msgid_plural: arg1 });
@@ -2400,7 +2410,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 // Object destructuring `var {a,b} = {...}`
               } else if (decl.id.type == "ObjectPattern") {
                 decl.id.properties.forEach(prop => {
-                  if (prop.value.type == "AssignmentPattern") {
+                  if (prop.type == "RestElement") {
+                    t.addDeclaration(prop.argument.name);
+                  } else if (prop.value.type == "AssignmentPattern") {
                     t.addDeclaration(prop.value.left.name);
                   } else {
                     t.addDeclaration(prop.value.name);
@@ -2573,7 +2585,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__scope.vars[name] = valueName || true;
         var unresolved = this.__scope.unresolved;
         delete unresolved[name];
-        var re = new RegExp(name + "\\.");
+        // Escape special regex characters and anchor to start of string
+        // to prevent "x" from matching "qx.foo" (only match "x.foo")
+        var escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var re = new RegExp("^" + escapedName + "\\.");
         for (var tmp in unresolved) {
           if (re.test(tmp)) {
             delete unresolved[tmp];

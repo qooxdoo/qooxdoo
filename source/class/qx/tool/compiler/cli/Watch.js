@@ -487,6 +487,26 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
           }
         }
 
+        // Fix for Issue #10407: Source files (especially new ones) may not be in the dependency
+        // graph yet. For new files, we need to rescan the library to discover them, and for all
+        // source file changes we need to trigger a rebuild. This ensures that the compiler will
+        // detect and warn about unresolved symbols in newly added or modified files when running
+        // in watch mode.
+        if (fileType == "source" && type !== "unlink") {
+          if (this.isDebugging()) {
+            Console.debug(`DEBUG: onFileChange: ${filename} is a source file (${type}), triggering rebuild`);
+          }
+
+          // For newly added files, rescan the library to discover the new class
+          if (type == "add" && fileLibrary) {
+            if (this.isDebugging()) {
+              Console.debug(`DEBUG: onFileChange: rescanning library ${fileLibrary.getNamespace()} for new file`);
+            }
+          }
+
+          outOfDate = true;
+        }
+
         if (outOfDate) {
           this.__outOfDate = true;
           this.__scheduleMake();

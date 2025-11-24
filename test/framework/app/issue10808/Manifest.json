@@ -1,0 +1,29 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "info": {
+    "name": "issue10808",
+
+    "summary": "Issue 10808 - Form name parameter toLowerCase test",
+    "description": "Tests that qx.ui.form.Form.add() automatically converts name parameter to lowercase",
+
+    "homepage": "Issue 10808",
+
+    "license": "MIT license",
+    "authors": [],
+
+    "version": "1.0.0"
+  },
+
+  "provides": {
+    "namespace": "issue10808",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+
+  "requires": {
+    "@qooxdoo/framework": "^6.0.0-beta",
+    "@qooxdoo/compiler": "^1.0.0-beta"
+  }
+}

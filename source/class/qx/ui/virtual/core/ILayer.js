@@ -36,11 +36,13 @@ qx.Interface.define("qx.ui.virtual.core.ILayer", {
      * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
     fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
-      this.assertArgumentsCount(arguments, 6, 6);
-      this.assertPositiveInteger(firstRow);
-      this.assertPositiveInteger(firstColumn);
-      this.assertArray(rowSizes);
-      this.assertArray(columnSizes);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 6, 6);
+        this.assertPositiveInteger(firstRow);
+        this.assertPositiveInteger(firstColumn);
+        this.assertArray(rowSizes);
+        this.assertArray(columnSizes);
+      }
     },
 
     /**
@@ -59,11 +61,13 @@ qx.Interface.define("qx.ui.virtual.core.ILayer", {
      * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
     updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
-      this.assertArgumentsCount(arguments, 6, 6);
-      this.assertPositiveInteger(firstRow);
-      this.assertPositiveInteger(firstColumn);
-      this.assertArray(rowSizes);
-      this.assertArray(columnSizes);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 6, 6);
+        this.assertPositiveInteger(firstRow);
+        this.assertPositiveInteger(firstColumn);
+        this.assertArray(rowSizes);
+        this.assertArray(columnSizes);
+      }
     },
 
     /**

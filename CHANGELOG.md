@@ -2,7 +2,72 @@
 
 # v8.0.0_beta
 
+## Fixes
+- Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
+- Improved `assertInterface()` to detect and report when parameters are in wrong order. If you accidentally swap the object and interface parameters, you now get a helpful error message explaining the correct usage.
+
+## Known Issues
+- **qxWeb constructor warning:** You may see a console warning: "The constructor of class 'qxWeb' returned a different instance than 'this'". This is expected behavior due to qxWeb's factory pattern (similar to jQuery) and does not affect functionality. This warning will be addressed in a future release.
+
+## New Features
+
+- **Apply method initialization (opt-in):** v8 introduces the ability to automatically call property `apply` methods during object construction when properties have `init` values. This is **disabled by default** to maintain backward compatibility with v7 behavior.
+
+  **Default behavior (v7 compatible):**
+  - `apply` methods are NOT called during initialization (same as v7)
+
+  **How to enable new behavior (opt-in):** If you want apply methods to execute during construction, set this environment variable in your `compile.json`:
+  ```json
+  "environment": {
+    "qx.core.property.Property.applyDuringConstruct": true
+  }
+  ```
+
+  **Note:** When enabled, qooxdoo framework classes (starting with `qx.`) are excluded by default. This primarily affects user-defined classes.
+
 ## Breaking changes
+
+- **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
+
+  Example:
+  ```javascript
+  construct() {
+    super();  // Required in v8!
+    this.setMyProperty("value");
+  }
+  ```
+
+- **Property setters must be called AFTER parent constructor:** In v8, any property setters called BEFORE `super()` or `this.base(arguments)` will be reset when the parent constructor executes. You must move all property setter calls to occur after the parent constructor invocation.
+
+  **v7 (worked but now broken in v8):**
+  ```javascript
+  construct(svg, width, height) {
+    this.setWidth(width);   // These values will be lost!
+    this.setHeight(height);
+    this.base(arguments);
+  }
+  ```
+
+  **v8 (correct approach):**
+  ```javascript
+  construct(svg, width, height) {
+    this.base(arguments);   // Call parent first!
+    this.setWidth(width);   // Now set properties
+    this.setHeight(height);
+  }
+  ```
+
+- **Form.add() name parameter must be lowercase:** In v8, the third parameter (name) of `qx.ui.form.Form.add()` must be lowercase to avoid property binding errors. Mixed case or uppercase names will cause issues.
+
+  **Example:**
+  ```javascript
+  // Wrong - will cause binding errors
+  form.add(widget, "My Label", null, "MyField");
+
+  // Correct - name must be lowercase
+  form.add(widget, "My Label", null, "myfield");
+  ```
+
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
 Old:
 ```

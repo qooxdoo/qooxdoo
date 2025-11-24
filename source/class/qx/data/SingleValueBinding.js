@@ -278,11 +278,14 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
         //Set the input on the first segment of the source path
         let promise = this.__sourceSegments[0].setInput(value);
-        const cb = () =>
-          this.assertNotNull(
-            this.__sourceSegments[0].getEventName(),
-            `Binding property ${this.__sourceSegments[0].toString()} of object ${value.classname} not possible. No event available.`
-          );
+        const cb = () => {
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertNotNull(
+              this.__sourceSegments[0].getEventName(),
+              `Binding property ${this.__sourceSegments[0].toString()} of object ${value.classname} not possible. No event available.`
+            );
+          }
+        };
 
         let out;
 

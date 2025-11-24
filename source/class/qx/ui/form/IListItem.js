@@ -52,7 +52,9 @@ qx.Interface.define("qx.ui.form.IListItem", {
      * @return {Boolean|null}
      */
     setReadOnly(value) {
-      this.assertArgumentsCount(arguments, 1, 1);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertArgumentsCount(arguments, 1, 1);
+      }
     },
 
     /**

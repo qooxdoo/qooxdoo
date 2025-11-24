@@ -1,0 +1,15 @@
+{
+  "info": {
+    "name": "issue10407-watch",
+    "summary": "Test for Issue 10407 - Watch mode test application without errors",
+    "description": "Clean test application for watch mode tests. Starts without errors so tests can add unresolved symbols and verify detection.",
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "issue10407watch",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  }
+}
