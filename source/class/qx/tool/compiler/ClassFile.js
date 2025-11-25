@@ -450,12 +450,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               return;
             }
             let mappingUrl = name + ".js.map";
-            if (
-              qx.lang.Array.contains(
-                t.__analyser.getApplicationTypes(),
-                "browser"
-              )
-            ) {
+            if (t.__analyser.getApplicationTypes()?.includes("browser")) {
               mappingUrl += "?dt=" + new Date().getTime();
             }
             fs.writeFile(
@@ -3062,7 +3057,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       if (path.indexOf("/") < 0 && path.indexOf(".") > -1) {
         path = path.replace(/\./g, "/");
       }
-      if (!qx.lang.Array.contains(this.__requiredAssets, path)) {
+      if (!this.__requiredAssets.includes(path)) {
         this.__requiredAssets.push(path);
       }
     },

@@ -928,7 +928,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let appType = appConfig.type || "browser";
         let appTargetConfigs = targetConfigs.filter(targetConfig => {
           let appTypes = targetConfig["application-types"];
-          if (appTypes && !qx.lang.Array.contains(appTypes, appType)) {
+          if (appTypes && !appTypes.includes(appType)) {
             return false;
           }
 
@@ -936,7 +936,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           if (
             appConfig.name &&
             appNames &&
-            !qx.lang.Array.contains(appNames, appConfig.name)
+            !appNames.includes(appConfig.name)
           ) {
             return false;
           }
@@ -1314,7 +1314,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           srcs.forEach(function (src) {
             if (src) {
               src.forEach(function (elem) {
-                if (!qx.lang.Array.contains(dest, src)) {
+                if (!dest.includes(src)) {
                   dest.push(elem);
                 }
               });

@@ -239,10 +239,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
      * @see qx.ui.core.ISingleSelection
      */
     isSelected(item) {
-      return qx.lang.Array.contains(
-        this.getChildControl("list").getChecked(),
-        item
-      );
+      return this.getChildControl("list").getChecked().includes(item);
     },
 
     /**

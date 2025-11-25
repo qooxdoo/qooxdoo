@@ -372,7 +372,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         let current = this.__librariesByResourceUri[tmp];
         if (current) {
           if (qx.lang.Type.isArray(current)) {
-            if (!qx.lang.Array.contains(current, library)) {
+            if (!current.includes(library)) {
               current.push(library);
             }
           } else if (current !== library) {

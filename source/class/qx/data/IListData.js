@@ -80,7 +80,7 @@ qx.Interface.define("qx.data.IListData", {
      * @param item {var} The item which is possibly in the data structure.
      * @return {Boolean} true, if the array contains the given item.
      */
-    contains(item) {},
+    includes(item) {},
 
     /**
      * Returns the current length of the data structure.

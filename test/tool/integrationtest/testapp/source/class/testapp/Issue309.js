@@ -11,7 +11,7 @@ qx.Class.define("testapp.Issue309", {
       srcs.forEach(function(src) {
         if (src) {
           src.forEach(function(elem) {
-            if (!qx.lang.Array.contains(dest, src)) {
+            if (!dest.includes(src)) {
               dest.push(elem);
             }
           });

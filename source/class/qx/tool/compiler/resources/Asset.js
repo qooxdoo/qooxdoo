@@ -112,7 +112,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
       if (!this.__metaReferees) {
         this.__metaReferees = [];
       }
-      if (!qx.lang.Array.contains(this.__metaReferees, asset)) {
+      if (!this.__metaReferees.includes(asset)) {
         this.__metaReferees.push(asset);
       }
     },
@@ -125,7 +125,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
       if (!this.__metaReferTo) {
         this.__metaReferTo = [];
       }
-      if (!qx.lang.Array.contains(this.__metaReferTo, asset)) {
+      if (!this.__metaReferTo.includes(asset)) {
         this.__metaReferTo.push(asset);
       }
     },
