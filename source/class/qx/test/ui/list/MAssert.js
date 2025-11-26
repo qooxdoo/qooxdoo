@@ -33,7 +33,7 @@ qx.Mixin.define("qx.test.ui.list.MAssert", {
 
       for (var i = 0; i < expected.getLength(); i++) {
         this.assertTrue(
-          value.contains(expected.getItem(i)),
+          value.includes(expected.getItem(i)),
           "The array doesn't contain item '" + expected.getItem(i) + "'"
         );
       }

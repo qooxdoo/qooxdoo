@@ -33,7 +33,8 @@ qx.Class.define("qx.test.log.Filters", {
           count: 0,
           process(entry) {
             this.count++;
-            var args = qx.log.appender.Util.toText(entry);
+            let formatter = new qx.log.appender.Formatter();
+            var args = formatter.toText(entry);
             (console[entry.level] || console.log).call(
               console,
               "TestLogger: " + args

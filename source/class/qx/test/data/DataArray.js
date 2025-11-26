@@ -340,12 +340,6 @@ qx.Class.define("qx.test.data.DataArray", {
       this.assertEquals(this.__a.toArray().toString(), this.__a.toString(), "toString does not work!");
     },
 
-    testContains() {
-      this.assertTrue(this.__a.contains("one"), "contains does not work!");
-      this.assertTrue(this.__a.contains("two"), "contains does not work!");
-      this.assertTrue(this.__a.contains("three"), "contains does not work!");
-    },
-
     testIndexOf() {
       this.assertEquals(0, this.__a.indexOf("one"), "indexOf does not work!");
       this.assertEquals(1, this.__a.indexOf("two"), "indexOf does not work!");

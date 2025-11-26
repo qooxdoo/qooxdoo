@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.basic.Image", {
       if (this.__mode == null) {
         var source = this.__sourceToDisplay;
 
-        if (source && qx.lang.String.startsWith(source, "@")) {
+        if (source && source.startsWith("@")) {
           this.__mode = "font";
         }
 
@@ -622,7 +622,7 @@ qx.Class.define("qx.ui.basic.Image", {
       },
 
       default(source) {
-        var isFont = source && qx.lang.String.startsWith(source, "@");
+        var isFont = source && source.startsWith("@");
 
         if (isFont) {
           this.__setMode("font");
@@ -830,7 +830,7 @@ qx.Class.define("qx.ui.basic.Image", {
 
       var isFont =
         this.__sourceToDisplay &&
-        qx.lang.String.startsWith(this.__sourceToDisplay, "@");
+        this.__sourceToDisplay.startsWith("@");
       if (isFont) {
         var el = this.getContentElement();
         if (el) {
@@ -942,7 +942,7 @@ qx.Class.define("qx.ui.basic.Image", {
      * @param source {String} source path
      */
     __setSource(el, source) {
-      var isFont = source && qx.lang.String.startsWith(source, "@");
+      var isFont = source && source.startsWith("@");
 
       if (isFont) {
         var ResourceManager = qx.util.ResourceManager.getInstance();

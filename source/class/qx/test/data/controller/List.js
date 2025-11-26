@@ -481,7 +481,7 @@ qx.Class.define("qx.test.data.controller.List", {
       this.__model.shift();
 
       // check if the selected item in the list is "b"
-      this.assertTrue(this.__controller.getSelection().contains("b"), "Selection array wrong!");
+      this.assertTrue(this.__controller.getSelection().includes("b"), "Selection array wrong!");
 
       // selection updates work with the widget pool and can be async
       this.wait(

@@ -144,7 +144,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
       var selection = this.__dropdown.getSelection();
 
       var invalidItem = model.getItem(2);
-      this.assertFalse(filteredModel.contains(invalidItem));
+      this.assertFalse(filteredModel.includes(invalidItem));
 
       var that = this;
       this.__checkEvent(
@@ -199,7 +199,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
 
     __checkSelection(item) {
       this.assertTrue(
-        this.__model.contains(item),
+        this.__model.includes(item),
         "The itme '" + item + "' is not in the model!"
       );
 

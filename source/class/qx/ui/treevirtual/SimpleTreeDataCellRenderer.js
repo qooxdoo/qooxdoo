@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer", {
         html.push('">');
       }
 
-      if (qx.lang.String.startsWith(source, "@")) {
+      if (source.startsWith("@")) {
         var content = qx.bom.element.Decoration.create(source, "no-repeat", {});
         html.push(content);
       } else {

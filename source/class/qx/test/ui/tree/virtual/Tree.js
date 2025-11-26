@@ -291,7 +291,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
       // Verify the new branch is in the lookup table
       var lookupTable = this.tree.getLookupTable();
       this.assertTrue(
-        lookupTable.contains(newBranch),
+        lookupTable.includes(newBranch),
         "New dynamically added branch should be visible in tree with hidden root"
       );
     },

@@ -87,35 +87,6 @@ qx.Class.define("qx.test.lang.Object", {
       );
     },
 
-    testGetValues() {
-      var object = {
-        a: undefined,
-        b: null,
-        c: 1
-      };
-
-      this.assertArrayEquals(
-        [undefined, null, 1].sort(),
-        qx.lang.Object.getValues(object).sort()
-      );
-
-      var object = {};
-      this.assertArrayEquals([], qx.lang.Object.getValues(object));
-
-      var object = {
-        isPrototypeOf: 1,
-        hasOwnProperty: 2,
-        toLocaleString: 3,
-        toString: 4,
-        valueOf: 5
-      };
-
-      this.assertArrayEquals(
-        [1, 2, 3, 4, 5].sort(),
-        qx.lang.Object.getValues(object).sort()
-      );
-    },
-
     testMergeWith() {
       var original = { a: 0 };
       var o1 = { a: 2, b: 1 };

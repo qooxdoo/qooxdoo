@@ -572,7 +572,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
       temp.dispose();
 
       // check if the selected item in the list is "b"
-      this.assertTrue(this.__controller.getSelection().contains(this.__b), "Selection array wrong!");
+      this.assertTrue(this.__controller.getSelection().includes(this.__b), "Selection array wrong!");
 
       this.assertEquals("b", this.__tree.getSelection()[0].getLabel(), "Remove from selection does not work!");
     },

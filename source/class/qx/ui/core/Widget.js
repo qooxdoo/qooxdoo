@@ -3485,30 +3485,21 @@ qx.Class.define("qx.ui.core.Widget", {
   */
 
   destruct() {
-    // Some dispose stuff is not needed in global shutdown, otherwise
-    // it just slows down things a bit, so do not do them.
-    if (!qx.core.ObjectRegistry.inShutDown) {
-      if (qx.core.Environment.get("qx.dynlocale")) {
-        if (this.__toolTipTextListenerId) {
-          qx.locale.Manager.getInstance().removeListenerById(this.__toolTipTextListenerId);
-        }
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      if (this.__toolTipTextListenerId) {
+        qx.locale.Manager.getInstance().removeListenerById(this.__toolTipTextListenerId);
       }
-
-      // Remove widget pointer from DOM
-      var contentEl = this.getContentElement();
-      if (contentEl) {
-        contentEl.disconnectWidget(this);
-      }
-
-      // Clean up all child controls
-      this._disposeChildControls();
-
-      // Remove from ui queues
-      qx.ui.core.queue.Appearance.remove(this);
-      qx.ui.core.queue.Layout.remove(this);
-      qx.ui.core.queue.Visibility.remove(this);
-      qx.ui.core.queue.Widget.remove(this);
     }
+
+
+    // Clean up all child controls
+    this._disposeChildControls();
+
+    // Remove from ui queues
+    qx.ui.core.queue.Appearance.remove(this);
+    qx.ui.core.queue.Layout.remove(this);
+    qx.ui.core.queue.Visibility.remove(this);
+    qx.ui.core.queue.Widget.remove(this);
 
     if (this.getContextMenu()) {
       this.setContextMenu(null);

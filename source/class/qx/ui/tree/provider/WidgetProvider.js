@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider", {
       widget.setUserData("cell.childProperty", this.getChildProperty());
       widget.setUserData("cell.showLeafs", this._tree.isShowLeafs());
 
-      if (this._tree.getSelection().contains(item)) {
+      if (this._tree.getSelection().includes(item)) {
         this._styleSelectabled(widget);
       } else {
         this._styleUnselectabled(widget);

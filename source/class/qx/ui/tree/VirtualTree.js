@@ -1139,7 +1139,7 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
       var parent = this.__parentChain.pop();
 
       while (parent != null) {
-        if (lookupTable.contains(parent)) {
+        if (lookupTable.includes(parent)) {
           return parent;
         }
         parent = this.__parentChain.pop();
