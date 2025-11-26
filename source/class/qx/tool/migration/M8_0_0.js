@@ -91,7 +91,6 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         "- qx.ui.table.model.Filtered (v6.0) - use Array.filter() instead\n" +
         "- qx.lang.normalize.Date (v7.0) - use native Date methods\n\n" +
         "Methods Removed:\n" +
-        "- qx.Promise.toPromise() - internal implementation subject to change\n" +
         "- qx.data.Array.contains() - use includes() instead\n" +
         "- qx.lang.Array.contains() - use arr.includes() instead\n" +
         "- qx.lang.Object.getValues() - use Object.values() instead\n" +

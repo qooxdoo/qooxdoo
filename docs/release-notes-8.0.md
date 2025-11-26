@@ -367,7 +367,6 @@
   - `qx.ui.table.model.Filtered` - deprecated since v6.0 (use `Array.filter()` method instead)
 
   **Methods Removed:**
-  - `qx.Promise.toPromise()` - deprecated since v6.0 (internal implementation subject to change)
   - `qx.data.Array.contains(item)` - deprecated since v6.0 (use `includes(item)` instead)
   - `qx.lang.Array.contains(arr, obj)` - deprecated since v6.0 (use `arr.includes(obj)` instead)
   - `qx.lang.Object.getValues(map)` - deprecated since v6.0 (use `Object.values(map)` instead)
