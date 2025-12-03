@@ -1178,8 +1178,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let value = this.__getImpl(thisObj, true);
+      //
+      let shouldApply = value !== oldValue || (value !== undefined && !state.initMethodCalled);
+      state.initMethodCalled = true;
 
-      if (value !== oldValue) {
+      if (shouldApply) {
         if (!this.isEqual(thisObj, value, oldValue)) {
           this.__setMutating(thisObj, true);
           try {

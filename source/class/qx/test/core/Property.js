@@ -611,6 +611,8 @@ qx.Class.define("qx.test.core.Property", {
       this.assertArrayEquals([true, undefined], ch2.lastApply, "ch2 initial apply args");
       this.assertEquals(1, ch2.applyCount, "ch2 initial apply count");
       this.assertEquals(1, ch2.eventCount, "ch2 initial event count");
+      ch2.setEnabled("inherit");
+      this.assertEquals(1, ch2.eventCount, "ch2 event count after inherit set explicitly");
       this.assertTrue(pa.getEnabled(), "a2");
       this.assertTrue(ch1.getEnabled(), "a3");
       this.assertTrue(ch2.getEnabled(), "a4");
