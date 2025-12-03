@@ -31,11 +31,9 @@
  *
  */
 qx.Bootstrap.define("qx.core.property.Property", {
-  //extend: Object,
   implement: qx.core.property.IProperty,
 
   construct(propertyName, clazz) {
-    //super();
     this.__propertyName = propertyName;
     this.__clazz = clazz;
   },
@@ -57,6 +55,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * Only relevant when applyDuringConstruct is true.
      * This contains regexes matching classnames which are excluded from the auto apply behaviour.
      * They refer to concrete classes only, not the superclasses.
+     *
+     * Currently (2025-12-03), only "qx." classes are excluded because enabling applyDuringConstruct
+     * would create problems which are difficult to fix.
      *
      * @type {Array<RegExp | string>}
      */
@@ -786,13 +787,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      var state = this.getPropertyState(thisObj);
+      let state = this.getPropertyState(thisObj);
 
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
 
-      var oldValue = this.__getImpl(thisObj, true);
+      let oldValue = this.__getImpl(thisObj, true);
 
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this.__propertyName);
@@ -811,7 +812,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (this.isInheritable()) {
         if (value === "inherit") {
-          var state = this.getPropertyState(thisObj);
           value = state.inheritedValue;
         }
       }
@@ -831,7 +831,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (method !== "reset" && check) {
         if (!(value === null && oldValue === null) && !check.matches(value, thisObj)) {
-          var coerced = check.coerce(value, thisObj);
+          let coerced = check.coerce(value, thisObj);
           if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
             throw new Error("Invalid value for property " + this + ": " + value);
           }
@@ -839,16 +839,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      var isEqual = this.isEqual(thisObj, value, oldValue);
+      let isEqual = this.isEqual(thisObj, value, oldValue);
       if (!isEqual && this.isMutating(thisObj)) {
         this.warn("Property " + this + " is currently mutating");
       }
 
+      let shouldApply;
       if (method == "init" || method == "set") {
-        var shouldApply = !isEqual || (value !== undefined && !state.initMethodCalled);
+        shouldApply = !isEqual || (value !== undefined && !state.initMethodCalled);
         state.initMethodCalled = true;
       } else if (method == "reset") {
-        var shouldApply = !isEqual;
+        shouldApply = !isEqual;
       } else {
         throw new Error(`Should not call here! Invalid method=${method}`);
       }
@@ -881,7 +882,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       if (this.__apply) {
-        var out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+        let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
 
         if (qx.lang.Type.isPromise(out)) {
           this.warn(
@@ -919,13 +920,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      var state = this.getPropertyState(thisObj);
+      let state = this.getPropertyState(thisObj);
 
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
 
-      var oldValue = await this.__getAsyncImpl(thisObj, true);
+      let oldValue = await this.__getAsyncImpl(thisObj, true);
 
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this.__propertyName);
@@ -951,7 +952,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (method !== "reset" && check) {
         if (!(value === null && oldValue === null) && !check.matches(value, thisObj)) {
-          var coerced = check.coerce(value, thisObj);
+          let coerced = check.coerce(value, thisObj);
           if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
             throw new Error("Invalid value for property " + this + ": " + value);
           }
@@ -959,16 +960,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      var isEqual = this.isEqual(thisObj, value, oldValue);
+      let isEqual = this.isEqual(thisObj, value, oldValue);
       if (!isEqual && this.isMutating(thisObj)) {
         this.warn("Property " + this + " is currently mutating");
       }
 
+      let shouldApply;
       if (method == "init" || method == "set") {
-        var shouldApply = !isEqual || (value !== undefined && !state.initMethodCalled);
+        shouldApply = !isEqual || (value !== undefined && !state.initMethodCalled);
         state.initMethodCalled = true;
       } else if (method == "reset") {
-        var shouldApply = !isEqual;
+        shouldApply = !isEqual;
       } else {
         throw new Error(`Should not call here! Invalid method=${method}`);
       }
@@ -977,8 +979,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      var resolve;
-      var promise = new Promise(r => (resolve = r));
+      let resolve;
+      let promise = new Promise(r => (resolve = r));
       this.__setMutating(thisObj, promise);
 
       if (scope == "user") {
@@ -1042,7 +1044,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (this.isInheritable()) {
         if (value === "inherit") {
-          var state = this.getPropertyState(thisObj);
+          let state = this.getPropertyState(thisObj);
           value = state.inheritedValue;
         }
       }
