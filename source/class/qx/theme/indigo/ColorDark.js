@@ -28,6 +28,8 @@ qx.Theme.define("qx.theme.indigo.ColorDark", {
     "highlight-shade": "#dddddd",
 
     // backgrounds
+	"datechooser-background-selected-dark": "#333",
+	"datechooser-background": "#666",
     "background-selected": "#666666",
     "background-selected-disabled": "#777777",
     "background-selected-dark": "#333333",
