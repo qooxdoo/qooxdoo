@@ -408,8 +408,11 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     __updateTarget() {
       if (this.__targetSegments) {
+        //We need to make sure the target segments are up to date
+        //because the listeners may trigger after this point.
+        //This is important in bidirectional bindings.
         for (let segment of this.__targetSegments) {
-          if (!segment.getEventName() && segment.getOutputReceiver()) {
+          if (segment.getOutputReceiver()) {
             segment.updateOutput();
           }
         }

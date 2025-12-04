@@ -627,6 +627,56 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.error(e);
         this.assertTrue(false, e.message);
       }
+    },
+
+    testManualBidirectional() {
+      let Dummy = qx.Class.define("qx.test.data.singlevalue.Deep.Dummy", {
+        extend: qx.core.Object,
+        properties: {
+          value: {
+            init: null,
+            nullable: true,
+            event: "changeValue"
+          },
+          booleanProp: {
+            init: true,
+            check: "Boolean",
+            event: "changeBooleanProp"
+          }
+        }
+      });
+
+      let CheckBox = qx.Class.define("qx.test.data.singlevalue.Deep.CheckBox", {
+        extend: qx.core.Object,
+        properties: {
+          value: {
+            init: true,
+            check: "Boolean",
+            event: "changeValue"
+          }
+        }
+      });
+
+      let cbx = new CheckBox("Check me");
+      let ed = new Dummy();
+      let val = new Dummy();
+      ed.bind("value.booleanProp", cbx, "value", {
+        converter: value => !value
+      });
+      cbx.bind("value", ed, "value.booleanProp", {
+        converter: value => !value
+      });
+      ed.setValue(val);
+      this.assertTrue(val.getBooleanProp(), "Source value changed spuriously");
+      ed.setValue(null);
+      this.assertTrue(val.getBooleanProp(), "Source value changed spuriously (2)");
+      ed.setValue(val);
+      cbx.setValue(true);
+      this.assertFalse(val.getBooleanProp(), "Source value not updated from target");
+      cbx.setValue(false);
+      this.assertTrue(val.getBooleanProp(), "Source value not updated from target (2)");
+      val.setValue(true);
+      this.assertFalse(cbx.getValue(), "Target value not updated from source");
     }
   }
 });
