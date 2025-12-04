@@ -223,6 +223,13 @@ qx.Class.define("qx.data.SingleValueBinding", {
     },
 
     /**
+     * @override
+     */
+    toString() {
+      return `${super.toString()}: ${this.getSource()}.${this.getSourcePath()} -> ${this.getTarget()}.${this.getTargetPath()}`;
+    },
+
+    /**
      *
      * @returns {Promise} A promise which resolves when the initial value has been copied over from source to target
      */
@@ -367,10 +374,9 @@ qx.Class.define("qx.data.SingleValueBinding", {
     /**
      * This method should not be called directly.
      * It is only there to comply with interface `qx.data.binding.IInputReceiver`.
-     * @override
-     * @interface qx.data.binding.IInputReceiver
+     * @override interface qx.data.binding.IInputReceiver
      *
-     * @param {qx.core.Object}
+     * @param {*} input
      */
     setInput(input) {
       return this.__setValue(input);

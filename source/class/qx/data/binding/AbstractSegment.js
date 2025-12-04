@@ -114,7 +114,7 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * @param {qx.core.Object} value the input that we are dereferencing with the path or array index
      * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
      * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
-     * If it's synchrous, it returns null.
+     * If it's synchronous, it returns null.
      */
     setInput(value) {
       if (value === this.__input) {
@@ -142,28 +142,27 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     /**
      * @abstract
      *
-     * This method should be overridden in subclasses,
-     * and it should compute the output value based on the input,
-     * and possibly add listeners to changes to the desired property in the input value,
-     * and then relay the output value to the output receiver, which is usually another segment but can also be an instance of `qx.data.SingleValueBinding`.
+     * This method is overridden in subclasses,
+     * and computes the output value based on the input,
+     * and adds listeners to changes to the desired property in the input value,
+     * and then relays the output value to the output receiver, which is usually another segment but can also be the binding object.
      *
      * @param {qx.core.Object} value
      * @param {qx.core.Object} oldValue
-     * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
+     * @returns {Promise?} If the operation is asynchronous (i.e. dereferencing a value at any part of the segment chain was asynchronous),
      * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
-     * If it's synchrous, it returns null.
+     * If it's synchronous, it returns null.
      */
     _applyInput(value, oldValue) {},
 
     /**
-     * Should be called when the output value has been computed and needs to be set
-     * on the output receiver.
-     * @param {qx.core.Object | null | undefined} output The output to the next segment. Should be undefined if the input to this segment was nullish.
-     * Should be null if the input was not nullish but the output is null.
+     * Called when the output value has been computed and needs to be set on the output receiver.
+     * @param {qx.core.Object | null | undefined} output The output to the next segment. Undefined if the input to this segment was nullish.
+     * Null if the input was not nullish but the output is null.
      *
      * @returns {Promise?} If the operation is asynchronous, i.e. dereferencing a value at any part of the segment chain was asynchronous,
      * or setting the target value was asynchronous, it will return a Promise which resolves when all the operations have completed.
-     * If it's synchrous, it returns null.
+     * If it's synchronous, it returns null.
      */
     _setOutput(output) {
       if (!this.__outputReceiver) {
@@ -173,9 +172,9 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     },
 
     /**
-     * This method should compute the output value based on the input and set the `output` property.
-     * If this operation is asynchronous, it should return a Promise which resolves when the output property has been fully set.
-     * Otherwise, it should return null.
+     * Computes the output value based on the input and calls _setOutput with that value.
+     * If this operation is asynchronous, it returns a Promise which resolves when the output property has been fully set.
+     * Otherwise, it returns null.
      *
      * @abstract
      * @returns {Promise?}
@@ -188,8 +187,8 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * Sets the property on the `input` object depicted by this segment to the given value.
      * @abstract
      * @param {* | null | undefined} value If undefined, this resets the target property. Otherwise, it sets the target property to the given value.
-     * @returns {Promise?} If the operation is asynchronous, it should return a Promise which resolves when the value has been set.
-     * If it's synchronous, it should return null.
+     * @returns {Promise?} If the operation is asynchronous, returns a Promise which resolves when the value has been set.
+     * If it's synchronous, it returns null.
      */
     setTargetValue(value) {
       throw new Error(`${this.classname}.setTargetValue not implemented`);
