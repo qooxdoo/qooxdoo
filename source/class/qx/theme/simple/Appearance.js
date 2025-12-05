@@ -1911,11 +1911,11 @@ qx.Theme.define("qx.theme.simple.Appearance", {
           textColor: states.disabled
             ? "text-disabled"
             : states.weekend
-            ? "background-selected-dark"
-            : "background",
+            ? "datechooser-background-selected-dark"
+            : "datechooser-background",
           backgroundColor: states.weekend
-            ? "background"
-            : "background-selected-dark",
+            ? "datechooser-background"
+            : "datechooser-background-selected-dark",
           paddingTop: 2
         };
       }
@@ -1947,7 +1947,8 @@ qx.Theme.define("qx.theme.simple.Appearance", {
       style(states) {
         return {
           textAlign: "center",
-          textColor: "background-selected-dark",
+          textColor: "datechooser-background",
+		  backgroundColor: "datechooser-background-selected-dark",
           padding: [2, 4],
           decorator: states.header
             ? "datechooser-week-header"
