@@ -1760,14 +1760,22 @@ qx.Class.define("qx.test.core.Property", {
         },
 
         members: {
+          applyCount: 0,
           __pseudoProp: 23,
+          _applyPseudoProp(value, oldValue) {
+            this.applyCount++;
+            this._lastApply = [value, oldValue];
+          },
 
           getPseudoProp() {
             return this.__pseudoProp;
           },
 
           setPseudoProp(value) {
+            let oldValue = this.__pseudoProp;
             this.__pseudoProp = value;
+            this._applyPseudoProp(value, oldValue);
+            this.fireDataEvent("changePseudoProp", value, oldValue);
           }
         }
       });
@@ -1821,13 +1829,25 @@ qx.Class.define("qx.test.core.Property", {
       });
 
       let pp = new classPseudoProperty();
+      let eventCount = 0;
+      pp.addListener("changePseudoProp", () => {
+        eventCount++;
+      });
       let prop = qx.Class.getByProperty(classPseudoProperty, "pseudoProp");
       this.assertNotNull(prop, "pseudo prop should be defined as a property object");
       this.assertNull(prop.getDefinition(), "pseudo prop should have no definition");
       this.assertEquals(23, pp.pseudoProp);
+      this.assertEquals(0, pp.applyCount, "apply called unexpectedly");
+      this.assertEquals(0, eventCount, "event fired unexpectedly");
       pp.pseudoProp = 42;
       this.assertEquals(42, pp.pseudoProp);
       this.assertEquals(42, pp.getPseudoProp());
+      this.assertEquals(1, pp.applyCount, "apply should only be called once after set using =");
+      this.assertEquals(1, eventCount, "event should only be fired once after set using =");
+      pp.setPseudoProp(77);
+      this.assertEquals(2, pp.applyCount, "apply should only be called once after set using setter");
+      this.assertEquals(2, eventCount, "event should only be fired once after set using setter");
+      this.assertEquals(77, pp.pseudoProp);
 
       pp = new classPseudoPropertyNoEvent();
       this.assertUndefined(pp.pseudoProp);

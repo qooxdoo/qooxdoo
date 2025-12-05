@@ -30,10 +30,10 @@ qx.Bootstrap.define("qx.core.property.GroupProperty", {
   },
 
   members: {
-    /** @type{String} the name of the property */
+    /** @type {String} the name of the property */
     __propertyName: null,
 
-    /** @type{qx.Class} the class that defined the property */
+    /** @type {qx.Class} the class that defined the property */
     __clazz: null,
 
     /**

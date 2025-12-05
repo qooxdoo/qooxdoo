@@ -33,6 +33,11 @@
 qx.Bootstrap.define("qx.core.property.Property", {
   implement: qx.core.property.IProperty,
 
+  /**
+   *
+   * @param {string} propertyName
+   * @param {Function} clazz
+   */
   construct(propertyName, clazz) {
     this.__propertyName = propertyName;
     this.__clazz = clazz;
@@ -75,58 +80,58 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @type {Boolean} whether this property is inheritable or not
      */
     __inheritable: null,
-    /** @type{String} the name of the property */
+    /** @type {String} the name of the property */
     __propertyName: null,
 
-    /** @type{qx.Class} the class that defined the property */
+    /** @type {qx.Class} the class that defined the property */
     __clazz: null,
 
-    /** @type{Boolean} whether this is a pseudo property or not */
+    /** @type {Boolean} whether this is a pseudo property or not */
     __pseudoProperty: false,
 
     /**
-     * @type{qx.Class} the class that original defined this property, before it was cloned and
+     * @type {qx.Class} the class that original defined this property, before it was cloned and
      * refined for the current `__clazz`
      */
     __superClass: null,
 
-    /** @type{Object} the original definition */
+    /** @type {Object} the original definition */
     __definition: null,
 
-    /** @type{qx.core.property.IPropertyStorage} the storage implementation */
+    /** @type {qx.core.property.IPropertyStorage} the storage implementation */
     __storage: null,
 
-    /** @type{Boolean} whether the property can be set */
+    /** @type {Boolean} whether the property can be set */
     __readOnly: false,
 
-    /** @type{Function|String?} the method called to validate incoming values, or the name of the function to call */
+    /** @type {Function|String?} the method called to validate incoming values, or the name of the function to call */
     __validate: null,
 
-    /** @type{Function|String?} the apply method or name of the method */
+    /** @type {Function|String?} the apply method or name of the method */
     __apply: null,
 
-    /** @type{Function?} the transform method or name of the transform method */
+    /** @type {Function?} the transform method or name of the transform method */
     __transform: null,
 
-    /** @type{String} the name of the change event */
+    /** @type {String} the name of the change event */
     __eventName: null,
 
-    /** @type{*} the init value */
+    /** @type {*} the init value */
     __initValue: undefined,
 
-    /** @type{*} the init function used to get the init value */
+    /** @type {*} the init function used to get the init value */
     __initFunction: undefined,
 
-    /** @type{qx.core.check.Check} the check object for verifying property value compatibility */
+    /** @type {qx.core.check.Check} the check object for verifying property value compatibility */
     __check: null,
 
-    /** @type{Function?} the function to test for equality */
+    /** @type {Function?} the function to test for equality */
     __isEqual: null,
 
-    /** @type{qx.Annotation[]?null} any annotations */
+    /** @type {qx.Annotation[]?null} any annotations */
     __annotations: null,
 
-    /** @type{Boolean} whether the property needs to be dereferenced */
+    /** @type {Boolean} whether the property needs to be dereferenced */
     __needsDereference: false,
 
     isRefineAllowed(def) {},
@@ -147,7 +152,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       this.__pseudoProperty = true;
       let upname = qx.Bootstrap.firstUp(this.__propertyName);
       this.__eventName = qx.Class.hasMixin(this.__clazz, qx.core.MEvent) ? "change" + upname : null;
-      this.__storage = new qx.core.property.PseudoPropertyStorage(this, this.__clazz);
       this.__readOnly = this.__clazz.prototype["set" + upname] === undefined;
     },
 
@@ -551,6 +555,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj the object on which the property is defined
      */
     init(thisObj, value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this.__pseudoProperty) {
+          throw new Error(`${this}: Cannot call init on pseudo property.`);
+        }
+      }
       let state = this.getPropertyState(thisObj);
       if (state.initMethodCalled) {
         this.warn(`${this}: init() called more than once, ignoring`);
@@ -605,6 +614,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {*}
      */
     getInitValue(thisObj) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this.__pseudoProperty) {
+          throw new Error(`${this}: Cannot call getInitValue on pseudo property.`);
+        }
+      }
       let value = thisObj["$$init_" + this.__propertyName];
       if (value !== undefined) {
         return value;
@@ -623,6 +637,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     get(thisObj) {
+      if (this.__pseudoProperty) {
+        return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName));
+      }
       return this.__getImpl(thisObj, false);
     },
 
@@ -635,6 +652,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     async getAsync(thisObj) {
+      if (this.__pseudoProperty) {
+        return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async");
+      }
       return this.__getAsyncImpl(thisObj, false);
     },
 
@@ -645,6 +665,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {*}
      */
     getSafe(thisObj, async = false) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this.__pseudoProperty) {
+          throw new Error(`${this}: Pseudo properties do not support getSafe`);
+        }
+      }      
       if (async) {
         return this.__getAsyncImpl(thisObj, true);
       }
@@ -681,7 +706,26 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {*} value the value to set
      */
     set(thisObj, value) {
-      this.__setImpl(thisObj, value, "user", "set");
+      if (this.__pseudoProperty) {
+        this.__callFunction(thisObj, "set" + qx.Bootstrap.firstUp(this.__propertyName), value);
+      } else {
+        this.__setImpl(thisObj, value, "user", "set");
+      }
+    },
+
+    /**
+     * Sets a property value asynchronously
+     *
+     * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @param {*} value the value to set
+     * @return {qx.Promise<Void>}
+     */
+    async setAsync(thisObj, value) {
+      if (this.__pseudoProperty) {
+        this.__callFunction(thisObj, "set" + qx.Bootstrap.firstUp(this.__propertyName) + "Async", value);
+      } else {
+        return this.__setAsyncImpl(thisObj, value, "user", "set");
+      }
     },
 
     /**
@@ -701,8 +745,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @param {qx.core.Object} thisObj the object on which the property is defined
      */
     reset(thisObj) {
-      let value = this.getInitValue(thisObj);
-      this.__setImpl(thisObj, value, "user", "reset");
+      if (this.__pseudoProperty) {
+        this.__callFunction(thisObj, "reset" + qx.Bootstrap.firstUp(this.__propertyName));
+      } else {
+        let value = this.getInitValue(thisObj);
+        this.__setImpl(thisObj, value, "user", "reset");
+      }
     },
 
     /**
@@ -711,8 +759,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns
      */
     resetAsync(thisObj) {
-      let value = this.getInitValue(thisObj);
-      return this.__setAsyncImpl(thisObj, value, "user", "reset");
+      if (this.__pseudoProperty) {
+        return this.__callFunction(thisObj, "reset" + qx.Bootstrap.firstUp(this.__propertyName) + "Async");
+      } else {
+        let value = this.getInitValue(thisObj);
+        return this.__setAsyncImpl(thisObj, value, "user", "reset");
+      }
     },
 
     /**
@@ -1128,17 +1180,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Sets a property value asynchronously
-     *
-     * @param {qx.core.Object} thisObj the object on which the property is defined
-     * @param {*} value the value to set
-     * @return {qx.Promise<Void>}
-     */
-    async setAsync(thisObj, value) {
-      return this.__setAsyncImpl(thisObj, value, "user", "set");
-    },
-
-    /**
      * Refreshes the property, copying the value from it's layout parent if it has one
      *
      * @param {*} thisObj
@@ -1291,6 +1332,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     __callFunction(thisObj, fn, ...args) {
       if (typeof fn == "string") {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (typeof thisObj[fn] !== "function") {
+            throw new Error(`${this}: Cannot find a method ${fn} on object ${thisObj}!`);
+          }
+        }
         return thisObj[fn].call(thisObj, ...args);
       }
 
