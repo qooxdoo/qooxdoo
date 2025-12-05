@@ -49,7 +49,7 @@
   - Storage of property values can be completely replaced. In addition
     to developers being able to create their own storage mechanism,
     there are some built-in storage mechanisms:
-    - `qx.core.propertystorage.Default` is (duh!) the default one. It
+    - `qx.core.property.SimplePropertyStorage` is (duh!) the default one. It
       stores values in the object containing the property.
     - `qx.core.propertystorage.ImmutableArray` is used for `check :
       Array` properties. It intercepts set operations, replacing all

@@ -708,7 +708,7 @@ its values are replaced by those in the argument to a setter call.
 
 ## Defining own property storage
 
-Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.propertystorage.Default`. 
+Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
 
 It is possible to define an alternative storage methodology. Defining
 storage requires creating a map containing four keys: `init`, `set`,
