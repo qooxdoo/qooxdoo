@@ -58,6 +58,16 @@ qx.Class.define("qx.event.Utils", {
   statics: {
     ABORT: "[[ qx.event.Utils.ABORT ]]",
 
+    queuePromise(lastPromise, next) {
+      if (lastPromise && qx.lang.Type.isPromise(lastPromise)) {
+        return lastPromise.then(() => next);
+      }
+      if (qx.lang.Type.isPromise(next)) {
+        return next;
+      }
+      return null;
+    },
+
     /**
      * Evaluates a value, and adds it to the tracker
      *
@@ -126,7 +136,15 @@ qx.Class.define("qx.event.Utils", {
                 if (tracker.rejected) {
                   return null;
                 }
-                result = fn(result);
+                var result;
+                if (typeof fn == "function") {
+                  result = fn(tracker.result);
+                  if (qx.lang.Type.isPromise(result)) {
+                    return self.__thenPromise(tracker, result);
+                  }
+                } else {
+                  result = fn;
+                }
                 if (result === qx.event.Utils.ABORT) {
                   return self.reject(tracker);
                 }
@@ -140,9 +158,14 @@ qx.Class.define("qx.event.Utils", {
         if (qx.lang.Type.isPromise(fn)) {
           return this.__thenPromise(tracker, fn);
         }
-        var result = fn(tracker.result);
-        if (qx.lang.Type.isPromise(result)) {
-          return this.__thenPromise(tracker, result);
+        var result;
+        if (typeof fn == "function") {
+          result = fn(tracker.result);
+          if (qx.lang.Type.isPromise(result)) {
+            return this.__thenPromise(tracker, result);
+          }
+        } else {
+          result = fn;
         }
         tracker.result = result;
         if (result === qx.event.Utils.ABORT) {

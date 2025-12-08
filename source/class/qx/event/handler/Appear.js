@@ -143,37 +143,33 @@ qx.Class.define("qx.event.handler.Appear", {
      */
     refresh() {
       var targets = this.__targets;
+      var elem;
+      let promise = null;
 
       var legacyIe =
         qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9;
 
-      var tracker = {};
-      var self = this;
-      Object.keys(targets).forEach(function (hash) {
-        var elem = targets[hash];
-        if (elem === undefined) {
-          return;
+      for (var hash in targets) {
+        elem = targets[hash];
+
+        var displayed = elem.offsetWidth > 0;
+        if (!displayed && legacyIe) {
+          // force recalculation in IE 8. See bug #7872
+          displayed = elem.offsetWidth > 0;
         }
+        if (!!elem.$$displayed !== displayed) {
+          elem.$$displayed = displayed;
 
-        qx.event.Utils.then(tracker, function () {
-          var displayed = elem.offsetWidth > 0;
-          if (!displayed && legacyIe) {
-            // force recalculation in IE 8. See bug #7872
-            displayed = elem.offsetWidth > 0;
-          }
-          if (!!elem.$$displayed !== displayed) {
-            elem.$$displayed = displayed;
+          var evt = qx.event.Registration.createEvent(
+            displayed ? "appear" : "disappear"
+          );
+          let tmp = this.__manager.dispatchEvent(elem, evt);
+          promise = qx.event.Utils.queuePromise(promise, tmp);
+        }
+      }
 
-            var evt = qx.event.Registration.createEvent(
-              displayed ? "appear" : "disappear"
-            );
-
-            return self.__manager.dispatchEvent(elem, evt);
-          }
-        });
-      });
-      return tracker.promise;
+      return promise;
     }
   },
 

@@ -71,13 +71,14 @@ qx.Class.define("qx.event.dispatch.Direct", {
 
     // interface implementation
     dispatchEvent(target, event, type) {
+      let promise = null;
+
       if (qx.core.Environment.get("qx.debug")) {
         if (target instanceof qx.core.Object) {
           var expectedEventClassName = qx.Class.getEventType(
             target.constructor,
             type
           );
-
           var expectedEventClass = qx.Class.getByName(expectedEventClassName);
           if (!expectedEventClass) {
             this.error(
@@ -102,15 +103,13 @@ qx.Class.define("qx.event.dispatch.Direct", {
 
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
-      var tracker = {};
-      var self = this;
       var listeners = this._manager.getListeners(target, type, false);
       if (listeners) {
-        listeners.forEach(function (listener) {
-          if (self._manager.isBlacklisted(listener.unique)) {
-            return;
+        for (var i = 0, l = listeners.length; i < l; i++) {
+          if (this._manager.isBlacklisted(listeners[i].unique)) {
+            continue;
           }
-          var context = listener.context || target;
+          var context = listeners[i].context || target;
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
@@ -120,7 +119,7 @@ qx.Class.define("qx.event.dispatch.Direct", {
               context.isDisposed() &&
               !context.isDisposing()
             ) {
-              self.warn(
+              this.warn(
                 "The context object '" +
                   context +
                   "' for the event '" +
@@ -131,13 +130,17 @@ qx.Class.define("qx.event.dispatch.Direct", {
               );
             }
           }
-          qx.event.Utils.then(tracker, function () {
-            return listener.handler.call(context, event);
-          });
-        });
+          var result = listeners[i].handler.call(context, event);
+          promise = qx.event.Utils.queuePromise(promise, result);
+          if (qx.core.Environment.get("qx.promise")) {
+            if (result instanceof qx.Promise) {
+              event.addPromise(result);
+            }
+          }
+        }
       }
 
-      return tracker.promise;
+      return promise;
     }
   },
 

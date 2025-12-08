@@ -264,48 +264,10 @@ qx.Class.define("qx.event.Registration", {
      *     Returns true, when the event was NOT prevented.
      */
     dispatchEvent(target, event) {
-      return this.getManager(target).dispatchEvent(target, event);
-    },
-
-    /**
-     * Create an event object and dispatch it on the given target.
-     *
-     * @param target {Object} Any valid event target
-     * @param type {String} Event type to fire
-     * @param clazz {Class?qx.event.type.Event} The event class
-     * @param args {Array?null} Arguments, which will be passed to
-     *       the event's init method.
-     * @return {Event} the event
-     * @see #createEvent
-     */
-    __fireEvent(target, type, clazz, args) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
-          throw new Error(
-            "Create event of type " +
-              type +
-              " with undefined class. Please use null to explicit fallback to default event type!"
-          );
-        }
-
-        var msg =
-          "Could not fire event '" +
-          type +
-          "' on target '" +
-          (target ? target.classname : "undefined") +
-          "': ";
-
-        qx.core.Assert.assertNotUndefined(
-          target,
-          msg + "Invalid event target."
-        );
-
-        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
-      }
-
-      var evt = this.createEvent(type, clazz || null, args);
-      this.getManager(target).dispatchEvent(target, evt);
-      return evt;
+      return qx.event.Registration.getManager(target).dispatchEvent(
+        target,
+        event
+      );
     },
 
     /**
@@ -354,15 +316,17 @@ qx.Class.define("qx.event.Registration", {
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
       }
 
-      var evt = this.createEvent(type, clazz || null, args);
-      var tracker = {};
-      var self = this;
-      qx.event.Utils.then(tracker, function () {
-        return self.getManager(target).dispatchEvent(target, evt);
-      });
-      return qx.event.Utils.then(tracker, function () {
+      var evt = qx.event.Registration.createEvent(type, clazz || null, args);
+      var promise = qx.event.Registration.getManager(target).dispatchEvent(
+        target,
+        evt
+      );
+
+      if (qx.lang.Type.isPromise(promise)) {
+        return promise.then(() => !evt.getDefaultPrevented());
+      } else {
         return !evt.getDefaultPrevented();
-      });
+      }
     },
 
     /**
@@ -379,14 +343,28 @@ qx.Class.define("qx.event.Registration", {
      * @see #createEvent
      */
     fireEventAsync(target, type, clazz, args) {
-      if (qx.core.Environment.get("qx.promise")) {
-        return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
-      } else {
+      if (!qx.core.Environment.get("qx.promise")) {
         throw new Error(
-          this.classname +
-            ".fireEventAsync not supported because qx.promise==false"
+          `${qx.event.Registration.classname}.fireEventAsync not supported because qx.promise==false`
         );
       }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
+          throw new Error(
+            `Create event of type ${type} with undefined class. Please use null to explicit fallback to default event type!`
+          );
+        }
+
+        var msg = `Could not fire event '${type}' on target '${target?.classname || "undefined"}': `;
+        qx.core.Assert.assertNotUndefined(
+          target,
+          msg + "Invalid event target."
+        );
+        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
+      }
+
+      return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
     },
 
     /**

@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.core.EventHandler", {
      MEMBERS
   *****************************************************************************
   */
-  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+
   members: {
     __manager: null,
 
@@ -256,7 +256,6 @@ qx.Class.define("qx.ui.core.EventHandler", {
           type,
           !capture
         );
-
         if (otherListeners) {
           listeners = listeners.concat(otherListeners);
         }
@@ -270,7 +269,6 @@ qx.Class.define("qx.ui.core.EventHandler", {
       var widgetEvent = qx.event.Pool.getInstance().getObject(
         domEvent.constructor
       );
-
       domEvent.clone(widgetEvent);
 
       widgetEvent.setTarget(widgetTarget);
@@ -291,28 +289,22 @@ qx.Class.define("qx.ui.core.EventHandler", {
       }
 
       // Dispatch it on all listeners
-      var tracker = {};
-      qx.event.Utils.then(tracker, function () {
-        return qx.event.Utils.series(listeners, function (listener) {
-          var context = listener.context || currentWidget;
-          return listener.handler.call(context, widgetEvent);
-        });
-      });
+      for (var i = 0, l = listeners.length; i < l; i++) {
+        var context = listeners[i].context || currentWidget;
+        listeners[i].handler.call(context, widgetEvent);
+      }
 
       // Synchronize propagation stopped/prevent default property
-      qx.event.Utils.then(tracker, function () {
-        if (widgetEvent.getPropagationStopped()) {
-          domEvent.stopPropagation();
-        }
+      if (widgetEvent.getPropagationStopped()) {
+        domEvent.stopPropagation();
+      }
 
-        if (widgetEvent.getDefaultPrevented()) {
-          domEvent.preventDefault();
-        }
-      });
+      if (widgetEvent.getDefaultPrevented()) {
+        domEvent.preventDefault();
+      }
 
-      return qx.event.Utils.then(tracker, function () {
-        qx.event.Pool.getInstance().poolObject(widgetEvent);
-      });
+      // Release the event instance to the event pool
+      qx.event.Pool.getInstance().poolObject(widgetEvent);
     },
 
     // interface implementation

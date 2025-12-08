@@ -78,14 +78,10 @@ qx.Class.define("qx.event.handler.Pointer", {
     // interface implementation
     registerEvent(target, type, capture) {
       // Nothing needs to be done here
-    },
-
-    // interface implementation
+    }, // interface implementation
     unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
-    },
-
-    // overridden
+    }, // overridden
     _initPointerObserver() {
       var useEmitter = false;
       if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") < 9) {
@@ -95,7 +91,6 @@ qx.Class.define("qx.event.handler.Pointer", {
       }
       this._initObserver(this._onPointerEvent, useEmitter);
     },
-
     /**
      * Fire a pointer event with the given parameters
      *
@@ -121,39 +116,42 @@ qx.Class.define("qx.event.handler.Pointer", {
 
       if (target && target.nodeType) {
         qx.event.type.dom.Pointer.normalize(domEvent);
-        if (qx.core.Environment.get("browser.name") === "msie" && qx.core.Environment.get("browser.version") < 9) {
-          // ensure compatibility with native events for IE8
-          try {
-            domEvent.srcElement = target;
-          } catch (ex) {
-            // Nothing - cannot change properties in strict mode
-          }
+        // ensure compatibility with native events for IE8
+        try {
+          domEvent.srcElement = target;
+        } catch (ex) {
+          // Nothing - cannot change properties in strict mode
+        }
+        qx.event.Registration.fireEvent(target, type, qx.event.type.Pointer, [
+          domEvent,
+          target,
+          null,
+          true,
+          true
+        ]);
+        if (
+          (domEvent.getPointerType() !== "mouse" ||
+            domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
+          (type == "pointerdown" ||
+            type == "pointerup" ||
+            type == "pointermove" ||
+            type == "pointercancel")
+        ) {
+          qx.event.Registration.fireEvent(
+            this.__root,
+            qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+            qx.event.type.Pointer,
+            [domEvent, target, null, false, false]
+          );
         }
 
-        var tracker = {};
-        var self = this;
-        qx.event.Utils.track(tracker, function () {
-          return qx.event.Registration.fireEvent(target, type, qx.event.type.Pointer, [domEvent, target, null, true, true]);
-        });
-
-        qx.event.Utils.then(tracker, function () {
-          if (
-            (domEvent.getPointerType() !== "mouse" || domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
-            (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel")
-          ) {
-            return qx.event.Registration.fireEvent(
-              self.__root,
-              qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-              qx.event.type.Pointer,
-              [domEvent, target, null, false, false]
-            );
-          }
-        });
-        qx.event.Utils.then(tracker, function () {
-          // Fire user action event
-          return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, [type]);
-        });
-        return tracker.promise;
+        // Fire user action event
+        qx.event.Registration.fireEvent(
+          this.__window,
+          "useraction",
+          qx.event.type.Data,
+          [type]
+        );
       }
     },
 
@@ -163,8 +161,11 @@ qx.Class.define("qx.event.handler.Pointer", {
         return;
       }
 
-      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
-      return this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
+      var type =
+        qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[
+          domEvent.type
+        ] || domEvent.type;
+      this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
     },
 
     /**
