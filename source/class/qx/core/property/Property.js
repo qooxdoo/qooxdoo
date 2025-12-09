@@ -590,7 +590,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         if (this.__apply) {
           this.__callFunction(thisObj, this.__apply, value, undefined, this.__propertyName);
         }
-        if (this.__eventName) {
+            
+        if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
           thisObj.fireDataEvent(this.__eventName, value, undefined);
         }
         this.__applyValueToInheritedChildren(thisObj);
@@ -945,7 +946,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      if (this.__eventName) {
+      if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
         thisObj.fireDataEvent(this.__eventName, value, oldValue);
       }
 
@@ -1053,7 +1054,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         await this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
       }
 
-      if (this.__eventName) {
+      if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
         await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
       }
 
@@ -1230,7 +1231,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             if (this.__apply) {
               this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
             }
-            if (this.__eventName) {
+            if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
               thisObj.fireDataEvent(this.__eventName, value, oldValue);
             }
             this.__applyValueToInheritedChildren(thisObj);
