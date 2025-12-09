@@ -666,23 +666,29 @@ qx.Bootstrap.define("qx.Class", {
             });
           }
 
-          if (qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
-            //Call apply function for properties of this class which have an init value and which haven't been initialized yet.
-            //This must be done once per instantiation, after the constructor of the concrete class has finished.
-            if (this.constructor === subclass) {
-              for (let property of Object.values(subclass.prototype.$$allProperties)) {
-                if (
-                  property instanceof qx.core.property.Property &&
-                  property.getClass().classname &&
-                  !qx.core.Environment.get("qx.core.property.Property.excludeAutoApply").find(match =>
-                    property.getClass().classname.match(match)
-                  ) &&
-                  property.hasInitValue() &&
-                  property.getDefinition().autoApply !== false &&
-                  !property.getPropertyState(this).initMethodCalled
-                ) {
-                  property.init(this);
-                }
+          let initDuringConstruct = qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct");
+          let excludeAutoApply = qx.core.Environment.get("qx.core.property.Property.excludeAutoApply") || [];
+
+
+          //Init properties
+          //Call apply function for properties of this class which have an init value and which haven't been initialized yet.
+          //This must be done once per instantiation, after the constructor of the concrete class has finished.
+          if (this.constructor === subclass) {
+            for (let property of Object.values(subclass.prototype.$$allProperties)) {
+              if (!(property instanceof qx.core.property.Property)) {
+                continue;
+              }
+              let def = property.getDefinition();
+              let excluded = excludeAutoApply.find(match => property.getClass().classname.match(match));
+              if (
+                !property.isPseudoProperty() &&
+                def.autoApply !== false &&
+                property.getClass().classname &&
+                property.hasInitValue() &&
+                !property.getPropertyState(this).initMethodCalled &&
+                ((initDuringConstruct === true && !excluded) || def.autoApply || def.initFunction)
+              ) {
+                property.init(this);
               }
             }
           }
