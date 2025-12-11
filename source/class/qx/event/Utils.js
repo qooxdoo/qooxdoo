@@ -58,6 +58,12 @@ qx.Class.define("qx.event.Utils", {
   statics: {
     ABORT: "[[ qx.event.Utils.ABORT ]]",
 
+    /**
+     * If lastPromise is a promise, chains next onto it. Otherwise, returns next.
+     * @param {Promise} lastPromise 
+     * @param {*} next 
+     * @returns {*}
+     */
     queuePromise(lastPromise, next) {
       if (lastPromise && qx.lang.Type.isPromise(lastPromise)) {
         return lastPromise.then(() => next);
@@ -120,6 +126,13 @@ qx.Class.define("qx.event.Utils", {
      * @param fn {Function} the function to call when previous promises are complete
      * @return {qx.Promise?} the new promise, or the return value from `fn` if no promises are in use
      */
+    /**
+     * Equivalent of `promise.then()`
+     *
+     * @param tracker {Object} the tracker object
+     * @param fn {Function} the function to call when previous promises are complete
+     * @return {qx.Promise?} the new promise, or the return value from `fn` if no promises are in use
+     */
     then: qx.core.Environment.select("qx.promise", {
       true(tracker, fn) {
         if (tracker.rejected) {
@@ -136,15 +149,7 @@ qx.Class.define("qx.event.Utils", {
                 if (tracker.rejected) {
                   return null;
                 }
-                var result;
-                if (typeof fn == "function") {
-                  result = fn(tracker.result);
-                  if (qx.lang.Type.isPromise(result)) {
-                    return self.__thenPromise(tracker, result);
-                  }
-                } else {
-                  result = fn;
-                }
+                result = fn(result);
                 if (result === qx.event.Utils.ABORT) {
                   return self.reject(tracker);
                 }
@@ -158,14 +163,9 @@ qx.Class.define("qx.event.Utils", {
         if (qx.lang.Type.isPromise(fn)) {
           return this.__thenPromise(tracker, fn);
         }
-        var result;
-        if (typeof fn == "function") {
-          result = fn(tracker.result);
-          if (qx.lang.Type.isPromise(result)) {
-            return this.__thenPromise(tracker, result);
-          }
-        } else {
-          result = fn;
+        var result = fn(tracker.result);
+        if (qx.lang.Type.isPromise(result)) {
+          return this.__thenPromise(tracker, result);
         }
         tracker.result = result;
         if (result === qx.event.Utils.ABORT) {
