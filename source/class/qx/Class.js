@@ -679,7 +679,7 @@ qx.Bootstrap.define("qx.Class", {
                 continue;
               }
               let def = property.getDefinition();
-              let excluded = excludeAutoApply.find(match => property.getClass().classname.match(match));
+              let excluded = property.getClass().classname && excludeAutoApply.find(match => property.getClass().classname.match(match));
               if (
                 !property.isPseudoProperty() &&
                 def.autoApply !== false &&
