@@ -763,10 +763,10 @@ qx.Class.define("qx.test.Promise", {
 
         members: {
           _applyAlpha(value, oldValue) {
-            var p = new qx.Promise( (resolve) => {
+            var p = new qx.Promise(resolve => {
               console.log("in _applyAlpha qx.Promise, value=" + value);
               setTimeout(() => {
-                out.push( this.getValue() + ":apply");
+                out.push(this.getValue() + ":apply");
                 console.log("in _applyAlpha resolving qx.Promise, value=" + value);
 
                 resolve("xyz");
