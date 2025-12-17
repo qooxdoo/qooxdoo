@@ -361,7 +361,18 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
      * Upgrade packages to v8 compatible versions
      */
     async migratePackages() {
-      await this.upgradePackagesUnlessDryRun();
+      // Check if contrib.json exists and has libraries before attempting upgrade
+      const contribPath = "contrib.json";
+      if (await fs.existsAsync(contribPath)) {
+        try {
+          const contribData = JSON.parse(await fs.readFileAsync(contribPath, "utf8"));
+          if (contribData.libraries && contribData.libraries.length > 0) {
+            await this.upgradePackagesUnlessDryRun();
+          }
+        } catch (e) {
+          // contrib.json doesn't exist or is invalid, skip package upgrade
+        }
+      }
     }
   }
 });
