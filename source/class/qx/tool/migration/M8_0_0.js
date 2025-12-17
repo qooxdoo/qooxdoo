@@ -277,7 +277,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       let foundIssues = [];
 
       // Recursively find all .js files
-      const findJsFiles = async (dir) => {
+      const findJsFiles = async dir => {
         let jsFiles = [];
         try {
           const entries = await fs.readdirAsync(dir);
