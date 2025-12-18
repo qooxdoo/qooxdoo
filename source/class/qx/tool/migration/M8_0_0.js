@@ -169,6 +169,11 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           files: compileJsPath,
           from: /qx\.tool\.cli\.commands\./g,
           to: "qx.tool.compiler.cli.commands."
+        },
+        {
+          files: compileJsPath,
+          from: /qx\.tool\.cli\.api\./g,
+          to: "qx.tool.compiler.cli.api."
         }
       ];
 

@@ -81,5 +81,20 @@ qx.Class.define("qx.tool.compiler.cli.commands.Migrate", {
      * @override
      */
     async checkMigrations() {}
+  },
+
+  /**
+  * @ignore(qx.tool.cli.commands)
+  * @ignore(qx.tool.cli.api)
+  */
+   defer() {
+        // we need to declare some of the older classes that have been moved
+      // otherwise loading of old packages will fail
+      if (!qx.tool.cli.commands && !!qx.tool.compiler.cli.commands) {
+         qx.tool.cli.commands = qx.tool.compiler.cli.commands;    
+      }        
+      if (!qx.tool.cli.api && !!qx.tool.compiler.cli.api) {
+         qx.tool.cli.api = qx.tool.compiler.cli.api;    
+      }        
   }
 });

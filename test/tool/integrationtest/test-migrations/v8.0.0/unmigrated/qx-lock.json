@@ -1,0 +1,13 @@
+{
+  "libraries": [
+    {
+      "library_name": "qxl.dialog",
+      "library_version": "3.1.1",
+      "path": "qx_packages/qooxdoo_qxl_dialog_v3_1_1",
+      "uri": "qooxdoo/qxl.dialog",
+      "repo_name": "qooxdoo/qxl.dialog",
+      "repo_tag": "v3.1.1"
+    }
+  ],
+  "version": "2.1.0"
+}
