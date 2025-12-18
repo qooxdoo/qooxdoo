@@ -94,31 +94,6 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       );
     },
 
-    /**
-     * Update compile.json schema if needed
-     */
-    async migrateCompileJson() {
-      const compileJsonModel = qx.tool.config.Compile.getInstance().set({
-        warnOnly: true,
-        validate: false
-      });
-
-      if (!(await fs.existsAsync(compileJsonModel.getDataPath()))) {
-        return;
-      }
-
-      await compileJsonModel.load();
-
-      // Update schema to v8 schema (when available)
-      // await this.updateSchemaUnlessDryRun(
-      //   compileJsonModel,
-      //   "https://qooxdoo.org/schema/compile-2-0-0.json"
-      // );
-
-      if (!this.getRunner().getDryRun()) {
-        await compileJsonModel.save();
-      }
-    },
 
     /**
      * Migrate compile.js from yargs to CLI classes
@@ -461,6 +436,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         }
       }
     },
+
 
     /**
      * Unified method to scan source files for multiple issues in one pass

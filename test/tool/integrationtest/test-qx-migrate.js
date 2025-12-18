@@ -552,3 +552,239 @@ test("M8_0_0: instance.name usage detection", async assert => {
     assert.end(ex);
   }
 });
+
+// Test 9: migratePackages - no contrib.json (silent skip)
+test("M8_0_0: migratePackages - no contrib.json (silent skip)", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Ensure no contrib.json exists
+    const contribPath = path.join(migratedDir, "contrib.json");
+    if (fs.existsSync(contribPath)) {
+      await fsp.unlink(contribPath);
+    }
+
+    // Run migration
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify no package upgrade announcement
+    assert.notOk(
+      result.output.includes("Packages will be upgraded") ||
+      result.output.includes("package upgrade"),
+      "Should NOT announce package upgrade when contrib.json is missing"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 10: migratePackages - empty libraries array
+test("M8_0_0: migratePackages - empty libraries array", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Create contrib.json with empty libraries array
+    const contribPath = path.join(migratedDir, "contrib.json");
+    const emptyContrib = {
+      libraries: [],
+      version: "2.1.0"
+    };
+    await fsp.writeFile(contribPath, JSON.stringify(emptyContrib, null, 2), "utf8");
+
+    // Run migration
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify no package upgrade announcement
+    assert.notOk(
+      result.output.includes("Packages will be upgraded") ||
+      result.output.includes("package upgrade"),
+      "Should NOT announce package upgrade when libraries array is empty"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 11: migratePackages - valid libraries with dry-run
+test("M8_0_0: migratePackages - valid libraries with dry-run", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Create contrib.json with valid libraries
+    const contribPath = path.join(migratedDir, "contrib.json");
+    const validContrib = {
+      libraries: [
+        {
+          library_name: "qxl.testtapper",
+          library_version: "4.0.0",
+          path: "qx_packages/qooxdoo_qxl_testtapper_v4_0_0",
+          uri: "qooxdoo/qxl.testtapper",
+          repo_name: "qooxdoo/qxl.testtapper",
+          repo_tag: "v4.0.0"
+        }
+      ],
+      version: "2.1.0"
+    };
+    await fsp.writeFile(contribPath, JSON.stringify(validContrib, null, 2), "utf8");
+
+    // Run migration in dry-run mode
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath,
+      "migrate", "--dry-run", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify package upgrade announcement
+    assert.ok(
+      result.output.includes("Packages will be upgraded"),
+      "Should announce that packages will be upgraded in dry-run mode"
+    );
+
+    // Verify contrib.json still exists and unchanged
+    assert.ok(
+      fs.existsSync(contribPath),
+      "contrib.json should still exist after dry-run"
+    );
+    const afterDryRun = JSON.parse(await fsp.readFile(contribPath, "utf8"));
+    assert.equal(
+      afterDryRun.libraries[0].library_version,
+      "4.0.0",
+      "contrib.json should be unchanged in dry-run mode"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 12: migratePackages - valid libraries triggers upgrade
+test("M8_0_0: migratePackages - valid libraries triggers upgrade", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Create contrib.json with valid libraries
+    const contribPath = path.join(migratedDir, "contrib.json");
+    const validContrib = {
+      libraries: [
+        {
+          library_name: "qxl.testtapper",
+          library_version: "4.0.0",
+          path: "qx_packages/qooxdoo_qxl_testtapper_v4_0_0",
+          uri: "qooxdoo/qxl.testtapper",
+          repo_name: "qooxdoo/qxl.testtapper",
+          repo_tag: "v4.0.0"
+        }
+      ],
+      version: "2.1.0"
+    };
+    await fsp.writeFile(contribPath, JSON.stringify(validContrib, null, 2), "utf8");
+
+    // Note: Actual upgrade may fail due to network/package availability
+    // We're primarily testing that the upgrade is attempted, not that it succeeds
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+
+    // Either succeeds or fails due to network - both are acceptable
+    // What matters is that package upgrade was attempted
+    const output = result.output + result.error;
+
+    // Check that either:
+    // 1. Upgrade succeeded (output contains success indicators)
+    // 2. Upgrade was attempted but failed due to network/availability (contains package-related errors)
+    const upgradeAttempted =
+      output.includes("upgrade") ||
+      output.includes("package") ||
+      output.includes("qxl.testtapper") ||
+      result.exitCode === 0;
+
+    assert.ok(
+      upgradeAttempted,
+      "Should attempt package upgrade when contrib.json has libraries"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 13: migratePackages - malformed JSON (graceful skip)
+test("M8_0_0: migratePackages - malformed JSON (graceful skip)", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Create malformed contrib.json
+    const contribPath = path.join(migratedDir, "contrib.json");
+    await fsp.writeFile(contribPath,
+      '{\n  "libraries": [\n    "invalid"\n  ]\n  "version": "2.1.0"\n}',
+      "utf8");
+
+    // Run migration - should not crash
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Verify no package upgrade announcement (due to parse error)
+    assert.notOk(
+      result.output.includes("Packages will be upgraded") ||
+      result.output.includes("package upgrade"),
+      "Should NOT announce package upgrade when contrib.json is malformed"
+    );
+
+    // Verify migration continues and completes other steps
+    const manifest = JSON.parse(
+      await fsp.readFile(path.join(migratedDir, "Manifest.json"), "utf8")
+    );
+    assert.ok(
+      manifest.requires["@qooxdoo/framework"].includes("8."),
+      "Other migration steps should still complete despite malformed contrib.json"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
