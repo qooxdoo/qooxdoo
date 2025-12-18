@@ -20,6 +20,8 @@ const process = require("process");
 const path = require("upath");
 const semver = require("semver");
 const fs = qx.tool.utils.Promisify.fs;
+const babylon = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
 
 /**
  * Migration class for updating from v7 to v8
@@ -189,14 +191,56 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
      * Should be replaced with instance.classname
      */
     async migrateInstanceName() {
-      this.announce(
-        "*** IMPORTANT: instance.name No Longer Available ***\n" +
-        "The predefined instance.name variable is no longer available.\n" +
-        "Please replace all uses of instance.name with instance.classname.\n\n" +
-        "This change was necessary because with native properties,\n" +
-        "instance.name conflicts with the commonly used property name 'name'."
-      );
-      this.markAsPending("Replace instance.name with instance.classname");
+      const sourceDir = path.join(process.cwd(), "source");
+      if (!(await fs.existsAsync(sourceDir))) {
+        this.announce(
+          "*** IMPORTANT: instance.name No Longer Available ***\n" +
+          "The predefined instance.name variable is no longer available.\n" +
+          "Please replace all uses of instance.name with instance.classname."
+        );
+        return;
+      }
+
+      // Use unified scan (already done by migratePropertyMemberConflicts)
+      // Results are cached in this.__scanResults
+      if (!this.__scanResults) {
+        await this.__scanSourceFilesForIssues(sourceDir);
+      }
+
+      const usages = this.__scanResults.nameFieldUsages;
+
+      // Report findings
+      if (usages.length > 0) {
+        let message = "*** IMPORTANT: Instance .name Field Usage Detected ***\n" +
+          "The automatic .name field on object instances is no longer available in v8.\n" +
+          "The following usages were found:\n\n";
+
+        for (const usage of usages) {
+          message += `  ${usage.file}:\n`;
+          for (const location of usage.locations) {
+            message += `    Line ${location.line}: ${location.context}\n`;
+          }
+        }
+
+        message += "\nPlease replace .name with .classname on all Qooxdoo object instances.\n" +
+          "Examples:\n" +
+          "  - this.name → this.classname\n" +
+          "  - widget.name → widget.classname\n" +
+          "  - obj.name → obj.classname\n\n" +
+          "This change was necessary because with native properties in v8,\n" +
+          "the .name field conflicts with property definitions named 'name'.\n\n" +
+          "Note: Property getters like this.getName() are still valid.";
+
+        this.announce(message);
+        this.markAsPending(`Replace ${usages.length} .name field usage(s) with .classname`);
+      } else {
+        this.announce(
+          "*** INFO: Instance .name Field Check ***\n" +
+          "No uses of the .name field on instances detected in your codebase.\n\n" +
+          "Note: The automatic .name field is no longer available in v8.\n" +
+          "Use .classname instead to get the class name of an instance."
+        );
+      }
     },
 
     /**
@@ -206,18 +250,56 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
     async migratePropertyMemberConflicts() {
       const sourceDir = path.join(process.cwd(), "source");
       if (!(await fs.existsAsync(sourceDir))) {
+        this.announce(
+          "*** INFO: Property/Member Namespace Change ***\n" +
+          "In v8, properties and members now share the same namespace.\n" +
+          "Refining a property in a subclass now adds it to the\n" +
+          "subclass prototype instead of modifying it in place."
+        );
         return;
       }
 
-      this.announce(
-        "*** IMPORTANT: Property/Member Namespace Change ***\n" +
-        "Properties and members are now in the same namespace.\n" +
-        "If a class has both a property and a member with the same name,\n" +
-        "this will cause a conflict. Please review your class definitions.\n\n" +
-        "Also note: Refining a property in a subclass now adds it to the\n" +
-        "subclass prototype instead of modifying it in place."
-      );
-      this.markAsPending("Manual review of property/member conflicts required");
+      // Scan source files once for all issues
+      await this.__scanSourceFilesForIssues(sourceDir);
+
+      const conflicts = this.__scanResults.propertyMemberConflicts;
+
+      // Report findings
+      if (conflicts.length > 0) {
+        let message = "*** IMPORTANT: Property/Member Conflicts Detected ***\n" +
+          "In v8, properties and members share the same namespace.\n" +
+          "The following conflicts were found:\n\n";
+
+        for (const conflict of conflicts) {
+          message += `  ${conflict.file}`;
+          if (conflict.className) {
+            message += ` (${conflict.className})`;
+          }
+          message += ":\n";
+
+          if (conflict.propMemberConflicts.length > 0) {
+            message += `    Properties conflicting with members: ${conflict.propMemberConflicts.join(", ")}\n`;
+          }
+
+          if (conflict.propStaticConflicts.length > 0) {
+            message += `    Properties conflicting with statics: ${conflict.propStaticConflicts.join(", ")}\n`;
+          }
+        }
+
+        message += "\nYou must rename either the property or the member/static to resolve conflicts.\n" +
+          "Typical solution: Rename the member method (e.g., 'name' → 'getName' or '_name')";
+
+        this.announce(message);
+        this.markAsPending(`Fix ${conflicts.length} property/member conflict(s)`);
+      } else {
+        this.announce(
+          "*** INFO: Property/Member Namespace Check ***\n" +
+          "No property/member conflicts detected in your codebase.\n\n" +
+          "Note: In v8, properties and members now share the same namespace.\n" +
+          "Refining a property in a subclass now adds it to the subclass\n" +
+          "prototype instead of modifying it in place."
+        );
+      }
     },
 
     /**
@@ -373,6 +455,354 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           // contrib.json doesn't exist or is invalid, skip package upgrade
         }
       }
+    },
+
+    /**
+     * Unified method to scan source files for multiple issues in one pass
+     * This scans each file only once and performs all AST-based checks
+     * @param {String} sourceDir - Source directory to scan
+     * @return {Promise<void>} - Results are stored in this.__scanResults
+     */
+    async __scanSourceFilesForIssues(sourceDir) {
+      // Initialize results structure
+      this.__scanResults = {
+        propertyMemberConflicts: [],
+        nameFieldUsages: []
+      };
+
+      const jsFiles = await this.__findJsFiles(sourceDir);
+
+      for (const file of jsFiles) {
+        try {
+          const content = await fs.readFileAsync(file, 'utf8');
+
+          // Quick pre-filter: skip files that don't need analysis
+          const needsQxDefineCheck = content.match(/qx\.(Class|Mixin)\.define/);
+          const needsNameCheck = content.includes('.name');
+
+          if (!needsQxDefineCheck && !needsNameCheck) {
+            continue;
+          }
+
+          // Parse with Babel (only once per file!)
+          const ast = babylon.parse(content, {
+            sourceType: "module",
+            errorRecovery: true
+          });
+
+          const relativePath = path.relative(process.cwd(), file);
+
+          // Check 1: Property/Member conflicts (if file has qx definitions)
+          if (needsQxDefineCheck) {
+            const definitions = this.__findQxDefinitions(ast);
+
+            for (const def of definitions) {
+              const propertyNames = this.__extractPropertyNames(def.configObj);
+              const memberNames = this.__extractMemberNames(def.configObj);
+              const staticNames = this.__extractStaticNames(def.configObj);
+
+              const propMemberConflicts = this.__findIntersection(propertyNames, memberNames);
+              const propStaticConflicts = this.__findIntersection(propertyNames, staticNames);
+
+              if (propMemberConflicts.length > 0 || propStaticConflicts.length > 0) {
+                this.__scanResults.propertyMemberConflicts.push({
+                  file: relativePath,
+                  className: def.className,
+                  propMemberConflicts,
+                  propStaticConflicts
+                });
+              }
+            }
+          }
+
+          // Check 2: .name field usage (if file has .name access)
+          if (needsNameCheck) {
+            const locations = this.__findInstanceNameUsages(ast);
+
+            if (locations.length > 0) {
+              this.__scanResults.nameFieldUsages.push({
+                file: relativePath,
+                locations
+              });
+            }
+          }
+        } catch (e) {
+          // Log parse errors but continue with other files
+          if (this.getRunner().getVerbose()) {
+            qx.tool.compiler.Console.warn(
+              `Could not parse ${path.relative(process.cwd(), file)}: ${e.message}`
+            );
+          }
+        }
+      }
+    },
+
+    /**
+     * Helper method to recursively find all .js files in a directory
+     * @param {String} dir - Directory to search
+     * @return {Promise<String[]>} - Array of file paths
+     */
+    async __findJsFiles(dir) {
+      let jsFiles = [];
+      try {
+        const entries = await fs.readdirAsync(dir);
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry);
+          const stat = await fs.statAsync(fullPath);
+          if (stat.isDirectory()) {
+            jsFiles = jsFiles.concat(await this.__findJsFiles(fullPath));
+          } else if (entry.endsWith('.js')) {
+            jsFiles.push(fullPath);
+          }
+        }
+      } catch (e) {
+        // Ignore errors reading directories
+      }
+      return jsFiles;
+    },
+
+    /**
+     * Helper method to find intersection of two arrays
+     * @param {Array} arr1 - First array
+     * @param {Array} arr2 - Second array
+     * @return {Array} - Array of common elements
+     */
+    __findIntersection(arr1, arr2) {
+      return arr1.filter(name => arr2.includes(name));
+    },
+
+    /**
+     * Helper method to get the name from an object key (Identifier or StringLiteral)
+     * @param {Object} key - AST node representing object key
+     * @return {String} - Key name
+     */
+    __getKeyName(key) {
+      return key.name || key.value;
+    },
+
+    /**
+     * Helper method to collapse MemberExpression into a string
+     * (Adapted from ClassFile.js)
+     * @param {Object} node - AST MemberExpression node
+     * @return {String} - Collapsed string like "qx.Class.define"
+     */
+    __collapseMemberExpression(node) {
+      if (!node) {
+        return null;
+      }
+      if (node.type === "Identifier") {
+        return node.name;
+      }
+      if (node.type !== "MemberExpression") {
+        return null;
+      }
+      const object = this.__collapseMemberExpression(node.object);
+      const property = node.property.name || node.property.value;
+      if (object && property) {
+        return object + "." + property;
+      }
+      return null;
+    },
+
+    /**
+     * Helper method to find qx.Class.define and qx.Mixin.define calls in AST
+     * @param {Object} ast - Babel AST
+     * @return {Array} - Array of definition objects {type, className, configObj}
+     */
+    __findQxDefinitions(ast) {
+      const definitions = [];
+      const self = this;
+
+      traverse(ast, {
+        CallExpression(path) {
+          const node = path.node;
+          const callee = self.__collapseMemberExpression(node.callee);
+
+          if (callee === "qx.Class.define" || callee === "qx.Mixin.define") {
+            // Extract class name from first argument
+            let className = null;
+            if (node.arguments[0] && (node.arguments[0].type === "StringLiteral" || node.arguments[0].type === "Literal")) {
+              className = node.arguments[0].value;
+            }
+
+            // Extract config object from second argument
+            const configObj = node.arguments[1];
+            if (configObj && configObj.type === "ObjectExpression") {
+              definitions.push({
+                type: callee === "qx.Class.define" ? "class" : "mixin",
+                className,
+                configObj
+              });
+            }
+          }
+        }
+      });
+
+      return definitions;
+    },
+
+    /**
+     * Helper method to extract property names from a class definition config object
+     * @param {Object} configObj - AST ObjectExpression node for class config
+     * @return {Array} - Array of property names
+     */
+    __extractPropertyNames(configObj) {
+      const names = [];
+      if (!configObj || configObj.type !== "ObjectExpression") {
+        return names;
+      }
+
+      const propertiesNode = configObj.properties.find(
+        prop => this.__getKeyName(prop.key) === "properties"
+      );
+
+      if (propertiesNode && propertiesNode.value && propertiesNode.value.type === "ObjectExpression") {
+        propertiesNode.value.properties.forEach(prop => {
+          const keyName = this.__getKeyName(prop.key);
+          if (keyName) {
+            names.push(keyName);
+          }
+        });
+      }
+
+      return names;
+    },
+
+    /**
+     * Helper method to extract member names from a class definition config object
+     * @param {Object} configObj - AST ObjectExpression node for class config
+     * @return {Array} - Array of member names
+     */
+    __extractMemberNames(configObj) {
+      const names = [];
+      if (!configObj || configObj.type !== "ObjectExpression") {
+        return names;
+      }
+
+      const membersNode = configObj.properties.find(
+        prop => this.__getKeyName(prop.key) === "members"
+      );
+
+      if (membersNode && membersNode.value && membersNode.value.type === "ObjectExpression") {
+        membersNode.value.properties.forEach(prop => {
+          // Handle both ObjectMethod and ObjectProperty
+          if (prop.type === "ObjectMethod" || prop.type === "ObjectProperty") {
+            const keyName = this.__getKeyName(prop.key);
+            if (keyName) {
+              names.push(keyName);
+            }
+          }
+        });
+      }
+
+      return names;
+    },
+
+    /**
+     * Helper method to extract static names from a class definition config object
+     * @param {Object} configObj - AST ObjectExpression node for class config
+     * @return {Array} - Array of static names
+     */
+    __extractStaticNames(configObj) {
+      const names = [];
+      if (!configObj || configObj.type !== "ObjectExpression") {
+        return names;
+      }
+
+      const staticsNode = configObj.properties.find(
+        prop => this.__getKeyName(prop.key) === "statics"
+      );
+
+      if (staticsNode && staticsNode.value && staticsNode.value.type === "ObjectExpression") {
+        staticsNode.value.properties.forEach(prop => {
+          // Handle both ObjectMethod and ObjectProperty
+          if (prop.type === "ObjectMethod" || prop.type === "ObjectProperty") {
+            const keyName = this.__getKeyName(prop.key);
+            if (keyName) {
+              names.push(keyName);
+            }
+          }
+        });
+      }
+
+      return names;
+    },
+
+    /**
+     * Helper method to find .name usages on object instances in AST
+     * This detects the old pattern where instances had a .name field
+     * @param {Object} ast - Babel AST
+     * @return {Array} - Array of usage locations {line, context}
+     */
+    __findInstanceNameUsages(ast) {
+      const usages = [];
+      const self = this;
+
+      traverse(ast, {
+        MemberExpression(path) {
+          const node = path.node;
+
+          // Check if it's accessing .name property (not computed like obj["name"])
+          if (node.property &&
+              !node.computed &&
+              (node.property.name === "name" || node.property.value === "name")) {
+
+            // Get the object being accessed
+            const objectName = node.object.name || self.__collapseMemberExpression(node.object);
+
+            // Skip common false positives
+            if (self.__isLikelyQooxdooInstanceNameUsage(path, objectName)) {
+              usages.push({
+                line: node.loc ? node.loc.start.line : "unknown",
+                context: objectName ? `${objectName}.name` : ".name"
+              });
+            }
+          }
+        }
+      });
+
+      return usages;
+    },
+
+    /**
+     * Helper to determine if a .name access is likely the old instance.name pattern
+     * @param {Object} path - AST path
+     * @param {String} objectName - Name of the object being accessed
+     * @return {Boolean} - True if this looks like qooxdoo instance.name usage
+     */
+    __isLikelyQooxdooInstanceNameUsage(path, objectName) {
+      const node = path.node;
+
+      // Common patterns that suggest this is the old instance.name field:
+
+      // 1. this.name (very common in qooxdoo classes)
+      if (objectName === "this") {
+        // But exclude if it's actually a property getter call (this.getName())
+        const parent = path.parent;
+        if (parent && parent.type === "CallExpression") {
+          return false; // It's this.name() which is a method call
+        }
+        return true;
+      }
+
+      // 2. Common variable names for instances: instance, obj, object, item, element
+      const instanceVarNames = ["instance", "obj", "object", "item", "element", "widget", "control"];
+      if (instanceVarNames.includes(objectName)) {
+        return true;
+      }
+
+      // 3. Skip known JavaScript built-in objects that have .name
+      const builtInObjects = ["window", "document", "console", "Function", "Error",
+                              "constructor", "arguments", "event"];
+      if (builtInObjects.includes(objectName)) {
+        return false;
+      }
+
+      // 4. If it's within a qx.Class.define or qx.Mixin.define, it's more likely
+      // to be qooxdoo code (this is a heuristic)
+      // For now, we'll return false for unknown patterns to avoid too many false positives
+
+      return false;
     }
   }
 });
