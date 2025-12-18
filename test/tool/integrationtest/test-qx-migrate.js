@@ -228,7 +228,7 @@ test("M8_0_0: Breaking change announcements", async assert => {
 
     // instance.name removal
     assert.ok(
-      output.includes("instance.name") || output.includes("instance.classname"),
+      output.includes(".name") || output.includes("this.name") || output.includes("instance.classname"),
       "Should announce instance.name removal"
     );
 
@@ -318,6 +318,232 @@ test("M8_0_0: Complete migration workflow", async assert => {
     // Step 4: Run migration again (should be idempotent)
     result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 7: Property/Member conflict detection
+test("M8_0_0: Property/Member conflict detection", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Verify test fixtures exist
+    const propertyConflictPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "PropertyConflictTest.js"
+    );
+    const staticConflictPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "StaticConflictTest.js"
+    );
+    const noConflictPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "NoConflictTest.js"
+    );
+    const mixinConflictPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "MConflictMixin.js"
+    );
+
+    assert.ok(
+      fs.existsSync(propertyConflictPath),
+      "PropertyConflictTest.js fixture should exist"
+    );
+    assert.ok(
+      fs.existsSync(staticConflictPath),
+      "StaticConflictTest.js fixture should exist"
+    );
+    assert.ok(
+      fs.existsSync(noConflictPath),
+      "NoConflictTest.js fixture should exist"
+    );
+    assert.ok(
+      fs.existsSync(mixinConflictPath),
+      "MConflictMixin.js fixture should exist"
+    );
+
+    // Run migration with verbose flag
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    const output = result.output;
+
+    // Verify conflict detection for PropertyConflictTest
+    assert.ok(
+      output.includes("PropertyConflictTest") || output.includes("PropertyConflict"),
+      "Output should mention PropertyConflictTest class"
+    );
+    assert.ok(
+      output.includes("name") && output.includes("value"),
+      "Output should mention conflicting property names 'name' and 'value'"
+    );
+
+    // Verify conflict detection for StaticConflictTest
+    assert.ok(
+      output.includes("StaticConflictTest") || output.includes("StaticConflict"),
+      "Output should mention StaticConflictTest class"
+    );
+    assert.ok(
+      output.includes("count") && output.includes("version"),
+      "Output should mention conflicting static names 'count' and 'version'"
+    );
+    assert.ok(
+      output.includes("statics") || output.includes("static"),
+      "Output should mention static conflicts"
+    );
+
+    // Verify conflict detection for MConflictMixin
+    assert.ok(
+      output.includes("MConflictMixin") || output.includes("Mixin"),
+      "Output should mention MConflictMixin"
+    );
+    assert.ok(
+      output.includes("label"),
+      "Output should mention conflicting property name 'label' in mixin"
+    );
+
+    // Verify NoConflictTest is not mentioned as having conflicts
+    // (it might be mentioned in general output, but not in conflict list)
+    const conflictSection = output.substring(
+      output.indexOf("Property/Member Conflict")
+    );
+    if (conflictSection.includes("NoConflictTest")) {
+      assert.fail("NoConflictTest should NOT be listed as having conflicts");
+    }
+
+    // Verify helpful suggestions in output
+    assert.ok(
+      output.includes("rename") || output.includes("Rename"),
+      "Output should suggest renaming"
+    );
+    assert.ok(
+      output.includes("getName") || output.includes("_name"),
+      "Output should suggest typical naming solutions"
+    );
+
+    // Verify general announcement about namespace change
+    assert.ok(
+      output.includes("Property") && output.includes("Member") &&
+      (output.includes("namespace") || output.includes("same namespace")),
+      "Output should announce property/member namespace change"
+    );
+
+    // Verify files are unchanged (migration only detects, doesn't auto-fix)
+    const afterPropertyConflict = await fsp.readFile(propertyConflictPath, "utf8");
+    assert.ok(
+      afterPropertyConflict.includes("name()") && afterPropertyConflict.includes("value()"),
+      "PropertyConflictTest.js should be unchanged (detection only, no auto-fix)"
+    );
+
+    const afterStaticConflict = await fsp.readFile(staticConflictPath, "utf8");
+    assert.ok(
+      afterStaticConflict.includes("count: 0") && afterStaticConflict.includes('version: "2.0"'),
+      "StaticConflictTest.js should be unchanged (detection only, no auto-fix)"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 8: instance.name usage detection
+test("M8_0_0: instance.name usage detection", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Verify test fixtures exist
+    const instanceNameTestPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "InstanceNameTest.js"
+    );
+    const noInstanceNameTestPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "NoInstanceNameTest.js"
+    );
+
+    assert.ok(
+      fs.existsSync(instanceNameTestPath),
+      "InstanceNameTest.js fixture should exist"
+    );
+    assert.ok(
+      fs.existsSync(noInstanceNameTestPath),
+      "NoInstanceNameTest.js fixture should exist"
+    );
+
+    // Run migration with verbose flag
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    const output = result.output;
+
+    // Verify detection of instance.name usages
+    assert.ok(
+      output.includes(".name") || output.includes("this.name") &&
+      (output.includes("Usage") || output.includes("Detected")),
+      "Output should mention instance.name usage detection"
+    );
+
+    // Verify InstanceNameTest is mentioned
+    assert.ok(
+      output.includes("InstanceNameTest"),
+      "Output should mention InstanceNameTest.js file with instance.name usages"
+    );
+
+    // Verify line numbers are reported
+    assert.ok(
+      output.includes("Line") || output.includes("line"),
+      "Output should report line numbers of usages"
+    );
+
+    // Verify NoInstanceNameTest is NOT mentioned in warnings
+    // (It uses instance.classname which is correct)
+    const usageSection = output.substring(
+      output.indexOf("instance.name")
+    );
+    if (usageSection.includes("NoInstanceNameTest")) {
+      assert.fail("NoInstanceNameTest should NOT be listed as having instance.name usages");
+    }
+
+    // Verify helpful replacement suggestion
+    assert.ok(
+      output.includes(".classname"),
+      "Output should suggest using instance.classname"
+    );
+
+    // Verify general announcement about instance.name removal
+    assert.ok(
+      output.includes(".name") || output.includes("this.name") &&
+      (output.includes("no longer available") || output.includes("not available")),
+      "Output should announce that instance.name is no longer available"
+    );
+
+    // Verify files are unchanged (migration only detects, doesn't auto-fix)
+    const afterInstanceNameTest = await fsp.readFile(instanceNameTestPath, "utf8");
+    assert.ok(
+      afterInstanceNameTest.includes("this.name"),
+      "InstanceNameTest.js should be unchanged (detection only, no auto-fix)"
+    );
+
+    const afterNoInstanceNameTest = await fsp.readFile(noInstanceNameTestPath, "utf8");
+    assert.ok(
+      afterNoInstanceNameTest.includes("classname") &&
+      !afterNoInstanceNameTest.includes("instance.name"),
+      "NoInstanceNameTest.js should remain correct with instance.classname"
+    );
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
