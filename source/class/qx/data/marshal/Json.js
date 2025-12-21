@@ -37,10 +37,6 @@ qx.Class.define("qx.data.marshal.Json", {
   },
 
   statics: {
-    /**
-     * Set to true when a warning has been shown that we are using the deprecated behaviour of trying to marshall non-POJO objects into Qooxdoo objects.
-     */
-    __shownNotBreakingOnNonPojosWarning: false,
     $$instance: null,
 
     /**
@@ -77,22 +73,6 @@ qx.Class.define("qx.data.marshal.Json", {
      */
     legacyJsonHash(data, includeBubbleEvents) {
       return Object.keys(data).sort().join('"') + (includeBubbleEvents === true ? "♥" : "");
-    },
-
-    /**
-     * If the environment setting "qx.data.marshal.Json.breakOnNonPojos" is not set,
-     * it means we are using the old behaviour of marshalling non-POJO objects.
-     * A warning is shown if it hasn't been shown already.
-     */
-    checkIfWarnAboutNotBreakingOnNonPojos() {
-      if (!qx.core.Environment.get("qx.data.marshal.Json.breakOnNonPojos") && !this.__shownNotBreakingOnNonPojosWarning) {
-        console.warn(
-          `Using deprecated behaviour of not breaking on non-POJOs when marshalling.
-          Please set the environment setting "qx.data.marshal.Json.breakOnNonPojos" to enable the new behaviour.
-          The old behaviour will be removed in the next major release of Qooxdoo.`
-        );
-        this.__shownNotBreakingOnNonPojosWarning = true;
-      }
     }
   },
 
@@ -184,22 +164,13 @@ qx.Class.define("qx.data.marshal.Json", {
      * @param depth {Number} The depth of the data relative to the data's root.
      */
     __toClass(data, includeBubbleEvents, parentProperty, depth) {
-      const breakOnNonPojos = qx.core.Environment.get("qx.data.marshal.Json.breakOnNonPojos");
-      this.constructor.checkIfWarnAboutNotBreakingOnNonPojos();
-
       // break on all primitive json types and qooxdoo objects
       let shouldBreak;
-      if (breakOnNonPojos) {
-        shouldBreak =
-          !qx.lang.Type.isPojo(data) ||
-          !!data.$$isString || // check for localized strings
-          data instanceof qx.core.Object;
-      } else {
-        shouldBreak =
-          !qx.lang.Type.isObject(data) ||
-          !!data.$$isString || // check for localized strings
-          data instanceof qx.core.Object;
-      }
+      shouldBreak =
+        !qx.lang.Type.isPojo(data) ||
+        !!data.$$isString || // check for localized strings
+        data instanceof qx.core.Object;
+      
 
       if (shouldBreak) {
         // check for arrays
@@ -409,26 +380,16 @@ qx.Class.define("qx.data.marshal.Json", {
      * @return {qx.core.Object} The created model object.
      */
     __toModel(data, includeBubbleEvents, parentProperty, depth) {
-      const breakOnNonPojos = qx.core.Environment.get("qx.data.marshal.Json.breakOnNonPojos");
-      this.constructor.checkIfWarnAboutNotBreakingOnNonPojos();
-
       var isObject = qx.lang.Type.isObject(data);
       var isPojo = qx.lang.Type.isPojo(data);
 
       var isArray = data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
 
-      let shouldBreak;
-      if (breakOnNonPojos) {
-        shouldBreak =
-          (!isPojo && !isArray) ||
-          !!data.$$isString || // check for localized strings
-          data instanceof qx.core.Object;
-      } else {
-        shouldBreak =
-          (!isObject && !isArray) ||
-          !!data.$$isString || // check for localized strings
-          data instanceof qx.core.Object;
-      }
+      let shouldBreak =
+        (!isPojo && !isArray) ||
+        !!data.$$isString || // check for localized strings
+        data instanceof qx.core.Object;
+      
 
       if (shouldBreak) {
         return data;
@@ -452,7 +413,7 @@ qx.Class.define("qx.data.marshal.Json", {
           array.push(this.__toModel(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth + 1));
         }
         return array;
-      } else if (breakOnNonPojos ? isPojo : isObject) {
+      } else if (isPojo) {
         // create an instance for the object
         var hash = this.__jsonToBestHash(data, includeBubbleEvents);
         var model = this.__createInstance(hash, data, parentProperty, depth);

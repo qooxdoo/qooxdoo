@@ -1286,12 +1286,9 @@ qx.Class.define("qx.test.data.marshal.Json", {
 
       this.assertEquals("Michael", model.getName());
 
-      if (qx.core.Environment.get("qx.data.marshal.Json.breakOnNonPojos")) {
-        this.assertEquals("method", model.getNonPojo().myMethod());
-        this.assertEquals("bar", model.getNonPojo().foo);
-      } else {
-        this.assertEquals("bar", model.getNonPojo().getFoo());
-      }
+      
+      this.assertEquals("method", model.getNonPojo().myMethod());
+      this.assertEquals("bar", model.getNonPojo().foo);
     }
   }
 });
