@@ -15,7 +15,11 @@ if (debug) {
   debugArg += "--debug --colorize";
 }
 
-function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
+/**
+ * Test migration with partial auto-migration pattern.
+ * Some migrations are applied automatically while others require manual review.
+ */
+function testMigration(maxVersion, totalMigrations, appliedMigrations, pendingMigrations, checksumExpected) {
   return async tape => {
     try {
       const baseDir = path.join(__dirname, "test-migrations", `v${maxVersion}`);
@@ -28,10 +32,10 @@ function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
       tape.match(result.error, new RegExp(`pending migrations`));
       tape.comment("Dry run");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", "--dry-run", `--qx-version=${maxVersion}`, debugArg);
-      tape.match(result.output,new RegExp(`0 migrations applied, ${numMigrationsExpected} migrations pending`));
+      tape.match(result.output,new RegExp(`0 migrations applied, ${totalMigrations} migrations pending`));
       tape.comment("Run migration");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", `--qx-version=${maxVersion}`, debugArg);
-      tape.match(result.output, new RegExp(`${numMigrationsExpected} migrations applied, 0 migrations pending`));
+      tape.match(result.output, new RegExp(`${appliedMigrations} migrations applied, ${pendingMigrations} migrations pending`));
       let checksum = (await digest(migratedDir,'sha1')).hash;
       tape.comment(`Checksum of migrated app: ${checksum}, expected ${checksumExpected}`);
       // checksums do not seem to be deterministic, need to find out why
@@ -44,6 +48,8 @@ function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
   }
 }
 
-test("v6.0.0", testMigration("6.0.0", 9, "4c73c335e6446bb5082217a3bc7f2bbe29277211"));
+test("v6.0.0", testMigration("6.0.0", 9, 9, 0, "4c73c335e6446bb5082217a3bc7f2bbe29277211"));
 
-test("v7.0.0", testMigration("7.0.0", 3, "a7d71e81c22665c5fce5a5f6993fd699a8d12440"));
+test("v7.0.0", testMigration("7.0.0", 3, 3, 0, "a7d71e81c22665c5fce5a5f6993fd699a8d12440"));
+
+test("v8.0.0", testMigration("8.0.0", 10, 4, 6, "7814f72685a556d8784d99a678ec06ec3002f4cc"));

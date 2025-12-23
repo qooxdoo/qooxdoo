@@ -190,11 +190,13 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
     async checkFilesContain(files, text) {
       files = Array.isArray(files) ? files : [files];
       for (let file of files) {
-        if (
-          (await fsp.stat(file)).isFile() &&
-          (await fsp.readFile(file, "utf8")).includes(text)
-        ) {
-          return true;
+        if ((await fsp.stat(file)).isFile()) {
+          let content = await fsp.readFile(file, "utf8");
+          // Handle both regex patterns and strings
+          let matches = text instanceof RegExp ? text.test(content) : content.includes(text);
+          if (matches) {
+            return true;
+          }
         }
       }
       return false;

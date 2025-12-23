@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "qxl.test8",
+    "summary": "Test library for v8.0.0 migration",
+    "description": "",
+    "homepage": "http://www.qooxdoo.org",
+    "license": "MIT license",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "qxl.test8",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^7.0.0"
+  },
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json"
+}

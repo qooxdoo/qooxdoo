@@ -1,0 +1,12 @@
+{
+  "name": "qxl.test8",
+  "version": "1.0.0",
+  "description": "Test library for v8.0.0 migration",
+  "scripts": {
+    "test": "qx test"
+  },
+  "dependencies": {
+    "@qooxdoo/framework": "^7.0.0"
+  },
+  "devDependencies": {}
+}
