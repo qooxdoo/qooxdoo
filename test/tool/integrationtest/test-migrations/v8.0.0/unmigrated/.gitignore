@@ -1,2 +1,5 @@
 contrib.json
 contrib/
+qx_packages/
+node_modules/
+qx-lock.json
