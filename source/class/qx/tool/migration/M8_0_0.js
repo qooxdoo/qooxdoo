@@ -5,14 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2024 The authors
+     2025 Henner Kollmann
 
    License:
      MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Migration Team
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
@@ -92,6 +92,78 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         "- qx.lang.String.startsWith/endsWith (deprecated since v6.0) - Use native String methods\n\n" +
         "Please review your code for usage of these deprecated APIs."
       );
+    },
+
+    /**
+     * Check for property setters called before super() or this.base() in constructors
+     * This is now an error in v8, as property values will be reset when parent constructor executes
+     */
+    async migrateConstructorPropertySetters() {
+      const sourceDir = path.join(process.cwd(), "source");
+      if (!(await fs.existsAsync(sourceDir))) {
+        // No source directory, just give general warning
+        this.announce(
+          "*** IMPORTANT: Constructor Initialization Order ***\n" +
+          "Classes extending qx.core.Object MUST call super() or this.base(arguments)\n" +
+          "in their constructor BEFORE calling any property setters.\n\n" +
+          "Property values set before the parent constructor will be reset!\n\n" +
+          "Example - BROKEN (v7 style):\n" +
+          "  construct(width, height) {\n" +
+          "    this.setWidth(width);   // Will be lost!\n" +
+          "    this.setHeight(height);\n" +
+          "    this.base(arguments);\n" +
+          "  }\n\n" +
+          "Example - CORRECT (v8):\n" +
+          "  construct(width, height) {\n" +
+          "    this.base(arguments);   // Call parent first\n" +
+          "    this.setWidth(width);   // Now set properties\n" +
+          "    this.setHeight(height);\n" +
+          "  }"
+        );
+        this.markAsPending("Review constructor initialization order");
+        return;
+      }
+
+      // Use unified scan (reuse if already done by other migration methods)
+      if (!this.__scanResults) {
+        await this.__scanSourceFilesForIssues(sourceDir);
+      }
+
+      const issues = this.__scanResults.constructorSetterIssues;
+
+      // Report findings
+      if (issues.length > 0) {
+        let message = "*** IMPORTANT: Constructor Property Setter Order ***\n" +
+          "Property setters (this.setXxx()) must be called AFTER super() or this.base().\n" +
+          "The following issues were found:\n\n";
+
+        for (const issue of issues) {
+          message += `  ${issue.file}`;
+          if (issue.className) {
+            message += ` (${issue.className})`;
+          }
+          message += ":\n";
+
+          for (const violation of issue.issues) {
+            message += `    Line ${violation.line}: ${violation.setter} called before super()\n`;
+          }
+        }
+
+        message += "\nMove all super() or this.base(arguments) calls to the beginning of your\n" +
+          "constructors, before any property setters.\n\n" +
+          "In v8, property values set before the parent constructor will be reset when\n" +
+          "the parent constructor executes, causing unexpected behavior.";
+
+        this.announce(message);
+        this.markAsPending(`Fix ${issues.length} constructor(s) with setter ordering issues`);
+      } else {
+        this.announce(
+          "*** INFO: Constructor Initialization Order Check ***\n" +
+          "No constructor property setter ordering issues detected in your codebase.\n\n" +
+          "Note: Classes extending qx.core.Object must call super() or this.base()\n" +
+          "before calling any property setters in their constructor."
+        );
+      }
     },
 
 
@@ -448,7 +520,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       // Initialize results structure
       this.__scanResults = {
         propertyMemberConflicts: [],
-        nameFieldUsages: []
+        nameFieldUsages: [],
+        constructorSetterIssues: []
       };
 
       const jsFiles = await this.__findJsFiles(sourceDir);
@@ -460,6 +533,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           // Quick pre-filter: skip files that don't need analysis
           const needsQxDefineCheck = content.match(/qx\.(Class|Mixin)\.define/);
           const needsNameCheck = content.includes('.name');
+          const needsConstructorCheck = content.includes('construct');
 
           if (!needsQxDefineCheck && !needsNameCheck) {
             continue;
@@ -505,6 +579,23 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
                 file: relativePath,
                 locations
               });
+            }
+          }
+
+          // Check 3: Constructor setter issues (if file has qx definitions and constructors)
+          if (needsQxDefineCheck && needsConstructorCheck) {
+            const definitions = this.__findQxDefinitions(ast);
+
+            for (const def of definitions) {
+              const issues = this.__findSettersBeforeSuper(def.configObj, def.className);
+
+              if (issues.length > 0) {
+                this.__scanResults.constructorSetterIssues.push({
+                  file: relativePath,
+                  className: def.className,
+                  issues
+                });
+              }
             }
           }
         } catch (e) {
@@ -784,6 +875,84 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       // For now, we'll return false for unknown patterns to avoid too many false positives
 
       return false;
+    },
+
+    /**
+     * Helper to find property setters called before super() in constructors
+     * @param {Object} configObj - AST ObjectExpression node for class config
+     * @param {String} className - Name of the class being analyzed
+     * @return {Array} - Array of {setter, line} objects for violations
+     */
+    __findSettersBeforeSuper(configObj, className) {
+      const violations = [];
+
+      if (!configObj || configObj.type !== "ObjectExpression") {
+        return violations;
+      }
+
+      // Find the construct method (it's a direct property of the config object, not in members)
+      const constructMethod = configObj.properties.find(
+        prop => (prop.type === "ObjectMethod" || prop.type === "ObjectProperty") &&
+                this.__getKeyName(prop.key) === "construct"
+      );
+
+      if (!constructMethod) {
+        return violations;
+      }
+
+      // Get the constructor body
+      let body;
+      if (constructMethod.type === "ObjectMethod") {
+        body = constructMethod.body;
+      } else if (constructMethod.type === "ObjectProperty" &&
+                 constructMethod.value &&
+                 constructMethod.value.type === "FunctionExpression") {
+        body = constructMethod.value.body;
+      }
+
+      if (!body || body.type !== "BlockStatement") {
+        return violations;
+      }
+
+      // Iterate through statements in order
+      let superFound = false;
+      const statements = body.body;
+
+      for (const stmt of statements) {
+        // Only process ExpressionStatements containing calls
+        if (stmt.type !== "ExpressionStatement") {
+          continue;
+        }
+
+        const expr = stmt.expression;
+        if (expr.type !== "CallExpression") {
+          continue;
+        }
+
+        const callee = expr.callee;
+
+        // Check for super() or this.base(arguments)
+        if (callee.type === "Super") {
+          superFound = true;
+        } else if (callee.type === "MemberExpression" &&
+                   callee.object &&
+                   callee.object.type === "ThisExpression") {
+          const methodName = callee.property.name || callee.property.value;
+
+          if (methodName === "base") {
+            // this.base(arguments) found
+            superFound = true;
+          } else if (!superFound && methodName && methodName.startsWith("set")) {
+            // Property setter called before super/base
+            violations.push({
+              setter: `this.${methodName}()`,
+              line: stmt.loc ? stmt.loc.start.line : "unknown"
+            });
+          }
+        }
+      }
+
+      return violations;
     }
   }
 });

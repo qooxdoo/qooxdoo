@@ -553,7 +553,111 @@ test("M8_0_0: instance.name usage detection", async assert => {
   }
 });
 
-// Test 9: migratePackages - no contrib.json (silent skip)
+// Test 9: Constructor property setter order detection
+test("M8_0_0: Constructor property setter order detection", async assert => {
+  try {
+    const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
+    const unmigratedDir = path.join(baseDir, "unmigrated");
+    const migratedDir = path.join(baseDir, "migrated");
+
+    // Setup
+    await testUtils.deleteRecursive(migratedDir);
+    await fsp.cp(unmigratedDir, migratedDir, { recursive: true });
+
+    // Verify test fixtures exist
+    const constructorSetterTestPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "ConstructorSetterTest.js"
+    );
+    const noConstructorSetterTestPath = path.join(
+      migratedDir, "source", "class", "qxl", "test8", "NoConstructorSetterTest.js"
+    );
+
+    assert.ok(
+      fs.existsSync(constructorSetterTestPath),
+      "ConstructorSetterTest.js fixture should exist"
+    );
+    assert.ok(
+      fs.existsSync(noConstructorSetterTestPath),
+      "NoConstructorSetterTest.js fixture should exist"
+    );
+
+    // Run migration with verbose flag
+    let result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    const output = result.output;
+
+    // Verify detection of constructor setter issues
+    assert.ok(
+      output.includes("Constructor") &&
+      (output.includes("setter") || output.includes("Property")) &&
+      (output.includes("super") || output.includes("base")),
+      "Output should mention constructor property setter ordering issues"
+    );
+
+    // Verify ConstructorSetterTest is mentioned
+    assert.ok(
+      output.includes("ConstructorSetterTest"),
+      "Output should mention ConstructorSetterTest.js file with constructor issues"
+    );
+
+    // Verify setter methods are mentioned
+    assert.ok(
+      output.includes("setWidth") || output.includes("setHeight") || output.includes("setTitle"),
+      "Output should mention specific setter methods called before super()"
+    );
+
+    // Verify line numbers are reported
+    assert.ok(
+      output.includes("Line") || output.includes("line"),
+      "Output should report line numbers of setter calls"
+    );
+
+    // Verify NoConstructorSetterTest is NOT mentioned in warnings
+    const setterSection = output.substring(
+      output.indexOf("Constructor") || 0
+    );
+    if (setterSection.includes("NoConstructorSetterTest")) {
+      assert.fail("NoConstructorSetterTest should NOT be listed as having constructor issues");
+    }
+
+    // Verify helpful suggestion
+    assert.ok(
+      output.includes("before") && output.includes("after") ||
+      output.includes("beginning") || output.includes("first"),
+      "Output should suggest calling super() first/before setters"
+    );
+
+    // Verify general announcement about constructor requirements
+    assert.ok(
+      output.includes("super()") || output.includes("this.base"),
+      "Output should mention super() or this.base requirements"
+    );
+
+    // Verify files are unchanged (migration only detects, doesn't auto-fix)
+    const afterConstructorSetterTest = await fsp.readFile(constructorSetterTestPath, "utf8");
+    assert.ok(
+      afterConstructorSetterTest.includes("this.setWidth") &&
+      afterConstructorSetterTest.includes("this.base(arguments)"),
+      "ConstructorSetterTest.js should be unchanged (detection only, no auto-fix)"
+    );
+
+    const afterNoConstructorSetterTest = await fsp.readFile(noConstructorSetterTestPath, "utf8");
+    assert.ok(
+      afterNoConstructorSetterTest.includes("this.base(arguments)") &&
+      afterNoConstructorSetterTest.includes("this.setWidth"),
+      "NoConstructorSetterTest.js should remain correct with super() before setters"
+    );
+
+    // Cleanup
+    await testUtils.deleteRecursive(migratedDir);
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// Test 10: migratePackages - no contrib.json (silent skip)
 test("M8_0_0: migratePackages - no contrib.json (silent skip)", async assert => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
