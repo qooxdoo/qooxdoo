@@ -516,7 +516,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return self.set(this, !self.get(this));
         });
         addMethod("toggle" + upname + "Async", async function () {
-          return await self.setAsync(this, await !self.getAsync(this));
+          return await self.setAsync(this, !(await self.getAsync(this)));
         });
       }
 
