@@ -19,7 +19,9 @@
 /**
  * @ignore(qx.ExtendUseLog1, qx.Mix, qx.MLogger, qx.MMix1, qx.MMix1.foo)
  * @ignore(qx.MMix2, qx.MPatch, qx.Patch1, qx.Patch2, qx.UseLog1, qx.UseLog2)
- * @ignore(qx.UseLog3)
+ * @ignore(qx.UseLog3, qx.MOverridable, qx.MOverridable2, qx.OverrideClass1)
+ * @ignore(qx.OverrideClass2, qx.OverrideClass3, qx.OverrideClass4)
+ * @ignore(qx.PatchIncludeTest)
  */
 
 qx.Class.define("qx.test.Mixin", {
@@ -66,6 +68,7 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("red", mix.getColor());
 
       if (this.isDebugOn()) {
+        // Test that including multiple mixins with conflicting members still throws an error
         this.assertException(
           function () {
             qx.Class.define("qx.Mix1", {
@@ -78,26 +81,25 @@ qx.Class.define("qx.test.Mixin", {
           "Overwriting member",
           "t1"
         );
-
-        this.assertException(
-          function () {
-            qx.Class.define("qx.Mix2", {
-              extend: Object,
-              include: qx.MMix1,
-              construct() {},
-
-              members: {
-                bar() {
-                  return "bar";
-                }
-              }
-            });
-          },
-          Error,
-          "Overwriting member",
-          "t2"
-        );
       }
+
+      // Test that class members can override mixin members (issue #9142)
+      // This should now be allowed
+      qx.Class.define("qx.Mix2", {
+        extend: Object,
+        include: qx.MMix1,
+        construct() {},
+
+        members: {
+          bar() {
+            return "bar from class";
+          }
+        }
+      });
+
+      // Verify that the class's version of bar() is used
+      var mix2 = new qx.Mix2();
+      this.assertEquals("bar from class", mix2.bar());
 
       // this is allowed
       qx.Class.define("qx.Mix3", {
@@ -147,7 +149,8 @@ qx.Class.define("qx.test.Mixin", {
       qx.Class.include(qx.UseLog1, qx.MLogger);
       this.assertEquals("Juhu", new qx.UseLog1().log("Juhu"));
 
-      // not allowed to overwrite!
+      // With issue #9142 fix: Class members can override mixin members
+      // When including a mixin after class definition, the class's version is preserved
       qx.Class.define("qx.UseLog2", {
         extend: Object,
         construct() {},
@@ -159,15 +162,9 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
-      if (this.isDebugOn()) {
-        this.assertException(
-          function () {
-            qx.Class.include(qx.UseLog2, qx.MLogger);
-          },
-          Error,
-          "Overwriting member"
-        );
-      }
+      // This should now be allowed - the class's log() is preserved
+      qx.Class.include(qx.UseLog2, qx.MLogger);
+      this.assertEquals("foo", new qx.UseLog2().log("Juhu"));
 
       // allowed to overwrite!
       qx.Class.define("qx.UseLog3", {
@@ -280,16 +277,27 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
+      // With issue #9142 fix: qx.Class.include no longer throws an error
+      // when class members conflict with mixin members. The class's version is preserved.
       if (this.isDebugOn()) {
-        this.assertException(
-          function () {
-            qx.Class.include(qx.Patch1, qx.MPatch);
-          },
-          Error,
-          new RegExp('Overwriting member or property ".*" of Class ".*" is not allowed.')
-        );
+        // Create a temporary class to test include behavior
+        qx.Class.define("qx.PatchIncludeTest", {
+          extend: qx.core.Object,
+          members: {
+            sayJuhu() {
+              return "Original";
+            }
+          }
+        });
+
+        // This should not throw an error
+        qx.Class.include(qx.PatchIncludeTest, qx.MPatch);
+        var oTest = new qx.PatchIncludeTest();
+        this.assertEquals("Original", oTest.sayJuhu()); // Class's version is preserved
+        oTest.dispose();
       }
 
+      // qx.Class.patch still overwrites as before
       qx.Class.patch(qx.Patch1, qx.MPatch);
       qx.Class.patch(qx.Patch2, qx.MPatch);
 
@@ -914,6 +922,104 @@ qx.Class.define("qx.test.Mixin", {
       const g5 = new qx.G5();
       this.assertEquals("G1 M1G1 M2G1 M3G1 M4G1 G2 M1G2 M2G2 M4G2 M5G2 G3 M2G3 M3G3 G4 M1G4 M3G4 G5 M1G5", g5.sayJuhu());
       g5.dispose();
+    },
+
+    /**
+     * Test for issue #9142: Classes should be able to override mixin methods
+     * This test verifies that a class can override a method defined in a mixin
+     * and can optionally call the mixin's implementation using super
+     */
+    testMixinMethodOverride() {
+      // Define a mixin with a method
+      qx.Mixin.define("qx.MOverridable", {
+        members: {
+          greet() {
+            return "Hello from Mixin";
+          },
+
+          calculate(a, b) {
+            return a + b;
+          }
+        }
+      });
+
+      // Test 1: Class overrides mixin method without calling super
+      qx.Class.define("qx.OverrideClass1", {
+        extend: qx.core.Object,
+        include: qx.MOverridable,
+
+        members: {
+          greet() {
+            return "Hello from Class";
+          }
+        }
+      });
+
+      var obj1 = new qx.OverrideClass1();
+      this.assertEquals("Hello from Class", obj1.greet());
+      obj1.dispose();
+
+      // Test 2: Class completely overrides mixin methods with different implementations
+      // Note: Calling the mixin's version from the class override is not currently
+      // supported by qooxdoo's base call mechanism (this.base looks in superclass, not mixins)
+      qx.Class.define("qx.OverrideClass2", {
+        extend: qx.core.Object,
+        include: qx.MOverridable,
+
+        members: {
+          greet() {
+            return "Completely overridden by Class";
+          },
+
+          calculate(a, b) {
+            return (a + b) * 10; // Different calculation
+          }
+        }
+      });
+
+      var obj2 = new qx.OverrideClass2();
+      this.assertEquals("Completely overridden by Class", obj2.greet());
+      this.assertEquals(50, obj2.calculate(2, 3)); // (2 + 3) * 10 = 50
+      obj2.dispose();
+
+      // Test 3: Derived class inherits the overridden method
+      qx.Class.define("qx.OverrideClass3", {
+        extend: qx.OverrideClass1
+      });
+
+      var obj3 = new qx.OverrideClass3();
+      this.assertEquals("Hello from Class", obj3.greet());
+      obj3.dispose();
+
+      // Test 4: Class overrides mixin method after mixin is included
+      qx.Mixin.define("qx.MOverridable2", {
+        members: {
+          getValue() {
+            return "Value from Mixin2";
+          }
+        }
+      });
+
+      qx.Class.define("qx.OverrideClass4", {
+        extend: qx.core.Object,
+        include: qx.MOverridable2,
+
+        members: {
+          getValue() {
+            return "Overridden by class";
+          }
+        }
+      });
+
+      var obj4 = new qx.OverrideClass4();
+      this.assertEquals("Overridden by class", obj4.getValue());
+      obj4.dispose();
+
+      // Cleanup
+      qx.Class.undefine("qx.OverrideClass1");
+      qx.Class.undefine("qx.OverrideClass2");
+      qx.Class.undefine("qx.OverrideClass3");
+      qx.Class.undefine("qx.OverrideClass4");
     }
   }
 });

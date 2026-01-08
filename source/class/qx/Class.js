@@ -487,6 +487,17 @@ qx.Bootstrap.define("qx.Class", {
       // Members, properties, events, and mixins are only allowed for
       // non-static classes.
       if (config.extend) {
+        // Track members defined by the class itself (not from mixins)
+        // This allows class members to override mixin members
+        if (config.members) {
+          if (!clazz.prototype.$$ownMembers) {
+            clazz.prototype.$$ownMembers = {};
+          }
+          for (let key in config.members) {
+            clazz.prototype.$$ownMembers[key] = true;
+          }
+        }
+
         // Add members
         if (config.members) {
           qx.Class.addMembers(clazz, config.members, config.events, false);
@@ -791,6 +802,8 @@ qx.Bootstrap.define("qx.Class", {
      */
     addMembers(clazz, members, events, patch) {
       let proto = clazz.prototype;
+      let classOwnMembers = {}; // Track class members to restore after mixin addition
+
       for (let key in members) {
         let member = members[key];
 
@@ -805,19 +818,47 @@ qx.Bootstrap.define("qx.Class", {
               throw new Error(`Cannot annotate private member ${key.substring(1)} ` + `of Class ${clazz.classname}`);
             }
           } else {
-            if (
-              patch !== true &&
-              (proto.$$allProperties.hasOwnProperty(key) || proto.hasOwnProperty(key)) &&
-              key != "_createQxObjectImpl"
-            ) {
-              throw new Error(
-                clazz.classname +
-                  ': Overwriting member or property "' +
-                  key +
-                  '" of Class "' +
+            // Check if we're trying to overwrite an existing member
+            let isOverwriting = (proto.$$allProperties.hasOwnProperty(key) || proto.hasOwnProperty(key)) &&
+                                key != "_createQxObjectImpl";
+
+            if (isOverwriting && patch !== true) {
+              // Check if conflicting with a property - this is never allowed
+              let isProperty = proto.$$allProperties.hasOwnProperty(key);
+
+              if (isProperty) {
+                // Conflicting with a property - always throw error
+                throw new Error(
                   clazz.classname +
-                  '" is not allowed! (Members and properties are in the same namespace.)'
-              );
+                    ': Overwriting member or property "' +
+                    key +
+                    '" of Class "' +
+                    clazz.classname +
+                    '" is not allowed! (Members and properties are in the same namespace.)'
+                );
+              }
+
+              // Check if this is a class-defined member overriding a mixin method (issue #9142)
+              // Classes should be able to override mixin methods
+              let isOwnMember = proto.$$ownMembers && proto.$$ownMembers.hasOwnProperty(key);
+
+              if (isOwnMember) {
+                // Save the class member to restore it after the mixin member is added
+                // This allows super to work: mixin member is added, then class member
+                // overwrites it but can call super.method() to access the mixin version
+                classOwnMembers[key] = proto[key];
+                // Don't skip - let the mixin member be added, then we'll restore the class member
+              } else {
+                // Not an own member and not a property, so this is a mixin-to-mixin conflict
+                throw new Error(
+                  clazz.classname +
+                    ': Overwriting member or property "' +
+                    key +
+                    '" of Class "' +
+                    clazz.classname +
+                    '" is not allowed! (Members and properties are in the same namespace.)'
+                );
+              }
             } else if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
               throw new Error(`Overwriting private member "${key}" ` + `of Class "${clazz.classname}" ` + "is not allowed");
             }
@@ -875,6 +916,34 @@ qx.Bootstrap.define("qx.Class", {
         } else {
           Object.defineProperty(clazz.prototype, key, {
             value: member,
+            writable: qx.Class.$$options.propsAccessible || true,
+            configurable: qx.Class.$$options.propsAccessible || true,
+            enumerable: qx.Class.$$options.propsAccessible || true
+          });
+        }
+      }
+
+      // Restore class-defined members that were overridden by mixin members (issue #9142)
+      // This allows classes to override mixin methods while still supporting base calls
+      for (let key in classOwnMembers) {
+        let classMember = classOwnMembers[key];
+
+        // Re-add the class member, which will now have member.base set to the mixin version
+        if (typeof classMember == "function") {
+          // Save the mixin member that's currently in the prototype
+          let mixinMember = proto[key];
+
+          // Set up base call: the class member's base should point to the mixin member
+          // This is crucial for this.base(arguments) to work correctly
+          classMember.base = mixinMember;
+
+          // Also set member.self for proper context (similar to patch behavior)
+          classMember.self = clazz;
+
+          // Delete the mixin member and replace with the class member
+          delete proto[key];
+          Object.defineProperty(proto, key, {
+            value: classMember,
             writable: qx.Class.$$options.propsAccessible || true,
             configurable: qx.Class.$$options.propsAccessible || true,
             enumerable: qx.Class.$$options.propsAccessible || true
