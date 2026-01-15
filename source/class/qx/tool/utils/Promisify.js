@@ -75,6 +75,17 @@ qx.Class.define("qx.tool.utils.Promisify", {
       return fn;
     },
 
+    /**
+     * Runs `fn` for each item in `arr`,
+     * such that at most `size` instances of fn are executing at any one time.
+     * @param {Array} arr 
+     * @param {number} size 
+     * @param {Callback} fn 
+     * 
+     * @callback Callback
+     * @param {*} item
+     * @returns {Promise}
+     */
     async poolEachOf(arr, size, fn) {
       let index = 0;
       let pool = new PromisePool(() => {
