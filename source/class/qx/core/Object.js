@@ -68,6 +68,12 @@ qx.Class.define("qx.core.Object", {
    */
   construct() {
     this.$$propertyValues = {};
+  
+    if (qx.core.Environment.get("qx.dev.LeakDetector.enabled")) {
+      if (!(this instanceof qx.dev.LeakDetector)) {
+        qx.dev.LeakDetector.getInstance().objectConstructed(this);
+      }
+    }
   },
 
   /*
@@ -388,6 +394,12 @@ qx.Class.define("qx.core.Object", {
           }
         }
       }
+
+      if (qx.core.Environment.get("qx.dev.LeakDetector.enabled")) {
+        if (!(this instanceof qx.dev.LeakDetector)) {
+          qx.dev.LeakDetector.getInstance().objectDisposed(this);
+        }
+      }
     },
 
     /*
@@ -470,6 +482,13 @@ qx.Class.define("qx.core.Object", {
 
     // Cleanup object registry
     qx.core.ObjectRegistry.unregister(this);
+
+    // Update LeakDetector
+    if (qx.core.Environment.get("qx.dev.LeakDetector.enabled")) {
+      if (!(this instanceof qx.dev.LeakDetector)) {
+        qx.dev.LeakDetector.getInstance().objectDestructed(this);
+      }
+    }
 
     // Cleanup user data
     this.__userData = null;
