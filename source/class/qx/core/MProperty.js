@@ -61,7 +61,7 @@ qx.Mixin.define("qx.core.MProperty", {
         }
 
           // Neither was true
-          throw new Error("No such property: " + data);
+          throw new Error("No such property: " + prop + " in " + this.classname + " (" + this + ")");
         }
         // Neither was true
         throw new Error("No such property: " + prop + " in " + this.classname + " (" + this + ")");
