@@ -165,8 +165,7 @@ qx.Class.define("qx.data.marshal.Json", {
      */
     __toClass(data, includeBubbleEvents, parentProperty, depth) {
       // break on all primitive json types and qooxdoo objects
-      let shouldBreak;
-      shouldBreak =
+      let shouldBreak =
         !qx.lang.Type.isPojo(data) ||
         !!data.$$isString || // check for localized strings
         data instanceof qx.core.Object;
