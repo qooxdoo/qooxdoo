@@ -54,15 +54,6 @@ qx.Mixin.define("qx.core.MProperty", {
 
       // Set each property specified in the map
       for (let prop in data) {
-        // If the property exists as a member variable, set it directly
-        if (prop in this) {
-          if (data[prop] !== undefined) {
-            this[`$$variant_${prop}`] = "set";
-            this[prop] = data[prop];
-          }
-          continue;
-        }
-
         // Otherwise, see if there's a hand-written setter method
         if (this["set" + qx.Bootstrap.firstUp(prop)] != undefined) {
           this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
