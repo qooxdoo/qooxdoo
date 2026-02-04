@@ -256,8 +256,15 @@ qx.Class.define("qx.test.core.Environment", {
       this.assertBoolean(qx.core.Environment.get("browser.quirksmode"));
     },
 
-    testLocale() {
-      this.assertNotEquals("", qx.core.Environment.get("locale"));
+    testLocale() {      
+      if (
+        qx.core.Environment.get("engine.name") === "gecko"
+      ) {
+        this.assertEquals("", qx.core.Environment.get("locale"));
+      }
+      else {
+        this.assertNotEquals("", qx.core.Environment.get("locale"));
+      }
     },
 
     testVariant() {
