@@ -77,7 +77,13 @@ qx.Bootstrap.define("qx.bom.client.Locale", {
      * @return {String} The language set by the navigator.
      */
     __getNavigatorLocale() {
-      var locale = navigator.userLanguage || navigator.language || "";
+      var locale = navigator.userLanguage;
+      if (!locale){
+        locale = navigator.language;
+        if (!locale || locale === "undefined" || locale === "und"){
+          locale = "";
+        }
+      }
 
       // Android Bug: Android does not return the system language from the
       // navigator language before version 4.4.x. Try to parse the language
