@@ -78,6 +78,11 @@ qx.Bootstrap.define("qx.bom.client.Locale", {
      */
     __getNavigatorLocale() {
       var locale = navigator.userLanguage || navigator.language || "";
+      // Since 146 version of Firefox the value of navigator.language
+      // equals a string value "undefined".
+      if (locale === "undefined") {
+        locale = "";
+      }
 
       // Android Bug: Android does not return the system language from the
       // navigator language before version 4.4.x. Try to parse the language
