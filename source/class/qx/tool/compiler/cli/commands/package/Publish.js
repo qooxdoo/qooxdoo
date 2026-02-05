@@ -184,6 +184,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         );
       }
 
+      // get current branch
+      let currentBranch;
+      try {
+        currentBranch = (
+          await qx.tool.utils.Utils.exec("git branch --show-current")
+        ).trim();
+      } catch (e) {
+        throw new qx.tool.utils.Utils.UserError(
+          "Cannot determine current branch."
+        );
+      }
+
       // token
       let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
       let github = cfg.db("github", {});
@@ -356,6 +368,25 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         }
       }
 
+      // prompt user to confirm branch if not master/main
+      if (
+        !argv.noninteractive &&
+        currentBranch !== "master" &&
+        currentBranch !== "main"
+      ) {
+        let branchQuestion = {
+          type: "confirm",
+          name: "useBranch",
+          message: `Warning: You are about to publish from branch '${currentBranch}' (not master/main). Continue?`,
+          default: false
+        };
+
+        let branchAnswer = await inquirer.prompt(branchQuestion);
+        if (!branchAnswer.useBranch) {
+          process.exit(0);
+        }
+      }
+
       // prompt user to confirm
       let doRelease = true;
       if (!argv.noninteractive) {
@@ -364,7 +395,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
           name: "doRelease",
           message: `This will ${
             argv.version ? "set" : "increment"
-          } the version from ${old_version} to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
+          } the version from ${old_version} to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release on branch '${currentBranch}' on GitHub. Do you want to proceed?`,
           default: "y"
         };
 
@@ -459,7 +490,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
           owner,
           repo,
           tag_name: tag,
-          target_commitish: "master",
+          target_commitish: currentBranch,
           name: tag,
           body: message,
           draft: false,
