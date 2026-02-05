@@ -257,7 +257,15 @@ qx.Class.define("qx.test.core.Environment", {
     },
 
     testLocale() {
-      this.assertNotEquals("", qx.core.Environment.get("locale"));
+      if (
+        qx.core.Environment.get("browser.name") === "firefox" &&
+        parseFloat(qx.core.Environment.get("browser.version")) >= 146
+      ) {
+        this.assertEquals("", qx.core.Environment.get("locale"));
+      }
+      else {
+        this.assertNotEquals("", qx.core.Environment.get("locale"));
+      }
     },
 
     testVariant() {
