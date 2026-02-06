@@ -43,8 +43,9 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         );
         qx.log.Logger.setLevel(argv.loglevel);
         cls.argv = argv;
-        await cls.process();
-        return cls.getCompilerApi().afterProcessFinished(cls);
+        let res = await cls.process();
+        cls.getCompilerApi().afterProcessFinished(cls, res);
+        return res;
       });
       cmd.addFlag(
         new qx.tool.cli.Flag("verbose").set({
