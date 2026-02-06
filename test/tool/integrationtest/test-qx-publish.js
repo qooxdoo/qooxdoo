@@ -746,6 +746,213 @@ test("Test dry-run with create-index flag", async assert => {
 });
 
 // ============================================================================
+// Branch Detection Tests
+// ============================================================================
+
+test("Test dry-run on feature branch", async assert => {
+  try {
+    const gitAvailable = await isGitAvailable();
+    if (!gitAvailable) {
+      assert.pass("Git not available, skipping test");
+      assert.end();
+      return;
+    }
+
+    const { exec } = require("child_process");
+    const util = require("util");
+    const execPromise = util.promisify(exec);
+
+    // Create and switch to a feature branch
+    try {
+      await execPromise("git checkout -b feature/test-branch", { cwd: packageDir });
+    } catch (err) {
+      // Branch might already exist
+      await execPromise("git checkout feature/test-branch", { cwd: packageDir });
+    }
+
+    // Verify we're on the feature branch
+    const branchResult = await execPromise("git branch --show-current", { cwd: packageDir });
+    assert.equal(branchResult.stdout.trim(), "feature/test-branch", "Should be on feature branch");
+
+    // Run dry-run on feature branch - should work without errors
+    let result = await testUtils.runCommand(
+      packageDir,
+      qxCmdPath,
+      "package",
+      "publish",
+      "--dry-run",
+      "--noninteractive"
+    );
+
+    const outputLower = (result.output || "").toLowerCase();
+    const errorLower = (result.error || "").toLowerCase();
+
+    // Check that branch detection worked (no "Cannot determine current branch" error)
+    assert.ok(
+      !errorLower.includes("cannot determine current branch"),
+      "Should successfully detect current branch"
+    );
+
+    // The command should either succeed or fail with expected error (GitHub API, etc.)
+    const hasVersionInfo = outputLower.includes("version") || outputLower.includes("dry");
+    const hasGitHubError = errorLower.includes("github") || errorLower.includes("httperror") || errorLower.includes("token");
+    const hasGitError = errorLower.includes("commit") || errorLower.includes("stash");
+
+    assert.ok(
+      result.exitCode === 0 || hasVersionInfo || hasGitHubError || hasGitError,
+      "Should succeed or fail with expected error (not branch detection error)"
+    );
+
+    // Switch back to master/main and delete the feature branch
+    try {
+      await execPromise("git checkout master", { cwd: packageDir });
+      await execPromise("git branch -D feature/test-branch", { cwd: packageDir });
+    } catch (err) {
+      try {
+        await execPromise("git checkout main", { cwd: packageDir });
+        await execPromise("git branch -D feature/test-branch", { cwd: packageDir });
+      } catch (err2) {
+        // Ignore cleanup errors
+      }
+    }
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Test dry-run on master branch", async assert => {
+  try {
+    const gitAvailable = await isGitAvailable();
+    if (!gitAvailable) {
+      assert.pass("Git not available, skipping test");
+      assert.end();
+      return;
+    }
+
+    const { exec } = require("child_process");
+    const util = require("util");
+    const execPromise = util.promisify(exec);
+
+    // Make sure we're on master (or main)
+    let currentBranch;
+    try {
+      await execPromise("git checkout master", { cwd: packageDir });
+      currentBranch = "master";
+    } catch (err) {
+      try {
+        await execPromise("git checkout main", { cwd: packageDir });
+        currentBranch = "main";
+      } catch (err2) {
+        // Create master if it doesn't exist
+        await execPromise("git checkout -b master", { cwd: packageDir });
+        currentBranch = "master";
+      }
+    }
+
+    // Verify we're on master/main
+    const branchResult = await execPromise("git branch --show-current", { cwd: packageDir });
+    assert.ok(
+      ["master", "main"].includes(branchResult.stdout.trim()),
+      "Should be on master or main branch"
+    );
+
+    // Run dry-run on master/main branch
+    let result = await testUtils.runCommand(
+      packageDir,
+      qxCmdPath,
+      "package",
+      "publish",
+      "--dry-run",
+      "--noninteractive"
+    );
+
+    const outputLower = (result.output || "").toLowerCase();
+    const errorLower = (result.error || "").toLowerCase();
+
+    // Check that branch detection worked
+    assert.ok(
+      !errorLower.includes("cannot determine current branch"),
+      "Should successfully detect current branch"
+    );
+
+    // When on master/main, the branch warning should NOT appear (even in interactive mode)
+    // In noninteractive mode, we can't see the prompts, but we can verify no branch error
+    assert.ok(
+      !errorLower.includes("not master/main"),
+      "Should not show branch warning when on master/main"
+    );
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Test branch detection in detached HEAD state", async assert => {
+  try {
+    const gitAvailable = await isGitAvailable();
+    if (!gitAvailable) {
+      assert.pass("Git not available, skipping test");
+      assert.end();
+      return;
+    }
+
+    const { exec } = require("child_process");
+    const util = require("util");
+    const execPromise = util.promisify(exec);
+
+    // Get current commit hash
+    const hashResult = await execPromise("git rev-parse HEAD", { cwd: packageDir });
+    const commitHash = hashResult.stdout.trim();
+
+    // Create detached HEAD state
+    await execPromise(`git checkout ${commitHash}`, { cwd: packageDir });
+
+    // Run dry-run in detached HEAD state
+    let result = await testUtils.runCommand(
+      packageDir,
+      qxCmdPath,
+      "package",
+      "publish",
+      "--dry-run",
+      "--noninteractive"
+    );
+
+    const errorLower = (result.error || "").toLowerCase();
+    const outputLower = (result.output || "").toLowerCase();
+
+    // In detached HEAD state, git branch --show-current returns empty string
+    // The publish command should handle this gracefully (either error or use commit hash)
+    const hasBranchError = errorLower.includes("cannot determine current branch") ||
+                          errorLower.includes("branch");
+    const hasOtherError = errorLower.includes("github") || errorLower.includes("token");
+    const succeeded = result.exitCode === 0;
+
+    assert.ok(
+      hasBranchError || hasOtherError || succeeded,
+      "Should handle detached HEAD state (error about branch or proceed with other checks)"
+    );
+
+    // Return to master/main
+    try {
+      await execPromise("git checkout master", { cwd: packageDir });
+    } catch (err) {
+      try {
+        await execPromise("git checkout main", { cwd: packageDir });
+      } catch (err2) {
+        await execPromise("git checkout -b master", { cwd: packageDir });
+      }
+    }
+
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+// ============================================================================
 // Version Range Tests
 // ============================================================================
 
