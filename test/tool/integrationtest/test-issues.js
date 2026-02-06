@@ -458,4 +458,35 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
   }
 });
 
+test("afterProcessFinished callback", async assert => {
+  try {
+    const markerFile = "test-issues/test-afterProcessFinished/afterProcessFinished.marker";
+
+    // Delete marker file if it exists
+    if (fs.existsSync(markerFile)) {
+      await fsPromises.unlink(markerFile);
+    }
+
+    await testUtils.deleteRecursive("test-issues/test-afterProcessFinished/compiled");
+    await testUtils.runCompiler("test-issues/test-afterProcessFinished");
+
+    // Check that the marker file was created
+    assert.ok(fs.existsSync(markerFile), "afterProcessFinished should create marker file");
+
+    // Check the content of the marker file
+    const content = await fsPromises.readFile(markerFile, "utf8");
+    assert.ok(content.includes("qx.tool.compiler.cli.commands.Compile"),
+      "Marker should contain command classname");
+
+    // Cleanup
+    if (fs.existsSync(markerFile)) {
+      await fsPromises.unlink(markerFile);
+    }
+
+    assert.end();
+  } catch(ex) {
+    assert.end(ex);
+  }
+});
+
 
