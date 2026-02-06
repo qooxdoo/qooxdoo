@@ -90,12 +90,8 @@ qx.Class.define("qx.compile.CompilerApi", {
     /**
      * runs after the whole process is finished
      * @param cmd {qx.tool.cli.Command} current command
-     * @param res {boolean} result of the just finished process
      */
-    async afterProcessFinished(cmd, res) {
-      if (res) {
-        return;
-      }
+    async afterProcessFinished(cmd) {
       if (cmd.classname !== "qx.tool.compiler.cli.commands.package.Publish") {
         return;
       }
