@@ -128,6 +128,28 @@ qx.Class.define("qx.compile.CompilerApi", {
       if (!token) {
         throw new qx.tool.utils.Utils.UserError(`npm access token required.`);
       }
+      
+      //
+      // 🔥 Wichtig: NPM_TOKEN setzen
+      //
+      let env = { ...process.env };
+      env.NPM_TOKEN = token;
+
+      //
+      // 🔥 .npmrc erzeugen, falls nicht vorhanden
+      //
+      const npmrc = path.join(process.cwd(), ".npmrc");
+      if (!fs.existsSync(npmrc)) {
+        fs.writeFileSync(
+          npmrc,
+          `//registry.npmjs.org/:_authToken=\${NPM_TOKEN}\n`,
+          "utf8"
+        );
+        if (!cmd.argv.quiet) {
+          qx.tool.compiler.Console.info("Created .npmrc for npm publish.");
+        }
+      }
+
       let args = ["publish", "--access public"];
 
       if (cmd.argv.dryRun) {
@@ -135,14 +157,6 @@ qx.Class.define("qx.compile.CompilerApi", {
       }
       if (cmd.argv.prerelease) {
         args.push("--tag beta");
-      }
-      let env = process.env;
-      // for use of INPUT_TOKEN see:
-      // https://github.com/JS-DevTools/npm-publish/blob/master/src/npm.ts
-      // https://github.com/JS-DevTools/npm-publish/blob/0f451a94170d1699fd50710966d48fb26194d939/src/npm-env.ts#L6
-      env.INPUT_TOKEN = token;
-      if (cmd.argv.verbose) {
-        qx.tool.compiler.Console.info(`run npm with ${args}`);
       }
       return qx.tool.utils.Utils.runCommand({
         cwd: ".",
