@@ -44,7 +44,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         qx.log.Logger.setLevel(argv.loglevel);
         cls.argv = argv;
         let res = await cls.process();
-        cls.getCompilerApi().afterProcessFinished(cls, res);
+        await cls.getCompilerApi().afterProcessFinished(cls, res);
         return res;
       });
       cmd.addFlag(
