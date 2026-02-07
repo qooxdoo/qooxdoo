@@ -1,0 +1,26 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "application-types": [ "node" ],
+      "babelOptions" : {
+        "targets":"node >= 11"
+      }
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "libraries": [
+    ".",
+    "../../../../.."
+  ],
+  "applications": [
+    {
+      "class": "testAfterProcessFinished.Application",
+      "name": "testAfterProcessFinished",
+      "type": "node"
+    }
+  ]
+}

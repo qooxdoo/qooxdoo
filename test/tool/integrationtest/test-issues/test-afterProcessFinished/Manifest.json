@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "testAfterProcessFinished",
+    "summary": "Test for afterProcessFinished callback",
+    "description": "This is part of unit tests for the compiler",
+    "homepage": "http://some.homepage.url/",
+    "license": "MIT",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "testAfterProcessFinished",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^7.0.0-beta"
+  }
+}
