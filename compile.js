@@ -150,7 +150,8 @@ qx.Class.define("qx.compile.CompilerApi", {
         args: args,
         env: env,
         log: console.log,
-        error: console.log
+        error: console.log,
+        shell: true
       });
     },
 
