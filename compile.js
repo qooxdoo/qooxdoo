@@ -142,9 +142,9 @@ qx.Class.define("qx.compile.CompilerApi", {
       // https://github.com/JS-DevTools/npm-publish/blob/0f451a94170d1699fd50710966d48fb26194d939/src/npm-env.ts#L6
       env.INPUT_TOKEN = token;
       if (cmd.argv.verbose) {
-        this.info(`run npm with ${args}`);
+        qx.tool.compiler.Console.info(`run npm with ${args}`);
       }
-      await qx.tool.utils.Utils.runCommand({
+      return qx.tool.utils.Utils.runCommand({
         cwd: ".",
         cmd: "npm",
         args: args,
@@ -163,7 +163,7 @@ qx.Class.define("qx.compile.CompilerApi", {
       const that = this;
       command.addTest(
         new qx.tool.compiler.cli.api.Test("lint", async function () {
-          console.log("# ********* running lint ");
+          qx.tool.compiler.Console.log("# ********* running lint ");
           this.setFailFast(true);  
           result = await qx.tool.utils.Utils.runCommand({
             cwd: ".",
@@ -204,7 +204,7 @@ qx.Class.define("qx.compile.CompilerApi", {
           let args = argList;
           let curArgs = that.__getArgs(command, args);
           if (command.argv.verbose) {
-             console.log(curArgs);
+             qx.tool.compiler.Console.log(curArgs);
           }
         result = await qx.tool.utils.Utils.runCommand({
             cwd: "test/tool",
@@ -217,7 +217,7 @@ qx.Class.define("qx.compile.CompilerApi", {
       if (command.argv["browsers"] != "none") {
         command.addTest(
           new qx.tool.compiler.cli.api.Test("framework test", async function () {
-            console.log("# ******** running framework test");
+            qx.tool.compiler.Console.log("# ******** running framework test");
             this.setFailFast(true);  
             let args = argList.slice();
             args.push("browsers");
@@ -225,7 +225,7 @@ qx.Class.define("qx.compile.CompilerApi", {
             let curArgs = that.__getArgs(command, args);
             curArgs.push("--fail-fast");
             if (command.argv.verbose) {
-               console.log(curArgs);
+               qx.tool.compiler.Console.log(curArgs);
             }
             result = await qx.tool.utils.Utils.runCommand({
               cwd: "test/framework",
