@@ -180,7 +180,8 @@ qx.Class.define("qx.compile.CompilerApi", {
               "--warn-as-error"
             ],
             log: console.log,
-            error: console.log
+            error: console.log,
+            shell=true   
           });
 
           if (result.exitCode === 0) {
