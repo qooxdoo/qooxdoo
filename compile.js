@@ -130,7 +130,7 @@ qx.Class.define("qx.compile.CompilerApi", {
       }
       let args = ["publish", "--access public"];
 
-      if (cmd.argv.dryrun) {
+      if (cmd.argv.dryRun) {
         args.push("--dry-run");
       }
       if (cmd.argv.prerelease) {
