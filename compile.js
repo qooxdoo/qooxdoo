@@ -181,7 +181,7 @@ qx.Class.define("qx.compile.CompilerApi", {
             ],
             log: console.log,
             error: console.log,
-            shell=true   
+            shell: true   
           });
 
           if (result.exitCode === 0) {
