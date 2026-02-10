@@ -6,6 +6,8 @@
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
 - Improved `assertInterface()` to detect and report when parameters are in wrong order. If you accidentally swap the object and interface parameters, you now get a helpful error message explaining the correct usage.
 
+- Fixed an issue where if an event handler is added using addListenerOnce returns a promise then that promise is ignored.
+
 ## Known Issues
 - **qxWeb constructor warning:** You may see a console warning: "The constructor of class 'qxWeb' returned a different instance than 'this'". This is expected behavior due to qxWeb's factory pattern (similar to jQuery) and does not affect functionality. This warning will be addressed in a future release.
 
@@ -24,6 +26,9 @@
   ```
 
   **Note:** When enabled, qooxdoo framework classes (starting with `qx.`) are excluded by default. This primarily affects user-defined classes.
+  This can be customized by changing the environment setting `qx.core.property.Property.excludeAutoApply`. It takes a regex that matches fully qualified class names which are excluded from this behavior.
+
+- Added class `qx.dev.LeakDetector`, which allows us to track the construction/destruction of qooxdoo objects.
 
 ## Breaking changes
 
@@ -109,6 +114,8 @@ that the table edits are completed or cancelled before refreshing table model da
 
 - Properties and members are now in the same namespace. Formerly, a class could have a member variable and a property with the same name, and there was no conflict. Now, since properties are native and can be manipulated as normal members, the properties and members use the same namespace, so a single name can not be defined in both.
 
+- Property `show` of `qx.ui.basic.Atom` has been renamed to `showFeatures`.
+
 - Refining a property in a subclass used to modify it in place. It now adds it to the subclass' prototype, so it ends up in the prototype chain twice.
 
 - The predefined instance.name variable is no longer predefined because, with native properties, it conflicts with the commonly used property name "name". Use `instance.classname` instead.
@@ -160,6 +167,16 @@ that the table edits are completed or cancelled before refreshing table model da
     ✅ No changes to existing projects required (except Node.js version)
 
 - `qx.locale` classes implemented with [Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) instead of [Common Locale Data Repository](http://cldr.unicode.org) npm package which is installed with a lot of CLDR xml files. This change reduces a installed qooxdoo package size significantly. There may be some differences for some locales. For example, `getDateTimeFormat` method for `de_DE` and `yM` format gives `M/y` instead of `MM/y` of the CLDR implementation.
+
+- **Async event handlers now execute in parallel** When an event is fired, event handlers, whether synchronous or asynchronous will begin executing in the same tick of the event loop as when `fireEvent` or `fireDataEvent` was called. This means async event handlers will be executed in parallel. Previously, they we executed in series, i.e. if one event handler returned a promise then the next handler was called only after that promise resolved. This was changed to prevent a situation when an event handler is forced to execute asynchronously because another asynchronous event handler was added elsewhere, which could break atomicity. This could lead to bugs which are difficult to track down e.g. in two-way bindings. This has another benefit of perfomance improvement.
+
+- Settings a property to a promise will now literally set the property value to that promise. Previously, it waited for the promise to resolve and then set the property value to the promise result. A warning will be shown if a property was set to a promise but its check wasn't a promise.
+
+- Removed "changePropertyAsync" events. This means that, if a class has an async property named "foo" then it will only fire event "changeFoo" and not "changeFooAsync".
+
+- **Async apply methods** If a property is set synchronously i.e. not via `setAsync` and the apply method returns a promise, the apply method **will not be awaited** before the change event is fired. It will only be awaited if the property is set using `setPropertyAsync`. Previously, regardless whether the property was set synchronously or asynchronously, the event was fired only after the apply method had resolved.
+
+- It is no longer possible to call object.bind("propertyAsync", ...). For example, given class `Foo` with property `Bar`, we cannot do `new Foo().bind("barAsync", ...)`;
 
 # v7.0.0
 
