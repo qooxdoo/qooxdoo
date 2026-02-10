@@ -59,10 +59,6 @@ qx.Mixin.define("qx.core.MProperty", {
           this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
           continue;
         }
-
-          // Neither was true
-          throw new Error("No such property: " + prop + " in " + this.classname + " (" + this + ")");
-        }
         // Neither was true
         throw new Error("No such property: " + prop + " in " + this.classname + " (" + this + ")");
       }
