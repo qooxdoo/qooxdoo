@@ -209,7 +209,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
         });
       }
       let config = this.getCompilerApi().getConfiguration();
-      let listenPort = config?.serve?.listenPort ?? this.argv.listenPort;
+      let listenPort = this.argv.listenPort ?? config?.serve?.listenPort;
       let server = http.createServer(app);
       this.fireDataEvent("beforeStart", {
         server: server,
