@@ -28,8 +28,24 @@
   **Note:** When enabled, qooxdoo framework classes (starting with `qx.`) are excluded by default. This primarily affects user-defined classes.
   This can be customized by changing the environment setting `qx.core.property.Property.excludeAutoApply`. It takes a regex that matches fully qualified class names which are excluded from this behavior.
 
+  **Note:** Properties with defined with modern features (i.e. initFunc, autoApply) will always be automatically applied, regardless of environment settings, unless `autoApply` is explicitly set to `false`.
+
 - Added class `qx.dev.LeakDetector`, which allows us to track the construction/destruction of qooxdoo objects.
 
+- **Bindings:** The implementation of the bindings system have been overhauled, which added the following features:
+  - **Asynchronous bindings:** It is now possible to bind asynchronous properties, i.e. if a property on a binding's source or target chain needs to be `got`ten asynchronously, the value continues propagating along the chain only after the value has been resolved. The method `bindAsync` resolves when the intial value has been set on the target object.
+  - **Bindings are first-class objects** The class `qx.data.SingleValueBinding` is now instantiable and is instantiated under the hood when calling `object.bind()`. Disposing of the object will dispose of the binding and all the associated listeners. This makes things easier because you don't have to keep track of the binding's object and the binding ID. This also makes debugging with bindings easier because the segment objects representing the segments of either the source or target (`AbstractSegment`) store a reference to the binding object, and `SingleValueBinding` has a specialized method `toString` which shows the binding's objects and source/target paths.
+
+- **Properties** The implementation of properties has been overhauled, which brought the following changes:
+  - **Properties are first-class objects** They are now implemented using the class `qx.core.property.Property` (each Qooxdoo class has an instance of `qx.core.property.Property` for each of its properties). This system no longer uses dynamic code generation for setters and getters which was there for performance reasons, which makes things much easier to debug and maintain. It is possible to obtain the property object by calling `qx.Class.getByProperty(clazz, name)`. The user can then interrogate those objects to obtain information about the properties. Qooxdoo can also 'sniff' out pseudo properties (i.e. manually-defined properties by get/set/reset methods and an event) and create property objects for those as well, making it easier to find out about properties using reflection.
+
+  - **Custom property storages** The old property system only supported storing the property values in the program's memory. However, it is now possible for the user to define a custom property storage, which supports asynchronous getting and setting. This can be useful for ORMs where properties are persisted in the database and we may wish to load them on demand, or in browser situtations where getting a property will require a server round-trip, meaning the getter has to be asynchronous.
+
+  - **Init functions** Until now, if the user wanted to `init` a property to a complex object (e.g. array) as opposed to a primitive datatype (like string), they've had to set `deferredInit: true` in the definition and call `init` in the constructor. Now however, they can now define an `initFunction` in the property which returns the `init` value, thus making code simpler. 
+
+  - **Native property access** - It is now possible to set and get a property value natively, by doing `object.myProperty` and `object.myProperty = value` instead of `object.getMyProperty()` and `object.setMyProperty(value)` respectively.
+
+  - **Templated checks** - It is now possible to include template types in property checks using chevrons, for example `check: "Array<string>`. The text in the chevrons is purely for documentation purposes only and it not used by the runtime type checker.
 ## Breaking changes
 
 - **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
