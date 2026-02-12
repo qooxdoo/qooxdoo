@@ -7,7 +7,7 @@ qx.Interface.define("qx.data.binding.IInputReceiver", {
      *
      * @param {*} value
      * @returns {Promise?} If the operation is asynchronous, it should return a Promise which resolves when it has completed.
-     * If it's synchrous, it should return null.
+     * If it's synchronous, it should return null.
      */
     setInput(input) {}
   }

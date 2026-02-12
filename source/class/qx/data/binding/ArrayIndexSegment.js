@@ -12,7 +12,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * John Spackman (https://github.com/johnspackman, john.spackman@zenesis.com)
+    * Patryk Malinowski (https://github.com/patryk-m-malinowski, pmalinowski116@gmail.com)
 
 ************************************************************************ */
 

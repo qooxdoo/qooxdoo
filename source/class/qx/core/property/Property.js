@@ -13,21 +13,12 @@
 
    Authors:
      * John Spackman (github.com/johnspackman)
+     * Patryk Malinowski (https://github.com/patryk-m-malinowski, pmalinowski116@gmail.com)
 
 ************************************************************************ */
 
 /**
  * Property implementation for actual properties
- *
- * TODO:
- *
- * `validate` implementation
- * `delegate` implementation
- * `inheritable` implementation (pass onto `obj._getChildren`; check for special `inherit` value)
- * Array check
- * FunctionCheck
- *
- * how does init of property values work?  `init` per class and `initFunction` per instance?
  *
  */
 qx.Bootstrap.define("qx.core.property.Property", {
@@ -54,7 +45,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * If set to true, then properties with init values will have their apply method called during construction.
      * Default is false to maintain backward compatibility with v7 behavior.
      */
-    "qx.core.property.Property.applyDuringConstruct": false,
+    "qx.core.property.Property.applyDuringConstruct": false,//TODO should this be true?
 
     /**
      * Only relevant when applyDuringConstruct is true.
@@ -83,14 +74,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
     /** @type {String} the name of the property */
     __propertyName: null,
 
-    /** @type {qx.Class} the class that defined the property */
+    /** @type {new () => qx.core.Object} the class that defined the property */
     __clazz: null,
 
     /** @type {Boolean} whether this is a pseudo property or not */
     __pseudoProperty: false,
 
     /**
-     * @type {qx.Class} the class that original defined this property, before it was cloned and
+     * @type {new () => qx.core.Object} the class that original defined this property, before it was cloned and
      * refined for the current `__clazz`
      */
     __superClass: null,
@@ -134,11 +125,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
     /** @type {Boolean} whether the property needs to be dereferenced */
     __needsDereference: false,
 
-    isRefineAllowed(def) {},
-
     /**
      * The class where this property is defined
-     * @returns {Function}
+     * @returns {new () => qx.core.Object}
      */
     getClass() {
       return this.__clazz;

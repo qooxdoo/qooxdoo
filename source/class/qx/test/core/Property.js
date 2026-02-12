@@ -36,7 +36,7 @@ qx.Class.define("qx.test.core.Property", {
         extend: qx.core.Object
       });
 
-      qx.Class.define("qx.test.cpnfv8.Superclass", {
+      qx.Class.define("qx.test.cpnfv8.Superclass", {//cbh
         extend: qx.test.cpnfv8.Object,
 
         construct(bRunning = true) {

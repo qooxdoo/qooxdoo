@@ -13,7 +13,7 @@
 
    Authors:
      * John Spackman (https://github.com/johnspackman, john.spackman@zenesis.com)
-     * Patryk Malinowski (https://github.com/patryk-m-malinowski, pmalinowski@vmn.digital)
+     * Patryk Malinowski (https://github.com/patryk-m-malinowski, pmalinowski116@gmail.com)
 
 ************************************************************************ */
 
