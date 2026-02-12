@@ -679,14 +679,14 @@ qx.Bootstrap.define("qx.Class", {
                 continue;
               }
               let def = property.getDefinition();
-              let excluded = property.getClass().classname && excludeAutoApply.find(match => property.getClass().classname.match(match));
+              let modernFeatures = def && (def.autoApply || def.initFunction);
+              let excluded = property.getClass().classname ? excludeAutoApply.find(match => property.getClass().classname.match(match)) : !modernFeatures;
               if (
                 !property.isPseudoProperty() &&
                 def.autoApply !== false &&
-                property.getClass().classname &&
                 property.hasInitValue() &&
                 !property.getPropertyState(this).initMethodCalled &&
-                ((initDuringConstruct === true && !excluded) || def.autoApply || def.initFunction)
+                ((initDuringConstruct === true && !excluded) || modernFeatures)
               ) {
                 property.init(this);
               }

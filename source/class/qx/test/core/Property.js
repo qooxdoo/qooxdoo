@@ -107,7 +107,18 @@ qx.Class.define("qx.test.core.Property", {
 
           readOnly: {
             initFunction: () => 42,
-            immutable: "readonly"
+            immutable: "readonly",
+            apply() {
+              this.appliedReadOnly = true;
+            }
+          },
+
+          noAutoApply: {
+            initFunction:() => 24,
+            autoApply: false,
+            apply() {
+              throw new Error("Should not call here!")
+            }
           }
         },
 
@@ -540,6 +551,7 @@ qx.Class.define("qx.test.core.Property", {
 
     testApply() {
       let obj = new qx.test.cpnfv8.Superclass();
+      this.assertTrue(obj.appliedReadOnly, "Expected apply method for property 'readOnly' to be called, but wasn't");
       this.assertEquals(3, obj.applyCount, "initial apply count should be 3");
       this.assertArrayEquals([null, undefined], obj.lastApply, "last apply call during construction");
       obj.setRunning(false);
@@ -574,6 +586,7 @@ qx.Class.define("qx.test.core.Property", {
       //old, deprecated behaviour
       qx.core.Environment.set("qx.core.property.Property.applyDuringConstruct", false);
       obj = new qx.test.cpnfv8.Superclass();
+      this.assertTrue(obj.appliedReadOnly, "Expected apply method for property 'readOnly' to be called, but wasn't");
       this.assertEquals(1, obj.applyCount, "old behaviour: initial apply count should be 1");
       obj.resetAnyProp();
       this.assertEquals(1, obj.applyCount, "old behaviour: apply count after reset should still be 1");
