@@ -3164,10 +3164,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * These options are passed to Babel for JSX compilation; they can be changed by the CLI etc
      * as needed.
      *
-     * Note that at the moment they use a class that does not exist!  `qx.html.Jsx` is coming soon
-     * to a PR near you, but in the mean time you could use the compile.json `jsx` setting to
-     * change these to something else, eg `{ pragma: "jsx.dom", pragmaFrag: "jsx.Fragment }` and
-     * use https://github.com/alecsgone/jsx-render in your application's code.
      */
     JSX_OPTIONS: {
       pragma: "qx.html.Jsx.createElement",

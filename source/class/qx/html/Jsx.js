@@ -48,11 +48,10 @@ qx.Class.define("qx.html.Jsx", {
      *
      * @param tagname {String|Function} the name of the tag
      * @param attributes {Record<string, any>} map of attribute values
-     * @param children {qx.html.Node[]} array of children
+     * @param children {...qx.html.Node} children
      * @return {qx.html.Element|qx.data.Array}
      */
-    createElement(tagname, attributes) {
-      const children = qx.lang.Array.fromArguments(arguments, 2);
+    createElement(tagname, attributes, ...children) {
       attributes ??= {};
 
       // CSS CUSTOM PROPERTIES
