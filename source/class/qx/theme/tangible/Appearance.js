@@ -1313,6 +1313,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       }
     },
 
+    "selectbox-arrow-button": "widget",
+
     /*
     ---------------------------------------------------------------------------
       CHECKED SELECT BOX
