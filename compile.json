@@ -1,5 +1,8 @@
 {
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "environment": {
+    "qx.Promise.useNativePromise": true
+  },
   "targets": [
     {
       "type": "source",

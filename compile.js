@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const https = require("https");
 if (!qx.tool.compiler?.cli?.api) {
   return;
 }
@@ -48,9 +49,11 @@ qx.Class.define("qx.compile.CompilerApi", {
       };
       this.addListener(
         "changeCommand",
-        function () {
+        async function () {
           let command = this.getCommand();
           if (command instanceof qx.tool.compiler.cli.commands.package.Publish) {
+            // Token sofort validieren - wird awaited weil async:true Property
+            this.__npmToken = await this.__initNpmToken();
             command.addListener("beforeCommit", this.__fixDocVersion, this);
           }
         },
@@ -88,6 +91,93 @@ qx.Class.define("qx.compile.CompilerApi", {
     },
 
     /**
+     * Validates an npm token by calling the npm registry whoami endpoint
+     * @param {string} token
+     * @returns {Promise<boolean>}
+     */
+    __validateNpmToken(token) {
+      return new Promise((resolve) => {
+        const req = https.get({
+          hostname: "registry.npmjs.org",
+          path: "/-/whoami",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        }, (res) => {
+          resolve(res.statusCode === 200);
+        });
+        req.on("error", () => resolve(false));
+        req.end();
+      });
+    },
+
+    /**
+     * Prompts user for npm token if not stored
+     * @returns {Promise<string|null>}
+     */
+    async __promptForNpmToken() {
+      const inquirer = require("inquirer");
+      let response = await inquirer.prompt([
+        {
+          type: "input",
+          name: "token",
+          message:
+            "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens " +
+            "(you must assign permission to publish);\nWhat is your npm access Token ? "
+        }
+      ]);
+      return response.token || null;
+    },
+
+    /**
+     * Creates .npmrc file if it doesn't exist
+     * @param {boolean} quiet
+     */
+    __ensureNpmrc(quiet) {
+      const npmrc = path.join(process.cwd(), ".npmrc");
+      if (!fs.existsSync(npmrc)) {
+        fs.writeFileSync(
+          npmrc,
+          `//registry.npmjs.org/:_authToken=\${NPM_TOKEN}\n`,
+          "utf8"
+        );
+        if (!quiet) {
+          qx.tool.compiler.Console.info("Created .npmrc for npm publish.");
+        }
+      }
+    },
+
+    /**
+     * Initialize and validate npm token
+     * @returns {Promise<string>} valid token
+     * @throws {UserError} if token invalid or not provided
+     */
+    async __initNpmToken() {
+      let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
+      let npm = cfg.db("npm", {});
+
+      if (!npm.token) {
+        npm.token = await this.__promptForNpmToken();
+        if (!npm.token) {
+          throw new qx.tool.utils.Utils.UserError("You have not provided a npm token.");
+        }
+        await cfg.save();
+      }
+
+      qx.tool.compiler.Console.info("Validating npm token...");
+      const isValid = await this.__validateNpmToken(npm.token);
+      if (!isValid) {
+        delete npm.token;
+        await cfg.save();
+        throw new qx.tool.utils.Utils.UserError(
+          "npm token is invalid or expired. Please update your token."
+        );
+      }
+
+      return npm.token;
+    },
+
+    /**
      * runs after the whole process is finished
      * @param cmd {qx.tool.cli.Command} current command
      * @param res {boolean} result of the just finished process
@@ -99,65 +189,25 @@ qx.Class.define("qx.compile.CompilerApi", {
       if (cmd.classname !== "qx.tool.compiler.cli.commands.package.Publish") {
         return;
       }
-      // token
-      let cfg = await qx.tool.compiler.cli.ConfigDb.getInstance();
-      let npm = cfg.db("npm", {});
-      if (!npm.token) {
-        // call require("inquirer") here - not in the head.
-        // otherwise it will be called during initialization.
-        // that does not work if you use qooxdoo as package
-        const inquirer = require("inquirer");
-        let response = await inquirer.prompt([
-          {
-            type: "input",
-            name: "token",
-            message:
-              "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens to obtain one " +
-              "(you must assign permission to publish);\nWhat is your npm acess Token ? "
-          }
-        ]);
 
-        if (!response.token) {
-          qx.tool.compiler.Console.error("You have not provided a npm token.");
-          return;
-        }
-        npm.token = response.token;
-        cfg.save();
+      // Kein Token = einfach return
+      if (!this.__npmToken) {
+        return;
       }
-      let token = npm.token;
-      if (!token) {
-        throw new qx.tool.utils.Utils.UserError(`npm access token required.`);
-      }
-      
-      //
-      // 🔥 Wichtig: NPM_TOKEN setzen
-      //
+
       let env = { ...process.env };
-      env.NPM_TOKEN = token;
+      env.NPM_TOKEN = this.__npmToken;
 
-      //
-      // 🔥 .npmrc erzeugen, falls nicht vorhanden
-      //
-      const npmrc = path.join(process.cwd(), ".npmrc");
-      if (!fs.existsSync(npmrc)) {
-        fs.writeFileSync(
-          npmrc,
-          `//registry.npmjs.org/:_authToken=\${NPM_TOKEN}\n`,
-          "utf8"
-        );
-        if (!cmd.argv.quiet) {
-          qx.tool.compiler.Console.info("Created .npmrc for npm publish.");
-        }
-      }
+      this.__ensureNpmrc(cmd.argv.quiet);
 
       let args = ["publish", "--access public"];
-
       if (cmd.argv.dryRun) {
         args.push("--dry-run");
       }
       if (cmd.argv.prerelease) {
         args.push("--tag beta");
       }
+
       return qx.tool.utils.Utils.runCommand({
         cwd: ".",
         cmd: "npm",
