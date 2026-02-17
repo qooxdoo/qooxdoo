@@ -889,10 +889,10 @@ qx.Class.define("qx.html.Node", {
     /**
      * Append all given children at the end of this element.
      *
-     * @param varargs {qx.html.Element} elements to insert
+     * @param {...qx.html.Element} children elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
-    add(varargs) {
+    add(...children) {
       var self = this;
       function addImpl(arr) {
         arr.forEach(function (child) {
@@ -917,7 +917,7 @@ qx.Class.define("qx.html.Node", {
           self._children.push(child);
         });
       }
-      addImpl(qx.lang.Array.fromArguments(arguments));
+      addImpl(children);
 
       // Chaining support
       return this;
