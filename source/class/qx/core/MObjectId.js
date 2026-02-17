@@ -399,6 +399,22 @@ qx.Mixin.define("qx.core.MObjectId", {
      */
     getOwnedQxObjects() {
       return this.__ownedQxObjects ? Object.values(this.__ownedQxObjects) : [];
+    },
+
+    /**
+     * @param {string}
+     * @returns {boolean} Whether this object has an owned object with the given ID that has been created
+     */
+    hasOwnedQxObject(id) {
+      return !!(this.__ownedQxObjects && this.__ownedQxObjects[id]);
+    },
+
+    /**
+     * 
+     * @returns {Object} An object mapping IDs to owned objects. Do not modify this object directly.
+     */
+    getAllQxObjectsById() {
+      return this.__ownedQxObjects ?? {};
     }
   }
 });
