@@ -172,7 +172,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
     /**
      * @type {*}
      */
-    __value: null,
+    __value: undefined,
     /**
      * @type {qx.core.Object}
      */
@@ -284,7 +284,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
         SingleValueBinding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
 
         //Set the input on the first segment of the source path
-        let promise = this.__sourceSegments[0].setInput(value);
+        let out = this.__sourceSegments[0].setInput(value);
         const cb = () => {
           if (qx.core.Environment.get("qx.debug")) {
             this.assertNotNull(
@@ -294,10 +294,8 @@ qx.Class.define("qx.data.SingleValueBinding", {
           }
         };
 
-        let out;
-
-        if (qx.Promise.isPromise(promise)) {
-          out = promise.then(cb);
+        if (qx.Promise.isPromise(out)) {
+          out = out.then(cb);
         } else {
           out = cb();
         }

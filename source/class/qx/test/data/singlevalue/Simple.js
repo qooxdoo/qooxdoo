@@ -791,6 +791,12 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       person2.setFriend(null);
       this.assertEquals(3, timesCalled, "Converter should not be called when chain is broken and ignoreConverter is set and matches.");
       this.assertEquals("Patryk", person3.getName(), "Target should be reset when chain is broken");
+
+      //ensure that during the initial set, if the chain is incomplete (i.e. has a null value),
+      //the target property is reset (not set to null)
+      let person4 = new Person("Harry");
+      person3.bind("friend.friend.name", person4, "name");
+      this.assertEquals("Patryk", person4.getName(), "Target should be reset when chain has null element during initial set");
     }
   }
 });
