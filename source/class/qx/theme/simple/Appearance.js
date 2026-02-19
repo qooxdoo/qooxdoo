@@ -1204,6 +1204,27 @@ qx.Theme.define("qx.theme.simple.Appearance", {
       }
     },
 
+    "selectbox-arrow-button": "widget",
+
+    /*
+    ---------------------------------------------------------------------------
+      CHECKED SELECT BOX
+    ---------------------------------------------------------------------------
+    */
+
+    "checked-selectbox": "selectbox",
+
+    "checked-selectbox/allNone": {
+      include: "button"
+    },
+
+    "checked-selectbox/tag": "tag",
+
+    tag: {
+      alias: "button",
+      include: "button"
+    },
+
     /*
     ---------------------------------------------------------------------------
       COMBO BOX
