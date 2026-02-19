@@ -263,11 +263,21 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
-      if (def.init !== undefined) {
+      let hasInitVal = def.init !== undefined;
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (hasInitVal && def.initFunction) {
+          throw new Error(`${this}: init and initFunction are mutually exclusive. Please specify only one of them.`);
+        }
+      }
+
+      if (hasInitVal) {
         this.__initValue = def.init;
+        this.__initFunction = undefined;
       }
       if (def.initFunction) {
         this.__initFunction = def.initFunction;
+        this.__initValue = undefined;
       }
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -422,6 +432,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let initValue = this.__initValue;
       if (initValue !== undefined) {
         clazz.prototype["$$init_" + propertyName] = initValue;
+      } else if (this.__initFunction) {
+        clazz.prototype["$$init_" + propertyName] = undefined;
       }
 
       addMethod("init" + upname, function (...args) {
@@ -556,9 +568,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       state.initMethodCalled = true;
 
-      if (value !== undefined && this.__definition?.init !== undefined) {
+      if (value !== undefined && (this.__initValue !== undefined || this.__initFunction !== undefined)) {
         this.warn(
-          `${this}: init() called with a value, ignoring - use deferredInit and do not specify an init value in the property definition`
+          `${this}: init() called with a value, ignoring - use deferredInit and do not specify an init/function value in the property definition`
         );
         value = undefined;
       }

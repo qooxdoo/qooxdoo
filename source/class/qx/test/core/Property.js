@@ -834,6 +834,21 @@ qx.Class.define("qx.test.core.Property", {
       let second = inst.getJsdocProp();
       this.assertArrayEquals([10, 20, 30], initial, "properties created with initFunction returned by getter should be the same");
       this.assertIdentical(initial, second, "properties created with initFunction returned by getter should be the same");      
+
+      try {
+        qx.Class.define(null, {
+          extend: qx.core.Object,
+          properties: {
+            badProp: {
+              init: 5,
+              initFunction: () => 10
+            }
+          }
+        });
+        this.fail("Defining a property with both init and initFunction should throw an error");
+      } catch (e) {
+        // expected
+      }
     },
 
     testDefinesThanSubClassWithInterface() {
