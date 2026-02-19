@@ -61,6 +61,10 @@ qx.Bootstrap.define("qx.core.check.DynamicTypeCheck", {
           }
           tmp = tmp.superclass;
         }
+      } else if (typeof window[this.__typename] === "function") {
+        //handle cases where the check is a globally-defined class
+        let clazz = window[this.__typename];
+        return value instanceof clazz;
       }
 
       return false;
