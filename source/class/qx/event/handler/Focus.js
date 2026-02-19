@@ -1344,8 +1344,9 @@ qx.Class.define("qx.event.handler.Focus", {
           return focusedElement;
         }
         if (qx.Class.isClass("qx.ui.core.Widget")) {
+          const Widget = qx.Class.getByName("qx.ui.core.Widget");
           // Check compound widgets
-          var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
+          var widget = Widget.getWidgetByElement(focusedElement),
             textField =
               widget &&
               widget.getChildControl &&

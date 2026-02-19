@@ -201,7 +201,10 @@ qx.Class.define("qx.dev.unit.TestCase", {
       if (this.__autoDispose) {
         this.__autoDispose.forEach(function (obj) {
           if (!obj.isDisposed()) {
-            if (obj instanceof qx.ui.core.Widget) {
+            // Do not make an actual reference to qx.ui.core.Widget otherwise the compiler will load
+            // dependencies and that prevents this class from being used in node-only builds
+            const Widget = qx.Class.getByName("qx.ui.core.Widget");
+            if (obj instanceof Widget) {
               obj.destroy();
             } else if (obj instanceof qx.core.Object) {
               obj.dispose();
