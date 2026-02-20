@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _add(child, options) {
       super._add(child, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue(child)) {
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isUserValue(child)) {
         child.setShowFeatures(this.getShowFeatures());
       }
 
@@ -484,7 +484,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAt(child, index, options) {
       super._addAt(child, index, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue(child)) {
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isUserValue(child)) {
         child.setShowFeatures(this.getShowFeatures());
       }
 
@@ -496,7 +496,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addBefore(child, before, options) {
       super._addBefore(child, before, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue()) {
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isUserValue(child)) {
         child.setShowFeatures(this.getShowFeatures());
       }
 
@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
     _addAfter(child, after, options) {
       super._addAfter(child, after, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
-      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isThemedValue()) {
+      if (child.setShowFeatures && !qx.util.PropertyUtil.getProperty(child, "showFeatures").isUserValue(child)) {
         child.setShowFeatures(this.getShowFeatures());
       }
 
