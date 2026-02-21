@@ -101,7 +101,6 @@
     "json-stable-stringify": "^1.0.2",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.6.1",
-    "node-fetch": "^3.3.2",
     "object-hash": "^2.1.1",
     "prettier": "^2.5.1",
     "ps-tree": "^1.2.0",

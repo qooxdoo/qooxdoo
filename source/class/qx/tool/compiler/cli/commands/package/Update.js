@@ -25,6 +25,7 @@ const path = require("upath");
  * Updates the local cache with information of available library packages
  *
  * @ignore(Buffer.from)
+ * @ignore(fetch)
  */
 qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
   extend: qx.tool.compiler.cli.commands.Package,
@@ -173,7 +174,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       }
       let url = this.getRepositoryCacheUrl();
       try {
-        let fetch = (await import("node-fetch")).default;
         let res = await fetch(url);
         let data = await res.json();
         this.setCache(data);
