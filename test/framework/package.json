@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "playwright": "^1.56.1",
+    "playwright": "^1.58.2",
     "v8-to-istanbul": "^9.3.0"
   }
 }
