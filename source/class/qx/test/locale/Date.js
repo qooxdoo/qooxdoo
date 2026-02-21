@@ -32,7 +32,7 @@ qx.Class.define("qx.test.locale.Date", {
     testGetAmMarker() {
       var Date = qx.locale.Date;
       var items = [
-        { locale: "ko", expected: "오전" },
+        { locale: "zh", expected: "上午" },
         { locale: "fr", expected: "AM" },
         { locale: "af", expected: "vm." }
       ];
@@ -46,7 +46,7 @@ qx.Class.define("qx.test.locale.Date", {
     testGetPMMarker() {
       var Date = qx.locale.Date;
       var items = [
-        { locale: "ko", expected: "오후" },
+        { locale: "zh", expected: "下午" },
         { locale: "fr", expected: "PM" },
         { locale: "af", expected: "nm." }
       ];
