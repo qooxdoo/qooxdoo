@@ -53,15 +53,15 @@ test("Browserify bundles npm modules correctly", async assert => {
     const browserifyFile = path.join(testDir, "compiled/source/testbrowserify/commonjs-browserify.js");
     assert.ok(await fileExists(browserifyFile), "commonjs-browserify.js should exist");
 
-    // 3. Check file size (should be substantial with uuid + crypto deps)
+    // 3. Check file size (esbuild produces a lean bundle; uuid browser build is ~15KB)
     const stats = await fs.stat(browserifyFile);
-    assert.ok(stats.size > 100000, `Bundle should be > 100KB, got ${stats.size} bytes`);
+    assert.ok(stats.size > 1000, `Bundle should be > 1KB, got ${stats.size} bytes`);
     assert.ok(stats.size < 5000000, `Bundle should be < 5MB, got ${stats.size} bytes`);
 
     // 4. Check that it contains uuid code
     const content = await fs.readFile(browserifyFile, 'utf-8');
     assert.ok(content.includes('uuid'), "Bundle should contain 'uuid' string");
-    assert.ok(content.includes('require='), "Bundle should contain browserify require wrapper");
+    assert.ok(content.includes('globalThis.require'), "Bundle should set up global require");
 
     // 5. Check that index.js references it
     const indexFile = path.join(testDir, "compiled/source/testbrowserify/index.js");
@@ -125,26 +125,10 @@ test("Bundle contains expected npm modules", async assert => {
     const browserifyFile = path.join(testDir, "compiled/source/testbrowserify/commonjs-browserify.js");
     const content = await fs.readFile(browserifyFile, 'utf-8');
 
-    // uuid has crypto dependencies, check they're bundled
-    const expectedModules = [
-      'uuid',           // Main module
-      'crypto',         // Crypto operations
-      'buffer',         // Buffer polyfill
-      '_process',       // Process polyfill
-    ];
-
-    for (const moduleName of expectedModules) {
-      assert.ok(
-        content.includes(moduleName),
-        `Bundle should contain '${moduleName}' module or reference`
-      );
-    }
-
-    // Check browserify wrapper is present
-    assert.ok(
-      content.startsWith('require=(function(){function r(e,n,t)'),
-      "Bundle should start with browserify require wrapper"
-    );
+    // uuid is bundled, check for key identifiers
+    assert.ok(content.includes('uuid'), "Bundle should contain 'uuid' module code");
+    assert.ok(content.includes('globalThis.require'), "Bundle should set up global require");
+    assert.ok(content.includes('__qx_mods'), "Bundle should contain module registry");
 
     console.log("✓ All expected modules bundled");
 

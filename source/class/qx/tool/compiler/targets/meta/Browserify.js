@@ -147,91 +147,72 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       });
     },
 
-    __browserify(commonjsModules, references, localModules, ws) {
-      const babelify = require("babelify");
-      const preset = require("@babel/preset-env");
-      const browserify = require("browserify");
-      const builtins = require("browserify/lib/builtins.js");
+    async __browserify(commonjsModules, references, localModules, ws) {
+      const esbuild = require("esbuild");
+      const { polyfillNode } = require("esbuild-plugin-polyfill-node");
 
-      // For some reason, `process` is not require()able, but `_process` is.
-      // Make them equivalent.
-      builtins.process = builtins._process;
+      // Convert a module name to a valid JS identifier
+      const safeName = name => "_m_" + name.replace(/[^a-zA-Z0-9_$]/g, "_");
 
-      return new Promise((resolve, reject) => {
-        const options = {
-          builtins: builtins,
-          ignoreMissing: true,
-          insertGlobals: true,
-          detectGlobals: true
-        };
-        qx.lang.Object.mergeWith(
-          options,
-          this.getAppMeta().getAnalyser().getBrowserifyConfig()?.options || {},
-          false
-        );
-        let b = browserify([], options);
+      const allModules = [
+        ...commonjsModules.map(m => ({ require: m, file: m })),
+        ...Object.entries(localModules || {}).map(([name, file]) => ({ require: name, file }))
+      ];
 
-        b._mdeps.on("missing", (id, parent) => {
-          let message = [];
-          message.push(`ERROR: could not locate require()d module: "${id}"`);
-          message.push("  required from:");
-          try {
-            [...references[id]].forEach(refs => {
-              refs.forEach(ref => {
-                message.push(`    ${ref}`);
-              });
-            });
-          } catch (e) {
-            message.push(`    <compile.json:application.localModules'>`);
+      // Build a virtual entry that imports all required modules and exposes
+      // them via a global require() function compatible with Qooxdoo's runtime require() calls
+      const entryContent = [
+        ...allModules.map(m => `import * as ${safeName(m.require)} from ${JSON.stringify(m.file)};`),
+        `const __qx_mods = {`,
+        ...allModules.map(m => `  ${JSON.stringify(m.require)}: ${safeName(m.require)},`),
+        `};`,
+        `const __prev = typeof globalThis.require === "function" ? globalThis.require : null;`,
+        `globalThis.require = function(name) {`,
+        `  if (name in __qx_mods) return __qx_mods[name];`,
+        `  if (__prev) return __prev(name);`,
+        `  throw new Error("Module not found: " + name);`,
+        `};`
+      ].join("\n");
+
+      // Merge in any user-provided esbuild options from compile.json's "browserify" key
+      const userOptions = this.getAppMeta().getAnalyser().getBrowserifyConfig()?.options || {};
+
+      let result;
+      try {
+        result = await esbuild.build({
+          stdin: {
+            contents: entryContent,
+            resolveDir: process.cwd()
+          },
+          bundle: true,
+          platform: "browser",
+          format: "iife",
+          write: false,
+          sourcemap: false,
+          logLevel: "silent",
+          plugins: [polyfillNode()],
+          ...userOptions
+        });
+      } catch (e) {
+        // Report missing/unresolvable modules with context from the analyser database
+        for (const err of e.errors || []) {
+          const id = err.text?.match(/Cannot resolve "([^"]+)"/)?.[1] || err.text;
+          let message = [`ERROR: could not bundle module: "${id || err.text}"`];
+          if (id && references[id]) {
+            message.push("  required from:");
+            try {
+              [...references[id]].forEach(refs => refs.forEach(ref => message.push(`    ${ref}`)));
+            } catch (_) {}
           }
           qx.tool.compiler.Console.error(message.join("\n"));
-        });
-
-        // Include any dynamically determined `require()`d modules
-        if (commonjsModules.length > 0) {
-          b.require(commonjsModules);
         }
+        qx.tool.compiler.Console.error(`Unable to bundle CommonJS modules: ${e.message}`);
+        return;
+      }
 
-        // Include any local modules specified for the application
-        // in compile.json
-        if (localModules) {
-          for (let requireName in localModules) {
-            b.require(localModules[requireName], { expose: requireName });
-          }
-        }
-        // Ensure ES6 local modules are converted to CommonJS format
-        b.transform(babelify, {
-          presets: [preset],
-          sourceMaps: false,
-          global: true
-        });
-
-        b.bundle(function (e, output) {
-          if (e) {
-            // THIS IS A HACK!
-            // In case of error dependency walker never returns from
-            // ```if (self.inputPending > 0) return setTimeout(resolve);```
-            // because inputPending is not decremented anymore.
-            // so set it to 0 here.
-            let d = b.pipeline.get("deps");
-            d.get(0).inputPending = 0;
-            qx.tool.compiler.Console.error(
-              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify:\n${e.message}`
-            );
-
-            setTimeout(() => {
-              this.emit("end");
-            });
-            return;
-          }
-          // in case of end event output can not be writen.
-          // so catch the error and ignore it
-          try {
-            ws.write(output);
-          } catch (err) {}
-          resolve(null);
-        });
-      });
+      try {
+        ws.write(Buffer.from(result.outputFiles[0].contents));
+      } catch (_) {}
     },
 
     /**
