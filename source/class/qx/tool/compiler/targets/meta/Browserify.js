@@ -152,17 +152,56 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       const preset = require("@babel/preset-env");
       const browserify = require("browserify");
       const builtins = require("browserify/lib/builtins.js");
+      const browserResolve = require("browser-resolve");
+      const fs = require("fs");
+      const path = require("path");
 
       // For some reason, `process` is not require()able, but `_process` is.
       // Make them equivalent.
       builtins.process = builtins._process;
+
+      // Custom resolver that handles the package.json `exports` field,
+      // which the default `resolve` package does not support.
+      function resolveWithExports(id, opts, callback) {
+        // Only attempt exports resolution for bare subpath specifiers like "pkg/subpath"
+        if (!id.startsWith(".") && !id.startsWith("/") && id.includes("/")) {
+          const isScoped = id.startsWith("@");
+          const parts = id.split("/");
+          const packageName = isScoped ? parts.slice(0, 2).join("/") : parts[0];
+          const subpath = "./" + (isScoped ? parts.slice(2) : parts.slice(1)).join("/");
+
+          try {
+            const basedirs = opts.basedir ? [opts.basedir] : [];
+            const packageJsonPath = require.resolve(packageName + "/package.json", {
+              paths: basedirs
+            });
+            const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+
+            if (pkg.exports && pkg.exports[subpath]) {
+              const entry = pkg.exports[subpath];
+              const resolved =
+                typeof entry === "string"
+                  ? entry
+                  : entry.require || entry.default;
+
+              if (resolved) {
+                return callback(null, path.resolve(path.dirname(packageJsonPath), resolved));
+              }
+            }
+          } catch (_e) {
+            // fall through to default resolution
+          }
+        }
+        browserResolve(id, opts, callback);
+      }
 
       return new Promise((resolve, reject) => {
         const options = {
           builtins: builtins,
           ignoreMissing: true,
           insertGlobals: true,
-          detectGlobals: true
+          detectGlobals: true,
+          resolve: resolveWithExports
         };
         qx.lang.Object.mergeWith(
           options,
