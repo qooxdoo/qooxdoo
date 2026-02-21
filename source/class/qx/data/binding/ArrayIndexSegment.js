@@ -51,7 +51,7 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
   destruct() {
     let input = this.getInput();
     if (input) {
-      if (this.getInput() instanceof qx.data.Array) {
+      if (this.__isListData(this.getInput())) {
         this.getInput().removeListener("change", this.__onChangeContents, this);
       }
     }
@@ -71,19 +71,23 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
       return this.__string;
     },
 
+    __isListData(input) {
+      return qx.Interface.objectImplements(input, qx.data.IListData);
+    },
+
     /**
      * @override
      */
     _applyInput(value, oldValue) {
       if (oldValue) {
         this.setEventName(null);
-        if (oldValue instanceof qx.data.Array) {
+        if (this.__isListData(oldValue)) {
           oldValue.removeListener("change", this.__onChangeContents, this);
         }
       }
 
       if (value) {
-        if (value instanceof qx.data.Array) {
+        if (this.__isListData(value)) {
           value.addListener("change", this.__onChangeContents, this);
           this.setEventName("change");
         }
@@ -108,8 +112,10 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
         return undefined;
       }
 
-      if (input instanceof qx.data.Array) {
-        input = input.toArray();
+      if (this.__isListData(input)) {
+        const len = input.getLength();
+        const idx = this.__index === -1 ? len - 1 : this.__index;
+        return idx >= len ? undefined : input.getItem(idx);
       }
 
       if (this.__index >= input.length) {
@@ -126,11 +132,12 @@ qx.Class.define("qx.data.binding.ArrayIndexSegment", {
       if (!input) {
         return;
       }
-      let index = this.__index == -1 ? input.length - 1 : this.__index;
-      if (input instanceof qx.data.Array) {
-        input.setItem(index, targetValue);
+      if (this.__isListData(input)) {
+        const idx = this.__index === -1 ? input.getLength() - 1 : this.__index;
+        input.setItem(idx, targetValue);
       } else {
-        input[index] = targetValue;
+        const idx = this.__index === -1 ? input.length - 1 : this.__index;
+        input[idx] = targetValue;
       }
     },
 
