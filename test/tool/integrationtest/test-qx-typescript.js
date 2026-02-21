@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -9,7 +9,6 @@ const testDir = path.join(__dirname, "test-qx-typescript");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -20,7 +19,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("typescript help", async assert => {
+test("typescript help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "typescript", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -28,13 +27,12 @@ test("typescript help", async assert => {
     assert.ok(result.output.includes("generate typescript definitions"), "Help should mention typescript definitions");
     assert.ok(result.output.includes("output-filename"), "Help should mention output-filename option");
     assert.ok(result.output.includes("exclude"), "Help should mention exclude option");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("typescript command with app", async assert => {
+test("typescript command with app", async () => {
   try {
     // Create a test app for typescript generation
     await testUtils.deleteRecursive(myAppDir);
@@ -61,13 +59,12 @@ test("typescript command with app", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("typescript command with exclude", async assert => {
+test("typescript command with exclude", async () => {
   try {
     // Create a test app for typescript generation
     await testUtils.deleteRecursive(myAppDir);
@@ -106,13 +103,12 @@ test("typescript command with exclude", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("typescript command with custom output filename", async assert => {
+test("typescript command with custom output filename", async () => {
   try {
     // Create a test app for typescript generation
     await testUtils.deleteRecursive(myAppDir);
@@ -144,13 +140,12 @@ test("typescript command with custom output filename", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("typescript var type should map to unknown (issue #10555)", async assert => {
+test("typescript var type should map to unknown (issue #10555)", async () => {
   try {
     // Create a test app for typescript generation
     await testUtils.deleteRecursive(myAppDir);
@@ -227,8 +222,7 @@ qx.Class.define("myapp.TestVarType", {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

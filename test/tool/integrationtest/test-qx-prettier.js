@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -9,7 +9,6 @@ const testDir = path.join(__dirname, "test-qx-prettier");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 async function assertPathExists(path){
   let stat = await fsp.stat(path);
@@ -19,7 +18,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("prettier help", async assert => {
+test("prettier help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "prettier", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -29,13 +28,12 @@ test("prettier help", async assert => {
     assert.ok(result.output.includes("--check"), "Help should mention check option");
     assert.ok(result.output.includes("--write"), "Help should mention write option");
     assert.ok(result.output.includes("--git-pre-commit"), "Help should mention gitPreCommit option");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier format sample file", async assert => {
+test("prettier format sample file", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -87,13 +85,12 @@ return b;
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier check mode", async assert => {
+test("prettier check mode", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -131,13 +128,12 @@ return true;
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier already formatted file", async assert => {
+test("prettier already formatted file", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -176,13 +172,12 @@ test("prettier already formatted file", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier with multiple files", async assert => {
+test("prettier with multiple files", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -219,13 +214,12 @@ test("prettier with multiple files", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier with .prettierignore", async assert => {
+test("prettier with .prettierignore", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -265,13 +259,12 @@ test("prettier with .prettierignore", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier default behavior", async assert => {
+test("prettier default behavior", async () => {
   try {
     // Create a test app to verify default behavior
     await testUtils.deleteRecursive(myAppDir);
@@ -310,13 +303,12 @@ test("prettier default behavior", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("prettier verbose mode", async assert => {
+test("prettier verbose mode", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -343,8 +335,7 @@ test("prettier verbose mode", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

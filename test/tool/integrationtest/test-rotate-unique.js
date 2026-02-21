@@ -1,9 +1,10 @@
 const qx = require("../qx");
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 
-test("Checks rotateUnique", async assert => {
+test("Checks rotateUnique", async () => {
   await testUtils.deleteRecursive("test-rotate-unique");
   await testUtils.fsPromises.mkdir("test-rotate-unique");
 
@@ -23,6 +24,5 @@ test("Checks rotateUnique", async assert => {
   assert.ok(!await qx.tool.utils.files.Utils.safeStat("test-rotate-unique/log.txt.6"));
   assert.ok(!await qx.tool.utils.files.Utils.safeStat("test-rotate-unique/log.txt.7"));
   assert.ok(!await qx.tool.utils.files.Utils.safeStat("test-rotate-unique/log.txt.8"));
-  assert.end();
 });
 

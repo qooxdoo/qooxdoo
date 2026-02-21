@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -10,7 +10,6 @@ const myAppDir = path.join(testDir, "myapp");
 const deployDir = path.join(testDir, "deploy");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -21,7 +20,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("deploy help", async assert => {
+test("deploy help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "deploy", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -39,13 +38,12 @@ test("deploy help", async assert => {
     assert.ok(!result.output.includes("--watch"), "Deploy should not have watch option");
     assert.ok(!result.output.includes("--save-unminified"), "Deploy should not have save-unminified option");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy basic functionality", async assert => {
+test("deploy basic functionality", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -77,13 +75,12 @@ test("deploy basic functionality", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy with source maps", async assert => {
+test("deploy with source maps", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -115,13 +112,12 @@ test("deploy with source maps", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy without source maps", async assert => {
+test("deploy without source maps", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -147,13 +143,12 @@ test("deploy without source maps", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy specific application", async assert => {
+test("deploy specific application", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -173,13 +168,12 @@ test("deploy specific application", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy without clean flag", async assert => {
+test("deploy without clean flag", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -202,13 +196,12 @@ test("deploy without clean flag", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy error handling", async assert => {
+test("deploy error handling", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -233,13 +226,12 @@ test("deploy error handling", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("deploy file structure verification", async assert => {
+test("deploy file structure verification", async () => {
   try {
     // Setup test directory and create app
     await testUtils.deleteRecursive(testDir);
@@ -275,8 +267,7 @@ test("deploy file structure verification", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

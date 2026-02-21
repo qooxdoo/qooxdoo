@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const path = require("path");
@@ -15,37 +16,33 @@ const appDir = path.join(testDir, "configapp");
 
 let debugArg = "";
 if (debug) {
-  const colorize = require('tap-colorize');
-  test.createStream().pipe(colorize()).pipe(process.stdout);
   debugArg += "--debug --colorize";
 }
 
-test("Test qx config command without parameters", async assert => {
+test("Test qx config command without parameters", async () => {
   try {
     let result;
     result = await testUtils.runCommand(__dirname, qxCmdPath, "config");
     assert.ok(result.exitCode === 0, "qx config command should exit successfully");
     result.output = result.output.toLowerCase();
     assert.ok(result.output.includes("usage") || result.output.includes("commands"), "Output should contain usage information");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config help", async assert => {
+test("Test qx config help", async () => {
   try {
     let result;
     result = await testUtils.runCommand(__dirname, qxCmdPath, "config", "--help");
     assert.ok(result.exitCode === 0, "Config help should work");
     assert.ok(result.output.includes("config"), "Help should mention config command");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config subcommand help", async assert => {
+test("Test qx config subcommand help", async () => {
   try {
     let result;
     
@@ -58,26 +55,24 @@ test("Test qx config subcommand help", async assert => {
       assert.ok(result.output.includes(subcmd), `Help should mention ${subcmd} command`);
     }
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Create test app for config commands", async assert => {
+test("Create test app for config commands", async () => {
   try {
     await testUtils.deleteRecursive(appDir);
     let result;
     result = await testUtils.runCommand(testDir, qxCmdPath, "create", "configapp", "-I");
     assert.ok(result.exitCode === 0, "Create app should succeed");
     assert.ok(fs.existsSync(path.join(appDir, "compile.json")), "compile.json should exist");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config set and get", async assert => {
+test("Test qx config set and get", async () => {
   try {
     let result;
     
@@ -90,38 +85,35 @@ test("Test qx config set and get", async assert => {
     assert.ok(result.exitCode === 0, "Config get should work");
     assert.ok(result.output.includes("test-value"), "Should return the set value");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config get non-existent key", async assert => {
+test("Test qx config get non-existent key", async () => {
   try {
     let result;
     result = await testUtils.runCommand(appDir, qxCmdPath, "config", "get", "non.existent.key");
     // This should either return empty or an error - let's accept both
     assert.ok(result.exitCode === 0 || result.exitCode === 1, "Config get for non-existent key should handle gracefully");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config list", async assert => {
+test("Test qx config list", async () => {
   try {
     let result;
     result = await testUtils.runCommand(appDir, qxCmdPath, "config", "list");
     assert.ok(result.exitCode === 0, "Config list should work");
     // Should list some default configuration values
     assert.ok(result.output.length > 0, "Config list should produce output");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config delete", async assert => {
+test("Test qx config delete", async () => {
   try {
     let result;
     
@@ -142,13 +134,12 @@ test("Test qx config delete", async assert => {
     result = await testUtils.runCommand(appDir, qxCmdPath, "config", "get", "delete.test.key");
     assert.ok(result.exitCode === 0 || result.exitCode === 1, "Config get for deleted key should handle gracefully");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx config with JSON values", async assert => {
+test("Test qx config with JSON values", async () => {
   try {
     let result;
     
@@ -161,20 +152,18 @@ test("Test qx config with JSON values", async assert => {
     assert.ok(result.exitCode === 0, "Config get should work");
     assert.ok(result.output.includes("test") && result.output.includes("123"), "Should return the JSON value");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 
 // Clean up test directory
-test("Clean up test directory", async assert => {
+test("Clean up test directory", async () => {
   try {
     await testUtils.deleteRecursive(testDir);
     assert.ok(!fs.existsSync(testDir), "Test directory should be cleaned up");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

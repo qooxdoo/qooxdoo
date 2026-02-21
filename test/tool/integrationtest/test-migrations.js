@@ -10,8 +10,6 @@ const debug = Boolean(process.env.DEBUG);
 const qxCmdPath = testUtils.getCompiler(debug ? "source":"build");
 let debugArg = "";
 if (debug) {
-  const colorize = require('tap-colorize');
-  test.createStream().pipe(colorize()).pipe(process.stdout);
   debugArg += "--debug --colorize";
 }
 

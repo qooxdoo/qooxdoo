@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const testUtils = require("../../../bin/tools/utils");
 const path = require("path");
 const fs = require("fs").promises;
@@ -34,17 +35,16 @@ async function fileExists(filePath) {
   }
 }
 
-test("Setup: Install dependencies", async assert => {
+test("Setup: Install dependencies", async () => {
   try {
     await installDependencies();
     assert.ok(true, "npm install successful");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Browserify bundles npm modules correctly", async assert => {
+test("Browserify bundles npm modules correctly", async () => {
   try {
     // 1. Compile the app
     let result = await testUtils.runCompiler(testDir);
@@ -86,13 +86,12 @@ test("Browserify bundles npm modules correctly", async assert => {
     console.log(`✓ Browserify bundle created: ${(stats.size / 1024).toFixed(1)} KB`);
     console.log(`✓ Detected require('uuid') at: ${appInfo.commonjsModules.uuid[0]}`);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Compiled app structure is correct", async assert => {
+test("Compiled app structure is correct", async () => {
   try {
     const compiledDir = path.join(testDir, "compiled/source/testbrowserify");
 
@@ -115,13 +114,12 @@ test("Compiled app structure is correct", async assert => {
 
     console.log("✓ All required files present");
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Bundle contains expected npm modules", async assert => {
+test("Bundle contains expected npm modules", async () => {
   try {
     const browserifyFile = path.join(testDir, "compiled/source/testbrowserify/commonjs-browserify.js");
     const content = await fs.readFile(browserifyFile, 'utf-8');
@@ -133,13 +131,12 @@ test("Bundle contains expected npm modules", async assert => {
 
     console.log("✓ All expected modules bundled");
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Recompile is incremental (doesn't rebuild bundle if not needed)", async assert => {
+test("Recompile is incremental (doesn't rebuild bundle if not needed)", async () => {
   try {
     // First compile already done, get browserify file mtime
     const browserifyFile = path.join(testDir, "compiled/source/testbrowserify/commonjs-browserify.js");
@@ -164,9 +161,8 @@ test("Recompile is incremental (doesn't rebuild bundle if not needed)", async as
     }
 
     assert.ok(true, "Recompile completed");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 

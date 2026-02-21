@@ -1,5 +1,6 @@
 const qx = require("../qx");
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const async = require("async");
 const {promisify} = require("util");
@@ -339,8 +340,8 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(src.match(/url\(\"sub5\/image.png\"\)/), "Resource SCSS");
       })
 
-      .then(() => assert.end())
-      .catch(err => assert.end(err));
+      .then(() => {})
+      .catch(err => { throw err; });
 });
 
 async function deleteRecursive(name) {

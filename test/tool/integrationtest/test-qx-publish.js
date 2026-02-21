@@ -1,6 +1,7 @@
 const os = require('os');
 
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const path = require("path");
@@ -23,8 +24,6 @@ const packageDir = path.join(testDir, "testpackage");
 let temporaryTokenCreated = false;
 
 if (debug) {
-  const colorize = require('tap-colorize');
-  test.createStream().pipe(colorize()).pipe(process.stdout);
 }
 
 
@@ -166,7 +165,7 @@ test('This test runs only on non-Linux systems', t => {
   t.end();
 });
 
-test("Test qx package publish help", async assert => {
+test("Test qx package publish help", async () => {
   try {
     let result;
     result = await testUtils.runCommand(__dirname, qxCmdPath, "package", "publish", "--help");
@@ -175,13 +174,12 @@ test("Test qx package publish help", async assert => {
     assert.ok(result.output.includes("publish"), "Help should mention publish command");
     assert.ok(result.output.includes("github"), "Help should mention GitHub");
     assert.ok(result.output.includes("release"), "Help should mention release");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test qx package publish without parameters shows usage", async assert => {
+test("Test qx package publish without parameters shows usage", async () => {
   try {
     let result;
     result = await testUtils.runCommand(__dirname, qxCmdPath, "package", "publish");
@@ -198,9 +196,8 @@ test("Test qx package publish without parameters shows usage", async assert => {
       result.error.toLowerCase().includes("error"),
       "Should show usage or error information"
     );
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -208,7 +205,7 @@ test("Test qx package publish without parameters shows usage", async assert => {
 // Setup Test Package
 // ============================================================================
 
-test("Create test package structure", async assert => {
+test("Create test package structure", async () => {
   try {
     await testUtils.deleteRecursive(testDir);
     await createTestPackage("1.0.0");
@@ -220,18 +217,16 @@ test("Create test package structure", async assert => {
     const manifest = readManifest();
     assert.equal(manifest.info.version, "1.0.0", "Initial version should be 1.0.0");
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Initialize git repository for test package", async assert => {
+test("Initialize git repository for test package", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping git tests");
-      assert.end();
+      assert.ok(true, "Git not available, skipping git tests");
       return;
     }
 
@@ -239,9 +234,8 @@ test("Initialize git repository for test package", async assert => {
     assert.ok(success, "Git repository should be initialized");
     assert.ok(fs.existsSync(path.join(packageDir, ".git")), ".git directory should exist");
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -249,7 +243,7 @@ test("Initialize git repository for test package", async assert => {
 // Setup GitHub Token (Required for Publish Tests)
 // ============================================================================
 
-test("Setup GitHub token for publish tests", async assert => {
+test("Setup GitHub token for publish tests", async () => {
   try {
     // Check if github.token already exists
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "config", "get", "github.token");
@@ -277,12 +271,11 @@ test("Setup GitHub token for publish tests", async assert => {
       result = await testUtils.runCommand(__dirname, qxCmdPath, "config", "get", "github.token");
       assert.ok(result.output.includes("TEST_TOKEN"), "Temporary token should be set");
     } else {
-      assert.pass("GitHub token already exists, using existing token");
+      assert.ok(true, "GitHub token already exists, using existing token");
     }
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -290,7 +283,7 @@ test("Setup GitHub token for publish tests", async assert => {
 // Validation Tests (Expected to Fail Gracefully)
 // ============================================================================
 
-test("Test publish without git repository", async assert => {
+test("Test publish without git repository", async () => {
   try {
     // Create a package without git
     const noGitDir = path.join(testDir, "nogit");
@@ -324,13 +317,12 @@ test("Test publish without git repository", async assert => {
     // Cleanup
     await testUtils.deleteRecursive(noGitDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test publish without Manifest.json", async assert => {
+test("Test publish without Manifest.json", async () => {
   try {
     const noManifestDir = path.join(testDir, "nomanifest");
     if (!fs.existsSync(noManifestDir)) {
@@ -355,13 +347,12 @@ test("Test publish without Manifest.json", async assert => {
     // Cleanup
     await testUtils.deleteRecursive(noManifestDir);
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test publish with invalid version type", async assert => {
+test("Test publish with invalid version type", async () => {
   try {
     let result = await testUtils.runCommand(
       packageDir,
@@ -379,9 +370,8 @@ test("Test publish with invalid version type", async assert => {
       "Should fail with invalid version type"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -389,12 +379,11 @@ test("Test publish with invalid version type", async assert => {
 // Dry-Run Mode Tests (Safe - No GitHub Interaction)
 // ============================================================================
 
-test("Test dry-run with default patch version increment", async assert => {
+test("Test dry-run with default patch version increment", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -441,18 +430,16 @@ test("Test dry-run with default patch version increment", async assert => {
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with major version increment", async assert => {
+test("Test dry-run with major version increment", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -485,18 +472,16 @@ test("Test dry-run with major version increment", async assert => {
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with minor version increment", async assert => {
+test("Test dry-run with minor version increment", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -529,18 +514,16 @@ test("Test dry-run with minor version increment", async assert => {
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with patch version increment", async assert => {
+test("Test dry-run with patch version increment", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -573,18 +556,16 @@ test("Test dry-run with patch version increment", async assert => {
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with explicit version number", async assert => {
+test("Test dry-run with explicit version number", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -617,18 +598,16 @@ test("Test dry-run with explicit version number", async assert => {
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with prerelease type (e.g., 1.0.0 -> 1.0.1-0)", async assert => {
+test("Test dry-run with prerelease type (e.g., 1.0.0 -> 1.0.1-0)", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -661,18 +640,16 @@ test("Test dry-run with prerelease type (e.g., 1.0.0 -> 1.0.1-0)", async assert 
       "Manifest.json should NOT be modified in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with custom commit message", async assert => {
+test("Test dry-run with custom commit message", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -694,9 +671,8 @@ test("Test dry-run with custom commit message", async assert => {
       "Should mention custom/version or fail with expected error (GitHub API not available in tests)"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -706,12 +682,11 @@ test("Test dry-run with custom commit message", async assert => {
 // Index File Tests
 // ============================================================================
 
-test("Test dry-run with create-index flag", async assert => {
+test("Test dry-run with create-index flag", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -739,9 +714,8 @@ test("Test dry-run with create-index flag", async assert => {
       "qooxdoo.json should NOT be created in dry-run mode"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -749,12 +723,11 @@ test("Test dry-run with create-index flag", async assert => {
 // Branch Detection Tests
 // ============================================================================
 
-test("Test dry-run on feature branch", async assert => {
+test("Test dry-run on feature branch", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -816,18 +789,16 @@ test("Test dry-run on feature branch", async assert => {
       }
     }
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run on master branch", async assert => {
+test("Test dry-run on master branch", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -884,18 +855,16 @@ test("Test dry-run on master branch", async assert => {
       "Should not show branch warning when on master/main"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test branch detection in detached HEAD state", async assert => {
+test("Test branch detection in detached HEAD state", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -946,9 +915,8 @@ test("Test branch detection in detached HEAD state", async assert => {
       }
     }
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -956,12 +924,11 @@ test("Test branch detection in detached HEAD state", async assert => {
 // Version Range Tests
 // ============================================================================
 
-test("Test dry-run with qx-version flag", async assert => {
+test("Test dry-run with qx-version flag", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -983,18 +950,16 @@ test("Test dry-run with qx-version flag", async assert => {
       "Should mention 8.0/version or fail with expected error (GitHub API not available in tests)"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with breaking changes flag", async assert => {
+test("Test dry-run with breaking changes flag", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -1016,18 +981,16 @@ test("Test dry-run with breaking changes flag", async assert => {
       "Should mention breaking/version or fail with expected error (GitHub API not available in tests)"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Test dry-run with qx-version-range override", async assert => {
+test("Test dry-run with qx-version-range override", async () => {
   try {
     const gitAvailable = await isGitAvailable();
     if (!gitAvailable) {
-      assert.pass("Git not available, skipping test");
-      assert.end();
+      assert.ok(true, "Git not available, skipping test");
       return;
     }
 
@@ -1049,9 +1012,8 @@ test("Test dry-run with qx-version-range override", async assert => {
       "Should mention range/version or fail with expected error (GitHub API not available in tests)"
     );
 
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
@@ -1059,7 +1021,7 @@ test("Test dry-run with qx-version-range override", async assert => {
 // Cleanup
 // ============================================================================
 
-test("Clean up temporary GitHub token", async assert => {
+test("Clean up temporary GitHub token", async () => {
   try {
     if (temporaryTokenCreated) {
       let result = await testUtils.runCommand(__dirname, qxCmdPath, "config", "delete", "github.token");
@@ -1072,20 +1034,18 @@ test("Clean up temporary GitHub token", async assert => {
         "Temporary token should be deleted"
       );
     } else {
-      assert.pass("No temporary token to clean up");
+      assert.ok(true, "No temporary token to clean up");
     }
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Clean up test directory", async assert => {
+test("Clean up test directory", async () => {
   try {
     await testUtils.deleteRecursive(testDir);
     assert.ok(!fs.existsSync(testDir), "Test directory should be cleaned up");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

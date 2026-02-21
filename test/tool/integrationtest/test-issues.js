@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const kill = require("tree-kill");
 const child_process = require("child_process");
@@ -7,32 +8,30 @@ const fsPromises = testUtils.fsPromises;
 process.chdir(__dirname);
 
 
-test("Issue553", async assert => {
+test("Issue553", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553");
     assert.ok(fs.existsSync("test-issues/issue553/compiled/source/index.html"));
     let indexHtml = await fsPromises.readFile("test-issues/issue553/compiled/source/index.html", "utf8");
     assert.ok(!!indexHtml.match(/issue553one\/index.js/m));
-    assert.end();
   } catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue553 single app", async assert => {
+test("Issue553 single app", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553", "--app-name=issue553two");
     assert.ok(!fs.existsSync("test-issues/issue553/compiled/source/index.html"));
     assert.ok(fs.existsSync("test-issues/issue553/compiled/source/issue553two/index.html"));
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue553 Node", async assert => {
+test("Issue553 Node", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553_node/compiled");
     await testUtils.runCompiler("test-issues/issue553_node");
@@ -44,24 +43,22 @@ test("Issue553 Node", async assert => {
     assert.ok(!fs.existsSync("test-issues/issue553_node/compiled/source/issue553one/index.html"));
     assert.ok(fs.existsSync("test-issues/issue553_node/compiled/source/issue553two/index.js"));
     assert.ok(!fs.existsSync("test-issues/issue553_node/compiled/source/issue553two/index.html"));
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Dynamic commands", async assert => {
+test("Dynamic commands", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/testdynamic/compiled");
     let result = await testUtils.runCommand("test-issues/testdynamic", testUtils.getCompiler(), "testlib", "hello", "-t=4");
     assert.ok(result.output.match(/The commmand testlib; message=hello, type=4/));
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Dynamic parameter", async assert => {
+test("Dynamic parameter", async () => {
   try {
     // Test a simple dynamic command with just one parameter
     let result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--help");
@@ -69,13 +66,12 @@ test("Dynamic parameter", async assert => {
     assert.ok(result.output.match(/A simple compiler flag/), "Should show correct output with parameter value");
     result = await testUtils.runCommand("test-issues/testdynamicparameter", testUtils.getCompiler(), "compile", "--simple", "--verbose");
     assert.ok(result.exitCode === 0, "Simple command should execute successfully");
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue440", async assert => {
+test("Issue440", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue440/compiled");
     let code = await fsPromises.readFile("test-issues/issue440/source/class/issue440/Application.js", "utf8");
@@ -105,13 +101,12 @@ test("Issue440", async assert => {
     await fsPromises.writeFile("test-issues/issue440/source/class/issue440/Application.js", code.join("\n"), "utf8");
     result = await testUtils.runCompiler("test-issues/issue440");
     assert.ok(result.exitCode === 0);
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("testLegalSCSS", async assert => {
+test("testLegalSCSS", async () => {
   try {
     let result;
     await testUtils.deleteRecursive("test-issues/testLegalSCSS/compiled");
@@ -128,13 +123,12 @@ test("testLegalSCSS", async assert => {
     assert.ok(test.indexOf("testLegalSCSS/css/test_css.css") > 0);
     assert.ok(test.indexOf("testLegalSCSS/css/test_scss.css") > 0);
     assert.ok(test.indexOf("testLegalSCSS/css/test_theme_scss.css") > 0);
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue715", async assert => {
+test("Issue715", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue715/compiled");
     await testUtils.runCompiler("test-issues/issue715", "--target=build", "--minify=off");
@@ -145,13 +139,12 @@ test("Issue715", async assert => {
     assert.ok(!str.match(/__applyMyProp\b/m));
     assert.ok(!str.match(/__privateStaticOne\b/m));
     assert.ok(!!str.match(/__privateStaticTwo/m));
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue10407 - Compiler should warn about nonexistent classes", async assert => {
+test("Issue10407 - Compiler should warn about nonexistent classes", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -177,13 +170,12 @@ test("Issue10407 - Compiler should warn about nonexistent classes", async assert
       "Should warn about nonexistent class qx.ddde.eee"
     );
 
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue10407 - Compiler should fail with --warnAsError", async assert => {
+test("Issue10407 - Compiler should fail with --warnAsError", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -191,13 +183,12 @@ test("Issue10407 - Compiler should fail with --warnAsError", async assert => {
     let result = await testUtils.runCompiler("test-issues/issue10407", "--warnAsError");
     assert.ok(result.exitCode !== 0, "Compilation with --warnAsError should fail when there are unresolved symbols");
 
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue10407 - Watch mode should detect new unresolved classes in new files", async assert => {
+test("Issue10407 - Watch mode should detect new unresolved classes in new files", async () => {
   const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
 
   try {
@@ -251,7 +242,6 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
         await fsPromises.unlink(newClassPath);
       }
       assert.fail("Watch mode did not start within 40s");
-      assert.end();
       return;
     }
 
@@ -319,7 +309,6 @@ qx.Class.define("issue10407watch.WatchTestClass", {
       await fsPromises.unlink(newClassPath);
     }
 
-    assert.end();
   } catch(ex) {
     // Cleanup on error
     const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
@@ -339,11 +328,11 @@ qx.Class.define("issue10407watch.WatchTestClass", {
         // Ignore cleanup errors
       }
     }
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("Issue10407 - Watch mode should detect unresolved classes in modified files", async assert => {
+test("Issue10407 - Watch mode should detect unresolved classes in modified files", async () => {
   const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
   let originalContent = "";
 
@@ -399,7 +388,6 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
       kill(watchProcess.pid, 'SIGKILL');
       await fsPromises.writeFile(appFilePath, originalContent, "utf8");
       assert.fail("Watch mode did not start within 40s");
-      assert.end();
       return;
     }
 
@@ -444,7 +432,6 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
       "Watch mode should warn about unresolved class in modified file"
     );
 
-    assert.end();
   } catch(ex) {
     // Restore original file on error
     if (originalContent) {
@@ -454,11 +441,11 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
         // Ignore cleanup errors
       }
     }
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("afterProcessFinished callback", async assert => {
+test("afterProcessFinished callback", async () => {
   try {
     const markerFile = "test-issues/test-afterProcessFinished/afterProcessFinished.marker";
 
@@ -483,9 +470,8 @@ test("afterProcessFinished callback", async assert => {
       await fsPromises.unlink(markerFile);
     }
 
-    assert.end();
   } catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 

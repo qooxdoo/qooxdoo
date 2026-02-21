@@ -1,9 +1,10 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 require("process").chdir(__dirname);
 
-test("test externals", async assert => {
+test("test externals", async () => {
   try {
 
     await testUtils.deleteRecursive("test-externals/myapp/compiled");
@@ -23,9 +24,8 @@ test("test externals", async assert => {
     assert.ok(!data.match(/THIS_IS_C_JS/));
     assert.ok(!data.match(/urisBefore: \[ "__external__:http:\/\/cdn.example.com\/my\/d.js" \]/));
 
-    assert.end();
   } catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 

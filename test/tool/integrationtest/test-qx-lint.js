@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -9,7 +9,6 @@ const testDir = path.join(__dirname, "test-qx-lint");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -20,7 +19,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("lint help", async assert => {
+test("lint help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "lint", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -34,13 +33,12 @@ test("lint help", async assert => {
     assert.ok(result.output.includes("--use-eslintrc"), "Help should mention use-eslintrc option");
     assert.ok(result.output.includes("--warn-as-error"), "Help should mention warn-as-error option");
     assert.ok(result.output.includes("--fix-jsdoc-params"), "Help should mention fix-jsdoc-params option");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint command with app", async assert => {
+test("lint command with app", async () => {
   try {
     // Create a test app for linting
     await testUtils.deleteRecursive(myAppDir);
@@ -92,13 +90,12 @@ test("lint command with app", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint command with output file", async assert => {
+test("lint command with output file", async () => {
   try {
     // Create a test app for linting
     await testUtils.deleteRecursive(myAppDir);
@@ -119,13 +116,12 @@ test("lint command with output file", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint command with fix option", async assert => {
+test("lint command with fix option", async () => {
   try {
     // Create a test app for linting
     await testUtils.deleteRecursive(myAppDir);
@@ -187,13 +183,12 @@ test("lint command with fix option", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint command with jsdoc fixes", async assert => {
+test("lint command with jsdoc fixes", async () => {
   try {
     // Create a test app for linting
     await testUtils.deleteRecursive(myAppDir);
@@ -235,8 +230,7 @@ test("lint command with jsdoc fixes", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
