@@ -160,9 +160,8 @@ async function isGitAvailable() {
 // ============================================================================
 // Basic Command Tests
 // ============================================================================
-test('This test runs only on non-Linux systems', t => {
-  t.ok(true, 'Test executed');
-  t.end();
+test('This test runs only on non-Linux systems', async () => {
+  assert.ok(true, 'Test executed');
 });
 
 test("Test qx package publish help", async () => {

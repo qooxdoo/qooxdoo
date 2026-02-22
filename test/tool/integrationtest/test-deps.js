@@ -92,7 +92,7 @@ async function createMaker() {
   return maker;
 }
 
-test("Checks dependencies and environment settings", assert => {
+test("Checks dependencies and environment settings", async () => {
   function readJson(filename) {
     return readFile(filename, {encoding: "utf8"})
         .then(str => JSON.parse(str));
@@ -119,7 +119,7 @@ test("Checks dependencies and environment settings", assert => {
   var compileInfo;
   var db;
   var meta;
-  deleteRecursive("test-deps")
+  await deleteRecursive("test-deps")
       .then(() => createMaker())
       .then(_maker => {
         maker = _maker;

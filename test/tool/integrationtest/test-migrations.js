@@ -1,4 +1,5 @@
-const test = require("tape"); // https://github.com/substack/tape
+const { test } = require("node:test");
+const assert = require("node:assert");
 const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
 const fsp = require("fs").promises;
@@ -18,30 +19,29 @@ if (debug) {
  * Some migrations are applied automatically while others require manual review.
  */
 function testMigration(maxVersion, totalMigrations, appliedMigrations, pendingMigrations, checksumExpected) {
-  return async tape => {
+  return async () => {
     try {
       const baseDir = path.join(__dirname, "test-migrations", `v${maxVersion}`);
       const unmigratedDir = path.join(baseDir, "unmigrated");
       const migratedDir = path.join(baseDir, "migrated");
       await testUtils.deleteRecursive(migratedDir);
       await testUtils.sync(unmigratedDir, migratedDir);
-      tape.comment("Upgrade notice");
+      console.log("Upgrade notice");
       let result = await testUtils.runCommand(migratedDir, qxCmdPath, "clean", debugArg);
-      tape.match(result.error, new RegExp(`pending migrations`));
-      tape.comment("Dry run");
+      assert.match(result.error, new RegExp(`pending migrations`));
+      console.log("Dry run");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", "--dry-run", `--qx-version=${maxVersion}`, debugArg);
-      tape.match(result.output,new RegExp(`0 migrations applied, ${totalMigrations} migrations pending`));
-      tape.comment("Run migration");
+      assert.match(result.output, new RegExp(`0 migrations applied, ${totalMigrations} migrations pending`));
+      console.log("Run migration");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", `--qx-version=${maxVersion}`, debugArg);
-      tape.match(result.output, new RegExp(`${appliedMigrations} migrations applied, ${pendingMigrations} migrations pending`));
+      assert.match(result.output, new RegExp(`${appliedMigrations} migrations applied, ${pendingMigrations} migrations pending`));
       let checksum = (await digest(migratedDir,'sha1')).hash;
-      tape.comment(`Checksum of migrated app: ${checksum}, expected ${checksumExpected}`);
+      console.log(`Checksum of migrated app: ${checksum}, expected ${checksumExpected}`);
       // checksums do not seem to be deterministic, need to find out why
       // or replace by an algorithm that only hashes file tree (not file contents)
-      //tape.equals(checksum, checksumExpected);
-      tape.end();
+      //assert.equal(checksum, checksumExpected);
     } catch(ex) {
-      tape.end(ex);
+      throw ex;
     }
   }
 }
