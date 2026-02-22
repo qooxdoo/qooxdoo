@@ -58,6 +58,7 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
         await getGlobalDispatcher().close();
       } catch (e) {
         // not available on this Node.js version - proceed
+        console.error("ERROR:\nnode:undici not found\n");
       }
       process.exit(exitCode);
     },
