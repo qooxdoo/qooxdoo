@@ -161,7 +161,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         setup(build) {
           const reported = new Set();
           build.onResolve({ filter: /^[^./]/ }, async args => {
-            if (args.namespace === "qx-missing") return null;
+            if (args.namespace === "qx-missing") {return null;}
             const searchPaths = [args.resolveDir, process.cwd()].filter(Boolean);
             for (const dir of searchPaths) {
               try {
