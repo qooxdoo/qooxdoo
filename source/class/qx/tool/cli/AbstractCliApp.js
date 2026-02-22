@@ -48,19 +48,21 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
         console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
         exitCode = 1;
       }
-      // Close undici's global connection pool before calling process.exit().
-      // Native fetch (undici) keeps HTTP keep-alive connections open; if process.exit()
-      // is called while those handles are still pending, Windows libuv asserts:
-      //   !(handle->flags & UV_HANDLE_CLOSING), src\win\async.c:76
-      // node:undici is available as a built-in from Node.js 22+.
+      // Close undici's global connection pool before exiting.
+      // Native fetch (undici) keeps HTTP keep-alive connections open which would prevent
+      // natural process exit. node:undici is available as a built-in from Node.js 22+.
       try {
         const { getGlobalDispatcher } = require("node:undici");
         await getGlobalDispatcher().close();
       } catch (e) {
-        // not available on this Node.js version - proceed
-        console.error("ERROR:\nnode:undici not found\n");
+        // node:undici not available on this Node.js version — proceed
       }
-      process.exit(exitCode);
+      // Use process.exitCode instead of process.exit() to avoid a libuv race on Windows + Node 24:
+      // close() resolves, but undici's internal uv_async_t handles are still tearing down; calling
+      // process.exit() immediately marks them UV_HANDLE_CLOSING, then a background task fires
+      // uv_async_send() on one → assertion fails (libuv 1.50.x made this a hard crash, not a no-op).
+      // Setting exitCode and returning lets the event loop drain naturally instead.
+      process.exitCode = exitCode;
     },
 
     /**
