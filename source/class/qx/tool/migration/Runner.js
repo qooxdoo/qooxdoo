@@ -86,7 +86,7 @@ qx.Class.define("qx.tool.migration.Runner", {
         );
 
         let skip =
-          (appQxVersion && !semver.lt(appQxVersion, migrationVersion)) ||
+          (appQxVersion && !semver.lt(semver.coerce(appQxVersion)?.version ?? appQxVersion, migrationVersion)) ||
           (qxVersion && semver.gt(migrationVersion, qxVersion));
         if (skip) {
           this.debug(`>>> Skipping migration ${Clazz.classname}.`);

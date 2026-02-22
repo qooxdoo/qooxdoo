@@ -41,12 +41,25 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
         console.log((cmd || rootCmd).usage());
         process.exit((!cmd || errors) ? 1 : 0);
       }
+      let exitCode = 0;
       try {
-        process.exit(await run.call(cmd, cmd) ?? 0);
+        exitCode = await run.call(cmd, cmd) ?? 0;
       } catch (ex) {
         console.error("ERROR:\n" + (ex.stack ?? ex.message) + "\n");
-        process.exit(1);
+        exitCode = 1;
       }
+      // Close undici's global connection pool before calling process.exit().
+      // Native fetch (undici) keeps HTTP keep-alive connections open; if process.exit()
+      // is called while those handles are still pending, Windows libuv asserts:
+      //   !(handle->flags & UV_HANDLE_CLOSING), src\win\async.c:76
+      // node:undici is available as a built-in from Node.js 22+.
+      try {
+        const { getGlobalDispatcher } = require("node:undici");
+        await getGlobalDispatcher().close();
+      } catch (e) {
+        // not available on this Node.js version - proceed
+      }
+      process.exit(exitCode);
     },
 
     /**
