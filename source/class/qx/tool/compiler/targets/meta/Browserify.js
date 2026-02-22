@@ -154,6 +154,43 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // Convert a module name to a valid JS identifier
       const safeName = name => "_m_" + name.replace(/[^a-zA-Z0-9_$]/g, "_");
 
+      // esbuild equivalent of browserify's ignoreMissing:true — logs a warning and
+      // returns an empty module stub so the bundle is still produced
+      const missingModulePlugin = refs => ({
+        name: "qx-missing-module",
+        setup(build) {
+          const reported = new Set();
+          build.onResolve({ filter: /^[^./]/ }, async args => {
+            if (args.namespace === "qx-missing") return null;
+            const searchPaths = [args.resolveDir, process.cwd()].filter(Boolean);
+            for (const dir of searchPaths) {
+              try {
+                require.resolve(args.path, { paths: [dir] });
+                return null;
+              } catch (_) {}
+            }
+            if (!reported.has(args.path)) {
+              reported.add(args.path);
+              const msg = [`WARNING: could not locate require()d module: "${args.path}"`, "  required from:"];
+              const modRefs = refs[args.path];
+              if (modRefs) {
+                try {
+                  [...modRefs].forEach(r => [...r].forEach(ref => msg.push(`    ${ref}`)));
+                } catch (_) {}
+              } else {
+                msg.push("    <compile.json:application.localModules>");
+              }
+              qx.tool.compiler.Console.error(msg.join("\n"));
+            }
+            return { path: args.path, namespace: "qx-missing" };
+          });
+          build.onLoad({ filter: /.*/, namespace: "qx-missing" }, args => ({
+            contents: `// Missing module: ${args.path}\nmodule.exports = {};`,
+            loader: "js"
+          }));
+        }
+      });
+
       const allModules = [
         ...commonjsModules.map(m => ({ require: m, file: m })),
         ...Object.entries(localModules || {}).map(([name, file]) => ({ require: name, file }))
@@ -190,7 +227,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           write: false,
           sourcemap: false,
           logLevel: "silent",
-          plugins: [polyfillNode()],
+          plugins: [polyfillNode(), missingModulePlugin(references)],
           ...userOptions
         });
       } catch (e) {
