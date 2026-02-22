@@ -1,0 +1,16 @@
+{
+  "info": {
+    "name": "test-browserify-missing",
+    "version": "1.0.0",
+    "title": "Test Missing Module",
+    "summary": "Test application for missing npm module graceful handling",
+    "license": "MIT"
+  },
+  "provides": {
+    "namespace": "testmissing",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  }
+}

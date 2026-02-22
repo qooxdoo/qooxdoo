@@ -5,6 +5,7 @@ const fs = require("fs").promises;
 const { execSync } = require("child_process");
 
 const testDir = path.join(__dirname, "test-browserify");
+const testDirMissing = path.join(__dirname, "test-browserify-missing");
 const qxCmdPath = testUtils.getCompiler();
 
 /**
@@ -163,6 +164,41 @@ test("Recompile is incremental (doesn't rebuild bundle if not needed)", async as
     }
 
     assert.ok(true, "Recompile completed");
+    assert.end();
+  } catch (ex) {
+    assert.end(ex);
+  }
+});
+
+test("Missing npm module is handled gracefully (ignoreMissing equivalent)", async assert => {
+  try {
+    // Compile app that require()s a package that is intentionally not installed
+    const result = await testUtils.runCompiler(testDirMissing);
+
+    // 1. Compiler must exit successfully — bundle is produced despite missing module
+    assert.ok(result.exitCode === 0, `Compile should succeed even with missing module: ${result.error || result.output}`);
+
+    // 2. Bundle file must exist and have content (not empty)
+    const bundleFile = path.join(testDirMissing, "compiled/source/testmissing/commonjs-browserify.js");
+    assert.ok(await fileExists(bundleFile), "commonjs-browserify.js should exist");
+    const stats = await fs.stat(bundleFile);
+    assert.ok(stats.size > 0, `Bundle should not be empty, got ${stats.size} bytes`);
+
+    // 3. Bundle must contain the empty stub for the missing module
+    const content = await fs.readFile(bundleFile, 'utf-8');
+    assert.ok(
+      content.includes('nonexistent-qx-test-pkg'),
+      "Bundle should reference the missing module (stub comment)"
+    );
+
+    // 4. A warning about the missing module must appear in compiler output
+    const allOutput = result.output + (result.error || "");
+    assert.ok(
+      allOutput.includes('nonexistent-qx-test-pkg'),
+      "Compiler should warn about the missing module"
+    );
+
+    console.log(`✓ Missing module handled: bundle created (${stats.size} bytes), warning emitted`);
     assert.end();
   } catch (ex) {
     assert.end(ex);
