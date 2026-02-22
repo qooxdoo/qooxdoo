@@ -52,4 +52,4 @@ test("v6.0.0", testMigration("6.0.0", 9, 9, 0, "4c73c335e6446bb5082217a3bc7f2bbe
 
 test("v7.0.0", testMigration("7.0.0", 3, 3, 0, "a7d71e81c22665c5fce5a5f6993fd699a8d12440"));
 
-test("v8.0.0", testMigration("8.0.0", 10, 4, 6, "7814f72685a556d8784d99a678ec06ec3002f4cc"));
+test("v8.0.0", testMigration("8.0.0", 8, 4, 4, "7814f72685a556d8784d99a678ec06ec3002f4cc"));

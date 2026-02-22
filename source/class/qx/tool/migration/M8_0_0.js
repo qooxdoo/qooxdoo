@@ -74,9 +74,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         "cancelled before refreshing table model data.\n" +
         "See: https://github.com/qooxdoo/qooxdoo/blob/master/CHANGELOG.md#breaking-changes"
       );
-      this.markAsPending(
-        "Manual review required for table model data updates"
-      );
+      // Informational only — cannot be auto-detected, so no markAsPending
     },
 
     /**
@@ -368,7 +366,9 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         "  Old: '@qooxdoo/qx'\n" +
         "  New: '@qooxdoo/eslint-plugin-qx' or full import"
       );
-      this.markAsPending("Verify Node.js version >= 20.0.0");
+      if (!semver.gte(process.versions.node, "20.0.0")) {
+        this.markAsPending("Verify Node.js version >= 20.0.0");
+      }
     },
 
     /**
