@@ -14,9 +14,8 @@ qx.Class.define("${classname}",
   /**
    * Create a the singleton
    */
-  construct : function() {
-    // If you want to call the parent constructor, use
-    // this.base(arguments);
+  construct() {
+    super();
   },
 
   /**
@@ -55,15 +54,15 @@ qx.Class.define("${classname}",
      * @param {Number} bar The bar parameter
      * @return {void} The result of the method.
      */
-    myMethod : function(foo, bar)
+    myMethod(foo, bar)
     {
       //
     },
 
     /** Applies the foo property */
-    _applyFoo : function(value, old)
+    _applyFoo(value, old)
     {
       //
-    } 
+    }
   }
 });

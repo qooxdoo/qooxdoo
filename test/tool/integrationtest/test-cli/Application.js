@@ -37,7 +37,7 @@ qx.Class.define("myapp.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    main : function() {
+    main() {
       if (qx.core.Environment.get("runtime.name") ==="rhino") {
         qx.log.Logger.register(qx.log.appender.RhinoConsole);
       } else if (qx.core.Environment.get("runtime.name") === "node.js") {
@@ -64,7 +64,7 @@ qx.Class.define("myapp.Application",
      *
      * @param {string[]} args Rhino arguments object
      */
-    _argumentsToSettings : function(args) {
+    _argumentsToSettings(args) {
       var opts;
       for (var i=0, l=args.length; i<l; i++) {
         if (args[i].indexOf("settings=") === 0) {

@@ -12,9 +12,8 @@ qx.Class.define("${classname}",
   /**
    * Constructor
    */
-  construct : function() {
-    // If you want to call the parent constructor, use
-    // this.base(arguments);
+  construct() {
+    super();
   },
 
   /**
@@ -62,7 +61,7 @@ qx.Class.define("${classname}",
      * @param {number} bar The bar parameter
      * @return The result of the method.
      */
-    myMethod : function(foo, bar) {
+    myMethod(foo, bar) {
       //
     },
 
@@ -72,7 +71,7 @@ qx.Class.define("${classname}",
      * @param {string} value new value
      * @param {string} old the old value
      */
-    _applyFoo : function(value, old) {
+    _applyFoo(value, old) {
       //
     }
 
@@ -81,7 +80,7 @@ qx.Class.define("${classname}",
   /**
    * Use for disposing objects created by class instances
    */
-  destruct : function() {
+  destruct() {
     //
-  }  
+  }
 });
