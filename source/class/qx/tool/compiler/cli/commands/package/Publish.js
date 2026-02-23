@@ -20,7 +20,6 @@ const path = require("upath");
 const process = require("process");
 const { Octokit } = require("@octokit/rest");
 const semver = require("semver");
-const inquirer = require("inquirer");
 const { glob } = require("glob");
 
 /**
@@ -148,6 +147,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
     async process() {
       // init
       const argv = this.argv;
+      const { default: inquirer } = await import("inquirer");
 
       // qooxdoo version
       let qxVersion = await this.getQxVersion();
@@ -521,6 +521,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
      * @private
      */
     async __createIndexFile(argv) {
+      const { default: inquirer } = await import("inquirer");
       if (argv.verbose && !argv.quiet) {
         qx.tool.compiler.Console.info("Creating index file...");
       }
@@ -552,7 +553,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         let answer = await inquirer.prompt({
           name: "mainpath",
           message: "Please choose the main library",
-          type: "list",
+          type: "select",
           choices
         });
 

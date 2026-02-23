@@ -18,7 +18,6 @@
 ************************************************************************ */
 const fs = require("fs");
 const path = require("upath");
-const inquirer = require("inquirer");
 
 /**
  * Create a new qooxdoo project. This will assemble the information needed to create the
@@ -210,6 +209,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
       // ask user for missing values
       let answers;
       try {
+        const { default: inquirer } = await import("inquirer");
         answers = await inquirer.prompt(questions);
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError(e.message);

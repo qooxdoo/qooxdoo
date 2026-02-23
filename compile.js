@@ -116,7 +116,7 @@ qx.Class.define("qx.compile.CompilerApi", {
      * @returns {Promise<string|null>}
      */
     async __promptForNpmToken() {
-      const inquirer = require("inquirer");
+      const { default: inquirer } = await import("inquirer");
       let response = await inquirer.prompt([
         {
           type: "input",

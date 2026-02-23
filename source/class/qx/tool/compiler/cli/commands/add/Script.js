@@ -20,7 +20,6 @@
 const fs = require("fs");
 const process = require("process");
 const path = require("upath");
-const inquirer = require("inquirer");
 /**
  * Add a new script file to the current project, to be loaded by the qooxdoo boot loader
  *
@@ -125,6 +124,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
       }
       if ((await fs.existsAsync(resource_file_path)) && !this.argv.undo) {
         if (!this.argv.noninteractive) {
+          const { default: inquirer } = await import("inquirer");
           let question = {
             type: "confirm",
             name: "doOverwrite",

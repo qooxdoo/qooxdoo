@@ -18,7 +18,6 @@
 const process = require("process");
 const { Octokit } = require("@octokit/rest");
 const semver = require("semver");
-const inquirer = require("inquirer");
 const path = require("upath");
 
 /**
@@ -121,6 +120,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
         await this.updateFromRepository();
       } else {
         if (!github.token) {
+          const { default: inquirer } = await import("inquirer");
           let response = await inquirer.prompt([
             {
               type: "input",
