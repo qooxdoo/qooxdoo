@@ -406,6 +406,6 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * @deprecated
      * Behavior in v8 will be as if the environment variable value is `true`, but the environment variable will no longer be available.
      */
-    "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest": false
+    "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest": true
   }
 });
