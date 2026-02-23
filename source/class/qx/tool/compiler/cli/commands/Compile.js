@@ -843,7 +843,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
           watch.setConfigFilenames(arr);
 
-          if (target instanceof qx.tool.compiler.targets.SourceTarget && !this.__typescriptWatcherAttached) {
+          if (this.__typescriptEnabled && target instanceof qx.tool.compiler.targets.SourceTarget && !this.__typescriptWatcherAttached) {
             this.__typescriptWatcherAttached = true;
             try {
               await this.__attachTypescriptWatcher(watch);
