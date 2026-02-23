@@ -841,35 +841,20 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
+      //store the old value
+      let oldValue = this.__getImpl(thisObj, true);
       let state = this.getPropertyState(thisObj);
 
+      //validate and transform the value
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
-
-      let oldValue = this.__getImpl(thisObj, true);
 
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this.__propertyName);
       }
 
-      if (method == "reset") {
-        if (scope == "user") {
-          this.__storage.reset(thisObj, this, value);
-        } else if (scope == "themed") {
-          if (value === undefined) {
-            delete state.themeValue;
-          }
-        }
-        value = this.__getImpl(thisObj, true);
-      }
-
-      if (this.isInheritable()) {
-        if (value === "inherit") {
-          value = state.inheritedValue;
-        }
-      }
-
+      //perform additional checks if promise
       let check = this.getCheck();
       if (qx.core.Environment.get("qx.debug")) {
         if (!check || check instanceof qx.core.check.Any) {
@@ -877,13 +862,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
             this.warn(
               "Property " +
                 this +
-                " is being set to a promise, bt its check is not a Promise. The property will be set to the promise itself."
+                " is being set to a promise, but its check is not a Promise. The property will be set to the promise itself."
             );
           }
         }
       }
 
-      if (method !== "reset" && check) {
+      //use check for validation and coercion if necessary,
+      //but only if not resetting
+      if (!(value === "inherit" && this.isInheritable()) && method !== "reset" && check) {
         if (!(value === null && oldValue === null) && !check.matches(value, thisObj)) {
           let coerced = check.coerce(value, thisObj);
           if (qx.lang.Type.isPromise(value) || coerced === null || !check.matches(coerced, thisObj)) {
@@ -893,6 +880,39 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
+      //Modify the value in the underlying storage
+      if (method == "reset") {
+        if (scope == "user") {
+          this.__storage.set(thisObj, this, value);
+        } else if (scope == "themed") {
+          if (value === undefined) {
+            delete state.themeValue;            
+          }
+        }
+        value = this.__getImpl(thisObj, true);
+      } else {
+        if (scope == "user") {
+          // Always set the value to the storage if it is a user value; this is because themable properties
+          // might be equal now, but if the theme value changes, the user's override needs to remain.
+          if (method == "set" || method == "init") {
+            this.__storage.set(thisObj, this, value);
+          }
+        } else if (scope == "themed") {        
+          if (value !== undefined) {
+            state.themeValue = value;
+            value = this.__getImpl(thisObj);
+          }        
+        } 
+      }
+
+      // If the value is "inherit" and the property is inheritable, we need to calculate the inherited value
+      if (this.isInheritable() && value === "inherit") {
+        value = state.inheritedValue;
+      }
+      
+      //the final value has now been deternined.
+      //If it's not equal to the old value or state.applyMethodCalled was not set,
+      //we call apply and fire event            
       let isEqual = this.isEqual(thisObj, value, oldValue);
       if (!isEqual && this.isMutating(thisObj)) {
         this.warn("Property " + this + " is currently mutating");
@@ -913,23 +933,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       this.__setMutating(thisObj, true);
-
-      if (scope == "user") {
-        // Always set the value to the storage if it is a user value; this is because themable properties
-        // might be equal now, but if the theme value changes, the user's override needs to remain.
-        if (method == "set" || method == "init") {
-          this.__storage.set(thisObj, this, value);
-        }
-      } else if (scope == "themed") {
-        if (method != "reset") {
-          if (value !== undefined) {
-            state.themeValue = value;
-            value = this.get(thisObj);
-          }
-        }
-      } else if (qx.core.Environment.get("qx.debug")) {
-        throw new Error(`Invalid scope=${scope} in ${this.classname}.__setImpl`);
-      }
 
       if (value === undefined) {
         value = null;
@@ -975,20 +978,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let state = this.getPropertyState(thisObj);
+      //store the old value
+      let oldValue = await this.__getAsyncImpl(thisObj, true);
 
+      //validate and transform the value
       if (this.__validate) {
         this.__callFunction(thisObj, this.__validate, value, this);
       }
 
-      let oldValue = await this.__getAsyncImpl(thisObj, true);
 
       if (this.__transform) {
         value = this.__callFunction(thisObj, this.__transform, value, oldValue, this.__propertyName);
-      }
-
-      if (method == "reset") {
-        this.__storage.reset(thisObj, this, value);
-        value = await this.__getAsyncImpl(thisObj, true);
       }
 
       let check = this.getCheck();
@@ -1014,6 +1014,22 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
 
+      //Actually modify the underlying storage
+      if (method == "reset") {
+        await this.__storage.setAsync(thisObj, this, value);
+        value = await this.__getAsyncImpl(thisObj, true);
+      } else {
+        if (scope == "user") {
+          // Always set the value to the storage if it is a user value; this is because themable properties
+          // might be equal now, but if the theme value changes, the user's override needs to remain.
+          if (method == "set" || method == "init") {
+            await this.__storage.setAsync(thisObj, this, value);
+          }
+        } else if (qx.core.Environment.get("qx.debug")) {
+          throw new Error(`Invalid scope=${scope} in ${this.classname}.__setAsyncImpl`);
+        }
+      }
+
       let isEqual = this.isEqual(thisObj, value, oldValue);
       if (!isEqual && this.isMutating(thisObj)) {
         this.warn("Property " + this + " is currently mutating");
@@ -1036,16 +1052,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let resolve;
       let promise = new Promise(r => (resolve = r));
       this.__setMutating(thisObj, promise);
-
-      if (scope == "user") {
-        // Always set the value to the storage if it is a user value; this is because themable properties
-        // might be equal now, but if the theme value changes, the user's override needs to remain.
-        if (method == "set" || method == "init") {
-          this.__storage.set(thisObj, this, value);
-        }
-      } else if (qx.core.Environment.get("qx.debug")) {
-        throw new Error(`Invalid scope=${scope} in ${this.classname}.__setAsyncImpl`);
-      }
 
       if (value === undefined) {
         value = null;

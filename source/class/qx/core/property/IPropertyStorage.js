@@ -58,16 +58,6 @@ qx.Interface.define("qx.core.property.IPropertyStorage", {
     async setAsync(thisObj, property, value) {},
 
     /**
-     * Called when the property is reset; for standard properties, this just passes through to
-     * `set`, but pseudo properties may need to call the implemented `reset` method
-     *
-     * @param {qx.core.Object} thisObj
-     * @param {qx.core.propety.IProperty} property the property to set the value of
-     * @param {*} value
-     */
-    reset(thisObj, property, value) {},
-
-    /**
      * Deletes the value
      *
      * @param {qx.core.Object} thisObj

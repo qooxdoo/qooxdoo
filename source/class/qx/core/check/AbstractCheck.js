@@ -23,13 +23,17 @@ qx.Bootstrap.define("qx.core.check.AbstractCheck", {
   extend: Object,
   implement: qx.core.check.ICheck,
 
+  /**
+   * 
+   * @param {boolean} nullable 
+   */
   construct(nullable) {
     super();
     this.__nullable = !!nullable;
   },
 
   members: {
-    /** @type{Boolean} whether null is allowed */
+    /** @type {Boolean} whether null is allowed */
     __nullable: null,
 
     /**

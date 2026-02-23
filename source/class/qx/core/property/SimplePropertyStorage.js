@@ -64,13 +64,6 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
     /**
      * @Override
      */
-    reset(thisObj, property, value) {
-      this.set(thisObj, property, value);
-    },
-
-    /**
-     * @Override
-     */
     dereference(thisObj, property) {
       delete thisObj["$$propertyValues"][property.getPropertyName()];
     },
