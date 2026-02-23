@@ -175,7 +175,24 @@ test("pkg command (package alias)", async () => {
     let result = await testUtils.runCommand(testDir, qxCmdPath, "pkg", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("package") || result.output.includes("pkg"), "pkg help should mention package functionality");
-    
+  } catch (ex) {
+    throw ex;
+  }
+});
+
+test("compile --typescript flag", async () => {
+  try {
+    // myAppDir is already created and compiled from previous tests
+    let result = await testUtils.runCompiler(myAppDir, "--typescript");
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    // TypeScript file should be at compiled/qooxdoo.d.ts (sibling to compiled/meta/)
+    const tsFile = path.join(myAppDir, "compiled", "qooxdoo.d.ts");
+    assert.ok(await assertPathExists(tsFile), "TypeScript definition file should be created at compiled/qooxdoo.d.ts");
+
+    const content = await fsp.readFile(tsFile, "utf8");
+    assert.ok(content.includes("declare"), "TypeScript file should contain declarations");
+    assert.ok(content.includes("namespace"), "TypeScript file should contain namespace declarations");
   } catch (ex) {
     throw ex;
   }
