@@ -856,7 +856,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
       }
 
-      if (!this.argv.watch) {
+      if (!this.argv.watch && this.__typescriptEnabled) {
         try {
           await this.__attachTypescriptWatcher(null);
         } catch (ex) {

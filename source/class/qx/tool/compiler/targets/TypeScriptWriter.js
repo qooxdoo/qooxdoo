@@ -440,6 +440,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       if (typeof typename == "object") {
         if ("type" in typename) {
+          if (!typename.type) {
+            return defaultType;
+          }
           const dimensions = typename.dimensions ?? 1;
           typename = typename.type + "[]".repeat(dimensions - 1);
         } else {
