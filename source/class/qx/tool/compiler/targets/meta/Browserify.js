@@ -259,6 +259,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
               write: false,
               sourcemap: false,
               logLevel: "silent",
+              // Preserve .name property of classes/functions even when esbuild renames bindings to
+              // avoid scope conflicts inside already-bundled packages (e.g. browserified bundles that
+              // have duplicate identifier names across inlined modules).
+              keepNames: true,
               // Replace global with globalThis so Node.js packages using `global.<x>` work in browsers
               define: Object.assign({ global: "globalThis" }, userDefine),
               plugins: basePlugins.concat([missingModulePlugin], userPlugins)
