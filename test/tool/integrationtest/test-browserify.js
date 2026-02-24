@@ -54,7 +54,7 @@ test("Browserify bundles npm modules correctly", async assert => {
     const browserifyFile = path.join(testDir, "compiled/source/testbrowserify/commonjs-browserify.js");
     assert.ok(await fileExists(browserifyFile), "commonjs-browserify.js should exist");
 
-    // 3. Check file size (esbuild produces a lean bundle; uuid browser build is ~15KB)
+    // 3. Check file size (esbuild produces a lean bundle; browser build with bundle uuid is ~15KB)
     const stats = await fs.stat(browserifyFile);
     assert.ok(stats.size > 1000, `Bundle should be > 1KB, got ${stats.size} bytes`);
     assert.ok(stats.size < 5000000, `Bundle should be < 5MB, got ${stats.size} bytes`);
