@@ -80,7 +80,27 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     async writeToDisk() {
       const localModules = this.getAppMeta().getApplication().getLocalModules();
       let db = this.getAppMeta().getAnalyser().getDatabase();
-      const { commonjsModules } = this.__getCommonjsModules();
+      const { commonjsModules, references } = this.__getCommonjsModules();
+
+      // Warn about missing npm modules on every compile, not just when the bundle is rebuilt
+      if (this.getAppMeta().getEnvironmentValue("qx.compiler.applicationType") == "browser") {
+        for (const moduleName of commonjsModules) {
+          try {
+            require.resolve(moduleName, { paths: [process.cwd()] });
+          } catch (_) {
+            const msg = [`WARNING: could not locate require()d module: "${moduleName}"`, "  required from:"];
+            const modRefs = references[moduleName];
+            if (modRefs) {
+              for (const mr of modRefs) {
+                for (const ref of mr) {
+                  msg.push("    " + ref);
+                }
+              }
+            }
+            qx.tool.compiler.Console.error(msg.join("\n"));
+          }
+        }
+      }
 
       let modules = [];
       let modulesInfo = {};
@@ -156,12 +176,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
       // esbuild equivalent of browserify's ignoreMissing:true — logs a warning and
       // returns an empty module stub so the bundle is still produced
-      const missingModulePlugin = refs => ({
+      const missingModulePlugin = {
         name: "qx-missing-module",
         setup(build) {
-          const reported = new Set();
-          build.onResolve({ filter: /^[^./]/ }, async args => {
-            if (args.namespace === "qx-missing") {return null;}
+          const onResolveHandler = async args => {
+            if (args.namespace === "qx-missing") { return null; }
             const searchPaths = [args.resolveDir, process.cwd()].filter(Boolean);
             for (const dir of searchPaths) {
               try {
@@ -169,27 +188,15 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
                 return null;
               } catch (_) {}
             }
-            if (!reported.has(args.path)) {
-              reported.add(args.path);
-              const msg = [`WARNING: could not locate require()d module: "${args.path}"`, "  required from:"];
-              const modRefs = refs[args.path];
-              if (modRefs) {
-                try {
-                  [...modRefs].forEach(r => [...r].forEach(ref => msg.push(`    ${ref}`)));
-                } catch (_) {}
-              } else {
-                msg.push("    <compile.json:application.localModules>");
-              }
-              qx.tool.compiler.Console.error(msg.join("\n"));
-            }
             return { path: args.path, namespace: "qx-missing" };
-          });
+          };
+          build.onResolve({ filter: /^[^./]/ }, onResolveHandler);
           build.onLoad({ filter: /.*/, namespace: "qx-missing" }, args => ({
             contents: `// Missing module: ${args.path}\nmodule.exports = {};`,
             loader: "js"
           }));
         }
-      });
+      };
 
       const allModules = [
         ...commonjsModules.map(m => ({ require: m, file: m })),
@@ -254,7 +261,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
               logLevel: "silent",
               // Replace global with globalThis so Node.js packages using `global.<x>` work in browsers
               define: Object.assign({ global: "globalThis" }, userDefine),
-              plugins: basePlugins.concat([missingModulePlugin(references)], userPlugins)
+              plugins: basePlugins.concat([missingModulePlugin], userPlugins)
             },
             userOptions
           )
@@ -267,7 +274,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           if (id && references[id]) {
             message.push("  required from:");
             try {
-              [...references[id]].forEach(refs => refs.forEach(ref => message.push(`    ${ref}`)));
+              for (const refs of references[id]) {
+                for (const ref of refs) {
+                  message.push("    " + ref);
+                }
+              }
             } catch (_) {}
           }
           qx.tool.compiler.Console.error(message.join("\n"));
