@@ -166,7 +166,7 @@ test("Recompile is incremental (doesn't rebuild bundle if not needed)", async ()
   }
 });
 
-test("Missing npm module is handled gracefully (ignoreMissing equivalent)", async assert => {
+test("Missing npm module is handled gracefully (ignoreMissing equivalent)", async () => {
   try {
     // Compile app that require()s a package that is intentionally not installed
     const result = await testUtils.runCompiler(testDirMissing);
@@ -195,8 +195,7 @@ test("Missing npm module is handled gracefully (ignoreMissing equivalent)", asyn
     );
 
     console.log(`✓ Missing module handled: bundle created (${stats.size} bytes), warning emitted`);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
