@@ -211,6 +211,53 @@ qx.Class.define("qx.tool.compiler.MetaDatabase", {
       }
     },
 
+    /**
+     * Scans directories recursively for .js files and populates the database.
+     * Calls addFile() for each discovered file, then reparseAll().
+     *
+     * @param {String[]} dirs directories to scan
+     * @param {Object} [options]
+     * @param {Boolean} [options.force] reparse even if up to date (default: false)
+     * @param {Object}  [options.ignore] an `ignore` instance for exclude patterns
+     * @param {Boolean} [options.verbose] log each processed file
+     */
+    async loadFromDirectories(dirs, options = {}) {
+      const classFiles = [];
+
+      const scanImpl = async filename => {
+        let basename = path.basename(filename);
+
+        if (options.ignore) {
+          let relativePath = path.relative(process.cwd(), filename);
+          if (options.ignore.ignores(relativePath)) {
+            return;
+          }
+        }
+
+        let stat = await fs.promises.stat(filename);
+        if (stat.isFile() && basename.match(/\.js$/)) {
+          classFiles.push(filename);
+        } else if (stat.isDirectory() && (basename == "." || basename[0] != ".")) {
+          let files = await fs.promises.readdir(filename);
+          for (let file of files) {
+            await scanImpl(path.join(filename, file));
+          }
+        }
+      };
+
+      for (let dir of dirs) {
+        await scanImpl(dir);
+      }
+
+      for (let filename of classFiles) {
+        if (options.verbose) {
+          qx.tool.compiler.Console.info(`Processing ${filename} ...`);
+        }
+        await this.addFile(filename, options.force || false);
+      }
+      await this.reparseAll();
+    },
+
     __createDerivedClassLookup() {
       const lookup = {};
 

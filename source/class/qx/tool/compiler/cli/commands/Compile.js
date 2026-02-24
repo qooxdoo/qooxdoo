@@ -1566,36 +1566,18 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     async __attachTypescriptWatcher(watch) {
-      let classFiles = [];
-
-      const scanImpl = async filename => {
-        let basename = path.basename(filename);
-        let stat = await fs.promises.stat(filename);
-        if (stat.isFile() && basename.match(/\.js$/)) {
-          classFiles.push(filename);
-        } else if (stat.isDirectory() && (basename == "." || basename[0] != ".")) {
-          let files = await fs.promises.readdir(filename);
-          for (let i = 0; i < files.length; i++) {
-            await scanImpl(path.join(filename, files[i]));
-          }
-        }
-      };
-
       qx.tool.compiler.Console.info(`Loading meta data ...`);
       let metaDb = new qx.tool.compiler.MetaDatabase().set({ rootDir: this.__metaDir });
       await metaDb.load();
 
       metaDb.getDatabase().libraries = {};
+      const dirs = [];
       for (let lib of Object.values(this.__libraries)) {
         let dir = path.join(lib.getRootDir(), lib.getSourcePath());
         metaDb.getDatabase().libraries[lib.getNamespace()] = { sourceDir: dir };
-        await scanImpl(dir);
+        dirs.push(dir);
       }
-
-      for (let filename of classFiles) {
-        await metaDb.addFile(filename, !!this.argv.clean);
-      }
-      await metaDb.reparseAll();
+      await metaDb.loadFromDirectories(dirs, { force: !!this.argv.clean });
       await metaDb.save();
 
       let tsWriter = null;
@@ -1615,7 +1597,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       // Watch mode: re-run metadata and typescript on file changes
-      classFiles = {};
+      let classFiles = {};
       let debounce = new qx.tool.utils.Debounce(async () => {
         let filesParsed = false;
         qx.tool.compiler.Console.info(`Loading meta data ...`);
