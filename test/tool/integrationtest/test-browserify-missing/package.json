@@ -1,0 +1,7 @@
+{
+  "name": "test-browserify-missing",
+  "version": "1.0.0",
+  "description": "Test application for missing npm module handling",
+  "private": true,
+  "dependencies": {}
+}

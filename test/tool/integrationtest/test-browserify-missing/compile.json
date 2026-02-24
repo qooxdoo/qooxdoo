@@ -1,0 +1,16 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source"
+    }
+  ],
+  "applications": [
+    {
+      "class": "testmissing.Application",
+      "theme": "qx.theme.Simple",
+      "name": "testmissing"
+    }
+  ]
+}
