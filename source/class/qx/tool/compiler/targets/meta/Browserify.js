@@ -212,24 +212,53 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       ].join("\n");
 
       // Merge in any user-provided esbuild options from compile.json's "browserify" key
-      const userOptions = this.getAppMeta().getAnalyser().getBrowserifyConfig()?.options || {};
+      const browserifyConfig = this.getAppMeta().getAnalyser().getBrowserifyConfig() || {};
+      const userOptions = { ...(browserifyConfig.options || {}) };
+
+      // Filter out browserify-only options that esbuild doesn't understand
+      const BROWSERIFY_ONLY_OPTS = ["noParse", "ignoreMissing", "insertGlobals", "detectGlobals", "builtins"];
+      for (const opt of BROWSERIFY_ONLY_OPTS) {
+        if (opt in userOptions) {
+          qx.tool.compiler.Console.warn(
+            `WARNING: compile.json browserify.options.${opt} is a browserify-only option and is not supported by esbuild — it will be ignored.` +
+              (opt === "noParse" ? ' Use esbuild\'s "external" option instead if needed.' : "")
+          );
+          delete userOptions[opt];
+        }
+      }
+
+      // polyfillNode is enabled by default; set browserify.polyfillNode: false in compile.json to disable
+      const usePolyfillNode = browserifyConfig.polyfillNode !== false;
+
+      // Extract define and plugins manually (object rest destructuring is not supported by the qx parser)
+      const userDefine = userOptions.define || {};
+      const userPlugins = Array.isArray(userOptions.plugins) ? userOptions.plugins : [];
+      delete userOptions.define;
+      delete userOptions.plugins;
+      const basePlugins = usePolyfillNode ? [polyfillNode()] : [];
 
       let result;
       try {
-        result = await esbuild.build({
-          stdin: {
-            contents: entryContent,
-            resolveDir: process.cwd()
-          },
-          bundle: true,
-          platform: "browser",
-          format: "iife",
-          write: false,
-          sourcemap: false,
-          logLevel: "silent",
-          plugins: [polyfillNode(), missingModulePlugin(references)],
-          ...userOptions
-        });
+        result = await esbuild.build(
+          Object.assign(
+            {
+              stdin: {
+                contents: entryContent,
+                resolveDir: process.cwd()
+              },
+              bundle: true,
+              platform: "browser",
+              format: "iife",
+              write: false,
+              sourcemap: false,
+              logLevel: "silent",
+              // Replace global with globalThis so Node.js packages using `global.<x>` work in browsers
+              define: Object.assign({ global: "globalThis" }, userDefine),
+              plugins: basePlugins.concat([missingModulePlugin(references)], userPlugins)
+            },
+            userOptions
+          )
+        );
       } catch (e) {
         // Report missing/unresolvable modules with context from the analyser database
         for (const err of e.errors || []) {
