@@ -1,6 +1,6 @@
 # Qooxdoo Release Notes
 
-## Notable changes and new features in v8.0
+## Notable changes and new features in 8.0.0-beta.1
 - **New property system**: Qooxdoo version 8.0 includes a nearly completely rewritten class and
   property system. The benefits of this rewrite include easier
   debugging into internals of properties when unexpected behavior is
