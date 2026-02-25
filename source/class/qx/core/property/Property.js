@@ -41,19 +41,20 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * will return null, instead of throwing an error.
      */
     "qx.core.property.Property.inheritableDefaultIsNull": false,
+
     /**
      * If set to true, then properties with init values will have their apply method called during construction.
-     * Default is false to maintain backward compatibility with v7 behavior.
-     */
-    "qx.core.property.Property.applyDuringConstruct": false,//TODO should this be true?
+     * You should only set this to false if you have a lot of legacy code which would take too much time/effort to modify to work with the new behavior.
+    */
+    "qx.core.property.Property.applyDuringConstruct": true,
 
     /**
      * Only relevant when applyDuringConstruct is true.
      * This contains regexes matching classnames which are excluded from the auto apply behaviour.
      * They refer to concrete classes only, not the superclasses.
      *
-     * Currently (2025-12-03), only "qx." classes are excluded because enabling applyDuringConstruct
-     * would create problems which are difficult to fix.
+     * Currently (2025-DEC-03), only "qx." classes are excluded because enabling applyDuringConstruct
+     * would create problems which are too difficult and time-consuming to fix.
      *
      * @type {Array<RegExp | string>}
      */
