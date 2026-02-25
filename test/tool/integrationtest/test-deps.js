@@ -1,5 +1,6 @@
 const qx = require("../qx");
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const async = require("async");
 const {promisify} = require("util");
@@ -91,7 +92,7 @@ async function createMaker() {
   return maker;
 }
 
-test("Checks dependencies and environment settings", assert => {
+test("Checks dependencies and environment settings", async () => {
   function readJson(filename) {
     return readFile(filename, {encoding: "utf8"})
         .then(str => JSON.parse(str));
@@ -118,7 +119,7 @@ test("Checks dependencies and environment settings", assert => {
   var compileInfo;
   var db;
   var meta;
-  deleteRecursive("test-deps")
+  await deleteRecursive("test-deps")
       .then(() => createMaker())
       .then(_maker => {
         maker = _maker;
@@ -339,8 +340,8 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(src.match(/url\(\"sub5\/image.png\"\)/), "Resource SCSS");
       })
 
-      .then(() => assert.end())
-      .catch(err => assert.end(err));
+      .then(() => {})
+      .catch(err => { throw err; });
 });
 
 async function deleteRecursive(name) {

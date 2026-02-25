@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -9,7 +9,6 @@ const testDir = path.join(__dirname, "test-lint");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 function reportError(result) {
   if (result.error) {
@@ -69,17 +68,16 @@ qx.Class.define("myapp.TestFile", {
   return testFilePath;
 }
 
-test("setup test app", async assert => {
+test("setup test app", async () => {
   try {
     await createTestApp();
     assert.ok(await assertPathExists(path.join(myAppDir, "compile.json")));
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with legacy config format", async assert => {
+test("lint with legacy config format", async () => {
   try {
     // Create legacy format eslint config
     const legacyConfig = {
@@ -106,13 +104,12 @@ test("lint with legacy config format", async assert => {
     assert.ok(result.exitCode !== 0, "Lint should fail with errors");
     assert.ok(result.output.includes("curly") || result.error.includes("curly"), "Should report curly rule violation");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with flat config format", async assert => {
+test("lint with flat config format", async () => {
   try {
     // Create flat format eslint config - properly structured for flat config
     const flatConfig = [
@@ -142,13 +139,12 @@ test("lint with flat config format", async assert => {
     assert.ok(result.exitCode !== 0, "Lint should fail with errors");
     assert.ok(result.output.includes("curly") || result.error.includes("curly"), "Should report curly rule violation");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with --fix option (legacy config)", async assert => {
+test("lint with --fix option (legacy config)", async () => {
   try {
     // Create legacy config with fixable rules
     const legacyConfig = {
@@ -186,13 +182,12 @@ test("lint with --fix option (legacy config)", async assert => {
     assert.ok(fixedContent.includes('"myapp.FixableTest"'), "Should fix single quotes to double quotes");
     assert.ok(fixedContent.includes('var test = "single quotes";'), "Should add semicolons and fix quotes");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with --fix option (flat config)", async assert => {
+test("lint with --fix option (flat config)", async () => {
   try {
     // Create flat config with fixable rules
     const flatConfig = [
@@ -237,13 +232,12 @@ test("lint with --fix option (flat config)", async assert => {
     assert.ok(fixedContent.includes('"myapp.FixableTestFlat"'), "Should fix single quotes to double quotes");
     assert.ok(fixedContent.includes('var test = "single quotes";'), "Should add semicolons and fix quotes");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with --print-config option", async assert => {
+test("lint with --print-config option", async () => {
   try {
     const legacyConfig = {
       "extends": ["@qooxdoo/qx/browser"],
@@ -261,13 +255,12 @@ test("lint with --print-config option", async assert => {
     assert.ok(result.output.includes("curly"), "Should include curly rule in config output");
     assert.ok(result.output.includes("parser"), "Should include parser configuration");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with custom ignores in legacy config", async assert => {
+test("lint with custom ignores in legacy config", async () => {
   try {
     const legacyConfig = {
       "extends": ["@qooxdoo/qx/browser"],
@@ -296,13 +289,12 @@ test("lint with custom ignores in legacy config", async assert => {
     
     assert.ok(result.exitCode === 0, "Lint should succeed for ignored files");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint with custom ignores in flat config", async assert => {
+test("lint with custom ignores in flat config", async () => {
   try {
     const flatConfig = [
       {
@@ -335,13 +327,12 @@ test("lint with custom ignores in flat config", async assert => {
     
     assert.ok(result.exitCode === 0, "Lint should succeed for ignored files");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("lint entire project with both config formats", async assert => {
+test("lint entire project with both config formats", async () => {
   try {
     // Test with legacy config
     const legacyConfig = {
@@ -391,17 +382,15 @@ test("lint entire project with both config formats", async assert => {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "lint", "--quiet");
     assert.ok(result.exitCode === 0, "Project lint with flat config should succeed with rules turned off");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("cleanup", async assert => {
+test("cleanup", async () => {
   try {
     await testUtils.deleteRecursive(testDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

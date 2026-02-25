@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -7,23 +7,21 @@ const testUtils = require("../../../bin/tools/utils");
 const qxCmdPath = testUtils.getCompiler("source");
 
 // Colorize TAP output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 // Test 1: Help command
-test("migrate --help", async assert => {
+test("migrate --help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "migrate", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("migrate"), "Help should mention migrate command");
     assert.ok(result.output.includes("help"), "Help should mention help option");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 2: Manifest.json dependency update
-test("M8_0_0: Manifest.json dependency update", async assert => {
+test("M8_0_0: Manifest.json dependency update", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -84,14 +82,13 @@ test("M8_0_0: Manifest.json dependency update", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 3: compile.js class name replacements
-test("M8_0_0: compile.js class name replacements", async assert => {
+test("M8_0_0: compile.js class name replacements", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -132,21 +129,20 @@ test("M8_0_0: compile.js class name replacements", async assert => {
       migratedContent.includes("qx.tool.compiler.cli.commands.Test"),
       "Migrated compile.js should have new Test class name"
     );
-    assert.notOk(
-      migratedContent.includes("qx.tool.cli.commands."),
+    assert.ok(!(
+      migratedContent.includes("qx.tool.cli.commands.")),
       "Migrated compile.js should NOT have old qx.tool.cli.commands references"
     );
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 4: form.add() uppercase name detection
-test("M8_0_0: form.add() uppercase name detection", async assert => {
+test("M8_0_0: form.add() uppercase name detection", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -195,14 +191,13 @@ test("M8_0_0: form.add() uppercase name detection", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 5: Breaking change announcements
-test("M8_0_0: Breaking change announcements", async assert => {
+test("M8_0_0: Breaking change announcements", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -254,14 +249,13 @@ test("M8_0_0: Breaking change announcements", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 6: Complete migration workflow
-test("M8_0_0: Complete migration workflow", async assert => {
+test("M8_0_0: Complete migration workflow", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -321,14 +315,13 @@ test("M8_0_0: Complete migration workflow", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 7: Property/Member conflict detection
-test("M8_0_0: Property/Member conflict detection", async assert => {
+test("M8_0_0: Property/Member conflict detection", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -450,14 +443,13 @@ test("M8_0_0: Property/Member conflict detection", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 8: instance.name usage detection
-test("M8_0_0: instance.name usage detection", async assert => {
+test("M8_0_0: instance.name usage detection", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -547,14 +539,13 @@ test("M8_0_0: instance.name usage detection", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 9: Constructor property setter order detection
-test("M8_0_0: Constructor property setter order detection", async assert => {
+test("M8_0_0: Constructor property setter order detection", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -651,14 +642,13 @@ test("M8_0_0: Constructor property setter order detection", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 10: migratePackages - no contrib.json (silent skip)
-test("M8_0_0: migratePackages - no contrib.json (silent skip)", async assert => {
+test("M8_0_0: migratePackages - no contrib.json (silent skip)", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -679,22 +669,21 @@ test("M8_0_0: migratePackages - no contrib.json (silent skip)", async assert => 
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
 
     // Verify no package upgrade announcement
-    assert.notOk(
+    assert.ok(!(
       result.output.includes("Packages will be upgraded") ||
-      result.output.includes("package upgrade"),
+      result.output.includes("package upgrade")),
       "Should NOT announce package upgrade when contrib.json is missing"
     );
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 10: migratePackages - empty libraries array
-test("M8_0_0: migratePackages - empty libraries array", async assert => {
+test("M8_0_0: migratePackages - empty libraries array", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -717,22 +706,21 @@ test("M8_0_0: migratePackages - empty libraries array", async assert => {
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
 
     // Verify no package upgrade announcement
-    assert.notOk(
+    assert.ok(!(
       result.output.includes("Packages will be upgraded") ||
-      result.output.includes("package upgrade"),
+      result.output.includes("package upgrade")),
       "Should NOT announce package upgrade when libraries array is empty"
     );
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 11: migratePackages - valid libraries with dry-run
-test("M8_0_0: migratePackages - valid libraries with dry-run", async assert => {
+test("M8_0_0: migratePackages - valid libraries with dry-run", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -784,14 +772,13 @@ test("M8_0_0: migratePackages - valid libraries with dry-run", async assert => {
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 12: migratePackages - valid libraries triggers upgrade
-test("M8_0_0: migratePackages - valid libraries triggers upgrade", async assert => {
+test("M8_0_0: migratePackages - valid libraries triggers upgrade", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -842,14 +829,13 @@ test("M8_0_0: migratePackages - valid libraries triggers upgrade", async assert 
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 // Test 13: migratePackages - malformed JSON (graceful skip)
-test("M8_0_0: migratePackages - malformed JSON (graceful skip)", async assert => {
+test("M8_0_0: migratePackages - malformed JSON (graceful skip)", async () => {
   try {
     const baseDir = path.join(__dirname, "test-migrations", "v8.0.0");
     const unmigratedDir = path.join(baseDir, "unmigrated");
@@ -870,9 +856,9 @@ test("M8_0_0: migratePackages - malformed JSON (graceful skip)", async assert =>
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
 
     // Verify no package upgrade announcement (due to parse error)
-    assert.notOk(
+    assert.ok(!(
       result.output.includes("Packages will be upgraded") ||
-      result.output.includes("package upgrade"),
+      result.output.includes("package upgrade")),
       "Should NOT announce package upgrade when contrib.json is malformed"
     );
 
@@ -887,8 +873,7 @@ test("M8_0_0: migratePackages - malformed JSON (graceful skip)", async assert =>
 
     // Cleanup
     await testUtils.deleteRecursive(migratedDir);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

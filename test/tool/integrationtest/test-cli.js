@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -10,7 +10,6 @@ const testDir = path.join(__dirname, "test-cli")
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -21,18 +20,17 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("test version", async assert => {
+test("test version", async () => {
   try {
     await testUtils.deleteRecursive(myAppDir);
     let result = await testUtils.runCommand(testDir, qxCmdPath, "--version");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("create app", async assert => {
+test("create app", async () => {
   try {
     await testUtils.deleteRecursive(myAppDir);
     let result;
@@ -45,14 +43,13 @@ test("create app", async assert => {
     result = await testUtils.runCommand(path.join(myAppDir, "compiled", "source", "myapp"), "node", "index.js");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.match(result.output, /Hello World!/);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 
-test("qx package list", async assert => {
+test("qx package list", async () => {
   try {
     let result;
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "update", "-v");
@@ -65,14 +62,13 @@ test("qx package list", async assert => {
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "list", "--uris-only");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
 
-test("install packages", async assert => {
+test("install packages", async () => {
   try {
     let result;
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "list", "-v");
@@ -91,13 +87,12 @@ test("install packages", async assert => {
     result = await testUtils.runCommand(path.join(myAppDir, "compiled", "source", "myapp"), "node", "index.js");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.match(result.output, /Hello World!/);
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("reinstall package", async assert => {
+test("reinstall package", async () => {
   try {
     let result;
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "clean", "-v");
@@ -112,13 +107,12 @@ test("reinstall package", async assert => {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "list", "-isH");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     // todo: check output
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("remove packages", async assert => {
+test("remove packages", async () => {
   try {
     let result;
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "remove", "oetiker/UploadWidget", "-v");
@@ -133,13 +127,12 @@ test("remove packages", async assert => {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "list", "--installed", "--short", "--noheaders");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     // todo check output: list should be empty
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("install without manifest", async assert => {
+test("install without manifest", async () => {
   try {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "clean", "-v");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -154,13 +147,12 @@ test("install without manifest", async assert => {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "package", "list", "--installed", "--short", "--noheaders");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     // todo: check output
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("add class and add script", async assert => {
+test("add class and add script", async () => {
   try {
     result = await testUtils.runCommand(myAppDir, qxCmdPath, "add", "class", "myapp.Window", "--extend=qx.core.Object", "--force");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -172,22 +164,20 @@ test("add class and add script", async assert => {
     assert.ok(await assertPathExists(path.join(myAppDir, "compiled", "source", "myapp", "index.js")));
     result = await testUtils.runCommand(path.join(myAppDir, "compiled", "source", "myapp"), "node", "index.js");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("pkg command (package alias)", async assert => {
+test("pkg command (package alias)", async () => {
   try {
     // Test that qx pkg is an alias for qx package
     let result = await testUtils.runCommand(testDir, qxCmdPath, "pkg", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
     assert.ok(result.output.includes("package") || result.output.includes("pkg"), "pkg help should mention package functionality");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 

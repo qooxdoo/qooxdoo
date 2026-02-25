@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -8,7 +8,6 @@ const qxCmdPath = testUtils.getCompiler();
 const testDir = path.join(__dirname, "test-qx-export-glyphs");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -19,7 +18,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("export-glyphs help", async assert => {
+test("export-glyphs help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -29,13 +28,12 @@ test("export-glyphs help", async assert => {
     assert.ok(result.output.includes("glyphFile"), "Help should mention glyphFile argument");
     assert.ok(result.output.includes("Font file to process"), "Help should describe fontFile");
     assert.ok(result.output.includes("Output glyph file"), "Help should describe glyphFile");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs with MaterialIcons font", async assert => {
+test("export-glyphs with MaterialIcons font", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -68,13 +66,12 @@ test("export-glyphs with MaterialIcons font", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs with FontAwesome font", async assert => {
+test("export-glyphs with FontAwesome font", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -102,13 +99,12 @@ test("export-glyphs with FontAwesome font", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs with TTF font", async assert => {
+test("export-glyphs with TTF font", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -132,13 +128,12 @@ test("export-glyphs with TTF font", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs with invalid font file", async assert => {
+test("export-glyphs with invalid font file", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -156,13 +151,12 @@ test("export-glyphs with invalid font file", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs missing arguments", async assert => {
+test("export-glyphs missing arguments", async () => {
   try {
     // Test with missing arguments
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs");
@@ -173,13 +167,12 @@ test("export-glyphs missing arguments", async assert => {
     result = await testUtils.runCommand(__dirname, qxCmdPath, "export-glyphs", "somefont.woff");
     assert.ok(result.exitCode !== 0, "Should fail when glyphFile argument is missing");
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("export-glyphs output verification", async assert => {
+test("export-glyphs output verification", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -218,8 +211,7 @@ test("export-glyphs output verification", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });

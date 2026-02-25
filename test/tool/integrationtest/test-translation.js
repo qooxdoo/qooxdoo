@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 
@@ -26,7 +27,7 @@ msgstr "lib-override-replaced-value"
 `, "utf8");
 }
 
-test("test translation file update", async assert => {
+test("test translation file update", async () => {
   try {
     let result;
     await prepare();
@@ -59,9 +60,8 @@ test("test translation file update", async assert => {
     let data = await fsPromises.readFile("test-translation/tranapp/compiled/source/tranapp/package-0.js", "utf8");
     assert.ok(!!data.match(/lib-override-replaced-value/));
 
-    assert.end();
   }catch(ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 

@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const testUtils = require("../../../bin/tools/utils");
 const path = require("path");
 const fs = require("fs").promises;
@@ -9,7 +10,7 @@ const testDir = __dirname;
 const appNamespace = "testCmdApp" + Date.now();
 const appDir = path.join(testDir, "test-commands", appNamespace);
 
-test("test commands - UserError class", async assert => {
+test("test commands - UserError class", async () => {
   try {
     const qx = require("../qx");
     // Test that UserError works correctly
@@ -20,13 +21,12 @@ test("test commands - UserError class", async assert => {
       assert.ok(e.message === "test error message", "UserError should have correct message");
     }
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("test commands - CLI help works", async assert => {
+test("test commands - CLI help works", async () => {
   try {
     // Test that various CLI commands show help
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "create", "--help");
@@ -42,13 +42,12 @@ test("test commands - CLI help works", async assert => {
     assert.ok(result.exitCode === 0, "Add help should work");
     assert.ok(result.output.includes("add"), "Help should mention add command");
    
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("test commands - create app and test rename", async assert => {
+test("test commands - create app and test rename", async () => {
   try {
     const workDir = path.join(testDir, "test-commands");
     
@@ -107,13 +106,12 @@ test("test commands - create app and test rename", async assert => {
     // Cleanup
     rimraf(appDir);
     
-    assert.end();
   } catch (ex) {
     // Cleanup on error
     if (await pathExists(appDir)) {
       rimraf(appDir);
     }
-    assert.end(ex);
+    throw ex;
   }
 });
 

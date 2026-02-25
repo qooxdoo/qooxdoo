@@ -20,7 +20,7 @@ qx.Class.define("qx.test.tool.compile.CompilerApi", {
         return;
       }
       function addTest(test) {
-        let args = [];
+        let args = ["--test-reporter=tap"];
         args.push(test + ".js");
         for (const arg of ["colorize", "verbose", "quiet", "fail-fast"]) {
           if (command.argv[arg]) {

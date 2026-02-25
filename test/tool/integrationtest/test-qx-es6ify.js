@@ -1,5 +1,5 @@
-const test = require("tape");
-const colorize = require('tap-colorize');
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
@@ -9,7 +9,6 @@ const testDir = path.join(__dirname, "test-qx-es6ify");
 const myAppDir = path.join(testDir, "myapp");
 
 //colorize output
-test.createStream().pipe(colorize()).pipe(process.stdout);
 
 
 async function assertPathExists(path){
@@ -20,7 +19,7 @@ async function assertPathExists(path){
   throw new Error(`Path does not exist: ${path}`);
 }
 
-test("es6ify help", async assert => {
+test("es6ify help", async () => {
   try {
     let result = await testUtils.runCommand(__dirname, qxCmdPath, "es6ify", "--help");
     assert.ok(result.exitCode === 0, testUtils.reportError(result));
@@ -32,13 +31,12 @@ test("es6ify help", async assert => {
     assert.ok(result.output.includes("--arrow-functions"), "Help should mention arrowFunctions option");
     assert.ok(result.output.includes("--single-line-blocks"), "Help should mention singleLineBlocks option");
     assert.ok(result.output.includes("--git-pre-commit"), "Help should mention gitPreCommit option");
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify with sample file", async assert => {
+test("es6ify with sample file", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -103,13 +101,12 @@ qx.Class.define("MyTestClass", {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify with arrow function modes", async assert => {
+test("es6ify with arrow function modes", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -147,13 +144,12 @@ test("es6ify with arrow function modes", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify with exclude option", async assert => {
+test("es6ify with exclude option", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -199,13 +195,12 @@ test("es6ify with exclude option", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify with single line blocks option", async assert => {
+test("es6ify with single line blocks option", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -245,13 +240,12 @@ test("es6ify with single line blocks option", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify with no overwrite option", async assert => {
+test("es6ify with no overwrite option", async () => {
   try {
     // Setup test directory
     await testUtils.deleteRecursive(testDir);
@@ -280,13 +274,12 @@ test("es6ify with no overwrite option", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
 
-test("es6ify default behavior", async assert => {
+test("es6ify default behavior", async () => {
   try {
     // Create a test app to verify default behavior
     await testUtils.deleteRecursive(myAppDir);
@@ -330,8 +323,7 @@ test("es6ify default behavior", async assert => {
     // Clean up
     await testUtils.deleteRecursive(testDir);
     
-    assert.end();
   } catch (ex) {
-    assert.end(ex);
+    throw ex;
   }
 });
