@@ -115,8 +115,33 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       if (qx.core.Environment.get("qx.debug")) {
         if (this.argv.metaDebug) {
           this.argv.verbose = true;
+          let target = files[0];
+          let stat = await fs.promises.stat(target);
+          if (stat.isDirectory()) {
+            const findFirst = async dir => {
+              for (let entry of await fs.promises.readdir(dir)) {
+                let full = path.join(dir, entry);
+                let s = await fs.promises.stat(full);
+                if (s.isFile() && entry.endsWith(".js")) {
+                  return full;
+                }
+                if (s.isDirectory() && entry[0] !== ".") {
+                  let found = await findFirst(full);
+                  if (found) {
+                    return found;
+                  }
+                }
+              }
+              return null;
+            };
+            target = await findFirst(target);
+            if (!target) {
+              qx.tool.compiler.Console.error("No .js file found for meta debug");
+              process.exit(1);
+            }
+          }
           let meta = new qx.tool.compiler.MetaExtraction();
-          await meta.parse(files[0]);
+          await meta.parse(target);
           meta.fixupJsDoc({ resolveType: type => type });
           console.log(JSON.stringify(meta.getMetaData(), null, 2));
           process.exit(0);

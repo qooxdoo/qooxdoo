@@ -1568,7 +1568,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     async __attachTypescriptWatcher(watch) {
       qx.tool.compiler.Console.info(`Loading meta data ...`);
       let metaDb = new qx.tool.compiler.MetaDatabase().set({ rootDir: this.__metaDir });
-      await metaDb.load();
+      await metaDb.load(); // hydrates existing class metadata from disk; library map is rebuilt fresh below
 
       metaDb.getDatabase().libraries = {};
       const dirs = [];
@@ -1602,11 +1602,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let filesParsed = false;
         qx.tool.compiler.Console.info(`Loading meta data ...`);
         let addFilePromises = [];
-        while (true) {
-          let arr = Object.keys(classFiles);
-          if (arr.length == 0) {
-            break;
-          }
+        let arr = Object.keys(classFiles);
+        if (arr.length > 0) {
           filesParsed = true;
           classFiles = {};
           arr.forEach(filename => {

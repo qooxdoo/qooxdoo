@@ -198,3 +198,48 @@ test("compile --typescript flag", async () => {
   }
 });
 
+test("compile.json meta.typescript: true", async () => {
+  const compileJsonPath = path.join(myAppDir, "compile.json");
+  const original = await fsp.readFile(compileJsonPath, "utf8");
+  try {
+    const config = JSON.parse(original);
+    config.meta = { typescript: true };
+    await fsp.writeFile(compileJsonPath, JSON.stringify(config, null, 2), "utf8");
+
+    // No --typescript flag — enabled via compile.json only
+    let result = await testUtils.runCompiler(myAppDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    const tsFile = path.join(myAppDir, "compiled", "qooxdoo.d.ts");
+    assert.ok(await assertPathExists(tsFile), "TypeScript file should be created when meta.typescript: true in compile.json");
+
+    const content = await fsp.readFile(tsFile, "utf8");
+    assert.ok(content.includes("declare"), "TypeScript file should contain declarations");
+  } finally {
+    await fsp.writeFile(compileJsonPath, original, "utf8");
+  }
+});
+
+test("compile.json meta.typescript: path", async () => {
+  const compileJsonPath = path.join(myAppDir, "compile.json");
+  const original = await fsp.readFile(compileJsonPath, "utf8");
+  const customTsFile = path.join(myAppDir, "compiled", "custom.d.ts");
+  try {
+    const config = JSON.parse(original);
+    config.meta = { typescript: "compiled/custom.d.ts" };
+    await fsp.writeFile(compileJsonPath, JSON.stringify(config, null, 2), "utf8");
+
+    // No --typescript flag — enabled via compile.json string path
+    let result = await testUtils.runCompiler(myAppDir);
+    assert.ok(result.exitCode === 0, testUtils.reportError(result));
+
+    assert.ok(await assertPathExists(customTsFile), "TypeScript file should be created at the custom path from compile.json");
+
+    const content = await fsp.readFile(customTsFile, "utf8");
+    assert.ok(content.includes("declare"), "Custom TypeScript file should contain declarations");
+  } finally {
+    await fsp.writeFile(compileJsonPath, original, "utf8");
+    await fsp.unlink(customTsFile).catch(() => {});
+  }
+});
+
