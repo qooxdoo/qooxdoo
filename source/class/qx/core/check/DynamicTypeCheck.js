@@ -22,6 +22,11 @@
 qx.Bootstrap.define("qx.core.check.DynamicTypeCheck", {
   extend: qx.core.check.AbstractCheck,
 
+  /**
+   * 
+   * @param {string} typename 
+   * @param {boolean} nullable 
+   */
   construct(typename, nullable) {
     super(nullable);
     this.__typename = typename;

@@ -36,7 +36,7 @@ qx.Class.define("qx.test.core.Property", {
         extend: qx.core.Object
       });
 
-      qx.Class.define("qx.test.cpnfv8.Superclass", {//cbh
+      qx.Class.define("qx.test.cpnfv8.Superclass", {
         extend: qx.test.cpnfv8.Object,
 
         construct(bRunning = true) {
@@ -168,11 +168,6 @@ qx.Class.define("qx.test.core.Property", {
           reset(thisObj, property, value) {
             console.log("in externallyStored reset");
             qx.test.cpnfv8.ExternalStorage._subclassStorage[property.getPropertyName()] = value;
-          },
-
-          /**@override */
-          isAsyncStorage() {
-            return false;
           },
 
           /**@override */

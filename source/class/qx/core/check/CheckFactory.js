@@ -68,6 +68,12 @@ qx.Bootstrap.define("qx.core.check.CheckFactory", {
       expr = expr.replace(/<.*>/g, ""); // remove generics
 
       let checkname = expr;
+      if (checkname.includes("||")) {
+        //For now, if the typename contains ||, we just accept it.
+        //That's what it was like in version 7
+        return new qx.core.check.Any();
+      }
+
       if (checkname.endsWith("?")) {
         checkname = checkname.substring(0, checkname.length - 1);
         nullable = true;
