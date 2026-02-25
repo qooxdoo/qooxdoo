@@ -33,6 +33,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
   extend: qx.tool.compiler.cli.Command,
 
   statics: {
+    /**
+     * Creates and configures the CLI command for the compile subcommand
+     * @param clazz {Function} the class to instantiate as the command handler
+     * @return {Promise<qx.tool.cli.Command>} the configured command
+     */
     async createCliCommand(clazz = this) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
@@ -420,9 +425,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
   properties: {},
 
   members: {
+    /** @type{cliProgress.SingleBar|null} progress bar instance */
     __progressBar: null,
+    /** @type{qx.tool.compiler.makers.Maker[]|null} list of makers created from config */
     __makers: null,
+    /** @type{Object} map of namespace to Library instance */
     __libraries: null,
+    /** @type{Boolean} true if the output directory was created during this run */
     __outputDirWasCreated: false,
     /** @type {Boolean} Whether libraries have had their `.load()` method called yet */
     __librariesNotified: false,
@@ -439,7 +448,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
     /** @type{Boolean} whether the typescript watcher has already been attached (watch mode) */
     __typescriptWatcherAttached: false,
 
-    /*
+    /**
      * @Override
      */
     async process() {
@@ -868,10 +877,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
-     * Processes the configuration from a JSON data structure and creates a Maker
+     * Processes the configuration from a JSON data structure and creates Makers
      *
-     * @param data {Map}
-     * @return {Maker}
+     * @param data {Object} the compile.json configuration data
+     * @return {Promise<qx.tool.compiler.makers.Maker[]>}
      */
     async createMakersFromConfig(data) {
       const Console = qx.tool.compiler.Console.getInstance();
@@ -1565,6 +1574,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       return makers;
     },
 
+    /**
+     * Loads class metadata, generates TypeScript definitions, and (in watch mode) sets up a
+     * debounced file watcher that re-runs metadata parsing and TypeScript generation whenever
+     * a source file changes.  When `watch` is null the method performs a single one-shot run
+     * and returns immediately after writing the output.
+     *
+     * @param watch {qx.tool.compiler.cli.Watch|null} watcher instance in watch mode, or null for a one-shot compile
+     */
     async __attachTypescriptWatcher(watch) {
       qx.tool.compiler.Console.info(`Loading meta data ...`);
       let metaDb = new qx.tool.compiler.MetaDatabase().set({ rootDir: this.__metaDir });
@@ -1778,10 +1795,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
-     * Resolves the target class instance from the type name; accepts "source" or "build" or
-     * a class name
+     * Resolves the target class from the type name; accepts "source", "build", or a class
      * @param type {String}
-     * @returns {Maker}
+     * @returns {Function|null}
      */
     __resolveTargetClass(type) {
       if (!type) {
@@ -1826,7 +1842,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * Returns the makers for a given application name
      *
      * @param appName {String} the name of the application
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker[]}
      */
     getMakersForApp(appName) {
       return this.__makers.filter(maker => {
