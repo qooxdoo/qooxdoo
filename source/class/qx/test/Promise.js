@@ -706,10 +706,11 @@ qx.Class.define("qx.test.Promise", {
       /*
        * Test binding a "normal" sync property to an async property
        */
-      if (!qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
-        console.warn("Not working with applyDuringConstruct = false, skipping testBinding async-to-sync part");
-        return;  // Test wird übersprungen, zählt als "ok"
-      }
+      //2026-FEB-25  - Commented this out because it causes this unit test to fail.
+      // if (!qx.core.Environment.get("qx.core.property.Property.applyDuringConstruct")) {
+      //   console.warn("Not working with applyDuringConstruct = false, skipping testBinding async-to-sync part");
+      //   return;
+      // }
       asyncToSync.then(function () {
         var asyncObj = new AsyncClazz();
         var syncObj = new SyncClazz();
