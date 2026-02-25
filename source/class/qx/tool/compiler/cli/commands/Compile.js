@@ -33,6 +33,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
   extend: qx.tool.compiler.cli.Command,
 
   statics: {
+    /**
+     * Creates and configures the CLI command for the compile subcommand
+     * @param clazz {Function} the class to instantiate as the command handler
+     * @return {Promise<qx.tool.cli.Command>} the configured command
+     */
     async createCliCommand(clazz = this) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
@@ -420,14 +425,30 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
   properties: {},
 
   members: {
+    /** @type{cliProgress.SingleBar|null} progress bar instance */
     __progressBar: null,
+    /** @type{qx.tool.compiler.makers.Maker[]|null} list of makers created from config */
     __makers: null,
+    /** @type{Object} map of namespace to Library instance */
     __libraries: null,
+    /** @type{Boolean} true if the output directory was created during this run */
     __outputDirWasCreated: false,
     /** @type {Boolean} Whether libraries have had their `.load()` method called yet */
     __librariesNotified: false,
 
-    /*
+    /** @type{String} the path to the root of the meta files by classname */
+    __metaDir: null,
+
+    /** @type{Boolean} whether the typescript output is enabled */
+    __typescriptEnabled: false,
+
+    /** @type{String} the name of the typescript file to generate, null = use default */
+    __typescriptFile: null,
+
+    /** @type{Boolean} whether the typescript watcher has already been attached (watch mode) */
+    __typescriptWatcherAttached: false,
+
+    /**
      * @Override
      */
     async process() {
@@ -830,17 +851,36 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
 
           watch.setConfigFilenames(arr);
+
+          if (this.__typescriptEnabled && target instanceof qx.tool.compiler.targets.SourceTarget && !this.__typescriptWatcherAttached) {
+            this.__typescriptWatcherAttached = true;
+            try {
+              await this.__attachTypescriptWatcher(watch);
+            } catch (ex) {
+              qx.tool.compiler.Console.error(ex);
+            }
+          }
+
           waiters.push(watch.start());
         }
       }
+
+      if (!this.argv.watch && this.__typescriptEnabled) {
+        try {
+          await this.__attachTypescriptWatcher(null);
+        } catch (ex) {
+          qx.tool.compiler.Console.error(ex);
+        }
+      }
+
       return qx.Promise.all(waiters);
     },
 
     /**
-     * Processes the configuration from a JSON data structure and creates a Maker
+     * Processes the configuration from a JSON data structure and creates Makers
      *
-     * @param data {Map}
-     * @return {Maker}
+     * @param data {Object} the compile.json configuration data
+     * @return {Promise<qx.tool.compiler.makers.Maker[]>}
      */
     async createMakersFromConfig(data) {
       const Console = qx.tool.compiler.Console.getInstance();
@@ -858,6 +898,16 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
         }
         delete data.babelOptions;
+      }
+
+      if (qx.lang.Type.isBoolean(data?.meta?.typescript)) {
+        this.__typescriptEnabled = data.meta.typescript;
+      } else if (qx.lang.Type.isString(data?.meta?.typescript)) {
+        this.__typescriptEnabled = true;
+        this.__typescriptFile = path.relative(process.cwd(), path.resolve(data.meta.typescript));
+      }
+      if (this.argv.typescript === true) {
+        this.__typescriptEnabled = true;
       }
 
       var argvAppNames = null;
@@ -1048,6 +1098,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           }
         }
       });
+
+      this.__metaDir = data.meta?.output;
+      if (!this.__metaDir && targetConfigs.length > 0) {
+        this.__metaDir = path.relative(
+          process.cwd(),
+          path.resolve(targetConfigs[0].outputPath, "../meta")
+        );
+      }
 
       /*
        * There is still only one target per maker, so convert our list of targetConfigs into an array of makers
@@ -1517,6 +1575,80 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
+     * Loads class metadata, generates TypeScript definitions, and (in watch mode) sets up a
+     * debounced file watcher that re-runs metadata parsing and TypeScript generation whenever
+     * a source file changes.  When `watch` is null the method performs a single one-shot run
+     * and returns immediately after writing the output.
+     *
+     * @param watch {qx.tool.compiler.cli.Watch|null} watcher instance in watch mode, or null for a one-shot compile
+     */
+    async __attachTypescriptWatcher(watch) {
+      qx.tool.compiler.Console.info(`Loading meta data ...`);
+      let metaDb = new qx.tool.compiler.MetaDatabase().set({ rootDir: this.__metaDir });
+      await metaDb.load(); // hydrates existing class metadata from disk; library map is rebuilt fresh below
+
+      metaDb.getDatabase().libraries = {};
+      const dirs = [];
+      for (let lib of Object.values(this.__libraries)) {
+        let dir = path.join(lib.getRootDir(), lib.getSourcePath());
+        metaDb.getDatabase().libraries[lib.getNamespace()] = { sourceDir: dir };
+        dirs.push(dir);
+      }
+      await metaDb.loadFromDirectories(dirs, { force: !!this.argv.clean });
+      await metaDb.save();
+
+      let tsWriter = null;
+      if (this.__typescriptEnabled) {
+        qx.tool.compiler.Console.info(`Generating typescript output ...`);
+        tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
+        if (this.__typescriptFile) {
+          tsWriter.setOutputTo(this.__typescriptFile);
+        } else {
+          tsWriter.setOutputTo(path.join(this.__metaDir, "..", "qooxdoo.d.ts"));
+        }
+        await tsWriter.process();
+      }
+
+      if (!watch) {
+        return;
+      }
+
+      // Watch mode: re-run metadata and typescript on file changes
+      let classFiles = {};
+      let debounce = new qx.tool.utils.Debounce(async () => {
+        let filesParsed = false;
+        qx.tool.compiler.Console.info(`Loading meta data ...`);
+        let addFilePromises = [];
+        let arr = Object.keys(classFiles);
+        if (arr.length > 0) {
+          filesParsed = true;
+          classFiles = {};
+          arr.forEach(filename => {
+            addFilePromises.push(metaDb.addFile(filename));
+          });
+        }
+        if (filesParsed) {
+          qx.tool.compiler.Console.info(`Generating typescript output ...`);
+          await Promise.all(addFilePromises);
+          await metaDb.reparseAll();
+          await metaDb.save();
+          if (this.__typescriptEnabled) {
+            await tsWriter.process();
+          }
+        }
+      });
+
+      watch.addListener("fileChanged", evt => {
+        let data = evt.getData();
+        if (data.fileType == "source") {
+          let filename = data.library.getFilename(data.filename);
+          classFiles[filename] = true;
+          debounce.run();
+        }
+      });
+    },
+
+    /**
      * Checks the dependencies of the current library
      * @param  {qx.tool.compiler.app.Library[]} libs
      *    The list of libraries to check
@@ -1663,10 +1795,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     },
 
     /**
-     * Resolves the target class instance from the type name; accepts "source" or "build" or
-     * a class name
+     * Resolves the target class from the type name; accepts "source", "build", or a class
      * @param type {String}
-     * @returns {Maker}
+     * @returns {Function|null}
      */
     __resolveTargetClass(type) {
       if (!type) {
@@ -1711,7 +1842,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * Returns the makers for a given application name
      *
      * @param appName {String} the name of the application
-     * @return {Maker}
+     * @return {qx.tool.compiler.makers.Maker[]}
      */
     getMakersForApp(appName) {
       return this.__makers.filter(maker => {

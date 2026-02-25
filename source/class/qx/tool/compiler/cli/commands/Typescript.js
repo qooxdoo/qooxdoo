@@ -91,32 +91,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         ig.add(exclude);
       }
 
-      const classFiles = [];
-
-      const scanImpl = async filename => {
-        let basename = path.basename(filename);
-        let stat = await fs.promises.stat(filename);
-        
-        // Check if this file/directory should be ignored
-        let relativePath = path.relative(process.cwd(), filename);
-        if (ig.ignores(relativePath)) {
-          return;
-        }
-        
-        if (stat.isFile() && basename.match(/\.js$/)) {
-          classFiles.push(filename);
-        } else if (
-          stat.isDirectory() &&
-          (basename == "." || basename[0] != ".")
-        ) {
-          let files = await fs.promises.readdir(filename);
-          for (let i = 0; i < files.length; i++) {
-            let subname = path.join(filename, files[i]);
-            await scanImpl(subname);
-          }
-        }
-      };
-
       let files = this.argv.files || [];
       if (files.length === 0) {
         if (fs.existsSync("Manifest.json")) {
@@ -137,18 +111,37 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         qx.tool.compiler.Console.error("No files to process");
         process.exit(1);
       }
-      for (let file of files) {
-        await scanImpl(file);
-      }
 
       if (qx.core.Environment.get("qx.debug")) {
         if (this.argv.metaDebug) {
           this.argv.verbose = true;
-          if (classFiles.length > 1) {
-            console.log("Only one file can be processed in meta debug mode");
+          let target = files[0];
+          let stat = await fs.promises.stat(target);
+          if (stat.isDirectory()) {
+            const findFirst = async dir => {
+              for (let entry of await fs.promises.readdir(dir)) {
+                let full = path.join(dir, entry);
+                let s = await fs.promises.stat(full);
+                if (s.isFile() && entry.endsWith(".js")) {
+                  return full;
+                }
+                if (s.isDirectory() && entry[0] !== ".") {
+                  let found = await findFirst(full);
+                  if (found) {
+                    return found;
+                  }
+                }
+              }
+              return null;
+            };
+            target = await findFirst(target);
+            if (!target) {
+              qx.tool.compiler.Console.error("No .js file found for meta debug");
+              process.exit(1);
+            }
           }
           let meta = new qx.tool.compiler.MetaExtraction();
-          await meta.parse(classFiles[0]);
+          await meta.parse(target);
           meta.fixupJsDoc({ resolveType: type => type });
           console.log(JSON.stringify(meta.getMetaData(), null, 2));
           process.exit(0);
@@ -157,13 +150,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
 
       let metaDb = new qx.tool.compiler.MetaDatabase();
       await metaDb.load();
-      for (let filename of classFiles) {
-        if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`Processing ${filename} ...`);
-        }
-        await metaDb.addFile(filename);
-      }
-      await metaDb.reparseAll();
+      await metaDb.loadFromDirectories(files, { ignore: ig, verbose: this.argv.verbose });
 
       let tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
       if (this.argv.outputFilename) {
