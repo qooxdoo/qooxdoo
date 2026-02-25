@@ -50,7 +50,6 @@ qx.Class.define("qx.test.performance.Property", {
             nullable: true,
             check: "String",
             event: "changeAlpha",
-            async: true,
             apply: () => {}
           }
         }

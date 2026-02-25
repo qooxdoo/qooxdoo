@@ -566,7 +566,7 @@ qx.Class.define("qx.test.Promise", {
 
     /**
      * Tests that a property apply method can return a promise; in this case, the
-     * property *is* marked as async, and we use the setAlphaAsync to test chaining
+     * and we use the setAlphaAsync to test chaining
      */
     testPropertySetValueAsyncApply2() {
       var t = this;
@@ -576,7 +576,6 @@ qx.Class.define("qx.test.Promise", {
           alpha: {
             init: null,
             nullable: true,
-            async: true,
             apply: "_applyAlpha",
 
             event: "changeAlpha"
@@ -632,9 +631,8 @@ qx.Class.define("qx.test.Promise", {
           alpha: {
             init: null,
             nullable: true,
-            async: true,
             event: "changeAlpha",
-            apply: () => { }
+            apply: () => {}
           }
         }
       });
@@ -755,7 +753,6 @@ qx.Class.define("qx.test.Promise", {
           alpha: {
             init: null,
             nullable: true,
-            async: true,
             apply: "_applyAlpha",
             event: "changeAlpha"
           }

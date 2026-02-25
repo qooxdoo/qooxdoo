@@ -230,7 +230,6 @@ qx.Class.define("qx.test.core.Property", {
           },
           delay: {
             init: 0,
-            async: true,
             getAsync: async (prop, self) => {
               let p;
               p = new qx.Promise((resolve, reject) => {
@@ -1695,7 +1694,6 @@ qx.Class.define("qx.test.core.Property", {
           propTwo: {
             init: null,
             nullable: true,
-            async: true,
             apply: "_applyPropTwo",
             event: "changePropTwo"
           }
@@ -2318,7 +2316,6 @@ qx.Class.define("qx.test.core.Property", {
         extend: qx.core.Object,
         properties: {
           foo: {
-            async: true,
             init: 7,
             apply: function (value, old) {
               return new qx.Promise((resolve, reject) => {
@@ -2356,7 +2353,6 @@ qx.Class.define("qx.test.core.Property", {
         extend: qx.core.Object,
         properties: {
           foo: {
-            async: true,
             init: 7
           }
         }

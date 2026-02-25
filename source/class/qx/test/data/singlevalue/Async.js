@@ -38,7 +38,6 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
            * The async input
            */
           ai: {
-            async: true,
             nullable: true,
             init: null
           },
@@ -46,7 +45,6 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
            * The async output
            */
           ao: {
-            async: true,
             nullable: true,
             init: null
           },
