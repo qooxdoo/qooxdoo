@@ -537,6 +537,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return self.resetAsync(this);
         });
       }
+
+      if (this.__pseudoProperty) {
+        this.__hasAsyncGetter = this.__clazz.prototype["get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async"] !== undefined;
+      } else {
+        this.__hasAsyncGetter = this.__storage.supportsAsyncGet();
+      }
     },
 
     /**
@@ -1081,8 +1087,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
         if (value !== undefined) {
           return value;
-        } else if (this.isAsync()) {
-          return undefined;
         }
 
         let state = this.getPropertyState(thisObj);
@@ -1111,7 +1115,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (value !== undefined) {
         return value;
-      } else if (this.isAsync()) {
+      } else if (this.hasAsyncGetter()) {
         if (!safe) {
           throw new Error("Property " + this + " has not been initialized - try using getAsync() instead");
         } else {
@@ -1400,12 +1404,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Whether the property supports async
+     * Whether the property supports getting asynchronously from the underlying storage
      *
      * @return {Boolean}
      */
-    isAsync() {
-      return !!this.__definition?.async;
+    hasAsyncGetter() {
+      return this.__hasAsyncGetter;      
     },
 
     /**

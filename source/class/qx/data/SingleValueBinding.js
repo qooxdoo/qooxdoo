@@ -691,11 +691,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
         }
       }
 
-      if (prop.isAsync()) {
-        return prop.setAsync(target, value);
-      } else {
-        return prop.set(target, value);
-      }
+      return prop.set(target, value);
     },
 
     /**
@@ -707,7 +703,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     get(target, propertyName) {
       let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
-      if (prop.isAsync()) {
+      if (prop.hasAsyncGetter() && !prop.isInitialized(target)) {
         return prop.getAsync(target);
       } else {
         return prop.get(target);
@@ -732,11 +728,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
         }
       }
 
-      if (prop.isAsync()) {
-        return prop.resetAsync(target);
-      } else {
-        return prop.reset(target);
-      }
+      return prop.reset(target);
     },
 
     /**

@@ -66,8 +66,9 @@ qx.Interface.define("qx.core.property.IPropertyStorage", {
     dereference(thisObj, property) {},
 
     /**
-     * Returns whether the storage supports asynchronous backing, ie the getter could be async
+     * Returns whether the storage supports asynchronous getting.
+     * If it doesn't, its implementation of `getAsync` should just defer to `get`.
      */
-    isAsyncStorage() {}
+    supportsAsyncGet() {}
   }
 });

@@ -80,8 +80,8 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
     /**
      * @Override
      */
-    isAsyncStorage() {
-      return this.__property.isAsync();
+    supportsAsyncGet() {
+      return this.__getAsync && (this.__getAsync !== this.__get);
     }
   }
 });

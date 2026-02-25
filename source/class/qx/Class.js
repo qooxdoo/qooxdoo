@@ -75,7 +75,6 @@ qx.Bootstrap.define("qx.Class", {
       event: ["string", "object"], // String or null
       check: null, // Array, String, Function
       transform: null, // String, Function
-      async: "boolean", // Boolean
       deferredInit: "boolean", // Boolean
       validate: ["string", "function"], // String, Function
       isEqual: ["string", "function"], // String, Function
