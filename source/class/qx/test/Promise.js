@@ -683,8 +683,9 @@ qx.Class.define("qx.test.Promise", {
         });
 
         asyncObj.getAlphaAsync();
-        asyncObj.bind("alpha", syncObj, "bravo");
-        asyncObj.setAlphaAsync("zyx");
+        asyncObj.bindAsync("alpha", syncObj, "bravo").then(() => {
+          asyncObj.setAlphaAsync("zyx");
+        });
         qx.Promise.all([p1, p2]).then(function () {
           var p3 = new qx.Promise();
           syncObj.addListenerOnce("changeBravo", evt => {
