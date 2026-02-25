@@ -897,8 +897,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         this.__typescriptEnabled = true;
         this.__typescriptFile = path.relative(process.cwd(), path.resolve(data.meta.typescript));
       }
-      if (qx.lang.Type.isBoolean(this.argv.typescript)) {
-        this.__typescriptEnabled = this.argv.typescript;
+      if (this.argv.typescript === true) {
+        this.__typescriptEnabled = true;
       }
 
       var argvAppNames = null;
