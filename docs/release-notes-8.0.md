@@ -1,5 +1,32 @@
 # Qooxdoo Release Notes
 
+## Notable changes and new features in 8.0.0-beta.2
+
+- **npm packages overhaul**: Replaced browserify/babelify with esbuild for CommonJS
+  bundling, replaced node-fetch with Node.js native `fetch`, updated inquirer, glob,
+  replace-in-file and rimraf to current versions, and replaced the tape test runner
+  with Node.js built-in `node:test`
+- **Restored `qx compile --typescript` / `-T` flag** (issue #10826)
+- **Bindings**: `ArrayIndexSegment` now supports any `qx.data.IListData` implementor,
+  not just `qx.data.Array`
+- **Bindings**: Target property is now reset on initial bind when source chain
+  contains `null`
+- **Properties**: Fixed wrong `init` value when a property with `initFunction`
+  refines a parent property that has an `init` value
+- **`qx serve`**: Command-line options now correctly override config file settings
+- **Tangible theme**: Added missing appearance entries for `CheckedSelectBox`, `Tag`,
+  and `selectbox-arrow-button`
+- **`qx.core.MObjectId`**: New helper methods `hasOwnedQxObject(id)` and
+  `getAllQxObjectsById()`
+
+### Breaking changes in 8.0.0-beta.2
+
+- **`qx.io.jsonrpc.Client`**: `forwardTransportPromiseRejectionToRequest` now defaults
+  to `true`; the environment key is deprecated and will be removed in v8 final
+- **`MProperty.set()` rejects unknown keys**: Using `obj.set({ someNonProperty: value })`  to write to arbitrary member variables now throws an error. Only Qooxdoo properties or members with a hand-written `setXxx` method are accepted.Only Qooxdoo properties or members with a hand-written `setXxx` method are accepted
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/branch_8_0_beta?branch=branch_8_0_beta&qualified_name=refs%2Fheads%2Fbranch_8_0_beta&since=2026-02-08&until=2026-02-25
+
 ## Notable changes and new features in 8.0.0-beta.1
 - **New property system**: Qooxdoo version 8.0 includes a nearly completely rewritten class and
   property system. The benefits of this rewrite include easier
@@ -168,7 +195,7 @@
     more helpful error messages at class load time rather than at
     runtime.
 
-## Breaking changes in v8.0
+## Breaking changes
 
 - The new class/property system is implemented using the JavaScript
   feature `Proxy`, so a new requirement of the JavaScript engine being
