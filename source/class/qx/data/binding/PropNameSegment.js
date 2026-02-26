@@ -96,9 +96,14 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
           return this._setOutput(null);
         }
         if (!property.hasAsyncGetter() || property.isInitialized(input)) {
-          let nextInput = property.get(input, this.__propName);
+          let nextInput = property.get(input);
           return this._setOutput(nextInput);
         } else {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (!(this.getBinding()?.isAsync())) {
+              this.warn(`In binding ${this}, property "${this.__propName}" wasn't available synchronously but the binding is not async. This will cause the target to be updated in a later tick. If you want to await the initial set, use 'object.bindAsync' or add 'async: true' in the binding options.`);
+            }
+          }
           let promise = property.getAsync(input);
           return promise.then(nextInput => this._setOutput(nextInput));
         }
@@ -109,13 +114,31 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @override
      */
     setTargetValue(targetValue) {
-      if (this.getInput() == null || this.getInput() === undefined) {
+      let input = this.getInput();
+      if (input == null || input === undefined) {
         return;
       }
+
+      let async = this.getBinding()?.isAsync();
+      
+      //get the setter method name
+      let upname = qx.lang.String.firstUp(this.__propName);
+
+      let method;
       if (targetValue !== undefined) {
-        return qx.data.SingleValueBinding.set(this.getInput(), this.__propName, targetValue);
+        if (async) {
+          method = `set${upname}Async`;
+        } else {
+          method = `set${upname}`;
+        }
+        return input[method](targetValue);
       } else {
-        return qx.data.SingleValueBinding.reset(this.getInput(), this.__propName);
+        if (async) {
+          method = `reset${upname}Async`;
+        } else {
+          method = `reset${upname}`;
+        }
+        return input[method]();
       }
     },
 

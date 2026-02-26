@@ -183,6 +183,11 @@ qx.Class.define("qx.test.core.Property", {
           },
 
           /**@override */
+          supportsAsyncGet() {
+            return false;
+          },
+
+          /**@override */
           dereference(prop, property) {}
         },
 
@@ -2345,24 +2350,34 @@ qx.Class.define("qx.test.core.Property", {
 
     /**
      * Ensures that an error is thrown when trying to get an async property synchronously
-     * when the property is not ready yet, even if it has an init value.
+     * when the property is not ready yet.
      */
     testGetSyncWhenNotReady() {
       qx.Class.undefine("qx.test.cpnfv8.GetSyncTest");
+
+      let fooCached = undefined;
       var Clazz = qx.Class.define("qx.test.cpnfv8.GetSyncTest", {
         extend: qx.core.Object,
         properties: {
           foo: {
-            init: 7
+            get() {
+              return fooCached;
+            },
+            getAsync() {
+              if (fooCached === undefined) {
+                fooCached = 7;
+              }
+              return fooCached;
+            },
+            set(value) {
+              fooCached = value;
+            }
           }
         }
       });
 
       const doit = async () => {
         let instance = new Clazz();
-        //The property storage will be set to the init value during construction,
-        //so we must reset it manually.
-        delete instance.$$propertyValues.foo;
         let prop = qx.Class.getByProperty(Clazz, "foo");
         this.assertFalse(prop.isInitialized(instance), "Property foo should not be initialized");
         this.assertUndefined(instance.getSafe("foo"));

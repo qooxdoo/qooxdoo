@@ -77,7 +77,7 @@ qx.Mixin.define("qx.data.MBinding", {
      */
     bindAsync: qx.core.Environment.select("qx.promise", {
       true(sourcePropertyChain, targetObject, targetProperty, options) {
-        var binding = qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty || "value", options);
+        var binding = qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty || "value", {...options, async: true});
         return binding.getInitPromise().then(() => binding);
       },
       false(sourcePropertyChain, targetObject, targetProperty, options) {

@@ -97,6 +97,12 @@ qx.Class.define("qx.data.SingleValueBinding", {
    *       be called if the set of the value fails.
    * @property {string} ignoreConverter A string which will be matched using the current
    *       property chain. If it matches, the converter will not be called.
+   * @property {boolean} async If true, the following will happen:
+   * - The binding's init promise (returned by `getInitPromise`) will resolve only after the initial value has been set on the target. 
+   * If any properties in the source and target chains have async getters,
+   * the initial set may happen on a later tick.
+   * - The binding will call setAsync on the target value instead of the synchronous `set` and the init promise will resolve after the initial setAsync call has resolved.
+   * 
    * 
    *
    * @callback converter
@@ -126,6 +132,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
       throw new Error("SourcePath and targetPath must be specified");
     }
     this.__options = options ?? {};
+    this.__async = !!this.__options.async;
     let tracker = {};
 
     const Utils = qx.event.Utils;
@@ -170,6 +177,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
   members: {
     /**
+     * Whether this binding is asynchronous
+     */
+    __async: false,
+    /**
      * @type {*}
      */
     __value: undefined,
@@ -201,6 +212,14 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * @type {BindingOptions}
      */
     __options: null,
+
+    /**
+     * 
+     * @returns {boolean}
+     */
+    isAsync() {
+      return this.__async;
+    },
 
     /**
      * Promises/A+ thenable compliance, this means that you can await the binding for initialisation
@@ -671,64 +690,6 @@ qx.Class.define("qx.data.SingleValueBinding", {
           }
         });
       }
-    },
-
-    /**
-     * Helper method that sets a value for a named property
-     *
-     * @param {qx.core.Object} target object to have a property set
-     * @param {String} propertyName the name of the property
-     * @param {Object?} value the value to set
-     */
-    set(target, propertyName, value) {
-      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
-      if (!prop) {
-        let setFuncName = "set" + qx.lang.String.firstUp(propertyName);
-        if (typeof target[setFuncName] == "function") {
-          return target[setFuncName](value);
-        } else {
-          throw new Error(`Property ${propertyName} not found on ${target.classname}`);
-        }
-      }
-
-      return prop.set(target, value);
-    },
-
-    /**
-     * Helper method to get a value of a named property
-     *
-     * @param {qx.core.Object} target object to have a property get
-     * @param {String} propertyName the name of the property
-     * @returns {Object?} the property value
-     */
-    get(target, propertyName) {
-      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
-      if (prop.hasAsyncGetter() && !prop.isInitialized(target)) {
-        return prop.getAsync(target);
-      } else {
-        return prop.get(target);
-      }
-    },
-
-    /**
-     * Helper method that resets a named property
-     *
-     * @param {qx.core.Object} target object to have a property set
-     * @param {String} propertyName the name of the property
-     
-     */
-    reset(target, propertyName) {
-      let prop = qx.util.PropertyUtil.getProperty(target.constructor, propertyName);
-      if (!prop) {
-        let setFuncName = "reset" + qx.lang.String.firstUp(propertyName);
-        if (typeof target[setFuncName] == "function") {
-          return target[setFuncName]();
-        } else {
-          throw new Error(`Property ${propertyName} not found on ${target.classname}`);
-        }
-      }
-
-      return prop.reset(target);
     },
 
     /**
