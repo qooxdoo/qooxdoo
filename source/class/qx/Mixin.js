@@ -361,7 +361,10 @@ qx.Bootstrap.define("qx.Mixin", {
               if (!mixedInAt.$$flatIncludes[i].$$members[methodName]) {
                 continue;
               }
-              fn = fn.base;
+              // Fix: use per-class $memberBases instead of shared mutable fn.base
+              fn = (mixedInAt.$memberBases && mixedInAt.$memberBases[methodName] !== undefined)
+                ? mixedInAt.$memberBases[methodName]
+                : fn.base;
             }
           }
 

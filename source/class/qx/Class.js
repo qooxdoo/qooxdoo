@@ -906,6 +906,11 @@ qx.Bootstrap.define("qx.Class", {
               member.self = clazz;
             }
             member.base = clazz.prototype[key];
+            // Fix: per-class storage so multiple class-applications don't clobber the shared fn.base
+            if (!clazz.$memberBases) {
+              clazz.$memberBases = {};
+            }
+            clazz.$memberBases[key] = clazz.prototype[key];
           }
 
           // Create the storage for this member
