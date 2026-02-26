@@ -34,7 +34,6 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
     this.__get = def.get;
     this.__getAsync = def.getAsync || def.get;
     this.__set = def.set;
-    this.__setAsync = def.setAsync || def.set;
   },
 
   members: {
@@ -61,13 +60,6 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
      */
     set(thisObj, property, value) {
       this.__set.call(thisObj, value, property, thisObj);
-    },
-
-    /**
-     * @Override
-     */
-    setAsync(thisObj, property, value) {
-      return this.__setAsync.call(thisObj, property, value);
     },
 
     /**

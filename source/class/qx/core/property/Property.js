@@ -1023,14 +1023,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       //Actually modify the underlying storage
       if (method == "reset") {
-        await this.__storage.setAsync(thisObj, this, value);
+        this.__storage.set(thisObj, this, value);
         value = await this.__getAsyncImpl(thisObj, true);
       } else {
         if (scope == "user") {
           // Always set the value to the storage if it is a user value; this is because themable properties
           // might be equal now, but if the theme value changes, the user's override needs to remain.
           if (method == "set" || method == "init") {
-            await this.__storage.setAsync(thisObj, this, value);
+            this.__storage.set(thisObj, this, value);
           }
         } else if (qx.core.Environment.get("qx.debug")) {
           throw new Error(`Invalid scope=${scope} in ${this.classname}.__setAsyncImpl`);
