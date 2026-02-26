@@ -69,6 +69,10 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * Apply for `input`
      */
     _applyInput(value, oldValue) {
+      if (!this.getOutputReceiver()) {
+        return;
+      }
+
       if (oldValue) {
         let eventName = this.__getEventName(oldValue);
         eventName && oldValue.removeListener(eventName, this.__onChangeInputProperty, this);
@@ -81,9 +85,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         this.setEventName(eventName);
       }
 
-      if (this.getOutputReceiver()) {
-        return this.updateOutput();
-      }
+      return this.updateOutput();
     },
 
     updateOutput() {
@@ -148,9 +150,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
      * @param {qx.event.type.Data} evt
      */
     __onChangeInputProperty(evt) {
-      if (this.getOutputReceiver()) {
-        return this._setOutput(evt.getData());
-      }
+      return this._setOutput(evt.getData());
     },
 
     /**

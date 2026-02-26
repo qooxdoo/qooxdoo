@@ -47,15 +47,12 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
     }
   },
 
-  /**
-   * Fired when this segment's input changed, and it has been received and fully processed by the next segments in the chain,
-   * i.e. any async set/get operations have completed.
-   */
-  events: {
-    changeInput: "qx.event.type.Data"
-  },
-
   members: {
+    /**
+     * Called when this segment's input changed, and it has been received and fully processed by the next segments in the chain,
+     * i.e. any async set/get operations have completed.
+     */
+    __changeInputCallback: () => {},
     /**
      * @type {qx.data.SingleValueBinding}
      */
@@ -69,6 +66,14 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
      * @type {qx.data.binding.IInputReceiver}
      */
     __outputReceiver: null,
+
+    /**
+     * 
+     * @param {Function} callback 
+     */
+    setChangeInputCallback(callback) {
+      this.__changeInputCallback = callback;
+    },
 
     /**
      *
@@ -125,9 +130,9 @@ qx.Class.define("qx.data.binding.AbstractSegment", {
 
       let out = this._applyInput(value, old);
       if (qx.lang.Type.isPromise(out)) {
-        return out.then(() => this.fireDataEvent("changeInput", value, old));
+        return out.then(() => this.__changeInputCallback(value, old));
       } else {
-        return this.fireDataEvent("changeInput", value, old);
+        return this.__changeInputCallback(value, old);
       }
     },
 

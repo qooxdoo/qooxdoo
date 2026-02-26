@@ -339,7 +339,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
       }
       this.__record = null; // invalidate record representation cache
       this.__targetSegments = qx.data.SingleValueBinding.__parseSegments(this, value);
-      this.__targetSegments.at(-1).addListener("changeInput", this.__updateTarget, this);
+      this.__targetSegments.at(-1).setChangeInputCallback(() => this.__updateTarget());
     },
 
     /**
@@ -597,27 +597,6 @@ qx.Class.define("qx.data.SingleValueBinding", {
     },
 
     /**
-     * Splits a property path into segments.
-     * @param {string} path
-     * @returns {string[]} an array of segments, split by dot and square brackets.
-     * For example, splitSegments(`a.b[0].c`) will return `["a", "b", "[0]", "c"]`
-     */
-    splitSegments(path) {
-      let out = [];
-      for (let dotSplit of path.split(".")) {
-        let bracketSplits = dotSplit.split("[");
-        for (let i = 0; i < bracketSplits.length; i++) {
-          let bracketSplit = bracketSplits[i];
-          if (i > 0) {
-            bracketSplit = "[" + bracketSplit;
-          }
-          out.push(bracketSplit);
-        }
-      }
-      return out.filter(s => s.length > 0);
-    },
-
-    /**
      * Finds all bindings for an object, as either a source or target
      *
      * @param {qx.core.Object} object
@@ -736,26 +715,52 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * @return {qx.data.binding.AbstractSegment[]?} the new array of segments
      */
     __parseSegments(binding, path) {
-      let segsStrings = qx.data.SingleValueBinding.splitSegments(path);
+      let segsStrings = this.__splitSegments(path);
+      //should be let segsStrings = path.split(/\.|(?=\[)|(?<=\])/g);// split by dot or square brackets, but keep the brackets as part of the segments
+      //but this breaks our Rhino because it's really old
+      //TODO update Rhino
+
       let segments = [];
 
-      for (let seg of segsStrings) {
+      let previous;
+      for (let segStr of segsStrings) {
+        let seg;
         //if it's an array index:
-        if (seg.startsWith("[")) {
-          segments.push(new qx.data.binding.ArrayIndexSegment(binding, seg));
+        if (segStr.startsWith("[")) {
+          seg = new qx.data.binding.ArrayIndexSegment(binding, segStr);
         } else {
           //otherwise, it's a normal path
-          segments.push(new qx.data.binding.PropNameSegment(binding, seg));
+          seg = new qx.data.binding.PropNameSegment(binding, segStr);
         }
-      }
-
-      segments.forEach((seg, index) => {
-        if (index < segments.length - 1) {
-          seg.setOutputReceiver(segments[index + 1]);
+        if (previous) {
+          previous.setOutputReceiver(seg);
         }
-      });
+        previous = seg;
+        segments.push(seg);
+      }      
 
       return segments;
-    }
+    },
+
+    /**
+     * Splits a property path into segments.
+     * @param {string} path
+     * @returns {string[]} an array of segments, split by dot and square brackets.
+     * For example, splitSegments(`a.b[0].c`) will return `["a", "b", "[0]", "c"]`
+     */
+    __splitSegments(path) {
+      let out = [];
+      for (let dotSplit of path.split(".")) {
+        let bracketSplits = dotSplit.split("[");
+        for (let i = 0; i < bracketSplits.length; i++) {
+          let bracketSplit = bracketSplits[i];
+          if (i > 0) {
+            bracketSplit = "[" + bracketSplit;
+          }
+          out.push(bracketSplit);
+        }
+      }
+      return out.filter(s => s.length > 0);
+    },
   }
 });
