@@ -30,6 +30,19 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
     __b2: null,
 
     setUp() {
+      qx.Bootstrap.undefine("qx.test.data.singlevalue.async.AsyncPropertyStorage");
+      qx.Bootstrap.define("qx.test.data.singlevalue.async.AsyncPropertyStorage", {
+        extend: qx.core.property.SimplePropertyStorage,
+        members: {
+          /**
+           * @Override
+           */
+          supportsAsyncGet() {
+            return true;
+          }
+        }
+      });
+
       qx.Class.undefine("qx.test.data.singlevalue.async.Test");
       const Clazz = qx.Class.define("qx.test.data.singlevalue.async.Test", {
         extend: qx.core.Object,
@@ -39,14 +52,16 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
            */
           ai: {
             nullable: true,
-            init: null
+            init: null,
+            storage: qx.test.data.singlevalue.async.AsyncPropertyStorage
           },
           /**
            * The async output
            */
           ao: {
             nullable: true,
-            init: null
+            init: null,
+            storage: qx.test.data.singlevalue.async.AsyncPropertyStorage
           },
           /**
            * Syncronous input
