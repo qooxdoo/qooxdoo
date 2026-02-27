@@ -918,8 +918,12 @@ qx.Bootstrap.define("qx.Class", {
             // is included/patched into multiple classes, or when multiple mixins override
             // the same method in the same class.
             if (mixin) {
-              if (!clazz.$mixinBases) clazz.$mixinBases = new Map();
-              if (!clazz.$mixinBases.has(mixin)) clazz.$mixinBases.set(mixin, {});
+              if (!clazz.$mixinBases) {
+                clazz.$mixinBases = new Map();
+              }
+              if (!clazz.$mixinBases.has(mixin)) {
+                clazz.$mixinBases.set(mixin, {});
+              }
               clazz.$mixinBases.get(mixin)[key] = clazz.prototype[key];
             }
           }
