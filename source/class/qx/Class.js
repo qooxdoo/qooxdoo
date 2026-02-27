@@ -803,10 +803,18 @@ qx.Bootstrap.define("qx.Class", {
      * @param members {Map}
      *   The map of members to attach
      *
+     * @param events {Map?}
+     *   The map of events declared by the mixin (used for member validation)
+     *
      * @param patch {Boolean ? false}
      *   Enable patching
+     *
+     * @param mixin {qx.Mixin?}
+     *   The mixin being applied, if any. Used to store per-mixin-per-class base
+     *   method references so that super calls resolve correctly when the same
+     *   mixin is included in multiple classes.
      */
-    addMembers(clazz, members, events, patch) {
+    addMembers(clazz, members, events, patch, mixin) {
       let proto = clazz.prototype;
       let classOwnMembers = {}; // Track class members to restore after mixin addition
 
@@ -906,11 +914,14 @@ qx.Bootstrap.define("qx.Class", {
               member.self = clazz;
             }
             member.base = clazz.prototype[key];
-            // Fix: per-class storage so multiple class-applications don't clobber the shared fn.base
-            if (!clazz.$memberBases) {
-              clazz.$memberBases = {};
+            // Fix: per-mixin-per-class storage to prevent clobbering when the same mixin
+            // is included/patched into multiple classes, or when multiple mixins override
+            // the same method in the same class.
+            if (mixin) {
+              if (!clazz.$mixinBases) clazz.$mixinBases = new Map();
+              if (!clazz.$mixinBases.has(mixin)) clazz.$mixinBases.set(mixin, {});
+              clazz.$mixinBases.get(mixin)[key] = clazz.prototype[key];
             }
-            clazz.$memberBases[key] = clazz.prototype[key];
           }
 
           // Create the storage for this member
@@ -1132,7 +1143,7 @@ qx.Bootstrap.define("qx.Class", {
 
         // Attach members
         if (entry.$$members) {
-          qx.Class.addMembers(clazz, entry.$$members, entry.$$events, patch);
+          qx.Class.addMembers(clazz, entry.$$members, entry.$$events, patch, entry);
         }
 
         // Attach properties

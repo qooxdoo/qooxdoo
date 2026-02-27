@@ -631,6 +631,53 @@ qx.Class.define("qx.test.Mixin", {
       o.dispose();
     },
 
+    testMixinInMultipleClasses() {
+      // Two unrelated base classes, each with a 'describe' method
+      qx.Class.define("qx.MBase1", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base1";
+          }
+        }
+      });
+      qx.Class.define("qx.MBase2", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base2";
+          }
+        }
+      });
+
+      // Same mixin included in both classes
+      qx.Mixin.define("qx.MDual", {
+        members: {
+          describe() {
+            return super.describe() + " + Mixin";
+          }
+        }
+      });
+
+      qx.Class.define("qx.MChild1", { extend: qx.MBase1, include: [qx.MDual] });
+      qx.Class.define("qx.MChild2", { extend: qx.MBase2, include: [qx.MDual] });
+
+      var c1 = new qx.MChild1();
+      var c2 = new qx.MChild2();
+
+      // Without the fix, c1.describe() would call Base2 (last include clobbered fn.base)
+      this.assertEquals("Base1 + Mixin", c1.describe());
+      this.assertEquals("Base2 + Mixin", c2.describe());
+
+      c1.dispose();
+      c2.dispose();
+      qx.Class.undefine("qx.MChild1");
+      qx.Class.undefine("qx.MChild2");
+      qx.Class.undefine("qx.MDual");
+      qx.Class.undefine("qx.MBase1");
+      qx.Class.undefine("qx.MBase2");
+    },
+
     testDoubleMixin() {
       qx.Class.define("qx.D", {
         extend: qx.core.Object,

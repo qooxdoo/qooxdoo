@@ -356,15 +356,21 @@ qx.Bootstrap.define("qx.Mixin", {
 
           // Try looking in the class itself
           if (!fn && mixedInAt.prototype[methodName]) {
-            fn = mixedInAt.prototype[methodName];
-            for (let i = 0; i < mixedInAt.$$flatIncludes.length; i++) {
-              if (!mixedInAt.$$flatIncludes[i].$$members[methodName]) {
-                continue;
+            // Use per-mixin-per-class storage to avoid clobbering when the same mixin
+            // is included in multiple classes or when multiple mixins override the same method
+            if (mixedInAt.$mixinBases && mixedInAt.$mixinBases.has(mixin)) {
+              fn = mixedInAt.$mixinBases.get(mixin)[methodName] || null;
+            }
+            if (!fn) {
+              // Fallback: traverse .base chain (works for patch=true since each patch
+              // creates a unique wrapper function with its own .base property)
+              fn = mixedInAt.prototype[methodName];
+              for (let i = 0; i < mixedInAt.$$flatIncludes.length; i++) {
+                if (!mixedInAt.$$flatIncludes[i].$$members[methodName]) {
+                  continue;
+                }
+                fn = fn.base;
               }
-              // Fix: use per-class $memberBases instead of shared mutable fn.base
-              fn = (mixedInAt.$memberBases && mixedInAt.$memberBases[methodName] !== undefined)
-                ? mixedInAt.$memberBases[methodName]
-                : fn.base;
             }
           }
 
