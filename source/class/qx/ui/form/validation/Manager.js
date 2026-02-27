@@ -484,7 +484,7 @@ qx.Class.define("qx.ui.form.validation.Manager", {
 
             let msg = item.getInvalidMessage();
             if (
-              msg &&
+              !msg &&
               qx.core.Environment.get(
                 "qx.ui.form.validation.Manager.allowDefaultInvalidMessage"
               )
