@@ -238,6 +238,10 @@ qx.Class.define("qx.ui.core.SingleSelectionManager", {
         }
       }
 
+      if (newSelected === oldSelected) {
+        return;
+      }
+
       this.__selected = newSelected;
       this.fireDataEvent("changeSelected", newSelected, oldSelected);
     },
