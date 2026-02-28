@@ -348,7 +348,7 @@ qx.Bootstrap.define("qx.Mixin", {
           //  implementation is the first mixin's method
           for (var i = mixedInIndex - 1; i > -1; i--) {
             var peerMixin = mixedInAt.$$flatIncludes[i];
-            if (peerMixin.$$members[methodName]) {
+            if (peerMixin.$$members && peerMixin.$$members[methodName]) {
               fn = peerMixin.$$members[methodName];
               break;
             }
@@ -359,14 +359,14 @@ qx.Bootstrap.define("qx.Mixin", {
             // Use per-mixin-per-class storage to avoid clobbering when the same mixin
             // is included in multiple classes or when multiple mixins override the same method
             if (mixedInAt.$mixinBases && mixedInAt.$mixinBases.has(mixin)) {
-              fn = mixedInAt.$mixinBases.get(mixin)[methodName] || null;
+              fn = mixedInAt.$mixinBases.get(mixin)[methodName] ?? null;
             }
             if (!fn) {
               // Fallback: traverse .base chain (works for patch=true since each patch
               // creates a unique wrapper function with its own .base property)
               fn = mixedInAt.prototype[methodName];
               for (let i = 0; i < mixedInAt.$$flatIncludes.length; i++) {
-                if (!mixedInAt.$$flatIncludes[i].$$members[methodName]) {
+                if (!mixedInAt.$$flatIncludes[i].$$members || !mixedInAt.$$flatIncludes[i].$$members[methodName]) {
                   continue;
                 }
                 fn = fn.base;

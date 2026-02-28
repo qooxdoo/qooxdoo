@@ -631,6 +631,12 @@ qx.Class.define("qx.test.Mixin", {
       o.dispose();
     },
 
+    /**
+     * Primary bug: when the same mixin is included in two different classes,
+     * addMembers() overwrites the shared mixin function's .base pointer on the
+     * second include, causing the first class's super() call to resolve to the
+     * wrong base method. Per-mixin-per-class $mixinBases storage fixes this.
+     */
     testMixinInMultipleClasses() {
       // Two unrelated base classes, each with a 'describe' method
       qx.Class.define("qx.MBase1", {
@@ -726,15 +732,11 @@ qx.Class.define("qx.test.Mixin", {
     },
 
     /**
-     * Mixin-in-mixin: an outer mixin composes an inner mixin (via include:).
-     * When the outer mixin is applied to two different classes, the inner
-     * mixin's super() call must resolve to each class's own base — not the
-     * last class to include it (which would clobber the shared .base pointer
-     * on the inner mixin's function object).
-     *
-     * Note: MOuter must define at least one own member so that $$members is
-     * not undefined; baseClassMethod's peer loop accesses peerMixin.$$members
-     * directly and would crash otherwise (pre-existing constraint).
+     * Mixin-in-mixin: an outer mixin composes an inner mixin (via include:)
+     * with no members of its own. When the outer mixin is applied to two
+     * different classes, the inner mixin's super() call must resolve to each
+     * class's own base — not the last class to include it (which would clobber
+     * the shared .base pointer on the inner mixin's function object).
      */
     testMixinInMixinMultipleClasses() {
       // Inner mixin with a greet() calling super
@@ -746,15 +748,9 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
-      // Outer mixin that composes the inner mixin and adds its own distinct method
+      // Pure composition mixin: no own members, just includes MInner
       qx.Mixin.define("qx.MOuter", {
-        include: [qx.MInner],
-        members: {
-          // greetFormatted() calls this.greet() so we can test the composed result
-          greetFormatted() {
-            return "[" + this.greet() + "]";
-          }
-        }
+        include: [qx.MInner]
       });
 
       qx.Class.define("qx.MIMBase1", {
@@ -784,9 +780,6 @@ qx.Class.define("qx.test.Mixin", {
       // MInner.greet's super must resolve to each class's own base, not the last one applied
       this.assertEquals("Alpha [inner]", c1.greet());
       this.assertEquals("Beta [inner]", c2.greet());
-      // greetFormatted() (from MOuter) calls this.greet() which also exercises the chain
-      this.assertEquals("[Alpha [inner]]", c1.greetFormatted());
-      this.assertEquals("[Beta [inner]]", c2.greetFormatted());
 
       c1.dispose();
       c2.dispose();
