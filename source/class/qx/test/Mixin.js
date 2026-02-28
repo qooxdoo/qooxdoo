@@ -631,6 +631,225 @@ qx.Class.define("qx.test.Mixin", {
       o.dispose();
     },
 
+    /**
+     * Primary bug: when the same mixin is included in two different classes,
+     * addMembers() overwrites the shared mixin function's .base pointer on the
+     * second include, causing the first class's super() call to resolve to the
+     * wrong base method. Per-mixin-per-class $mixinBases storage fixes this.
+     */
+    testMixinInMultipleClasses() {
+      // Two unrelated base classes, each with a 'describe' method
+      qx.Class.define("qx.MBase1", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base1";
+          }
+        }
+      });
+      qx.Class.define("qx.MBase2", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base2";
+          }
+        }
+      });
+
+      // Same mixin included in both classes
+      qx.Mixin.define("qx.MDual", {
+        members: {
+          describe() {
+            return super.describe() + " + Mixin";
+          }
+        }
+      });
+
+      qx.Class.define("qx.MChild1", { extend: qx.MBase1, include: [qx.MDual] });
+      qx.Class.define("qx.MChild2", { extend: qx.MBase2, include: [qx.MDual] });
+
+      var c1 = new qx.MChild1();
+      var c2 = new qx.MChild2();
+
+      // Without the fix, c1.describe() would call Base2 (last include clobbered fn.base)
+      this.assertEquals("Base1 + Mixin", c1.describe());
+      this.assertEquals("Base2 + Mixin", c2.describe());
+
+      c1.dispose();
+      c2.dispose();
+      qx.Class.undefine("qx.MChild1");
+      qx.Class.undefine("qx.MChild2");
+      qx.Class.undefine("qx.MDual");
+      qx.Class.undefine("qx.MBase1");
+      qx.Class.undefine("qx.MBase2");
+    },
+
+    /**
+     * Regression test: when two different mixins both override the same method
+     * and are both patched into the same class, a naive per-class base cache
+     * (keyed by method name only) would be overwritten by the second patch,
+     * making the first mixin's super() resolve back to itself → infinite recursion.
+     * The per-mixin-per-class $mixinBases Map avoids this by using the mixin as
+     * the lookup key, so each mixin retains its own base reference.
+     */
+    testPatchTwoMixinsSameMethodNoInfiniteRecursion() {
+      qx.Class.define("qx.IRBase", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "base";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MIR1", {
+        members: {
+          describe() {
+            return super.describe() + " [m1]";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MIR2", {
+        members: {
+          describe() {
+            return super.describe() + " [m2]";
+          }
+        }
+      });
+
+      qx.Class.patch(qx.IRBase, qx.MIR1);
+      qx.Class.patch(qx.IRBase, qx.MIR2);
+
+      var obj = new qx.IRBase();
+      // Without per-mixin base storage, MIR1's super() resolves to MIR1 itself → stack overflow
+      this.assertEquals("base [m1] [m2]", obj.describe());
+
+      obj.dispose();
+      qx.Class.undefine("qx.IRBase");
+      qx.Class.undefine("qx.MIR1");
+      qx.Class.undefine("qx.MIR2");
+    },
+
+    /**
+     * Mixin-in-mixin: an outer mixin composes an inner mixin (via include:)
+     * with no members of its own. When the outer mixin is applied to two
+     * different classes, the inner mixin's super() call must resolve to each
+     * class's own base — not the last class to include it (which would clobber
+     * the shared .base pointer on the inner mixin's function object).
+     */
+    testMixinInMixinMultipleClasses() {
+      // Inner mixin with a greet() calling super
+      qx.Mixin.define("qx.MInner", {
+        members: {
+          greet() {
+            return super.greet() + " [inner]";
+          }
+        }
+      });
+
+      // Pure composition mixin: no own members, just includes MInner
+      qx.Mixin.define("qx.MOuter", {
+        include: [qx.MInner]
+      });
+
+      qx.Class.define("qx.MIMBase1", {
+        extend: qx.core.Object,
+        members: {
+          greet() {
+            return "Alpha";
+          }
+        }
+      });
+      qx.Class.define("qx.MIMBase2", {
+        extend: qx.core.Object,
+        members: {
+          greet() {
+            return "Beta";
+          }
+        }
+      });
+
+      // Both classes include MOuter — MInner.greet's .base gets clobbered on the
+      // second include without per-mixin-per-class storage
+      qx.Class.define("qx.MIMClass1", { extend: qx.MIMBase1, include: [qx.MOuter] });
+      qx.Class.define("qx.MIMClass2", { extend: qx.MIMBase2, include: [qx.MOuter] });
+
+      var c1 = new qx.MIMClass1();
+      var c2 = new qx.MIMClass2();
+      // MInner.greet's super must resolve to each class's own base, not the last one applied
+      this.assertEquals("Alpha [inner]", c1.greet());
+      this.assertEquals("Beta [inner]", c2.greet());
+
+      c1.dispose();
+      c2.dispose();
+      qx.Class.undefine("qx.MIMClass1");
+      qx.Class.undefine("qx.MIMClass2");
+      qx.Class.undefine("qx.MIMBase1");
+      qx.Class.undefine("qx.MIMBase2");
+      qx.Class.undefine("qx.MOuter");
+      qx.Class.undefine("qx.MInner");
+    },
+
+    /**
+     * Deep inheritance: the mixin is included in an ancestor class several
+     * levels up. A second unrelated class also includes the same mixin,
+     * clobbering the shared .base pointer. The baseClassMethod lookup must
+     * traverse the inheritance chain to find $mixinBases on the ancestor and
+     * return the correct (per-class) base function.
+     */
+    testDeepInheritanceMixinBaseResolution() {
+      qx.Class.define("qx.DIBase1", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base1";
+          }
+        }
+      });
+      qx.Class.define("qx.DIBase2", {
+        extend: qx.core.Object,
+        members: {
+          describe() {
+            return "Base2";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MDI", {
+        members: {
+          describe() {
+            return super.describe() + " [mixin]";
+          }
+        }
+      });
+
+      // Mixin applied at Parent1; Child1 and Grandchild1 inherit it
+      qx.Class.define("qx.DIParent1", { extend: qx.DIBase1, include: [qx.MDI] });
+      qx.Class.define("qx.DIChild1", { extend: qx.DIParent1 });
+      qx.Class.define("qx.DIGrandchild1", { extend: qx.DIChild1 });
+
+      // Second unrelated class including the same mixin — clobbers MDI.$$members.describe.base
+      qx.Class.define("qx.DIParent2", { extend: qx.DIBase2, include: [qx.MDI] });
+
+      var deep = new qx.DIGrandchild1();
+      var other = new qx.DIParent2();
+
+      // $mixinBases must be found on DIParent1 (ancestor), not on the instance's own class
+      this.assertEquals("Base1 [mixin]", deep.describe());
+      this.assertEquals("Base2 [mixin]", other.describe());
+
+      deep.dispose();
+      other.dispose();
+      qx.Class.undefine("qx.DIGrandchild1");
+      qx.Class.undefine("qx.DIChild1");
+      qx.Class.undefine("qx.DIParent1");
+      qx.Class.undefine("qx.DIParent2");
+      qx.Class.undefine("qx.MDI");
+      qx.Class.undefine("qx.DIBase1");
+      qx.Class.undefine("qx.DIBase2");
+    },
+
     testDoubleMixin() {
       qx.Class.define("qx.D", {
         extend: qx.core.Object,
