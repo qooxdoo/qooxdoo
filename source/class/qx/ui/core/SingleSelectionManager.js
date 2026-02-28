@@ -226,16 +226,16 @@ qx.Class.define("qx.ui.core.SingleSelectionManager", {
       var oldSelected = this.__selected;
       var newSelected = item;
 
-      if (newSelected != null && oldSelected === newSelected) {
-        return;
-      }
-
       if (!this.isAllowEmptySelection() && newSelected == null) {
         var firstElement = this.getSelectables(true)[0];
 
         if (firstElement) {
           newSelected = firstElement;
         }
+      }
+
+      if (newSelected !== null && newSelected === oldSelected) {
+        return;
       }
 
       this.__selected = newSelected;
