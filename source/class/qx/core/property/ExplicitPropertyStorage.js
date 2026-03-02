@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
     let def = property.getDefinition();
     this.__property = property;
     this.__get = def.get;
-    this.__getAsync = def.getAsync;
+    this.__getAsync = def.getAsync || def.get;
     this.__set = def.set;
   },
 
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
      * @Override
      */
     supportsAsyncGet() {
-      return !!this.__getAsync;
+      return this.__getAsync && (this.__getAsync !== this.__get);
     }
   }
 });
