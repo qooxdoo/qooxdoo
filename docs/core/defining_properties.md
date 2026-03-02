@@ -484,7 +484,7 @@ The transform function is passed a second parameter which is the value
 previously set - note that the first time that transform is called, the oldValue
 parameter will be undefined
 
-## Asynchronous Properties using Promises
+## setAsync, asynchronous apply methods and asynchronous event handlers
 
 Sometimes it may be necessary for an `applyXxx` method to take some time to
 complete, in which case it is necessary to consider coding asynchronously to allow
@@ -494,16 +494,11 @@ includes triggering a server round trip then
 synchronous XMLHttpRequest, and some browsers (e.g. Safari) already have very
 short timeouts for synchronous XMLHttpRequests which cannot be overridden.
 
-Properties can be made asynchronous by using `qx.Promise`.
+If a property is set using `obj.setProperty(value)` and the `apply` function returns a thenable (e.g. a Promise), the thenable will not be awaited and the event will be fired in the same tick. 
 
-The return value for apply methods is normally ignored, but if it returns an
-instance of `qx.Promise` the `setXxx` method will wait for the promise to be
-fulfilled before firing the  `changeXxx` event.
-
-As `setXxx` method returns the value which has been set, it is not possible to
-return the promise to the caller - to retrieve the promise, you must tell
-Qooxdoo that the property is asynchronous by setting the `async: true` in the
-property definition and then calling the `setXxxAsync` method:
+If you want to await until the apply method promise resolves, you need to call `setXxxAsync`.
+This will wait until the apply function promise resolves before firing the change event.
+It returns a promise which resolves when the apply function and all asynchronous event handlers resolve as well.
 
 ```javascript
 properties :
@@ -513,8 +508,7 @@ properties :
       init : 0,
       check: "String",
       apply : "_applyName",
-      event: "changeName",
-      async: true
+      event: "changeName"
    }
 },
 
@@ -534,14 +528,7 @@ myObject.setNameAsync("abc").then(function() {
     // only now has the name been changed and the "changeName" event been fired
 });
 ```
-
-Note that the `setXxxAsync` method is _only_ available if you have specified
-`async: true` in the property definition
-
-As well as `setXxxAsync` there is also a matching `getXxxAsync` method and a
-`changeXxxAsync` event which can be fired; event handlers can return promises, and 
-asynchronous properties can be bound using `qx.core.Object.bind()`
-
+Note: Prior to version 8, it was necessary to specify `async: true` in the property definition. Now however, all properties have `setAsync` methods.
 ## Validation of incoming values
 
 Validation of a property can prevent the property from being set if it is not
@@ -710,33 +697,10 @@ its values are replaced by those in the argument to a setter call.
 
 Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
 
-It is possible to define an alternative storage methodology. Defining
-storage requires creating a map containing four keys: `init`, `set`,
-`get`, and `dereference`.
+It is possible to define an alternative storage methodology. Defining a storage requires defining a `qx.Bootstrap` class which implements `qx.core.property.IPropertyStorage`. Sometimes it may be sufficient to inherit from `SimplePropertyStorage` and only override necessary methods. 
 
-### init
-
-A storage implementation's `init` key defines how to initialize the
-property's value in its storage. The default storage implementation
-uses the property's `init` value (or `undefined` if the property
-doesn't define an `init` key) and stores it into the instance. The
-default storage's `init` function looks something like this:
-
-```javascript
-init(propertyName, property, clazz)
-{
-  // Create the storage for this property's current value
-  Object.defineProperty(
-    clazz.prototype,
-    propertyName,
-    {
-      value        : property.init,
-      writable     : true, // must be true for possible initFunction
-      configurable : false,
-      enumerable   : false
-    });
-}
-```
+`IPropertyStorage` requires that the following methods need to be implemented:
+`get`, `set`, `dereference`. Additionally, if you want your storage to support asynchronous getting (more detail on this later), you will need to override `getAsync` and `supportAsyncGet` as well.
 
 ### set
 A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
@@ -744,22 +708,15 @@ A storage implementation's `set` key defines how to store a value for the proper
 ```javascript
 set(prop, value)
 {
-  let variant = this[`$$variant_${prop}`];
-
-  // Don't go through the whole setter process; just save the value
-  this[`$$variant_${prop}`] = "immediate";
-  this[prop] = value;
-  this[`$$variant_${prop}`] = variant;
+  /**
+   * @Override
+   */
+  get(thisObj, property) {
+    let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
+    return value;
+  },
 },
 ```
-
-Note the `variant` handling. This pertains to internals of the Class
-implementation. The key point here is that when
-`this[`$$variant_${prop}`]` is not `immediate`, all of the property
-handling such as validation, transform, etc., may occur if
-`this[prop]` is changed. For optimal efficiency, the default storage implementation saves the
-current variant, temporarily sets the variant to "immediate", saves
-the value in its storage location, and then restores the variant.
 
 ### get
 
@@ -774,6 +731,50 @@ get(prop)
   return this[prop];
 }
 ```
+
+### Asynchronous property storages
+Sometimes, we may want to make getting the initial value of a property asynchronous,
+for example when we have an object on the client and getting the property requires a server round trip, or when fetching data from a database in an ORM system.
+In order to achieve this, we need to define our own property storage class, override method `supportAsyncGetter` to return true,
+and override `getAsync` to fetch the value for the property.
+
+Here is an example property storage class which allows us to fetch on-demand properties from the server in a browser environment:
+```js
+qx.Bootstrap.define("com.mycompany.myapp.OnDemandPropertyStorage", {
+  extend: qx.core.property.SimplePropertyStorage,
+
+  members: {
+    /**
+     * @Override from SimplePropertyStorage
+     */
+    async getAsync(thisObj, property) {
+      let value = this.get(thisObj, property); ///check the cache first
+      if (value !== undefined) return value;
+
+
+      //cache miss, get value from source
+      //we use UUIDs to represent the property values that need to be fetched
+      let uuid = thisObj.$$propertyValues[property.getPropertyName()]?.uuid;
+      if (!uuid) {
+        value = null;
+      } else {
+        value = await com.mycompany.myapp.ServerIo.getInstance().getObjectByUuid(uuid);
+      }
+      this.set(thisObj, property, value); //cache the result
+      return cached;
+    },
+  
+    /**
+     * @Override
+     */
+    supportsAsyncGet() {
+      return true;
+    }
+  }
+});
+```
+
+Now, our property will also have a `getAsync` method which returns a promise which resolves to the property value. This means we can call `object.getPropertyAsync()`, which will first attempt to get the property synchronously and then attempt asynchronously if it can't.
 
 ### dereference
 

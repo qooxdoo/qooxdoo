@@ -1,5 +1,14 @@
 # Upcoming
 
+# 8.0.0-beta.2
+
+## Breaking changes
+- Removed `async: true` key from property definition, because now all properties have `setAsync` methods, which can be used to await the apply function's return value and the event handlers when a property is set. The meaning of this setting wasn't very clear, also given that we now have async property storage.
+- Only properties with storages that support async get will create `getPropertyAsync` on the object.
+- Changed the behaviour of `MBinding.bindAsync`. Previously, the only different between `bind` and `bindAsync` was that `bindAsync` always returned a promise whereas `bind` only returned a promise if it had to do something asynchronously. Now, `bindAsync` will call `setAsync` when setting the target path's property while `bind` always calls `set`. If we call `bind` and have to get a property asynchronously, a warning will be shown telling the user to use `bindAsync`.
+- `qx.Class.getProperties` now requires a Qooxdoo class, whereas before it could sometimes work on any class.
+- `object.getPropertyAsync` will now only work if the property storage supports an async getter. 
+
 # v8.0.0_beta
 
 ## Fixes

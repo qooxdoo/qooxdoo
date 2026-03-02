@@ -164,6 +164,20 @@ Another way of managing is removing. There are three ways to remove bindings.
 >   application. Be careful to use that function. Perhaps other parts of the
 >   application use the bindings and also that will be removed!
 
+# Binding properties with asynchronous getters
+
+When setting the initial target property value from the `bind` call, and there is a property in either the source or target property chain (excluding the last property in the target chain) that has an async getter, the following behaviour will occur:
+- The binding logic will first attempt to get the property value synchronously.
+- If that's not possible, only then it will call `object.getPropertyAsync` and then await the result.
+
+If such case is encountered and the binding was created using the plain `bind` function instead of `bindAsync`, a warning will be shown recommending the you to use `object.bindAsync`.
+
+You should use `bindAsync` if you are working with properties with async getters and/or want to await the apply funcion and event handlers of the initial property set operation.
+
+The difference between `bind` and `bindAsync` is:
+- `bind` returns a promise only when it had to fetch a property value asynchronously, while `bindAsync` always returns a promise.
+- When setting the target property value, `bindAsync` calls `object.setPropertyAsync` while `bind` calls `object.setProperty`. The promise returned by `bindAsync` resolves when the `setAsync` call has resolved.
+
 ## Debugging
 
 Working with bindings is in most cases some magic and it just works. But the
