@@ -697,45 +697,56 @@ its values are replaced by those in the argument to a setter call.
 
 Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
 
-It is possible to define an alternative storage methodology. Defining a storage requires defining a `qx.Bootstrap` class which implements `qx.core.property.IPropertyStorage`. Sometimes it may be sufficient to inherit from `SimplePropertyStorage` and only override necessary methods. 
+It is possible to define an alternative storage methodology. Defining a storage requires defining a `qx.Bootstrap` class which implements `qx.core.property.IPropertyStorage`. Sometimes it may be sufficient to inherit from `SimplePropertyStorage` and only override necessary methods. `IPropertyStorage` requires that the following methods need to be implemented: `get`, `set`, `getAsync`, `supportAsyncGet`, and `dereference`. 
 
-`IPropertyStorage` requires that the following methods need to be implemented:
-`get`, `set`, `dereference`. Additionally, if you want your storage to support asynchronous getting (more detail on this later), you will need to override `getAsync` and `supportAsyncGet` as well.
+If you want your storage to support asynchronous getting (more detail on this later), you will need to implement `getAsync` and `supportAsyncGet` as well, otherwise you can just leave them empty.
 
-### set
-A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
+An example property storage implementation is shown below:
 
-```javascript
-set(prop, value)
-{
-  /**
-   * @Override
-   */
-  get(thisObj, property) {
-    let value = thisObj["$$propertyValues"][property.getPropertyName()]?.value;
-    return value;
-  },
-},
+```js
+qx.Bootstrap.define("com.mycompany.myapp.MyPropertyStorage", {
+  implement: qx.core.property.IPropertyStorage,
+  members: {
+    /**
+     * @Override
+     */
+    get(thisObj, property) {
+      /*
+        A storage implementation's `get` method defines how to retrieve the
+        property's value from its storage. This implementation
+        simply retrieves the value from the `myPropertyValues` object,
+        which is a member of the `thisObj`:
+      */
+      return thisObj.myPropertyValues[property.getPropertyName()];
+    },
+
+    set(thisObj, property, value) {
+      /*
+        A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the `myProperties` object, in a property of the given name:
+      */
+      thisObj.myPropertyValues[property.getPropertyName()] = value;
+    }
+  }
+})
 ```
 
-### get
+You then need to specify your storage in your property definition like so:
 
-A storage implementation's `get` key defines how to retrieve the
-property's value from its storage. The default storage implementation
-simply retrieves the instance object's value of the given property
-name:
-
-```javascript
-get(prop)
+```js
 {
-  return this[prop];
+  properties: {
+    myAsyncProp: {
+      check: "com.mycompany.myapp.MyAsyncObject",
+      storage: com.mycompany.myapp.MyPropertyStorage
+    }
+  }
 }
 ```
 
 ### Asynchronous property storages
 Sometimes, we may want to make getting the initial value of a property asynchronous,
 for example when we have an object on the client and getting the property requires a server round trip, or when fetching data from a database in an ORM system.
-In order to achieve this, we need to define our own property storage class, override method `supportAsyncGetter` to return true,
+In order to achieve this, we need to define our own property storage class, override method `supportGetAsync` to return true,
 and override `getAsync` to fetch the value for the property.
 
 Here is an example property storage class which allows us to fetch on-demand properties from the server in a browser environment:
@@ -767,7 +778,7 @@ qx.Bootstrap.define("com.mycompany.myapp.OnDemandPropertyStorage", {
     /**
      * @Override
      */
-    supportsAsyncGet() {
+    supportsGetAsync() {
       return true;
     }
   }
@@ -785,7 +796,49 @@ dereference(prop, property)
 {
   delete this[prop];
 }
+
 ```
+## Inline Property storages
+
+If you want a simpler way to define a property storage without defining a whole class and want to define a one-off storage for one property, you can add a `get`, `set`, and optionally `getAsync` functions to your property definition, like so:
+
+```js
+{
+  properties: {
+    explicitProp: {
+      check: "com.myapp.MyObject",
+      apply: "_applyExplicitProp",
+      /**
+       * @this {qx.core.Object} same value as the `thisObj` parameter
+       * @param {qx.core.propety.IProperty} property the property to get the value of
+       * @param {qx.core.Object} thisObj
+       */
+      get(property, thisObj) {
+        return thisObj.myPropertyValues[property.getPropertyName()];
+      },
+      /**
+       * @this {qx.core.Object} same value as the `thisObj` parameter
+       * @param {qx.core.Object} thisObj
+       * @param {*} value
+       * @param {qx.core.propety.IProperty} property the property to get the value of
+       */
+      set(thisObj, value, property) {
+        thisObj.myPropertyValues[property.getPropertyName()] = value;
+      },
+      /**
+       * @this {qx.core.Object} same value as the `thisObj` parameter
+       * @param {qx.core.propety.IProperty} property the property to get the value of
+       * @param {qx.core.Object} thisObj
+       */
+      getAsync(property, thisObj) {
+        //optional
+      }
+    }
+  }
+}
+```
+
+This is known as inline or explicit property storage. This internally uses `qx.core.property.ExplicitPropertyStorage`, which simply defers to the `get` and `set` functions in your definition.
 
 ## Internal methods
 

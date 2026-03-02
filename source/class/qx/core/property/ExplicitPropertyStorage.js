@@ -25,15 +25,10 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
 
   /**
    * @param {qx.core.property.Property} property
-   * @param {Function} clazz Qooxdoo class which the property relates to
    */
-  construct(property, clazz) {
+  construct(property) {
     super();
-    let def = property.getDefinition();
     this.__property = property;
-    this.__get = def.get;
-    this.__getAsync = def.getAsync || def.get;
-    this.__set = def.set;
   },
 
   members: {
@@ -41,25 +36,26 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
      * @type {qx.core.property.Property}
      */
     __property: null,
+    
     /**
      * @Override
      */
     get(thisObj, property) {
-      return this.__get.call(thisObj, property, thisObj);
+      return this.__property.getDefinition().get.call(thisObj, property, thisObj);
     },
 
     /**
      * @Override
      */
     getAsync(thisObj, property) {
-      return this.__getAsync.call(thisObj, property, thisObj);
+      return this.__property.getDefinition().getAsync.call(thisObj, property, thisObj);
     },
 
     /**
      * @Override
      */
     set(thisObj, property, value) {
-      this.__set.call(thisObj, value, property, thisObj);
+      this.__property.getDefinition().set.call(thisObj, value, property, thisObj);
     },
 
     /**
@@ -72,8 +68,8 @@ qx.Bootstrap.define("qx.core.property.ExplicitPropertyStorage", {
     /**
      * @Override
      */
-    supportsAsyncGet() {
-      return this.__getAsync && (this.__getAsync !== this.__get);
+    supportsGetAsync() {
+      return !!this.__property.getDefinition().getAsync;
     }
   }
 });

@@ -97,7 +97,7 @@ qx.Class.define("qx.data.binding.PropNameSegment", {
         if (property === null) {
           return this._setOutput(null);
         }
-        if (!property.hasAsyncGetter() || property.isInitialized(input)) {
+        if (!property.supportsGetAsync() || property.hasLocalValue(input)) {
           let nextInput = property.get(input);
           return this._setOutput(nextInput);
         } else {

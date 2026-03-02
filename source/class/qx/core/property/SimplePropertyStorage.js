@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
     /**
      * @Override
      */
-    supportsAsyncGet() {
+    supportsGetAsync() {
       return false;
     },
 

@@ -37,7 +37,7 @@ qx.Class.define("qx.test.data.singlevalue.Async", {
           /**
            * @Override
            */
-          supportsAsyncGet() {
+          supportsGetAsync() {
             return true;
           }
         }

@@ -1894,7 +1894,7 @@ qx.Bootstrap.define("qx.Class", {
      */
     isPropertyInitialized(object, name) {
       let property = object.constructor.prototype.$$allProperties[name];
-      return !!(property && property.isInitialized(object));
+      return !!(property && property.hasLocalValue(object));
     },
 
     /**

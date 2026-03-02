@@ -190,10 +190,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       // Figure out the storage implementation
       if (def.storage) {
+        //if it's an object, use it directly as storage
         if (qx.Class.hasInterface(def.storage.constructor, qx.core.property.IPropertyStorage)) {
           this.__storage = def.storage;
         } else {
-          this.__storage = new def.storage();
+          this.__storage = qx.core.property.PropertyStorageFactory.getStorage(def.storage);
         }
       } else {
         if (def.immutable == "replace") {
@@ -202,7 +203,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           } else if (def.check == "Object") {
             this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableObjectStorage);
           } else if (def.check == "qx.data.Array") {
-            this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableDataArrayStorage);
+            this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableDataArrayStorage);//cbh
           } else {
             throw new Error(
               `${this}: ` + "only `check : 'Array'` and `check : 'Object'` " + "properties may have `immutable : 'replace'`."
@@ -210,7 +211,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           }
         } else {
           if (typeof def.get == "function" || typeof def.getAsync == "function") {
-            this.__storage = new qx.core.property.ExplicitPropertyStorage(this, this.__clazz);
+            this.__storage = new qx.core.property.ExplicitPropertyStorage(this);
           } else {
             this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.SimplePropertyStorage);
           }
@@ -540,9 +541,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       if (this.__pseudoProperty) {
-        this.__hasAsyncGetter = this.__clazz.prototype["get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async"] !== undefined;
+        this.__supportsGetAsync = this.__clazz.prototype["get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async"] !== undefined;
       } else {
-        this.__hasAsyncGetter = this.__storage.supportsAsyncGet();
+        this.__supportsGetAsync = this.__storage.supportsGetAsync();
       }
     },
 
@@ -985,8 +986,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       let state = this.getPropertyState(thisObj);
+
       //store the old value
-      let oldValue = await this.__getAsyncImpl(thisObj, true);
+      //we get it synchronously here because if this property supports async get,
+      //we may not always want to fetch the value asynchronously
+      //this means the apply method will be called with undefined as oldValue
+      let oldValue = this.__getImpl(thisObj, true);
 
       //validate and transform the value
       if (this.__validate) {
@@ -1024,7 +1029,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       //Actually modify the underlying storage
       if (method == "reset") {
         this.__storage.set(thisObj, this, value);
-        value = await this.__getAsyncImpl(thisObj, true);
+        value = this.__getImpl(thisObj, true);
       } else {
         if (scope == "user") {
           // Always set the value to the storage if it is a user value; this is because themable properties
@@ -1116,7 +1121,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (value !== undefined) {
         return value;
-      } else if (this.hasAsyncGetter()) {
+      } else if (this.__supportsGetAsync) {
         if (!safe) {
           throw new Error("Property " + this + " has not been initialized - try using getAsync() instead");
         } else {
@@ -1144,6 +1149,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Promise<*>}
      */
     async __getAsyncImpl(thisObj, safe) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (!this.__supportsGetAsync) {
+          this.warn(`Called getAsync/resetAsync in property ${this} which does not support async getter.`);
+        }
+      }
       const getRaw = async () => {
         let value = this.__storage.get(thisObj, this);
 
@@ -1151,12 +1161,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return value;
         }
 
-        value = await this.__storage.getAsync(thisObj, this);
+        value = this.getInitValue(thisObj);
         if (value !== undefined) {
           return value;
         }
 
-        return this.getInitValue(thisObj);
+        if (this.__supportsGetAsync) {
+          return await this.__storage.getAsync(thisObj, this);
+        }
       };
 
       let value = await getRaw();
@@ -1394,12 +1406,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
     promiseReady(thisObj) {},
 
     /**
-     * Whether the property is initialized
+     * Whether the property has a defined value stored locally,
+     * meaning we can safely get it synchronously
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      * @return {Boolean}
      */
-    isInitialized(thisObj) {
+    hasLocalValue(thisObj) {
       let value = this.__getImpl(thisObj, true);
       return value !== undefined;
     },
@@ -1409,8 +1422,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      *
      * @return {Boolean}
      */
-    hasAsyncGetter() {
-      return this.__hasAsyncGetter;      
+    supportsGetAsync() {
+      return this.__supportsGetAsync;      
     },
 
     /**

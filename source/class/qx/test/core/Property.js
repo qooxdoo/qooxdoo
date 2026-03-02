@@ -183,7 +183,7 @@ qx.Class.define("qx.test.core.Property", {
           },
 
           /**@override */
-          supportsAsyncGet() {
+          supportsGetAsync() {
             return false;
           },
 
@@ -2379,7 +2379,7 @@ qx.Class.define("qx.test.core.Property", {
       const doit = async () => {
         let instance = new Clazz();
         let prop = qx.Class.getByProperty(Clazz, "foo");
-        this.assertFalse(prop.isInitialized(instance), "Property foo should not be initialized");
+        this.assertFalse(prop.hasLocalValue(instance), "Property foo should not be locally defined");
         this.assertUndefined(instance.getSafe("foo"));
         try {
           instance.getFoo();
