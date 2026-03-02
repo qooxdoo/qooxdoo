@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.core.property.SimplePropertyStorage", {
      * @Override
      */
     async getAsync(thisObj, property) {
-      return this.get(thisObj, property);
+      // nothing
     },
 
     /**
