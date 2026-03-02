@@ -502,9 +502,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
             return self.get(this);
           }
         });
-        addMethod("get" + upname + "Async", async function () {
-          return await self.getAsync(this);
-        });
+        if (this.__storage.supportsAsyncGet()) {
+          addMethod("get" + upname + "Async", async function () {
+            return await self.getAsync(this);
+          });
+        }
       }
 
       if (this.__definition?.check === "Boolean") {
@@ -661,6 +663,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {*}
      */
     async getAsync(thisObj) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (!this.__hasAsyncGetter) {
+          throw new Error(`${this}: This property does not support async get`);
+        }
+      }
       if (this.__pseudoProperty) {
         return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async");
       }
@@ -1151,12 +1158,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return value;
         }
 
-        value = await this.__storage.getAsync(thisObj, this);
+        value = this.getInitValue(thisObj);
         if (value !== undefined) {
           return value;
         }
 
-        return this.getInitValue(thisObj);
+        if (this.__hasAsyncGetter) {
+          return await this.__storage.getAsync(thisObj, this);
+        }
       };
 
       let value = await getRaw();
