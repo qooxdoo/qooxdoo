@@ -1,5 +1,10 @@
 # Qooxdoo Release Notes
 
+## New feature for 8.0.0-beta.3
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/branch_8_0_beta?branch=branch_8_0_beta&qualified_name=refs%2Fheads%2Fbranch_8_0_beta&since=2026-02-26&until=2026-03-03
+
+
 ## Notable changes and new features in 8.0.0-beta.2
 
 - **npm packages overhaul**: Replaced browserify/babelify with esbuild for CommonJS
