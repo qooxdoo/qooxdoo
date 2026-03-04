@@ -4,6 +4,14 @@
 
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/branch_8_0_beta?branch=branch_8_0_beta&qualified_name=refs%2Fheads%2Fbranch_8_0_beta&since=2026-02-26&until=2026-03-03
 
+### Breaking changes in 8.0.0-beta.3
+
+- **`async: true` property attribute removed**: The `async: true` key in property definitions is
+  no longer recognized and will cause an error. All properties now automatically support async
+  access via `setXxxAsync()`, `getXxxAsync()`, and `resetXxxAsync()` — no declaration needed.
+  Remove `async: true` from all property definitions. The migration tool (`qx migrate`) will
+  do this automatically.
+
 
 ## Notable changes and new features in 8.0.0-beta.2
 

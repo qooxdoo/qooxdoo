@@ -93,6 +93,56 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
     },
 
     /**
+     * Remove deprecated async: true property attribute.
+     * In v8, all properties support async access — async: true is no longer needed.
+     */
+    async migrateAsyncPropertyAttribute() {
+      const sourceDir = path.join(process.cwd(), "source");
+      if (!(await fs.existsAsync(sourceDir))) {
+        this.announce(
+          "*** IMPORTANT: `async: true` Property Attribute Removed ***\n" +
+          "The `async: true` key in property definitions is no longer supported in v8.\n" +
+          "All properties now automatically support async access methods.\n\n" +
+          "Remove `async: true` from all property definitions."
+        );
+        this.markAsPending("Remove `async: true` from property definitions");
+        return;
+      }
+
+      if (!this.__scanResults) {
+        await this.__scanSourceFilesForIssues(sourceDir);
+      }
+
+      const files = this.__scanResults.asyncPropertyFiles;
+      if (files.length === 0) {
+        return;
+      }
+
+      let dryRun = this.getRunner().getDryRun();
+
+      const message =
+        "*** " + (dryRun ? "DRY RUN: " : "") + "`async: true` Property Attribute ***\n" +
+        "The `async: true` key in property definitions is no longer supported in v8.\n" +
+        "All properties automatically support async access via setXxxAsync() etc.\n\n" +
+        "The following files " + (dryRun ? "contain" : "were fixed by removing") + " `async: true`:\n" +
+        files.map(f => `  - ${f.relativePath}`).join("\n");
+      this.announce(message);
+
+      if (dryRun) {
+        this.markAsPending(`Remove \`async: true\` from ${files.length} file(s)`);
+        return;
+      }
+
+      for (const { file } of files) {
+        const content = await fs.readFileAsync(file, "utf8");
+        // Remove lines that are solely `async: true` as a property key (with optional comma)
+        const newContent = content.replace(/^[ \t]*async\s*:\s*true\s*,?[ \t]*\n?/gm, "");
+        await fs.writeFileAsync(file, newContent, "utf8");
+        this.markAsApplied();
+      }
+    },
+
+    /**
      * Check for property setters called before super() or this.base() in constructors
      * This is now an error in v8, as property values will be reset when parent constructor executes
      */
@@ -521,7 +571,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       this.__scanResults = {
         propertyMemberConflicts: [],
         nameFieldUsages: [],
-        constructorSetterIssues: []
+        constructorSetterIssues: [],
+        asyncPropertyFiles: []
       };
 
       const jsFiles = await this.__findJsFiles(sourceDir);
@@ -534,6 +585,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           const needsQxDefineCheck = content.match(/qx\.(Class|Mixin)\.define/);
           const needsNameCheck = content.includes('.name');
           const needsConstructorCheck = content.includes('construct');
+          const needsAsyncCheck = needsQxDefineCheck && content.includes('async');
 
           if (!needsQxDefineCheck && !needsNameCheck) {
             continue;
@@ -596,6 +648,13 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
                   issues
                 });
               }
+            }
+          }
+
+          // Check 4: async: true property attribute (no longer allowed in v8)
+          if (needsAsyncCheck) {
+            if (/^[ \t]*async\s*:\s*true\s*,?[ \t]*$/m.test(content)) {
+              this.__scanResults.asyncPropertyFiles.push({ file, relativePath });
             }
           }
         } catch (e) {
