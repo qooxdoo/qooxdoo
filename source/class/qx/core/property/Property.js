@@ -203,7 +203,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
           } else if (def.check == "Object") {
             this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableObjectStorage);
           } else if (def.check == "qx.data.Array") {
-            this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableDataArrayStorage);//cbh
+            this.__storage = qx.core.property.PropertyStorageFactory.getStorage(qx.core.property.ImmutableDataArrayStorage);
           } else {
             throw new Error(
               `${this}: ` + "only `check : 'Array'` and `check : 'Object'` " + "properties may have `immutable : 'replace'`."
@@ -280,6 +280,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (def.initFunction) {
         this.__initFunction = def.initFunction;
         this.__initValue = undefined;
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this.__storage.supportsGetAsync() && (this.__initValue !== undefined || this.__initFunction)) {
+          throw new Error(`${this}: Properties with async storage cannot have init or initFunction because the init value may override what's in the async storage.`);
+        }
       }
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -1151,7 +1157,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     async __getAsyncImpl(thisObj, safe) {
       if (qx.core.Environment.get("qx.debug")) {
         if (!this.__supportsGetAsync) {
-          this.warn(`Called getAsync/resetAsync in property ${this} which does not support async getter.`);
+          this.warn(`Called getAsync in property ${this} which does not support async getter. The value will be read synchronously.`);
         }
       }
       const getRaw = async () => {

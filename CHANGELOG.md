@@ -3,11 +3,22 @@
 # 8.0.0-beta.2
 
 ## Breaking changes
-- Removed `async: true` key from property definition, because now all properties have `setAsync` methods, which can be used to await the apply function's return value and the event handlers when a property is set. The meaning of this setting wasn't very clear, also given that we now have async property storage.
-- Only properties with storages that support async get will create `getPropertyAsync` on the object.
-- Changed the behaviour of `MBinding.bindAsync`. Previously, the only different between `bind` and `bindAsync` was that `bindAsync` always returned a promise whereas `bind` only returned a promise if it had to do something asynchronously. Now, `bindAsync` will call `setAsync` when setting the target path's property while `bind` always calls `set`. If we call `bind` and have to get a property asynchronously, a warning will be shown telling the user to use `bindAsync`.
+- Removed `async: true` key from property definition because now all properties have `setAsync` methods,
+which can be used to await the apply function's return value and the event handlers when a property is set. 
+The meaning of this setting wasn't very clear, also given that we now have async property storage.
+- Only properties with storages that support `getAsync` will support `getPropertyAsync` on the object,
+because there is no point calling `getAsync` if the storage is synchronous.
+If the user calls `getAsync` in this case, a warning will be shown and the value will be fetched synchronously.
+- Changed the behaviour of `MBinding.bindAsync`.
+Previously, the only different between `bind` and `bindAsync` was that `bindAsync` always returned a promise,
+whereas `bind` only returned a promise if it had to do something asynchronously.
+Now, `bindAsync` will call `setAsync` when setting the target path's property while `bind` always calls `set`.
+If we call `bind` and have to get a property asynchronously,
+a warning will be shown telling the user to use `bindAsync`.
+- If a property with a storage that supports `getAsync` has an `init` value or an `initFunction`,
+a warning will be shown because if an object with that property has no user value for the property yet,
+calling `getAsync` will return the init value but it's supposed to return the result of `storage.getAsync()`.
 - `qx.Class.getProperties` now requires a Qooxdoo class, whereas before it could sometimes work on any class.
-- `object.getPropertyAsync` will now only work if the property storage supports an async getter. 
 
 # v8.0.0_beta
 

@@ -494,7 +494,8 @@ includes triggering a server round trip then
 synchronous XMLHttpRequest, and some browsers (e.g. Safari) already have very
 short timeouts for synchronous XMLHttpRequests which cannot be overridden.
 
-If a property is set using `obj.setProperty(value)` and the `apply` function returns a thenable (e.g. a Promise), the thenable will not be awaited and the event will be fired in the same tick. 
+If a property is set using `obj.setProperty(value)` and the `apply` function returns a thenable (e.g. a Promise),
+the thenable will not be awaited and the event will be fired in the same tick. 
 
 If you want to await until the apply method promise resolves, you need to call `setXxxAsync`.
 This will wait until the apply function promise resolves before firing the change event.
@@ -528,7 +529,9 @@ myObject.setNameAsync("abc").then(function() {
     // only now has the name been changed and the "changeName" event been fired
 });
 ```
-Note: Prior to version 8, it was necessary to specify `async: true` in the property definition. Now however, all properties have `setAsync` methods.
+Note: Prior to version 8, it was necessary to specify `async: true` in the property definition.
+Now however, all properties have `setAsync` methods. That option has now been removed.
+
 ## Validation of incoming values
 
 Validation of a property can prevent the property from being set if it is not
@@ -693,11 +696,23 @@ than replacing the entire array with what's specified in the setter.
 In other words, the initialized array or object becomes immutable, and
 its values are replaced by those in the argument to a setter call.
 
-## Defining own property storage
+## Property storages
 
-Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
+Internally, the Qooxdoo property system uses Property Storage objects to store the user-defined values of properties.
+You have the freedom to define your custom property storage if you want total control over how property values are stored,
+or want to provide init values to properties using an asynchronous function ([full detail here](#asynchronous-property-storages)).
 
-It is possible to define an alternative storage methodology. Defining a storage requires defining a `qx.Bootstrap` class which implements `qx.core.property.IPropertyStorage`. Sometimes it may be sufficient to inherit from `SimplePropertyStorage` and only override necessary methods. `IPropertyStorage` requires that the following methods need to be implemented: `get`, `set`, `getAsync`, `supportAsyncGet`, and `dereference`. 
+### Defining own property storage
+
+Property values are, by default, stored within the instance object of an instantiated class.
+The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
+
+It is possible to define an alternative storage methodology.
+Defining a storage requires defining a `qx.Bootstrap` class which implements `qx.core.property.IPropertyStorage`.
+Sometimes it may be sufficient to inherit from `SimplePropertyStorage` and only override necessary methods.
+`IPropertyStorage` requires that the following methods need to be implemented:
+`get`, `set`, `getAsync`, `supportAsyncGet`, and `dereference`.
+
 
 If you want your storage to support asynchronous getting (more detail on this later), you will need to implement `getAsync` and `supportAsyncGet` as well, otherwise you can just leave them empty.
 
@@ -708,7 +723,7 @@ qx.Bootstrap.define("com.mycompany.myapp.MyPropertyStorage", {
   implement: qx.core.property.IPropertyStorage,
   members: {
     /**
-     * @Override
+     * @override
      */
     get(thisObj, property) {
       /*
@@ -716,28 +731,63 @@ qx.Bootstrap.define("com.mycompany.myapp.MyPropertyStorage", {
         property's value from its storage. This implementation
         simply retrieves the value from the `myPropertyValues` object,
         which is a member of the `thisObj`:
+        `thisObj` is the object which the property value relates to,
+        while `property` is the instance of `qx.core.property.Property`,
+        which is the object that represents the property in the class.
       */
       return thisObj.myPropertyValues[property.getPropertyName()];
     },
 
+    /**
+     * @override
+     */
     set(thisObj, property, value) {
       /*
-        A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the `myProperties` object, in a property of the given name:
+        A storage implementation's `set` key defines how to store a value for the property in its storage. 
+        This implementation stores the value within the `myProperties` object, in a property of the given name:
       */
       thisObj.myPropertyValues[property.getPropertyName()] = value;
+    },
+
+    /**
+     * @override
+     */
+    supportsGetAsync() {
+      return false;
+    },
+
+    /**
+     * @override
+     */
+    getAsync() {
+      //empty because this property does not support getAsync
+    },
+
+    /**
+     * @override
+     */
+    dereference(thisObj, property) {
+      /*
+       * If the property configuration includes `dereference : true`,
+       * the storage implementation's `dereference` function is called just before the instance's destructor.
+       * This implementation deletes the property from the instance:
+       */
+      delete thisObj.myPropertyValues[property.getPropertyName()];
     }
   }
 })
 ```
 
-You then need to specify your storage in your property definition like so:
+You then need to specify your storage class in your property definition like so:
 
 ```js
 {
   properties: {
     myAsyncProp: {
       check: "com.mycompany.myapp.MyAsyncObject",
-      storage: com.mycompany.myapp.MyPropertyStorage
+      storage: com.mycompany.myapp.MyPropertyStorage // you can also do `new com.mycompany.myapp.MyPropertyStorage()`,
+      //but this is less memory efficient if you will use this storage loads of times
+      //because it will create multiple instances of the storage
     }
   }
 }
@@ -745,7 +795,8 @@ You then need to specify your storage in your property definition like so:
 
 ### Asynchronous property storages
 Sometimes, we may want to make getting the initial value of a property asynchronous,
-for example when we have an object on the client and getting the property requires a server round trip, or when fetching data from a database in an ORM system.
+for example when we have an object on the client and getting the property requires a server round trip,
+or when fetching data from a database in an ORM system.
 In order to achieve this, we need to define our own property storage class, override method `supportGetAsync` to return true,
 and override `getAsync` to fetch the value for the property.
 
@@ -785,22 +836,16 @@ qx.Bootstrap.define("com.mycompany.myapp.OnDemandPropertyStorage", {
 });
 ```
 
-Now, our property will also have a `getAsync` method which returns a promise which resolves to the property value. This means we can call `object.getPropertyAsync()`, which will first attempt to get the property synchronously and then attempt asynchronously if it can't.
+Now, we can use the `qx.core.property.Property.getAsync` or `object.getPropertyAsync()` method
+which returns a promise which resolves to the property value.
+It will first attempt to get the property synchronously and then attempt asynchronously if it can't.
+NOTE: It is possible but discouraged to call `getAsync` on a property that doesn't support an async getter.
+Doing so will print out a warning.
 
-### dereference
+### Inline Property storages
 
-If the property configuration includes `dereference : true`, then the storage implementation's `dereference` function is called just before the instance's destructor. The default storage implementation deletes the property from the instance:
-
-```javascript
-dereference(prop, property)
-{
-  delete this[prop];
-}
-
-```
-## Inline Property storages
-
-If you want a simpler way to define a property storage without defining a whole class and want to define a one-off storage for one property, you can add a `get`, `set`, and optionally `getAsync` functions to your property definition, like so:
+If you want a simpler way to define a property storage without defining a whole class and want to define a one-off storage for one property,
+you can add a `get`, `set`, and optionally `getAsync` functions to your definition, like so:
 
 ```js
 {
@@ -831,14 +876,17 @@ If you want a simpler way to define a property storage without defining a whole 
        * @param {qx.core.Object} thisObj
        */
       getAsync(property, thisObj) {
-        //optional
+        //You don't have to define this function at all.
+        //If you do, this is like returning `true` from your `supportsGetAsync` method,
+        //otherwise it's like returning `false`.
       }
     }
   }
 }
 ```
 
-This is known as inline or explicit property storage. This internally uses `qx.core.property.ExplicitPropertyStorage`, which simply defers to the `get` and `set` functions in your definition.
+This is known as inline or explicit property storage. This internally uses `qx.core.property.ExplicitPropertyStorage`,
+which simply defers to the `get`, `set`, `setAsync` functions in your definition.
 
 ## Internal methods
 
@@ -911,7 +959,7 @@ obj.setPadding( 10, 20 );
 // obj.setPaddingLeft(20);
 ```
 
-## When to use properties?
+## When not to use properties?
 
 Since properties in Qooxdoo support advanced features like validation,
 events and so on, they might not be quite as lean and fast as an
