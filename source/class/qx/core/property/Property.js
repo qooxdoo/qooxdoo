@@ -284,7 +284,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (qx.core.Environment.get("qx.debug")) {
         if (this.__storage.supportsGetAsync() && (this.__initValue !== undefined || this.__initFunction)) {
-          throw new Error(`${this}: Properties with async storage cannot have init or initFunction because the init value may override what's in the async storage.`);
+          this.warn(`${this}: Properties with async storage cannot have init or initFunction because the init value may override what's in the async storage.`);
         }
       }
 
