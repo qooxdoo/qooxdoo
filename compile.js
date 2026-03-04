@@ -208,7 +208,7 @@ qx.Class.define("qx.compile.CompilerApi", {
         args.push("--tag beta");
       }
 
-      return qx.tool.utils.Utils.runCommand({
+      await qx.tool.utils.Utils.runCommand({
         cwd: ".",
         cmd: "npm",
         args: args,
