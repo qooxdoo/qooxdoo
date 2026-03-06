@@ -44,8 +44,7 @@ members:
     return this._width;
   },
 
-  setWidth(width)
-  {
+  setWidth(width) {
     this._width = width;
     return width;
   }
@@ -97,7 +96,12 @@ setter, an additional `apply` method has to be given:
 ```javascript
 // Qooxdoo version of ordinary example #2
 properties : {
-  width : { check : "Number", apply : "applyWidth" }
+  width : {
+    check: "Number",
+    apply : "applyWidth",
+    nullable: true,
+    init: null
+  }
 }
 
 members :
@@ -108,15 +112,17 @@ members :
 }
 ```
 
-Compare that to the lengthy code of the ordinary code example above! Much
-shorter and nicer, also by objective means. And it almost only contains the
+The following code creates a property `myProperty` and the corresponding
+functions like `setMyProperty()` and `getMyProperty()`.
+Compare that to the lengthy code of the ordinary code example above! 
+Much shorter and nicer, also by objective means. And it almost only contains the
 "real code".
 
-The apply method may optionally be defined for each property you add to your
-class. As soon as you define a key "apply" in your property declaration map the
-method gets automatically called on each property modification (but not during
-initial initialization). If you do not define an apply method, the property just
-handles the fundamental storage of your data and its disposal.
+The `applyWidth` method will be called during construction (but some exceptions apply, [detail here](#apply-during-construction)),
+and every time the property is set to a value which differs from the one it currently is. 
+If you do not define an apply method, the property just handles the fundamental storage of your data and its disposal.
+
+The `init: null` means that the property will be `null` by default [see here](#init-values) for more details.
 
 Despite needing much less explicit code (keep in mind, for _every_ property), it
 actually contains at least as many features as the hand-tuned code: The type of
@@ -124,41 +130,9 @@ the property is checked automatically (`Number` in the example above). Moreover,
 new values are only stored (and the optional apply method called) if different
 from the existing values. A tiny but important optimization.
 
-### Change Events
-
-Qooxdoo supports full-featured event-based programming throughout the framework.
-So-called _change events_ are a good example for this powerful concept.
-
-Each property may optionally behave as an observable. This means it can send out
-an event at any time the property value changes. Such a change event (an
-instance of `qx.event.type.Data`) is declared by providing a custom name in the
-`event` key of the property definition. While you are free to choose any event
-name you like, the Qooxdoo framework tries to consistently use the naming
-convention `"change + Propertyname"`, e.g. `"changeWidth"` for a change of
-property `width`. In order to get notified of any value changes, you simply
-attach an event listener to the object instance containing the property in
-question.
-
-For example, if you would like the `element` property of a Widget instance
-`widget` to fire an event named `"changeElement"` any time the value changes.
-
-```javascript
-properties : {
-  element: { event: "changeElement" }
-}
-```
-
-If this happens, you would like to set the DOM element's content:
-
-```javascript
-widget.addEventListener("changeElement", function(e) {
-  e.getData().innerHTML = "Hello World";
-});
-```
-
-The anonymous function acts as an event handler that receives the event object
-as variable `e`. Calling the predefined method `getData()` returns the new value
-of property `element`.
+### Nullable properties
+The `nullable: true` in the example above means that this property is allowed a null value. Properties are not nullable by default.
+If a property is not nullable and it's set to `null` then an exception will be thrown in development mode.
 
 ## Available Methods
 
@@ -177,6 +151,9 @@ provide the following convenience methods:
 
 - `isPropertyName()`: Identical to `getPropertyName()`.
 - `togglePropertyName()`: Toggles between true and false.
+
+All properties also have the method `setPropertyNameAsync`, which is designed for advanced use only,
+generally when the apply method/event handlers are asynchronous and need to be awaited ([full detail here](./defining_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers))
 
 ## First-class nature of properties
 Properties are first-class members of a class. They can be manipulated
@@ -258,28 +235,6 @@ widget.setPadding(10, 20, 30, 40);
 widget.setPadding([10, 20, 30, 40]);
 ```
 
-## Declaring Properties
-
-The following code creates a property `myProperty` and the corresponding
-functions like `setMyProperty()` and `getMyProperty()`.
-
-```javascript
-qx.Class.define(
-/* ... */
-properties : {
-  myProperty : { nullable : true }
-},
-...
-```
-
-You should define at least one of the attributes `init`, `initFunction`, `nullable` or
-`inheritable`. Otherwise, the first call to the getter would stop with an
-exception because the computed value is not (yet) defined.
-
-> :memo: As an alternative to the `init` key you could set the init value of the
-> property by calling an initializing function `this.initMyProperty(value)` in
-> the constructor. See below for details.
-
 ## Handling changes of property values
 
 You have multiple possibilities to react on each property change. With _change_
@@ -293,17 +248,19 @@ corresponding event is provided in the property declaration.
 
 ### Defining an apply method
 
-To attach an apply method you must add a key `apply` to your configuration which
-points to a name of a function which needs to be available in your `members`
-section. As the apply method normally should not be called directly, it is
+You can optionally define an apply method by attaching a key `apply` to your configuration
+which points to a name of a function which needs to be available in your `members` section. 
+As the apply method normally should not be called directly, it is
 always a good idea to make the method at least protected by prefixing the name
 with an underscore `_` .
 
-The return value of the apply method is ignored. The first argument is the
-actual value, the second one is the former or old value. The last argument is
+The return value of the apply method is ignored (unless it's a promise and `setPropertyAsync` was used, [full detail here](./defining_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers)).
+The first argument is the actual value, the second one is the former (i.e. old) value. The last argument is
 the name of the property which can come very handy if you use one apply method
 for more than one property. The second and third arguments are optional and may
 be left out.
+
+The apply method is only called when the value has changed or during construction if the property has an `init` or `initFunction` key (by default, [full detail here](#apply-during-construction)). 
 
 #### Example
 
@@ -319,21 +276,79 @@ members :
   }
 }
 ```
-
-The applying method is only called when the value has changed.
-
-> :memo: When using reference data types like `Object` or `Array` the apply method is
-> **always** called, since these are different objects and indeed different
-> values. This is JavaScript functionality and not Qooxdoo specific.
+> :memo: When using reference types like `Object` or `Array`, the apply method
+> is only called if the **object** or **array** itself is different. Changing
+> members of an object, or elements of an array, will not, by default, cause 
+> the apply method to be called, even if that object or array is given back
+> to the setter, because the value hasn't actually changed.
+> If you want the apply method to be called every time the setter is called,
+> you can specify an `isEqual` function for the property that always returns
+> `false`, e.g., `isEqual : (a, b) => false`.
 
 For a more technical description, take a look at the
 [API documentation of qx.core.Property](apps://apiviewer/#qx.core.Property)
 
-### Providing an event interface
+#### Apply during construction
 
-For the users of a class it is in many cases a nice idea to also support an
-event to react on property changes. The event is defined using the `event` key
-where the value is the name of the event which should be fired.
+If a property has either an `init` or `initFunction` in its definition and an apply function,
+its apply function will be called when the object is instantiated,
+specifically after the body of the bottommost constructor in the class' inheritance chain.
+However, this will not happen if any of the following are true:
+- The environment setting `qx.core.property.Property.applyDuringConstruct` is set to `false` by the user.
+- The name of the class matches at least one RegExp in the environment setting `qx.core.property.Property.excludeAutoApply`. 
+  Currently at time of writing, all classes in the Qooxdoo project (i.e. ones with the `qx.*` namespace) are excluded from this behaviour
+  because some of them heavily rely on the old behaviour and it would be too time-consuming to adapt them to the new behaviour.
+
+Note: If a property has an `initFunction`, those environment settings don't apply.
+This is because this behaviour is encouraged for modern post Qooxdoo V8 code.
+Adding `autoApply: true` in the property definition also trumps those rules for any property.
+In the rare case that the user really doesn't want their apply method to get called automatically, 
+they can just put `autoApply: false` in the property definition, but this is heavily discouraged.
+
+### Change Events
+Qooxdoo supports full-featured event-based programming throughout the framework.
+So-called _change events_ are a good example for this powerful concept.
+
+Each property may optionally behave as an observable. This means it can send out
+an event at any time the property value changes. 
+Properties automatically fire events by default.
+The default naming scheme for events is `"changePropertyname"`, e.g. `"changeWidth"` for a change of
+property `width`.
+Note: prior to Qooxdoo V8, events weren't automatic and it was mandatory to specify an event name
+if you wanted an event to fire.
+
+The event name can be changed if you wish, but this is discouraged
+because it's a good idea to adhere to the Qooxdoo naming convention.
+This can be done by adding `event: "customEventName"` in the property definition.
+
+It is also possible to disable an event for a property
+by putting `event: false` in the property definition,
+which may be useful where performance is critical.
+
+In order to get notified of any value changes, you simply
+attach an event listener to the object instance containing the property in
+question.
+
+For example, if you would like the `element` property of a Widget instance
+`widget` to fire an event named `"changeElement"` any time the value changes.
+
+```javascript
+properties : {
+  element: { event: "changeElement" }
+}
+```
+
+If this happens, you would like to set the DOM element's content:
+
+```javascript
+widget.addListener("changeElement", function(e) {
+  e.getData().innerHTML = "Hello World";
+});
+```
+
+The anonymous function acts as an event handler that receives the event object
+as variable `e`. Calling the predefined method `getData()` returns the new value
+of property `element`.
 
 Qooxdoo fires a `qx.event.type.Data` which supports the methods `getData()` and
 `getOldData()` to allow easy access to the new and old property value,
@@ -365,8 +380,8 @@ when property values are being reset.
 
 There are two ways to set an init value of a property.
 
-#### Init value, calculated at class instantiation time
-The _preferred_ way to initialize reference vaues such as objects or arrays,
+#### Init function, calculated at class instantiation time
+The _preferred_ way to initialize reference values such as objects or arrays,
 which are not expected to be shared between instances of the class, is
 to provide a function to the `initFunction` key in the property
 configuration map. The function will be called each time the class is
@@ -381,31 +396,13 @@ properties : {
 }
 ```
 
-#### Init value, calculated at class load time
-
-The `initFunction` key can be used for all initial values. A slightly
-simpler mechanism is available, however, for simple (non-reference)
-values. In this case, declare them using the `init` key in the
-property configuration map. You can use this key standalone or in
-combination with `nullable` and/or `inheritable`.
-
-```javascript
-properties : {
-  myProperty : { init : 42 },
-  myOtherProperty : { initFunction : () => 42 }
-}
-```
-
 #### Init value in constructor
 
 Before the introduction of the `initFunction` key in qooxdoo version
 8.0, it was necessary to initialize reference types in the
-constructor. The following remains as an available option, although it
-should be rarely necessary any longer, for use in new code.
-
-You could set the init value of the property in the constructor
-of the class. This is only recommended for cases where a declaration of an init
-value as explained above is not sufficient.
+constructor. This can still be done though, although it
+only makes sense when the property values are dependent on arguments provided to the constructor at instantiation time. 
+It should be rarely necessary any longer, for use in new code.
 
 Using an initializing function `this.initMyProperty(value)` in the constructor
 would allow you to assign complex non-primitive types (so-called "reference
@@ -418,6 +415,20 @@ Because `this.tr()` cannot be used in the property definition, you may either
 use the static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the
 call of the initializing function in the constructor.
 
+> :memo: You need to add a `deferredInit:true` to the property configuration to allow for
+> a deferred initialization for reference types as mentioned above.
+
+
+```javascript
+qx.Class.define("qx.MyClass", {
+  construct() {
+    this.initMyProperty([1, 2, 4, 8]);
+  },
+  properties : {
+    myProperty : { deferredInit : true}
+  }
+});
+```
 ### Applying an init value
 
 The following applies if using the methodology describe immediately
@@ -515,8 +526,9 @@ regarding properties and their init values. If you do not want to
 share "reference types" (like `Array`, `Object`) between instances,
 the init values of these should be provided via the `initFunction` key
 instead of the `init` key. Alternatively (and before qooxdoo 8.0),
-they would have to be declared in the constructor. If an `init` or
-`initFunction` value is given in the property declaration, the init
+they would have to be declared in the constructor. 
+
+If an `init` or `initFunction` value is given in the property declaration, the init
 method does not accept any parameters. The init methods always use the
 predefined init values. In cases where there is no `init` or
 `initFunction` value given in the property declaration, it is possible
@@ -537,7 +549,7 @@ inside the property (re-)definition: either `init` or `initFunction`;
 and `refine`. `refine` is a simple boolean flag which must be
 configured to true.
 
-Normally properties could not be overridden. This is the reason for the `refine`
+Normally properties cannot be overridden. This is the reason for the `refine`
 flag. The flag informs the implementation that the developer is aware of the
 feature and the modification which should be applied.
 
@@ -714,63 +726,6 @@ The transform function is passed a second parameter which is the value
 previously set - note that the first time that transform is called, the oldValue
 parameter will be undefined
 
-## setAsync, asynchronous apply methods and asynchronous event handlers
-
-Sometimes it may be necessary for an applyXxx method to take some time to
-complete, in which case it is necessary to consider coding asynchronously to
-allow for a better user experience. Perhaps more importantly, if your apply
-method includes triggering a server round trip then changes to the specification
-(
-<https://xhr.spec.whatwg.org/>) have deprecated synchronous XMLHttpRequest, and
-some browsers (e.g. Safari) already have very short timeouts for synchronous
-XMLHttpRequests which cannot be overridden.
-
-If a property is set using `obj.setProperty(value)` and the `apply` function returns a thenable
-(e.g. a Promise), the thenable will not be awaited and the event will be fired in the same tick.
-
-If you want to await until the apply method promise resolves, you need to call `setXxxAsync`.
-This will wait until the apply function promise resolves before firing the change event.
-It returns a promise which resolves when the apply function and all asynchronous event handlers
-resolve as well.
-
-All properties automatically have setXxxAsync, getXxxAsync, and resetXxxAsync methods:
-
-```javascript
-properties :
-{
-   name :
-   {
-      init : 0,
-      check: "String",
-      apply : "_applyName",
-      event: "changeName"
-   }
-},
-
-members :
-{
-   _applyName(name)
-   {
-       return new qx.Promise(function(fulfilled) {
-           // ... do something asynchronous here
-           fulfilled(); // Finally done the asynchronous task
-       });
-   }
-}
-
-// ... snip ...
-myObject.setNameAsync("abc").then(function() {
-    // only now has the name been changed and the "changeName" event been fired
-});
-```
-
-As well as setXxxAsync there is also a matching getXxxAsync method and a
-changeXxxAsync event which can be fired; event handlers can return promises, and
-asynchronous properties can be bound using qx.core.Object.bind()
-
-Note: Prior to version 8, it was necessary to specify `async: true` in the property definition.
-This is no longer supported — all properties now have setAsync methods automatically.
-
 ## Validation of incoming values
 
 Validation of a property can prevent the property from being set if it is not
@@ -932,87 +887,6 @@ than replacing the entire array with what's specified in the setter.
 In other words, the initialized array or object becomes immutable, and
 its values are replaced by those in the argument to a setter call.
 
-## Defining own property storage
-
-Property values are, by default, stored within the instance object of an instantiated class. The default storage mechanism is defined in `qx.core.property.SimplePropertyStorage`. 
-
-It is possible to define an alternative storage methodology. Defining
-storage requires creating a map containing four keys: `init`, `set`,
-`get`, and `dereference`.
-
-### init
-
-A storage implementation's `init` key defines how to initialize the
-property's value in its storage. The default storage implementation
-uses the property's `init` value (or `undefined` if the property
-doesn't define an `init` key) and stores it into the instance. The
-default storage's `init` function looks something like this:
-
-```javascript
-init(propertyName, property, clazz)
-{
-  // Create the storage for this property's current value
-  Object.defineProperty(
-    clazz.prototype,
-    propertyName,
-    {
-      value        : property.init,
-      writable     : true, // must be true for possible initFunction
-      configurable : false,
-      enumerable   : false
-    });
-}
-```
-
-### set
-A storage implementation's `set` key defines how to store a value for the property in its storage. The default storage implementation stores the value within the instance object, in a property of the given name:
-
-```javascript
-set(prop, value)
-{
-  let             variant = this[`$$variant_${prop}`];
-
-  // Don't go through the whole setter process; just save the value
-  this[`$$variant_${prop}`] = "immediate";
-  this[prop] = value;
-  this[`$$variant_${prop}`] = variant;
-},
-```
-
-Note the `variant` handling. This pertains to internals of the Class
-implementation. The key point here is that when
-`this[`$$variant_${prop}`]` is not `immediate`, all of the property
-handling such as validation, transform, etc., may occur if
-`this[prop]` is changed. To ensure that no overhead of additional
-processing is incurred, the default storage implementation saves the
-current variant, temporarily sets the variant to "immediate", saves
-the value in its storage location, and then restores the variant.
-
-### get
-
-A storage implementation's `get` key defines how to retrieve the
-property's value from its storage. The default storage implementation
-simply retrieves the instance object's value of the given property
-name:
-
-```javascript
-get(prop)
-{
-  return this[prop];
-}
-```
-
-### dereference
-
-If the property configuration includes `dereference : true`, then the storage implementation's `dereference` function is called just before the instance's destructor. The default storage implementation deletes the property from the instance:
-
-```javascript
-dereference(prop, property)
-{
-  delete this[prop];
-}
-```
-
 ## Internal methods
 
 The property documentation in the user manual explains the public, non-internal
@@ -1084,20 +958,21 @@ obj.setPadding( 10, 20 );
 // obj.setPaddingLeft(20);
 ```
 
-## When to use properties?
+## When not to use properties?
 
-Since properties in Qooxdoo support advanced features like validation, events
-and so on, they might not be quite as lean and fast as an ordinarily coded
-property that only supports a setter and getter. If you do not need these
-advanced features or the variable you want to store is _extremely_ time
-critical, it might be better not to use Qooxdoo's dynamic properties in those
-cases. You might instead want to create your own setters and getters (if needed)
-and store the value just as a hidden private variable (e.g. `__varName`) inside
-your object.
+Since properties in Qooxdoo support advanced features like validation,
+events and so on, they might not be quite as lean and fast as an
+ordinarily coded property that only supports a setter and getter. If
+you do not need these advanced features or the variable you want to
+store is _extremely_ time critical, it might be better not to use
+Qooxdoo's dynamic properties in those cases. You might instead want to
+create your own setters and getters (if needed) and store the value
+just as a hidden private variable (e.g. `__varName`) inside your
+object.
 
 ## Property Descriptors
 
-In qooxdoo v8, properties are first-class objects that provide access to
+Properties are first-class objects that provide access to
 property configuration and metadata. A property descriptor is an instance
 of `qx.core.property.Property` that provides methods to manipulate and
 retrieve values from a property.
