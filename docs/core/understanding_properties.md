@@ -276,6 +276,19 @@ members :
   }
 }
 ```
+
+You can also define an apply function inside the property definition like so:
+```javascript
+properties : {
+  width : { 
+    apply(value, oldValue, propertyName) {
+      //do something
+    }
+  }
+}
+```
+The function has to be named `apply`.
+
 > :memo: When using reference types like `Object` or `Array`, the apply method
 > is only called if the **object** or **array** itself is different. Changing
 > members of an object, or elements of an array, will not, by default, cause 
