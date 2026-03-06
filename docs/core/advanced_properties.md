@@ -1,5 +1,4 @@
-# Properties in more detail
-
+# Advanced features of properties
 
 > :memo: Please take a look at `property_features` first to get a compact overview of
 > the available features.

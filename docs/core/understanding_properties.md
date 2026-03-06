@@ -153,7 +153,7 @@ provide the following convenience methods:
 - `togglePropertyName()`: Toggles between true and false.
 
 All properties also have the method `setPropertyNameAsync`, which is designed for advanced use only,
-generally when the apply method/event handlers are asynchronous and need to be awaited ([full detail here](./defining_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers))
+generally when the apply method/event handlers are asynchronous and need to be awaited ([full detail here](./advanced_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers))
 
 ## First-class nature of properties
 Properties are first-class members of a class. They can be manipulated
@@ -254,7 +254,7 @@ As the apply method normally should not be called directly, it is
 always a good idea to make the method at least protected by prefixing the name
 with an underscore `_` .
 
-The return value of the apply method is ignored (unless it's a promise and `setPropertyAsync` was used, [full detail here](./defining_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers)).
+The return value of the apply method is ignored (unless it's a promise and `setPropertyAsync` was used, [full detail here](./advanced_properties.md#setasync-asynchronous-apply-methods-and-asynchronous-event-handlers)).
 The first argument is the actual value, the second one is the former (i.e. old) value. The last argument is
 the name of the property which can come very handy if you use one apply method
 for more than one property. The second and third arguments are optional and may
