@@ -214,7 +214,7 @@ you can add a `get`, `set`, and optionally `getAsync` functions to your definiti
       apply: "_applyExplicitProp",
       /**
        * @this {qx.core.Object} same value as the `thisObj` parameter
-       * @param {qx.core.propety.IProperty} property the property to get the value of
+       * @param {qx.core.property.IProperty} property the property to get the value of
        * @param {qx.core.Object} thisObj
        */
       get(property, thisObj) {
@@ -224,14 +224,14 @@ you can add a `get`, `set`, and optionally `getAsync` functions to your definiti
        * @this {qx.core.Object} same value as the `thisObj` parameter
        * @param {qx.core.Object} thisObj
        * @param {*} value
-       * @param {qx.core.propety.IProperty} property the property to get the value of
+       * @param {qx.core.property.IProperty} property the property to get the value of
        */
       set(thisObj, value, property) {
         thisObj.myPropertyValues[property.getPropertyName()] = value;
       },
       /**
        * @this {qx.core.Object} same value as the `thisObj` parameter
-       * @param {qx.core.propety.IProperty} property the property to get the value of
+       * @param {qx.core.property.IProperty} property the property to get the value of
        * @param {qx.core.Object} thisObj
        */
       getAsync(property, thisObj) {

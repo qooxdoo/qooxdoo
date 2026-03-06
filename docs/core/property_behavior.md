@@ -1,4 +1,4 @@
-# Initialization Behavior//!! check this
+# Initialization Behavior
 
 This document summarizes some thoughts about the behavior of the initialization
 of properties.
@@ -45,7 +45,7 @@ a.setA(a.getA()); // changeA fired (first set)
 a.setA(a.getA()); // changeA NOT fired (every other set)
 ```
 
-## Why not just change this behaviour?
+## Why not just change this behavior?
 
 It's always hard to change a behavior like that because there is no deprecation
 strategy for it. If we change it, it is changed and every line of code relying

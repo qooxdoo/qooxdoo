@@ -8,7 +8,7 @@ key-value pair (here called `properties_decl`). This is the quick reference for
 properties_decl (expressed in an [EBNF-like syntax](../ebnf_like.md) way):
 
 ```
-properties_decl  := 'properties' ':' properites_map
+properties_decl  := 'properties' ':' properties_map
 
 properties_map   := '{' { prop_spec ',' } '}'
 prop_spec        := '"' <property_name> '"' ':'
