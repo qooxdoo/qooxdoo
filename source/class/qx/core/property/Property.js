@@ -565,7 +565,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Initialises a property value
+     * Initializes a property value
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
      */
@@ -924,7 +924,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         value = state.inheritedValue;
       }
       
-      //the final value has now been deternined.
+      //the final value has now been determined.
       //If it's not equal to the old value or state.applyMethodCalled was not set,
       //we call apply and fire event            
       let isEqual = this.isEqual(thisObj, value, oldValue);

@@ -103,9 +103,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
       if (this.isNeedsWriteToDisk()) {
         let ws = new qx.tool.utils.Utils.LineCountingTransform();
         ws.pipe(fs.createWriteStream(this.__filename, "utf8"));
-        await new Promise(async resolve => {
+        await new Promise(async (resolve, reject) => {
           ws.on("finish", resolve);
-          await this.writeSourceCodeToStream(ws);
+          await this.writeSourceCodeToStream(ws).catch(reject);
           ws.end();
         });
 
