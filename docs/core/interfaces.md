@@ -45,8 +45,7 @@ using the `extend` key. Multiple inheritance of interfaces is supported.
 ### Properties
 
 Properties in interfaces state that each class implementing this interface must
-have a property of the given name. The property definition (advanced_properties)
-is not evaluated and may be empty.
+have a property of the given name. The property definition is not evaluated and may be empty.
 
 ### Members
 
