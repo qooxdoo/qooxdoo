@@ -100,8 +100,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Update", {
       // export only
       if (this.argv.exportOnly || false) {
         if (!this.argv.file) {
-          qx.tool.compiler.Console.error("Path required via --file argument.");
-          process.exit(1);
+          throw new Error("Path required via --file argument.");
         }
         this.exportCache(this.argv.file);
         return;

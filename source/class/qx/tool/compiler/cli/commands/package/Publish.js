@@ -383,7 +383,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
 
         let branchAnswer = await inquirer.prompt(branchQuestion);
         if (!branchAnswer.useBranch) {
-          process.exit(0);
+          return;
         }
       }
 
@@ -403,7 +403,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         doRelease = answer.doRelease;
       }
       if (!doRelease) {
-        process.exit(0);
+        return;
       }
 
       // update Manifest(s)

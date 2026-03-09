@@ -177,12 +177,10 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
 
         if (neededLibraries.length) {
           if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
-            qx.tool.compiler.Console.error(
+            throw new Error(
               "Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
                 neededLibraries.join("\n     ")
             );
-
-            process.exit(1);
           }
           qx.tool.compiler.Console.info(
             "One or more libraries not found - trying to install them from library repository..."

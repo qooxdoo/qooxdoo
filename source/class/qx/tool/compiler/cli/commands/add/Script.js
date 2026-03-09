@@ -134,7 +134,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.add.Script", {
 
           let answer = await inquirer.prompt(question);
           if (!answer.doOverwrite) {
-            process.exit(0);
+            return;
           }
         }
       }

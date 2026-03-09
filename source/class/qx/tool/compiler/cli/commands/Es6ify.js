@@ -130,12 +130,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
         );
 
         if (result.exitCode != 0) {
-          qx.tool.compiler.Console.error(
-            `Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`
-          );
-
-          process.exit(1);
-          return;
+          throw new Error(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
         }
         let lines = result.output
           .split(/\n/)
@@ -150,19 +145,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
           );
 
           if (result.exitCode != 0) {
-            qx.tool.compiler.Console.error(
-              `Failed to run 'git add ${filename}': ${JSON.stringify(
-                result,
-                null,
-                2
-              )}`
+            throw new Error(
+              `Failed to run 'git add ${filename}': ${JSON.stringify(result, null, 2)}`
             );
-
-            process.exit(1);
-            return;
           }
         }
-        process.exit(0);
+        return;
       }
 
       const scanImpl = async filename => {

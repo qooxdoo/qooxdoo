@@ -172,11 +172,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       try {
         qxVersion = await this.getAppQxVersion();
       } catch (ex) {
-        qx.tool.compiler.Console.error(
-          `Cannot determine a qooxdoo version to show packages only for this version, because you are not in a project directory.`
-        );
-
-        process.exit(1);
+        throw new Error("Cannot determine a qooxdoo version to show packages only for this version, because you are not in a project directory.");
       }
       let num_compat_repos = await this.__createIndexes(qxVersion);
       if (this.argv.verbose) {

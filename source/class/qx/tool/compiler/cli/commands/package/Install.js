@@ -847,11 +847,7 @@ async __downloadAndExtract(url, destination, options = {}) {
             );
           }
           await qx.tool.utils.files.Utils.deleteRecursive(download_path);
-          qx.tool.compiler.Console.error(
-            `Could not install '${repo_name}@${treeish}'. Use the --verbose flag for more information.`
-          );
-
-          process.exit(1);
+          throw new Error(`Could not install '${repo_name}@${treeish}'. Use the --verbose flag for more information.`);
         }
       }
       return { download_path, dir_exists };

@@ -108,8 +108,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         }
       }
       if (files.length === 0) {
-        qx.tool.compiler.Console.error("No files to process");
-        process.exit(1);
+        throw new Error("No files to process");
       }
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -136,15 +135,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
             };
             target = await findFirst(target);
             if (!target) {
-              qx.tool.compiler.Console.error("No .js file found for meta debug");
-              process.exit(1);
+              throw new Error("No .js file found for meta debug");
             }
           }
           let meta = new qx.tool.compiler.MetaExtraction();
           await meta.parse(target);
           meta.fixupJsDoc({ resolveType: type => type });
           console.log(JSON.stringify(meta.getMetaData(), null, 2));
-          process.exit(0);
+          return;
         }
       }
 

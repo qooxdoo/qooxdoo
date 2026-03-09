@@ -194,11 +194,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Prettier", {
         );
 
         if (result.exitCode !== 0) {
-          qx.tool.compiler.Console.error(
-            `Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`
-          );
-          process.exit(1);
-          return;
+          throw new Error(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
         }
 
         const lines = result.output
@@ -218,25 +214,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Prettier", {
             );
 
             if (result.exitCode !== 0) {
-              qx.tool.compiler.Console.error(
-                `Failed to run 'git add ${filename}': ${JSON.stringify(
-                  result,
-                  null,
-                  2
-                )}`
-              );
-              process.exit(1);
-              return;
+              throw new Error(`Failed to run 'git add ${filename}': ${JSON.stringify(result, null, 2)}`);
             }
           }
         }
 
-        // Exit with error if in check mode and files are unformatted
-        if (this.argv.check && unformattedFiles.length > 0) {
-          process.exit(1);
-        } else {
-          process.exit(0);
-        }
+        // Return with error if in check mode and files are unformatted
+        return (this.argv.check && unformattedFiles.length > 0) ? 1 : 0;
       }
 
       // Process files from arguments or default to source directory
