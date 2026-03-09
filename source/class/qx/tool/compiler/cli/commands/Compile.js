@@ -393,13 +393,19 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
 
     /**
      * Fired when making of apps begins
+     *
+     * The event data is an object with the following properties:
+     *  maker: {qx.tool.compiler.makers.Maker} the maker being used
      */
-    making: "qx.event.type.Event",
+    making: "qx.event.type.Data",
 
     /**
      * Fired when making of apps is done.
+     *
+     * The event data is an object with the following properties:
+     *  maker: {qx.tool.compiler.makers.Maker} the maker being used
      */
-    made: "qx.event.type.Event",
+    made: "qx.event.type.Data",
 
     /**
      * Fired when minification begins.
@@ -804,13 +810,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           maker.addListener("making", () => {
             countMaking++;
             if (countMaking == 1) {
-              this.fireEvent("making");
+              this.fireDataEventAsync("making", {maker});
             }
           });
           maker.addListener("made", () => {
             countMaking--;
             if (countMaking == 0) {
-              this.fireEvent("made");
+              this.fireDataEventAsync("made", {maker});
             }
           });
         }
@@ -833,13 +839,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           watch.addListener("making", () => {
             countMaking++;
             if (countMaking == 1) {
-              this.fireEvent("making");
+              this.fireDataEventAsync("making", {maker});
             }
           });
           watch.addListener("made", () => {
             countMaking--;
             if (countMaking == 0) {
-              this.fireEvent("made");
+              this.fireDataEventAsync("made", {maker});
             }
           });
           watch.addListener("configChanged", async () => {

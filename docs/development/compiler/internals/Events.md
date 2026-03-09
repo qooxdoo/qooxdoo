@@ -26,11 +26,11 @@ which your code can listen. Here is a list of events with a brief explanation:
 ## CLI Commands
 
 Instances of `qx.tool.cli.commands.Compile` and its subclasses fire the following events:
-- `checkEnvironment`: Fired after all environment data is collected. 
+- `checkEnvironment`: Fired after all environment data is collected.
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
-- `making`: Fired when making of apps begins.
-- `made`: Fired when making of apps is done.
+- `making`: Fired when making of apps begins. The event data contains `maker` (the `qx.tool.compiler.makers.Maker` instance being used).
+- `made`: Fired when making of apps is done. The event data contains `maker` (the `qx.tool.compiler.makers.Maker` instance being used).
 - `minifyingApplication`: Fired when minification begins.
 - `minifiedApplication`: Fired when minification is done.
 - `saveDatabase`: Fired when the database is being saved.
