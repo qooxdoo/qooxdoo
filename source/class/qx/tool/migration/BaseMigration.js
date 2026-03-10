@@ -150,7 +150,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
               await fs.renameAsync(oldPath, newPath);
               this.debug(`Renamed '${oldPath}' to '${newPath}'.`);
             } catch (e) {
-              throw new Error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
+              throw new qx.tool.utils.Utils.UserError(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
             }
           }
           this.markAsApplied();
@@ -231,7 +231,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
             await replaceInFile(replaceInFiles);
             this.markAsApplied();
           } catch (e) {
-            throw new Error(`Error replacing in files: ${e.message}`);
+            throw new qx.tool.utils.Utils.UserError(`Error replacing in files: ${e.message}`);
           }
         }
       }

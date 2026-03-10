@@ -265,7 +265,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Package", {
         let data = stringify(cache, { space: 2 });
         await fs.writeFileAsync(path, data, "UTF-8");
       } catch (e) {
-        throw new Error(`Error exporting cache to ${path}: ${e.message}`);
+        throw new qx.tool.utils.Utils.UserError(`Error exporting cache to ${path}: ${e.message}`);
       }
     },
 

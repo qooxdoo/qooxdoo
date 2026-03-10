@@ -130,7 +130,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
         );
 
         if (result.exitCode != 0) {
-          throw new Error(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
+          throw new qx.tool.utils.Utils.UserError(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
         }
         let lines = result.output
           .split(/\n/)
@@ -145,7 +145,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Es6ify", {
           );
 
           if (result.exitCode != 0) {
-            throw new Error(
+            throw new qx.tool.utils.Utils.UserError(
               `Failed to run 'git add ${filename}': ${JSON.stringify(result, null, 2)}`
             );
           }

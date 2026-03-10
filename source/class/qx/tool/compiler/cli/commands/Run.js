@@ -72,12 +72,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
       let config = this.getCompilerApi().getConfiguration();
       if (!config.run) {
         qx.tool.compiler.Console.print("qx.tool.compiler.cli.run.noRunConfig");
-        throw new Error("No run config");
+        throw new qx.tool.utils.Utils.UserError("No run config");
       }
 
       if (!config.run.application) {
         qx.tool.compiler.Console.print("qx.tool.compiler.cli.run.noAppName");
-        throw new Error("No application name in run config");
+        throw new qx.tool.utils.Utils.UserError("No application name in run config");
       }
 
       let maker = null;
@@ -89,14 +89,14 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
         if (apps.length) {
           if (maker) {
             qx.tool.compiler.Console.print("qx.tool.compiler.cli.run.tooManyMakers");
-            throw new Error("Too many makers");
+            throw new qx.tool.utils.Utils.UserError("Too many makers");
           }
           if (apps.length != 1) {
             qx.tool.compiler.Console.print(
               "qx.tool.compiler.cli.run.tooManyApplications"
             );
 
-            throw new Error("Too many applications");
+            throw new qx.tool.utils.Utils.UserError("Too many applications");
           }
           maker = tmp;
           app = apps[0];
@@ -104,11 +104,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
       });
       if (!app) {
         qx.tool.compiler.Console.print("qx.tool.compiler.cli.run.noAppName");
-        throw new Error("Application not found");
+        throw new qx.tool.utils.Utils.UserError("Application not found");
       }
       if (app.getType() != "node") {
         qx.tool.compiler.Console.print("qx.tool.compiler.cli.run.mustBeNode");
-        throw new Error("Application must be of type node");
+        throw new qx.tool.utils.Utils.UserError("Application must be of type node");
       }
 
       let target = maker.getTarget();

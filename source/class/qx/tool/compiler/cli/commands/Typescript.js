@@ -108,7 +108,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         }
       }
       if (files.length === 0) {
-        throw new Error("No files to process");
+        throw new qx.tool.utils.Utils.UserError("No files to process");
       }
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -135,7 +135,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
             };
             target = await findFirst(target);
             if (!target) {
-              throw new Error("No .js file found for meta debug");
+              throw new qx.tool.utils.Utils.UserError("No .js file found for meta debug");
             }
           }
           let meta = new qx.tool.compiler.MetaExtraction();

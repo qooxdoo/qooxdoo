@@ -1697,7 +1697,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           // if we don't have package data
           if (this.argv.download) {
             if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
-              throw new Error(
+              throw new qx.tool.utils.Utils.UserError(
                 "Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
                 urisToInstall.join("\n     ") +
                 "\nThe library which refers to the missing libraries is " +

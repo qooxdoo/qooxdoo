@@ -194,7 +194,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Prettier", {
         );
 
         if (result.exitCode !== 0) {
-          throw new Error(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
+          throw new qx.tool.utils.Utils.UserError(`Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`);
         }
 
         const lines = result.output
@@ -214,7 +214,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Prettier", {
             );
 
             if (result.exitCode !== 0) {
-              throw new Error(`Failed to run 'git add ${filename}': ${JSON.stringify(result, null, 2)}`);
+              throw new qx.tool.utils.Utils.UserError(`Failed to run 'git add ${filename}': ${JSON.stringify(result, null, 2)}`);
             }
           }
         }
