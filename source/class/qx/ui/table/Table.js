@@ -1570,10 +1570,11 @@ qx.Class.define("qx.ui.table.Table", {
      *          visible.
      */
     setFocusedCell(col, row, scrollVisible) {
-      if (
-        !this.isEditing() &&
-        (col != this.__focusedCol || row != this.__focusedRow)
-      ) {
+      let cellChanged = col != this.__focusedCol || row != this.__focusedRow;
+      if (this.isEditing() && cellChanged) {
+        this.stopEditing();
+      }
+      if (!this.isEditing() && cellChanged) {
         if (col === null) {
           col = 0;
         }
