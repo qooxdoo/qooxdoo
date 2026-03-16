@@ -398,10 +398,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       let scopePrefix = "";
       if (propertyName.startsWith("__")) {
         scopePrefix = "__";
-        propertyName = propertyName.substring(2);
+        propertyName = propertyName.substring(scopePrefix.length);
       } else if (propertyName.startsWith("_")) {
         scopePrefix = "_";
-        propertyName = propertyName.substring(1);
+        propertyName = propertyName.substring(scopePrefix.length);
       }
       let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
@@ -495,7 +495,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       propertyConfig.set = function (value) {
         self.set(this, value);
       };
-      Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
+      Object.defineProperty(clazz.prototype, scopePrefix + propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
         addMethod("get" + upname, function (cb) {
