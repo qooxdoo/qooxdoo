@@ -188,6 +188,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
       this.__definition = def;
 
+      if (qx.core.Environment.get("qx.debug")) {
+        this.__validateProperty();
+      }
+
       // Figure out the storage implementation
       if (def.storage) {
         //if it's an object, use it directly as storage
@@ -363,6 +367,54 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Ensures the property definition is in the correct format.
+     * Only runs during development mode.
+     */
+    __validateProperty() {
+      let def = this.__definition;
+      // Ensure they're not passing a qx.core.Object descendent as a property
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.Bootstrap.isQxCoreObject(def)) {
+          throw new Error(`Property ${this}:` + "Can't use qx.core.Object descendent as property");
+        }
+      }
+
+      // Set allowed keys based on whether this is a grouped
+      // property or not
+      let allowedKeys = def.group ? qx.core.property.Property._allowedPropGroupKeys : qx.core.property.Property._allowedPropKeys;
+
+      // Ensure only allowed keys were provided
+      Object.keys(def).forEach(key => {
+        let allowed = allowedKeys[key];
+
+        if (!(key in allowedKeys)) {
+          throw new Error(`${this}: ` + (def.group ? "group " : "") + `property '${this}' defined with unrecognized key '${key}'`);
+        }
+
+        // Flag any deprecated keys
+        if (key in qx.core.property.Property.$$deprecatedPropKeys) {
+          console.warn(`Property '${this}': ` + `${qx.core.property.Property.$$deprecatedPropKeys[key]}`);
+        }
+
+        if (allowed !== null) {
+          // Convert non-array 'allowed' values to an array
+          if (!Array.isArray(allowed)) {
+            allowed = [allowed];
+          }
+
+          if (!allowed.includes(typeof def[key])) {
+            throw new Error(
+              `${this}: ` +
+                (def.group ? "group " : "") +
+                `property '${this}' defined with wrong value type ` +
+                `for key '${key}' (found ${typeof def[key]})`
+            );
+          }
+        }
+      });
+    },
+
+    /**
      * @Override
      */
     clone(clazz) {
@@ -395,14 +447,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     defineProperty(clazz, patch) {
       let propertyName = this.__propertyName;
-      let scopePrefix = "";
-      if (propertyName.startsWith("__")) {
-        scopePrefix = "__";
-        propertyName = propertyName.substring(scopePrefix.length);
-      } else if (propertyName.startsWith("_")) {
-        scopePrefix = "_";
-        propertyName = propertyName.substring(scopePrefix.length);
-      }
       let upname = qx.Bootstrap.firstUp(propertyName);
       let self = this;
 
@@ -429,7 +473,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       }
 
       const addMethod = (name, func) => {
-        clazz.prototype[scopePrefix + name] = func;
+        clazz.prototype[name] = func;
         qx.Bootstrap.setDisplayName(func, clazz.classname, "prototype." + name);
       };
 
@@ -445,7 +489,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
         clazz.prototype["$$init_" + propertyName] = undefined;
       }
 
-      addMethod("init" + upname, function (...args) {
+      let methods = this.__definition?.$$mangledMethods ?? qx.core.property.Property.getInjectedMethods(propertyName)
+      
+      addMethod(methods.init, function (...args) {
         self.init(this, ...args);
       });
 
@@ -495,10 +541,10 @@ qx.Bootstrap.define("qx.core.property.Property", {
       propertyConfig.set = function (value) {
         self.set(this, value);
       };
-      Object.defineProperty(clazz.prototype, scopePrefix + propertyName, propertyConfig);
+      Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
-        addMethod("get" + upname, function (cb) {
+        addMethod(methods.get, function (cb) {
           if (cb) {
             if (qx.core.Environment.get("qx.debug")) {
               if (typeof cb !== "function") {
@@ -510,39 +556,39 @@ qx.Bootstrap.define("qx.core.property.Property", {
             return self.get(this);
           }
         });
-        addMethod("get" + upname + "Async", async function () {
+        addMethod(methods.getAsync, async function () {
           return await self.getAsync(this);
         });
       }
 
       if (this.__definition?.check === "Boolean") {
-        addMethod("is" + upname, function () {
+        addMethod(methods.is, function () {
           return self.get(this);
         });
-        addMethod("is" + upname + "Async", async function () {
+        addMethod(methods.isAsync, async function () {
           return await self.getAsync(this);
         });
-        addMethod("toggle" + upname, function () {
+        addMethod(methods.toggle, function () {
           return self.set(this, !self.get(this));
         });
-        addMethod("toggle" + upname + "Async", async function () {
+        addMethod(methods.toggleAsync, async function () {
           return await self.setAsync(this, !(await self.getAsync(this)));
         });
       }
 
       if (!this.__pseudoProperty) {
-        addMethod("set" + upname, function (value) {
+        addMethod(methods.set, function (value) {
           self.set(this, value);
           return value;
         });
-        addMethod("set" + upname + "Async", async function (value) {
+        addMethod(methods.setAsync, async function (value) {
           await self.setAsync(this, value);
           return value;
         });
-        addMethod("reset" + upname, function () {
+        addMethod(methods.reset, function () {
           self.reset(this);
         });
-        addMethod("reset" + upname + "Async", function () {
+        addMethod(methods.resetAsync, function () {
           return self.resetAsync(this);
         });
       }
@@ -1508,6 +1554,80 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     toString() {
       return this.__clazz.classname + "." + this.__propertyName;
+    }
+  },
+
+  statics: {
+    /** Supported keys for property definitions */
+    _allowedPropKeys: {
+      "@": null, // Anything
+      name: "string", // String
+      dereference: "boolean", // Boolean
+      inheritable: "boolean", // Boolean
+      nullable: "boolean", // Boolean
+      themeable: "boolean", // Boolean
+      refine: "boolean", // Boolean
+      init: null, // var
+      apply: ["string", "function"], // String, Function
+      event: ["string", "object"], // String or null
+      check: null, // Array, String, Function
+      transform: null, // String, Function
+      deferredInit: "boolean", // Boolean
+      validate: ["string", "function"], // String, Function
+      isEqual: ["string", "function"], // String, Function
+      autoApply: "boolean", // Boolean
+      get: ["string", "function"], // String, Function
+      set: ["string", "function"], // String, Function
+      getAsync: ["string", "function"], // String, Function
+      setAsync: ["string", "function"], // String, Function
+      initFunction: "function", // Function
+      storage: "function", // implements qx.core.propertystorage.IStorage
+      immutable: "string", // String
+      $$mangledMethods: "object"
+    },
+
+    /** Supported keys for property group definitions */
+    _allowedPropGroupKeys: {
+      "@": null, // Anything
+      name: "string", // String
+      group: "object", // Array
+      mode: "string", // String
+      themeable: "boolean" // Boolean
+    },
+
+    /** Deprecated keys for properties, that we want to warn about */
+    $$deprecatedPropKeys: {},
+
+    /**
+     * Returns an object mapping the method IDs to the names of the methods which will be injected into the class by the property system.
+     * @param {string} propName Full property name, including any leading _'s
+     * @returns {Object}
+     */
+    getInjectedMethods(propName) {
+      let scopePrefix = propName.startsWith("__") ? "__" : propName.startsWith("_") ? "_" : "";
+      let raw = propName.substring(scopePrefix.length);
+      let upname = qx.Bootstrap.firstUp(raw);
+      let methods =  {
+        get: "get" + upname,
+        is: "is" + upname,
+        set: "set" + upname,
+        toggle: "toggle" + upname,
+        reset: "reset" + upname,
+        init: "init" + upname,        
+        getAsync: "get" + upname + "Async",
+        isAsync: "is" + upname + "Async",
+        setAsync: "set" + upname + "Async",
+        toggleAsync: "toggle" + upname + "Async",
+        resetAsync: "reset" + upname + "Async",
+      };
+
+      if (scopePrefix.length) {
+        for (let [key, value] of Object.entries(methods)) {
+          methods[key] = scopePrefix + value;
+        }
+      }
+
+      return methods;
     }
   }
 });

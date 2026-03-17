@@ -61,45 +61,6 @@ qx.Bootstrap.define("qx.Class", {
     /** The global object registry */
     $$registry: qx.Bootstrap.$$registry,
 
-    /** Supported keys for property definitions */
-    _allowedPropKeys: {
-      "@": null, // Anything
-      name: "string", // String
-      dereference: "boolean", // Boolean
-      inheritable: "boolean", // Boolean
-      nullable: "boolean", // Boolean
-      themeable: "boolean", // Boolean
-      refine: "boolean", // Boolean
-      init: null, // var
-      apply: ["string", "function"], // String, Function
-      event: ["string", "object"], // String or null
-      check: null, // Array, String, Function
-      transform: null, // String, Function
-      deferredInit: "boolean", // Boolean
-      validate: ["string", "function"], // String, Function
-      isEqual: ["string", "function"], // String, Function
-      autoApply: "boolean", // Boolean
-      get: ["string", "function"], // String, Function
-      set: ["string", "function"], // String, Function
-      getAsync: ["string", "function"], // String, Function
-      setAsync: ["string", "function"], // String, Function
-      initFunction: "function", // Function
-      storage: "function", // implements qx.core.propertystorage.IStorage
-      immutable: "string" // String
-    },
-
-    /** Supported keys for property group definitions */
-    _allowedPropGroupKeys: {
-      "@": null, // Anything
-      name: "string", // String
-      group: "object", // Array
-      mode: "string", // String
-      themeable: "boolean" // Boolean
-    },
-
-    /** Deprecated keys for properties, that we want to warn about */
-    $$deprecatedPropKeys: {},
-
     /**
      * Define a new class using the qooxdoo class system. This sets
      * up the namespace for the class and generates the class from
@@ -1483,61 +1444,11 @@ qx.Bootstrap.define("qx.Class", {
 
     _validatePropertyDefinitions: qx.core.Environment.select("qx.debug", {
       true(className, config) {
-        let allowedKeys;
-        let properties = config.properties || {};
-
         // Ensure they're not passing a qx.core.Object descendent as property map
         if (qx.core.Environment.get("qx.debug")) {
           if (config.properties !== undefined && qx.Bootstrap.isQxCoreObject(config.properties)) {
             throw new Error(`${className}: ` + "Can't use qx.core.Object descendent as property map");
           }
-        }
-
-        for (let prop in properties) {
-          let property = properties[prop];
-
-          // Ensure they're not passing a qx.core.Object descendent as a property
-          if (qx.core.Environment.get("qx.debug")) {
-            if (qx.Bootstrap.isQxCoreObject(property)) {
-              throw new Error(`${prop} in ${className}: ` + "Can't use qx.core.Object descendent as property");
-            }
-          }
-
-          // Set allowed keys based on whether this is a grouped
-          // property or not
-          allowedKeys = property.group ? qx.Class._allowedPropGroupKeys : qx.Class._allowedPropKeys;
-
-          // Ensure only allowed keys were provided
-          Object.keys(property).forEach(key => {
-            let allowed = allowedKeys[key];
-
-            if (!(key in allowedKeys)) {
-              throw new Error(
-                `${className}: ` + (property.group ? "group " : "") + `property '${prop}' defined with unrecognized key '${key}'`
-              );
-            }
-
-            // Flag any deprecated keys
-            if (key in qx.Class.$$deprecatedPropKeys) {
-              console.warn(`Property '${prop}': ` + `${qx.Class.$$deprecatedPropKeys[key]}`);
-            }
-
-            if (allowed !== null) {
-              // Convert non-array 'allowed' values to an array
-              if (!Array.isArray(allowed)) {
-                allowed = [allowed];
-              }
-
-              if (!allowed.includes(typeof property[key])) {
-                throw new Error(
-                  `${className}: ` +
-                    (property.group ? "group " : "") +
-                    `property '${prop}' defined with wrong value type ` +
-                    `for key '${key}' (found ${typeof property[key]})`
-                );
-              }
-            }
-          });
         }
       },
 

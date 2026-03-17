@@ -1521,6 +1521,29 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 if (data.init !== undefined) {
                   meta.defaultValue = data.init;
                 }
+
+                //If the property is private, we need to inject the names of the get/set/reset methods into the property definition
+                //so that when those names are mangled, the property system injects methods with the correct names into the class
+                if (propName.startsWith("__")) {
+                  //If the properties are defined in quickhand notation i.e. a string instead of a POJO,
+                  //we have to wrap them in a POJO
+                  if (pdNode.value.type === "StringLiteral") {                    
+                    pdNode.value = babylon.parseExpression(`{ check: "${pdNode.value.value}" }`);
+                  }
+
+                  //Create an entry called $$mangledMethods in the definition
+                  let methodsPropertyNode = babylon.parseExpression(`{ $$mangledMethods: {} }`).properties[0];
+                  pdNode.value.properties.push(methodsPropertyNode);                  
+
+                  let injectedMethods = qx.core.property.Property.getInjectedMethods(propName);
+
+                  //Inject all the method names into the $$mangledMethods map
+                  for (let [methodId, methodName] of Object.entries(injectedMethods)) {
+                    methodName = t.encodePrivate(methodName, true);
+                    let node = babylon.parseExpression(`{ ${methodId}: "${methodName}" }`).properties[0];
+                    methodsPropertyNode.value.properties.push(node);
+                  }                              
+                }
               });
             }
             path.traverse(VISITOR);
@@ -2397,7 +2420,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               // Simple `var x` form
               if (decl.id.type == "Identifier") {
                 let value = null;
-                //decl.id.name = t.encodePrivate(decl.id.name, true, decl.loc);
                 if (decl.init) {
                   if (decl.init.type == "Identifier") {
                     value = decl.init.name;

@@ -59,6 +59,14 @@ qx.Mixin.define("qx.core.MProperty", {
           this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
           continue;
         }
+
+        //required for private/protected properties
+        let property = qx.Class.getByProperty(this.constructor, prop);
+        if (property) {
+          property.set(this, data[prop]);
+          continue;
+        }
+
         // Neither was true
         throw new Error("No such property: " + prop + " in " + this.classname + " (" + this + ")");
       }
@@ -91,6 +99,13 @@ qx.Mixin.define("qx.core.MProperty", {
 
         if (!this[setterName]) {
           setterName = "set" + upname;
+        }
+
+        if (!this[setterName]) {
+          let property = qx.Class.getByProperty(this.constructor, propName);
+          if (property) {
+            return await property.setAsync(this, value);
+          }
         }
 
         if (qx.core.Environment.get("qx.debug")) {
