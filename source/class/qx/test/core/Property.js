@@ -152,23 +152,7 @@ qx.Class.define("qx.test.core.Property", {
 
         members: {
           /**@override */
-          init(prop, property) {
-            qx.test.cpnfv8.ExternalStorage._subclassStorage = {
-              externallyStored: 0
-            };
-          },
-
-          /**@override */
           getAsync() {},
-
-          /**@override */
-          setAsync() {},
-
-          /**@override */
-          reset(thisObj, property, value) {
-            console.log("in externallyStored reset");
-            qx.test.cpnfv8.ExternalStorage._subclassStorage[property.getPropertyName()] = value;
-          },
 
           /**@override */
           get(thisObj, prop) {
@@ -2364,10 +2348,7 @@ qx.Class.define("qx.test.core.Property", {
               return fooCached;
             },
             getAsync() {
-              if (fooCached === undefined) {
-                fooCached = 7;
-              }
-              return fooCached;
+              return Promise.resolve(7);
             },
             set(value) {
               fooCached = value;
@@ -2389,6 +2370,13 @@ qx.Class.define("qx.test.core.Property", {
         this.assertEquals(7, value, "getFooAsync should return the initial value");
         instance.setFoo(42);
         this.assertEquals(42, instance.getFoo(), "getFoo should return the updated value");
+        instance.resetFoo();
+        try {
+          instance.getFoo();
+          this.assertTrue(false, "getFoo should throw an error after property has been reset");
+        } catch (e) {}
+        value = await instance.getFooAsync();
+        this.assertEquals(7, value, "getFooAsync should return the initial value again after reset");
       };
 
       doit().then(() => {

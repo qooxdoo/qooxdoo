@@ -156,8 +156,11 @@ You then need to specify your storage class in your property definition like so:
 Sometimes, we may want to make getting the initial value of a property asynchronous,
 for example when we have an object on the client and getting the property requires a server round trip,
 or when fetching data from a database in an ORM system.
-In order to achieve this, we need to define our own property storage class, override method `supportGetAsync` to return true,
+In order to achieve this, we need to define our own property storage class, override method `supportGetAsync` to return `true`,
 and override `getAsync` to fetch the value for the property.
+
+`getAsync` is meant to be simple, meaning it just needs get the value and return it,
+and not worry about things like caching because that's handled by the property system automatically and has to be done correctly.
 
 Here is an example property storage class which allows us to fetch on-demand properties from the server in a browser environment:
 ```js
@@ -169,20 +172,12 @@ qx.Bootstrap.define("com.mycompany.myapp.OnDemandPropertyStorage", {
      * @Override from SimplePropertyStorage
      */
     async getAsync(thisObj, property) {
-      let value = this.get(thisObj, property); ///check the cache first
-      if (value !== undefined) return value;
-
-
-      //cache miss, get value from source
       //we use UUIDs to represent the property values that need to be fetched
       let uuid = thisObj.$$propertyValues[property.getPropertyName()]?.uuid;
       if (!uuid) {
-        value = null;
-      } else {
-        value = await com.mycompany.myapp.ServerIo.getInstance().getObjectByUuid(uuid);
+        return null;
       }
-      this.set(thisObj, property, value); //cache the result
-      return cached;
+      return await com.mycompany.myapp.ServerIo.getInstance().getObjectByUuid(uuid);
     },
   
     /**
@@ -201,10 +196,31 @@ It will first attempt to get the property synchronously and then attempt asynchr
 NOTE: It is possible but discouraged to call `getAsync` on a property that doesn't support an async getter.
 Doing so will print out a warning.
 
+We can `get` the property value synchronously after the initial `getAsync`, like in the following example:
+```js
+let myObject = myObjectFactory.getByUuid("asdfasdfk");
+await myObject.getMyPropAsync();
+myObject.getMyProp(); //This is possible after calling `getMyPropAsync`, but an error would be thrown if we didn't do that.
+```
+
+If calling `getPropertyAsync` on our object encounters a cache miss and we need to fetch the value asynchronously,
+the `apply` method of the property will be called if there is one,
+because that is the default behaviour for normal, synchronous properties as well.
+
+If you call `reset` on the property, the storage value will be cleared (i.e. set to `undefined`),
+meaning that you will need to fetch asynchronously again.
+This is because the nature of the `reset` method is to reset the property to its init value,
+and for asynchronous properties the storage's `getAsync` provides the init value.
+For example, the code below will throw an error:
+```js
+myObject.resetMyProp();
+myObject.getMyProp(); //this will throw an error
+```
+
 ### Inline Property storages
 
 If you want a simpler way to define a property storage without defining a whole class and want to define a one-off storage for one property,
-you can add a `get`, `set`, and optionally `getAsync` functions to your definition, like so:
+you can add `get`, `set`, and optionally `getAsync` functions to your definition, like so:
 
 ```js
 {
@@ -236,8 +252,7 @@ you can add a `get`, `set`, and optionally `getAsync` functions to your definiti
        */
       getAsync(property, thisObj) {
         //You don't have to define this function at all.
-        //If you do, this is like returning `true` from your `supportsGetAsync` method,
-        //otherwise it's like returning `false`.
+        //If you do, this makes the property by treated as with an async getter.
       }
     }
   }

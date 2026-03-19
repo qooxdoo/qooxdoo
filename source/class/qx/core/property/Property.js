@@ -670,9 +670,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
       }
       let state = this.getPropertyState(thisObj);
-      if (state.initMethodCalled) {
-        this.warn(`${this}: init() called more than once, ignoring`);
-        return;
+
+      if (!this.supportsGetAsync()) {
+        if (state.initMethodCalled) {
+          this.warn(`${this}: init() called more than once, ignoring`);
+          return;
+        }
       }
       state.initMethodCalled = true;
 
@@ -692,8 +695,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (!this.isReadOnly()) {
         this.__storage.set(thisObj, this, value);
       }
-      this.__setMutating(thisObj, true);
-      thisObj["$$init_" + this.__propertyName] = value;
+    
+      if (!this.supportsGetAsync()) {
+        thisObj["$$init_" + this.__propertyName] = value;
+      }
+
+      this.__pushState(thisObj, "mutating");
+      this.__pushState(thisObj, "initializing");
 
       try {
         if (this.__apply) {
@@ -705,7 +713,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
         }
         this.__applyValueToInheritedChildren(thisObj);
       } finally {
-        this.__setMutating(thisObj, false);
+        this.__popState(thisObj, "initializing");
+        this.__popState(thisObj, "mutating");
       }
     },
 
@@ -1040,7 +1049,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      this.__setMutating(thisObj, true);
+      this.__pushState(thisObj, "mutating");
 
       if (value === undefined) {
         value = null;
@@ -1067,7 +1076,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.isInheritable()) {
         this.__applyValueToInheritedChildren(thisObj);
       }
-      this.__setMutating(thisObj, false);
+      this.__popState(thisObj, "mutating");
     },
 
     /**
@@ -1163,24 +1172,23 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      let resolve;
-      let promise = new Promise(r => (resolve = r));
-      this.__setMutating(thisObj, promise);
+      this.__pushState(thisObj, "mutating");
 
       if (value === undefined) {
         value = null;
       }
 
-      if (this.__apply) {
-        await this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
-      }
+      try {
+        if (this.__apply) {
+          await this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+        }
 
-      if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
-        await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
+        if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
+          await thisObj.fireDataEventAsync(this.__eventName, value, oldValue);
+        }
+      } finally {
+        this.__popState(thisObj, "mutating");
       }
-
-      this.__setMutating(thisObj, false);
-      resolve();
     },
 
     /**
@@ -1251,10 +1259,11 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Promise<*>}
      */
     async __getAsyncImpl(thisObj, safe) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (!this.__supportsGetAsync) {
+      if (!this.__supportsGetAsync) {
+        if (qx.core.Environment.get("qx.debug")) {
           this.warn(`Called getAsync in property ${this} which does not support async getter. The value will be read synchronously.`);
         }
+        return this.__getImpl(thisObj, safe);
       }
       const getRaw = async () => {
         let value = this.__storage.get(thisObj, this);
@@ -1268,9 +1277,18 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return value;
         }
 
-        if (this.__supportsGetAsync) {
-          return await this.__storage.getAsync(thisObj, this);
+        value = await this.__storage.getAsync(thisObj, this);
+        let storage = this.__storage.get(thisObj, this);
+
+        //Check for the unlikely event that the storage has been set by something else during the await:
+        if (storage !== undefined) {
+          value = storage;
+        } else {          
+          //Apply the new value,
+          //like we autoApply properties with synchronous init values by default
+          this.init(thisObj, value)
         }
+        return value;
       };
 
       let value = await getRaw();
@@ -1352,7 +1370,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (shouldApply) {
         if (!this.isEqual(thisObj, value, oldValue)) {
-          this.__setMutating(thisObj, true);
+          this.__pushState(thisObj, "mutating");
           try {
             if (this.__apply) {
               this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
@@ -1362,7 +1380,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
             }
             this.__applyValueToInheritedChildren(thisObj);
           } finally {
-            this.__setMutating(thisObj, false);
+            this.__popState(thisObj, "mutating");
           }
         }
       }
@@ -1376,32 +1394,51 @@ qx.Bootstrap.define("qx.core.property.Property", {
      */
     isMutating(thisObj) {
       let state = this.getPropertyState(thisObj);
-      return state.mutatingCount !== undefined && state.mutatingCount > 0;
+      return !!state.mutating;
     },
 
     /**
-     * Called internally to set the mutating state for a property
-     *
-     * @param {qx.core.Object} thisObj
-     * @param {Boolean} mutating
+     * Returns whether the init method is being called
+     * @param {qx.core.Object} thisObj 
+     * @returns {boolean}
      */
-    __setMutating(thisObj, mutating) {
+    isInitializing(thisObj) {
       let state = this.getPropertyState(thisObj);
-      if (mutating) {
-        if (state.mutatingCount === undefined) {
-          state.mutatingCount = 1;
-        } else {
-          state.mutatingCount++;
-        }
+      return !!state.initializing;
+    },
+
+    /**
+     *
+     * @param {qx.core.Object} thisObj 
+     * @param {string} stateName 
+     */
+    __pushState(thisObj, stateName) {
+      let state = this.getPropertyState(thisObj);
+      if (state[stateName] === undefined) {
+        state[stateName] = 1;
+        state[stateName + "_promise"] = Promise.withResolvers();
       } else {
-        if (state.mutatingCount === undefined) {
-          throw new Error(`Property ${this} of ${thisObj} is not mutating`);
-        }
-        state.mutatingCount--;
-        if (state.mutatingCount == 0) {
-          delete state.promiseMutating;
-          delete state.mutatingCount;
-        }
+        state[stateName]++;
+      }      
+    },
+
+    /**
+     *
+     * @param {qx.core.Object} thisObj 
+     * @param {string} stateName 
+     */
+    __popState(thisObj, stateName) {
+      let state = this.getPropertyState(thisObj);
+
+      if (state[stateName] === undefined) {
+        throw new Error(`Property ${this} of ${thisObj} has no state ${stateName}`);
+      }
+      state[stateName]--;
+      if (state[stateName] == 0) {
+        let {resolve} = state[stateName + "_promise"];
+        delete state[stateName];
+        delete state[stateName + "_promise"];
+        resolve();
       }
     },
 
@@ -1412,15 +1449,8 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Promise<>}
      */
     async resolveMutating(thisObj) {
-      if (thisObj.$$propertyMutating === undefined || !thisObj.$$propertyMutating[this.__propertyName]) {
-        return qx.Promise.resolve();
-      }
-      let promise = thisObj.$$propertyMutating[this.__propertyName];
-      if (typeof promise == "boolean") {
-        promise = new qx.Promise();
-        thisObj.$$propertyMutating[this.__propertyName] = promise;
-      }
-      await promise;
+      let state = this.getPropertyState(thisObj);
+      return state.mutating_promise?.promise ?? Promise.resolve();
     },
 
     /**
@@ -1428,7 +1458,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      *
      * @return {qx.core.check.Check}
      */
-    getCheck(value) {
+    getCheck() {
       return this.__check;
     },
 
@@ -1499,13 +1529,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       return false;
     },
-
-    /**
-     * Promise that resolves when the property is ready, or when it has finished mutating
-     *
-     * @param {qx.core.Object} thisObj the object on which the property is defined
-     */
-    promiseReady(thisObj) {},
 
     /**
      * Whether the property has a defined value stored locally,
