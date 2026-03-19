@@ -64,7 +64,13 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * If set to true, this enables the deprecated `deferredInit` setting in property definitions,
      * before initFunctions were introduced.
      */
-    "qx.core.property.Property.allowDeferredInit": true
+    "qx.core.property.Property.allowDeferredInit": true,
+
+    /**
+     * If set to true, a warning will be shown if the apply method of a property returns a promise
+     * when set using set, not setAsync.
+     */
+    "qx.core.property.Property.applyReturnedPromiseWarning": false
   },
 
   members: {
@@ -1002,12 +1008,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (this.__apply) {
         let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
 
-        if (qx.lang.Type.isPromise(out)) {
-          this.warn(
+        if (qx.core.Environment.get("qx.core.property.Property.applyReturnedPromiseWarning")) {
+          if (qx.lang.Type.isPromise(out)) {
+            this.warn(
             "Apply function for property " +
-              this +
+            this +
               " returned a Promise, but the property was set synchronously. The promise will be ignored."
-          );
+            );
+          }
         }
       }
 
