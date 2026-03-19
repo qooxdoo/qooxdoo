@@ -550,51 +550,92 @@ qx.Bootstrap.define("qx.core.property.Property", {
       Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
-        addMethod(methods.get, function (cb) {
-          if (cb) {
-            if (qx.core.Environment.get("qx.debug")) {
-              if (typeof cb !== "function") {
-                throw new Error(`${self}: If an argument is passed into getter, it must be a callback.`);
-              }
+        addMethod(methods.get, function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
             }
-            return self.getAsync(this).then(cb);
-          } else {
-            return self.get(this);
           }
+          return self.get(this);
         });
         addMethod(methods.getAsync, async function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return await self.getAsync(this);
         });
       }
 
       if (this.__definition?.check === "Boolean") {
         addMethod(methods.is, function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return self.get(this);
         });
         addMethod(methods.isAsync, async function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return await self.getAsync(this);
         });
         addMethod(methods.toggle, function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Toggle for property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return self.set(this, !self.get(this));
         });
         addMethod(methods.toggleAsync, async function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Toggle for property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return await self.setAsync(this, !(await self.getAsync(this)));
         });
       }
 
       if (!this.__pseudoProperty) {
         addMethod(methods.set, function (value) {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length !== 1) {
+              throw new Error(`Setter for property ${this} called with wrong number of arguments. Ex`);
+            }
+          }
           self.set(this, value);
           return value;
         });
         addMethod(methods.setAsync, async function (value) {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length !== 1) {
+              throw new Error(`Setter for property ${this} called with wrong number of arguments`);
+            }
+          }
           await self.setAsync(this, value);
           return value;
         });
         addMethod(methods.reset, function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Resetter for property ${this} called with arguments, which is not allowed`);
+            }
+          }
           self.reset(this);
         });
         addMethod(methods.resetAsync, function () {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (arguments.length) {
+              throw new Error(`Resetter for property ${this} called with arguments, which is not allowed`);
+            }
+          }
           return self.resetAsync(this);
         });
       }
