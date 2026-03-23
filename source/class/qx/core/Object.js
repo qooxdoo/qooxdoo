@@ -267,16 +267,11 @@ qx.Class.define("qx.core.Object", {
       // Iterate through properties and copy user values
       for (var i = 0, l = props.length; i < l; i++) {
         name = props[i];
-        var property = clazz.prototype.$$allProperties[name];
+        var property = qx.Class.getByProperty(clazz, name);
 
-        if (property && this.$$propertyValues && this.$$propertyValues[name] !== undefined) {
-          var value = this.$$propertyValues[name].value;
-          if (value !== undefined) {
-            var setter = "set" + qx.lang.String.firstUp(name);
-            if (clone[setter]) {
-              clone[setter](value);
-            }
-          }
+        if (property && property.isUserValue(this)) {
+          var value = property.get(this);
+          property.set(clone, value);
         }
       }
 

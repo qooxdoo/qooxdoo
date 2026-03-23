@@ -144,7 +144,7 @@ qx.Class.define("qx.data.controller.Object", {
           }
           // if the model is null, reset the current target
           if (targetProperty.indexOf("[") == -1) {
-            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
+            targetObject.reset(targetProperty);
           } else {
             var open = targetProperty.indexOf("[");
             var index = parseInt(
@@ -153,8 +153,7 @@ qx.Class.define("qx.data.controller.Object", {
             );
 
             targetProperty = targetProperty.substring(0, open);
-            var targetArray =
-              targetObject["get" + qx.lang.String.firstUp(targetProperty)]();
+            var targetArray = targetObject.get(targetProperty);
             if (index == "last") {
               index = targetArray.length;
             }

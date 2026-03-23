@@ -1427,8 +1427,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             "localModules"
           ].forEach(name => {
             if (appConfig[name] !== undefined) {
-              var fname = "set" + qx.lang.String.firstUp(name);
-              app[fname](appConfig[name]);
+              app.set(name, appConfig[name]);
             }
           });
           allApplicationTypes[app.getType()] = true;
