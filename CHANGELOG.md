@@ -57,6 +57,7 @@ calling `getAsync` will return the init value but it's supposed to return the re
   the value continues propagating along the chain only after the value has been resolved. 
   The method `bindAsync` resolves when the intial value has been set on the target object.
   - **Bindings are first-class objects** The class `qx.data.SingleValueBinding` is now instantiable and is instantiated under the hood when calling `object.bind()`.
+  The return value of `qx.core.Object.prototype.bind` or `SingleValueBinding.bind` is the `SingleValueBinding` object itself.
   Disposing of the object will dispose of the binding and all the associated listeners.
   This makes things easier because you don't have to keep track of the binding's object and the binding ID.
   This also makes debugging with bindings easier because the objects representing the path segments of either the source or target (`AbstractSegment`)
