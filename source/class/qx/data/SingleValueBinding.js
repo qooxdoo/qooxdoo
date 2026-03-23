@@ -116,15 +116,10 @@ qx.Class.define("qx.data.SingleValueBinding", {
    * @param {qx.core.Object} source The source object for the binding
    * @param {qx.core.Object} target The target object
    * @param {*} data The data
-       
-  *
-  * @returns {qx.data.SingleValueBinding} Returns the internal id for that binding. This can be used
-  *   for referencing the binding or e.g. for removing. This is not an atomic
-  *   id so you can't you use it as a hash-map index.
-  *
-  * @throws {qx.core.AssertionError} If the event is no data event or
-  *   there is no property definition for object and property (source and
-  *   target).
+   *
+   * @throws {qx.core.AssertionError} If the event is no data event or
+   *   there is no property definition for object and property (source and
+   *   target).
   */
   construct(sourcePath, targetPath, source, target, options) {
     super();
@@ -393,21 +388,9 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * It is only there to comply with interface `qx.data.binding.IInputReceiver`.
      * @override interface qx.data.binding.IInputReceiver
      *
-     * @param {*} input
+     * @param {*} value
      */
-    setInput(input) {
-      return this.__setValue(input);
-    },
-
-    /**
-     *
-     * @param {*} value The final value obtained from the sourcePath
-     * @returns {Promise?} A promise if setting the target is asynchronous, otherwise null
-     */
-    __setValue(value) {
-      if (this.__value === value) {
-        return null; // no change
-      }
+    setInput(value) {
       this.__value = value;
       return this.__updateTarget();
     },
@@ -484,7 +467,8 @@ qx.Class.define("qx.data.SingleValueBinding", {
     __bindingsByTarget: {},
 
     /**
-     * @see {qx.data.SingleValueBinding#construct}
+     * @see {qx.data.SingleValueBinding#construct} for parameters
+     * @returns {qx.data.SingleValueBinding} the created binding instance
      */
     bind(sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options) {
       // check for the arguments

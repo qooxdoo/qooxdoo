@@ -797,6 +797,52 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       let person4 = new Person("Harry");
       person3.bind("friend.friend.name", person4, "name");
       this.assertEquals("Patryk", person4.getName(), "Target should be reset when chain has null element during initial set");
+    },
+
+    /**
+     * Tests that the converter is called and target updated when the source fires a change event but with the same instance.
+     * Happens mostly with arrays.
+     */
+    testChangeEventSameInstance() {
+      let lastApply;
+      qx.Class.undefine("qx.test.data.singlevalue.simple.TestChangeEventSameInstance");
+      qx.Class.define("qx.test.data.singlevalue.simple.TestChangeEventSameInstance", {
+        extend: qx.core.Object,
+        construct() {
+          super();
+          let converterCount = 0;          
+          let arr = this.getSource();
+          this.bind("source", this, "dest", {
+            converter: value => {
+              converterCount++;
+              return value.length;
+            }
+          });
+          arr.push("a");
+          this.fireDataEvent("changeSource", arr, arr);
+          this.assertEquals(2, converterCount, "Converter should be called twice");
+          this.assertEquals(1, this.getDest(), "Target should be updated to 1");
+          this.assertArrayEquals([1, 0], lastApply, "Apply should be called with correct values")
+        },
+        properties: {
+          source: {
+            event: "changeSource",
+            initFunction: () => new qx.data.Array()
+          },
+          dest: {
+            event: "changeDest",
+            apply: "_applyDest"
+          }
+        },
+        members: {
+          _applyDest(newValue, oldValue) {
+            lastApply = [newValue, oldValue];
+            this.debug(`apply called: ${oldValue} -> ${newValue}`);
+          }
+        }
+      });
+
+      new qx.test.data.singlevalue.simple.TestChangeEventSameInstance();
     }
   }
 });
