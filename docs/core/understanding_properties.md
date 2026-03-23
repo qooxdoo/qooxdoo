@@ -4,6 +4,9 @@ Qooxdoo comes with its own convenient and sophisticated property management
 system. In order to understand its power we will first take a look at the
 ordinary property handling in plain JavaScript first.
 
+> :memo: Please take a look at `property_features` first to get a compact overview of
+> the available features.
+
 ## Ordinary Property Handling
 
 Let's say we have a property `width` for an object `obj`.

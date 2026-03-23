@@ -1,7 +1,6 @@
 # Advanced features of properties
 
-> :memo: Please take a look at `property_features` first to get a compact overview of
-> the available features.
+This page is about the advanced features of Qooxdoo Properties. Please make sure you understand the key features of properties first, which are explained [here](./understanding_properties.md).
 ## setAsync, asynchronous apply methods and asynchronous event handlers
 
 Sometimes it may be necessary for an applyXxx method to take some time to
