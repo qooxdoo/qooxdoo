@@ -1049,34 +1049,37 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return;
       }
 
-      this.__pushState(thisObj, "mutating");
-
       if (value === undefined) {
         value = null;
       }
 
-      if (this.__apply) {
-        let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+      this.__pushState(thisObj, "mutating");
 
-        if (qx.core.Environment.get("qx.core.property.Property.applyReturnedPromiseWarning")) {
-          if (qx.lang.Type.isPromise(out)) {
-            this.warn(
-            "Apply function for property " +
-            this +
-              " returned a Promise, but the property was set synchronously. The promise will be ignored."
-            );
+      try {
+        if (this.__apply) {
+          let out = this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
+
+          if (qx.core.Environment.get("qx.core.property.Property.applyReturnedPromiseWarning")) {
+            if (qx.lang.Type.isPromise(out)) {
+              this.warn(
+                "Apply function for property " +
+                  this +
+                  " returned a Promise, but the property was set synchronously. The promise will be ignored."
+              );
+            }
           }
         }
-      }
 
-      if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
-        thisObj.fireDataEvent(this.__eventName, value, oldValue);
-      }
+        if (this.__eventName && qx.event.Registration.hasListener(thisObj, this.__eventName)) {
+          thisObj.fireDataEvent(this.__eventName, value, oldValue);
+        }
 
-      if (this.isInheritable()) {
-        this.__applyValueToInheritedChildren(thisObj);
+        if (this.isInheritable()) {
+          this.__applyValueToInheritedChildren(thisObj);
+        }
+      } finally {
+        this.__popState(thisObj, "mutating");
       }
-      this.__popState(thisObj, "mutating");
     },
 
     /**
@@ -1171,13 +1174,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
       if (!shouldApply) {
         return;
       }
-
-      this.__pushState(thisObj, "mutating");
-
+      
       if (value === undefined) {
         value = null;
       }
-
+      
+      this.__pushState(thisObj, "mutating");
       try {
         if (this.__apply) {
           await this.__callFunction(thisObj, this.__apply, value, oldValue, this.__propertyName);
