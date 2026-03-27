@@ -617,14 +617,24 @@ qx.Class.define("qx.data.SingleValueBinding", {
     removeRelatedBindings(object, relatedObject) {
       const SingleValueBinding = qx.data.SingleValueBinding;
 
+      if (!object[SingleValueBinding.__SymbolBindingsInfo]) {
+        return;
+      }
+
       for (let binding of Object.values(object[SingleValueBinding.__SymbolBindingsInfo].source)) {
         if (binding.getTarget() === relatedObject) {
           binding.dispose();
         }
       }
+
+      //by this point, we may have removed all bindings,
+      //so we need to check again if the bindings property is still present
+      if (!object[SingleValueBinding.__SymbolBindingsInfo]) {
+        return;
+      }
       
-      for (let binding of Object.values(relatedObject[SingleValueBinding.__SymbolBindingsInfo].source)) {
-        if (binding.getTarget() === object) {
+      for (let binding of Object.values(object[SingleValueBinding.__SymbolBindingsInfo].target)) {
+        if (binding.getSource() === relatedObject) {
           binding.dispose();
         }
       }
