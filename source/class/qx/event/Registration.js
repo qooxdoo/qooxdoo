@@ -36,11 +36,11 @@ qx.Class.define("qx.event.Registration", {
 
   statics: {
     /**
-     * Static list of all instantiated event managers. The key is the qooxdoo
-     * hash value of the corresponding window
+     * Symbol used to store the event manager on the target object.
+     * This allows us to not use a global registry, meaning that if the target is garbage collected,
+     * its manager can be garbage collected as well.
      */
-    __managers: {},
-
+    __SymbolManager: Symbol("qx.event.Registration.__SymbolManager"),
     /**
      * Get an instance of the event manager, which can handle events for the
      * given target.
@@ -65,15 +65,11 @@ qx.Class.define("qx.event.Registration", {
         target = window;
       }
 
-      var hash = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
-      var manager = this.__managers[hash];
-
-      if (!manager) {
-        manager = new qx.event.Manager(target, this);
-        this.__managers[hash] = manager;
+      if (!target[this.__SymbolManager]) {
+        target[this.__SymbolManager] = new qx.event.Manager(target, this);
       }
 
-      return manager;
+      return target[this.__SymbolManager];
     },
 
     /**
@@ -85,8 +81,7 @@ qx.Class.define("qx.event.Registration", {
      * @param mgr {qx.event.Manager} The manager to remove
      */
     removeManager(mgr) {
-      var id = mgr.getWindowId();
-      delete this.__managers[id];
+      delete mgr.getWindow()[this.__SymbolManager];
     },
 
     /**
@@ -176,10 +171,7 @@ qx.Class.define("qx.event.Registration", {
      * @internal
      */
     deleteAllListeners(target) {
-      var targetKey = target.$$hash;
-      if (targetKey) {
-        this.getManager(target).deleteAllListeners(targetKey);
-      }
+      this.getManager(target).deleteAllListeners(target);
     },
 
     /**
