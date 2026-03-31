@@ -550,21 +550,21 @@ qx.Bootstrap.define("qx.core.property.Property", {
       Object.defineProperty(clazz.prototype, propertyName, propertyConfig);
 
       if (!this.__pseudoProperty) {
-        addMethod(methods.get, function () {
+        addMethod(methods.get, function (safe) {
           if (qx.core.Environment.get("qx.debug")) {
-            if (arguments.length) {
-              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
+            if (arguments.length > 1) {
+              throw new Error(`Getter of property ${this} called with wrong number of arguments`);
             }
           }
-          return self.get(this);
+          return self.get(this, safe);
         });
-        addMethod(methods.getAsync, async function () {
+        addMethod(methods.getAsync, async function (safe) {
           if (qx.core.Environment.get("qx.debug")) {
-            if (arguments.length) {
-              throw new Error(`Getter of property ${this} called with arguments, which is not allowed`);
+            if (arguments.length > 1) {
+              throw new Error(`Getter of property ${this} called with wrong number of arguments`);
             }
           }
-          return await self.getAsync(this);
+          return await self.getAsync(this, safe);
         });
       }
 
@@ -753,13 +753,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * Gets a property value; will raise an error if the property is not initialized
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @param {boolean} safe If true, and the property hasn't been initialized, `undefined` will be returned.
      * @return {*}
      */
-    get(thisObj) {
+    get(thisObj, safe = false) {
       if (this.__pseudoProperty) {
-        return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName));
+        return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName), safe);
       }
-      return this.__getImpl(thisObj, false);
+      return this.__getImpl(thisObj, safe);
     },
 
     /**
@@ -768,31 +769,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * storage cannot provide a value which is not `undefined`
      *
      * @param {qx.core.Object} thisObj the object on which the property is defined
+     * @param {boolean} safe If true, and the property hasn't been initialized, `undefined` will be returned.
      * @return {*}
      */
-    async getAsync(thisObj) {
+    async getAsync(thisObj, safe = false) {
       if (this.__pseudoProperty) {
         return this.__callFunction(thisObj, "get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async");
       }
-      return this.__getAsyncImpl(thisObj, false);
-    },
-
-    /**
-     * Gets a property value; if not initialized, it will return undefined
-     * @param {qx.core.Object} thisObj
-     * @param {boolean?} async
-     * @returns {*}
-     */
-    getSafe(thisObj, async = false) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (this.__pseudoProperty) {
-          throw new Error(`${this}: Pseudo properties do not support getSafe`);
-        }
-      }      
-      if (async) {
-        return this.__getAsyncImpl(thisObj, true);
-      }
-      return this.__getImpl(thisObj, true);
+      return this.__getAsyncImpl(thisObj, safe);
     },
 
     /**
@@ -1540,7 +1524,12 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     hasLocalValue(thisObj) {
-      let value = this.__getImpl(thisObj, true);
+      let value;
+      if (this.__pseudoProperty) {
+        value = thisObj["get" + qx.Bootstrap.firstUp(this.__propertyName)](true);
+      } else {
+        value = this.__getImpl(thisObj, true);
+      }
       return value !== undefined;
     },
 

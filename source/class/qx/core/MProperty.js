@@ -146,13 +146,13 @@ qx.Mixin.define("qx.core.MProperty", {
       if (safe) {
         let property = qx.Class.getByProperty(this.constructor, prop);
         if (property) {
-          return property.getSafe(this);
+          return property.get(this, safe);
         }
       }
 
       // Otherwise, see if there's a hand-written getter method
       if (this["get" + qx.Bootstrap.firstUp(prop)] != undefined) {
-        return this["get" + qx.Bootstrap.firstUp(prop)]();
+        return this["get" + qx.Bootstrap.firstUp(prop)](safe);
       }
 
       // If the property exists as a member variable, get it directly
@@ -161,20 +161,6 @@ qx.Mixin.define("qx.core.MProperty", {
       }
 
       throw new Error("No such property: " + prop);
-    },
-
-    /**
-     *
-     * Returns the value of the given property.
-     * If the property is not initialized, it will return undefined.
-     *
-     * @param prop {String}
-     *   Name of the property.
-     *
-     * @returns {*}
-     */
-    getSafe(prop) {
-      return this.get(prop, true);
     },
 
     /**

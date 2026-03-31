@@ -2361,7 +2361,7 @@ qx.Class.define("qx.test.core.Property", {
         let instance = new Clazz();
         let prop = qx.Class.getByProperty(Clazz, "foo");
         this.assertFalse(prop.hasLocalValue(instance), "Property foo should not be locally defined");
-        this.assertUndefined(instance.getSafe("foo"));
+        this.assertUndefined(instance.getFoo(true));
         try {
           instance.getFoo();
           this.assertTrue(false, "getFoo should throw an error when the property is not ready");
@@ -2431,6 +2431,56 @@ qx.Class.define("qx.test.core.Property", {
 
       let obj = new qx.test.core.property.TestPrivateProperties();
       await obj.test();
+    },
+
+    async testAsyncPseudoProperty() {
+      qx.Class.undefine("qx.test.core.property.TestAsyncPseudoProperty");
+      let Clazz = qx.Class.define("qx.test.core.property.TestAsyncPseudoProperty", {
+        extend: qx.core.Object,
+
+        events: {
+          changePseudoProp: "qx.event.type.Data"
+        },
+
+        members: {
+          __pseudoProp: undefined,          
+
+          async getPseudoPropAsync() {
+            if (this.__pseudoProp !== undefined) {
+              return this.__pseudoProp;
+            }
+            return (this.__pseudoProp = 24);
+          },
+
+          getPseudoProp(safe) {            
+            if (!safe && !this.__pseudoProp) {
+              throw new Error("Property " + this.classname + ".pseudoProp is not yet ready!");
+            }
+            return this.__pseudoProp;
+          },
+
+          setPseudoProp(value) {
+            let oldValue = this.__pseudoProp;
+            this.__pseudoProp = value;
+            this.fireDataEvent("changePseudoProp", value, oldValue);
+          }
+        }
+      });
+
+      let obj = new Clazz();
+      try {
+        obj.getPseudoProp();
+        this.assertTrue(false, "Initial get should fail");
+      } catch (e) {
+
+      }
+
+      this.assertUndefined(obj.getPseudoProp(true), "Initial get safe returns undefined£.");
+      let prop = qx.Class.getByProperty(Clazz, "pseudoProp");
+      this.assertFalse(prop.hasLocalValue(obj), "Unexpected result from hasLocalValue");
+      this.assertEquals(24, await obj.getPseudoPropAsync(), "Wrong value when getting async");
+      this.assertEquals(24, obj.getPseudoProp(), "Wrong value when getting async");        
+      this.assertTrue(prop.hasLocalValue(obj), "Unexpected result from hasLocalValue (2)");
     },
 
     /**

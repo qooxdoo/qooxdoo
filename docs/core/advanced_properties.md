@@ -195,6 +195,9 @@ It will first attempt to get the property synchronously and then attempt asynchr
 NOTE: It is possible but discouraged to call `getAsync` on a property that doesn't support an async getter.
 Doing so will print out a warning.
 
+The property object (`qx.core.property.Property`) will support async getting,
+meaning that calling `supportsGetAsync` on it will return `true`.
+
 We can `get` the property value synchronously after the initial `getAsync`, like in the following example:
 ```js
 let myObject = myObjectFactory.getByUuid("asdfasdfk");
@@ -260,3 +263,50 @@ you can add `get`, `set`, and optionally `getAsync` functions to your definition
 
 This is known as inline or explicit property storage. This internally uses `qx.core.property.ExplicitPropertyStorage`,
 which simply defers to the `get`, `set`, `setAsync` functions in your definition.
+
+## Pseudo properties with async getter
+
+If a class contains a pseudo property (i.e. a hand-written property with at least get/event)
+and a `getPropertyAsync` method, the property object will treat the property as one supporting an async getter,
+meaning `property.supportsGetAsync` will return `true` and calling `property.getAsync(obj)` will straight defer to the `getPropertyAsync()` method.
+
+Example code:
+```js
+let Clazz = qx.Class.define("app.AsyncPseudoProperty", {
+  extend: qx.core.Object,
+
+  events: {
+    changePseudoProp: "qx.event.type.Data"
+  },
+
+  members: {
+    __pseudoProp: undefined,          
+
+    async getPseudoPropAsync() {
+      if (this.__pseudoProp !== undefined) {
+        return this.__pseudoProp;
+      }
+      return (this.__pseudoProp = 24);
+    },
+
+    getPseudoProp(safe) {            
+      if (!safe && !this.__pseudoProp) {
+        throw new Error("Property " + this.classname + ".pseudoProp is not yet ready!");
+      }
+      return this.__pseudoProp;
+    },
+
+    setPseudoProp(value) {
+      let oldValue = this.__pseudoProp;
+      this.__pseudoProp = value;
+      this.fireDataEvent("changePseudoProp", value, oldValue);
+    }
+  }
+});
+
+let obj = new app.AsyncPseudoProperty();
+let prop = qx.Class.getByProperty(obj.contructor, "pseudoProp");
+prop.supportsGetAsync() === true
+prop.getAsync(obj) === 24
+```
+
