@@ -3,15 +3,6 @@
 # 8.0.0-beta.2
 
 ## Breaking changes
-- Bindings (made using class qx.data.SingleValueBinding) are now no longer stored in a global registry,
-because this prevented their source and target objects from being garbage-collected without manually disposing them first.
-- Removed `qx.data.SingleValueBinding.getAllBindings` as a consequence of the above,
-and also because there is no practical use case for it.
-- Event listener callbacks are now stored in their target objects themselves instead of a global registry,
-because this prevented objects with event listeners from being garbage collected unless they were manually disposed,
-and also prevented any objects in the closures of the listeners' callbacks from being garbage collected as well.
-- Removed method `qx.event.Mananger.getAllListeners` as a consequence of the above,
-and also because there is no practical use case for it.
 - Removed `async: true` key from property definition because now all properties have `setAsync` methods,
 which can be used to await the apply function's return value and the event handlers when a property is set. 
 The meaning of this setting wasn't very clear, also given that we now have async property storage.

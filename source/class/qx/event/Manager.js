@@ -65,6 +65,9 @@ qx.Class.define("qx.event.Manager", {
       }
     }
 
+    // Registry for event listeners
+    this.__listeners = new Map();
+
     // The handler and dispatcher instances
     this.__handlers = {};
     this.__dispatchers = {};
@@ -101,12 +104,6 @@ qx.Class.define("qx.event.Manager", {
      * @type {Array} private list of global event monitor functions
      */
     __globalEventMonitors: [],
-
-    /**
-     * Used to store the Map of listeners for each target.
-     * @type {Map}
-     */
-    __SymbolListeners: Symbol("qx.event.Manager.__SymbolListeners"),
 
     /**
      * Adds a global event monitor function which is called for each event fired
@@ -174,6 +171,7 @@ qx.Class.define("qx.event.Manager", {
 
   members: {
     __registration: null,
+    __listeners: null,
 
     __dispatchers: null,
     __disposeWrapper: null,
@@ -266,8 +264,8 @@ qx.Class.define("qx.event.Manager", {
      *       null when no listener were found.
      */
     getListeners(target, type, capture) {
-      const Manager = qx.event.Manager;
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return null;
@@ -308,6 +306,48 @@ qx.Class.define("qx.event.Manager", {
     },
 
     /**
+     * Returns all registered listeners.
+     *
+     * @internal
+     *
+     * @return {Object} All registered listeners. The key is the hash code for an object.
+     */
+    getAllListeners() {
+      return Object.fromEntries(
+        this.__listeners.entries().map(
+          ([targetKey, targetMap]) => [targetKey, Object.fromEntries(
+            targetMap.entries().map(
+              ([entryKey, entryMap]) => {
+                var listeners = [...entryMap.values()];
+                var proxy = new Proxy(listeners, {
+                  deleteProperty(target, property) {
+                    if (property !== "length") {
+                      var listener = target[property];
+                      entryMap.delete(listener.unique);
+                    }
+                    delete target[property];
+                    return true;
+                  },
+                  set(target, property, value, receiver) {
+                    if (property !== "length") {
+                      if (!value.unique) {
+                        throw new Error("Cannot store a listener without a unique id. Use addListener()");
+                      }
+                      entryMap[value.unique] = value;
+                    }
+                    target[property] = value;
+                    return true;
+                  }
+                })
+                return [entryKey, proxy];
+              }
+            )
+          )]
+        )
+      );
+    },
+
+    /**
      * Returns a serialized array of all events attached on the given target.
      *
      * @param target {Object} Any valid event target
@@ -315,8 +355,8 @@ qx.Class.define("qx.event.Manager", {
      *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
     serializeListeners(target) {
-      const Manager = qx.event.Manager;
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
       var result = [];
 
       if (targetMap) {
@@ -354,8 +394,8 @@ qx.Class.define("qx.event.Manager", {
      * @param enable {Boolean} Whether to enable or disable the events
      */
     toggleAttachedEvents(target, enable) {
-      const Manager = qx.event.Manager;
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (targetMap) {
         var indexOf, type, capture;
@@ -391,8 +431,8 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      const Manager = qx.event.Manager;
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
@@ -427,10 +467,12 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetMap = target[qx.event.Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
-        targetMap = target[qx.event.Manager.__SymbolListeners] = new Map();
+        targetMap = new Map();
+        this.__listeners.set(targetKey, targetMap);
       }
 
       for (var listKey in list) {
@@ -483,7 +525,6 @@ qx.Class.define("qx.event.Manager", {
      * @throws {Error} if the parameters are wrong
      */
     addListener(target, type, listener, self, capture) {
-      const Manager = qx.event.Manager;
       if (qx.core.Environment.get("qx.debug")) {
         var msg =
           "Failed to add event listener for type '" +
@@ -505,10 +546,12 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
-        targetMap = target[Manager.__SymbolListeners] = new Map();
+        targetMap = new Map();
+        this.__listeners.set(targetKey, targetMap);
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
@@ -675,7 +718,6 @@ qx.Class.define("qx.event.Manager", {
      * @throws {Error} if the parameters are wrong
      */
     removeListener(target, type, listener, self, capture) {
-      const Manager = qx.event.Manager;
       if (qx.core.Environment.get("qx.debug")) {
         var msg =
           "Failed to remove event listener for type '" +
@@ -701,7 +743,8 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
@@ -734,7 +777,6 @@ qx.Class.define("qx.event.Manager", {
      * @return {Boolean} <code>true</code> if the handler was removed
      */
     removeListenerById(target, id) {
-      const Manager = qx.event.Manager;
       if (qx.core.Environment.get("qx.debug")) {
         var msg =
           "Failed to remove event listener for id '" +
@@ -753,7 +795,8 @@ qx.Class.define("qx.event.Manager", {
       var capture = split[1].charCodeAt(0) === 99; // detect leading "c"
       var unique = split[2];
 
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
 
       if (!targetMap) {
         return false;
@@ -785,8 +828,8 @@ qx.Class.define("qx.event.Manager", {
      * @return {Boolean} Whether the events were existant and were removed successfully.
      */
     removeAllListeners(target) {
-      const Manager = qx.event.Manager;
-      var targetMap = target[Manager.__SymbolListeners];
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners.get(targetKey);
       if (!targetMap) {
         return false;
       }
@@ -810,20 +853,21 @@ qx.Class.define("qx.event.Manager", {
         }
       }
 
-      delete target[Manager.__SymbolListeners];
+      this.__listeners.delete(targetKey);
       return true;
     },
 
     /**
      * Internal helper for deleting the internal listener  data structure for
-     * the given target.
+     * the given targetKey.
      *
-     * @param target {Object} The object to delete its listeners.
+     * @param targetKey {String} Hash code for the object to delete its
+     *   listeners.
      *
      * @internal
      */
-    deleteAllListeners(target) {
-      delete target[qx.event.Manager.__SymbolListeners];
+    deleteAllListeners(targetKey) {
+      this.__listeners.delete(targetKey);
     },
 
     /**
@@ -994,7 +1038,7 @@ qx.Class.define("qx.event.Manager", {
       qx.util.DisposeUtil.disposeMap(this, "__dispatchers");
 
       // Dispose data fields
-      this.__window = this.__disposeWrapper = null;
+      this.__listeners = this.__window = this.__disposeWrapper = null;
       this.__registration = this.__handlerCache = null;
     },
 

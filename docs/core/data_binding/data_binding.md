@@ -760,6 +760,7 @@ every object.
 > - **getAllBindingsForObject** is a function which is in the data binding class
 >   and returns all bindings for the given object. The object needs to be the
 >   source object.
+> - **getAllBindings** returns all bindings in a special map for all objects.
 
 Another way of managing is removing. There are three ways to remove bindings.
 
