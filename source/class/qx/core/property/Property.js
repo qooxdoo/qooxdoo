@@ -639,12 +639,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
           return self.resetAsync(this);
         });
       }
-
-      if (this.__pseudoProperty) {
-        this.__supportsGetAsync = this.__clazz.prototype["get" + qx.Bootstrap.firstUp(this.__propertyName) + "Async"] !== undefined;
-      } else {
-        this.__supportsGetAsync = this.__storage.supportsGetAsync();
-      }
     },
 
     /**
@@ -1233,7 +1227,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       if (value !== undefined) {
         return value;
-      } else if (this.__supportsGetAsync) {
+      } else if (this.supportsGetAsync()) {
         if (!safe) {
           throw new Error("Property " + this + " has not been initialized - try using getAsync() instead");
         } else {
@@ -1261,7 +1255,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @returns {Promise<*>}
      */
     async __getAsyncImpl(thisObj, safe) {
-      if (!this.__supportsGetAsync) {
+      if (!this.supportsGetAsync()) {
         if (qx.core.Environment.get("qx.debug")) {
           this.warn(`Called getAsync in property ${this} which does not support async getter. The value will be read synchronously.`);
         }
@@ -1550,7 +1544,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
      * @return {Boolean}
      */
     supportsGetAsync() {
-      return this.__supportsGetAsync;      
+      return !!this.__storage?.supportsGetAsync();      
     },
 
     /**
