@@ -36,11 +36,9 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
   environment: {
     /**
-     * @deprecated Changing this setting is deprecated.
-     * If set to true, then getting a property that is inheritable but has nothing to inherit from
-     * will return null, instead of throwing an error.
+     * Show warning if getting inherited value for an inheritable property when there's no parent to inherit from.
      */
-    "qx.core.property.Property.inheritableDefaultIsNull": false,
+    "qx.core.property.Property.warnInheritFromNothing": false,
 
     /**
      * If set to true, then properties with init values will have their apply method called during construction.
@@ -778,24 +776,6 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Gets a property value; if not initialized, it will return undefined
-     * @param {qx.core.Object} thisObj
-     * @param {boolean?} async
-     * @returns {*}
-     */
-    getSafe(thisObj, async = false) {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (this.__pseudoProperty) {
-          throw new Error(`${this}: Pseudo properties do not support getSafe`);
-        }
-      }      
-      if (async) {
-        return this.__getAsyncImpl(thisObj, true);
-      }
-      return this.__getImpl(thisObj, true);
-    },
-
-    /**
      * Gets the themed value, if there is one
      *
      * @param {qx.core.Object} thisObj
@@ -1245,8 +1225,14 @@ qx.Bootstrap.define("qx.core.property.Property", {
         return false;
       } else if (this.__definition?.nullable || this.__check?.isNullable()) {
         return null;
-      } else if (qx.core.Environment.get("qx.core.property.Property.inheritableDefaultIsNull") && this.isInheritable()) {
-        return null;
+      } else if (this.isInheritable()) {
+        //This behaviour is weird, but it's there to preserve BC.
+        let out = value == "inherit" ? "inherit" : null;
+
+        if (qx.core.Environment.get("qx.core.property.Property.warnInheritFromNothing")) {
+          this.warn(`Property ${this}: No parent widget to inherit from when getting inherited value. The value ${out} will be returned instead.`)
+        }
+        return out;
       } else if (safe) {
         return undefined;
       } else {
