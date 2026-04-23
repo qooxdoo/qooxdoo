@@ -137,18 +137,10 @@ qx.Mixin.define("qx.core.MProperty", {
      * @return {var}
      *   The value of the value
      *
-     * @param safe {Boolean?false}
-     *
      * @throws {Error}
      *   if a property defined does not exist
      */
-    get(prop, safe) {
-      if (safe) {
-        let property = qx.Class.getByProperty(this.constructor, prop);
-        if (property) {
-          return property.getSafe(this);
-        }
-      }
+    get(prop) {
 
       // Otherwise, see if there's a hand-written getter method
       if (this["get" + qx.Bootstrap.firstUp(prop)] != undefined) {
@@ -161,20 +153,6 @@ qx.Mixin.define("qx.core.MProperty", {
       }
 
       throw new Error("No such property: " + prop);
-    },
-
-    /**
-     *
-     * Returns the value of the given property.
-     * If the property is not initialized, it will return undefined.
-     *
-     * @param prop {String}
-     *   Name of the property.
-     *
-     * @returns {*}
-     */
-    getSafe(prop) {
-      return this.get(prop, true);
     },
 
     /**

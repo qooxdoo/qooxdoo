@@ -589,10 +589,13 @@ qx.Class.define("qx.test.core.Property", {
       var chh3 = new qx.test.core.InheritanceDummy();
       let ch4 = new qx.test.core.InheritanceDummy();
 
+      //Ensure null is returned when there is nothing to inherit from
+      this.assertNull(ch4.getEnabled(), "ch4: initial value of enabled should be null");      
+
       ch4.setEnabled(true);
       this.assertEquals(0, ch2.applyCount, "ch2 initial apply count");
       this.assertEquals(1, ch4.applyCount, "ch4 initial apply count");
-      this.assertArrayEquals([true, undefined], ch4.lastApply, "ch4 initial apply args");
+      this.assertArrayEquals([true, null], ch4.lastApply, "ch4 initial apply args");
 
       pa.add(ch1);
       pa.add(ch2);
@@ -604,7 +607,7 @@ qx.Class.define("qx.test.core.Property", {
 
       // Simple: Only inheritance, no local values
       this.assertTrue(pa.setEnabled(true), "a1");
-      this.assertArrayEquals([true, undefined], ch2.lastApply, "ch2 initial apply args");
+      this.assertArrayEquals([true, null], ch2.lastApply, "ch2 initial apply args");
       this.assertEquals(1, ch2.applyCount, "ch2 initial apply count");
       this.assertEquals(1, ch2.eventCount, "ch2 initial event count");
       ch2.setEnabled("inherit");
@@ -656,26 +659,6 @@ qx.Class.define("qx.test.core.Property", {
       chh1.dispose();
       chh2.dispose();
       chh3.dispose();
-    },
-
-    testInheritanceInitValue() {
-      let pa = new qx.test.core.InheritanceDummy();
-      try {
-        pa.getEnabled();
-        this.fail("getEnabled should throw an error if no init value is set");
-      } catch (e) {}
-
-      pa.setEnabled(true);
-      this.assertTrue(pa.getEnabled(), "After setting enabled to true, it should return true");
-
-      pa.dispose();
-
-      //old, deprecated behaviour
-      qx.core.Environment.set("qx.core.property.Property.inheritableDefaultIsNull", true);
-      pa = new qx.test.core.InheritanceDummy();
-      this.assertNull(pa.getEnabled(), "Initial value of enabled should be null");
-      pa.dispose();
-      qx.core.Environment.set("qx.core.property.Property.inheritableDefaultIsNull", false);
     },
 
     testRefine() {
@@ -2361,7 +2344,6 @@ qx.Class.define("qx.test.core.Property", {
         let instance = new Clazz();
         let prop = qx.Class.getByProperty(Clazz, "foo");
         this.assertFalse(prop.hasLocalValue(instance), "Property foo should not be locally defined");
-        this.assertUndefined(instance.getSafe("foo"));
         try {
           instance.getFoo();
           this.assertTrue(false, "getFoo should throw an error when the property is not ready");
