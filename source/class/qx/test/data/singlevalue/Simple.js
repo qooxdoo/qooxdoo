@@ -843,6 +843,43 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       });
 
       new qx.test.data.singlevalue.simple.TestChangeEventSameInstance();
+    },
+
+    testPseudoProperty() {      
+      qx.Class.undefine("com.ieatsquirrels.Test");
+      const Test = qx.Class.define("qx.test.data.singlevalue.simple.TestPseudoProperty", {
+        extend: qx.core.Object,
+        properties: {
+          target: {
+            check: "String"
+          }
+        },
+        events: {
+          changeName: "qx.event.type.Data"
+        },
+        members: {
+          _name: "Patryk",
+          async getNameAsync() {
+            return "something completely different";
+          },
+          getName() {
+            return this._name;
+          },
+          setName(value) {
+            if (this._name !== value) {
+              let oldValue = this._value;
+              this._name = value;
+              this.fireDataEvent("changeName", value, oldValue);
+            }
+          }
+        }
+      });
+
+      let obj = new Test();
+      obj.bind("name", obj, "target");
+      this.assertEquals("Patryk", obj.getTarget(), "Initial set");
+      obj.setName("Marcin");
+      this.assertEquals("Marcin", obj.getTarget(), "After source change");
     }
   }
 });
