@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "testsourcemap",
+    "summary": "Embedded package sourcemap fixture",
+    "description": "Minimal fixture for build sourcemap verification",
+    "homepage": "https://qooxdoo.org",
+    "license": "MIT",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "testsourcemap",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^7.0.0-beta"
+  }
+}
