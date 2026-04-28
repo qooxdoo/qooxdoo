@@ -87,12 +87,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
 
       if (pkg.isEmbedAllJavascript()) {
         this.__sourceMapOffsets = [];
+        let packageWs = new qx.tool.utils.Utils.LineCountingTransform();
         let strip = new qx.tool.utils.Utils.StripSourceMapTransform();
-        strip.pipe(ws);
+        strip.pipe(packageWs);
+        packageWs.pipe(ws, {
+          end: false
+        });
         await new Promise(async resolve => {
           for (let i = 0; i < pkg.getJavascriptMetas().length; i++) {
             let js = pkg.getJavascriptMetas()[i];
-            this.__sourceMapOffsets.push(ws.getLineNumber());
+            this.__sourceMapOffsets.push(packageWs.getLineNumber());
             await js.unwrap().writeSourceCodeToStream(strip);
             strip.write("\n");
           }
