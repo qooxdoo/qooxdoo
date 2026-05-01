@@ -1,4 +1,5 @@
-const test = require("tape");
+const { test } = require("node:test");
+const assert = require("node:assert");
 const fs = require("fs");
 const path = require("path");
 const { SourceMapConsumer } = require("source-map-js");
@@ -44,7 +45,7 @@ function getPatternPosition(filePath, pattern) {
   };
 }
 
-async function verifyOutput(assert, output, sourceLine) {
+async function verifyOutput(output, sourceLine) {
   const generatedPosition = getPatternPosition(output.js, THROW_PATTERN);
   const generatedColumn = generatedPosition.column + generatedPosition.match.indexOf("Error");
   const rawMap = JSON.parse(await fsPromises.readFile(output.map, "utf8"));
@@ -71,30 +72,25 @@ async function verifyOutput(assert, output, sourceLine) {
   }
 }
 
-test("embedded package sourcemaps stay aligned in build target", async assert => {
-  try {
-    await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
-    const result = await testUtils.runCompiler(
-      APP_DIR,
-      "--target=build",
-      "--save-source-in-map",
-      "--save-unminified"
-    );
-    assert.equal(result.exitCode, 0, result.error || result.output);
+test("embedded package sourcemaps stay aligned in build target", async () => {
+  await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+  const result = await testUtils.runCompiler(
+    APP_DIR,
+    "--target=build",
+    "--save-source-in-map",
+    "--save-unminified"
+  );
+  assert.equal(result.exitCode, 0, testUtils.reportError(result));
 
-    const sourcePosition = getTextPosition(APPLICATION_JS, THROW_SNIPPET);
-    await verifyOutput(assert, {
-      label: "unminified build",
-      js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified"),
-      map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified.map")
-    }, sourcePosition.line);
-    await verifyOutput(assert, {
-      label: "minified build",
-      js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js"),
-      map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.map")
-    }, sourcePosition.line);
-    assert.end();
-  } catch (ex) {
-    assert.end(ex);
-  }
+  const sourcePosition = getTextPosition(APPLICATION_JS, THROW_SNIPPET);
+  await verifyOutput({
+    label: "unminified build",
+    js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified"),
+    map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified.map")
+  }, sourcePosition.line);
+  await verifyOutput({
+    label: "minified build",
+    js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js"),
+    map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.map")
+  }, sourcePosition.line);
 });
