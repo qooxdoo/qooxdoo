@@ -12,6 +12,13 @@ const APPLICATION_JS = path.join(APP_DIR, "source", "class", "testsourcemap", "A
 const THROW_SNIPPET = 'throw new Error("embedded package sourcemap test");';
 const THROW_PATTERN = /throw\s+new\s+Error\((['"])embedded package sourcemap test\1\);?/;
 
+/**
+ * Finds the 1-based line and column of a literal snippet inside a file.
+ *
+ * @param {string} filePath path to the file to inspect
+ * @param {string} snippet literal text to locate in the file
+ * @returns {{ line: number, column: number }} the snippet start position
+ */
 function getTextPosition(filePath, snippet) {
   const text = fs.readFileSync(filePath, "utf8");
   const index = text.indexOf(snippet);
@@ -26,6 +33,13 @@ function getTextPosition(filePath, snippet) {
   return { line, column };
 }
 
+/**
+ * Finds the 1-based line and column of the first regex match inside a file.
+ *
+ * @param {string} filePath path to the file to inspect
+ * @param {RegExp} pattern pattern to match against the file contents
+ * @returns {{ line: number, column: number, match: string }} the match position and matched text
+ */
 function getPatternPosition(filePath, pattern) {
   const text = fs.readFileSync(filePath, "utf8");
   const match = pattern.exec(text);
@@ -44,6 +58,14 @@ function getPatternPosition(filePath, pattern) {
   };
 }
 
+/**
+ * Verifies that a generated bundle and its source map point back to the expected source line.
+ *
+ * @param {import("tape").Test} assert tape assertion object used for the checks
+ * @param {{ label: string, js: string, map: string }} output generated artifact paths and label
+ * @param {number} sourceLine expected source line in the original application file
+ * @returns {Promise<void>} resolves when the assertions pass
+ */
 async function verifyOutput(assert, output, sourceLine) {
   const generatedPosition = getPatternPosition(output.js, THROW_PATTERN);
   const generatedColumn = generatedPosition.column + generatedPosition.match.indexOf("Error");
