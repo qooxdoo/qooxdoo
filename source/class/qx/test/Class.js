@@ -822,6 +822,56 @@ qx.Class.define("qx.test.Class", {
 
       this.assertEquals("overridden", SubWithOverride.getSelf(), "Own static must shadow inherited static");
       this.assertTrue(Base.getSelf() === Base, "Shadowing on subclass must not affect base class static");
+    },
+
+    testInheritedMetadataDoesNotLeakViaPrototypeChain() {
+      var ns = "qx.test.__ProtoLeak_" + Date.now();
+      var IFoo = qx.Interface.define(ns + ".IFoo", {
+        members: { foo() {} }
+      });
+
+      var MFoo = qx.Mixin.define(ns + ".MFoo", {
+        members: { mfoo() {} }
+      });
+
+      var Base = qx.Class.define(ns + ".Base", {
+        extend: qx.core.Object,
+        implement: [IFoo],
+        include: [MFoo],
+        members: {
+          foo() {}
+        }
+      });
+
+      var Sub;
+      try {
+        Sub = qx.Class.define(ns + ".Sub", {
+          extend: Base
+        });
+      } catch (ex) {
+        this.fail("Subclass definition must not see parent's $$implements via prototype chain: " + ex.message);
+      }
+
+      this.assertFalse(qx.Class.hasOwnInterface(Sub, IFoo), "hasOwnInterface must be false for inherited interface");
+      this.assertTrue(qx.Class.hasInterface(Sub, IFoo), "hasInterface must be true for inherited interface");
+
+      var ifaces = qx.Class.getInterfaces(Sub);
+      var ifooCount = 0;
+      for (var i = 0; i < ifaces.length; i++) {
+        if (ifaces[i] === IFoo) {
+          ifooCount++;
+        }
+      }
+      this.assertEquals(1, ifooCount, "getInterfaces must not duplicate inherited interface");
+
+      var mixins = qx.util.OOUtil.getMixins(Sub);
+      var mfooCount = 0;
+      for (var j = 0; j < mixins.length; j++) {
+        if (mixins[j] === MFoo) {
+          mfooCount++;
+        }
+      }
+      this.assertEquals(1, mfooCount, "getMixins must not duplicate inherited mixin");
     }
   }
 });

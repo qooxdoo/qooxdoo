@@ -340,12 +340,12 @@ qx.Class.define("qx.core.Object", {
 
       while (clazz.superclass) {
         // Processing this class...
-        if (clazz.$$destructor) {
+        if (Object.prototype.hasOwnProperty.call(clazz, "$$destructor")) {
           clazz.$$destructor.call(this);
         }
 
         // Destructor support for mixins
-        if (clazz.$$includes) {
+        if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
           mixins = clazz.$$flatIncludes;
 
           for (var i = 0, l = mixins.length; i < l; i++) {

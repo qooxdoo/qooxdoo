@@ -618,7 +618,7 @@ qx.Bootstrap.define("qx.Class", {
 
           // Call any mixins' constructors and those mixins'
           // dependency mixins' constructors
-          if (subclass.constructor.$$flatIncludes) {
+          if (Object.prototype.hasOwnProperty.call(subclass.constructor, "$$flatIncludes")) {
             subclass.constructor.$$flatIncludes.forEach(mixin => {
               if (mixin.$$constructor) {
                 mixin.$$constructor.apply(this, args);
@@ -1268,7 +1268,7 @@ qx.Bootstrap.define("qx.Class", {
           break;
         }
 
-        var interfaces = superclass.$$implements;
+        var interfaces = Object.prototype.hasOwnProperty.call(superclass, "$$implements") ? superclass.$$implements : null;
         if (interfaces) {
           for (let i = 0; i < interfaces.length; i++) {
             qx.Interface.assert(clazz, interfaces[i], true);
@@ -1490,7 +1490,7 @@ qx.Bootstrap.define("qx.Class", {
      */
     getByMixin(clazz, mixin) {
       while (clazz) {
-        if (clazz.$$includes) {
+        if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
           let list = clazz.$$flatIncludes;
 
           for (let i = 0, l = list.length; i < l; i++) {
@@ -1539,7 +1539,7 @@ qx.Bootstrap.define("qx.Class", {
      *   Whether the class includes the mixin directly.
      */
     hasOwnInterface(clazz, iface) {
-      return clazz.$$implements && clazz.$$implements.includes(iface);
+      return Object.prototype.hasOwnProperty.call(clazz, "$$implements") && clazz.$$implements.includes(iface);
     },
 
     /**
@@ -1573,7 +1573,7 @@ qx.Bootstrap.define("qx.Class", {
       let list = [];
 
       while (clazz) {
-        if (clazz.$$implements) {
+        if (Object.prototype.hasOwnProperty.call(clazz, "$$implements")) {
           list.push.apply(list, clazz.$$flatImplements);
         }
 
