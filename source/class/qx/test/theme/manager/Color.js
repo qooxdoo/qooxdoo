@@ -143,6 +143,30 @@ qx.Class.define("qx.test.theme.manager.Color", {
       this.assertException(function () {
         self.manager.setTheme(qx.test.Theme.themes.A);
       });
+    },
+
+    testResolveCssVariable() {
+      qx.Theme.define("qx.test.Theme.themes.CssVar", {
+        extend: qx.theme.indigo.Color,
+
+        colors: {
+          "vza-focus": "var(--vza-focus-color)",
+          "vza-banner": "var(--vza-banner-color, #8cadd5)"
+        }
+      });
+
+      this.manager.setTheme(qx.test.Theme.themes.CssVar);
+
+      this.assertEquals(
+        "var(--vza-focus-color)",
+        this.manager.resolve("vza-focus"),
+        "Einfache CSS-Variable muss unverändert durchgereicht werden"
+      );
+      this.assertEquals(
+        "var(--vza-banner-color, #8cadd5)",
+        this.manager.resolve("vza-banner"),
+        "CSS-Variable mit Fallback muss unverändert durchgereicht werden"
+      );
     }
   }
 });
