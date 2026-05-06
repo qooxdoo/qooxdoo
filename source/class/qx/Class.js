@@ -709,6 +709,10 @@ qx.Bootstrap.define("qx.Class", {
 
       qx.Bootstrap.extendClass(subclass, config.construct, superclass, classname);
 
+      if (superclass !== Object) {
+        Object.setPrototypeOf(subclass, superclass);
+      }
+
       let superProperties = superclass.prototype.$$allProperties || {};
 
       // Save this object's properties
@@ -1054,7 +1058,7 @@ qx.Bootstrap.define("qx.Class", {
         }
 
         // Compare old and new event type/value if patching is disabled
-        if (clazz.$$events && patch !== true) {
+        if (Object.prototype.hasOwnProperty.call(clazz, "$$events") && patch !== true) {
           for (key in events) {
             if (clazz.$$events[key] !== undefined && clazz.$$events[key] !== events[key]) {
               throw new Error(
@@ -1065,7 +1069,7 @@ qx.Bootstrap.define("qx.Class", {
         }
       }
 
-      if (clazz.$$events) {
+      if (Object.prototype.hasOwnProperty.call(clazz, "$$events")) {
         for (key in events) {
           clazz.$$events[key] = events[key];
         }
@@ -1117,7 +1121,7 @@ qx.Bootstrap.define("qx.Class", {
       });
 
       // Store mixin reference
-      if (clazz.$$includes) {
+      if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
         clazz.$$includes.push(mixin);
         clazz.$$flatIncludes.push.apply(clazz.$$flatIncludes, list);
       } else {
@@ -1154,7 +1158,7 @@ qx.Bootstrap.define("qx.Class", {
 
       // Store interface reference
       let list = qx.Interface.flatten([iface]);
-      if (clazz.$$implements) {
+      if (Object.prototype.hasOwnProperty.call(clazz, "$$implements")) {
         clazz.$$implements.push(iface);
         clazz.$$flatImplements.push.apply(clazz.$$flatImplements, list);
       } else {
@@ -1288,7 +1292,7 @@ qx.Bootstrap.define("qx.Class", {
         return;
       }
 
-      if (clazz.$$annotations === undefined) {
+      if (!Object.prototype.hasOwnProperty.call(clazz, "$$annotations")) {
         clazz.$$annotations = {};
         clazz.$$annotations[group] = {};
       } else if (clazz.$$annotations[group] === undefined) {

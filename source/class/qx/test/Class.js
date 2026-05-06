@@ -787,6 +787,41 @@ qx.Class.define("qx.test.Class", {
       this.assertEquals(200, boundValue, "Value should be retrievable directly");
 
       instance.dispose();
+    },
+
+    testStaticInheritance() {
+      var Base = qx.Class.define(null, {
+        extend: qx.core.Object,
+        statics: {
+          getSelf() {
+            return this;
+          }
+        }
+      });
+
+      var Sub = qx.Class.define(null, {
+        extend: Base
+      });
+
+      // Inherited static is visible on subclass via prototype chain
+      this.assertTrue(typeof Sub.getSelf === "function", "Inherited static must be callable on subclass");
+
+      // `this` inside inherited static must refer to the calling class, not the defining class
+      this.assertTrue(Base.getSelf() === Base, "Base.getSelf() should return Base");
+      this.assertTrue(Sub.getSelf() === Sub, "Sub.getSelf() should return Sub, not Base");
+
+      // Own static on subclass shadows the inherited one without affecting the base
+      var SubWithOverride = qx.Class.define(null, {
+        extend: Base,
+        statics: {
+          getSelf() {
+            return "overridden";
+          }
+        }
+      });
+
+      this.assertEquals("overridden", SubWithOverride.getSelf(), "Own static must shadow inherited static");
+      this.assertTrue(Base.getSelf() === Base, "Shadowing on subclass must not affect base class static");
     }
   }
 });
