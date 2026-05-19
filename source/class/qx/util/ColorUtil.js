@@ -278,6 +278,16 @@ qx.Bootstrap.define("qx.util.ColorUtil", {
     },
 
     /**
+     * Detects if a string is a CSS custom property reference (e.g. var(--my-color))
+     *
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a CSS variable expression
+     */
+    isCssVariable(str) {
+      return typeof str === "string" && /^var\(--.+\)$/.test(str);
+    },
+
+    /**
      * Detects if a string is a valid CSS color string
      *
      * @param str {String} any string
@@ -285,6 +295,7 @@ qx.Bootstrap.define("qx.util.ColorUtil", {
      */
     isCssString(str) {
       return (
+        this.isCssVariable(str) ||
         this.isSystemColor(str) ||
         this.isNamedColor(str) ||
         this.ishexShortString(str) ||

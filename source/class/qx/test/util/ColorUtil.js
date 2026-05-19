@@ -151,6 +151,28 @@ qx.Class.define("qx.test.util.ColorUtil", {
           alpha: 0.1
         })
       );
+    },
+
+    testIsCssVariable() {
+      this.assertTrue(qx.util.ColorUtil.isCssVariable("var(--foo)"), "einfache Variable");
+      this.assertTrue(qx.util.ColorUtil.isCssVariable("var(--vza-focus-color)"), "Bindestrich-Name");
+      this.assertTrue(qx.util.ColorUtil.isCssVariable("var(--foo, #8cadd5)"), "mit Fallback");
+      this.assertTrue(qx.util.ColorUtil.isCssVariable("var(--foo, var(--bar))"), "mit verschachteltem Fallback");
+
+      this.assertFalse(qx.util.ColorUtil.isCssVariable("#fff"), "Hex darf nicht erkannt werden");
+      this.assertFalse(qx.util.ColorUtil.isCssVariable("red"), "Named Color darf nicht erkannt werden");
+      this.assertFalse(qx.util.ColorUtil.isCssVariable("rgb(0,0,0)"), "RGB darf nicht erkannt werden");
+      this.assertFalse(qx.util.ColorUtil.isCssVariable("var(foo)"), "fehlendes -- muss fehlschlagen");
+      this.assertFalse(qx.util.ColorUtil.isCssVariable(""), "Leerstring muss fehlschlagen");
+      this.assertFalse(qx.util.ColorUtil.isCssVariable(null), "null muss fehlschlagen");
+    },
+
+    testIsCssStringWithCssVariable() {
+      this.assertTrue(qx.util.ColorUtil.isCssString("var(--vza-focus-color)"), "CSS-Variable muss als CSS-String gelten");
+      this.assertTrue(qx.util.ColorUtil.isCssString("var(--foo, #ccc)"), "CSS-Variable mit Fallback muss als CSS-String gelten");
+      this.assertTrue(qx.util.ColorUtil.isCssString("#fff"), "Hex bleibt gültig");
+      this.assertTrue(qx.util.ColorUtil.isCssString("red"), "Named Color bleibt gültig");
+      this.assertTrue(qx.util.ColorUtil.isCssString("rgb(0,0,0)"), "RGB bleibt gültig");
     }
   }
 });
