@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
       clazz = clazz.constructor;
 
       while (clazz.superclass) {
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$events") && clazz.$$events[name] !== undefined) {
+        if (clazz.$$events && clazz.$$events[name] !== undefined) {
           return clazz.$$events[name];
         }
 
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
       var list, i, l;
 
       while (clazz) {
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$implements")) {
+        if (clazz.$$implements) {
           list = clazz.$$flatImplements;
 
           for (i = 0, l = list.length; i < l; i++) {
@@ -150,7 +150,7 @@ qx.Bootstrap.define("qx.util.OOUtil", {
       var list = [];
 
       while (clazz) {
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
+        if (clazz.$$includes) {
           list.push.apply(list, clazz.$$flatIncludes);
         }
 

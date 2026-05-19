@@ -618,7 +618,7 @@ qx.Bootstrap.define("qx.Class", {
 
           // Call any mixins' constructors and those mixins'
           // dependency mixins' constructors
-          if (Object.prototype.hasOwnProperty.call(subclass.constructor, "$$flatIncludes")) {
+          if (subclass.constructor.$$flatIncludes) {
             subclass.constructor.$$flatIncludes.forEach(mixin => {
               if (mixin.$$constructor) {
                 mixin.$$constructor.apply(this, args);
@@ -711,6 +711,19 @@ qx.Bootstrap.define("qx.Class", {
 
       if (superclass !== Object) {
         Object.setPrototypeOf(subclass, superclass);
+
+        // Linking the constructors via the prototype chain (above) lets
+        // subclasses inherit static methods/properties, exactly like native
+        // `class Sub extends Base`. But it would also let the parent's
+        // internal `$$` metadata leak into the subclass. Give every subclass
+        // its own (empty) metadata slots so they shadow the parent's and the
+        // metadata stays strictly per-class.
+        subclass.$$events = null;
+        subclass.$$includes = null;
+        subclass.$$flatIncludes = null;
+        subclass.$$implements = null;
+        subclass.$$flatImplements = null;
+        subclass.$$annotations = null;
       }
 
       let superProperties = superclass.prototype.$$allProperties || {};
@@ -1058,7 +1071,7 @@ qx.Bootstrap.define("qx.Class", {
         }
 
         // Compare old and new event type/value if patching is disabled
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$events") && patch !== true) {
+        if (clazz.$$events && patch !== true) {
           for (key in events) {
             if (clazz.$$events[key] !== undefined && clazz.$$events[key] !== events[key]) {
               throw new Error(
@@ -1069,7 +1082,7 @@ qx.Bootstrap.define("qx.Class", {
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(clazz, "$$events")) {
+      if (clazz.$$events) {
         for (key in events) {
           clazz.$$events[key] = events[key];
         }
@@ -1121,7 +1134,7 @@ qx.Bootstrap.define("qx.Class", {
       });
 
       // Store mixin reference
-      if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
+      if (clazz.$$includes) {
         clazz.$$includes.push(mixin);
         clazz.$$flatIncludes.push.apply(clazz.$$flatIncludes, list);
       } else {
@@ -1158,7 +1171,7 @@ qx.Bootstrap.define("qx.Class", {
 
       // Store interface reference
       let list = qx.Interface.flatten([iface]);
-      if (Object.prototype.hasOwnProperty.call(clazz, "$$implements")) {
+      if (clazz.$$implements) {
         clazz.$$implements.push(iface);
         clazz.$$flatImplements.push.apply(clazz.$$flatImplements, list);
       } else {
@@ -1268,7 +1281,7 @@ qx.Bootstrap.define("qx.Class", {
           break;
         }
 
-        var interfaces = Object.prototype.hasOwnProperty.call(superclass, "$$implements") ? superclass.$$implements : null;
+        var interfaces = superclass.$$implements;
         if (interfaces) {
           for (let i = 0; i < interfaces.length; i++) {
             qx.Interface.assert(clazz, interfaces[i], true);
@@ -1292,7 +1305,7 @@ qx.Bootstrap.define("qx.Class", {
         return;
       }
 
-      if (!Object.prototype.hasOwnProperty.call(clazz, "$$annotations")) {
+      if (!clazz.$$annotations) {
         clazz.$$annotations = {};
         clazz.$$annotations[group] = {};
       } else if (clazz.$$annotations[group] === undefined) {
@@ -1490,7 +1503,7 @@ qx.Bootstrap.define("qx.Class", {
      */
     getByMixin(clazz, mixin) {
       while (clazz) {
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$includes")) {
+        if (clazz.$$includes) {
           let list = clazz.$$flatIncludes;
 
           for (let i = 0, l = list.length; i < l; i++) {
@@ -1539,7 +1552,7 @@ qx.Bootstrap.define("qx.Class", {
      *   Whether the class includes the mixin directly.
      */
     hasOwnInterface(clazz, iface) {
-      return Object.prototype.hasOwnProperty.call(clazz, "$$implements") && clazz.$$implements.includes(iface);
+      return !!(clazz.$$implements && clazz.$$implements.includes(iface));
     },
 
     /**
@@ -1573,7 +1586,7 @@ qx.Bootstrap.define("qx.Class", {
       let list = [];
 
       while (clazz) {
-        if (Object.prototype.hasOwnProperty.call(clazz, "$$implements")) {
+        if (clazz.$$implements) {
           list.push.apply(list, clazz.$$flatImplements);
         }
 
