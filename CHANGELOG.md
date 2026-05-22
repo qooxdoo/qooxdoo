@@ -1,5 +1,12 @@
 # Upcoming
 
+## Breaking changes
+- Subclasses now inherit static methods and properties from their superclass via
+  the constructor prototype chain, matching native JavaScript `class extends`
+  semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
+  `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
+  Previously statics were strictly per-class and not visible on subclasses.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

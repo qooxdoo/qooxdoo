@@ -709,6 +709,23 @@ qx.Bootstrap.define("qx.Class", {
 
       qx.Bootstrap.extendClass(subclass, config.construct, superclass, classname);
 
+      if (superclass !== Object) {
+        Object.setPrototypeOf(subclass, superclass);
+
+        // Linking the constructors via the prototype chain (above) lets
+        // subclasses inherit static methods/properties, exactly like native
+        // `class Sub extends Base`. But it would also let the parent's
+        // internal `$$` metadata leak into the subclass. Give every subclass
+        // its own (empty) metadata slots so they shadow the parent's and the
+        // metadata stays strictly per-class.
+        subclass.$$events = null;
+        subclass.$$includes = null;
+        subclass.$$flatIncludes = null;
+        subclass.$$implements = null;
+        subclass.$$flatImplements = null;
+        subclass.$$annotations = null;
+      }
+
       let superProperties = superclass.prototype.$$allProperties || {};
 
       // Save this object's properties
@@ -1288,7 +1305,7 @@ qx.Bootstrap.define("qx.Class", {
         return;
       }
 
-      if (clazz.$$annotations === undefined) {
+      if (!clazz.$$annotations) {
         clazz.$$annotations = {};
         clazz.$$annotations[group] = {};
       } else if (clazz.$$annotations[group] === undefined) {
@@ -1535,7 +1552,7 @@ qx.Bootstrap.define("qx.Class", {
      *   Whether the class includes the mixin directly.
      */
     hasOwnInterface(clazz, iface) {
-      return clazz.$$implements && clazz.$$implements.includes(iface);
+      return !!(clazz.$$implements && clazz.$$implements.includes(iface));
     },
 
     /**
