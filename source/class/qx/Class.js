@@ -24,7 +24,12 @@ qx.Bootstrap.define("qx.Class", {
   type: "static",
 
   environment: {
-    "qx.Class.futureCheckJsDoc": false
+    "qx.Class.futureCheckJsDoc": false,
+    /**
+     * Whether to make classes inherit static members,
+     * such that methods/members can be accessed by subclasses of the class where they are defined.
+     */
+    "qx.Class.staticInheritance": true
   },
 
   statics: {
@@ -709,21 +714,23 @@ qx.Bootstrap.define("qx.Class", {
 
       qx.Bootstrap.extendClass(subclass, config.construct, superclass, classname);
 
-      if (superclass !== Object) {
-        Object.setPrototypeOf(subclass, superclass);
-
-        // Linking the constructors via the prototype chain (above) lets
-        // subclasses inherit static methods/properties, exactly like native
-        // `class Sub extends Base`. But it would also let the parent's
-        // internal `$$` metadata leak into the subclass. Give every subclass
-        // its own (empty) metadata slots so they shadow the parent's and the
-        // metadata stays strictly per-class.
-        subclass.$$events = null;
-        subclass.$$includes = null;
-        subclass.$$flatIncludes = null;
-        subclass.$$implements = null;
-        subclass.$$flatImplements = null;
-        subclass.$$annotations = null;
+      if (qx.core.Environment.get("qx.Class.staticInheritance")) {
+        if (superclass !== Object) {
+          Object.setPrototypeOf(subclass, superclass);
+          // Linking the constructors via the prototype chain (above) lets
+          // subclasses inherit static methods/properties, exactly like native
+          // `class Sub extends Base`. But it would also let the parent's
+          // internal `$$` metadata leak into the subclass. Give every subclass
+          // its own (empty) metadata slots so they shadow the parent's and the
+          // metadata stays strictly per-class.
+          subclass.$$objects = null;
+          subclass.$$events = null;
+          subclass.$$includes = null;
+          subclass.$$flatIncludes = null;
+          subclass.$$implements = null;
+          subclass.$$flatImplements = null;
+          subclass.$$annotations = null;
+        }
       }
 
       let superProperties = superclass.prototype.$$allProperties || {};
