@@ -167,7 +167,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
 
     async load() {
       if (this.__loaders) {
-        this.__loaders.forEach(loader => loader.load(this));
+        await Promise.all(this.__loaders.map(loader => loader.load(this)));
       }
     },
 
