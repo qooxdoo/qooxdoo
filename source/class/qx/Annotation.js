@@ -116,7 +116,7 @@ qx.Bootstrap.define("qx.Annotation", {
     __getAnnos(clazz, name, group, annoClass) {
       var result = [];
       for (var tmp = clazz; tmp; tmp = tmp.superclass) {
-        if (tmp.$$annotations !== undefined) {
+        if (tmp.$$annotations != null) {
           var annos = group ? tmp.$$annotations[group] : tmp.$$annotations;
           var src = annos && annos.hasOwnProperty(name) ? annos[name] : null;
           if (src) {
