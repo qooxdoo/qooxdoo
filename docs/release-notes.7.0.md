@@ -2,7 +2,7 @@
 
 ## New feature for v7.9.3
 
-For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2025-10-16&until=2026-05-25
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2025-10-16&until=2026-06-06
 
 ## New feature for v7.9.2
 
