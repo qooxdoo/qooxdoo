@@ -2,7 +2,8 @@ const path = require("path");
 const fs = require("fs");
 const https = require("https");
 if (!qx.tool.compiler?.cli?.api) {
-  return;
+  qx.tool.compiler.cli = {};
+  qx.tool.compiler.cli.api = qx.tool.cli.api;
 }
 
 qx.Class.define("qx.compile.CompilerApi", {
