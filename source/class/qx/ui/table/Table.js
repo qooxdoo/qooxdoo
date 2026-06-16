@@ -1123,7 +1123,12 @@ qx.Class.define("qx.ui.table.Table", {
      * @return {qx.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr() {
-      return this.__scrollerParent.getChildren();
+      // __scrollerParent is null once the table has been disposed. An async
+      // callback that touches the table after disposal (e.g. getTableColumnModel
+      // lazily re-creating a disposed column model, whose init() fires
+      // visibilityChanged) can still reach here, so return no scrollers rather
+      // than throwing on null.
+      return this.__scrollerParent ? this.__scrollerParent.getChildren() : [];
     },
 
     /**

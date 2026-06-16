@@ -266,6 +266,34 @@ qx.Class.define("qx.test.ui.table.Table", {
       tableModel.dispose();
     },
 
+    testGetPaneScrollerArrEmptyAfterDispose() {
+      var model = this.createModel();
+      var table = new qx.ui.table.Table(model);
+
+      table.destroy();
+      this.flush();
+      model.dispose();
+
+      // __scrollerParent is gone; the accessor must yield no scrollers, not throw.
+      this.assertArrayEquals([], table._getPaneScrollerArr());
+    },
+
+    testColumnModelReinitAfterDisposeDoesNotThrow() {
+      var model = this.createModel();
+      var table = new qx.ui.table.Table(model);
+
+      table.destroy();
+      this.flush();
+
+      // Reproduces the async-after-dispose path: getTableColumnModel re-creates
+      // the disposed column model, whose init() fires visibilityChanged ->
+      // _onColVisibilityChanged -> _getPaneScrollerArr. Must not throw on the
+      // nulled scroller parent.
+      table.getTableColumnModel();
+
+      model.dispose();
+    },
+
     testFocusAfterRemove() {
       var tableModelSimple = new qx.ui.table.model.Simple();
       tableModelSimple.setColumns(["Location", "Team"]);
