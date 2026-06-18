@@ -347,6 +347,20 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
      * @return {Boolean} true if the widget was successfully placed
      */
     placeToWidget(target, liveupdate) {
+      // A liveupdate placement keeps a global qx.event.Idle "interval" listener
+      // alive until the placing widget (this) disappears or is destructed. If
+      // the target is disposed first - e.g. its window/tab is closed while the
+      // popup is still open, and the popup is rooted elsewhere so it neither
+      // disappears nor is disposed with the target - the next idle tick calls
+      // target.getContentLocation() on a disposed widget, whose
+      // getContentElement() is null, throwing "Cannot read properties of null
+      // (reading 'getDomElement')" on every tick. Stop the loop and release the
+      // listener instead.
+      if (target.isDisposed()) {
+        this.__cleanupFromLastPlaceToWidgetLiveUpdate();
+        return false;
+      }
+
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
       if (liveupdate) {
