@@ -235,6 +235,14 @@ that the table edits are completed or cancelled before refreshing table model da
 
 - It is no longer possible to call object.bind("propertyAsync", ...). For example, given class `Foo` with property `Bar`, we cannot do `new Foo().bind("barAsync", ...)`;
 
+
+## Bugfixes
+
+- `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
+`qx.event.Idle` tick when the target widget is disposed before the placing widget
+disappears (e.g. a popup left open while its target's window is closed). The
+live-update loop now stops and releases its idle listener when the target is disposed.
+
 # v7.0.0
 
 ## Breaking changes

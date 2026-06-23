@@ -173,6 +173,54 @@ qx.Class.define("qx.test.ui.core.Placement", {
       var w = new qx.ui.menu.Menu();
       this.__testAlwaysVisibleElementBelow(w);
       w.destroy();
+    },
+
+    testPlaceToDisposedWidgetReturnsFalse() {
+      var target = new qx.ui.core.Widget();
+      this.getRoot().add(target, { left: 10, top: 10 });
+      this.flush();
+
+      target.destroy();
+      this.flush();
+
+      // getContentLocation() on a disposed target would throw on its null
+      // content element; placeToWidget must bail and report failure instead.
+      var popup = new qx.ui.popup.Popup();
+      this.assertFalse(popup.placeToWidget(target));
+      popup.destroy();
+    },
+
+    testLiveUpdateStopsWhenTargetDisposed() {
+      var target = new qx.ui.core.Widget();
+      this.getRoot().add(target, { left: 10, top: 10 });
+      this.flush();
+
+      var idle = qx.event.Idle.getInstance();
+      var mgr = qx.event.Registration.getManager(idle);
+      var intervalListeners = function () {
+        return (mgr.getListeners(idle, "interval", false) || []).length;
+      };
+      var baseline = intervalListeners();
+
+      var popup = new qx.ui.popup.Popup();
+      popup.show();
+      popup.placeToWidget(target, true);
+      this.flush();
+
+      // The liveupdate placement subscribes to the global idle interval.
+      this.assertEquals(baseline + 1, intervalListeners());
+
+      // Closing the target's container disposes it while the popup lives on.
+      target.destroy();
+      this.flush();
+
+      // The leaked idle listener used to re-place against the disposed target
+      // every tick (throwing on its null content element); the next tick must
+      // now release that listener instead, dropping back to the baseline.
+      idle.fireEvent("interval");
+      this.assertEquals(baseline, intervalListeners());
+
+      popup.destroy();
     }
   }
 });
