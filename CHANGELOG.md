@@ -235,7 +235,6 @@ that the table edits are completed or cancelled before refreshing table model da
 
 - It is no longer possible to call object.bind("propertyAsync", ...). For example, given class `Foo` with property `Bar`, we cannot do `new Foo().bind("barAsync", ...)`;
 
-
 ## Bugfixes
 
 - `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
