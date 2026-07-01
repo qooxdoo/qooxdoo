@@ -1,12 +1,12 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.9.2",
+  "version": "7.9.3",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "@qooxdoo/framework",
-      "version": "7.9.2",
+      "version": "7.9.3",
       "hasInstallScript": true,
       "license": "MIT",
       "dependencies": {
@@ -72,7 +72,7 @@
         "source-map-js": "^1.0.2",
         "tap-colorize": "^1.2.0",
         "terser": "^5.22.0",
-        "tmp": "0.2.6",
+        "tmp": "0.2.7",
         "unset-value": "^1.0.0",
         "upath": "^1.2.0",
         "update-notifier": "^6.0.2",
@@ -10829,9 +10829,9 @@
       "integrity": "sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw=="
     },
     "node_modules/tmp": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.6.tgz",
-      "integrity": "sha512-5sJPdPjfI5Kx+qbrDesxkglRBxW//g7hCsqspEjwkewGvBMGIKMOTKzLt1hFVJzyadba3lDUN20O9qhvbQUSTA==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.7.tgz",
+      "integrity": "sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==",
       "license": "MIT",
       "engines": {
         "node": ">=14.14"
