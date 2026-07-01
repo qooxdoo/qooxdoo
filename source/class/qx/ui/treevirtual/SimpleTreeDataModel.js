@@ -1081,9 +1081,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      *
      */
     _clearSelections() {
-      // Clear selected state for any selected nodes.
+      // Clear selected state for any selected nodes.  A selection id can outlive
+      // its node when the node array is replaced or truncated (e.g. during a data
+      // reload) before the selection set is rebuilt, so guard against a missing
+      // node rather than dereferencing it.
       for (var selection in this._selections) {
-        this._nodeArr[selection].bSelected = false;
+        var node = this._nodeArr[selection];
+        if (node) {
+          node.bSelected = false;
+        }
       }
 
       // Reinitialize selections array.
@@ -1100,7 +1106,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
       var nodes = [];
 
       for (var nodeId in this._selections) {
-        nodes.push(this._nodeArr[nodeId]);
+        // Skip any selection id whose node was removed before the selection set
+        // was rebuilt (see _clearSelections).
+        var node = this._nodeArr[nodeId];
+        if (node) {
+          nodes.push(node);
+        }
       }
 
       return nodes;
