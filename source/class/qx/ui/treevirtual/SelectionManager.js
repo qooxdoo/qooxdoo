@@ -93,8 +93,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager", {
           }
         }
 
-        // Get the node to which this event applies
-        var node = dataModel.getNode(tree.getFocusedRow());
+        // Get the node to which this event applies. The focused row outlives a
+        // collapse, and getNode() throws on a row that is gone rather than
+        // returning nothing, which is what left the check below unreachable.
+        var node = tree._getFocusedNode();
 
         if (!node) {
           return false;
