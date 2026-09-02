@@ -70,10 +70,22 @@ qx.Class.define("qx.html.Image", {
       this.__paddingTop = paddingTop;
 
       if (this.getNodeName() == "div") {
-        this.setStyle(
-          "backgroundPosition",
-          paddingLeft + "px " + paddingTop + "px"
-        );
+        let source = this._getProperty("source");
+        if (source) {
+          // A clipped image paints its glyph by scrolling the combined image
+          // with background-position, so writing the padding straight into
+          // that property would drop the offset and show whichever glyph sits
+          // at [0, 0]. Re-apply the source instead - qx.bom.element.Decoration
+          // folds the padding into the offset (and the clip) when it resolves
+          // a combined resource, and is a plain offset for an unclipped one.
+          this.setSource(null);
+          this.setSource(source);
+        } else {
+          this.setStyle(
+            "backgroundPosition",
+            paddingLeft + "px " + paddingTop + "px"
+          );
+        }
       }
     },
 
