@@ -489,6 +489,39 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.destroy();
     },
 
+    /**
+     * An unclipped image has no offset to preserve, so its padding still maps
+     * straight onto background-position.
+     */
+    testPaddingOnAnUnclippedImage() {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        this.skip();
+      }
+      let source = "qx/static/drawer.png";
+      let data = qx.util.ResourceManager.getInstance().getData(source);
+      this.assertUndefined(
+        data[4],
+        "expected an unclipped image for this test"
+      );
+
+      let image = new qx.ui.basic.Image(source);
+      this.addAutoDispose(image);
+      this.getRoot().add(image);
+      this.flush();
+
+      let domElement = image.getContentElement().getDomElement();
+
+      image.setPaddingLeft(4);
+      this.flush();
+      this.assertEquals("4px 0px", domElement.style.backgroundPosition);
+
+      image.setPaddingLeft(0);
+      this.flush();
+      this.assertEquals("0px 0px", domElement.style.backgroundPosition);
+
+      image.destroy();
+    },
+
     testHighResImage() {
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
