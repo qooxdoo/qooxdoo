@@ -932,6 +932,19 @@ qx.Class.define("qx.ui.core.LayoutItem", {
   */
 
   destruct() {
+    // Leave the layout queue. Setting any dimension puts an item there via
+    // _applyDimension, and the queue holds it by hash in a static map, so a
+    // disposed item that is never taken out stays reachable for the life of the
+    // page. qx.ui.core.Widget.destruct does this for widgets; nothing did it for
+    // a plain LayoutItem such as qx.ui.core.ColumnData or qx.ui.core.Spacer.
+    //
+    // The queue cannot shed it on its own either: __getLevelGroupedWidgets only
+    // deletes an entry it can hand to a layout, which it decides with
+    // queue.Visibility.isVisible() -- false for anything the visibility queue
+    // has never seen, which a non-widget never is. So the entry is skipped
+    // rather than removed, and every later flush walks over it again.
+    qx.ui.core.queue.Layout.remove(this);
+
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme") && this.__changeThemeLayoutItemListenerId) {
       qx.theme.manager.Meta.getInstance().removeListenerById(
