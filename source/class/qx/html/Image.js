@@ -70,10 +70,28 @@ qx.Class.define("qx.html.Image", {
       this.__paddingTop = paddingTop;
 
       if (this.getNodeName() == "div") {
-        this.setStyle(
-          "backgroundPosition",
-          paddingLeft + "px " + paddingTop + "px"
-        );
+        let source = this._getProperty("source");
+        let clipped =
+          source &&
+          qx.util.ResourceManager.getInstance().getCombinedFormat(source);
+
+        // A clipped image paints its glyph by scrolling the combined image
+        // with background-position, so writing the padding straight into that
+        // property would drop the offset and show whichever glyph sits at
+        // [0, 0]. Re-apply the source for those, and let
+        // qx.bom.element.Decoration fold the padding into the offset and add
+        // the matching clip. Everything else keeps the cheaper direct write:
+        // an unclipped image has no offset to preserve, and a base64 one is
+        // inlined individually rather than as a strip.
+        if (clipped && clipped !== "b64") {
+          this.setSource(null);
+          this.setSource(source);
+        } else {
+          this.setStyle(
+            "backgroundPosition",
+            paddingLeft + "px " + paddingTop + "px"
+          );
+        }
       }
     },
 
