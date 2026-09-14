@@ -384,6 +384,8 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     __timer: null,
 
     __focusIndicatorPointerDownListener: null,
+    __cellEditorFocusoutListener: null,
+    __flushingOnFocusLoss: false,
 
     /**
      * The right inset of the pane. The right inset is the maximum of the
@@ -1873,8 +1875,18 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
           // Make the focus indicator visible during editing
           this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
 
-          this._cellEditor.addListenerOnce('focusin', this._onFocusinCellEditorAddBlurListener, this);
-          this._cellEditor.focus();
+          this.__cellEditorFocusoutListener = this._cellEditor.addListener(
+            "focusout",
+            this._onFocusoutCellEditorStopEditing,
+            this
+          );
+
+          // A cell editor factory may legitimately return a widget that takes
+          // no focus of its own (one that manages its own popup, say), and
+          // qx.ui.core.Widget#focus throws on those in a debug build.
+          if (this._cellEditor.isFocusable()) {
+            this._cellEditor.focus();
+          }
           this._cellEditor.activate();
         }
 
@@ -1916,7 +1928,12 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
           .getTableModel()
           .setValue(this.__focusedCol, this.__focusedRow, value);
 
-        this.__table.focus();
+        // Returning the focus to the table is right for Enter, but wrong when
+        // the flush is itself the result of the focus leaving: it would take
+        // the focus back off whatever the user just moved to.
+        if (!this.__flushingOnFocusLoss) {
+          this.__table.focus();
+        }
 
         if (cancel) {
           this.cancelEditing();
@@ -1948,6 +1965,14 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
 
             this.__focusIndicatorPointerDownListener = null;
           }
+
+          if (this.__cellEditorFocusoutListener !== null) {
+            this._cellEditor.removeListenerById(
+              this.__cellEditorFocusoutListener
+            );
+
+            this.__cellEditorFocusoutListener = null;
+          }
           this._updateFocusIndicator();
         }
         this._cellEditor.destroy();
@@ -1966,35 +1991,77 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     },
 
     /**
-     * Focusin event handler which attaches the blur event listener ot the cell editor
-     * and uses a timer event to allow the focusin event listener execution before
-     * the blur event listener execution
+     * Applies {@link qx.ui.table.Table#cellEditorBlurAction} when the focus
+     * leaves the cell editor.
+     *
+     * The listener is registered on the editor in {@link #startEditing}, so it
+     * only ever fires for an editor that takes the focus itself; an editor that
+     * is not focusable never sees it, because the widget layer resolves focus
+     * events to the nearest focusable ancestor. Such an editor is responsible
+     * for committing its own value.
+     *
+     * What counts is the focus leaving the editor's *subtree* for something
+     * else. `focusout` bubbles, so a composite editor reports whichever of its
+     * children held the focus as the target; and an editor is free to hand the
+     * focus to a child of its own — the CheckBox editor does, the moment the
+     * edit starts — which reports as the editor itself losing it. Reading
+     * either as the focus leaving the edit would end an edit that is still very
+     * much in progress.
+     *
+     * A focusout carrying no related target is not the focus leaving either: it
+     * is where the focus is momentarily nowhere, which an editor does to itself
+     * while it settles — a ComboBox editor churns focus out and back three
+     * times in the few milliseconds it takes to open, and acting on the first
+     * of those destroys the editor as it appears. Every real way out of an edit
+     * moves the focus onto something: another field, a toolbar button, a
+     * window's own close button.
+     *
+     * @param e {qx.event.type.Focus} the focusout event.
      */
-    _onFocusinCellEditorAddBlurListener(e) {
-      this.debug("executed FOCUSIN event listener for hash: " + e.getTarget().$$hash);
-      qx.event.Timer.once(function() {
-        this._cellEditor.addListener('focusout', this._onFocusoutCellEditorStopEditing, this);
-        this.debug('added FOCUSOUT listener to hash: ' + this._cellEditor.$$hash);
-      }, this, 1);
+    _onFocusoutCellEditorStopEditing(e) {
+      if (!this.__isWithinCellEditor(e.getTarget())) {
+        return;
+      }
+
+      var movedTo = e.getRelatedTarget();
+      if (!movedTo || this.__isWithinCellEditor(movedTo)) {
+        return;
+      }
+
+      switch (this.getTable().getCellEditorBlurAction()) {
+        case "save":
+          // Flagged rather than passed as an argument: stopEditing is widely
+          // overridden, and an override declaring no parameters compiles
+          // `this.base(arguments)` down to a call that forwards none, so an
+          // argument would be dropped before it ever reached flushEditor.
+          this.__flushingOnFocusLoss = true;
+          try {
+            this.stopEditing();
+          } finally {
+            this.__flushingOnFocusLoss = false;
+          }
+          break;
+        case "cancel":
+          this.cancelEditing();
+          break;
+        case "nothing":
+        default:
+        // do nothing
+      }
     },
 
-
-    _onFocusoutCellEditorStopEditing(e) {
-      this.debug("executed FOCUSOUT listener for hash " + e.getTarget().$$hash);
-      if (this._cellEditor === e.getTarget()) {
-        this.debug('hash: ' + this._cellEditor.$$hash);
-        switch (this.getTable().getCellEditorBlurAction()) {
-          case "save":
-            this.stopEditing();
-            break;
-          case "cancel":
-            this.cancelEditing();
-            break;
-          case "nothing":
-          default:
-            // do nothing
-        }
-      }
+    /**
+     * Whether a widget is the cell editor being used, or sits inside it.
+     *
+     * @param widget {qx.ui.core.Widget|null} the widget to test.
+     * @return {Boolean} true if the widget belongs to the open cell editor.
+     */
+    __isWithinCellEditor(widget) {
+      return (
+        !!widget &&
+        (widget === this._cellEditor ||
+          qx.ui.core.Widget.contains(this._cellEditor, widget))
+      );
     },
 
     /**

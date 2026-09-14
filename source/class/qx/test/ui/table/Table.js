@@ -266,6 +266,234 @@ qx.Class.define("qx.test.ui.table.Table", {
       tableModel.dispose();
     },
 
+    /**
+     * Build a mounted, editable one-cell table.
+     *
+     * @param blurAction {String} the cellEditorBlurAction to apply.
+     * @param editorFactory {qx.ui.table.ICellEditorFactory?} a factory to use
+     *   for the column, in place of the default text field.
+     * @param custom {Map?} the table's custom-config dict.
+     * @return {Map} the table, its model and its only pane scroller.
+     */
+    createEditableTable(blurAction, editorFactory, custom) {
+      var model = new qx.ui.table.model.Simple();
+      model.setColumns(["Editable"]);
+      model.setData([["before"]]);
+      model.setColumnEditable(0, true);
+
+      var table = new qx.ui.table.Table(model, custom).set({
+        width: 300,
+        height: 100,
+        cellEditorBlurAction: blurAction
+      });
+
+      if (editorFactory) {
+        table.getTableColumnModel().setCellEditorFactory(0, editorFactory);
+      }
+      this.getRoot().add(table);
+      this.flush();
+      table.setFocusedCell(0, 0, true);
+
+      return {
+        table: table,
+        model: model,
+        scroller: table._getPaneScrollerArr()[0]
+      };
+    },
+
+    /**
+     * A cell editor factory is entitled to return a widget that takes no focus
+     * of its own — one that manages its own popup, say. Starting an edit must
+     * not try to focus it, since qx.ui.core.Widget#focus throws on an
+     * unfocusable widget in a debug build.
+     */
+    testStartEditingAnUnfocusableCellEditor() {
+      var factory = new qx.ui.table.celleditor.TextField();
+      factory.createCellEditor = function (cellInfo) {
+        return new qx.ui.form.TextField("" + cellInfo.value).set({
+          focusable: false
+        });
+      };
+
+      var fixture = this.createEditableTable("save", factory);
+
+      this.assertTrue(fixture.scroller.startEditing(), "editing started");
+      this.assertTrue(fixture.scroller.isEditing());
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
+    /**
+     * A factory may decline a particular cell by answering null, which leaves
+     * the table not editing — and so with no editor to have wired a blur
+     * listener to.
+     */
+    testACellEditorFactoryCanDeclineTheCell() {
+      var factory = new qx.ui.table.celleditor.TextField();
+      factory.createCellEditor = function () {
+        return null;
+      };
+
+      var fixture = this.createEditableTable("save", factory);
+
+      this.assertFalse(
+        fixture.scroller.startEditing(),
+        "editing did not start"
+      );
+      this.assertFalse(fixture.scroller.isEditing());
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
+    /**
+     * Stopping an edit normally hands the focus back to the table, which is
+     * what the Enter key wants.
+     */
+    testStopEditingReturnsFocusToTheTable() {
+      var fixture = this.createEditableTable("nothing");
+      fixture.scroller.startEditing();
+      fixture.scroller._cellEditor.setValue("after");
+
+      var focused = 0;
+      fixture.table.focus = function () {
+        focused++;
+      };
+
+      fixture.scroller.stopEditing();
+
+      this.assertEquals(1, focused, "the table took the focus back");
+      this.assertEquals("after", fixture.model.getValue(0, 0));
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
+    /**
+     * The focus leaving the editor applies cellEditorBlurAction — and the save
+     * it does must not pull the focus back onto the table.
+     *
+     * qx.test.ui.table.CellEditorLifecycle covers which focus moves count as
+     * leaving, against the editors the framework ships.
+     */
+    testFocusLeavingTheCellEditorSaves() {
+      var fixture = this.createEditableTable("save");
+      fixture.scroller.startEditing();
+      fixture.scroller._cellEditor.setValue("after");
+
+      var focused = 0;
+      fixture.table.focus = function () {
+        focused++;
+      };
+      var editor = fixture.scroller._cellEditor;
+      var movedTo = new qx.ui.form.TextField();
+
+      fixture.scroller._onFocusoutCellEditorStopEditing({
+        getTarget() {
+          return editor;
+        },
+
+        getRelatedTarget() {
+          return movedTo;
+        }
+      });
+
+      movedTo.dispose();
+      this.assertFalse(fixture.scroller.isEditing(), "the edit was committed");
+      this.assertEquals("after", fixture.model.getValue(0, 0));
+      this.assertEquals(0, focused, "the focus was left where it went");
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
+    /**
+     * Not taking the focus back has to survive a subclass, which is why it is
+     * not an argument: `stopEditing` is widely overridden, and an override that
+     * declares no parameters of its own forwards none to its super — so an
+     * argument would be dropped before it reached `flushEditor`, and the blur
+     * save would go back to stealing the focus.
+     */
+    testFocusIsLeftAloneThroughAnOverriddenStopEditing() {
+      if (!qx.Class.isDefined("qx.test.ui.table.ForwardingScroller")) {
+        qx.Class.define("qx.test.ui.table.ForwardingScroller", {
+          extend: qx.ui.table.pane.Scroller,
+
+          members: {
+            stopEditing() {
+              super.stopEditing();
+            }
+          }
+        });
+      }
+
+      var fixture = this.createEditableTable("save", null, {
+        tablePaneScroller(obj) {
+          return new qx.test.ui.table.ForwardingScroller(obj);
+        }
+      });
+
+      fixture.scroller.startEditing();
+      fixture.scroller._cellEditor.setValue("after");
+
+      var focused = 0;
+      fixture.table.focus = function () {
+        focused++;
+      };
+      var editor = fixture.scroller._cellEditor;
+      var movedTo = new qx.ui.form.TextField();
+
+      fixture.scroller._onFocusoutCellEditorStopEditing({
+        getTarget() {
+          return editor;
+        },
+
+        getRelatedTarget() {
+          return movedTo;
+        }
+      });
+
+      movedTo.dispose();
+      this.assertEquals("after", fixture.model.getValue(0, 0));
+      this.assertEquals(0, focused, "the focus was left where it went");
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
+    /**
+     * An editor settling can report the focus as being nowhere for a moment —
+     * a ComboBox editor does it repeatedly as it opens. That is not the focus
+     * leaving the edit, and acting on it destroys the editor as it appears.
+     */
+    testFocusGoingNowhereDoesNotEndTheEdit() {
+      var fixture = this.createEditableTable("save");
+      fixture.scroller.startEditing();
+      fixture.scroller._cellEditor.setValue("after");
+      var editor = fixture.scroller._cellEditor;
+
+      fixture.scroller._onFocusoutCellEditorStopEditing({
+        getTarget() {
+          return editor;
+        },
+
+        getRelatedTarget() {
+          return null;
+        }
+      });
+
+      this.assertTrue(fixture.scroller.isEditing(), "the edit is still open");
+      this.assertEquals(
+        "before",
+        fixture.model.getValue(0, 0),
+        "nothing was written"
+      );
+
+      fixture.table.destroy();
+      fixture.model.dispose();
+    },
+
     testFocusAfterRemove() {
       var tableModelSimple = new qx.ui.table.model.Simple();
       tableModelSimple.setColumns(["Location", "Team"]);
