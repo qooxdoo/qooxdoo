@@ -89,6 +89,69 @@ qx.Class.define("qx.test.ui.table.Dispose", {
         this,
         "Dispose table with changed model"
       );
+    },
+
+    testReplacedDefaultRowRenderer() {
+      this.assertDestroy(
+        function () {
+          var table = new qx.ui.table.Table(this.createModel());
+          table.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(table));
+
+          var model = table.getTableModel();
+          table.destroy();
+          model.dispose();
+        },
+        this,
+        "Dispose table whose default row renderer was replaced"
+      );
+    },
+
+    testTreeVirtual() {
+      this.assertDestroy(
+        function () {
+          // A Basic column model keeps this about the row renderer: the
+          // default Resize model has a leak of its own.
+          var tree = new qx.ui.treevirtual.TreeVirtual(["Tree"], {
+            tableColumnModel(obj) {
+              return new qx.ui.table.columnmodel.Basic(obj);
+            }
+          });
+
+          var model = tree.getTableModel();
+          tree.destroy();
+          model.dispose();
+        },
+        this,
+        "Dispose tree, which replaces the default row renderer"
+      );
+    },
+
+    testReplacedSuppliedRowRenderer() {
+      this.assertDestroy(
+        function () {
+          var table = new qx.ui.table.Table(this.createModel());
+          table.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
+          table.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
+
+          var model = table.getTableModel();
+          table.destroy();
+          model.dispose();
+        },
+        this,
+        "Dispose table whose supplied row renderer was replaced"
+      );
+    },
+
+    testSettingTheCurrentRowRendererAgainKeepsIt() {
+      var table = new qx.ui.table.Table(this.createModel());
+      var renderer = table.getDataRowRenderer();
+      table.setDataRowRenderer(renderer);
+
+      this.assertFalse(renderer.isDisposed());
+
+      var model = table.getTableModel();
+      table.destroy();
+      model.dispose();
     }
   }
 });
