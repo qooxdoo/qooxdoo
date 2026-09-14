@@ -436,7 +436,9 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
       if (
         (browser == "edge" && browserVersion >= 14) ||
         (browser == "firefox" && browserVersion >= 69) ||
-        (browser == "chrome" && browserVersion >= 36)
+        (browser == "chrome" && browserVersion >= 36) ||
+        (browser == "safari" && browserVersion >= 10) ||
+        (browser == "mobile safari" && os == "ios" && osVersion >= 10)
       ) {
         preferredFormats.push("woff2");
       }
@@ -446,7 +448,9 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
           qx.core.Environment.get("browser.documentmode") >= 9) ||
         (browser == "edge" && browserVersion >= 12) ||
         (browser == "firefox" && browserVersion >= 3.6) ||
-        (browser == "chrome" && browserVersion >= 6)
+        (browser == "chrome" && browserVersion >= 6) ||
+        (browser == "safari" && browserVersion >= 5.1) ||
+        (browser == "mobile safari" && os == "ios" && osVersion >= 5.1)
       ) {
         preferredFormats.push("woff");
       }
