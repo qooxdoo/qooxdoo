@@ -298,8 +298,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default", {
       // Are there now fewer (or the same number of) columns than there were
       // previously?
       if (numColumns <= colData.length) {
-        // Yup.  Delete the extras.
-        colData.splice(numColumns, colData.length);
+        // Yup.  Delete the extras, disposing them: this behavior instantiated
+        // them and is the only thing that holds them.
+        colData.splice(numColumns, colData.length).forEach(function (data) {
+          data.dispose();
+        });
         return;
       }
 
@@ -518,7 +521,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default", {
   */
 
   destruct() {
-    this.__resizeColumnData = this.__layoutChildren = null;
+    // __layoutChildren aliases entries of __resizeColumnData, so disposing the
+    // latter covers both.
+    this._disposeArray("__resizeColumnData");
+    this.__layoutChildren = null;
     this._disposeObjects("__layout", "__deferredComputeColumnsFlexWidth");
   }
 });
