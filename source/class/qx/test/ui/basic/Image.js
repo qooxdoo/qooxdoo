@@ -23,6 +23,7 @@
  * @asset(qx/static/blank.gif)
  * @asset(qx/static/drawer.png)
  * @asset(qx/static/drawer@2x.png)
+ * @asset(qx/decoration/Classic/form/checkbox-checked-disabled.png)
  */
 
 qx.Class.define("qx.test.ui.basic.Image", {
@@ -441,6 +442,82 @@ qx.Class.define("qx.test.ui.basic.Image", {
       // reset source
       image.resetSource();
       this.assertEquals(null, el.getValue());
+
+      image.destroy();
+    },
+
+    /**
+     * A clipped image is painted by scrolling the combined image with
+     * background-position, so padding has to shift that offset rather than
+     * replace it - replacing it renders whichever glyph sits at [0, 0].
+     */
+    testPaddingKeepsTheClippedOffset() {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        this.skip();
+      }
+      let source = "qx/decoration/Classic/form/checkbox-checked-disabled.png";
+      let data = qx.util.ResourceManager.getInstance().getData(source);
+      this.assertNotNull(data[4], "expected a clipped image for this test");
+
+      let image = new qx.ui.basic.Image(source);
+      this.addAutoDispose(image);
+      this.getRoot().add(image);
+      this.flush();
+
+      let domElement = image.getContentElement().getDomElement();
+      this.assertEquals(
+        data[5] + "px " + data[6] + "px",
+        domElement.style.backgroundPosition
+      );
+
+      image.setPaddingLeft(4);
+      this.flush();
+      this.assertEquals(
+        data[5] + 4 + "px " + data[6] + "px",
+        domElement.style.backgroundPosition,
+        "padding must shift the clipped offset, not replace it"
+      );
+
+      image.setPaddingLeft(0);
+      this.flush();
+      this.assertEquals(
+        data[5] + "px " + data[6] + "px",
+        domElement.style.backgroundPosition,
+        "removing the padding must restore the clipped offset"
+      );
+
+      image.destroy();
+    },
+
+    /**
+     * An unclipped image has no offset to preserve, so its padding still maps
+     * straight onto background-position.
+     */
+    testPaddingOnAnUnclippedImage() {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        this.skip();
+      }
+      let source = "qx/static/drawer.png";
+      let data = qx.util.ResourceManager.getInstance().getData(source);
+      this.assertUndefined(
+        data[4],
+        "expected an unclipped image for this test"
+      );
+
+      let image = new qx.ui.basic.Image(source);
+      this.addAutoDispose(image);
+      this.getRoot().add(image);
+      this.flush();
+
+      let domElement = image.getContentElement().getDomElement();
+
+      image.setPaddingLeft(4);
+      this.flush();
+      this.assertEquals("4px 0px", domElement.style.backgroundPosition);
+
+      image.setPaddingLeft(0);
+      this.flush();
+      this.assertEquals("0px 0px", domElement.style.backgroundPosition);
 
       image.destroy();
     },
