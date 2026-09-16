@@ -93,7 +93,7 @@
     "fontkit": "^2.0.2",
     "glob": "^13.0.6",
     "ignore": "^5.2.0",
-    "image-size": "^0.8.3",
+    "image-size": "^2.0.4",
     "inquirer": "^13.2.5",
     "jsdoctypeparser": "^9.0.0",
     "jstransformer-dot": "^0.1.2",
