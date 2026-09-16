@@ -26,8 +26,7 @@ const nodePromisify = promisify;
 qx.Class.define("qx.tool.utils.Promisify", {
   statics: {
     MAGIC_KEY: "__isPromisified__",
-    IGNORED_PROPS:
-      /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__|F_OK|R_OK|W_OK|X_OK)$/,
+    IGNORED_PROPS: /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__|F_OK|R_OK|W_OK|X_OK)$/,
 
     promisifyAll(target, fn) {
       Object.getOwnPropertyNames(target).forEach(key => {
@@ -77,17 +76,23 @@ qx.Class.define("qx.tool.utils.Promisify", {
     /**
      * Runs `fn` for each item in `arr`,
      * such that at most `size` instances of fn are executing at any one time.
-     * @param {Array} arr 
-     * @param {number} size 
-     * @param {Callback} fn 
-     * 
+     * @param {Array} arr
+     * @param {number} size
+     * @param {Callback} fn
+     *
      * @callback Callback
      * @param {*} item
      * @returns {Promise}
      */
     async poolEachOf(arr, size, fn) {
-      const limiter = new qx.util.ConcurrencyLimiter(size);
-      await Promise.all(arr.map(item => limiter.add(() => fn(item))));
+      let limiter = new qx.util.ConcurrencyLimiter(size);
+      let promise = new qx.Promise();
+      limiter.addListener("empty", () => promise.resolve());
+      for (let item of arr) {
+        limiter.add(() => fn(item));
+      }
+
+      await promise;
     },
 
     async map(arr, fn) {
