@@ -95,6 +95,10 @@ qx.Class.define("qx.tool.compiler.meta.Discovery", {
             continue;
           }
           let watcher = chokidar.watch(filename, {
+            // Existing files are enumerated by scanWatchedPath() below; without this,
+            // chokidar re-emits an "add" for each of them, producing duplicate fileAdded
+            // events (and on Windows with a different path separator, see path.resolve below).
+            ignoreInitial: true
             //ignored: /(^|[\/\\])\../
           });
           let watchedPath = this.__watchedPaths[filename];
@@ -103,9 +107,18 @@ qx.Class.define("qx.tool.compiler.meta.Discovery", {
           watchedPath.ready = false;
 
           let rootDir = filename;
-          watcher.on("change", filename => this.fireDataEvent("fileChanged", { filename, rootDir, context: watchedPath.context }));
-          watcher.on("add", filename => this.fireDataEvent("fileAdded", { filename, rootDir, context: watchedPath.context }));
-          watcher.on("unlink", filename => this.fireDataEvent("fileRemoved", { filename, rootDir, context: watchedPath.context }));
+          // path.resolve() (upath) normalises chokidar's OS-native paths to absolute
+          // forward-slash form, matching scanWatchedPath() so downstream lookups keyed by
+          // filename dedupe correctly on Windows (where chokidar yields backslashes).
+          watcher.on("change", filename =>
+            this.fireDataEvent("fileChanged", { filename: path.resolve(filename), rootDir, context: watchedPath.context })
+          );
+          watcher.on("add", filename =>
+            this.fireDataEvent("fileAdded", { filename: path.resolve(filename), rootDir, context: watchedPath.context })
+          );
+          watcher.on("unlink", filename =>
+            this.fireDataEvent("fileRemoved", { filename: path.resolve(filename), rootDir, context: watchedPath.context })
+          );
           watcher.on("ready", () => {
             qx.tool.compiler.Console.logVerbose(`Start watching ${rootDir}...`);
             watchedPath.ready = true;
