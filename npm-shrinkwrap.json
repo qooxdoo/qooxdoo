@@ -52,6 +52,7 @@
         "image-size": "^2.0.4",
         "inquirer": "^13.2.5",
         "jsdoctypeparser": "^9.0.0",
+        "json5": "^2.2.3",
         "jstransformer-dot": "^0.1.2",
         "metalsmith": "^2.6.1",
         "object-hash": "^2.1.1",
@@ -64,7 +65,7 @@
         "showdown": "^1.9.1",
         "source-map-js": "^1.0.2",
         "terser": "^5.22.0",
-        "tmp": "0.2.6",
+        "tmp": "^0.2.6",
         "upath": "^1.2.0",
         "update-notifier": "^6.0.2",
         "xml2js": "^0.6.2",
@@ -8273,9 +8274,9 @@
       "license": "MIT"
     },
     "node_modules/tmp": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.6.tgz",
-      "integrity": "sha512-5sJPdPjfI5Kx+qbrDesxkglRBxW//g7hCsqspEjwkewGvBMGIKMOTKzLt1hFVJzyadba3lDUN20O9qhvbQUSTA==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.7.tgz",
+      "integrity": "sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==",
       "license": "MIT",
       "engines": {
         "node": ">=14.14"
