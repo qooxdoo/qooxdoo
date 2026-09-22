@@ -85,6 +85,9 @@ qx.Class.define("qx.tool.utils.Promisify", {
      * @returns {Promise}
      */
     async poolEachOf(arr, size, fn) {
+      if (arr.length === 0) {
+        return;
+      }
       let limiter = new qx.util.ConcurrencyLimiter(size);
       let promise = new qx.Promise();
       limiter.addListener("empty", () => promise.resolve());
