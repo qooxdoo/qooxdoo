@@ -72,7 +72,7 @@ qx.Class.define("qx.tool.compiler.ClassTranspilerApi", {
         if (classFileConfig.getApplicationTypes().includes("browser")) {
           mappingUrl = path.basename(outputFilename) + ".map?dt=" + Date.now();
         } else {
-          mappingUrl = outputFilename + ".map";
+          mappingUrl = path.resolve(outputFilename + ".map");
         }
 
         await fs.promises.mkdir(path.dirname(outputFilename), { recursive: true });
