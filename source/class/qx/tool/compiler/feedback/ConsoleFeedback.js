@@ -44,7 +44,7 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
     });
 
     let watchStartMsgSent = false;
-    compiler.addListener("allMakersMade", () => {
+    compiler.addListener("allDone", () => {
       qx.tool.compiler.Console.log("All applications ready.");
       if (!watchStartMsgSent && compiler.isWatch()) {
         watchStartMsgSent = true;
