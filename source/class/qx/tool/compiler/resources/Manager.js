@@ -165,7 +165,6 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         let library = context.library;
         if (!library) {
           throw new Error(`Cannot find library for rootDir ${rootDir} for file ${filename}`);
-          return;
         }
 
         var resources = this.__db.resources[library.getNamespace()];
@@ -198,7 +197,6 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         let library = context.library;
         if (!library) {
           throw new Error(`Cannot find library for rootDir ${rootDir} for file ${filename}`);
-          return;
         }
 
         var resources = this.__db.resources[library.getNamespace()];
