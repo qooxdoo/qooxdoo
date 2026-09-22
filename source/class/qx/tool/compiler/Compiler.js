@@ -471,7 +471,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       try {
         // Route the initial make through __makeMaker so that __makingMakers is populated;
         // this de-duplicates the redundant make that _onClassCompiled would otherwise trigger
-        // while this make is still running, which caused a premature "allMakersMade" event.
+        // while this make is still running, which caused a premature "allDone" event.
         let promises = this.__makers.map(maker => this.__makeMaker(maker));
         await Promise.all(promises);
         console.log("All makers made");
@@ -530,7 +530,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       }
 
       if (!compilationRequired) {
-        this.fireEvent("allMakersMade");
         await this.fireEventAsync("allDone");
       }
     },
@@ -725,7 +724,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
             Object.keys(this.__dirtyMakers).length === 0 &&
             Object.keys(this.__compilingClasses).length === 0
           ) {
-            this.fireEvent("allMakersMade");
             await this.fireEventAsync("allDone");
           }
           return true;
