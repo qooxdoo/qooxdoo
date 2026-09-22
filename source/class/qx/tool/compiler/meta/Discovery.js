@@ -167,6 +167,7 @@ qx.Class.define("qx.tool.compiler.meta.Discovery", {
           await watchedPath.watcher.close();
         }
       }
+      qx.tool.compiler.Console.logVerbose(`Stop watching`);
       this.fireEvent("stopped");
     }
   }
