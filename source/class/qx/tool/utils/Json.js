@@ -23,6 +23,7 @@
  * *********************************************************************** */
 
 const fs = qx.tool.utils.Promisify.fs;
+const JSON5 = require("json5")
 
 qx.Class.define("qx.tool.utils.Json", {
   statics: {
@@ -35,7 +36,7 @@ qx.Class.define("qx.tool.utils.Json", {
       if (str === null || !str.trim()) {
         return null;
       }
-      return JSON.parse(str.trim());
+      return JSON5.parse(str.trim());
     },
 
     /**
