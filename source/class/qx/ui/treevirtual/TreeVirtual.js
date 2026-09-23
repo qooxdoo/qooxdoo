@@ -627,10 +627,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
 
             if (focusedCol == treeCol) {
               // Get the focused node
-              var focusedRow = this.getFocusedRow();
-              var node = dm.getNode(focusedRow);
+              var node = this._getFocusedNode();
 
               if (
+                node &&
                 !node.bHideOpenClose &&
                 node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF
               ) {
@@ -658,10 +658,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
             // Get the focused node
             var focusedRow = this.getFocusedRow();
             var treeCol = dm.getTreeColumn();
-            var node = dm.getNode(focusedRow);
+            var node = this._getFocusedNode();
 
             // If it's an open branch and open/close is allowed...
             if (
+              node &&
               node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
               !node.bHideOpenClose &&
               node.bOpened
@@ -683,10 +684,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
             // Get the focused node
             focusedRow = this.getFocusedRow();
             treeCol = dm.getTreeColumn();
-            node = dm.getNode(focusedRow);
+            node = this._getFocusedNode();
 
             // If it's a closed branch and open/close is allowed...
             if (
+              node &&
               node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
               !node.bHideOpenClose &&
               !node.bOpened
@@ -708,12 +710,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
             var dm = this.getDataModel();
 
             // Get the focused node
-            var focusedRow = this.getFocusedRow();
-            var treeCol = dm.getTreeColumn();
-            var node = dm.getNode(focusedRow);
+            var node = this._getFocusedNode();
 
             // If we're not at the top-level already...
-            if (node.parentNodeId) {
+            if (node && node.parentNodeId) {
               // Find out what rendered row our parent node is at
               var rowIndex = dm.getRowFromNodeId(node.parentNodeId);
 
@@ -729,12 +729,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
             var dm = this.getDataModel();
 
             // Get the focused node
-            focusedRow = this.getFocusedRow();
-            treeCol = dm.getTreeColumn();
-            node = dm.getNode(focusedRow);
+            node = this._getFocusedNode();
 
             // If we're on a branch and open/close is allowed...
             if (
+              node &&
               node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
               !node.bHideOpenClose
             ) {
@@ -793,6 +792,35 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
     },
 
     /**
+     * The node at the focused row, or null when there isn't one.
+     *
+     * Collapsing a branch rebuilds the row array shorter but leaves the focus
+     * where it was: the dataChanged event the tree fires carries no
+     * removeStart/removeCount, so qx.ui.table.Table's "remove focus if the
+     * focused row has been removed" branch (which protects a flat table)
+     * never runs for a tree. getNode() throws on the resulting index rather
+     * than returning nothing, so every consumer of the focused row has to
+     * bounds check first.
+     *
+     * The focused row can also be unset entirely (null, or undefined per
+     * BUG #4676), which getNode() reads straight off the row array as a
+     * missing entry.
+     *
+     * @return {Object|null}
+     *   The focused node, or null if there is no longer a row there.
+     */
+    _getFocusedNode() {
+      var dataModel = this.getDataModel();
+      var focusedRow = this.getFocusedRow();
+
+      return typeof focusedRow === "number" &&
+        focusedRow >= 0 &&
+        focusedRow < dataModel.getRowCount()
+        ? dataModel.getNode(focusedRow)
+        : null;
+    },
+
+    /**
      * Calculate and return the set of nodes which are currently selected by
      * the user, on the screen.  In the process of calculating which nodes
      * are selected, the nodes corresponding to the selected rows on the
@@ -817,6 +845,19 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
           j <= selectedRanges[i].maxIndex;
           j++
         ) {
+          // A selected range can outlive the rows it covers: collapsing a
+          // branch rebuilds the row array shorter, and a selection that
+          // follows can still carry the pre-collapse index, on which
+          // getNode() throws rather than returning nothing. A selection
+          // pointing at a row that no longer exists selects nothing.
+          //
+          // Read the count per row rather than hoisting it: setState() below
+          // can re-enter through the selection model, and a changeSelection
+          // listener is free to reload the tree.
+          if (j < 0 || j >= stdcm.getRowCount()) {
+            continue;
+          }
+
           node = stdcm.getNode(j);
           stdcm.setState(node, { bSelected: true });
           selectedNodes.push(node);

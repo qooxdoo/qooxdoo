@@ -535,11 +535,17 @@ qx.Class.define("qx.ui.table.Table", {
       apply: "_applyMinCellEditHeight"
     },
 
-    /** The renderer to use for styling the rows. */
+    /**
+     * The renderer to use for styling the rows.
+     *
+     * The table owns its row renderer: one that is replaced is disposed, as
+     * is the one current when the table itself is disposed.
+     */
     dataRowRenderer: {
       check: "qx.ui.table.IRowRenderer",
       init: null,
       nullable: true,
+      apply: "_applyDataRowRenderer",
       event: "changeDataRowRenderer"
     },
 
@@ -734,6 +740,13 @@ qx.Class.define("qx.ui.table.Table", {
       }
 
       return control || super._createChildControlImpl(id);
+    },
+
+    // property modifier
+    _applyDataRowRenderer(value, old) {
+      if (old != null) {
+        old.dispose();
+      }
     },
 
     // property modifier
