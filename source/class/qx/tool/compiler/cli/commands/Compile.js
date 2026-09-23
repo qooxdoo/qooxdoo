@@ -18,9 +18,8 @@
 ************************************************************************ */
 
 const process = require("process");
-const child_process = require("child_process");
 const fs = require("fs");
-const path = require("path");
+const path = require("upath");
 const consoleControl = require("console-control-strings");
 
 require("app-module-path").addPath(process.cwd() + "/node_modules");
