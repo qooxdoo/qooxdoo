@@ -419,7 +419,7 @@ and the server where the class need to be slightly different on the client.
 It is a more powerful alternative to the compile.js compiler API.
 
 To define a custom compiler, you need to first create an application in the `applications` section for your compiler 
-and set the flag `compiler: true` like so:
+and set the `type` to be `"compiler"` like so:
 ```json5  
   {
     "type": "compiler", // always "compiler"
@@ -428,7 +428,7 @@ and set the flag `compiler: true` like so:
 
 ```
 
-You also need to create sopurce and build targets for the compiler. 
+You also need to create source and build targets for the compiler. 
 This is so that the compiled output source files for your compiler will not overwrite your project's compiled files. 
 You need to add something like this to the `targets` section:
 
@@ -454,7 +454,9 @@ You also need to go to Qooxdoo's `package.json` and copy over the Qooxdoo compil
 If you have a custom compiler, when you run the `qx` command,
 the default Qooxdoo compiler first compiles your compiler once,
 then it launches the compiler as a child process and then lets that take over.
-This means that if you make changes to your compiler then you need to quit and restart the compiler.
+There is currently a bit of manual intervention that needs to happen if you change the code for your custom compiler and
+you are using the `--watch` command to automatically recompile your applications - your custom compiler will not automatically
+recompile, i.e. you will have to kill the compiler with ^C and restart it.
 
 ### Source transformers
 You can make your compiler class do anything you want as long as it conforms to the interface, 

@@ -34,6 +34,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
 
     qx.event.GlobalError.setErrorHandler(ex => {
       console.error("An uncaught error has occured: " + ex);
+      process.exitCode = 1;
     });
 
     this.initType();

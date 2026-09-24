@@ -127,15 +127,15 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
      */
     addLibrary(library) {
       const addResourceDir = resourcePath => {
-        let rootDir = path.join(library.getRootDir(), resourcePath);
+        let rootDir = path.join(library.getRootDir(), library.get(resourcePath));
         let stat = qx.tool.utils.files.Utils.safeStatSync(rootDir);
         if (stat?.isDirectory()) {
           this.__resourceDiscovery.addPath(rootDir, { library: library, resourcePath: resourcePath });
         }
       };
 
-      addResourceDir(library.getResourcePath());
-      addResourceDir(library.getThemePath());
+      addResourceDir("resourcePath");
+      addResourceDir("themePath");
       this.__libraries.push(library);
     },
 

@@ -315,9 +315,7 @@ qx.Class.define("qx.tool.config.Abstract", {
     },
 
     /**
-     * Parses a property path for use by `getValue` etc; this will interpret a propertyPath with a '/' in it
-     * as being some kind of path (eg "http://abc.com") and will use it verbatim, but otherwise it will
-     * split based on "."
+     * Parses a property path for use by `getValue` etc
      *
      * If you want to roll your own parsing, just provide an array of path segments.
      *
@@ -327,9 +325,6 @@ qx.Class.define("qx.tool.config.Abstract", {
     __parsePropertyPath(propertyPath) {
       if (qx.lang.Type.isArray(propertyPath)) {
         return propertyPath;
-      }
-      if (propertyPath.indexOf("/") !== -1) {
-        return [propertyPath];
       }
       return propertyPath.split(".");
     },
@@ -346,7 +341,7 @@ qx.Class.define("qx.tool.config.Abstract", {
       for (let i = 0; i < pathSegments.length; i++) {
         obj = obj[pathSegments[i]];
         if (obj === null || obj === undefined) {
-          return null;
+          return obj;
         }
       }
       return obj;
