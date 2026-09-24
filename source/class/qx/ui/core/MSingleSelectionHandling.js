@@ -225,11 +225,17 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling", {
               return item.isVisible();
             }
           }
-        }).set({
-          allowEmptySelection: this._isAllowEmptySelection()
         });
 
+        // Attach the listener BEFORE setting allowEmptySelection: setting it to
+        // false auto-selects the first item and fires "changeSelected". If the
+        // listener is not yet attached, that initial selection event is lost and
+        // e.g. RadioGroup never propagates the selection to its items.
         this.__manager.addListener("changeSelected", this._onChangeSelected, this);
+
+        this.__manager.set({
+          allowEmptySelection: this._isAllowEmptySelection()
+        });
       }
       this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
 
