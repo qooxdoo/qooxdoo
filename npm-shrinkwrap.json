@@ -53,7 +53,7 @@
         "get-value": "^3.0.1",
         "github-api": "^3.4.0",
         "glob": "^7.1.6",
-        "image-size": "^0.8.3",
+        "image-size": "^2.0.3",
         "inquirer": "^7.3.3",
         "json-stable-stringify": "^1.0.2",
         "jstransformer-dot": "^0.1.2",
@@ -7050,17 +7050,15 @@
       }
     },
     "node_modules/image-size": {
-      "version": "0.8.3",
-      "resolved": "https://registry.npmjs.org/image-size/-/image-size-0.8.3.tgz",
-      "integrity": "sha512-SMtq1AJ+aqHB45c3FsB4ERK0UCiA2d3H1uq8s+8T0Pf8A3W4teyBQyaFaktH6xvZqh+npwlKU7i4fJo0r7TYTg==",
-      "dependencies": {
-        "queue": "6.0.1"
-      },
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/image-size/-/image-size-2.0.3.tgz",
+      "integrity": "sha512-9BJAtVCBth+76NwqnEfWr3PiRnYhbquk6K/USuQ1GQajz5NgLzO7tNsnoNjHfO7LuftgkBf+CCH6j28hjMbIYQ==",
+      "license": "MIT",
       "bin": {
         "image-size": "bin/image-size.js"
       },
       "engines": {
-        "node": ">=6.9.0"
+        "node": ">=18"
       }
     },
     "node_modules/immutable": {
@@ -9070,14 +9068,6 @@
       "integrity": "sha512-773xhDQnZBMFobEiztv8LIl70ch5MSF/jUQVlhwFyBILqq96anmoctVIYz+ZRp0qbCKATTn6ev02M3r7Ga5vqA==",
       "engines": {
         "node": ">=0.4.x"
-      }
-    },
-    "node_modules/queue": {
-      "version": "6.0.1",
-      "resolved": "https://registry.npmjs.org/queue/-/queue-6.0.1.tgz",
-      "integrity": "sha512-AJBQabRCCNr9ANq8v77RJEv73DPbn55cdTb+Giq4X0AVnNVZvMHlYp7XlQiN+1npCZj1DuSmaA2hYVUUDgxFDg==",
-      "dependencies": {
-        "inherits": "~2.0.3"
       }
     },
     "node_modules/queue-microtask": {

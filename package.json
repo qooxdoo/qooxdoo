@@ -97,7 +97,7 @@
     "get-value": "^3.0.1",
     "github-api": "^3.4.0",
     "glob": "^7.1.6",
-    "image-size": "^0.8.3",
+    "image-size": "^2.0.3",
     "inquirer": "^7.3.3",
     "json-stable-stringify": "^1.0.2",
     "jstransformer-dot": "^0.1.2",
