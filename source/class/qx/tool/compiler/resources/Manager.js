@@ -341,7 +341,10 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
       }
       if (pos === -1) {
         let library = this.__librariesByResourceUri[uri] || null;
-        return library ? [library] : [];
+        if (!library) {
+          return [];
+        }
+        return qx.lang.Type.isArray(library) ? library : [library];
       }
 
       // Strip wildcard
@@ -351,7 +354,10 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
       // Fast folder match
       if (isFolderMatch) {
         let library = this.__librariesByResourceUri[uri] || null;
-        return library ? [library] : [];
+        if (!library) {
+          return [];
+        }
+        return qx.lang.Type.isArray(library) ? library : [library];
       }
 
       // Slow scan
