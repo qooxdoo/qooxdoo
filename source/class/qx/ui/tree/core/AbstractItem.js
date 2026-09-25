@@ -22,7 +22,7 @@
 
 /**
  * The AbstractItem serves as a common superclass for the {@link
- * qx.ui.tree.core.AbstractTreeItem} and {@link qx.ui.tree.VirtualTreeItem} classes.
+ * qx.ui.tree.core.AbstractTreeItem} class.
  *
  * @childControl label {qx.ui.basic.Label} label of the tree item
  * @childControl icon {qx.ui.basic.Image} icon of the tree item

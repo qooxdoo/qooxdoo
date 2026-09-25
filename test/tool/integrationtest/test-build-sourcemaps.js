@@ -94,24 +94,28 @@ async function verifyOutput(output, sourceLine) {
 }
 
 test("embedded package sourcemaps stay aligned in build target", async () => {
-  await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
-  const result = await testUtils.runCompiler(
-    APP_DIR,
-    "--target=build",
-    "--save-source-in-map",
-    "--save-unminified"
-  );
-  assert.equal(result.exitCode, 0, testUtils.reportError(result));
+  try {
+    await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+    const result = await testUtils.runCompiler(
+      APP_DIR,
+      "--target=build",
+      "--save-source-in-map",
+      "--save-unminified"
+    );
+    assert.equal(result.exitCode, 0, result.error || result.output);
 
-  const sourcePosition = getTextPosition(APPLICATION_JS, THROW_SNIPPET);
-  await verifyOutput({
-    label: "unminified build",
-    js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified"),
-    map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified.map")
-  }, sourcePosition.line);
-  await verifyOutput({
-    label: "minified build",
-    js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js"),
-    map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.map")
-  }, sourcePosition.line);
+    const sourcePosition = getTextPosition(APPLICATION_JS, THROW_SNIPPET);
+    await verifyOutput({
+      label: "unminified build",
+      js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified"),
+      map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.unminified.map")
+    }, sourcePosition.line);
+    await verifyOutput({
+      label: "minified build",
+      js: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js"),
+      map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.map")
+    }, sourcePosition.line);
+  } catch (ex) {
+    throw ex;
+  }
 });

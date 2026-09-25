@@ -27,7 +27,7 @@ const path = require("upath");
  * @ignore(loadSass)
  */
 /* global loadSass */
-const sass = loadSass();
+const sass = window["loadSass"]();
 const fs = qx.tool.utils.Promisify.fs;
 
 qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
@@ -39,6 +39,11 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
 
   members: {
     matches(filename) {
+      // Template skeleton files are static resources to be copied verbatim by `qx create`,
+      // not SCSS to compile as part of the framework build
+      if (filename.includes("/templates/")) {
+        return false;
+      }
       filename = path.basename(filename);
       return filename[0] != "_" && filename.endsWith(".scss");
     },
@@ -106,7 +111,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
-      let qooxdooPath = target.getAnalyser().getQooxdooPath();
+      let qooxdooPath = target.getAnalyzer().getQooxdooPath();
       let data = await fs.readFileAsync(srcFilename, "utf8");
       if (!data || !data.trim()) {
         await fs.writeFileAsync(destFilename, "");

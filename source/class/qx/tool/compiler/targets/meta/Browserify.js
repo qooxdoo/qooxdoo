@@ -41,13 +41,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       if (this.__commonjsModules === null) {
         let commonjsModules = new Set();
         let references = {};
-        const db = this.getAppMeta().getAnalyser().getDatabase();
-        const localModules =
-          this.getAppMeta().getApplication().getLocalModules() || {};
+        let analyzer = this.getAppMeta().getAnalyzer();
+        let localModules = this.getAppMeta().getApplication().getLocalModules() || {};
+
         // Get a Set of unique `require`d CommonJS module names from
         // all classes
-        for (let className in db.classInfo) {
-          let classInfo = db.classInfo[className];
+        for (let className of analyzer.getCompiledClassnames()) {
+          let classInfo = analyzer.getDbClassInfo(className);
           if (classInfo.commonjsModules) {
             Object.keys(classInfo.commonjsModules).forEach(moduleName => {
               // Ignore this found `require()` if its a local modules
@@ -78,9 +78,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
      * @Override
      */
     async writeToDisk() {
-      const localModules = this.getAppMeta().getApplication().getLocalModules();
-      let db = this.getAppMeta().getAnalyser().getDatabase();
-      const { commonjsModules, references } = this.__getCommonjsModules();
+      let localModules = this.getAppMeta().getApplication().getLocalModules();
+      let db = this.getAppMeta().getAnalyzer().getDatabase();
+      let { commonjsModules, references } = this.__getCommonjsModules();
 
       // Warn about missing npm modules on every compile, not just when the bundle is rebuilt
       if (this.getAppMeta().getEnvironmentValue("qx.compiler.applicationType") == "browser") {
@@ -132,7 +132,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       doIt ||= modulesInfo.modulesHash !== (db?.modulesInfo?.modulesHash || "");
       if (doIt) {
         db.modulesInfo = modulesInfo;
-        await this.getAppMeta().getAnalyser().saveDatabase();
+        await this.getAppMeta().getAnalyzer().saveDatabase();
       }
       this.setNeedsWriteToDisk(doIt);
       return super.writeToDisk();
@@ -219,7 +219,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       ].join("\n");
 
       // Merge in any user-provided esbuild options from compile.json's "browserify" key
-      const browserifyConfig = this.getAppMeta().getAnalyser().getBrowserifyConfig() || {};
+      const browserifyConfig = this.getAppMeta().getAnalyzer().getBrowserifyConfig() || {};
       const userOptions = { ...(browserifyConfig.options || {}) };
 
       // Filter out browserify-only options that esbuild doesn't understand
@@ -271,7 +271,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           )
         );
       } catch (e) {
-        // Report missing/unresolvable modules with context from the analyser database
+        // Report missing/unresolvable modules with context from the analyzer database
         for (const err of e.errors || []) {
           const id = err.text?.match(/Cannot resolve "([^"]+)"/)?.[1] || err.text;
           let message = [`ERROR: could not bundle module: "${id || err.text}"`];

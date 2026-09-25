@@ -1064,6 +1064,13 @@ qx.Bootstrap.define("qx.Class", {
         }
 
         for (key in events) {
+          if (key.charAt(0) === "@") {
+            let annoKey = key.substring(1);
+            if (events[annoKey] === undefined && (!clazz.$$events || clazz.$$events[annoKey] === undefined)) {
+              throw new Error(clazz.classname + "/" + key + ": annotated event '" + annoKey + "' does not exist.");
+            }
+            continue;
+          }
           let type = events[key];
 
           if (type !== undefined && typeof type !== "string") {
@@ -1080,6 +1087,9 @@ qx.Bootstrap.define("qx.Class", {
         // Compare old and new event type/value if patching is disabled
         if (clazz.$$events && patch !== true) {
           for (key in events) {
+            if (key.charAt(0) === "@") {
+              continue;
+            }
             if (clazz.$$events[key] !== undefined && clazz.$$events[key] !== events[key]) {
               throw new Error(
                 clazz.classname + "/" + key + ": the event value/type cannot be changed from " + clazz.$$events[key] + " to " + events[key]
@@ -1089,12 +1099,15 @@ qx.Bootstrap.define("qx.Class", {
         }
       }
 
-      if (clazz.$$events) {
-        for (key in events) {
+      if (!clazz.$$events) {
+        clazz.$$events = {};
+      }
+      for (key in events) {
+        if (key.charAt(0) === "@") {
+          qx.Class._attachAnno(clazz, "events", key.substring(1), events[key]);
+        } else {
           clazz.$$events[key] = events[key];
         }
-      } else {
-        clazz.$$events = events;
       }
     },
 

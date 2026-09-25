@@ -85,9 +85,10 @@ qx.Class.define("qx.tool.migration.Runner", {
           `>>> Migration version: ${migrationVersion}, maximum qx version: ${qxVersion}`
         );
 
+        const normalizedQxVersion = qxVersion && semver.coerce(qxVersion) ? semver.coerce(qxVersion).version : qxVersion;
         let skip =
           (appQxVersion && !semver.lt(appQxVersion, migrationVersion)) ||
-          (qxVersion && semver.gt(migrationVersion, qxVersion));
+          (normalizedQxVersion && semver.gt(migrationVersion, normalizedQxVersion));
         if (skip) {
           this.debug(`>>> Skipping migration ${Clazz.classname}.`);
         } else {

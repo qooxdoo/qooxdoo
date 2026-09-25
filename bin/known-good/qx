@@ -4,6 +4,9 @@ const fs = require("fs");
 const utils = require("../tools/utils");
 
 async function main() {
+  if (process.env["QOOXDOO_DEBUG"] == "true") {
+    utils.setDebug(true);
+  }
   let knownGood = path.join(__dirname, "..", "..", "known-good");
   let qx = path.join(knownGood, "node_modules", ".bin", process.platform === "win32" ? "qx.cmd" : "qx");
   if (!fs.existsSync(qx)) {

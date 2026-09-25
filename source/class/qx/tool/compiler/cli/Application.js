@@ -26,6 +26,9 @@ qx.Class.define("qx.tool.compiler.cli.Application", {
   extend: qx.tool.cli.AbstractCliApp,
   members: {
     async main() {
+      if (await qx.tool.worker.WorkerServer.initialise()) {
+        return;
+      }
       super();
     },
 

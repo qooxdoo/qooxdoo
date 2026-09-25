@@ -89,7 +89,8 @@ The `applications` key is an array of objects, and each object can contain:
   application (see below)
 
 - `outputPath` - (**optional**) the directory to place the application files
-  (e.g. boot.js and resource.js), relative to the target output directory
+  (e.g. boot.js and resource.js), relative to the target output directory.
+  If not specified, one is calculated for you
 
 - `bootPath` - (**optional**) the directory to find the template `index.html`
   and other files required for booting the application
@@ -285,16 +286,6 @@ should be useful.
   filter which applications that this target can compile and is used in
   situations where you want to have multiple targets simultaneously (see below)
 
-- `proxySourcePath` - (**optional**) when compiling source code, the compiler
-normally looks in the library, in the directory specified by that library's
-`Manifest.json` in `provides/class` (e.g. usually this is `./source/class`).  The
-`proxySourcePath` setting in a target allows a global override, specific to that
-target, which says that source files can be found somewhere else, in preference
-to the files which are found in the library.  While this allows a target to completely
-and arbitrarily replace class source files, the intention is that this is for 
-computer-generated class files which act as some kind of proxy for the original 
-functionality - a good example of a use case for this would be a class which, when
-compiled for the browser, is mostly proxy method calls (or whatever) to the server.
 
 - `addTimestampsToUrls` - (**optional**) if set to true, then all the URLs which are
   output will have the timestamp of the file appended as a query parameter; this allows
@@ -362,6 +353,40 @@ your node applications - and because that target is focused on Node v11 and
 later it will use native support for language features like `async` and `await`
 etc.
 
+#### Target defaults
+
+If you do need to define multiple source and multiple build targets, it is handy
+to be able to set defaults; for this use the `targetDefaults` top level object,
+and those values will be used if the target does not specify a value.
+
+Note that the `environment` setting in `targetDefaults` is merged with that of the
+individual targets; the values in `targets` take prescedence over the values in 
+`targetDefaults`
+
+```json
+  "targetDefaults": {
+    "source": {
+      "environment": {
+        "mypackage.MyClass.mySetting": "1234"
+      }
+    },
+    "build": {
+      "environment": {
+        "mypackage.MyClass.mySetting": "abc"
+      }
+    }
+  },
+  "targets": [
+    {
+      "type": "source",
+      "environment": {
+        "mypackage.MyOtherClass.myOtherSetting": "hello"
+      }
+    }
+    // ...
+  ]
+```
+
 ### Bundling source files together (previous called Hybrid Targets)
 
 The compiler supports "bundling" of classes, which is a way to combine multiple
@@ -384,6 +409,84 @@ classes but excludes `qx.util.*` classes from bundling together.
        "exclude": [ "qx.util.*" ]
     },
 ```
+
+## Custom compiler
+
+It is possible for the user to define their own compiler by extending the default Qooxdoo compiler. 
+This is useful for things like implementing your own language or transforming classes which are used on both the client 
+and the server where the class need to be slightly different on the client. 
+
+It is a more powerful alternative to the compile.js compiler API.
+
+To define a custom compiler, you need to first create an application in the `applications` section for your compiler 
+and set the `type` to be `"compiler"` like so:
+```json5  
+  {
+    "type": "compiler", // always "compiler"
+    "compilerClass": "com.mycompany.myapp.CustomCompiler" // must be your custom compiler name
+  } 
+
+```
+
+You also need to create source and build targets for the compiler. 
+This is so that the compiled output source files for your compiler will not overwrite your project's compiled files. 
+You need to add something like this to the `targets` section:
+
+```json5
+{
+  "type": "source",
+  "application-types": ["compiler"],
+  "outputPath": "compiled/source-compiler", // can be anything but make it meaningful
+  "babelOptions": {
+    "targets": "node >= 20"
+  }
+}
+```
+
+Of course, you will also need to create a similar target but for `"type": "build"`.
+
+Your project needs to include a special custom compiler class (`com.mycompany.myapp.CustomCompiler` in example above). 
+This class must implement the interface `qx.tool.compiler.ICompilerInterface`, 
+but you can extend the default implementation `qx.tool.compiler.Compiler`. 
+
+You also need to go to Qooxdoo's `package.json` and copy over the Qooxdoo compiler's dependencies to your `package.json`.
+
+If you have a custom compiler, when you run the `qx` command,
+the default Qooxdoo compiler first compiles your compiler once,
+then it launches the compiler as a child process and then lets that take over.
+There is currently a bit of manual intervention that needs to happen if you change the code for your custom compiler and
+you are using the `--watch` command to automatically recompile your applications - your custom compiler will not automatically
+recompile, i.e. you will have to kill the compiler with ^C and restart it.
+
+### Source transformers
+You can make your compiler class do anything you want as long as it conforms to the interface, 
+but you will most likely want to intercept the stage before your code gets passed down to the Qooxdoo compiler and make it transform the source. 
+To do this, you need to define your own source transformer class, which implements `qx.tool.compiler.ISourceTransformer` 
+and define how to transform it by overriding its methods.
+Please refer the the doc comments of `ISourceTransformer` for more information.
+Then inside your custom compiler, you set the maker's `transformerClass` property to the **name of the transformer class**
+(not an instance of the class or the class itself).
+For example, this can be done by extending from `qx.tool.compiler.Compiler` and overriding `addMaker` like so:
+
+```js
+qx.Class.define("com.mycompany.myapp.compiler.CustomCompiler", {
+  extend: qx.tool.compiler.Compiler,
+  members: {
+    /**@override */
+    addMaker(maker) {
+      let isBrowser = maker.getApplications().some(app => app.getType() === "browser");
+      if (isBrowser) {
+        maker.setTransformerClass(com.mycompany.myapp.compiler.SourceTransformer.classname);
+      }
+      super.addMaker(maker);
+    }
+  }
+});
+```
+
+`addMaker` is called by the CLI once per maker, after the maker's applications and
+target have been fully configured, so it is the right place to assign a
+`transformerClass`.
 
 ## Libraries
 
@@ -616,21 +719,12 @@ application directory by setting `privateArtifacts: true` in the top level of `c
 You will have to configure your web server to serve `transpiled` and `resource` as virtual
 folders from within the URL that you use for `myAppName`.
 
-## TypeScript and Meta Data
+## TypeScript
 
-To output Typescript definitions, use the `qx compile --typescript` command; this
-will generate meta data for every class in every library, and then use the meta
-data to create a `qxoodoo.d.ts` file. Meta data is used by applications such as
-the API Viewer
+To output Typescript definitions, use the `qx compile --typescript` or `-T` command; this
+will generate a `qxoodoo.d.ts` file.
 
-You can control the directory that meta data is output to and the name of the qooxdoo.d.ts 
-file by using the `meta` and `typescript` properties in `compile.json`; these are the
-defaults:
-
-```
-  "meta": "compiled/meta",
-  "typescript": "compiled/qooxdoo.d.ts",
-```
+You can control the directory `typescript` property in `compile.json`; the default is `compiled/qooxdoo.d.ts`.
 
 A file called `global.d.ts` is also created and placed under your application's
 `source` directory. This file may be useful for tooling and text editors when
@@ -640,6 +734,9 @@ file in your project root.
 
 ** Note that this has changed: you no longer add a new target, nor do you need to add 
 `typescript: true` to one of your existing targets. **
+
+Note: prior to Qooxdoo version 8, the class meta data stored in `compiled/meta` by default was only generated when TypeScript was enabled.
+Now however, it is always generated because it's now essential for the compiler.
 
 ## Eslint
 

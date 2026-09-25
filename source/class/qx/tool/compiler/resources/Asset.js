@@ -39,7 +39,27 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
     /** {String} path within the library resources */
     __filename: null,
 
-    /** {Object} the data in the database */
+    /**
+     * @typedef {Object[]} SourceAssetFileInfo
+     * @property {Integer} 0 - the width of the image, if known
+     * @property {Integer} 1 - the height of the image, if known
+     * @property {String} 2 - the type (eg "png", "jpg", "gif") of the source image
+     * @property {String} 3 - the path to the composite image that this asset is part of, for when it is part of a combined image
+     * @property {Integer} 4 - where this asset is located in the composite image, X coord
+     * @property {Integer} 5 - where this asset is located in the composite image, Y coord
+     *
+     * @typedef {Object} AssetFileInfo
+     * @property {String} resourcePath - the path within the library resources
+     * @property {Integer} mtime - the last modified time of the asset
+     * @property {String[]} dependsOn - array of other assets that this asset depends on, each entry is an asset URI (eg "mylibrary:qx/thin/styling/_foo.scss")
+     * @property {Boolean} doNotCopy - if true, then this asset should not be copied to the output directory
+     * @property {Object<String,SourceAssetFileInfo>} meta - the contents of a `.meta` file for this asset, if present
+     * @property {String} composite - this is the path to the composite image that this asset is part of, for when it is part of a combined image
+     * @property {Integer} x - where this asset is located in the composite image, X coord
+     * @property {Integer} y - where this asset is located in the composite image, Y coord
+     *
+     * {AssetFileInfo} the data in the database
+     */
     __fileInfo: null,
 
     /** {ResourceLoader[]?} array of loaders */
@@ -79,25 +99,16 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
     getSourceFilename() {
       return path.relative(
         process.cwd(),
-        this.isThemeFile()
-          ? this.__library.getThemeFilename(this.__filename)
-          : this.__library.getResourceFilename(this.__filename)
+        this.isThemeFile() ? this.__library.getThemeFilename(this.__filename) : this.__library.getResourceFilename(this.__filename)
       );
     },
 
     getDestFilename(target) {
       let filename = null;
       if (this.__converters) {
-        filename = this.__converters[
-          this.__converters.length - 1
-        ].getDestFilename(target, this);
+        filename = this.__converters[this.__converters.length - 1].getDestFilename(target, this);
       }
-      return filename
-        ? filename
-        : path.relative(
-            process.cwd(),
-            path.join(target.getOutputDir(), "resource", this.__filename)
-          );
+      return filename ? filename : path.relative(process.cwd(), path.join(target.getOutputDir(), "resource", this.__filename));
     },
 
     setLoaders(loaders) {
@@ -136,9 +147,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
 
     setDependsOn(assets) {
       if (this.__dependsOn) {
-        this.__dependsOn.forEach(
-          thatAsset => delete thatAsset.__dependsOnThisAsset[this.getFilename]
-        );
+        this.__dependsOn.forEach(thatAsset => delete thatAsset.__dependsOnThisAsset[this.getFilename]);
       }
       if (assets && assets.length) {
         this.__dependsOn = assets;
@@ -160,9 +169,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
     },
 
     getDependsOnThisAsset() {
-      return this.__dependsOnThisAsset
-        ? Object.values(this.__dependsOnThisAsset)
-        : null;
+      return this.__dependsOnThisAsset ? Object.values(this.__dependsOnThisAsset) : null;
     },
 
     async load() {
@@ -171,52 +178,48 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
       }
     },
 
-    async sync(target) {
+    /**
+     * Synchronizes this asset into the target, which copies it to the output directory if needed, and runs any converters.
+     * Does nothing if the asset is up-to-date in the target.
+     *
+     * @param {qx.tool.compiler.targets.Target} target
+     */
+    async synchronizeAssetIntoTarget(target) {
       let destFilename = this.getDestFilename(target);
       let srcFilename = this.getSourceFilename();
 
       if (this.__converters) {
-        let doNotCopy = await qx.tool.utils.Promisify.some(
-          this.__converters,
-          converter => converter.isDoNotCopy(srcFilename)
-        );
+        let doNotCopy = await qx.tool.utils.Promisify.some(this.__converters, converter => converter.isDoNotCopy(srcFilename));
 
         if (doNotCopy) {
           return;
         }
       }
 
-      let destStat = await qx.tool.utils.files.Utils.safeStat(destFilename);
+      let destStat = qx.tool.utils.files.Utils.safeStatSync(destFilename);
       if (destStat) {
         let filenames = [this.getSourceFilename()];
         if (this.__dependsOn) {
-          this.__dependsOn.forEach(asset =>
-            filenames.push(asset.getSourceFilename())
-          );
+          this.__dependsOn.forEach(asset => filenames.push(asset.getSourceFilename()));
         }
-        let needsIt = await qx.tool.utils.Promisify.some(
-          filenames,
-          async filename => {
-            let srcStat = await qx.tool.utils.files.Utils.safeStat(filename);
-            return (
-              srcStat && srcStat.mtime.getTime() > destStat.mtime.getTime()
-            );
+        let needsIt = false;
+        for (let filename of filenames) {
+          let srcStat = qx.tool.utils.files.Utils.safeStatSync(filename);
+          if (srcStat && srcStat.mtime.getTime() > destStat.mtime.getTime()) {
+            needsIt = true;
+            break;
           }
-        );
+        }
 
         if (!needsIt && this.__converters) {
-          needsIt = await qx.tool.utils.Promisify.some(
-            this.__converters,
-            converter =>
-              converter.needsConvert(
-                target,
-                this,
-                srcFilename,
-                destFilename,
-                this.isThemeFile()
-              )
-          );
+          for (let converter of this.__converters) {
+            if (await converter.needsConvert(target, this, srcFilename, destFilename, this.isThemeFile())) {
+              needsIt = true;
+              break;
+            }
+          }
         }
+
         if (!needsIt) {
           return;
         }
@@ -227,59 +230,59 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
       if (this.__converters) {
         let dependsOn = [];
         if (this.__converters.length == 1) {
-          dependsOn =
-            (await this.__converters[0].convert(
-              target,
-              this,
-              srcFilename,
-              destFilename,
-              this.isThemeFile()
-            )) || [];
+          dependsOn = (await this.__converters[0].convert(target, this, srcFilename, destFilename, this.isThemeFile())) || [];
         } else {
           let lastTempFilename = null;
-          qx.tool.utils.Promisify.each(
-            this.__converters,
-            async (converter, index) => {
-              let tmpSrc = lastTempFilename ? lastTempFilename : srcFilename;
-              let tmpDest =
-                index === this.__converters.length - 1
-                  ? destFilename
-                  : path.join(
-                      require("os").tmpdir(),
-                      path.basename(srcFilename) + "-pass" + (index + 1) + "-"
-                    );
+          for (let index = 0; index < this.__converters.length; index++) {
+            let converter = this.__converters[index];
+            let tmpSrc = lastTempFilename ? lastTempFilename : srcFilename;
+            let tmpDest =
+              index === this.__converters.length - 1
+                ? destFilename
+                : path.join(require("os").tmpdir(), path.basename(srcFilename) + "-pass" + (index + 1) + "-");
 
-              let tmpDependsOn =
-                (await converter.convert(
-                  target,
-                  this,
-                  tmpSrc,
-                  tmpDest,
-                  this.isThemeFile()
-                )) || [];
-              tmpDependsOn.forEach(str => dependsOn.push(str));
-              lastTempFilename = tmpDest;
-            }
-          );
+            let tmpDependsOn = (await converter.convert(target, this, tmpSrc, tmpDest, this.isThemeFile())) || [];
+            tmpDependsOn.forEach(str => dependsOn.push(str));
+            lastTempFilename = tmpDest;
+          }
         }
-        let rm = target.getAnalyser().getResourceManager();
-        dependsOn = dependsOn
-          .map(filename =>
-            rm.getAsset(path.resolve(filename), true, this.isThemeFile())
-          )
-          .filter(tmp => tmp !== this);
+        let rm = target.getAnalyzer().getCompiler().getResourceManager();
+        dependsOn = dependsOn.map(filename => rm.getAsset(path.resolve(filename), true, this.isThemeFile())).filter(tmp => tmp !== this);
         this.setDependsOn(dependsOn);
       } else {
         await qx.tool.utils.files.Utils.copyFile(srcFilename, destFilename);
       }
     },
 
+    /**
+     * Deletes this asset from the target, which removes it from the output directory if it exists.
+     *
+     * @param {qx.tool.compiler.targets.Target} target
+     */
+    async deleteAssetFromTarget(target) {
+      let destFilename = this.getDestFilename(target);
+      await qx.tool.utils.files.Utils.safeUnlink(destFilename);
+    },
+
     toUri() {
-      return this.__library.getNamespace() + ":" + this.__filename;
+      return qx.tool.compiler.resources.Asset.calculateUri(this.__library, this.__filename);
     },
 
     toString() {
       return this.toUri();
+    }
+  },
+
+  statics: {
+    /**
+     * Calculates the URI for an asset, given the library and filename
+     *
+     * @param {qx.tool.compiler.app.Library} library
+     * @param {String} filename
+     * @returns {String} the URI for the asset, eg "mylibrary:qx/thin/styling/_foo.scss"
+     */
+    calculateUri(library, filename) {
+      return library.getNamespace() + ":" + filename;
     }
   }
 });

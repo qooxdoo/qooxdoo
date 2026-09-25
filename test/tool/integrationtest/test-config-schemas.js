@@ -1,5 +1,5 @@
 const qx = require("../../../compiled/node/build/compilerLibrary");
-const { rimraf } = require("rimraf");
+const { rm } = require("fs").promises;
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const assert = require("assert");
@@ -11,7 +11,7 @@ const appNamespace = "testConfigSchemaApp";
     console.info("Running config file schema tests...");
     // delete existing app
     if (await fs.existsAsync(appNamespace) && await fs.statAsync(appNamespace)) {
-      await rimraf(appNamespace);
+      await rm(appNamespace, { recursive: true, force: true });
     }
     // create a test app
     let create = new qx.tool.compiler.cli.commands.Create();
@@ -64,7 +64,7 @@ const appNamespace = "testConfigSchemaApp";
 
     // delete the test app
     process.chdir("..");
-    await rimraf(appNamespace);
+    await rm(appNamespace, { recursive: true, force: true });
     console.info("All tests passed.");
   } catch (e) {
     console.error(e);

@@ -4,7 +4,6 @@ const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
-//const qx = require("../../../compiled/node/build/compilerLibrary"); todo
 const qxCmdPath = testUtils.getCompiler();
 const testDir = path.join(__dirname, "test-cli")
 const myAppDir = path.join(testDir, "myapp");

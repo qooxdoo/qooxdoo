@@ -1,5 +1,18 @@
 # Upcoming
 
+## v8 compiler update
+
+### Changes
+The compiler has received an overhaul, which includes the following changes:
+- Made compiler multithreaded to improve performance. This adds the `nJobs` or `j` flag into the Qooxdoo CLI, which controls the number of threads used, just like in the GNU `make` command.
+
+- **Custom compiler:** It is now possible for the user to extend the default Qooxdoo compiler and implement custom behavior. This allows them to do things like add in a pre-compilation or source transformation stage for their source code before the code is passed down to the compiler, which adds the possiblity of supporting custom languages. The default Qooxdoo compiler would then compile the user-defined compiler, and then it would launch that compiler as a child process and then that would take over the compilation.
+
+- **Proxy classes removed** - In the compiler API, it was possible to add a `proxies` path to a target, which told the compiler to prefer classes from that directory over the main source tree. This was useful for cases where we have a class that is supposed to run on the server but we also wanted to 'mimic' objects of that class on the client. The client class definition would be slightly different from the server definition, for example the method bodies would simply be replaced by calls to the server which invoke the methods on the server. This was removed because it meant that the proxy generation had to be handled independently of the compiler, which meant the user had to write their own proxy generator app, with its own watcher etc. The introduction of the custom compiler means that the compiler takes care of most of these problems.
+
+- **Meta data** - Meta data, which is stored in `compiled/meta` by default is now always generated,
+whereas previously it was only generated if TypeScript was enabled in the `qx compile` command.
+
 ## Breaking changes
 - Subclasses now inherit static methods and properties from their superclass via
   the constructor prototype chain, matching native JavaScript `class extends`
@@ -10,6 +23,15 @@
 # 8.0.0-beta.2
 
 ## Breaking changes
+- Bindings (made using class qx.data.SingleValueBinding) are now no longer stored in a global registry,
+because this prevented their source and target objects from being garbage-collected without manually disposing them first.
+- Removed `qx.data.SingleValueBinding.getAllBindings` as a consequence of the above,
+and also because there is no practical use case for it.
+- Event listener callbacks are now stored in their target objects themselves instead of a global registry,
+because this prevented objects with event listeners from being garbage collected unless they were manually disposed,
+and also prevented any objects in the closures of the listeners' callbacks from being garbage collected as well.
+- Removed method `qx.event.Mananger.getAllListeners` as a consequence of the above,
+and also because there is no practical use case for it.
 - Removed `async: true` key from property definition because now all properties have `setAsync` methods,
 which can be used to await the apply function's return value and the event handlers when a property is set. 
 The meaning of this setting wasn't very clear, also given that we now have async property storage.

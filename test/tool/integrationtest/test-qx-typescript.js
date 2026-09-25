@@ -1,6 +1,5 @@
 const { test } = require("node:test");
 const assert = require("node:assert");
-const fs = require("fs");
 const fsp = require("fs").promises;
 const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
@@ -214,7 +213,7 @@ qx.Class.define("myapp.TestVarType", {
     assert.equal(getAnyValueMatch[1], "any", "getAnyValue with @return {*} should return 'any' type");
 
     // Verify qx.core.Environment.get also returns unknown
-    const environmentGetMatch = content.match(/(?:static\s+)?get\s*\(\s*key\s*:\s*string\s*\)\s*:\s*(\w+)/);
+    const environmentGetMatch = content.match(/\/\/\s*qx\.core\.Environment#get\s*\n\s*static\s+get\s*\(\s*key\s*:\s*string\s*\)\s*:\s*(\w+)/);
     if (environmentGetMatch) {
       assert.equal(environmentGetMatch[1], "unknown", "qx.core.Environment.get should return 'unknown' type");
     }

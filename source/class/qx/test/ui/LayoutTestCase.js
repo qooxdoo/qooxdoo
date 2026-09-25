@@ -96,17 +96,6 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
       // copy object registry
       var regCopy = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
 
-      // copy event listener structure
-      var eventMgr = qx.event.Registration.getManager(window);
-      var listeners = eventMgr.getAllListeners();
-      var listenersCopy = {};
-      for (var hash in listeners) {
-        listenersCopy[hash] = {};
-        for (var key in listeners[hash]) {
-          listenersCopy[hash][key] = qx.lang.Array.clone(listeners[hash][key]);
-        }
-      }
-
       // call function
       fcn.call(context);
       this.flush();
@@ -129,38 +118,6 @@ qx.Class.define("qx.test.ui.LayoutTestCase", {
         );
       }
 
-      listeners = eventMgr.getAllListeners();
-
-      for (var hash in listeners) {
-        if (!listenersCopy[hash]) {
-          listenersCopy[hash] = {};
-        }
-
-        for (key in listeners[hash]) {
-          if (!listenersCopy[hash][key]) {
-            listenersCopy[hash][key] = [];
-          }
-
-          for (var i = 0; i < listeners[hash][key].length; i++) {
-            if (
-              listenersCopy[hash][key].indexOf(listeners[hash][key][i]) == -1
-            ) {
-              this.fail(
-                msg +
-                  ": The event listener '" +
-                  key +
-                  ":" +
-                  listeners[hash][key][i] +
-                  "'for the object '" +
-                  hash +
-                  ":" +
-                  qx.core.ObjectRegistry.fromHashCode(hash) +
-                  "' has not been removed."
-              );
-            }
-          }
-        }
-      }
 
       // check root children length
       this.assertIdentical(

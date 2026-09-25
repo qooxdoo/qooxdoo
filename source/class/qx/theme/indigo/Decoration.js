@@ -71,6 +71,10 @@ qx.Theme.define("qx.theme.indigo.Decoration", {
       }
     },
 
+    "toolbar-button-hovered": { include: "button-box-hovered" },
+
+    "toolbar-button-checked": { include: "button-box-pressed" },
+
     "app-header": {
       style: {
         innerWidthBottom: 1,

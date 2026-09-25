@@ -789,6 +789,46 @@ qx.Class.define("qx.test.Class", {
       instance.dispose();
     },
 
+    testEventAnnotationStoredInAnnotations() {
+      this.require(["qx.debug"]);
+      let marker = {};
+      let C = qx.Class.define(null, {
+        extend: qx.core.Object,
+        events: {
+          "@myEvent": marker,
+          myEvent: "qx.event.type.Data"
+        }
+      });
+      this.assertUndefined(C.$$events["@myEvent"]);
+      this.assertNotUndefined(C.$$annotations?.events?.myEvent);
+      this.assertArrayEquals([marker], C.$$annotations.events.myEvent);
+    },
+
+    testEventAnnotationNotInEvents() {
+      let C = qx.Class.define(null, {
+        extend: qx.core.Object,
+        events: {
+          "@myEvent": {},
+          myEvent: "qx.event.type.Data"
+        }
+      });
+      let keys = Object.keys(C.$$events);
+      this.assertFalse(keys.includes("@myEvent"));
+      this.assertTrue(keys.includes("myEvent"));
+    },
+
+    testEventAnnotationForMissingEventThrows() {
+      this.require(["qx.debug"]);
+      this.assertException(() => {
+        qx.Class.define(null, {
+          extend: qx.core.Object,
+          events: {
+            "@ghost": {}
+          }
+        });
+      }, Error);
+    },
+
     testStaticInheritance() {
       var Base = qx.Class.define(null, {
         extend: qx.core.Object,

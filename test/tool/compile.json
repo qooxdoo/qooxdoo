@@ -86,7 +86,6 @@
       "include": [
         "qx.core.BaseInit",
         "qx.test.tool.*",
-        "qx.test.compiler.*",
         "qx.test.locale.*",
         "qx.test.lang.*",
         "qx.test.type.*",

@@ -28,7 +28,7 @@ const path = require("upath");
  * @ignore(loadSass)
  */
 /* global loadSass */
-const sass = loadSass();
+const sass = window["loadSass"]();
 
 /**
  * @ignore(process)
@@ -150,7 +150,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       return Object.keys(this.__sourceFiles);
     },
 
-    _analyseFilename(url, currentFilename) {
+    _analyzeFilename(url, currentFilename) {
       var m = url.match(/^([a-z0-9_.]+):(\/?[^\/].*)/);
       if (m) {
         return {
@@ -180,7 +180,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       let dir = path.dirname(currentFilename);
       let filename = path.resolve(dir, url);
       let library = this.__target
-        .getAnalyser()
+        .getAnalyzer()
         .getLibraries()
         .find(library =>
           filename.startsWith(path.resolve(library.getRootDir()))
@@ -252,12 +252,12 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       contents = contents.replace(
         /@import\s+["']([^;]+)["']/gi,
         (match, p1, offset) => {
-          let pathInfo = this._analyseFilename(p1, absFilename);
+          let pathInfo = this._analyzeFilename(p1, absFilename);
           if (pathInfo.externalUrl) {
             return '@import "' + pathInfo.externalUrl + '"';
           }
           let newLibrary = this.__target
-            .getAnalyser()
+            .getAnalyzer()
             .findLibrary(pathInfo.namespace);
           if (!newLibrary) {
             qx.tool.compiler.Console.error(
@@ -289,7 +289,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
             url = url.substring(0, url.length - 1);
           }
           //return `qooxdooUrl("${filename}", "${url}")`;
-          let pathInfo = this._analyseFilename(url, filename);
+          let pathInfo = this._analyzeFilename(url, filename);
 
           if (pathInfo) {
             if (pathInfo.externalUrl) {
@@ -330,7 +330,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       let currentFilename = $filename.getValue();
       let url = $url.getValue();
 
-      let pathInfo = this._analyseFilename(url, currentFilename);
+      let pathInfo = this._analyzeFilename(url, currentFilename);
 
       if (pathInfo) {
         if (pathInfo.externalUrl) {

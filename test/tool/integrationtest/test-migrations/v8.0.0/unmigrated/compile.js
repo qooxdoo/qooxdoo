@@ -21,5 +21,10 @@ module.exports = {
   /**
    * @type {qx.tool.cli.ConfigDb}
    */
-  configDb: "qx.tool.cli.ConfigDb"
+  configDb: "qx.tool.cli.ConfigDb",
+
+  /**
+   * @type {qx.tool.cli.commands.Test}
+   */
+  testCommand: "qx.tool.cli.commands.Test"
 };

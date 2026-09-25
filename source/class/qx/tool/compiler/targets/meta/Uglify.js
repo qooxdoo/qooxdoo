@@ -98,11 +98,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       })();
 
       let inSourceMap = await this.__jsMeta.getSourceMap();
-      this.fireDataEvent("minifyingApplication", {
-        application: application,
-        filename: baseJsFilename
-      });
-
       uglifyOpts.sourceMap = {
         content: inSourceMap,
         url: baseJsFilename + ".map",
@@ -133,17 +128,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
           encoding: "utf8"
         });
 
-        await fs.writeFileAsync(
-          outJsFilename + ".unminified.map",
-          JSON.stringify(inSourceMap, null, 2),
-          { encoding: "utf8" }
-        );
+        await fs.writeFileAsync(outJsFilename + ".unminified.map", JSON.stringify(inSourceMap, null, 2), { encoding: "utf8" });
       }
-
-      this.fireDataEvent("minifiedApplication", {
-        application: application,
-        filename: baseJsFilename
-      });
     }
   }
 });

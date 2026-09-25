@@ -63,7 +63,14 @@ qx.Class.define("qx.tool.cli.Command", {
       init: null,
       nullable: true,
       check: "Function"
-    }
+    },
+    
+    /** whether this should be hidden in the usage statement */
+    hidden: { 
+      init: false,
+      check: "Boolean"
+    } 
+
   },
 
   members: {
@@ -238,25 +245,33 @@ qx.Class.define("qx.tool.cli.Command", {
         println();
         println("COMMANDS:");
         let data = [];
-        this.__subcommands.forEach(cmd =>
-          data.push(cmd._quickUsage().split(/\s+::\s+/))
-        );
+        this.__subcommands.forEach(cmd => {
+          if (!cmd.getHidden()) {
+            data.push(cmd._quickUsage().split(/\s+::\s+/));
+          }
+        });
         table(data);
       }
       if (this.__flags.length > 0) {
         println();
         println("FLAGS:");
         let data = [];
-        this.__flags.forEach(flag => data.push(flag.usage().split(/\s+::\s+/)));
+        this.__flags.forEach(flag => {
+          if (!flag.getHidden()) {
+            data.push(flag.usage().split(/\s+::\s+/));
+          }
+        });
         table(data);
       }
       if (this.__arguments.length > 0) {
         println();
         println("ARGUMENTS:");
         let data = [];
-        this.__arguments.forEach(argument =>
-          data.push(argument.usage().split(/\s+::\s+/))
-        );
+        this.__arguments.forEach(argument => {
+          if (!argument.getHidden()) {
+            data.push(argument.usage().split(/\s+::\s+/));
+          }
+        });
         table(data);
       }
       return out.join("\n");

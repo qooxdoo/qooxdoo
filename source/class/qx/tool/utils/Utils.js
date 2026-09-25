@@ -17,10 +17,9 @@
 ************************************************************************ */
 const path = require("upath");
 const fs = require("fs");
-const async = require("async");
-const { promisify } = require("util");
 const child_process = require("child_process");
 const psTree = require("ps-tree");
+
 /**
  * @ignore(process)
  */
@@ -32,6 +31,37 @@ qx.Class.define("qx.tool.utils.Utils", {
   extend: qx.core.Object,
 
   statics: {
+    /**
+     * Does a semver satisifies check, ignoring any prerelease tags on the version
+     *
+     * @param {String} version
+     * @param {String} range
+     * @returns {Boolean}
+     */
+    versionSatisfies(version, range, options) {
+      let m = version.match(/^([0-9]+\.[0-9]+\.[0-9]+)-.*/);
+      if (m) {
+        version = m[1];
+      }
+      const semver = require("semver");
+      return semver.satisfies(version, range, options);
+    },
+
+    /**
+     * Does a semver valid check, ignoring any prerelease tags on the version
+     *
+     * @param {String} version
+     * @returns {Boolean}
+     */
+    versionValid(version) {
+      let m = version.match(/^([0-9]+\.[0-9]+\.[0-9]+)(-.+)?$/);
+      if (m) {
+        version = m[1];
+      }
+      const semver = require("semver");
+      return semver.valid(version) != null;
+    },
+
     /**
      * Creates a Promise which can be resolved/rejected externally - it has
      * the resolve/reject methods as properties
@@ -108,98 +138,19 @@ qx.Class.define("qx.tool.utils.Utils", {
       } else if (hours || minutes) {
         result += "0" + seconds;
       }
-      result +=
-        "." + (millisec > 99 ? "" : millisec > 9 ? "0" : "00") + millisec + "s";
+      result += "." + (millisec > 99 ? "" : millisec > 9 ? "0" : "00") + millisec + "s";
       return result;
-    },
-
-    /**
-     * Creates a dir
-     * @param dir
-     * @param cb
-     */
-    mkpath(dir, cb) {
-      dir = path.normalize(dir);
-      var segs = dir.split(path.sep);
-      var made = "";
-      async.eachSeries(
-        segs,
-        function (seg, cb) {
-          if (made.length || !seg.length) {
-            made += "/";
-          }
-          made += seg;
-          fs.access(made, fs.constants.F_OK, function (err) {
-            if (err) {
-              fs.mkdir(made, function (err) {
-                if (err && err.code === "EEXIST") {
-                  err = null;
-                }
-                cb(err);
-              });
-              return;
-            }
-            fs.stat(made, function (err, stat) {
-              if (err) {
-                cb(err);
-              } else if (stat.isDirectory()) {
-                cb(null);
-              } else {
-                cb(
-                  new Error(
-                    "Cannot create " +
-                      made +
-                      " (in " +
-                      dir +
-                      ") because it exists and is not a directory",
-                    "ENOENT"
-                  )
-                );
-              }
-            });
-          });
-        },
-        function (err) {
-          cb(err);
-        }
-      );
-    },
-
-    /**
-     * Creates the parent directory of a filename, if it does not already exist
-     */
-    mkParentPath(dir, cb) {
-      var segs = dir.split(/[\\\/]/);
-      segs.pop();
-      if (!segs.length) {
-        return cb && cb();
-      }
-      dir = segs.join(path.sep);
-      return this.mkpath(dir, cb);
     },
 
     /**
      * Creates the parent directory of a filename, if it does not already exist
      *
      * @param {string} filename the filename to create the parent directory of
-     *
-     * @return {Promise?} the value
+     * @return {Promise}
      */
-    makeParentDir(filename) {
-      const mkParentPath = promisify(this.mkParentPath).bind(this);
-      return mkParentPath(filename);
-    },
-
-    /**
-     * Creates a directory, if it does not exist, including all intermediate paths
-     *
-     * @param {string} filename the directory to create
-     *
-     * @return {Promise?} the value
-     */
-    makeDirs(filename) {
-      const mkpath = promisify(this.mkpath);
-      return mkpath(filename);
+    async makeParentDir(filename) {
+      const dir = path.dirname(filename);
+      await fs.promises.mkdir(dir, { recursive: true });
     },
 
     /**
@@ -246,6 +197,54 @@ qx.Class.define("qx.tool.utils.Utils", {
       return false;
     },
 
+    spawnProcess(cmd, args, options) {
+      options = options || {};
+
+      if (!options.error) {
+        options.error = console.error;
+      }
+      if (!options.log) {
+        options.log = console.log;
+      }
+
+      let env = process.env;
+      if (options.env) {
+        env = Object.assign({}, env);
+        Object.assign(env, options.env);
+      }
+
+      // Use String array for arguments - no shell needed
+      let proc = child_process.spawn(cmd, args || [], {
+        cwd: options.cwd,
+        shell: options.shell === true, // Only use shell if explicitly requested
+        env: env
+      });
+
+      proc.stdout.on("data", data => {
+        data = data.toString().trim();
+        options.log(data);
+        if (options.onConsole) {
+          options.onConsole(data, "stdout");
+        }
+      });
+      proc.stderr.on("data", data => {
+        data = data.toString().trim();
+        options.error(data);
+        if (options.onConsole) {
+          options.onConsole(data, "stderr");
+        }
+      });
+      proc.on("close", code => {
+        if (options.onClose) {
+          options.onClose(code);
+        }
+      });
+      proc.on("error", err => {
+        if (options.onError) {
+          options.onError(err);
+        }
+      });
+    },
 
     /**
      * Runs the given command and returns an object containing information on the
@@ -280,26 +279,8 @@ qx.Class.define("qx.tool.utils.Utils", {
           options.args = args;
         }
       }
-      if (!options.error) {
-        options.error = console.error;
-      }
-      if (!options.log) {
-        options.log = console.log;
-      }
-      return await new Promise((resolve, reject) => {
-        let env = process.env;
-        if (options.env) {
-          env = Object.assign({}, env);
-          Object.assign(env, options.env);
-        }
-        
-        // Use String array for arguments - no shell needed
-        let proc = child_process.spawn(options.cmd, options.args || [], {
-          cwd: options.cwd,
-          shell: options.shell === true, // Only use shell if explicitly requested
-          env: env
-        });
 
+      return await new Promise((resolve, reject) => {
         let result = {
           exitCode: null,
           output: "",
@@ -307,23 +288,24 @@ qx.Class.define("qx.tool.utils.Utils", {
           messages: null
         };
 
-        proc.stdout.on("data", data => {
-          data = data.toString().trim();
-          options.log(data);
-          result.output += data;
-        });
-        proc.stderr.on("data", data => {
-          data = data.toString().trim();
-          options.error(data);
-          result.error += data;
-        });
-        proc.on("close", code => {
+        options.onConsole = (data, type) => {
+          if (type == "stdout") {
+            result.output += data;
+          } else {
+            result.error += data;
+          }
+        };
+
+        options.onClose = code => {
           result.exitCode = code;
           resolve(result);
-        });
-        proc.on("error", err => {
+        };
+        options.onError = err => {
           reject(err);
-        });
+        };
+
+        // Use String array for arguments - no shell needed
+        qx.tool.utils.Utils.spawnProcess(options.cmd, options.args || [], options);
       });
     },
 
@@ -348,9 +330,7 @@ qx.Class.define("qx.tool.utils.Utils", {
         });
         exe.on("close", code => {
           if (code !== 0) {
-            let message = `Error executing '${cmd} ${args.join(
-              " "
-            )}'. Use --verbose to see what went wrong.`;
+            let message = `Error executing '${cmd} ${args.join(" ")}'. Use --verbose to see what went wrong.`;
             reject(new qx.tool.utils.Utils.UserError(message));
           } else {
             resolve(0);
@@ -498,11 +478,9 @@ qx.Class.define("qx.tool.utils.Utils", {
     /**
      * Returns the absolute path to the template directory
      * @return {String}
-     */ 
+     */
     getTemplateDir() {
-      let dir = qx.util.ResourceManager.getInstance().toUri(
-        "qx/tool/compiler/cli/templates/template_vars.js"
-      );
+      let dir = qx.util.ResourceManager.getInstance().toUri("qx/tool/compiler/cli/templates/template_vars.js");
 
       dir = path.dirname(dir);
       return dir;

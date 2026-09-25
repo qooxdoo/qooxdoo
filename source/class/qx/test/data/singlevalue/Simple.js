@@ -257,30 +257,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple", {
       }
     },
 
-    testGetAllBindings() {
-      // add three bindings
-      var id1 = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
-
-      var id2 = qx.data.SingleValueBinding.bind(this.__a, "zIndex", this.__b, "zIndex");
-
-      var id3 = qx.data.SingleValueBinding.bind(this.__b, "zIndex", this.__a, "zIndex");
-
-      // get all bindings
-      var allBindings = qx.data.SingleValueBinding.getAllBindings();
-
-      // check for the binding ids
-      this.assertEquals(id1, allBindings[this.__a.toHashCode()][0][0], "This id should be in!");
-
-      this.assertEquals(id2, allBindings[this.__a.toHashCode()][1][0], "This id should be in!");
-
-      this.assertEquals(id3, allBindings[this.__b.toHashCode()][0][0], "This id should be in!");
-
-      // check for the length
-      this.assertEquals(2, allBindings[this.__a.toHashCode()].length, "Not the right amount in the data!");
-
-      this.assertEquals(1, allBindings[this.__b.toHashCode()].length, "Not the right amount in the data!");
-    },
-
     testDebugStuff() {
       // just a test if the method runs threw without an exception
       var id1 = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");

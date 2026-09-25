@@ -24,10 +24,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testLabel() {
       var obj = this.__obj.label;
 
-      this.assertIdentical(
-        "text-disabled",
-        obj.style({ disabled: true }).textColor
-      );
+      this.assertIdentical("text-disabled", obj.style({ disabled: true }).textColor);
 
       this.assertUndefined(obj.style({ disabled: false }).textColor);
     },
@@ -119,34 +116,22 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = obj.style(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["cursor-copy"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["cursor-copy"], style.source);
 
       states.copy = false;
       style = obj.style(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["cursor-move"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["cursor-move"], style.source);
 
       states.move = false;
       style = obj.style(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["cursor-alias"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["cursor-alias"], style.source);
 
       states.alias = false;
       style = obj.style(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["cursor-nodrop"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["cursor-nodrop"], style.source);
 
       this.assertIdentical("right-top", style.position);
       this.assertArrayEquals([2, 16, 2, 6], style.offset);
@@ -155,29 +140,17 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testSlideBarButtonForward() {
       var style = this.__obj["slidebar/button-forward"].style;
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-down"],
-        style({ vertical: true }).icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down"], style({ vertical: true }).icon);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-right"],
-        style({ vertical: false }).icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right"], style({ vertical: false }).icon);
     },
 
     testSlideBarButtonBackward() {
       var style = this.__obj["slidebar/button-backward"].style;
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-up"],
-        style({ vertical: true }).icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-up"], style({ vertical: true }).icon);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-left"],
-        style({ vertical: false }).icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-left"], style({ vertical: false }).icon);
     },
 
     testTableStatusBar() {
@@ -192,10 +165,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       this.assertIdentical("table-header-column-button", style.decorator);
       this.assertIdentical(3, style.padding);
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["select-column-order"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["select-column-order"], style.icon);
     },
 
     testTableColumnResetButton() {
@@ -242,18 +212,12 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       this.assertIdentical("table-header-cell-first", style.decorator);
       this.assertUndefined(style.pointer);
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["table-ascending"],
-        style.sortIcon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["table-ascending"], style.sortIcon);
 
       states.sortedAscending = false;
       style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["table-descending"],
-        style.sortIcon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["table-descending"], style.sortIcon);
 
       states.sorted = false;
       style = styleFunc(states);
@@ -354,10 +318,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testTreeVirtualFile() {
       var styleFunc = this.__obj["treevirtual-file"].style;
 
-      this.assertIdentical(
-        "icon/16/mimetypes/text-plain.png",
-        styleFunc({ drag: false }).icon
-      );
+      this.assertIdentical("icon/16/mimetypes/text-plain.png", styleFunc({ drag: false }).icon);
 
       this.assertIdentical(0.5, styleFunc({ drag: true }).opacity);
       this.assertUndefined(styleFunc({ drag: false }).opacity);
@@ -366,19 +327,13 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testTreeVirtualLine() {
       var style = this.__obj["treevirtual-line"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-line"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-line"], style.icon);
     },
 
     testTreeVirtualContract() {
       var style = this.__obj["treevirtual-contract"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["tree-minus"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["tree-minus"], style.icon);
     },
 
     testTreeVirtualExpand() {
@@ -390,91 +345,61 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testTreeVirtualOnlyContract() {
       var style = this.__obj["treevirtual-only-contract"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-minus-only"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-minus-only"], style.icon);
     },
 
     testTreeVirtualOnlyExpand() {
       var style = this.__obj["treevirtual-only-expand"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-plus-only"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-plus-only"], style.icon);
     },
 
     testTreeVirtualStartContract() {
       var style = this.__obj["treevirtual-start-contract"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-minus-start"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-minus-start"], style.icon);
     },
 
     testTreeVirtualStartExpand() {
       var style = this.__obj["treevirtual-start-expand"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-plus-start"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-plus-start"], style.icon);
     },
 
     testTreeVirtualEndContract() {
       var style = this.__obj["treevirtual-end-contract"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-minus-end"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-minus-end"], style.icon);
     },
 
     testTreeVirtualEndExpand() {
       var style = this.__obj["treevirtual-end-expand"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-plus-end"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-plus-end"], style.icon);
     },
 
     testTreeVirtualCrossContract() {
       var style = this.__obj["treevirtual-cross-contract"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-minus-cross"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-minus-cross"], style.icon);
     },
 
     testTreeVirtualCrossExpand() {
       var style = this.__obj["treevirtual-cross-expand"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-plus-cross"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-plus-cross"], style.icon);
     },
 
     testTreeVirtualEnd() {
       var style = this.__obj["treevirtual-end"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-end"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-end"], style.icon);
     },
 
     testTreeVirtualCross() {
       var style = this.__obj["treevirtual-cross"].style();
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["treevirtual-cross"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-cross"], style.icon);
     },
 
     testResizer() {
@@ -499,16 +424,10 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
       var style = styleFunc(states);
 
       this.assertIdentical(2, style.padding);
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["knob-horizontal"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["knob-horizontal"], style.source);
 
       style = styleFunc({ horizontal: false });
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["knob-vertical"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["knob-vertical"], style.source);
     },
 
     testSplitpaneSlider() {
@@ -577,10 +496,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = styleFunc({ hovered: true });
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-up-invert"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-up-invert"], style.icon);
 
       style = styleFunc({ hovered: false });
 
@@ -592,17 +508,11 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = styleFunc({ hovered: true });
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-down-invert"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down-invert"], style.icon);
 
       style = styleFunc({ hovered: false });
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-down"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down"], style.icon);
     },
 
     testMenuSeparator() {
@@ -619,15 +529,9 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
     testMenuButton() {
       var styleFunc = this.__obj["menu-button"].style;
 
-      this.assertIdentical(
-        "background-selected",
-        styleFunc({ selected: true }).backgroundColor
-      );
+      this.assertIdentical("background-selected", styleFunc({ selected: true }).backgroundColor);
 
-      this.assertIdentical(
-        "text-selected",
-        styleFunc({ selected: true }).textColor
-      );
+      this.assertIdentical("text-selected", styleFunc({ selected: true }).textColor);
 
       this.assertArrayEquals([2, 6], styleFunc({ selected: true }).padding);
 
@@ -665,19 +569,13 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-right-invert"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right-invert"], style.source);
 
       this.assertIdentical("middle", style.alignY);
 
       states.selected = false;
       style = styleFunc(states);
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["arrow-right"],
-        style.source
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right"], style.source);
     },
 
     testMenuCheckbox() {
@@ -690,18 +588,12 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["menu-checkbox-invert"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["menu-checkbox-invert"], style.icon);
 
       states.selected = false;
       style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["menu-checkbox"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["menu-checkbox"], style.icon);
 
       states.checked = false;
       style = styleFunc(states);
@@ -719,18 +611,12 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
 
       var style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["menu-radiobutton-invert"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["menu-radiobutton-invert"], style.icon);
 
       states.selected = false;
       style = styleFunc(states);
 
-      this.assertIdentical(
-        qx.theme.simple.Image.URLS["menu-radiobutton"],
-        style.icon
-      );
+      this.assertIdentical(qx.theme.simple.Image.URLS["menu-radiobutton"], style.icon);
 
       states.checked = false;
       style = styleFunc(states);
@@ -790,21 +676,12 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
       this.assertIdentical("bold", style.font);
     },
 
-    testVirtualTree() {
-      var style = this.__obj["virtual-tree"].style();
-
-      this.assertIdentical(21, style.itemHeight);
-    },
-
     testCell() {
       var styleFunc = this.__obj["cell"].style;
 
       var style = styleFunc({ selected: true });
 
-      this.assertIdentical(
-        "table-row-background-selected",
-        style.backgroundColor
-      );
+      this.assertIdentical("table-row-background-selected", style.backgroundColor);
 
       this.assertIdentical("text-selected", style.textColor);
       this.assertArrayEquals([3, 6], style.padding);

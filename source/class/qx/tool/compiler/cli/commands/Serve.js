@@ -141,6 +141,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
             if (firstMaker === null) {
               firstMaker = maker;
             }
+
             if (defaultMaker === null && app.getWriteIndexHtmlToRoot()) {
               defaultMaker = maker;
             }

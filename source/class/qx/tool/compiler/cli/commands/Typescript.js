@@ -138,7 +138,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
               throw new qx.tool.utils.Utils.UserError("No .js file found for meta debug");
             }
           }
-          let meta = new qx.tool.compiler.MetaExtraction();
+          let meta = new qx.tool.compiler.meta.ClassMeta();
           await meta.parse(target);
           meta.fixupJsDoc({ resolveType: type => type });
           console.log(JSON.stringify(meta.getMetaData(), null, 2));
@@ -146,15 +146,37 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
         }
       }
 
-      let metaDb = new qx.tool.compiler.MetaDatabase();
-      await metaDb.load();
-      await metaDb.loadFromDirectories(files, { ignore: ig, verbose: this.argv.verbose });
+      // MetaDatabase parses classes via the job queue, so it needs a started
+      // JobQueue.  The default (maxConcurrentJobs = 1) uses an in-process loopback
+      // worker, which is all this command needs.
+      let jobQueue = new qx.tool.worker.JobQueue();
+      await jobQueue.start();
+      try {
+        let metaDb = new qx.tool.compiler.meta.MetaDatabase(jobQueue);
+        await metaDb.load();
 
-      let tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
-      if (this.argv.outputFilename) {
-        tsWriter.setOutputTo(this.argv.outputFilename);
+        // Register scanned dirs as libraries if not already present (needed when no db.json exists yet)
+        const db = metaDb.getDatabase();
+        if (!db.libraries) {
+          db.libraries = {};
+        }
+        for (let dir of files) {
+          const resolved = path.resolve(dir);
+          if (!Object.values(db.libraries).some(l => path.resolve(l.sourceDir) === resolved)) {
+            db.libraries[resolved] = { sourceDir: resolved };
+          }
+        }
+
+        await metaDb.loadFromDirectories(files, { ignore: ig, verbose: this.argv.verbose });
+
+        let tsWriter = new qx.tool.compiler.targets.TypeScriptWriter(metaDb);
+        if (this.argv.outputFilename) {
+          tsWriter.setOutputTo(this.argv.outputFilename);
+        }
+        await tsWriter.process();
+      } finally {
+        await jobQueue.stop();
       }
-      await tsWriter.process();
     }
   }
 });

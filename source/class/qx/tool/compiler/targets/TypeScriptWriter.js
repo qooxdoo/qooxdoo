@@ -35,7 +35,8 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
   /**
    *
-   * @param {qx.tool.compiler.MetaDatabase} metaDb loaded database
+   * @param {qx.tool.compiler.meta.MetaDatabase} metaDb loaded database
+   * @param {String} outputTo file to write the .d.ts to
    */
   construct(metaDb) {
     super();
@@ -50,7 +51,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
   },
 
   members: {
-    /** @type {qx.tool.compiler.MetaDatabase} */
+    /** @type {qx.tool.compiler.meta.MetaDatabase} */
     __metaDb: null,
 
     /** @type {Stream} where to write the .d.ts */
@@ -58,7 +59,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
     __outputStreamClosed: null,
 
-    /** @type {qx.tool.compiler.MetaExtraction} */
+    /** @type {qx.tool.compiler.meta.ClassMeta} */
     __currentClass: null,
 
     /** @type {object} */
@@ -74,11 +75,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       var time = new Date();
       this.__outputStream = fs.createWriteStream(this.getOutputTo());
       this.__outputStreamClosed = new qx.Promise();
-      this.__outputStream.on("close", () =>
-        this.__outputStreamClosed.resolve()
-      );
+      this.__outputStream.on("close", () => this.__outputStreamClosed.resolve());
       this.write(`// Generated declaration file at ${time}\n`);
-      let str = path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.d.ts")
+      let str = path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.d.ts");
       let baseDeclaration = await fs.promises.readFile(str, "utf8");
       this.write(baseDeclaration + "\n");
     },
@@ -165,12 +164,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.__hierarchy = this.__metaDb.getHierarchyFlat(meta);
       // qx.tool.compiler.Console.info("Processing class " + meta.packageName + "." + meta.name);
       var extendsClause = "";
-      if (
-        meta.superClass &&
-        meta.superClass !== "Object" &&
-        meta.superClass !== "Array" &&
-        meta.superClass !== "Error"
-      ) {
+      if (meta.superClass && meta.superClass !== "Object" && meta.superClass !== "Array" && meta.superClass !== "Error") {
         if (meta.type === "interface" && Array.isArray(meta.superClass)) {
           let superTypes = meta.superClass.map(sup => this.getType(sup));
           superTypes.filter(sup => sup != "any");
@@ -204,10 +198,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       this.write("  " + type + name + extendsClause);
 
       if (meta.interfaces && meta.interfaces.length) {
-        this.write(
-          " implements " +
-            meta.interfaces.map(itf => this.getType(itf)).join(", ")
-        );
+        this.write(" implements " + meta.interfaces.map(itf => this.getType(itf)).join(", "));
       }
 
       this.write(" {\n");
@@ -275,10 +266,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           // `[t1, t2]` -> `t1|t2`
           type = JSON.stringify(type).replace(/,/g, "|").slice(1, -1);
         } else if (typeof type === "string") {
-          if (
-            !type.match(/^[a-z\d\s.\|\<\>\&\(\)\[\]]+$/i) ||
-            type === "[[ ObjectMethod Function ]]"
-          ) {
+          if (!type.match(/^[a-z\d\s.\|\<\>\&\(\)\[\]]+$/i) || type === "[[ ObjectMethod Function ]]") {
             type = "any";
           }
         } else {
@@ -365,11 +353,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         parameters: [
           {
             name: "data",
-            type:
-              objType +
-              (superIsQxClass
-                ? ` & Parameters<globalThis.${meta.superClass}["set"]>[0]`
-                : "")
+            type: objType + (superIsQxClass ? ` & Parameters<globalThis.${meta.superClass}["set"]>[0]` : "")
           }
         ],
 
@@ -383,10 +367,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           {
             name: "prop",
             type:
-              names.map(name => `"${name}"`).join(" | ") +
-              (superIsQxClass
-                ? ` | Parameters<globalThis.${meta.superClass}["get"]>[0]`
-                : "")
+              names.map(name => `"${name}"`).join(" | ") + (superIsQxClass ? ` | Parameters<globalThis.${meta.superClass}["get"]>[0]` : "")
           }
         ],
 
@@ -398,7 +379,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
     /**
      * Determines if any class in the hierarchy defines any properties
-     * @param {qx.tool.compiler.MetaExtraction} meta
+     * @param {qx.tool.compiler.meta.ClassMeta} meta
      * @returns {Boolean}
      */
     __propertiesInHierarchy(meta) {
@@ -457,23 +438,13 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
 
       //mapping
-      const fromTypes = Object.keys(
-        qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS
-      );
+      const fromTypes = Object.keys(qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS);
 
-      const re = new RegExp(
-        `(^|[^.a-zA-Z0-9])(${fromTypes
-          .join("|")
-          .replace("*", "\\*")})($|[^.a-zA-Z0-9<])`
-      );
+      const re = new RegExp(`(^|[^.a-zA-Z0-9])(${fromTypes.join("|").replace("*", "\\*")})($|[^.a-zA-Z0-9<])`);
 
       // regexp matches overlapping strings, so we need to loop
       while (typename.match(re)) {
-        typename = typename.replace(
-          re,
-          (match, p1, p2, p3) =>
-            `${p1}${qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[p2]}${p3}`
-        );
+        typename = typename.replace(re, (match, p1, p2, p3) => `${p1}${qx.tool.compiler.targets.TypeScriptWriter.TYPE_MAPPINGS[p2]}${p3}`);
       }
 
       //nullables
@@ -482,21 +453,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       // handle global types
       if (
         (this.__metaDb.getMetaData(typename) && typename.indexOf(".") != -1) ||
-        (this.__metaDb.getMetaData(typename.replace(/\[\]/g, "")) &&
-          typename.replace(/\[\]/g, "").indexOf(".") != -1)
+        (this.__metaDb.getMetaData(typename.replace(/\[\]/g, "")) && typename.replace(/\[\]/g, "").indexOf(".") != -1)
       ) {
         return "globalThis." + typename;
       }
 
       typename = typename.replace("Promise<", "globalThis.Promise<");
-      typename = typename.replace(
-        /(^|[^.a-zA-Z])(var)([^.a-zA-Z]|$)/g,
-        "$1unknown$3"
-      );
-      typename = typename.replace(
-        /(^|[^.a-zA-Z])(\*)([^.a-zA-Z]|$)/g,
-        "$1any$3"
-      );
+      typename = typename.replace(/(^|[^.a-zA-Z])(var)([^.a-zA-Z]|$)/g, "$1unknown$3");
+      typename = typename.replace(/(^|[^.a-zA-Z])(\*)([^.a-zA-Z]|$)/g, "$1any$3");
 
       // this will do for now, but it will fail on an expression like `Array<Record<string, any>>`
       typename = typename.replace(/(?<!qx\.data\.)Array<([^>]+)>/g, "($1)[]");
@@ -510,12 +474,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * Write a constructor
      */
     writeConstructor(methodMeta) {
-      this.write(
-        this.__indent +
-          "constructor (" +
-          this.__serializeParameters(methodMeta.params) +
-          ");\n"
-      );
+      this.write(this.__indent + "constructor (" + this.__serializeParameters(methodMeta.params) + ");\n");
     },
 
     /**
@@ -569,12 +528,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       this.__writeJsDoc(config.jsdoc?.raw, config.location);
 
-      this.write(
-        this.__indent +
-          `// ${this.__currentClass.className}${
-            config.static ? "#" : "."
-          }${methodName}\n`
-      );
+      this.write(this.__indent + `// ${this.__currentClass.className}${config.static ? "#" : "."}${methodName}\n`);
 
       this.write(this.__indent + declaration + ";" + "\n");
     },
@@ -618,12 +572,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       this.__writeJsDoc(config.jsdoc?.raw, config.location);
 
-      this.write(
-        this.__indent +
-          `// ${this.__currentClass.className}${
-            config.static ? "#" : "."
-          }${fieldName}\n`
-      );
+      this.write(this.__indent + `// ${this.__currentClass.className}${config.static ? "#" : "."}${fieldName}\n`);
 
       this.write(this.__indent + declaration + ";" + "\n");
     },
@@ -637,19 +586,12 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       const fixup = source => {
         source = source
           // to ensure that links work correctly, include the full class path
-          .replace(
-            /\{@link #([^}]+)\}/g,
-            `{@link ${this.__currentClass.className}.$1}`
-          );
+          .replace(/\{@link #([^}]+)\}/g, `{@link ${this.__currentClass.className}.$1}`);
 
         if (source.match(/@param|@return/)) {
-          const typeExpr =
-            qx.tool.compiler.jsdoc.Parser.getTypeExpression(source);
+          const typeExpr = qx.tool.compiler.jsdoc.Parser.getTypeExpression(source);
           if (typeExpr) {
-            source =
-              source.slice(0, typeExpr.start - 1).trim() +
-              " " +
-              source.slice(typeExpr.end + 1, source.length).trim();
+            source = source.slice(0, typeExpr.start - 1).trim() + " " + source.slice(typeExpr.end + 1, source.length).trim();
           }
           if (source.trim().match(/^\*\s*(@param|@return(s?))$/)) {
             return "";
@@ -663,11 +605,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         jsdoc.push("*");
       }
 
-      const sourceCodePath = path.join(
-        process.cwd(),
-        this.__metaDb.getRootDir(),
-        this.__currentClass.classFilename
-      );
+      const sourceCodePath = path.join(process.cwd(), this.__metaDb.getRootDir(), this.__currentClass.classFilename);
 
       // currently, VSCode does not support the use of `%file:%line:%column` in
       // in-file links, though it supports them in all other contexts.
@@ -678,13 +616,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
       this.write(
         `${this.__indent}/**\n` +
-          [
-            ...jsdoc,
-            `* [source code](${sourceCodePath}${locationSpecifier})`,
-            `*/\n`
-          ]
-            .map(line => `${this.__indent} ${line}`)
-            .join("\n")
+          [...jsdoc, `* [source code](${sourceCodePath}${locationSpecifier})`, `*/\n`].map(line => `${this.__indent} ${line}`).join("\n")
       );
     },
 
@@ -738,10 +670,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         let memberMeta = Object.getOwnPropertyDescriptor(body, name).value;
 
         // this prevents destruction of type information by base classes which include the `qx.core.MProperty` mixin
-        if (
-          (name === "get" || name === "set") &&
-          classMeta.mixins?.includes("qx.core.MProperty")
-        ) {
+        if ((name === "get" || name === "set") && classMeta.mixins?.includes("qx.core.MProperty")) {
           continue;
         }
 
@@ -762,8 +691,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             static: isStatic,
             parameters: memberMeta.params,
             returnType:
-              typeof memberMeta.returnType === "object" &&
-              "type" in memberMeta.returnType
+              typeof memberMeta.returnType === "object" && "type" in memberMeta.returnType
                 ? memberMeta.returnType.type
                 : memberMeta.returnType,
             jsdoc: memberMeta.jsdoc ?? {},
@@ -773,17 +701,10 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           let type = "any";
           if (memberMeta.jsdoc?.["@return"] || memberMeta.jsdoc?.["@param"]) {
             // TODO: move anon fn type gen into metadata?
-            const returnType = this.getType(
-              memberMeta.jsdoc?.["@return"]?.[0].type
-            );
+            const returnType = this.getType(memberMeta.jsdoc?.["@return"]?.[0].type);
 
             const paramaterList =
-              memberMeta.jsdoc["@param"]?.map(
-                p =>
-                  `${p.paramName}${p.optional ? "?" : ""}: ${this.getType(
-                    p.type
-                  )}`
-              ) ?? [];
+              memberMeta.jsdoc["@param"]?.map(p => `${p.paramName}${p.optional ? "?" : ""}: ${this.getType(p.type)}`) ?? [];
             type = `((${paramaterList.join(", ")}) => ${returnType})`;
           } else if (!!memberMeta.jsdoc?.["@type"]) {
             type = this.getType(memberMeta.jsdoc["@type"][0].type);
@@ -825,9 +746,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       Decorator: "qx.ui.decoration.Decorator",
       MWidgetController: "qx.ui.list.core.MWidgetController",
       AbstractTreeItem: "qx.ui.tree.core.AbstractTreeItem",
-      Axis: "qx.ui.virtual.core.Axis",
-      ILayer: "qx.ui.virtual.core.ILayer",
-      Pane: "qx.ui.virtual.core.Pane",
       IDesktop: "qx.ui.window.IDesktop",
       IWindowManager: "qx.ui.window.IWindowManager",
       DateFormat: "qx.util.format.DateFormat",

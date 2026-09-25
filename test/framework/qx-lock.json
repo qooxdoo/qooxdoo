@@ -9,12 +9,20 @@
       "repo_tag": "v2.0.0"
     },
     {
+      "library_name": "deprecated.qx.io.list",
+      "library_version": "1.0.1",
+      "path": "qx_packages/qooxdoo_deprecated_qx_ui_list_v1_0_1",
+      "uri": "qooxdoo/deprecated.qx.ui.list",
+      "repo_name": "qooxdoo/deprecated.qx.ui.list",
+      "repo_tag": "v1.0.1"
+    },
+    {
       "library_name": "Commandline Testrunner for Qooxdoo Apps",
-      "library_version": "4.1.1",
-      "path": "qx_packages/qooxdoo_qxl_testtapper_v4_1_1",
+      "library_version": "4.1.6",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v4_1_6",
       "uri": "qooxdoo/qxl.testtapper",
       "repo_name": "qooxdoo/qxl.testtapper",
-      "repo_tag": "v4.1.1"
+      "repo_tag": "v4.1.6"
     }
   ],
   "version": "2.1.0"

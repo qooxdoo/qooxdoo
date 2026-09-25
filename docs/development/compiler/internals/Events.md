@@ -8,16 +8,16 @@ which your code can listen. Here is a list of events with a brief explanation:
 ## Makers
 
 `qx.tool.compiler.makers.Maker` instances fire the following events:  
-- `making`: Fired when making of apps begins.
-- `made`: Fired when making of apps is done. 
-- `writingApplication`: Fired when writing of single application starts.
-- `writingApplications`: Fired when application writing starts.
-- `writtenApplication`: Fired when writing of single application is complete.
-- `writtenApplications`: Fired after writing of all applications.
+- `making`: Fired when making of apps begins. Data: the `Maker` instance.
+- `made`: Fired when making of apps is done. Data: the `Maker` instance.
+- `writingApplications`: Fired when application writing starts. Data: array of `{application, analyzer, maker}` for all apps that need recompilation.
+- `writingApplication`: Fired when writing of single application starts. Data: `{application, analyzer, maker}`.
+- `writtenApplication`: Fired when writing of single application is complete. Data: `{application, analyzer, maker}`.
+- `writtenApplications`: Fired after writing of all applications. Data: array of `{application, analyzer, maker}` for all written apps.
 
 ## Analyzer
 
-`qx.tool.compiler.Analyser` instances fire the following events:
+`qx.tool.compiler.Analyzer` instances fire the following events:
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
 - `alreadyCompiledClass`: Fired when a class is already compiled (but needed for compilation)
@@ -29,15 +29,16 @@ Instances of `qx.tool.cli.commands.Compile` and its subclasses fire the followin
 - `checkEnvironment`: Fired after all environment data is collected. 
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
-- `making`: Fired when making of apps begins.
-- `made`: Fired when making of apps is done.
+- `making`: Fired when making of apps begins. Data: the `Maker` instance.
+- `made`: Fired when making of apps is done. Data: the `Maker` instance.
+- `allDone`: Fired once when all makers have finished — after the last `made` event.
 - `minifyingApplication`: Fired when minification begins.
 - `minifiedApplication`: Fired when minification is done.
 - `saveDatabase`: Fired when the database is being saved.
-- `writingApplication`: Fired when writing of single application starts.
-- `writingApplications`: Fired when application writing starts.
-- `writtenApplication`: Fired when writing of single application is complete.
-- `writtenApplications`: Fired after writing of all applications.
+- `writingApplications`: Fired when application writing starts. Data: array of `{application, analyzer, maker}` for all apps that need recompilation.
+- `writingApplication`: Fired when writing of single application starts. Data: `{application, analyzer, maker}`.
+- `writtenApplication`: Fired when writing of single application is complete. Data: `{application, analyzer, maker}`.
+- `writtenApplications`: Fired after writing of all applications. Data: array of `{application, analyzer, maker}` for all written apps.
 
 Instances of `qx.tool.cli.commands.Deploy` and its subclasses fire the following events:
 events:

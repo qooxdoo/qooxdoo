@@ -22,13 +22,11 @@
 
 const { promisify } = require("util");
 const nodePromisify = promisify;
-const PromisePool = require("es6-promise-pool");
 
 qx.Class.define("qx.tool.utils.Promisify", {
   statics: {
     MAGIC_KEY: "__isPromisified__",
-    IGNORED_PROPS:
-      /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__|F_OK|R_OK|W_OK|X_OK)$/,
+    IGNORED_PROPS: /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__|F_OK|R_OK|W_OK|X_OK)$/,
 
     promisifyAll(target, fn) {
       Object.getOwnPropertyNames(target).forEach(key => {
@@ -78,24 +76,26 @@ qx.Class.define("qx.tool.utils.Promisify", {
     /**
      * Runs `fn` for each item in `arr`,
      * such that at most `size` instances of fn are executing at any one time.
-     * @param {Array} arr 
-     * @param {number} size 
-     * @param {Callback} fn 
-     * 
+     * @param {Array} arr
+     * @param {number} size
+     * @param {Callback} fn
+     *
      * @callback Callback
      * @param {*} item
      * @returns {Promise}
      */
     async poolEachOf(arr, size, fn) {
-      let index = 0;
-      let pool = new PromisePool(() => {
-        if (index >= arr.length) {
-          return null;
-        }
-        let item = arr[index++];
-        return fn(item);
-      }, 10);
-      await pool.start();
+      if (arr.length === 0) {
+        return;
+      }
+      let limiter = new qx.util.ConcurrencyLimiter(size);
+      let promise = new qx.Promise();
+      limiter.addListener("empty", () => promise.resolve());
+      for (let item of arr) {
+        limiter.add(() => fn(item));
+      }
+
+      await promise;
     },
 
     async map(arr, fn) {
@@ -139,26 +139,21 @@ qx.Class.define("qx.tool.utils.Promisify", {
     },
 
     async somePool(arr, size, fn) {
-      return await new qx.Promise((resolve, reject) => {
-        let index = 0;
-        let pool = new PromisePool(() => {
-          if (!resolve) {
-            return null;
-          }
-          if (index >= arr.length) {
-            resolve(false);
-            return null;
-          }
-          let item = arr[index++];
-          return fn(item).then(result => {
-            if (result && resolve) {
-              resolve(true);
-              resolve = null;
+      const limiter = new qx.util.ConcurrencyLimiter(size);
+      let found = false;
+      await Promise.all(
+        arr.map(item =>
+          limiter.add(async () => {
+            if (found) {
+              return;
             }
-          });
-        }, 10);
-        pool.start();
-      });
+            if (await fn(item)) {
+              found = true;
+            }
+          })
+        )
+      );
+      return found;
     },
 
     call(fn) {
@@ -175,9 +170,7 @@ qx.Class.define("qx.tool.utils.Promisify", {
 
     callback(promise, cb) {
       if (cb) {
-        promise = promise
-          .then((...args) => cb(null, ...args))
-          .catch(err => cb(err));
+        promise = promise.then((...args) => cb(null, ...args)).catch(err => cb(err));
       }
       return promise;
     },

@@ -1,4 +1,0 @@
-/**
- * qx.ui.list package
- *
- */

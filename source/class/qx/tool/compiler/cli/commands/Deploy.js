@@ -117,113 +117,90 @@ qx.Class.define("qx.tool.compiler.cli.commands.Deploy", {
       let appNames = null;
       if (argv.appName) {
         appNames = {};
-        String(argv.appName).split(",").forEach(appName => (appNames[appName] = true));
+        String(argv.appName)
+          .split(",")
+          .forEach(appName => (appNames[appName] = true));
       }
 
       if (argv.clean) {
-        await qx.tool.utils.Promisify.eachOfSeries(
-          this.getMakers(),
-          async maker => {
-            let target = maker.getTarget();
-
-            await qx.tool.utils.Promisify.eachOfSeries(
-              maker.getApplications(),
-              async app => {
-                if (appNames && !appNames[app.getName()]) {
-                  return;
-                }
-                if (app.getDeploy() === false) {
-                  return;
-                }
-                let deployDir =
-                  argv.out ||
-                  (typeof target.getDeployDir == "function" &&
-                    target.getDeployDir());
-                if (deployDir) {
-                  await qx.tool.utils.files.Utils.deleteRecursive(deployDir);
-                }
-              }
-            );
-          }
-        );
-      }
-
-      await qx.tool.utils.Promisify.eachOfSeries(
-        this.getMakers(),
-        async (maker, makerIndex) => {
+        await qx.tool.utils.Promisify.eachOfSeries(this.getMakers(), async maker => {
           let target = maker.getTarget();
 
-          await qx.tool.utils.Promisify.eachOfSeries(
-            maker.getApplications(),
-            async app => {
-              if (appNames && !appNames[app.getName()]) {
-                return;
-              }
-              if (app.getDeploy() === false) {
-                return;
-              }
-              let deployDir =
-                argv.out ||
-                (typeof target.getDeployDir == "function" &&
-                  target.getDeployDir());
-              if (!deployDir) {
-                qx.tool.compiler.Console.print(
-                  "qx.tool.compiler.cli.deploy.deployDirNotSpecified",
-                  target.getType()
-                );
-
-                return;
-              }
-
-              let sourceMaps =
-                argv.sourceMaps ||
-                (typeof target.getDeployMap == "function" &&
-                  target.getDeployMap()) ||
-                (typeof target.getSaveSourceInMap == "function" &&
-                  target.getSaveSourceInMap());
-              let appRoot = target.getApplicationRoot(app);
-              let destRoot = path.join(deployDir, app.getName());
-              await this.__copyFiles(appRoot, destRoot, sourceMaps);
-
-              {
-                let from = path.join(target.getOutputDir(), "resource");
-                if (fs.existsSync(from)) {
-                  let to = path.join(deployDir, "resource");
-                  if (makerIndex == 0 && argv.clean) {
-                    await qx.tool.utils.files.Utils.deleteRecursive(to);
-                  }
-                  await qx.tool.utils.files.Utils.sync(from, to);
-                }
-              }
-              {
-                let from = path.join(target.getOutputDir(), "index.html");
-                let to = path.join(deployDir, "index.html");
-                if (fs.existsSync(from)) {
-                  fs.copyFileSync(from, to);
-                }
-              }
-              let data = {
-                targetDir: target.getOutputDir(),
-                deployDir: deployDir,
-                argv: argv,
-                application: app
-              };
-
-              await this.fireDataEventAsync("afterDeploy", data);
-              if (
-                this.getCompilerApi() &&
-                typeof this.getCompilerApi().afterDeploy == "function"
-              ) {
-                await this.getCompilerApi().afterDeploy(data);
-              }
+          await qx.tool.utils.Promisify.eachOfSeries(maker.getApplications(), async app => {
+            if (appNames && !appNames[app.getName()]) {
+              return;
             }
-          );
-        }
-      );
+            if (app.getDeploy() === false) {
+              return;
+            }
+            let deployDir = argv.out || (typeof target.getDeployDir == "function" && target.getDeployDir());
+            if (deployDir) {
+              await qx.tool.utils.files.Utils.deleteRecursive(deployDir);
+            }
+          });
+        });
+      }
+
+      await qx.tool.utils.Promisify.eachOfSeries(this.getMakers(), async (maker, makerIndex) => {
+        let target = maker.getTarget();
+
+        await qx.tool.utils.Promisify.eachOfSeries(maker.getApplications(), async app => {
+          if (appNames && !appNames[app.getName()]) {
+            return;
+          }
+          if (app.getDeploy() === false) {
+            return;
+          }
+          let deployDir = argv.out || target.getDeployDir();
+
+          if (!deployDir) {
+            qx.tool.compiler.Console.print("qx.tool.compiler.cli.deploy.deployDirNotSpecified", target.getType());
+
+            return;
+          }
+
+          let sourceMaps =
+            argv.sourceMaps ||
+            (typeof target.getDeployMap == "function" && target.getDeployMap()) ||
+            (typeof target.getSaveSourceInMap == "function" && target.getSaveSourceInMap());
+          let appRoot = target.getApplicationRoot(app);
+          let destRoot = path.join(deployDir, app.getName());
+          await this.__copyFiles(appRoot, destRoot, sourceMaps);
+
+          {
+            let from = path.join(target.getOutputDir(), "resource");
+            if (fs.existsSync(from)) {
+              let to = path.join(deployDir, "resource");
+              if (makerIndex == 0 && argv.clean) {
+                await qx.tool.utils.files.Utils.deleteRecursive(to);
+              }
+              await qx.tool.utils.files.Utils.sync(from, to);
+            }
+          }
+          {
+            let from = path.join(target.getOutputDir(), "index.html");
+            let to = path.join(deployDir, "index.html");
+            if (fs.existsSync(from)) {
+              fs.copyFileSync(from, to);
+            }
+          }
+          let data = {
+            targetDir: target.getOutputDir(),
+            deployDir: deployDir,
+            argv: argv,
+            application: app
+          };
+
+          await this.fireDataEventAsync("afterDeploy", data);
+          if (this.getCompilerApi() && typeof this.getCompilerApi().afterDeploy == "function") {
+            await this.getCompilerApi().afterDeploy(data);
+          }
+        });
+      });
     },
 
     async __copyFiles(srcDir, destDir, sourceMaps) {
-      await qx.tool.utils.Utils.makeDirs(destDir);
+      await fs.promises.mkdir(destDir, { recursive: true });
       let files = await fs.readdirAsync(srcDir);
       await qx.tool.utils.Promisify.eachOf(files, async file => {
         let from = path.join(srcDir, file);

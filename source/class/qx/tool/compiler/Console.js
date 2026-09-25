@@ -23,6 +23,10 @@
 /**
  * The Console handles output of compiler messages for the end user (i.e. not debugging output).
  * The output is based around message IDs, which relate to translatable strings, plus arguments.
+ *
+ * @typedef {string} msgId - A message ID representing a type of compiler warning or error.
+ *   All message IDs can be found in method defer of this class.
+ *
  */
 qx.Class.define("qx.tool.compiler.Console", {
   extend: qx.core.Object,
@@ -70,11 +74,7 @@ qx.Class.define("qx.tool.compiler.Console", {
     print(msgId, ...args) {
       for (var i = 0; i < args.length; i++) {
         var arg = args[i];
-        if (
-          typeof arg !== "string" &&
-          typeof arg !== "number" &&
-          arg !== null
-        ) {
+        if (typeof arg !== "string" && typeof arg !== "number" && arg !== null) {
           args[i] = String(arg);
         }
       }
@@ -151,6 +151,16 @@ qx.Class.define("qx.tool.compiler.Console", {
     },
 
     /**
+     * Prints a message using console.log, but only if `verbose` is true.
+     * @param  {...any} args
+     */
+    logVerbose(...args) {
+      if (this.isVerbose()) {
+        this.log(...args);
+      }
+    },
+
+    /**
      * console.warn equivalent, with colorization
      */
     warn(...args) {
@@ -172,62 +182,44 @@ qx.Class.define("qx.tool.compiler.Console", {
     statics.addMessageIds(
       {
         // Compiler errors (@see {ClassFile})
-        "qx.tool.compiler.class.invalidProperties":
-          "Invalid 'properties' key in class definition",
-        "qx.tool.compiler.compiler.missingClassDef":
-          "FATAL Missing class definition - no call to qx.Class.define (or qx.Mixin.define etc)",
+        "qx.tool.compiler.class.invalidProperties": "Invalid 'properties' key in class definition",
+        "qx.tool.compiler.compiler.missingClassDef": "FATAL Missing class definition - no call to qx.Class.define (or qx.Mixin.define etc)",
         "qx.tool.compiler.compiler.syntaxError": "FATAL Syntax error: %1",
         "qx.tool.compiler.compiler.invalidExtendClause":
           "FATAL Invalid `extend` clause - expected to find a class name (without quotes or `new`)",
-        "qx.tool.compiler.compiler.invalidClassDefinitionEntry":
-          "Unexpected property %2 in %1 definition",
-        "qx.tool.compiler.compiler.wrongClassName":
-          "Wrong class name or filename - expected to find at least %1 but only found [%2]",
-        "qx.tool.compiler.class.reservedWordDecl":
-          "Do not use the reserved word '%1' as a variable name",
-        "qx.tool.compiler.compiler.membersNotAnObject":
-          "The members property of class %1 is not an object",
+        "qx.tool.compiler.compiler.invalidClassDefinitionEntry": "Unexpected property %2 in %1 definition",
+        "qx.tool.compiler.compiler.wrongClassName": "Wrong class name or filename - expected to find at least %1 but only found [%2]",
+        "qx.tool.compiler.class.reservedWordDecl": "Do not use the reserved word '%1' as a variable name",
+        "qx.tool.compiler.compiler.membersNotAnObject": "The members property of class %1 is not an object",
+        "qx.tool.compiler.compiler.missingLibrary": "Cannot find library %1 inn directory %2",
 
         // Application errors (@see {Application})
-        "qx.tool.compiler.application.partRecursive":
-          "Part %1 has recursive dependencies on other parts",
-        "qx.tool.compiler.application.duplicatePartNames":
-          "Duplicate parts named '%1'",
+        "qx.tool.compiler.application.partRecursive": "Part %1 has recursive dependencies on other parts",
+        "qx.tool.compiler.application.duplicatePartNames": "Duplicate parts named '%1'",
         "qx.tool.compiler.application.noBootPart": "Cannot find a boot part",
-        "qx.tool.compiler.application.conflictingExactPart":
-          "Conflicting exact match for %1, could be %2 or %3",
-        "qx.tool.compiler.application.conflictingBestPart":
-          "Conflicting best match for %1, could be %2 or %3",
-        "qx.tool.compiler.application.missingRequiredLibrary":
-          "Cannot find required library %1",
-        "qx.tool.compiler.application.missingScriptResource":
-          "Cannot find script resource: %1",
-        "qx.tool.compiler.application.missingCssResource":
-          "Cannot find CSS resource: %1",
+        "qx.tool.compiler.application.conflictingExactPart": "Conflicting exact match for %1, could be %2 or %3",
+        "qx.tool.compiler.application.conflictingBestPart": "Conflicting best match for %1, could be %2 or %3",
+        "qx.tool.compiler.application.missingRequiredLibrary": "Cannot find required library %1",
+        "qx.tool.compiler.application.missingScriptResource": "Cannot find script resource: %1",
+        "qx.tool.compiler.application.missingCssResource": "Cannot find CSS resource: %1",
 
         // Target errors (@see {Target})
-        "qx.tool.compiler.target.missingAppLibrary":
-          "Cannot find library required to create application for %1",
+        "qx.tool.compiler.target.missingAppLibrary": "Cannot find library required to create application for %1",
 
         // Library errors (@see {Library})
-        "qx.tool.compiler.library.emptyManifest":
-          "Empty Manifest.json in library at %1",
+        "qx.tool.compiler.library.emptyManifest": "Empty Manifest.json in library at %1",
         "qx.tool.compiler.library.cannotCorrectCase":
           "Unable to correct case for library in %1 because it uses source/resource directories which are outside the library",
-        "qx.tool.compiler.library.cannotFindPath":
-          "Cannot find path %2 required by library %1",
+        "qx.tool.compiler.library.cannotFindPath": "Cannot find path %2 required by library %1",
 
         // Targets
-        "qx.tool.compiler.build.uglifyParseError":
-          "Parse error in output file %4, line %1 column %2: %3",
+        "qx.tool.compiler.build.uglifyParseError": "Parse error in output file %4, line %1 column %2: %3",
 
         // Fonts
-        "qx.tool.compiler.webfonts.error":
-          "Error compiling webfont %1, error=%2",
+        "qx.tool.compiler.webfonts.error": "Error compiling webfont %1, error=%2",
 
         // Progress
-        "qx.tool.compiler.maker.appFatalError":
-          "Cannot write application '%1' because it has fatal errors"
+        "qx.tool.compiler.maker.appFatalError": "Cannot write application '%1' because it has fatal errors"
       },
 
       "error"
@@ -240,27 +232,20 @@ qx.Class.define("qx.tool.compiler.Console", {
       {
         "qx.tool.compiler.class.blockedMangle":
           "The mangling of private variable '%1' has been blocked because it is referenced as a string before it is declared",
-        "qx.tool.compiler.translate.invalidMessageId":
-          "Cannot interpret message ID %1",
-        "qx.tool.compiler.translate.invalidMessageIds":
-          "Cannot interpret message ID %1, %2",
-        "qx.tool.compiler.translate.invalidMessageIds3":
-          "Cannot interpret message ID %1, %2, %3",
+        "qx.tool.compiler.translate.invalidMessageId": "Cannot interpret message ID %1",
+        "qx.tool.compiler.translate.invalidMessageIds": "Cannot interpret message ID %1, %2",
+        "qx.tool.compiler.translate.invalidMessageIds3": "Cannot interpret message ID %1, %2, %3",
 
-        "qx.tool.compiler.testForUnresolved":
-          "Unexpected termination when testing for unresolved symbols, node type %1",
-        "qx.tool.compiler.testForFunctionParameterType":
-          "Unexpected type of function parameter, node type %1",
-        "qx.tool.compiler.defer.unsafe":
-          "Unsafe use of 'defer' method to access external class: %1",
+        "qx.tool.compiler.testForUnresolved": "Unexpected termination when testing for unresolved symbols, node type %1",
+        "qx.tool.compiler.testForFunctionParameterType": "Unexpected type of function parameter, node type %1",
+        "qx.tool.compiler.defer.unsafe": "Unsafe use of 'defer' method to access external class: %1",
         "qx.tool.compiler.symbol.unresolved": "Unresolved use of symbol %1",
         "qx.tool.compiler.environment.unreachable":
           "Environment check '%1' may be indeterminable, add to Manifest/provides/environment or use class name prefix",
         "qx.tool.compiler.compiler.requireLiteralArguments":
           "Wrong class name or filename - expected to find at least %1 but only found [%2]",
 
-        "qx.tool.compiler.target.missingAppLibrary":
-          "Cannot find the application library for %1",
+        "qx.tool.compiler.target.missingAppLibrary": "Cannot find the application library for %1",
         "qx.tool.compiler.webfonts.noResources":
           "Assets required for webfont %1 are not available in application %2, consider using @asset to include %3",
         "qx.tool.compiler.target.missingBootJs":
@@ -272,12 +257,13 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.compiler.mixinQxObjectImpl":
           "%1: Mixins should not use `_createQxObjectImpl`, consider using top-level objects instead",
 
+        "qx.tool.compiler.discovery.duplicateClassname": "Duplicate class name %1 found in files %2 and %3",
+
         "qx.tool.compiler.maker.appNotHeadless":
           "Compiling application '%1' but the target supports non-headless output, you may find unwanted dependencies are loaded during startup",
 
         // Fonts
-        "qx.tool.compiler.webfonts.deprecated":
-          "Manifest uses deprecated provides.webfonts, consider switching to provides.font",
+        "qx.tool.compiler.webfonts.deprecated": "Manifest uses deprecated provides.webfonts, consider switching to provides.font",
         "qx.tool.compiler.fonts.unresolved": "Cannot find font with name %1"
       },
 
@@ -329,6 +315,10 @@ qx.Class.define("qx.tool.compiler.Console", {
      */
     debug(...args) {
       return this.getInstance().debug(...args);
+    },
+
+    logVerbose(...args) {
+      return this.getInstance().logVerbose(...args);
     },
 
     /**
@@ -399,8 +389,7 @@ qx.Class.define("qx.tool.compiler.Console", {
      * @return {String}
      */
     decodeMarker(marker, showPosition) {
-      var msg =
-        qx.tool.compiler.Console.MESSAGE_IDS[marker.msgId] || marker.msgId;
+      var msg = qx.tool.compiler.Console.MESSAGE_IDS[marker.msgId] || marker.msgId;
       var type = msg.type ? msg.type + ": " : "";
       var str = "";
       var pos = marker.pos;
@@ -409,12 +398,7 @@ qx.Class.define("qx.tool.compiler.Console", {
         if (pos.start.column) {
           str += "," + pos.start.column;
         }
-        if (
-          pos.end &&
-          pos.end.line &&
-          pos.end.line !== pos.start.line &&
-          pos.end.column !== pos.start.column
-        ) {
+        if (pos.end && pos.end.line && pos.end.line !== pos.start.line && pos.end.column !== pos.start.column) {
           str += " to " + pos.end.line;
           if (pos.end.column) {
             str += "," + pos.end.column;

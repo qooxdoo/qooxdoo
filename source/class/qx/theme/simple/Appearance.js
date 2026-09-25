@@ -34,7 +34,6 @@
  * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
 qx.Theme.define("qx.theme.simple.Appearance", {
-
   appearances: {
     /*
     ---------------------------------------------------------------------------
@@ -1834,7 +1833,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
       style(states) {
         var result = {
           width: 17,
-          showFeatures: "icon",
+          show: "icon",
           cursor: states.disabled ? undefined : "pointer"
         };
 
@@ -1876,14 +1875,8 @@ qx.Theme.define("qx.theme.simple.Appearance", {
           decorator: "datechooser-weekday",
           font: "bold",
           textAlign: "center",
-          textColor: states.disabled
-            ? "text-disabled"
-            : states.weekend
-            ? "datechooser-background-selected-dark"
-            : "datechooser-background",
-          backgroundColor: states.weekend
-            ? "datechooser-background"
-            : "datechooser-background-selected-dark",
+          textColor: states.disabled ? "text-disabled" : states.weekend ? "datechooser-background-selected-dark" : "datechooser-background",
+          backgroundColor: states.weekend ? "datechooser-background" : "datechooser-background-selected-dark",
           paddingTop: 2
         };
       }
@@ -1912,7 +1905,7 @@ qx.Theme.define("qx.theme.simple.Appearance", {
         return {
           textAlign: "center",
           textColor: "datechooser-background",
-		      backgroundColor: "datechooser-background-selected-dark",
+          backgroundColor: "datechooser-background-selected-dark",
           padding: [2, 4],
           decorator: states.header ? "datechooser-week-header" : "datechooser-week"
         };

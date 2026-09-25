@@ -37,7 +37,7 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
     },
 
     /**
-     * Detects whether the file needs to be recompiled/coverted/analysed/ etc, and is done after
+     * Detects whether the file needs to be recompiled/coverted/analyzed/ etc, and is done after
      * checks determine whether the file datetime stamp indicate it's necessary
      *
      * @param target {qx.tool.compiler.targets.Target} the target
@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
     },
 
     /**
-     * Allows a file to be recompiled/coverted/analysed/ etc; must return a Promise which resolves
+     * Allows a file to be recompiled/coverted/analyzed/ etc; must return a Promise which resolves
      * when complete.  Data can be stored in the resource database by modifying the fileInfo
      *
      * @param target {qx.tool.compiler.targets.Target} the target

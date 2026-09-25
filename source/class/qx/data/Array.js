@@ -47,6 +47,13 @@ qx.Class.define("qx.data.Array", {
         // ... then use the method for retrieving an item
         return this.getItem(property);
       } else {
+        // This should be configured in the `defer` but that will not be called until later in the boot process, meaning that it is possible that
+        // the `qx.data.Array` is not iterable when used during startup.  We add it here, on demand.
+        if (property === Symbol.iterator && qx.data.Array.prototype[Symbol.iterator] === undefined) {
+          qx.data.Array.prototype[Symbol.iterator] = function () {
+            return this.iterator();
+          };
+        }
         // otherwise, use the default action
         return this[property];
       }
@@ -1199,11 +1206,5 @@ qx.Class.define("qx.data.Array", {
     }
 
     this.__array = null;
-  },
-
-  defer(statics) {
-    statics.prototype[Symbol.iterator] = function () {
-      return this.iterator();
-    };
   }
 });
