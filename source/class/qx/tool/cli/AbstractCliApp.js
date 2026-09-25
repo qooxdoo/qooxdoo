@@ -63,7 +63,7 @@ qx.Class.define("qx.tool.cli.AbstractCliApp", {
       // process.exit() immediately marks them UV_HANDLE_CLOSING, then a background task fires
       // uv_async_send() on one → assertion fails (libuv 1.50.x made this a hard crash, not a no-op).
       // Setting exitCode and returning lets the event loop drain naturally instead.
-      process.exitCode = exitCode;
+      process.exitCode = exitCode || process.exitCode || 0;
     },
 
     /**
