@@ -20,7 +20,6 @@
  * The simple qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.simple.Decoration", {
-
   aliases: {
     decoration: "qx/decoration/Simple"
   },
@@ -686,12 +685,7 @@ qx.Theme.define("qx.theme.simple.Decoration", {
     inset: {
       style: {
         width: 1,
-        color: [
-          "border-light-shadow",
-          "border-light",
-          "border-light",
-          "border-light"
-        ]
+        color: ["border-light-shadow", "border-light", "border-light", "border-light"]
       }
     },
 
@@ -926,22 +920,6 @@ qx.Theme.define("qx.theme.simple.Decoration", {
       include: "table-header-cell",
       style: {
         widthLeft: 1
-      }
-    },
-
-    "virtual-background-header": {
-      style: {
-        gradientStart: ["button-box-bright", 40],
-        gradientEnd: ["button-box-dark", 70],
-        backgroundColor: "button-box-bright"
-      }
-    },
-
-    "virtual-background-span": {
-      include: "table-header-cell",
-      style: {
-        color: "table-row-line",
-        width: [0, 0, 1, 0]
       }
     },
 

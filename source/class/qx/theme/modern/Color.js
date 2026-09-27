@@ -192,9 +192,7 @@ qx.Theme.define("qx.theme.modern.Color", {
 
     "tabview-background": "#07125A",
 
-    shadow: qx.core.Environment.get("css.rgba")
-      ? "rgba(0, 0, 0, 0.4)"
-      : "#999999",
+    shadow: qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#999999",
 
     "pane-start": "#FBFBFB",
     "pane-end": "#F0F0F0",
@@ -276,8 +274,6 @@ qx.Theme.define("qx.theme.modern.Color", {
 
     "groupitem-start": "#A7A7A7",
     "groupitem-end": "#949494",
-    "groupitem-text": "white",
-    "virtual-row-layer-background-even": "white",
-    "virtual-row-layer-background-odd": "white"
+    "groupitem-text": "white"
   }
 });

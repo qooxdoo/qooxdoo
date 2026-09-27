@@ -9,7 +9,7 @@
       "repo_tag": "v2.0.0"
     },
     {
-      "library_name": "deprecated.qx.io.list",
+      "library_name": "deprecated.qx.ui.list",
       "library_version": "1.0.1",
       "path": "qx_packages/qooxdoo_deprecated_qx_ui_list_v1_0_1",
       "uri": "qooxdoo/deprecated.qx.ui.list",

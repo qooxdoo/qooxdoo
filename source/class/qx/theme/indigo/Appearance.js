@@ -69,10 +69,7 @@ qx.Theme.define("qx.theme.indigo.Appearance", {
     "splitpane/splitter/knob": {
       style(states) {
         return {
-          source:
-            qx.theme.simple.Image.URLS[
-              "knob-" + (states.horizontal ? "horizontal" : "vertical")
-            ],
+          source: qx.theme.simple.Image.URLS["knob-" + (states.horizontal ? "horizontal" : "vertical")],
 
           padding: 3
         };
@@ -84,11 +81,7 @@ qx.Theme.define("qx.theme.indigo.Appearance", {
         return {
           contentPadding: [10, 10, 10, 10],
           backgroundColor: states.maximized ? "background" : undefined,
-          decorator: states.maximized
-            ? undefined
-            : states.active
-            ? "window-active"
-            : "window"
+          decorator: states.maximized ? undefined : states.active ? "window-active" : "window"
         };
       }
     },
@@ -111,17 +104,6 @@ qx.Theme.define("qx.theme.indigo.Appearance", {
           font: "default",
           marginRight: 20,
           alignY: "middle"
-        };
-      }
-    },
-
-    "virtual-tree": {
-      include: "tree",
-      alias: "tree",
-
-      style(states) {
-        return {
-          itemHeight: 27
         };
       }
     },
