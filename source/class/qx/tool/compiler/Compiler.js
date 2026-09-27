@@ -507,8 +507,15 @@ qx.Class.define("qx.tool.compiler.Compiler", {
 
       await Promise.all(
         Object.entries(changedFiles).map(async ([filename, changeType]) => {
+          if (filename.match(/__init__/)) {
+            return;
+          }
           if (changeType === "+") {
-            let classname = this.__discoveredClassFiles[filename].classname;
+            let classname = this.__discoveredClassFiles[filename]?.classname;
+            if (!classname) {
+              //No classname means that it is not a valid file for compilation
+              return;
+            }
             added.push(classname);
             await metaDb.addFile(filename, true);
           } else {
