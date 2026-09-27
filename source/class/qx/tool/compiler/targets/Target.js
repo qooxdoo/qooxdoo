@@ -458,7 +458,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
           let transpiledClassFilename = path.join(this.getOutputDir(), "transpiled", classFilename);
 
-          let dbClassInfo = analyzer.getDbClassInfo(classname);
+          let dbClassInfo = analyzer.getDbClassInfo(classname) || null;
           let sourcePath = path.resolve(dbClassInfo.filename);
           let jsMeta = new qx.tool.compiler.targets.meta.Javascript(appMeta, transpiledClassFilename, sourcePath);
 

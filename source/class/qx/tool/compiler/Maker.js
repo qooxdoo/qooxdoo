@@ -297,6 +297,9 @@ qx.Class.define("qx.tool.compiler.Maker", {
       var analyzer = this.getAnalyzer();
       let target = this.getTarget();
 
+      target.setAnalyzer(analyzer);
+      this.__applications.forEach(app => app.setAnalyzer(analyzer));
+
       await this.fireEventAsync("making");
 
       this.setSuccess(null);
@@ -315,8 +318,6 @@ qx.Class.define("qx.tool.compiler.Maker", {
       await analyzer.initialScan();
       await analyzer.updateEnvironmentData();
 
-      target.setAnalyzer(analyzer);
-      this.__applications.forEach(app => app.setAnalyzer(analyzer));
       await target.open();
 
       for (let library of analyzer.getLibraries()) {

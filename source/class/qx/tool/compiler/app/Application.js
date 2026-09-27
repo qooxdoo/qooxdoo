@@ -583,7 +583,10 @@ qx.Class.define("qx.tool.compiler.app.Application", {
 
       var requiredLibs = {};
       this.__loadDeps.forEach(classname => {
-        let classInfo = analyzer.getDbClassInfo(classname);
+        let classInfo = analyzer.getDbClassInfo(classname) || null;
+        if (!classInfo) {
+          debugger;
+        }
         if (classInfo.fatalCompileError) {
           return;
         }
@@ -597,6 +600,9 @@ qx.Class.define("qx.tool.compiler.app.Application", {
               }
             }
           });
+        }
+        if (!classInfo.libraryName) {
+          throw new Error(`Library name missing for class ${classname}`);
         }
         requiredLibs[classInfo.libraryName] = true;
       });

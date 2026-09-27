@@ -48,9 +48,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
     this.__dbClassInfoCache = {};
     this.__changedFiles = {};
     this.__compilingClasses = {};
-    this.__dirtyClasses = {};
-    this.__dirtyMakers = {};
-    this.__makingMakers = {};
+    this.__makerStateByHashCode = {};
   },
 
   events: {
@@ -187,11 +185,17 @@ qx.Class.define("qx.tool.compiler.Compiler", {
     /** @type {Object<String,Promise>} classes currently being compiled, index by hash of target directory and classname eg "source:mypkg.MyClass" */
     __compilingClasses: null,
 
-    /** @type {Object<String,Boolean>} classes which are dirty and must be recompiled */
-    __dirtyClasses: null,
-
-    /** @type {Object<String,qx.tool.compiler.Maker>} list of makers which need to be 'made', indexed by hash code */
-    __dirtyMakers: null,
+    /**
+     * @typedef MakerState
+     * @property {qx.tool.compiler.Maker} maker The maker instance this state belongs to
+     * @property {Boolean} dirty Whether the maker is dirty and needs to be re-made
+     * @property {Boolean} restart Whether the maker needs to be restarted when it finished
+     * @property {Promise?} promise The promise that resolves when the maker has finished making (after handling any restarts); if
+     *  it is null, then it is not currently being made.
+     *
+     * @type{Object<String,MakerState>} List of MakerState objects, indexed by hash code of the Maker they are for
+     */
+    __makerStateByHashCode: null,
 
     /** @type {Object<String,Promise>} list of makers currently making, indexed by hash code */
     __makingMakers: null,
@@ -202,6 +206,12 @@ qx.Class.define("qx.tool.compiler.Compiler", {
      */
     addMaker(maker) {
       this.__makers.push(maker);
+      this.__makerStateByHashCode[maker.toHashCode()] = {
+        maker: maker,
+        dirty: false,
+        restart: false,
+        promise: null
+      };
       maker.getAnalyzer().setCompiler(this);
       for (let lib of maker.getAnalyzer().getLibraries()) {
         this.addLibrary(lib);
@@ -522,8 +532,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           for (let classname of added) {
             if (dependencies.includes(classname) || app.getRequiredClasses().includes(classname) || app.getTheme() == classname) {
               compilationRequired = true;
-              let hashKey = maker.getAnalyzer().toHashCode() + ":" + classname;
-              this.__dirtyClasses[hashKey] = true;
               this.compileClass(maker.getAnalyzer(), classname, true);
               this.fireDataEvent("classNeedsToBeCompiled", { maker, classname });
               break;
@@ -547,27 +555,61 @@ qx.Class.define("qx.tool.compiler.Compiler", {
      * @returns {Promise<qx.tool.compiler.ClassFile.DbClassInfo>} the class information
      *
      */
-    compileClass(analyzer, classname, force) {
-      let hashKey = analyzer.toHashCode() + ":" + classname;
-      let existingCompile = this.__compilingClasses[hashKey];
-      if (this.__dirtyClasses[hashKey]) {
-        if (existingCompile) {
-          if (!existingCompile.job) {
-            return existingCompile.promise;
-          } else if (existingCompile.job.status === "running") {
-            existingCompile.restart = true;
-            return existingCompile.promise;
-          } else {
-            this.__jobQueue.removeJob(existingCompile.job);
-            existingCompile = null;
-            delete this.__compilingClasses[hashKey];
+    async compileClass(analyzer, classname, force) {
+      let hashKeyForClassname = analyzer.toHashCode() + ":" + classname;
+      let meta = this.__metaDb.getMetaData(classname);
+      if (!meta) {
+        qx.tool.compiler.Console.error(`Compiler Error: Cannot find class ${classname} in project/libraries.`);
+        return { dbClassInfo: { fatalCompileError: true } };
+      }
+
+      let sourceFilename = path.resolve(path.join(this.__metaDb.getRootDir(), meta.classFilename));
+      let outputDir = analyzer.getMaker().getTarget().getOutputDir();
+      let outputFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".js");
+      let jsonFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".json");
+
+      let sourceStat = await qx.tool.utils.files.Utils.safeStat(sourceFilename);
+      if (!sourceStat) {
+        throw new Error(`Source file for class ${classname} not found: ${sourceFilename}`);
+      }
+
+      let dbClassInfo = this.__dbClassInfoCache[hashKeyForClassname] || null;
+      if (!dbClassInfo && fs.existsSync(jsonFilename)) {
+        dbClassInfo = await qx.tool.utils.Json.loadJsonAsync(jsonFilename);
+      }
+
+      if (!force) {
+        let outputStat = await qx.tool.utils.files.Utils.safeStat(outputFilename);
+
+        if (dbClassInfo && outputStat) {
+          var dbMtime = null;
+          try {
+            dbMtime = dbClassInfo.mtime && new Date(dbClassInfo.mtime);
+          } catch (e) {}
+          if (dbMtime && dbMtime.getTime() == sourceStat.mtime.getTime()) {
+            if (outputStat.mtime.getTime() >= sourceStat.mtime.getTime()) {
+              return { dbClassInfo, cached: true };
+            }
           }
         }
-        delete this.__dirtyClasses[hashKey];
+      }
+
+      let existingCompile = this.__compilingClasses[hashKeyForClassname];
+      if (existingCompile) {
+        if (!existingCompile.job) {
+          return existingCompile.promise;
+        } else if (existingCompile.job.status === "running") {
+          existingCompile.restart = true;
+          return existingCompile.promise;
+        } else {
+          this.__jobQueue.removeJob(existingCompile.job);
+          existingCompile = null;
+          delete this.__compilingClasses[hashKeyForClassname];
+        }
       }
 
       const onClassCompiledError = err => {
-        delete this.__compilingClasses[hashKey];
+        delete this.__compilingClasses[hashKeyForClassname];
         qx.tool.compiler.Console.error("Unhandled exception while compiling class " + classname + ": " + err.stack);
         existingCompile.promise.resolve({ fatalCompileError: true });
       };
@@ -578,7 +620,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           compileClassImpl(analyzer, classname, force).then(onClassCompiled).catch(onClassCompiledError);
           return;
         }
-        delete this.__compilingClasses[hashKey];
+        delete this.__compilingClasses[hashKeyForClassname];
         this._onClassCompiled(analyzer, classname, result);
         existingCompile.promise.resolve(result.dbClassInfo);
       };
@@ -590,23 +632,15 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           return { dbClassInfo: { fatalCompileError: true } };
         }
 
-        let sourceFilename = path.resolve(path.join(this.__metaDb.getRootDir(), meta.classFilename));
-        let outputDir = analyzer.getMaker().getTarget().getOutputDir();
-        let outputFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".js");
-
-        let jsonFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".json");
-        let hashKey = outputDir + ":" + classname;
-        let dbClassInfo = this.__dbClassInfoCache[hashKey] || null;
         let sourceStat = await qx.tool.utils.files.Utils.safeStat(sourceFilename);
-
         if (!sourceStat) {
           throw new Error(`Source file for class ${classname} not found: ${sourceFilename}`);
         }
 
-        if (!dbClassInfo) {
-          if (fs.existsSync(jsonFilename)) {
-            dbClassInfo = await qx.tool.utils.Json.loadJsonAsync(jsonFilename);
-          }
+        let hashKey = outputDir + ":" + classname;
+        let dbClassInfo = this.__dbClassInfoCache[hashKey] || null;
+        if (!dbClassInfo && fs.existsSync(jsonFilename)) {
+          dbClassInfo = await qx.tool.utils.Json.loadJsonAsync(jsonFilename);
         }
 
         if (!dbClassInfo) {
@@ -672,10 +706,10 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         promise: new qx.Promise(),
         job: null
       };
-      this.__compilingClasses[hashKey] = existingCompile;
+      this.__compilingClasses[hashKeyForClassname] = existingCompile;
       compileClassImpl(analyzer, classname, force).then(onClassCompiled).catch(onClassCompiledError);
 
-      return existingCompile.promise;
+      return await existingCompile.promise;
     },
 
     /**
@@ -689,56 +723,84 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       if (!result.cached) {
         this.fireDataEvent("compiledClass", { classname, analyzer });
         let maker = analyzer.getMaker();
+        let makerState = this.__makerStateByHashCode[maker.toHashCode()];
         maker.onClassCompiled(classname);
         for (let app of maker.getApplications()) {
           let dependencies = app.getDependencies() || [];
           if (dependencies.includes(classname) || app.getRequiredClasses().includes(classname) || app.getTheme() == classname) {
-            this.__dirtyMakers[maker.toHashCode()] = maker;
+            makerState.dirty = true;
+            makerState.restart = true;
             break;
           }
         }
       }
 
-      // Markers (warnings/errors) are printed once per make cycle in Maker.make(),
-      // which is deterministic; printing them here duplicated output because classes
-      // can be transpiled more than once during a single compile.
-      let makers = Object.values(this.__dirtyMakers);
-      if (makers.length === 0 || Object.keys(this.__compilingClasses).length != 0) {
+      if (Object.keys(this.__compilingClasses).length != 0) {
         return;
       }
-      this.__dirtyMakers = {};
-      for (let maker of makers) {
+
+      let makersToMake = {};
+      for (let makerHash in this.__makerStateByHashCode) {
+        let makerState = this.__makerStateByHashCode[makerHash];
+        if (makerState.restart && makerState.promise) {
+          continue;
+        }
+        if (makerState.dirty && makerState.promise) {
+          makerState.restart = true;
+          continue;
+        }
+        if (makerState.dirty) {
+          makersToMake[makerHash] = makerState.maker;
+          makerState.dirty = false;
+        }
+      }
+
+      for (let makerHash in makersToMake) {
+        let maker = makersToMake[makerHash];
         this.__makeMaker(maker);
       }
     },
 
     __makeMaker(maker) {
       let hashKey = maker.toHashCode();
-      if (this.__makingMakers[hashKey]) {
-        return this.__makingMakers[hashKey];
+      let makerState = this.__makerStateByHashCode[hashKey];
+      if (makerState.promise) {
+        return makerState.promise;
       }
+      makerState.promise = new qx.Promise();
+      makerState.restart = false;
 
-      let promise = maker.make();
-      promise = promise
-        .then(async () => {
-          delete this.__makingMakers[hashKey];
-          if (
-            Object.keys(this.__makingMakers).length === 0 &&
-            Object.keys(this.__dirtyMakers).length === 0 &&
-            Object.keys(this.__compilingClasses).length === 0
-          ) {
-            await this.fireEventAsync("allDone");
-          }
-          return true;
-        })
+      const onMakerMade = async () => {
+        if (makerState.restart) {
+          makerState.restart = false;
+          maker
+            .make()
+            .then(onMakerMade)
+            .catch(err => {
+              let promise = makerState.promise;
+              makerState.promise = null;
+              promise.reject(err);
+            });
+        } else {
+          let promise = makerState.promise;
+          makerState.promise = null;
+          promise.resolve();
+        }
+      };
+
+      makerState.promise.then(async () => {
+        this.fireEventAsync("allDone");
+      });
+
+      maker
+        .make()
+        .then(onMakerMade)
         .catch(async err => {
-          delete this.__makingMakers[hashKey];
           console.error("Error making maker " + maker.toHashCode() + ": " + err.stack);
           process.exit(1);
         });
 
-      this.__makingMakers[hashKey] = promise;
-      return promise;
+      return makerState.promise;
     },
 
     /**

@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.meta.StdClassParser", {
 
   statics: {
     /** Meta Data Version - stored in meta data files */
-    VERSION: 0.3
+    VERSION: 8.0
   },
 
   members: {

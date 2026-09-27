@@ -314,6 +314,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      */
     compile(src, filename) {
       var t = this;
+      console.log("Compiling class:", this.__className);
       var className = this.__className;
       t.__fatalCompileError = false;
       t.__numClassesDefined = 0;
