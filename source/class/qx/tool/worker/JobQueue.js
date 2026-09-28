@@ -119,6 +119,9 @@ qx.Class.define("qx.tool.worker.JobQueue", {
         let workerClient = this.__workerClientsByUuid[uuid];
         await workerClient.shutdown();
       }
+      if (Object.keys(this.__jobsByUuid).length) {
+        this.warn(`There are still jobs queued, but the JobQueue has been shut down`);
+      }
     },
 
     /**
@@ -173,6 +176,7 @@ qx.Class.define("qx.tool.worker.JobQueue", {
         return;
       }
 
+      delete this.__jobsByUuid[job.jobUuid];
       job.status = "complete";
       job.promiseComplete.resolve(result);
 
@@ -200,6 +204,7 @@ qx.Class.define("qx.tool.worker.JobQueue", {
         return;
       }
 
+      delete this.__jobsByUuid[job.jobUuid];
       job.status = "complete";
       job.promiseComplete.reject(err);
 
