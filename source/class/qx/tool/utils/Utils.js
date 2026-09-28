@@ -258,14 +258,14 @@ qx.Class.define("qx.tool.utils.Utils", {
       let options = {};
 
       if (typeof cwd == "object") {
-        options = cwd;
+        options = qx.lang.Object.clone(cwd);
       } else {
         args = args.filter(value => {
           if (typeof value == "string") {
             return true;
           }
           if (!options) {
-            options = value;
+            options = qx.lang.Object.clone(value);
           }
           return false;
         });
