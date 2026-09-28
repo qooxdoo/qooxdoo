@@ -236,8 +236,9 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling", {
         this.__manager.set({
           allowEmptySelection: this._isAllowEmptySelection()
         });
+      } else {
+        this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
       }
-      this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
 
       return this.__manager;
     }
