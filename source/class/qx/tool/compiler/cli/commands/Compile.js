@@ -919,8 +919,10 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
         if (compileConfig.i18nAsParts) {
           target.setI18nAsParts(true);
         }
-        if (targetConfig.writeLibraryInfo || this.argv["write-library-info"]) {
-          target.setWriteLibraryInfo(true);
+        if (this.argv["write-library-info"] !== undefined) {
+          target.setWriteLibraryInfo(this.argv["write-library-info"]);
+        } else if (targetConfig.writeLibraryInfo !== undefined) {
+          target.setWriteLibraryInfo(targetConfig.writeLibraryInfo);
         }
         if (targetConfig.updatePoFiles || this.argv["update-po-files"]) {
           target.setUpdatePoFiles(true);
