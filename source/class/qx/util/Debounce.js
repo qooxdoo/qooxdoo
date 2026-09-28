@@ -93,9 +93,9 @@ qx.Class.define("qx.util.Debounce", {
      * Schedules the callback to run after the set timeout.
      * Resolves to the return value of the callback
      *
-     * @return {var?}
+     * @return {*}
      */
-    async trigger() {
+    trigger() {
       let promise = this.__runPromise;
       if (promise) {
         let onRunning = this.getOnRunning();
@@ -120,8 +120,10 @@ qx.Class.define("qx.util.Debounce", {
 
     /**
      * Returns a promise that will resolve when the debounce has completed
+     *
+     * @return {Promise} resolves when the debounce has next completed
      */
-    async join() {
+    join() {
       return new Promise((resolve, reject) => {
         this.addListenerOnce("runComplete", evt => {
           let error = evt.getData().error;
