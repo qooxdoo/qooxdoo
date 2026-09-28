@@ -24,6 +24,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
       check: "String"
     },
 
+    /** Command to execute on the remote server after deployment */
+    command: {
+      init: null,
+      nullable: true,
+      check: "String"
+    },
+
     /** Whether to output verbose logs */
     verbose: {
       init: false,
@@ -103,6 +110,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
           await qx.tool.utils.Utils.makeParentDir(filename);
           await qx.tool.utils.files.Utils.copyFile(filename, path.join(this.getDestination(), filename));
         }
+        if (this.getCommand()) {
+          const child_process = require("child_process");
+          child_process.spawn("sh", ["-c", this.getCommand()], { stdio: "inherit" });
+        }
       }
     },
 
@@ -113,12 +124,12 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
       const { Client } = require("ssh2");
       const util = require("util");
 
-      const copyFiles = async sftp => {
+      const copyFiles = async (conn, sftp) => {
         const readdir = util.promisify(sftp.readdir.bind(sftp));
         const open = util.promisify(sftp.open.bind(sftp));
         const close = util.promisify(sftp.close.bind(sftp));
-        const write = util.promisify(sftp.write.bind(sftp));
         const mkdir = util.promisify(sftp.mkdir.bind(sftp));
+        const exec = util.promisify(conn.exec.bind(sftp));
 
         let directoryNames = {};
         for (let filename in this.__filesToDeploy) {
@@ -191,6 +202,29 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
           await promise;
           await close(handle);
         }
+
+        if (this.getVerbose()) {
+          qx.tool.compiler.Console.getInstance().info("Executing remote command: ", this.getCommand());
+        }
+
+        if (this.getCommand()) {
+          await new Promise((resolve, reject) => {
+            conn.exec(this.getCommand(), (err, stream) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              stream
+                .on("close", resolve)
+                .on("data", data => {
+                  console.log("STDOUT: " + data);
+                })
+                .stderr.on("data", data => {
+                  console.log("STDERR: " + data);
+                });
+            });
+          });
+        }
       };
 
       let conn = new Client();
@@ -200,7 +234,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
           if (err) {
             throw err;
           }
-          copyFiles(sftp)
+          copyFiles(conn, sftp)
             .then(() => {
               conn.end();
               promise.resolve();

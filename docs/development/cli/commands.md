@@ -143,6 +143,14 @@ This copies the files using the `webserveraccount` user on the `myserver` host a
 
 This uses the same mechanism as being able to type `ssh webserveraccount@myserver` in a terminal.
 
+Finally, you can instruct the compiler to run a command after the deployment is complete by
+using the `--hot-deploy-cmd`, eg:
+
+```
+qx compile --hot-deploy=ssh://webserveraccount@myserver:/var/www --ssh-key=~/.ssh/id_rsa --hot-deploy-cmd='./restart-database.sh'
+```
+
+
 ## ES6Ify
 The `qx es6ify` command is a tool that aims to help you upgrade your ES5 syntax to ES6 - it 
 can't do it as perfectly as you could do it by hand, but it can make a few simple changes to

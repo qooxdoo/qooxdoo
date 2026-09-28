@@ -306,7 +306,15 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
 
       cmd.addFlag(
         new qx.tool.cli.Flag("hot-deploy").set({
-          description: "Hot deploy destination",
+          description: "Hot deploy code after each make",
+          type: "string",
+          value: null
+        })
+      );
+
+      cmd.addFlag(
+        new qx.tool.cli.Flag("hot-deploy-cmd").set({
+          description: "Command to execute on the remote server after deployment",
           type: "string",
           value: null
         })
@@ -1007,6 +1015,7 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
         if (this.argv.hotDeploy) {
           let hotDeploy = new qx.tool.compiler.targets.meta.HotDeploy(maker).set({
             destination: this.argv.hotDeploy,
+            command: this.argv["hot-deploy-cmd"],
             verbose: this.argv.verbose
           });
           if (this.argv.sshKey) {
