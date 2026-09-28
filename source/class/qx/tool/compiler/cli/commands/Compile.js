@@ -1075,7 +1075,7 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
           srcs.forEach(function (src) {
             if (src) {
               src.forEach(function (elem) {
-                if (!qx.lang.Array.contains(dest, src)) {
+                if (!qx.lang.Array.contains(dest, elem)) {
                   dest.push(elem);
                 }
               });
