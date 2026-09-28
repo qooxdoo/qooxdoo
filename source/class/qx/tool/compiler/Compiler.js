@@ -49,73 +49,53 @@ qx.Class.define("qx.tool.compiler.Compiler", {
     this.__changedFiles = {};
     this.__compilingClasses = {};
     this.__makerStateByHashCode = {};
+    new qx.tool.compiler.feedback.ConsoleFeedback(this);
   },
 
   events: {
-    /**
-     * @override
-     */
+    /** Fired when class discovery starts, data is {qx.tool.compiler.meta.Discovery} */
+    discoveryStarted: "qx.event.type.Data",
+
+    /** Fired when the meta database has been loaded, data is {qx.tool.compiler.meta.MetaDatabase} */
+    metaDbLoaded: "qx.event.type.Data",
+
+    /** @Override */
     writingApplications: "qx.event.type.Event",
 
-    /**
-     * @override
-     */
+    /** @Override */
     writingApplication: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     writtenApplication: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
-
+    /** @Override */
     writtenApplications: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     compilingClass: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     compiledClass: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     saveDatabase: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     checkEnvironment: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     making: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     made: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     allDone: "qx.event.type.Event",
 
-    /**
-     * @override
-     */
+    /** @Override */
     minifyingApplication: "qx.event.type.Data",
 
-    /**
-     * @override
-     */
+    /** @Override */
     minifiedApplication: "qx.event.type.Data"
   },
 
@@ -335,7 +315,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         }
         allClassnames[classname] = filename;
       }
-      this.fireEvent("discoveryStarted");
+      this.fireDataEvent("discoveryStarted", this.__classDiscovery);
     },
 
     /**
@@ -409,7 +389,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
 
       this.fireEvent("starting");
       await metaDb.load();
-      this.fireEvent("metaDbLoaded");
+      this.fireDataEvent("metaDbLoaded", metaDb);
 
       // Class discovery
       await this.__startClassDiscovery();
@@ -477,8 +457,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         qx.tool.compiler.Console.info(`Generating typescript output ...`);
         await this.__typescriptWriter.process();
       }
-
-      new qx.tool.compiler.feedback.ConsoleFeedback(this);
 
       for (let maker of this.__makers) {
         var analyzer = maker.getAnalyzer();

@@ -34,10 +34,19 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
       report("controller", "Controller - First compile");
       report("overall", "Overall Startup");
     });
-    compiler.getMetaDb().addListener("starting", () => start("metaDb"));
-    compiler.getMetaDb().addListener("started", () => report("metaDb", "Meta Database"));
-    compiler.getDiscovery().addListener("starting", () => start("discovery"));
-    compiler.getDiscovery().addListener("started", () => report("discovery", "File Discovery"));
+    compiler.addListener("metaDbLoaded", evt => {
+      let metaDb = evt.getData();
+      metaDb.addListener("starting", () => start("metaDb"));
+      metaDb.addListener("started", () => report("metaDb", "Meta Database"));
+    });
+    compiler.addListener("discoveryStarted", evt => {
+      let classDiscovery = evt.getData();
+      classDiscovery.addListener("starting", () => start("discovery"));
+      classDiscovery.addListener("started", () => report("discovery", "File Discovery"));
+      classDiscovery.addListener("fileAdded", this.__onFileAdded, this);
+      classDiscovery.addListener("fileRemoved", this.__onFileRemoved, this);
+      classDiscovery.addListener("fileChanged", this.__onFileChanged, this);
+    });
 
     compiler.addListener("changesDetected", () => {
       qx.tool.compiler.Console.log("Changes detected, recompiling...");
@@ -55,9 +64,6 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
     compiler.addListener("classNeedsToBeCompiled", this.__onClassNeedsToBeCompiled, this);
     compiler.addListener("compilingClass", this.__onCompilingClass, this);
     compiler.addListener("compiledClass", this.__onCompiledClass, this);
-    compiler.getDiscovery().addListener("fileAdded", this.__onFileAdded, this);
-    compiler.getDiscovery().addListener("fileRemoved", this.__onFileRemoved, this);
-    compiler.getDiscovery().addListener("fileChanged", this.__onFileChanged, this);
     compiler.addListener("addMaker", this.__onAddMaker, this);
   },
 
@@ -143,7 +149,6 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
     __onAddMaker(e) {
       let maker = e.getData();
       let id = maker.getTarget().getOutputDir();
-      qx.tool.compiler.Console.log(`Maker added for: ${id}`);
       maker.addListener("writingApplications", () => qx.tool.compiler.Console.log(`${id}: Writing applications...`));
       maker.addListener("writtenApplication", evt =>
         qx.tool.compiler.Console.log(`${id}: Written application ${evt.getData().application.getName()}...`)
