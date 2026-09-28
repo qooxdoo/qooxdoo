@@ -838,13 +838,14 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       }
       let filename = classmeta.classFilename;
       filename = path.resolve(path.join(metaDb.getRootDir(), filename));
+      let best = null;
       for (let library of Object.values(this.__libraries)) {
-        let libRootDir = path.resolve(library.getRootDir());
-        if (filename.startsWith(libRootDir)) {
-          return library;
+        let libRootDir = path.resolve(library.getRootDir()) + "/";
+        if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.rootDir.length)) {
+          best = { library, rootDir: libRootDir };
         }
       }
-      return null;
+      return best ? best.library : null;
     },
 
     /**
