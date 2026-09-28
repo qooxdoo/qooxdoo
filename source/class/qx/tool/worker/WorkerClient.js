@@ -100,6 +100,10 @@ qx.Class.define("qx.tool.worker.WorkerClient", {
         let worker = new Worker(process.argv[1]);
         this.__worker = worker;
         worker.addListener("message", msg => this.onMessage(msg));
+        worker.addListener("error", err => {
+          console.error(`WorkerThread threw an uncaught exception: ${err}`);
+          process.exit(1);
+        });
       }
       this.__promiseReady = new qx.Promise();
       await this.__promiseReady;
