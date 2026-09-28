@@ -1084,19 +1084,19 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
           return dest;
         }
 
-        let babelConfig = {};
         if (compileConfig.babelOptions) {
           if (!compileConfig?.babel?.options) {
-            babelConfig = compileConfig.babel || {};
-            babelConfig.options = compileConfig.babelOptions;
+            compileConfig.babel = compileConfig.babel || {};
+            compileConfig.babel.options = compileConfig.babelOptions;
             qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptions");
           } else {
             qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptionsConflicting");
           }
           delete compileConfig.babelOptions;
-        } else {
-          babelConfig = compileConfig.babel || {};
         }
+
+        // Each target gets its own copy, because the target's babelOptions are merged into it
+        let babelConfig = qx.lang.Object.clone(compileConfig.babel || {}, true);
 
         babelConfig.options = babelConfig.options || {};
         qx.lang.Object.mergeWith(babelConfig.options, targetConfig.babelOptions || {});
