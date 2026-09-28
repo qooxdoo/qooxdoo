@@ -71,13 +71,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       );
 
       cmd.addFlag(
-        new qx.tool.cli.Flag("write-all-translations").set({
-          description: "enables output of all translations, not just those that are explicitly referenced",
-          type: "boolean"
-        })
-      );
-
-      cmd.addFlag(
         new qx.tool.cli.Flag("target").set({
           shortCode: "t",
           description: "Set the target type: source or build or class name. Default is first target in config file",
@@ -297,14 +290,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
       cmd.addFlag(
         new qx.tool.cli.Flag("set").set({
           description: "sets an environment value for the compiler",
-          type: "string",
-          array: true
-        })
-      );
-
-      cmd.addFlag(
-        new qx.tool.cli.Flag("set-env").set({
-          description: "sets an environment value for the application",
           type: "string",
           array: true
         })

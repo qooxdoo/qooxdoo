@@ -101,8 +101,6 @@ Options:
   --set                     sets an environment value for the compilation
                             key="value" (with value getting evaluated as js)
                                                                         [array]
-  --set-env                 sets an environment value for the application
-                                                                        [array]
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]
