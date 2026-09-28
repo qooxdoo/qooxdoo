@@ -396,6 +396,10 @@ qx.Class.define("qx.tool.compiler.Maker", {
         await this.fireDataEventAsync("writtenApplication", appInfo);
       }
 
+      let hotDeploy = this.getTarget().getHotDeploy();
+      if (hotDeploy) {
+        await hotDeploy.deploy();
+      }
       await this.fireDataEventAsync("writtenApplications", allAppInfos);
 
       // Report markers (warnings/errors) for every class compiled in this make cycle,

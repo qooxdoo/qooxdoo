@@ -304,6 +304,22 @@ qx.Class.define("qx.tool.compiler.cli.commands.Compile", {
         })
       );
 
+      cmd.addFlag(
+        new qx.tool.cli.Flag("hot-deploy").set({
+          description: "Hot deploy destination",
+          type: "string",
+          value: null
+        })
+      );
+
+      cmd.addFlag(
+        new qx.tool.cli.Flag("ssh-key").set({
+          description: "SSH private key to use for authentication (eg for hot deploy)",
+          type: "string",
+          value: null
+        })
+      );
+
       return cmd;
     },
 
@@ -988,6 +1004,21 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
         }
 
         maker.setTarget(target);
+        if (this.argv.hotDeploy) {
+          let hotDeploy = new qx.tool.compiler.targets.meta.HotDeploy(maker).set({
+            destination: this.argv.hotDeploy,
+            verbose: this.argv.verbose
+          });
+          if (this.argv.sshKey) {
+            let sshKeyfile = this.argv.sshKey;
+            if (sshKeyfile[0] == "~") {
+              sshKeyfile = path.join(process.env["HOME"], sshKeyfile.substring(1));
+            }
+            let key = await fs.promises.readFile(sshKeyfile);
+            hotDeploy.setSshKey(key);
+          }
+          target.setHotDeploy(hotDeploy);
+        }
 
         // Cannot access the analyzer until the target is set
         let analyzer = maker.getAnalyzer();

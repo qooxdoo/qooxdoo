@@ -98,8 +98,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
 
     /**
      * Writes the file to disk, if appropriate
+     *
+     * @param hotDeploy {qx.tool.compiler.targets.meta.HotDeploy?} the hotDeploy for written files
      */
-    async writeToDisk() {
+    async writeToDisk(hotDeploy) {
       if (this.isNeedsWriteToDisk()) {
         let ws = new qx.tool.utils.Utils.LineCountingTransform();
         ws.pipe(fs.createWriteStream(this.__filename, "utf8"));
@@ -108,14 +110,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
           await this.writeSourceCodeToStream(ws).catch(reject);
           ws.end();
         });
+        if (hotDeploy) {
+          hotDeploy.writtenFile(this.__filename);
+        }
 
         let map = await this.getSourceMap();
         if (map) {
-          await fs.writeFileAsync(
-            this.__filename + ".map",
-            JSON.stringify(map, null, 2),
-            "utf8"
-          );
+          await fs.writeFileAsync(this.__filename + ".map", JSON.stringify(map, null, 2), "utf8");
+          if (hotDeploy) {
+            hotDeploy.writtenFile(this.__filename + ".map");
+          }
         }
       }
     },
@@ -127,9 +131,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
      * @param ws {NodeJS.WritableStream} the stream to write to
      */
     async writeSourceCodeToStream(ws) {
-      throw new Error(
-        `No implementation for ${this.classname}.writeSourceCodeToStream`
-      );
+      throw new Error(`No implementation for ${this.classname}.writeSourceCodeToStream`);
     },
 
     /**
@@ -170,21 +172,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
 
             generator.addMapping(mapping);
           });
-          if (
-            this._appMeta.getTarget().getSaveSourceInMap &&
-            this._appMeta.getTarget().getSaveSourceInMap()
-          ) {
-            map.sources.forEach(source =>
-              generator.setSourceContent(source, map.sourceContentFor(source))
-            );
+          if (this._appMeta.getTarget().getSaveSourceInMap && this._appMeta.getTarget().getSaveSourceInMap()) {
+            map.sources.forEach(source => generator.setSourceContent(source, map.sourceContentFor(source)));
           }
         }
       }
       let res = JSON.parse(generator.toString());
-      if (
-        this._appMeta.getTarget().getSourceMapRelativePaths &&
-        this._appMeta.getTarget().getSourceMapRelativePaths()
-      ) {
+      if (this._appMeta.getTarget().getSourceMapRelativePaths && this._appMeta.getTarget().getSourceMapRelativePaths()) {
         for (let i = 0; i < res.sources.length; i++) {
           res.sources[i] = path.relative("", res.sources[i]);
         }

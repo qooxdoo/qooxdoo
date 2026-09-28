@@ -59,9 +59,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
               if (!references[moduleName]) {
                 references[moduleName] = new Set();
               }
-              references[moduleName].add([
-                ...classInfo.commonjsModules[moduleName]
-              ]);
+              references[moduleName].add([...classInfo.commonjsModules[moduleName]]);
             });
           }
         }
@@ -77,7 +75,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     /**
      * @Override
      */
-    async writeToDisk() {
+    async writeToDisk(hotDeploy) {
       let localModules = this.getAppMeta().getApplication().getLocalModules();
       let db = this.getAppMeta().getAnalyzer().getDatabase();
       let { commonjsModules, references } = this.__getCommonjsModules();
@@ -104,9 +102,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
       let modules = [];
       let modulesInfo = {};
-      let doIt = !!!(await qx.tool.utils.files.Utils.safeStat(
-        this.getFilename()
-      ));
+      let doIt = !!!(await qx.tool.utils.files.Utils.safeStat(this.getFilename()));
 
       // Include any dynamically determined `require()`d modules
       if (commonjsModules.length > 0) {
@@ -118,14 +114,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         modulesInfo.localModules = {};
         for (let requireName in localModules) {
           modules.push(requireName);
-          let stat = await qx.tool.utils.files.Utils.safeStat(
-            localModules[requireName]
-          );
+          let stat = await qx.tool.utils.files.Utils.safeStat(localModules[requireName]);
 
           modulesInfo.localModules[requireName] = stat.mtime.getTime();
-          doIt ||=
-            modulesInfo.localModules[requireName] >
-            (db?.modulesInfo?.localModules[requireName] || 0);
+          doIt ||= modulesInfo.localModules[requireName] > (db?.modulesInfo?.localModules[requireName] || 0);
         }
       }
       modulesInfo.modulesHash = hash(modules);
@@ -135,7 +127,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         await this.getAppMeta().getAnalyzer().saveDatabase();
       }
       this.setNeedsWriteToDisk(doIt);
-      return super.writeToDisk();
+      return super.writeToDisk(hotDeploy);
     },
 
     /**
@@ -145,21 +137,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // If there are any CommonJS modules required to be bundled, or
       // any local modules specified for the application in
       // compile.json, browserify them
-      if (
-        this.getAppMeta().getEnvironmentValue("qx.compiler.applicationType") ==
-        "browser"
-      ) {
-        const localModules = this.getAppMeta()
-          .getApplication()
-          .getLocalModules();
+      if (this.getAppMeta().getEnvironmentValue("qx.compiler.applicationType") == "browser") {
+        const localModules = this.getAppMeta().getApplication().getLocalModules();
         const { commonjsModules, references } = this.__getCommonjsModules();
         if (commonjsModules.length > 0 || localModules) {
-          await this.__browserify(
-            commonjsModules,
-            references,
-            localModules,
-            ws
-          );
+          await this.__browserify(commonjsModules, references, localModules, ws);
         }
       }
       await new Promise(resolve => {
@@ -180,7 +162,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         name: "qx-missing-module",
         setup(build) {
           const onResolveHandler = async args => {
-            if (args.namespace === "qx-missing") { return null; }
+            if (args.namespace === "qx-missing") {
+              return null;
+            }
             const searchPaths = [args.resolveDir, process.cwd()].filter(Boolean);
             for (const dir of searchPaths) {
               try {

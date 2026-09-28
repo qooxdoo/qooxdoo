@@ -200,6 +200,13 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       init: false,
       nullable: false,
       check: "Boolean"
+    },
+
+    /** Optional hot deploy watcher (e.g., for deploying compiled assets to a remote server) */
+    hotDeploy: {
+      init: null,
+      nullable: true,
+      check: "qx.tool.compiler.targets.meta.HotDeploy"
     }
   },
 
@@ -500,7 +507,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         await this.__writeDeprecatedWebFonts(application, appMeta, assets);
         await this.__writeManifestFonts(application, appMeta, assets, bootPackage);
       }
-      await this._writeApplication();
+      await this._writeApplication(this.getHotDeploy());
       this.__appMeta = null;
     },
 
@@ -849,8 +856,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
     /**
      * Writes the application
+     *
+     * @param hotDeploy {qx.tool.compiler.targets.meta.HotDeploy?} the hotDeploy for written files
      */
-    async _writeApplication() {
+    async _writeApplication(hotDeploy) {
       var t = this;
 
       let appMeta = this.getAppMeta();
@@ -870,12 +879,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           pkg.setNeedsWriteToDisk(false);
           bootMeta.addEmbeddedJs(pkg.getJavascript());
         }
-        await pkg.getJavascript().unwrap().writeToDisk();
+        await pkg.getJavascript().unwrap().writeToDisk(hotDeploy);
       }
 
-      await appMeta.getBootMetaJs().unwrap().writeToDisk();
+      await appMeta.getBootMetaJs().unwrap().writeToDisk(hotDeploy);
 
-      await this._writeIndexHtml();
+      await this._writeIndexHtml(hotDeploy);
 
       if (!t.isWriteCompileInfo()) {
         return;
@@ -910,8 +919,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
     /**
      * Called to generate index.html
+     *
+     * @param hotDeploy {qx.tool.compiler.targets.meta.HotDeploy?} the hotDeploy for written files
      */
-    async _writeIndexHtml() {
+    async _writeIndexHtml(hotDeploy) {
       var t = this;
       let appMeta = this.getAppMeta();
       var application = appMeta.getApplication();
@@ -1000,6 +1011,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
             }
             data = replaceVars(data);
             await fs.writeFileAsync(to, data, "utf8");
+            if (hotDeploy) {
+              hotDeploy.writtenFile(to);
+            }
             return false;
           });
         }
@@ -1009,6 +1023,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         await fs.writeFileAsync(resDir + "index.html", replaceVars(indexHtml), {
           encoding: "utf8"
         });
+        if (hotDeploy) {
+          hotDeploy.writtenFile(resDir + "index.html");
+        }
       }
 
       if (application.getWriteIndexHtmlToRoot()) {
@@ -1024,6 +1041,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         };
 
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
+        if (hotDeploy) {
+          hotDeploy.writtenFile(t.getOutputDir() + "index.html");
+        }
       }
     },
 
