@@ -135,6 +135,9 @@ qx.Class.define("qx.tool.compiler.meta.ClassMeta", {
      * @returns {Boolean}
      */
     async isOutOfDate() {
+      if (!this.__metaData) {
+        return true;
+      }
       let classFilename = this.__metaData.classFilename;
       if (this.getMetaRootDir()) {
         classFilename = path.join(this.getMetaRootDir(), classFilename);
