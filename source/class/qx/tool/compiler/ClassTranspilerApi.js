@@ -54,7 +54,7 @@ qx.Class.define("qx.tool.compiler.ClassTranspilerApi", {
         source = await sourceTransformer.transform(transpileConfig, source);
         await fs.promises.mkdir(path.dirname(outputFilename), { recursive: true });
         sourceFilename = outputFilename.replace(/\.js$/, ".trans.js");
-        fs.promises.writeFile(sourceFilename, source, "utf8"); //no need to await this because this only starts to matter once the user starts running and debugging
+        await fs.promises.writeFile(sourceFilename, source, "utf8");
       }
 
       let shadowMetaApi = qx.tool.worker.WorkerServer.getThisServerInstance().getApi(qx.tool.compiler.meta.IShadowMetaDatabaseApi);
