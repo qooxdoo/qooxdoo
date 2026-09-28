@@ -29,7 +29,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
     async createCliCommand(clazz = this) {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
-        name: "typescript", 
+        name: "typescript",
         description: "generate typescript definitions"
       });
 
@@ -56,16 +56,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
           type: "string"
         })
       );
-
-      if (qx.core.Environment.get("qx.debug")) {
-        cmd.addFlag(
-          new qx.tool.cli.Flag("meta-debug").set({
-            description: "Debug metadata output to console, implies --verbose and only one file",
-            type: "boolean",
-            value: false
-          })
-        );
-      }
 
       return cmd;
     }
@@ -94,9 +84,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       let files = this.argv.files || [];
       if (files.length === 0) {
         if (fs.existsSync("Manifest.json")) {
-          let manifest = await qx.tool.utils.Json.loadJsonAsync(
-            "Manifest.json"
-          );
+          let manifest = await qx.tool.utils.Json.loadJsonAsync("Manifest.json");
 
           let tmp = manifest?.provides?.class;
           if (tmp) {
@@ -109,41 +97,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Typescript", {
       }
       if (files.length === 0) {
         throw new qx.tool.utils.Utils.UserError("No files to process");
-      }
-
-      if (qx.core.Environment.get("qx.debug")) {
-        if (this.argv.metaDebug) {
-          this.argv.verbose = true;
-          let target = files[0];
-          let stat = await fs.promises.stat(target);
-          if (stat.isDirectory()) {
-            const findFirst = async dir => {
-              for (let entry of await fs.promises.readdir(dir)) {
-                let full = path.join(dir, entry);
-                let s = await fs.promises.stat(full);
-                if (s.isFile() && entry.endsWith(".js")) {
-                  return full;
-                }
-                if (s.isDirectory() && entry[0] !== ".") {
-                  let found = await findFirst(full);
-                  if (found) {
-                    return found;
-                  }
-                }
-              }
-              return null;
-            };
-            target = await findFirst(target);
-            if (!target) {
-              throw new qx.tool.utils.Utils.UserError("No .js file found for meta debug");
-            }
-          }
-          let meta = new qx.tool.compiler.meta.ClassMeta();
-          await meta.parse(target);
-          meta.fixupJsDoc({ resolveType: type => type });
-          console.log(JSON.stringify(meta.getMetaData(), null, 2));
-          return;
-        }
       }
 
       // MetaDatabase parses classes via the job queue, so it needs a started
