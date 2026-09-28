@@ -176,6 +176,12 @@ qx.Class.define("qx.tool.compiler.Compiler", {
     /** @type {Object<String, qx.tool.compiler.app.Library>} all libraries indexed by namespace */
     __libraries: null,
 
+    /** @type {qx.tool.compiler.resources.ResourceManager} The resource manager instance */
+    __resourceManager: null,
+
+    /** @type {Boolean} Whether the compiler is currently listening for asset changes */
+    __isListeningForAssetChanges: false,
+
     /** @type {qx.tool.compiler.Maker[]} list of makers */
     __makers: null,
 
@@ -345,6 +351,35 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         this.__resourceManager.addLibrary(lib);
       }
       await this.__resourceManager.start();
+    },
+
+    /**
+     * After the first successful make, we start watching for asset changes so that we copy changes
+     * over automatically to the targets resource directory
+     */
+    async __startResourceManagerAutoSync() {
+      if (this.__isListeningForAssetChanges) {
+        return;
+      }
+      this.__isListeningForAssetChanges = true;
+      this.__resourceManager.addListener("assetChanged", async evt => {
+        let asset = evt.getData();
+        for (let maker of this.__makers) {
+          for (let app of maker.getApplications()) {
+            let appMeta = app.getAppMeta();
+            if (appMeta.usesAsset(asset)) {
+              await appMeta.syncOneAsset(asset);
+            }
+          }
+        }
+      });
+      this.__resourceManager.addListener("assetRemoved", async evt => {
+        let asset = evt.getData();
+        for (let maker of this.__makers) {
+          let target = maker.getTarget();
+          await asset.deleteAssetFromTarget(target);
+        }
+      });
     },
 
     /**
@@ -559,15 +594,15 @@ qx.Class.define("qx.tool.compiler.Compiler", {
      * @param {qx.tool.compiler.Analyzer} analyzer
      * @param {String} classname
      * @param {Boolean} force
-     * @returns {Promise<qx.tool.compiler.ClassFile.DbClassInfo>} the class information
+     * @returns {qx.tool.compiler.ClassFile.DbClassInfo | Promise<qx.tool.compiler.ClassFile.DbClassInfo>} the class information
      *
      */
-    async compileClass(analyzer, classname, force) {
+    compileClass(analyzer, classname, force) {
       let hashKeyForClassname = analyzer.toHashCode() + ":" + classname;
       let meta = this.__metaDb.getMetaData(classname);
       if (!meta) {
         qx.tool.compiler.Console.error(`Compiler Error: Cannot find class ${classname} in project/libraries.`);
-        return { dbClassInfo: { fatalCompileError: true } };
+        return { fatalCompileError: true };
       }
 
       let sourceFilename = path.resolve(path.join(this.__metaDb.getRootDir(), meta.classFilename));
@@ -575,18 +610,18 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       let outputFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".js");
       let jsonFilename = path.join(outputDir, "transpiled", classname.replace(/\./g, path.sep) + ".json");
 
-      let sourceStat = await qx.tool.utils.files.Utils.safeStat(sourceFilename);
+      let sourceStat = qx.tool.utils.files.Utils.safeStatSync(sourceFilename);
       if (!sourceStat) {
         throw new Error(`Source file for class ${classname} not found: ${sourceFilename}`);
       }
 
       let dbClassInfo = this.__dbClassInfoCache[hashKeyForClassname] || null;
       if (!dbClassInfo && fs.existsSync(jsonFilename)) {
-        dbClassInfo = await qx.tool.utils.Json.loadJsonAsync(jsonFilename);
+        dbClassInfo = qx.tool.utils.Json.loadJsonFast(jsonFilename);
       }
 
       if (!force) {
-        let outputStat = await qx.tool.utils.files.Utils.safeStat(outputFilename);
+        let outputStat = qx.tool.utils.files.Utils.safeStatSync(outputFilename);
 
         if (dbClassInfo && outputStat) {
           var dbMtime = null;
@@ -595,7 +630,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           } catch (e) {}
           if (dbMtime && dbMtime.getTime() == sourceStat.mtime.getTime()) {
             if (outputStat.mtime.getTime() >= sourceStat.mtime.getTime()) {
-              return { dbClassInfo, cached: true };
+              return dbClassInfo;
             }
           }
         }
@@ -609,9 +644,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           existingCompile.restart = true;
           return existingCompile.promise;
         } else {
-          this.__jobQueue.removeJob(existingCompile.job);
-          existingCompile = null;
-          delete this.__compilingClasses[hashKeyForClassname];
+          return existingCompile.promise;
         }
       }
 
@@ -619,6 +652,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         delete this.__compilingClasses[hashKeyForClassname];
         qx.tool.compiler.Console.error("Unhandled exception while compiling class " + classname + ": " + err.stack);
         existingCompile.promise.resolve({ fatalCompileError: true });
+        existingCompile.error = "Unhandled exception while compiling class " + classname + ": " + err.stack;
       };
 
       const onClassCompiled = result => {
@@ -628,8 +662,9 @@ qx.Class.define("qx.tool.compiler.Compiler", {
           return;
         }
         delete this.__compilingClasses[hashKeyForClassname];
-        this._onClassCompiled(analyzer, classname, result);
+        this._onClassCompiled(analyzer, classname, result.dbClassInfo, result.cached);
         existingCompile.promise.resolve(result.dbClassInfo);
+        existingCompile.resolved = true;
       };
 
       const compileClassImpl = async () => {
@@ -716,7 +751,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       this.__compilingClasses[hashKeyForClassname] = existingCompile;
       compileClassImpl(analyzer, classname, force).then(onClassCompiled).catch(onClassCompiledError);
 
-      return await existingCompile.promise;
+      return existingCompile.promise;
     },
 
     /**
@@ -724,10 +759,10 @@ qx.Class.define("qx.tool.compiler.Compiler", {
      *
      * @param {qx.tool.compiler.Analyzer} analyzer
      * @param {String} classname
-     * @param {CompilationResult} result Result of the compilation
+     * @param {*} result Result of the compilation
      */
-    _onClassCompiled(analyzer, classname, result) {
-      if (!result.cached) {
+    _onClassCompiled(analyzer, classname, dbClassInfo, cached) {
+      if (!cached) {
         this.fireDataEvent("compiledClass", { classname, analyzer });
         let maker = analyzer.getMaker();
         let makerState = this.__makerStateByHashCode[maker.toHashCode()];
@@ -791,6 +826,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         } else {
           let promise = makerState.promise;
           makerState.promise = null;
+          this.__startResourceManagerAutoSync();
           promise.resolve();
         }
       };
@@ -843,6 +879,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       }
       await this.__classDiscovery.stop();
       await this.__resourceManager.stop();
+      this.__isListeningForAssetChanges = false;
     },
 
     /**

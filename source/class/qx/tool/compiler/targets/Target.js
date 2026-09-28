@@ -341,7 +341,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       var analyzer = application.getAnalyzer();
       var rm = analyzer.getCompiler().getResourceManager();
 
-      let appMeta = (this.__appMeta = new qx.tool.compiler.targets.meta.ApplicationMeta(this, application));
+      this.__appMeta = application.getOrCreateAppMeta(this);
+      let appMeta = this.__appMeta;
       appMeta.setAddTimestampsToUrls(this.getAddTimestampsToUrls());
 
       let targetUri = "";

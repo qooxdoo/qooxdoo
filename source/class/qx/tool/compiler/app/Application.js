@@ -681,6 +681,18 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     },
 
     /**
+     * Gets or creates the application meta for the given target
+     *
+     * @param {qx.tool.compiler.targets.Target} target
+     */
+    getOrCreateAppMeta(target) {
+      if (!this.__appMeta) {
+        this.__appMeta = new qx.tool.compiler.targets.meta.ApplicationMeta(target, this);
+      }
+      return this.__appMeta;
+    },
+
+    /**
      * Returns a list of all of the assets required by all classes
      * @param target {qx.tool.compiler.targets.Target} the current target
      * @param resManager  {qx.tool.compiler.resources.Manager} the resource manager

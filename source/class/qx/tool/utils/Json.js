@@ -22,8 +22,8 @@
  *
  * *********************************************************************** */
 
-const fs = qx.tool.utils.Promisify.fs;
-const JSON5 = require("json5")
+const fs = require("fs");
+const JSON5 = require("json5");
 
 qx.Class.define("qx.tool.utils.Json", {
   statics: {
@@ -158,6 +158,30 @@ qx.Class.define("qx.tool.utils.Json", {
       return schemaInfo;
     },
 
+    async loadJsonFastAsync(filename) {
+      if (!fs.existsSync(filename)) {
+        return null;
+      }
+      let data = await fs.promises.readFile(filename, "utf8");
+      try {
+        return JSON.parse(data);
+      } catch (ex) {
+        throw new Error("Failed to load " + filename + ": " + ex);
+      }
+    },
+
+    loadJsonFast(filename) {
+      if (!fs.existsSync(filename)) {
+        return null;
+      }
+      let data = fs.readFileSync(filename, "utf8");
+      try {
+        return JSON.parse(data);
+      } catch (ex) {
+        throw new Error("Failed to load " + filename + ": " + ex);
+      }
+    },
+
     /**
      * Loads JSON data from a file and returns it as an object; if the file does not exist, then
      * null is returned
@@ -166,10 +190,10 @@ qx.Class.define("qx.tool.utils.Json", {
      * @return {Object|null} the parsed contents, or null if the file does not exist
      */
     async loadJsonAsync(filename) {
-      if (!(await fs.existsAsync(filename))) {
+      if (!fs.existsSync(filename)) {
         return null;
       }
-      let data = await fs.readFileAsync(filename, "utf8");
+      let data = await fs.promises.readFile(filename, "utf8");
       try {
         return qx.tool.utils.Json.parseJson(data);
       } catch (ex) {
@@ -185,9 +209,9 @@ qx.Class.define("qx.tool.utils.Json", {
      */
     async saveJsonAsync(filename, data) {
       if (data !== null) {
-        await fs.writeFileAsync(filename, JSON.stringify(data, null, 2), "utf8");
-      } else if (await fs.existsAsync(filename)) {
-        fs.unlinkAsync(filename);
+        await fs.promises.writeFile(filename, JSON.stringify(data, null, 2), "utf8");
+      } else if (fs.existsSync(filename)) {
+        await fs.promises.unlink(filename);
       }
     }
   }

@@ -483,23 +483,34 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
       this.__cachedClassInfo = {};
 
       /**
-       * @param {String} classname
-       * @return {Promise<qx.tool.compiler.Compiler.DbClassInfo>}
-       * @param {Boolean} sync Forces to return synchronously. Class must have been compiled already.
        * Compiles a class and caches it
+       *
+       * @param {String} classname
+       * @param {Boolean} sync Forces to return synchronously. Class must have been compiled already.
+       * @return {Promise<qx.tool.compiler.Compiler.DbClassInfo>|qx.tool.compiler.Compiler.DbClassInfo}
        */
       const compileClass = (classname, sync) => {
-        let value = this.__cachedClassInfo[classname];
-        if (value === undefined) {
-          value = this.__compiler.compileClass(this, classname).then(v => (this.__cachedClassInfo[classname] = v.dbClassInfo));
-          this.__cachedClassInfo[classname] = value.dbClassInfo;
-        }
-        if (qx.core.Environment.get("qx.debug")) {
-          if (sync && value instanceof Promise) {
-            throw new Error(`Class ${classname} has not been compiled yet`);
+        let dbClassInfo = this.__cachedClassInfo[classname];
+        if (dbClassInfo === undefined) {
+          dbClassInfo = this.__compiler.compileClass(this, classname);
+          if (qx.lang.Type.isPromise(dbClassInfo)) {
+            dbClassInfo
+              .then(dbClassInfo => {
+                this.__cachedClassInfo[classname] = dbClassInfo;
+              })
+              .catch(err => {
+                console.error(`Error compiling class ${classname}: ${err.stack}`);
+              });
+          } else {
+            this.__cachedClassInfo[classname] = dbClassInfo;
           }
         }
-        return value;
+
+        if (sync && dbClassInfo instanceof Promise) {
+          throw new Error(`Class ${classname} has not been compiled yet`);
+        }
+
+        return dbClassInfo;
       };
 
       // List of classes to compile; this will extend as we analyze
@@ -555,7 +566,7 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
        * as soon as a class is compiled, its begins to process its dependencies straight away.
        * Previously, we compiled classes in batches, so we've had to wait for the entire batch to finish
        * before starting the next.
-       * @param {string} classname
+       * @param {String} classname
        */
       const processClass = async classname => {
         let dbClassInfo = await compileClass(classname);
@@ -571,7 +582,12 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
           dbClassInfo.dependsOn[dependsOnClassname] ??= {};
           dbClassInfo.dependsOn[dependsOnClassname].load = true;
         }
-        await Promise.all(dependsOnClassnames.map(cn => compileClass(cn)));
+        for (let dependsOnClassname of dependsOnClassnames) {
+          let value = compileClass(dependsOnClassname);
+          if (qx.lang.Type.isPromise(value)) {
+            await value;
+          }
+        }
       };
 
       /**

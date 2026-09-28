@@ -45,16 +45,16 @@ qx.Class.define("qx.tool.compiler.targets.SourceTarget", {
       if (this.getCopyResources()) {
         let appMeta = this.getAppMeta();
         await appMeta.syncAssets();
-        if (!this.__isListeningForAssetChanges) {
-          this.__isListeningForAssetChanges = true;
-          let resourceManager = this.getAnalyzer().getCompiler().getResourceManager();
-          const onChangeOrRemove = async evt => {
-            let asset = evt.getData();
-            await appMeta.syncOneAsset(asset);
-          };
-          resourceManager.addListener("assetChanged", onChangeOrRemove);
-          resourceManager.addListener("assetRemoved", onChangeOrRemove);
-        }
+      }
+      if (!this.__isListeningForAssetChanges) {
+        this.__isListeningForAssetChanges = true;
+        let resourceManager = this.getAnalyzer().getCompiler().getResourceManager();
+        const onChangeOrRemove = async evt => {
+          let asset = evt.getData();
+          await appMeta.syncOneAsset(asset);
+        };
+        resourceManager.addListener("assetChanged", onChangeOrRemove);
+        resourceManager.addListener("assetRemoved", onChangeOrRemove);
       }
       return await super._writeApplication();
     },

@@ -175,9 +175,25 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     },
 
     /**
+     * Detects if an asset is used by the application; only provides valid information after `syncAssets` has been called
+     *
+     * @param {qx.tool.compiler.resources.Asset} asset
+     * @returns {Boolean} true if the asset is used, false otherwise
+     */
+    usesAsset(asset) {
+      return this.__usedAssets && this.__usedAssets[asset.toUri()] !== undefined;
+    },
+
+    /**
      * Syncs all assets into the output directory
      */
     async syncAssets() {
+      this.__usedAssets = {};
+      for (let pkg of this.__packages) {
+        for (let asset of pkg.getAssets()) {
+          this.__usedAssets[asset.toUri()] = asset;
+        }
+      }
       for (let i = 0; i < this.__packages.length; i++) {
         let pkg = this.__packages[i];
         await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, asset => asset.synchronizeAssetIntoTarget(this.__target));
@@ -198,7 +214,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
           return;
         }
       }
-      await asset.deleteAssetFromTarget(this.__target);
     },
 
     /**
