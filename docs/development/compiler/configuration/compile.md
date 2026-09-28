@@ -724,8 +724,6 @@ folders from within the URL that you use for `myAppName`.
 To output Typescript definitions, use the `qx compile --typescript` or `-T` command; this
 will generate a `qxoodoo.d.ts` file.
 
-You can control the directory `typescript` property in `compile.json`; the default is `compiled/qooxdoo.d.ts`.
-
 A file called `global.d.ts` is also created and placed under your application's
 `source` directory. This file may be useful for tooling and text editors when
 discovering types. Depending on your text editor, it may be beneficial to keep

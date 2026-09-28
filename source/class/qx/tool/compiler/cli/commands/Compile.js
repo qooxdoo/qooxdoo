@@ -539,7 +539,7 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
       let compilerOptions = {
         watch: this.argv.watch ?? false,
         maxWorkers: this.argv.maxWorkers,
-        typescriptEnabled: qx.lang.Type.isBoolean(this.argv.typescript)
+        typescriptEnabled: !!this.argv.typescript
       };
 
       if (qx.lang.Type.isBoolean(compileConfig?.meta?.typescript)) {
