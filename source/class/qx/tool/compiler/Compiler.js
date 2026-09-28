@@ -435,7 +435,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       // Discovery has a side effect where it lists every file it found as changed; they are all parsed by `addFiles` below, so
       // clear the queue
       this.__changedFiles = {};
-      this.__debounceProcessChangedFiles = new qx.util.Debounce(() => this.__processChangedFiles(), 100);
+      this.__debounceProcessChangedFiles = new qx.tool.utils.Debounce(() => this.__processChangedFiles(), 100);
 
       this.__startError ||= !(await metaDb.addFiles(Object.keys(this.__discoveredClassFiles)));
       this.fireEvent("addedDiscoveredClasses");

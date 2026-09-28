@@ -20,7 +20,7 @@
 /**
  * Class for debouncing a call, with promise support
  */
-qx.Class.define("qx.util.Debounce", {
+qx.Class.define("qx.tool.utils.Debounce", {
   extend: qx.core.Object,
 
   /**

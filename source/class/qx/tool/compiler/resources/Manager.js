@@ -144,7 +144,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
      */
     async start() {
       await this.loadDatabase();
-      let debounceSaveDatabase = new qx.util.Debounce(() => this.saveDatabase(), 100);
+      let debounceSaveDatabase = new qx.tool.utils.Debounce(() => this.saveDatabase(), 100);
 
       let unconfirmed = {};
       this.__allResourceUris = null;

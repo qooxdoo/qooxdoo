@@ -36,6 +36,13 @@ The compiler has received an overhaul, which includes the following changes:
 - Removed method `qx.event.Manager.getAllListeners` as a consequence of the above,
   and also because there is no practical use case for it.
 
+- Removed `qx.tool.utils.json.*` - please use better supported tools (eg JSON5)
+
+- Removed `qx.tool.utils.files.FindFiles`
+
+- Changed `qx.tool.utils.Utils` to remove `mkpath` and `makeDirs` (please use node's `fs` methods instead);
+  removed `mkParentPath` (please use `mkParentDir` instead); `BabelHelpers.collectJson` no longer exists
+
 # 8.0.0-beta.2
 
 ## Breaking changes
