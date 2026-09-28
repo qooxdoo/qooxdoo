@@ -1009,9 +1009,6 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
           await qx.tool.utils.files.Utils.safeUnlink(analyzer.getDbFilename());
           await qx.tool.utils.files.Utils.safeUnlink(analyzer.getResDbFilename());
         }
-        if (this.argv.ignores) {
-          analyzer.setIgnores(this.argv.ignores);
-        }
 
         var manglePrivates = chooseValue(targetConfig["mangle-privates"], this.argv["mangle-privates"]);
 
@@ -1321,9 +1318,7 @@ Framework: v${qxVersion} in ${await this.getQxPath()}`);
         compiler.dispose();
 
         nodeCmdArgs.push(compilerPath);
-        nodeCmdArgs = nodeCmdArgs.concat(
-          qx.tool.compiler.cli.commands.Compile.filterArgsForCustomCompiler(process.argv.slice(2))
-        );
+        nodeCmdArgs = nodeCmdArgs.concat(qx.tool.compiler.cli.commands.Compile.filterArgsForCustomCompiler(process.argv.slice(2)));
         await new Promise(resolve => {
           if (this.argv.verbose) {
             qx.tool.compiler.Console.log(">>>Running custom compiler with command: " + process.execPath + " " + nodeCmdArgs.join(" "));
