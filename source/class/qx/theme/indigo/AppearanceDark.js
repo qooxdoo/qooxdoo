@@ -98,6 +98,41 @@ qx.Theme.define("qx.theme.indigo.AppearanceDark", {
       }
     },
 
+    // The weekday header and the week column use dark colors of their own,
+    // because "background" and "background-selected-dark" are both #333 here
+    "datechooser/weekday": {
+      style(states) {
+        return {
+          decorator: "datechooser-weekday",
+          font: "bold",
+          textAlign: "center",
+          textColor: states.disabled
+            ? "text-disabled"
+            : states.weekend
+            ? "datechooser-background-selected-dark"
+            : "datechooser-background",
+          backgroundColor: states.weekend
+            ? "datechooser-background"
+            : "datechooser-background-selected-dark",
+          paddingTop: 2
+        };
+      }
+    },
+
+    "datechooser/week": {
+      style(states) {
+        return {
+          textAlign: "center",
+          textColor: "datechooser-background",
+          backgroundColor: "datechooser-background-selected-dark",
+          padding: [2, 4],
+          decorator: states.header
+            ? "datechooser-week-header"
+            : "datechooser-week"
+        };
+      }
+    },
+
     "textfield": {
       style(states) {
         var textColor;

@@ -8,6 +8,13 @@ that the table edits are completed or cancelled before refreshing table model da
 
 ## Bugfixes
 
+- With the Simple and Indigo themes, opening a date chooser or the popup of a
+date field logged `Error in the 'Appearance' queue: ... Error in property
+textColor of class qx.ui.basic.Label in method setThemedTextColor with incoming
+value 'datechooser-background': Is invalid!`, and the calendar and other widgets
+shown at the same time stayed unstyled. Both themes show the date chooser as before again;
+IndigoDark keeps its readable week day header and week numbers.
+
 - `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
 `qx.event.Idle` tick when the target widget is disposed before the placing widget
 disappears (e.g. a popup left open while its target's window is closed). The
