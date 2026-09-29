@@ -97,7 +97,7 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
      * @param {qx.event.type.Data} e
      */
     __onFileChanged(e) {
-      let filename = e.getData();
+      let filename = e.getData().filename;
       qx.tool.compiler.Console.logVerbose(`Detected change to file ${filename} in discovery.`);
     },
 
