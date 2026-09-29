@@ -7,6 +7,13 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- With the Simple and Indigo themes, opening a date chooser or the popup of a
+  date field logged `Invalid value for property qx.ui.core.Widget.textColor:
+  datechooser-background`, and the calendar and other widgets shown at the same
+  time stayed unstyled. Both themes show the date chooser as before again;
+  IndigoDark keeps its readable week day header and week numbers.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
