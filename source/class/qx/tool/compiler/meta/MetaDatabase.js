@@ -254,8 +254,8 @@ qx.Class.define("qx.tool.compiler.meta.MetaDatabase", {
         return true;
       }
 
-      let libraries = Object.values(this.getDatabase().libraries || {}).map(l => l.sourceDir);
-      let libraryPath = libraries.find(l => filename.startsWith(l));
+      let libraryPaths = Object.values(this.getDatabase().libraries || {}).map(l => l.sourceDir);
+      let libraryPath = qx.tool.compiler.app.Library.findBestPath(filename, libraryPaths);
 
       classMeta = new qx.tool.compiler.meta.ClassMeta(this.getRootDir(), libraryPath);
       let classFilename = await qx.tool.utils.files.Utils.correctCase(filename);

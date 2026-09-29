@@ -122,8 +122,8 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     __fontsData: null,
 
     /**
-     * 
-     * @param {string} classname 
+     *
+     * @param {string} classname
      * @returns {boolean} Whether the classname belongs to this library
      */
     isClass(classname) {
@@ -248,10 +248,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         this.setRequires(data.requires);
       }
       if (data.provides && data.provides.boot) {
-        qx.tool.compiler.Console.print(
-          "qx.tool.compiler.cli.compile.deprecatedProvidesBoot",
-          rootDir
-        );
+        qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.deprecatedProvidesBoot", rootDir);
       }
     },
 
@@ -279,9 +276,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         if (!isWebFont) {
           for (let fontId in this.__fontsData) {
             let fontData = this.__fontsData[fontId];
-            isWebFont = (fontData.fontFaces || []).find(fontFace =>
-              (fontFace.paths || []).find(resource => resource == filename)
-            );
+            isWebFont = (fontData.fontFaces || []).find(fontFace => (fontFace.paths || []).find(resource => resource == filename));
 
             if (isWebFont) {
               break;
@@ -343,6 +338,45 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       let lib = new qx.tool.compiler.app.Library();
       await lib.loadManifest(rootDir);
       return lib;
+    },
+
+    /**
+     * Find the library for a given filename, and makes the best choice where there are
+     * multiple libraries (ie overlapping on disk), in which case it chooses the one with
+     * the longest root directory path.
+     *
+     * @param {String} filename
+     * @param {qx.tool.compiler.app.Library[]} libraries
+     * @returns {qx.tool.compiler.app.Library|null} the best matching library or null if none found
+     */
+    findBestLibraryForFilename(filename, libraries) {
+      let best = null;
+      for (let library of libraries) {
+        let libRootDir = path.resolve(library.getRootDir()) + path.sep;
+        if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.rootDir.length)) {
+          best = { library, rootDir: libRootDir };
+        }
+      }
+      return best ? best.library : null;
+    },
+
+    /**
+     * Finds the best matching library path for a given filename; this means finding
+     * the library path that contains the file and has the longest matching prefix.
+     *
+     * @param {String} filename
+     * @param {String[]} libraryPaths
+     * @returns {String}
+     */
+    findBestPath(filename, libraryPaths) {
+      let best = null;
+      for (let libraryPath of libraryPaths) {
+        let libRootDir = path.resolve(libraryPath) + path.sep;
+        if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.length)) {
+          best = libraryPath;
+        }
+      }
+      return best;
     }
   }
 });

@@ -319,7 +319,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
     findLibrariesForResource(uri) {
       // check for absolute path first, in windows c:/ is a valid absolute name
       if (path.isAbsolute(uri)) {
-        let library = this.__libraries.find(lib => uri.startsWith(path.resolve(lib.getRootDir())));
+        let library = qx.tool.compiler.app.Library.findBestLibraryForFilename(uri, this.__libraries);
         return library ? [library] : [];
       }
 
