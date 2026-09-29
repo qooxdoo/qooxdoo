@@ -7,6 +7,12 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- Pressing Enter in a table cell that is edited with a checkbox now ends the
+  edit and saves the value, as Enter does in every other table cell editor.
+  Before, Enter only toggled the checkbox and the edit stayed open. Space still
+  toggles the checkbox, and checkboxes outside tables are not affected.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
