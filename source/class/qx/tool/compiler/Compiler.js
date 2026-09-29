@@ -629,7 +629,9 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       const onClassCompiledError = err => {
         delete this.__compilingClasses[hashKeyForClassname];
         qx.tool.compiler.Console.error("Unhandled exception while compiling class " + classname + ": " + err.stack);
-        existingCompile.promise.resolve({ fatalCompileError: true });
+        let dbClassInfo = { fatalCompileError: true };
+        this._onClassCompiled(analyzer, classname, dbClassInfo, false);
+        existingCompile.promise.resolve(dbClassInfo);
         existingCompile.error = "Unhandled exception while compiling class " + classname + ": " + err.stack;
       };
 
