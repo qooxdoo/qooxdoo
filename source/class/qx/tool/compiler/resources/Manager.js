@@ -53,6 +53,33 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
     ];
   },
 
+  statics: {
+    /**
+     * Finds the library whose root directory contains a file.  Library directories
+     * can be nested (eg libraries in the application's `qx_packages/` or
+     * `node_modules/`), so the library with the longest matching root directory wins.
+     *
+     * @param libraries {qx.tool.compiler.app.Library[]} the libraries to search
+     * @param filename {String} absolute filename
+     * @return {qx.tool.compiler.app.Library?} the library, null if not found
+     */
+    findLibraryForFilename(libraries, filename) {
+      let best = null;
+      let bestRootDir = null;
+      for (let library of libraries) {
+        let rootDir = path.resolve(library.getRootDir());
+        if (!rootDir.endsWith(path.sep)) {
+          rootDir += path.sep;
+        }
+        if (filename.startsWith(rootDir) && (!best || rootDir.length > bestRootDir.length)) {
+          best = library;
+          bestRootDir = rootDir;
+        }
+      }
+      return best;
+    }
+  },
+
   members: {
     __assets: undefined,
 
@@ -143,10 +170,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
 
         // check for absolute path first, in windows c:/ is a valid absolute name
         if (path.isAbsolute(uri)) {
-          let library = this.__analyser
-            .getLibraries()
-            .find(lib => uri.startsWith(path.resolve(lib.getRootDir())));
-          return library || null;
+          return qx.tool.compiler.resources.Manager.findLibraryForFilename(this.__analyser.getLibraries(), uri);
         }
 
         // Explicit library?

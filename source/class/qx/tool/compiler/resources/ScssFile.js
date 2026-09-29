@@ -179,12 +179,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       // Must be relative to current file
       let dir = path.dirname(currentFilename);
       let filename = path.resolve(dir, url);
-      let library = this.__target
-        .getAnalyser()
-        .getLibraries()
-        .find(library =>
-          filename.startsWith(path.resolve(library.getRootDir()))
-        );
+      let library = qx.tool.compiler.resources.Manager.findLibraryForFilename(this.__target.getAnalyser().getLibraries(), filename);
 
       if (!library) {
         qx.tool.compiler.Console.error(

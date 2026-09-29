@@ -7,6 +7,13 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- SCSS files of a library installed in the application's `qx_packages/` or
+  `node_modules/` directory were compiled as if they belonged to the application,
+  so their `@import` and `url()` references could get wrong paths. The same
+  applied to resources given with an absolute path: the compiler now picks the
+  library whose directory is closest to the file.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
