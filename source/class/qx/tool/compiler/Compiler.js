@@ -840,7 +840,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       filename = path.resolve(path.join(metaDb.getRootDir(), filename));
       let best = null;
       for (let library of Object.values(this.__libraries)) {
-        let libRootDir = path.resolve(library.getRootDir()) + "/";
+        let libRootDir = path.resolve(library.getRootDir()) + path.sep;
         if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.rootDir.length)) {
           best = { library, rootDir: libRootDir };
         }
