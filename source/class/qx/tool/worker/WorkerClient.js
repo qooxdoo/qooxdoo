@@ -173,7 +173,10 @@ qx.Class.define("qx.tool.worker.WorkerClient", {
         delete this.__callsByUuid[msg.uuid];
         if (callInProgress) {
           if (msg.error) {
-            callInProgress.promise.reject(new Error(msg.error));
+            let ex = new Error(msg.error.message);
+            ex.code = msg.error.code || null;
+            ex.errno = msg.error.errno || null;
+            callInProgress.promise.reject(ex);
           } else {
             callInProgress.promise.resolve(msg.result);
           }

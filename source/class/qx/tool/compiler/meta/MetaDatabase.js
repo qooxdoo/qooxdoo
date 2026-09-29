@@ -287,7 +287,7 @@ qx.Class.define("qx.tool.compiler.meta.MetaDatabase", {
 
         this.fireDataEvent("classMetaParsed", classMeta);
       } catch (ex) {
-        qx.tool.compiler.Console.error("Failed to parse meta data for file " + filename + ": " + ex.message);
+        qx.tool.compiler.Console.error("Failed to read class to get meta data for file " + filename + ": " + ex.message);
         return false;
       }
 

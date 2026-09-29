@@ -196,7 +196,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       }
       for (let i = 0; i < this.__packages.length; i++) {
         let pkg = this.__packages[i];
-        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, asset => asset.synchronizeAssetIntoTarget(this.__target));
+        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, async asset => {
+          try {
+            return await asset.synchronizeAssetIntoTarget(this.__target);
+          } catch (ex) {
+            qx.tool.compiler.Console.error("Failed to synchronize asset " + asset.toUri() + ": " + ex.message);
+          }
+        });
       }
     },
 

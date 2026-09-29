@@ -123,7 +123,15 @@ qx.Class.define("qx.tool.worker.WorkerServer", {
               this.__postMessage({ type: "methodReturn", uuid: msg.uuid, result: resolvedResult });
             })
             .catch(error => {
-              this.__postMessage({ type: "methodReturn", uuid: msg.uuid, error: error.message });
+              this.__postMessage({
+                type: "methodReturn",
+                uuid: msg.uuid,
+                error: {
+                  message: error.message,
+                  code: error.code || null,
+                  errno: error.errno || null
+                }
+              });
             });
         } else {
           this.__postMessage({ type: "methodReturn", uuid: msg.uuid, result: result });

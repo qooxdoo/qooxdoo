@@ -237,7 +237,11 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
       }
 
       await qx.tool.utils.Promisify.poolEachOf(Object.values(this.__assets), 10, async asset => {
-        await asset.load();
+        try {
+          await asset.load();
+        } catch (ex) {
+          qx.tool.compiler.Console.error("Failed to load asset " + asset + ": " + ex.message);
+        }
         let fileInfo = asset.getFileInfo();
         if (fileInfo.meta) {
           for (var altPath in fileInfo.meta) {

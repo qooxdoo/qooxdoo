@@ -92,7 +92,14 @@ qx.Class.define("qx.tool.utils.Promisify", {
       let promise = new qx.Promise();
       limiter.addListener("empty", () => promise.resolve());
       for (let item of arr) {
-        limiter.add(() => fn(item));
+        limiter.add(() => {
+          try {
+            return fn(item);
+          } catch (e) {
+            console.log(e);
+            throw e;
+          }
+        });
       }
 
       await promise;
