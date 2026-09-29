@@ -13,6 +13,11 @@ that the table edits are completed or cancelled before refreshing table model da
 disappears (e.g. a popup left open while its target's window is closed). The
 live-update loop now stops and releases its idle listener when the target is disposed.
 
+- Pressing Enter in a table cell that is edited with a checkbox now ends the
+edit and saves the value, as Enter does in every other table cell editor.
+Before, Enter only toggled the checkbox and the edit stayed open. Space still
+toggles the checkbox, and checkboxes outside tables are not affected.
+
 # v7.0.0
 
 ## Breaking changes
