@@ -49,6 +49,11 @@ rejects the requests it still has in flight with `qx.io.exception.Cancel`, whose
 to await a response which could no longer be delivered, and a request which failed at the
 transport is released from the pending map, so a late response to it is reported as a
 `DUPLICATE_ID` transport error rather than resolving it. (#10889)
+- When `compile.json` sets `serve.listenPort`, `qx serve` and `qx test` ignored
+`-p 9000`, `-p9000` and `--listen-port=9000` and still reported
+`Web server started, please browse to http://localhost:<port from compile.json>`.
+Only `--listen-port 9000` worked. Every spelling of the option now takes precedence
+over `compile.json`.
 
 # v7.0.0
 
