@@ -315,7 +315,8 @@ qx.Class.define("qx.tool.compiler.cli.Watch", {
             var promises = [];
             t.__applications.forEach(data => {
               data.dependsOn = {};
-              var deps = data.application.getDependencies();
+              // No dependencies when the application was skipped, eg its class is missing
+              var deps = data.application.getDependencies() || [];
               deps.forEach(function (classname) {
                 let info = db.classInfo[classname];
                 let lib = analyser.findLibrary(info.libraryName);

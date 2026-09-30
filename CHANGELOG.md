@@ -7,6 +7,13 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- `qx compile` no longer stops with `TypeError: Cannot read properties of null (reading 'getWebFonts')`
+  when the application `class` in compile.json does not exist. It now reports
+  `Cannot find class myapp.Aplication required as the class of application 'myapp'`, skips that
+  application and exits with an error. In `qx compile --watch` this no longer shows
+  `Fatal error during compile`; watching continues and the application is built once the class exists.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

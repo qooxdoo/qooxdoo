@@ -232,6 +232,17 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           appEnvironments[application.toHashCode()]
         );
 
+        if (!analyser.getLibraryFromClassname(application.getClassName())) {
+          qx.tool.compiler.Console.print(
+            "qx.tool.compiler.maker.missingAppClass",
+            application.getClassName(),
+            application.getName()
+          );
+
+          success = false;
+          continue;
+        }
+
         application.calcDependencies();
         if (application.getFatalCompileErrors()) {
           qx.tool.compiler.Console.print(

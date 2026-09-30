@@ -445,6 +445,42 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
   }
 });
 
+test("Missing application class is reported instead of crashing", async () => {
+  await testUtils.deleteRecursive("test-issues/missingAppClass/compiled");
+  let result = await testUtils.runCompiler("test-issues/missingAppClass");
+  let allOutput = result.output + result.error;
+  assert.ok(result.exitCode !== 0, "Compilation must fail when the application class does not exist");
+  assert.ok(!allOutput.match(/TypeError|getWebFonts/), "Compiler must not crash: " + allOutput);
+  assert.ok(
+    result.output.includes('##qx.tool.compiler.maker.missingAppClass:["missingappclass.Aplication","missingappclass"]'),
+    "Should report the missing application class: " + allOutput
+  );
+});
+
+test("Missing application class does not break watch mode", async () => {
+  await testUtils.deleteRecursive("test-issues/missingAppClass/compiled");
+  let watchProcess = child_process.spawn(testUtils.getCompiler(), ["compile", "--watch"], {
+    cwd: "test-issues/missingAppClass",
+    shell: true
+  });
+  let output = "";
+  watchProcess.stdout.on("data", data => (output += data.toString()));
+  watchProcess.stderr.on("data", data => (output += data.toString()));
+  try {
+    for (let waited = 0; !output.includes("Start watching") && waited < 60000; waited += 1000) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    assert.ok(output.includes("Start watching"), "Watch mode did not start within 60s: " + output);
+    assert.ok(!output.match(/Fatal error during compile|TypeError/), "Watch mode must not fail: " + output);
+    assert.ok(
+      output.includes("Cannot find class missingappclass.Aplication required as the class of application 'missingappclass'"),
+      "Should report the missing application class: " + output
+    );
+  } finally {
+    kill(watchProcess.pid, "SIGKILL");
+  }
+});
+
 test("afterProcessFinished callback", async () => {
   try {
     const markerFile = "test-issues/test-afterProcessFinished/afterProcessFinished.marker";
