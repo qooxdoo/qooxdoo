@@ -115,17 +115,11 @@ qx.Class.define("qx.dev.unit.TestCase", {
      */
     resumeSetUp() {
       var func = this.getTestFunc();
-      var inst = this;
-      var method = func.getName();
 
       return this.getTestResult().run(
         func,
         function () {
-          try {
-            inst[method]();
-          } catch (ex) {
-            throw ex;
-          }
+          return func.callTestMethod();
         },
         this,
         true
