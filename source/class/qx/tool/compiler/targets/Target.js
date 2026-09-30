@@ -579,9 +579,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           addLibraryFonts(library);
         }
       });
-      if (!addLibraryFonts) {
-        return;
-      }
       addLibraryFonts(appLibrary);
 
       const loadFont = async (library, font) => {
