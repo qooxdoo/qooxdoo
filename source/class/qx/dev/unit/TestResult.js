@@ -82,6 +82,26 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties: {
+    /**
+     * Time in milliseconds to wait for a tearDown that returns a promise.
+     * <code>null</code> means the default delay of
+     * {@link qx.dev.unit.TestCase#wait}, scaled by
+     * <code>qx.test.delay.scale</code>.
+     */
+    tearDownTimeout: {
+      check: "Integer",
+      nullable: true,
+      init: null
+    }
+  },
+
+  /*
+  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -271,9 +291,11 @@ qx.Class.define("qx.dev.unit.TestResult", {
       }
 
       if (!error) {
-        this.__tearDownThen(test, function (ex) {
+        this.__tearDownThen(test, function (ex, timedOut) {
           if (ex) {
-            this.__prefixMessage(ex, "tearDown failed");
+            if (!timedOut) {
+              this.__prefixMessage(ex, "tearDown failed");
+            }
             this._createError("error", [ex], test);
           }
           this.fireDataEvent("endTest", test);
@@ -323,11 +345,13 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
     /**
      * Run {@link #tearDown}, then call <code>callback</code>. If tearDown
-     * returns a promise, the callback is called when it has settled.
+     * returns a promise, the callback is called when it has settled, or
+     * after {@link #tearDownTimeout}.
      *
      * @param test {qx.dev.unit.TestFunction} The test
      * @param callback {Function} Called in the context of this object with
-     *   the exception of tearDown, or with <code>null</code>
+     *   the exception of tearDown, or with <code>null</code>. The second
+     *   argument is <code>true</code> if tearDown did not finish in time.
      */
     __tearDownThen(test, callback) {
       var result;
@@ -338,15 +362,45 @@ qx.Class.define("qx.dev.unit.TestResult", {
         return;
       }
 
-      if (qx.lang.Type.isPromise(result)) {
-        result.then(
-          () => callback.call(this, null),
-          reason =>
-            callback.call(this, qx.dev.unit.TestFunction.toError(reason))
-        );
-      } else {
+      if (!qx.lang.Type.isPromise(result)) {
         callback.call(this, null);
+        return;
       }
+
+      var settled = false;
+      var delay = this.getTearDownTimeout();
+      if (delay === null) {
+        // the default delay of wait(), scaled by qx.test.delay.scale
+        var wrapper = new qx.dev.unit.AsyncWrapper();
+        delay = wrapper.getDelay();
+        wrapper.dispose();
+      }
+
+      var timer = qx.event.Timer.once(
+        function () {
+          settled = true;
+          callback.call(
+            this,
+            new Error("tearDown did not finish within " + delay + " ms"),
+            true
+          );
+        },
+        this,
+        delay
+      );
+
+      var settle = ex => {
+        if (!settled) {
+          settled = true;
+          timer.stop();
+          timer.dispose();
+          callback.call(this, ex);
+        }
+      };
+      result.then(
+        () => settle(null),
+        reason => settle(qx.dev.unit.TestFunction.toError(reason))
+      );
     },
 
     /**
