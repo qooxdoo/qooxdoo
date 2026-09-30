@@ -702,6 +702,14 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      * Event handler. Called when the pane model has changed.
      */
     _onPaneModelChanged() {
+      // The pane model fires this event deferred. A table that was
+      // destroyed is disposed later, and its table model may already be
+      // disposed when the event comes.
+      var tableModel = this.getTable().getTableModel();
+      if (tableModel && tableModel.isDisposed()) {
+        return;
+      }
+
       this.__header.onPaneModelChanged();
       this.__tablePane.onPaneModelChanged();
     },

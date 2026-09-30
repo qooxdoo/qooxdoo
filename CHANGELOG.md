@@ -7,6 +7,12 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- Disposing a table model right after `destroy()` of its table could throw
+  `TypeError: Cannot read properties of null (reading '0')` a moment later
+  (Firefox: `can't access property 0, ... is null`). The table now ignores the
+  late column update when its model is already disposed.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
