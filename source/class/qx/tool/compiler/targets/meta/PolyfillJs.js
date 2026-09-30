@@ -60,11 +60,14 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
     },
 
     async __write(srcFilename, ws) {
+      // core-js-bundle's minified.js ends with `//# sourceMappingURL=minified.js.map`, but
+      //  that map is not copied next to polyfill.js, so the reference is removed
       let rs = fs.createReadStream(srcFilename, "utf8");
+      let strip = new qx.tool.utils.Utils.StripSourceMapTransform();
       await new Promise((resolve, reject) => {
-        rs.on("end", resolve);
+        strip.on("end", resolve);
         rs.on("error", reject);
-        rs.pipe(ws, { end: false });
+        rs.pipe(strip).pipe(ws, { end: false });
       });
     },
 

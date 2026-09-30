@@ -115,3 +115,42 @@ test("embedded package sourcemaps stay aligned in build target", async () => {
     map: path.join(APP_DIR, "compiled", "build", "testsourcemap", "index.js.map")
   }, sourcePosition.line);
 });
+
+/**
+ * Lists the `sourceMappingURL` references in the JavaScript files of an application
+ * directory whose map file does not exist.
+ *
+ * @param {string} appOutputDir directory of the compiled application
+ * @returns {Promise<string[]>} "file.js -> map" for every missing map
+ */
+async function findMissingSourceMaps(appOutputDir) {
+  const missing = [];
+  for (const name of await fsPromises.readdir(appOutputDir)) {
+    if (!name.endsWith(".js")) {
+      continue;
+    }
+    const text = await fsPromises.readFile(path.join(appOutputDir, name), "utf8");
+    for (const match of text.matchAll(/^\/\/#\s*sourceMappingURL=([^?\s]+)/gm)) {
+      if (!fs.existsSync(path.join(appOutputDir, match[1]))) {
+        missing.push(`${name} -> ${match[1]}`);
+      }
+    }
+  }
+  return missing;
+}
+
+for (const target of ["source", "build"]) {
+  test(`every sourceMappingURL in the ${target} target points to a map that exists`, async () => {
+    await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+    const result = await testUtils.runCompiler(APP_DIR, `--target=${target}`);
+    assert.equal(result.exitCode, 0, testUtils.reportError(result));
+
+    const appOutputDir = path.join(APP_DIR, "compiled", target, "testsourcemap");
+    if (target == "source") {
+      // The build target embeds the polyfills in index.js
+      assert.ok(fs.existsSync(path.join(appOutputDir, "polyfill.js")), "polyfill.js should be written");
+    }
+    const missing = await findMissingSourceMaps(appOutputDir);
+    assert.deepEqual(missing, [], `Missing source maps: ${missing.join(", ")}`);
+  });
+}

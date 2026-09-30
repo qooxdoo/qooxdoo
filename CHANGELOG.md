@@ -7,6 +7,11 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- `polyfill.js` in the source target ended with `//# sourceMappingURL=minified.js.map`, a file the
+  compiler never writes. Browser developer tools tried to load it, and `--coverage` runs of the test runner
+  reported `An error occurred while trying to read the map file at minified.js.map`. The reference is now removed.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
