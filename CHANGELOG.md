@@ -7,6 +7,10 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- When a `runTests` listener or `beforeTests()` in compile.js failed while `qx test` ran its web
+  server, `qx test` printed `Running unit tests` and then kept running without showing the error. It now prints `Error while running tests: ...` and exits with an error.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

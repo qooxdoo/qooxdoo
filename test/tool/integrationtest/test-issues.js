@@ -476,3 +476,27 @@ test("afterProcessFinished callback", async () => {
 });
 
 
+test("qx test exits with an error when a runTests listener fails", async () => {
+  await testUtils.deleteRecursive("test-issues/testListenerError/compiled");
+  let testProcess = child_process.spawn(testUtils.getCompiler(), ["test", "--listen-port=18979"], {
+    cwd: "test-issues/testListenerError",
+    shell: true
+  });
+  let output = "";
+  testProcess.stdout.on("data", data => (output += data.toString()));
+  testProcess.stderr.on("data", data => (output += data.toString()));
+  let timer;
+  try {
+    let exitCode = await new Promise(resolve => {
+      testProcess.on("close", resolve);
+      timer = setTimeout(() => resolve("timeout"), 120000);
+    });
+    assert.notEqual(exitCode, "timeout", "qx test did not exit within 120s: " + output);
+    assert.notEqual(exitCode, 0, "qx test must fail: " + output);
+    assert.ok(output.includes("runTests listener failed"), "Should report the error: " + output);
+  } finally {
+    clearTimeout(timer);
+    kill(testProcess.pid, "SIGKILL");
+  }
+});
+

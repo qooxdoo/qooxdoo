@@ -197,16 +197,26 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         if (this.argv.verbose) {
           console.log(this.argv);
         }
-        await this.fireDataEventAsync("runTests", this);
-        if (
-          this.getCompilerApi() &&
-          typeof this.getCompilerApi().beforeTests == "function"
-        ) {
-          await this.getCompilerApi().beforeTests(this);
-        }
-        for (let test of this.__tests) {
-          qx.tool.compiler.Console.info(`Running ${test.getName()}`);
-          await test.execute();
+        try {
+          await this.fireDataEventAsync("runTests", this);
+          if (
+            this.getCompilerApi() &&
+            typeof this.getCompilerApi().beforeTests == "function"
+          ) {
+            await this.getCompilerApi().beforeTests(this);
+          }
+          for (let test of this.__tests) {
+            qx.tool.compiler.Console.info(`Running ${test.getName()}`);
+            await test.execute();
+          }
+        } catch (ex) {
+          // Serve fires "afterStart" without waiting for it, so nothing else would report
+          //  the error or end the process
+          qx.tool.compiler.Console.error(
+            "Error while running tests: " + (ex.stack || ex)
+          );
+
+          process.exit(1);
         }
         // for bash exitcode is not allowed to be more then 255!
         // We must exit the process here because serve runs infinite!
