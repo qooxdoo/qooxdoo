@@ -476,3 +476,14 @@ test("afterProcessFinished callback", async () => {
 });
 
 
+test("Unknown font does not drop the fonts after it", async () => {
+  await testUtils.deleteRecursive("test-issues/unknownFont/compiled");
+  let result = await testUtils.runCompiler("test-issues/unknownFont");
+  let allOutput = result.output + result.error;
+  assert.ok(result.exitCode === 0, "Compile should succeed: " + allOutput);
+  assert.ok(allOutput.includes("Cannot find font with name NoSuchFont"), "Should report the unknown font: " + allOutput);
+  let indexJs = await fsPromises.readFile("test-issues/unknownFont/compiled/source/unknownfont/index.js", "utf8");
+  assert.ok(indexJs.includes("fontBootstrap['JosefinSlab']"), "Font after the unknown one is missing");
+  assert.ok(!indexJs.includes("fontBootstrap['NoSuchFont']"), "Unknown font must not be added");
+});
+

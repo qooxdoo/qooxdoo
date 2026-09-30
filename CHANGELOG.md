@@ -7,6 +7,11 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- After the warning `Cannot find font with name NoSuchFont` (an unknown name in `@usefont`),
+  `qx compile` also left out every font from `provides.fonts` that came after the unknown one,
+  so the application started without them. Now only the unknown font is skipped.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
