@@ -154,8 +154,20 @@ qx.Class.define("qx.dev.unit.TestCase", {
 
       var func = deferredFunction;
       var that = this;
+      var testFunc = this.getTestFunc();
 
       return function () {
+        if (that.getTestFunc() !== testFunc) {
+          // the test that created this handler has ended (e.g. its wait
+          // timed out) and another test runs now: do not resume that one
+          that.warn(
+            "Ignoring resumeHandler() of " +
+              (testFunc ? testFunc.getFullName() : "a finished test")
+          );
+
+          return undefined;
+        }
+
         // bind arguments to deferŕedFunction
         var args = qx.lang.Array.fromArguments(arguments);
 

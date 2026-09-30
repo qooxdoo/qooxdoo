@@ -127,6 +127,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   members: {
     _timeout: null,
+    __active: null,
 
     /**
      * Run the test
@@ -141,6 +142,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
     run(test, testFunction, self, resume) {
       if (!this._timeout) {
         this._timeout = {};
+        this.__active = {};
       }
 
       var testClass = test.getTestClass();
@@ -158,6 +160,17 @@ qx.Class.define("qx.dev.unit.TestResult", {
       }
 
       if (resume && !this._timeout[test.getFullName()]) {
+        if (!this.__active[test.getFullName()]) {
+          // e.g. the wait timed out before resume() came
+          this.warn(
+            "Ignoring resume() of " +
+              test.getFullName() +
+              ": the test has already ended"
+          );
+
+          return undefined;
+        }
+
         this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError(
           "Error in asynchronous test",
@@ -165,10 +178,11 @@ qx.Class.define("qx.dev.unit.TestResult", {
         );
 
         this._createError("failure", [qxEx], test);
-        this.fireDataEvent("endTest", test);
+        this.__endTest(test);
         return undefined;
       }
 
+      this.__active[test.getFullName()] = true;
       this.fireDataEvent("startTest", test);
 
       if (qx.core.Environment.get("qx.debug.dispose")) {
@@ -229,7 +243,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
                 this.__prefixMessage(ex, "setUp failed");
                 this._createError("error", [ex], test);
               }
-              this.fireDataEvent("endTest", test);
+              this.__endTest(test);
             });
 
             return undefined;
@@ -285,7 +299,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
             } else {
               this._createError("error", [ex], test);
             }
-            this.fireDataEvent("endTest", test);
+            this.__endTest(test);
           });
         }
       }
@@ -298,7 +312,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
             }
             this._createError("error", [ex], test);
           }
-          this.fireDataEvent("endTest", test);
+          this.__endTest(test);
         });
       }
 
@@ -309,6 +323,17 @@ qx.Class.define("qx.dev.unit.TestResult", {
       */
 
       return returnValue;
+    },
+
+    /**
+     * Fire "endTest". A resume() of the test is ignored after this, until
+     * the test is started again.
+     *
+     * @param test {qx.dev.unit.TestFunction} The test
+     */
+    __endTest(test) {
+      delete this.__active[test.getFullName()];
+      this.fireDataEvent("endTest", test);
     },
 
     /**
@@ -323,9 +348,14 @@ qx.Class.define("qx.dev.unit.TestResult", {
       var that = this;
       promise.then(
         function () {
-          inst.resumeSetUp();
+          if (inst.getTestFunc() === test) {
+            inst.resumeSetUp();
+          }
         },
         function (reason) {
+          if (inst.getTestFunc() !== test) {
+            return;
+          }
           inst.resume(function () {
             var ex = qx.dev.unit.TestFunction.toError(reason);
             if (
@@ -575,5 +605,6 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   destruct() {
     this._timeout = null;
+    this.__active = null;
   }
 });

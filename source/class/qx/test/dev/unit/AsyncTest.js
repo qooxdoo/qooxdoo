@@ -318,6 +318,64 @@ qx.Class.define("qx.test.dev.unit.AsyncTest", {
           this.assertEquals("tearDown failed: still open", events[0].message);
         }
       );
+    },
+
+    testLateResumeIsIgnored() {
+      this.__runInner(
+        {
+          testInner() {
+            window.setTimeout(() => this.resume(), 300);
+            this.wait(10);
+          }
+        },
+
+        function (events, inner, ended) {
+          this.assertEquals(1, events.length, JSON.stringify(events));
+          this.assertEquals("failure", events[0].type);
+          this.assertMatch(events[0].message, /Timeout/);
+          this.assertArrayEquals(["testInner"], ended);
+        },
+        { settle: 500 }
+      );
+    },
+
+    testLateResumeHandlerDoesNotResumeTheNextTest() {
+      this.__runInner(
+        {
+          testInner() {
+            window.setTimeout(
+              this.resumeHandler(function () {
+                this.lateHandlerCalled = true;
+              }, this),
+              300
+            );
+
+            this.wait(10);
+          },
+          testNext() {
+            window.setTimeout(
+              this.resumeHandler(function () {
+                this.nextResumed = true;
+              }, this),
+              600
+            );
+
+            this.wait(2000);
+          }
+        },
+
+        function (events, inner, ended) {
+          this.assertEquals(1, events.length, JSON.stringify(events));
+          this.assertEquals("testInner", events[0].test);
+          this.assertArrayEquals(["testInner", "testNext"], ended);
+          this.assertTrue(inner.nextResumed, "testNext was not resumed");
+          this.assertUndefined(
+            inner.lateHandlerCalled,
+            "late handler of testInner ran"
+          );
+        },
+        { names: ["testInner", "testNext"], settle: 300 }
+      );
     }
   }
 });
