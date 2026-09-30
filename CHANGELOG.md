@@ -13,6 +13,17 @@ that the table edits are completed or cancelled before refreshing table model da
 disappears (e.g. a popup left open while its target's window is closed). The
 live-update loop now stops and releases its idle listener when the target is disposed.
 
+- Unit tests that return a promise, such as `async` test methods compiled for
+older browsers, were reported as passed at once: a failed assertion after an
+`await` or a rejected promise did not show up. The test runner now waits for
+the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
+and reports a rejection or a timeout as a failed test.
+
+- After a test's `wait()` had timed out, a late `resume()` was reported as a
+second failure, "resume() called before wait()", and a late
+`resumeHandler()` could end the next test early. Such late calls are now
+ignored with a warning.
+
 # v7.0.0
 
 ## Breaking changes
