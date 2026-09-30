@@ -307,17 +307,31 @@ qx.Class.define("qx.tool.utils.Utils", {
           messages: null
         };
 
-        proc.stdout.on("data", data => {
-          data = data.toString().trim();
-          options.log(data);
-          result.output += data;
-        });
-        proc.stderr.on("data", data => {
-          data = data.toString().trim();
-          options.error(data);
-          result.error += data;
-        });
+        // Output arrives in chunks which can end in the middle of a line; `log` and `error`
+        //  are called once per complete line, and `output` and `error` keep the line breaks
+        const lineSplitter = (stream, key, callback) => {
+          let pending = "";
+          stream.setEncoding("utf8");
+          stream.on("data", data => {
+            result[key] += data;
+            let lines = (pending + data).split(/\r?\n/);
+            pending = lines.pop();
+            lines.forEach(line => callback(line));
+          });
+          return () => {
+            if (pending) {
+              callback(pending);
+            }
+            pending = "";
+          };
+        };
+        let flushOutput = lineSplitter(proc.stdout, "output", options.log);
+        let flushError = lineSplitter(proc.stderr, "error", options.error);
         proc.on("close", code => {
+          flushOutput();
+          flushError();
+          result.output = result.output.trim();
+          result.error = result.error.trim();
           result.exitCode = code;
           resolve(result);
         });

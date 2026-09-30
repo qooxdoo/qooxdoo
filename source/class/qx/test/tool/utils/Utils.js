@@ -65,6 +65,25 @@ qx.Class.define("qx.test.tool.utils.Utils", {
         ws.end();
       });
       this.assertTrue(ss.toString() == "abc\ndef\nghi");
+    },
+
+    async testRunCommandLinesAcrossChunks() {
+      // Writes a line in two chunks, then a last line without a line break
+      let script = [
+        'process.stdout.write("ok 1 - first\\nno");',
+        'setTimeout(() => process.stdout.write("t ok 2 - second\\n"), 200);',
+        'setTimeout(() => process.stdout.write("last"), 400);'
+      ].join("");
+      let lines = [];
+      let result = await qx.tool.utils.Utils.runCommand({
+        cwd: process.cwd(),
+        cmd: process.execPath,
+        args: ["-e", script],
+        log: line => lines.push(line)
+      });
+      this.assertEquals(0, result.exitCode);
+      this.assertArrayEquals(["ok 1 - first", "not ok 2 - second", "last"], lines);
+      this.assertEquals("ok 1 - first\nnot ok 2 - second\nlast", result.output);
     }
   }
 });
