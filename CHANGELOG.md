@@ -13,6 +13,12 @@ that the table edits are completed or cancelled before refreshing table model da
 disappears (e.g. a popup left open while its target's window is closed). The
 live-update loop now stops and releases its idle listener when the target is disposed.
 
+- When `compile.json` sets `serve.listenPort`, `qx serve` and `qx test` ignored
+`-p 9000`, `-p9000` and `--listen-port=9000` and still reported
+`Web server started, please browse to http://localhost:<port from compile.json>`.
+Only `--listen-port 9000` worked. Every spelling of the option now takes precedence
+over `compile.json`.
+
 # v7.0.0
 
 ## Breaking changes

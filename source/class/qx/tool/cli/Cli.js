@@ -649,17 +649,19 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
 
     /**
      * Detects whether the command line explicit set an option (as opposed to yargs
-     * providing a default value).  Note that this does not handle aliases, use the
-     * actual, full option name.
+     * providing a default value).  Aliases and forms like `--option=value` are
+     * recognised because yargs records which options it filled in from defaults;
+     * use the actual, full option name.
      *
      * @param option {String} the name of the option, eg "listen-port"
      * @return {Boolean}
      */
     isExplicitArg(option) {
-      function searchForOption(option) {
-        return process.argv.indexOf(option) > -1;
+      let parsed = this.yargs && this.yargs.parsed;
+      if (!parsed || this.argv[option] === undefined) {
+        return false;
       }
-      return searchForOption(`-${option}`) || searchForOption(`--${option}`);
+      return !parsed.defaulted[option];
     }
   },
 
