@@ -80,6 +80,29 @@ qx.Class.define("qx.dev.unit.TestFunction", {
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics: {
+    /**
+     * Turn the reason of a rejected promise into something that can be
+     * thrown: objects are returned unchanged, other values are wrapped in
+     * an <code>Error</code>.
+     *
+     * @param reason {var} The rejection reason
+     * @return {Object} The value to throw
+     */
+    toError(reason) {
+      if (reason !== null && typeof reason === "object") {
+        return reason;
+      }
+      return new Error("Promise rejected: " + String(reason));
+    }
+  },
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -99,49 +122,63 @@ qx.Class.define("qx.dev.unit.TestFunction", {
         testResult: testResult
       });
 
-      testResult.run(this, function () {
-        switch (inst[method].constructor.name) {
-          case "Function":
-            try {
-              inst[method]();
-            } catch (ex) {
-              throw ex;
-            }
-            break;
-          case "AsyncFunction":
-            inst[method]()
-              .then(function () {
-                inst.resume();
-              })
-              .catch(function (ex) {
-                inst.resume(function () {
-                  throw ex;
-                });
-              });
+      testResult.run(this, () => this.callTestMethod());
+    },
 
-            inst.wait();
-        }
-      });
+    /**
+     * Call the test method on the test class. If the method returns a
+     * promise (or any other thenable), the test waits until it settles: a
+     * rejection is reported like an exception thrown by a synchronous test.
+     * This works for native and for transpiled <code>async</code> methods.
+     *
+     * @return {var} The return value of the test method
+     */
+    callTestMethod() {
+      var inst = this.getTestClass();
+      var result = inst[this.getName()]();
+      if (qx.lang.Type.isPromise(result)) {
+        result.then(
+          function () {
+            inst.resume();
+          },
+          function (ex) {
+            inst.resume(function () {
+              // An AsyncWrapper (wait() called after an await) must pass
+              // unchanged, so that TestResult starts a new wait
+              throw qx.dev.unit.TestFunction.toError(ex);
+            });
+          }
+        );
+
+        inst.wait();
+      }
+      return result;
     },
 
     /**
      * Call the test class' <code>setUp</code> method.
+     *
+     * @return {var} The return value of <code>setUp</code>, e.g. a promise
      */
     setUp() {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.setUp)) {
-        inst.setUp();
+        return inst.setUp();
       }
+      return undefined;
     },
 
     /**
      * Call the test class' <code>tearDown</code> method.
+     *
+     * @return {var} The return value of <code>tearDown</code>, e.g. a promise
      */
     tearDown() {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.tearDown)) {
-        inst.tearDown();
+        return inst.tearDown();
       }
+      return undefined;
     },
 
     /**
