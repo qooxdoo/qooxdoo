@@ -28,50 +28,68 @@ qx.Class.define("qx.test.dev.unit.AsyncTest", {
 
   members: {
     /**
-     * Run an inner test and call <code>check</code> with its results when
-     * the inner test has ended.
+     * Run inner tests one after the other and call <code>check</code> with
+     * their results when the last one has ended.
      *
-     * @param members {Map} Methods of the inner test case: "testInner" and
-     *   optionally "setUp" and "tearDown"
+     * @param members {Map} Methods of the inner test case: the tests and
+     *   optionally "setUp", "tearDown" and "tearDown&lt;Name&gt;"
      * @param check {Function} Called with an array of
-     *   <code>{type, message}</code> maps (failure, error and skip events)
-     *   and the inner test case
+     *   <code>{type, message, test}</code> maps (failure, error and skip
+     *   events), the inner test case and the names of the tests in the
+     *   order of their "endTest" events
+     * @param options {Map?} <code>names</code>: the tests to run (default
+     *   <code>["testInner"]</code>), <code>settle</code>: milliseconds to
+     *   wait after the last test has ended before <code>check</code> is
+     *   called, <code>tearDownTimeout</code>: see
+     *   {@link qx.dev.unit.TestResult#tearDownTimeout}
      */
-    __runInner(members, check) {
+    __runInner(members, check, options) {
+      options = options || {};
+      var names = options.names || ["testInner"];
       var inner = new qx.dev.unit.TestCase();
       Object.assign(inner, members);
-      var testFunction = new qx.dev.unit.TestFunction(inner, "testInner");
       var testResult = new qx.dev.unit.TestResult();
+      if (options.tearDownTimeout) {
+        testResult.setTearDownTimeout(options.tearDownTimeout);
+      }
       this.addAutoDispose(testResult);
-      this.addAutoDispose(testFunction);
       this.addAutoDispose(inner);
+      var testFunctions = names.map(name => {
+        var testFunction = new qx.dev.unit.TestFunction(inner, name);
+        this.addAutoDispose(testFunction);
+        return testFunction;
+      });
 
       var events = [];
       ["failure", "error", "skip"].forEach(function (type) {
         testResult.addListener(type, function (e) {
           events.push({
             type: type,
-            message: String(e.getData()[0].exception.message)
+            message: String(e.getData()[0].exception.message),
+            test: e.getData()[0].test.getName()
           });
         });
       });
 
-      var ended = false;
-      testResult.addListener("endTest", () => {
-        if (ended) {
-          return;
+      var ended = [];
+      testResult.addListener("endTest", e => {
+        ended.push(e.getData().getName());
+        if (ended.length < names.length) {
+          window.setTimeout(() => {
+            testFunctions[ended.length].run(testResult);
+          }, 0);
+        } else if (ended.length == names.length) {
+          // resume in a new task: the outer test may not be waiting yet
+          window.setTimeout(() => {
+            this.resume(function () {
+              check.call(this, events, inner, ended);
+            });
+          }, options.settle || 0);
         }
-        ended = true;
-        // resume in a new task: the outer test may not be waiting yet
-        window.setTimeout(() => {
-          this.resume(function () {
-            check.call(this, events, inner);
-          });
-        }, 0);
       });
 
-      testFunction.run(testResult);
-      this.wait(5000);
+      testFunctions[0].run(testResult);
+      this.wait(2000);
     },
 
     __delay(ms) {
@@ -252,6 +270,33 @@ qx.Class.define("qx.test.dev.unit.AsyncTest", {
           this.assertArrayEquals([], events);
           this.assertTrue(inner.cleanedUp, "test ended before tearDown");
         }
+      );
+    },
+
+    testAsyncTearDownTimeout() {
+      this.__runInner(
+        {
+          testInner() {},
+          tearDownTestInner() {
+            return new Promise(function () {});
+          },
+          testNext() {}
+        },
+
+        function (events, inner, ended) {
+          this.assertJsonEquals(
+            [
+              {
+                type: "error",
+                message: "tearDown did not finish within 50 ms",
+                test: "testInner"
+              }
+            ],
+            events
+          );
+          this.assertArrayEquals(["testInner", "testNext"], ended);
+        },
+        { names: ["testInner", "testNext"], tearDownTimeout: 50 }
       );
     },
 
