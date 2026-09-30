@@ -7,6 +7,12 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- A misspelled `theme` in compile.json (for example `"theme": "qx.theme.Simpel"`) only printed
+  `Cannot find class file qx.theme.Simpel`, and `qx compile` wrote the application and exited
+  successfully. It now reports `Cannot find class qx.theme.Simpel required as the theme of
+  application 'myapp'`, skips that application and exits with an error, also in `qx compile --watch`.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

@@ -476,3 +476,42 @@ test("afterProcessFinished callback", async () => {
 });
 
 
+test("Missing theme class is reported as an error", async () => {
+  await testUtils.deleteRecursive("test-issues/missingThemeClass/compiled");
+  let result = await testUtils.runCompiler("test-issues/missingThemeClass");
+  let allOutput = result.output + result.error;
+  assert.ok(result.exitCode !== 0, "Compilation must fail when the theme class does not exist: " + allOutput);
+  assert.ok(
+    result.output.includes('##qx.tool.compiler.maker.missingThemeClass:["qx.theme.Simpel","missingthemeclass"]'),
+    "Should report the missing theme class: " + allOutput
+  );
+  assert.ok(
+    !fs.existsSync("test-issues/missingThemeClass/compiled/source/missingthemeclass/index.js"),
+    "The application must not be written"
+  );
+});
+
+test("Missing theme class does not break watch mode", async () => {
+  await testUtils.deleteRecursive("test-issues/missingThemeClass/compiled");
+  let watchProcess = child_process.spawn(testUtils.getCompiler(), ["compile", "--watch"], {
+    cwd: "test-issues/missingThemeClass",
+    shell: true
+  });
+  let output = "";
+  watchProcess.stdout.on("data", data => (output += data.toString()));
+  watchProcess.stderr.on("data", data => (output += data.toString()));
+  try {
+    for (let waited = 0; !output.includes("Start watching") && waited < 60000; waited += 1000) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    assert.ok(output.includes("Start watching"), "Watch mode did not start within 60s: " + output);
+    assert.ok(!output.match(/Fatal error during compile|TypeError/), "Watch mode must not fail: " + output);
+    assert.ok(
+      output.includes("Cannot find class qx.theme.Simpel required as the theme of application 'missingthemeclass'"),
+      "Should report the missing theme class: " + output
+    );
+  } finally {
+    kill(watchProcess.pid, "SIGKILL");
+  }
+});
+

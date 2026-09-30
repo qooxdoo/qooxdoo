@@ -232,6 +232,18 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           appEnvironments[application.toHashCode()]
         );
 
+        let theme = application.getTheme();
+        if (theme && !analyser.getLibraryFromClassname(theme)) {
+          qx.tool.compiler.Console.print(
+            "qx.tool.compiler.maker.missingThemeClass",
+            theme,
+            application.getName()
+          );
+
+          success = false;
+          continue;
+        }
+
         application.calcDependencies();
         if (application.getFatalCompileErrors()) {
           qx.tool.compiler.Console.print(

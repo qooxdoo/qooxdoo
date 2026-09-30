@@ -227,7 +227,9 @@ qx.Class.define("qx.tool.compiler.Console", {
 
         // Progress
         "qx.tool.compiler.maker.appFatalError":
-          "Cannot write application '%1' because it has fatal errors"
+          "Cannot write application '%1' because it has fatal errors",
+        "qx.tool.compiler.maker.missingThemeClass":
+          "Cannot find class %1 required as the theme of application '%2'"
       },
 
       "error"
