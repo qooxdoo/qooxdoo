@@ -31,6 +31,16 @@ test("Issue553 single app", async () => {
   }
 });
 
+test("runCompiler collects machine-readable messages", async () => {
+  await testUtils.deleteRecursive("test-issues/issue553/compiled");
+  let result = await testUtils.runCompiler("test-issues/issue553", "--app-name=issue553two");
+  let ids = result.messages.map(msg => msg.id);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeBegins"), "Missing makeBegins: " + result.output);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeEnds"), "Missing makeEnds: " + result.output);
+  let writing = result.messages.find(msg => msg.id == "qx.tool.compiler.cli.compile.writingApplication");
+  assert.deepEqual(writing && writing.args, ["issue553two"], "Wrong writingApplication: " + result.output);
+});
+
 test("Issue553 Node", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553_node/compiled");
