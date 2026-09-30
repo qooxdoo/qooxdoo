@@ -7,6 +7,11 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
+  unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
+  It now says `Only literal string arguments to require() are supported, found 42`.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
