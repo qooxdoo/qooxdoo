@@ -138,11 +138,19 @@ qx.Class.define("qx.dev.unit.TestFunction", {
       var inst = this.getTestClass();
       var result = inst[this.getName()]();
       if (qx.lang.Type.isPromise(result)) {
+        // a promise that settles after this test has timed out must not
+        // resume the test that runs then
+        var isCurrent = () => inst.getTestFunc() === this;
         result.then(
           function () {
-            inst.resume();
+            if (isCurrent()) {
+              inst.resume();
+            }
           },
           function (ex) {
+            if (!isCurrent()) {
+              return;
+            }
             inst.resume(function () {
               // An AsyncWrapper (wait() called after an await) must pass
               // unchanged, so that TestResult starts a new wait

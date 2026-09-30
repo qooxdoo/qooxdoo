@@ -13,6 +13,10 @@
   `await` or a rejected promise did not show up. The test runner now waits for
   the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
   and reports a rejection or a timeout as a failed test.
+- After a test's `wait()` had timed out, a late `resume()` was reported as a
+  second failure, "resume() called before wait()", and a late
+  `resumeHandler()` could end the next test early. Such late calls are now
+  ignored with a warning.
 
 # 8.0.0-beta.2
 
