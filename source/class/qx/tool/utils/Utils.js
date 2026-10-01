@@ -252,11 +252,11 @@ qx.Class.define("qx.tool.utils.Utils", {
      * `exitCode`, the `output`, potential `error`s, and additional `messages`.
      * @param {String} cwd The current working directory
      * @param {String} args One or more command line arguments, including the
-     * command itself
+     * command itself; the first argument that is not a string is used as the options
      * @return {{exitCode: Number, output: String, error: *, messages: *}}
      */
     async runCommand(cwd, ...args) {
-      let options = {};
+      let options = null;
 
       if (typeof cwd == "object") {
         options = cwd;
@@ -266,10 +266,13 @@ qx.Class.define("qx.tool.utils.Utils", {
             return true;
           }
           if (!options) {
-            options = value;
+            options = qx.lang.Object.clone(value);
           }
           return false;
         });
+        if (!options) {
+          options = {};
+        }
         if (!options.cwd) {
           options.cwd = cwd;
         }

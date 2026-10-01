@@ -84,6 +84,22 @@ qx.Class.define("qx.test.tool.utils.Utils", {
       this.assertEquals(0, result.exitCode);
       this.assertArrayEquals(["ok 1 - first", "not ok 2 - second", "last"], lines);
       this.assertEquals("ok 1 - first\nnot ok 2 - second\nlast", result.output);
+    },
+
+    async testRunCommandOptionsAmongArgs() {
+      let lines = [];
+      let options = { log: line => lines.push(line) };
+      let result = await qx.tool.utils.Utils.runCommand(
+        process.cwd(),
+        process.execPath,
+        "-e",
+        'console.log("hello")',
+        options
+      );
+
+      this.assertEquals(0, result.exitCode);
+      this.assertArrayEquals(["hello"], lines);
+      this.assertUndefined(options.cmd, "the options of the caller must not be changed");
     }
   }
 });
