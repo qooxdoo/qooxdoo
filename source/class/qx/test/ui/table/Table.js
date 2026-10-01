@@ -61,6 +61,25 @@ qx.Class.define("qx.test.ui.table.Table", {
       model.dispose();
     },
 
+    testDisposeModelAfterDestroy() {
+      var model = this.createModel();
+      var table = new qx.ui.table.Table(model);
+      var paneModel = table._getPaneScrollerArr()[0].getTablePaneModel();
+
+      // destroy() disposes the table with the next flush of the widget
+      // queues, but the model is disposed at once
+      table.destroy();
+      model.dispose();
+
+      try {
+        // the pane model's deferred "modelChanged" event can come before
+        // that flush
+        paneModel.fireEvent("modelChanged");
+      } finally {
+        qx.ui.core.queue.Manager.flush();
+      }
+    },
+
     testSortIntegerNaN() {
       // table
       var model = this.createModel();
