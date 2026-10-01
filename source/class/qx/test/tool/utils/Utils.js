@@ -100,6 +100,14 @@ qx.Class.define("qx.test.tool.utils.Utils", {
       this.assertEquals(0, result.exitCode);
       this.assertArrayEquals(["hello"], lines);
       this.assertUndefined(options.cmd, "the options of the caller must not be changed");
+    },
+
+    async testRunCommandKeepsOptionsObject() {
+      let options = { cwd: process.cwd(), cmd: process.execPath, args: ["-e", ""] };
+      let result = await qx.tool.utils.Utils.runCommand(options);
+      this.assertEquals(0, result.exitCode);
+      this.assertUndefined(options.log, "the options of the caller must not be changed");
+      this.assertUndefined(options.error, "the options of the caller must not be changed");
     }
   }
 });
