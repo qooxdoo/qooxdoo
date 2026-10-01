@@ -22,6 +22,11 @@
   edit and saves the value, as Enter does in every other table cell editor.
   Before, Enter only toggled the checkbox and the edit stayed open. Space still
   toggles the checkbox, and checkboxes outside tables are not affected.
+- With the Simple and Indigo themes, opening a date chooser or the popup of a
+  date field logged `Invalid value for property qx.ui.core.Widget.textColor:
+  datechooser-background`, and the calendar and other widgets shown at the same
+  time stayed unstyled. Both themes show the date chooser as before again;
+  IndigoDark keeps its readable week day header and week numbers.
 
 # 8.0.0-beta.2
 
