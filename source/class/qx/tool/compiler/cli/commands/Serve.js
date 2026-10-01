@@ -43,9 +43,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       cmd.addFlag(
         new qx.tool.cli.Flag("listen-port").set({
           shortCode: "p",
-          description: "The port for the web browser to listen on",
-          type: "integer",
-          value: 8080
+          description: "The port for the web browser to listen on (default: serve.listenPort in compile.json, or 8080)",
+          type: "integer"
         })
       );
 
@@ -68,6 +67,21 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
       );
 
       return cmd;
+    },
+
+    /** Port for the web server when neither `--listen-port` nor `serve.listenPort` in compile.json set one */
+    DEFAULT_LISTEN_PORT: 8080,
+
+    /**
+     * Works out the port for the web server: an explicit `--listen-port` wins over
+     * `serve.listenPort` in compile.json, which wins over DEFAULT_LISTEN_PORT
+     *
+     * @param argv {Object} the parsed command line
+     * @param config {Object?} the compile.json configuration
+     * @return {Integer}
+     */
+    getListenPort(argv, config) {
+      return argv.listenPort ?? config?.serve?.listenPort ?? qx.tool.compiler.cli.commands.Serve.DEFAULT_LISTEN_PORT;
     }
   },
 
@@ -209,7 +223,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
         });
       }
       let config = this.getCompilerApi().getConfiguration();
-      let listenPort = this.argv.listenPort ?? config?.serve?.listenPort;
+      let listenPort = qx.tool.compiler.cli.commands.Serve.getListenPort(this.argv, config);
+      // `qx test` and test runners like qxl.testtapper read the port back from argv
+      this.argv.listenPort = listenPort;
       let server = http.createServer(app);
       this.fireDataEvent("beforeStart", {
         server: server,

@@ -42,6 +42,12 @@
   `resumeHandler()` could end the next test early. Such late calls are now
   ignored with a warning.
 
+## Fixes
+- `qx serve` and `qx test` ignored `serve.listenPort` in `compile.json` and
+  always reported `Web server started, please browse to http://localhost:8080`.
+  They now listen on that port. `--listen-port` (`-p`) on the command line still
+  takes precedence, and 8080 stays the default when neither is set.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
