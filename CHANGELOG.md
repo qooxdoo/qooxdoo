@@ -6,6 +6,16 @@
   semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
+- A table now disposes its row renderer (`dataRowRenderer`) when you replace it
+  with another one, not only when the table itself is disposed. A renderer that
+  was replaced cannot be set again later, and one renderer cannot be shared
+  between tables: give each table its own new renderer. (#10884)
+
+## Fixes
+- Saving a table cell with `flushEditor()` while the edit goes on moved the
+  focus from the cell editor to the table. With `cellEditorBlurAction` set to
+  `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
+  it closed the editor, and with `nothing` the editor stayed open without focus.
 
 ## Fixes
 - Pressing Enter in a table cell that is edited with a checkbox now ends the

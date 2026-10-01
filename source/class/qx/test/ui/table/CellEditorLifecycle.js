@@ -254,10 +254,14 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
      * change is the focus leaving the editor, but it is the commit's own doing,
      * not a second reason to commit: whatever the blur action, the edit is
      * written once and reported once, with the value it replaced.
+     *
+     * The CheckBox editor is left out: its checkbox takes Enter as a toggle
+     * and stops the key there, so Enter never reaches the table.
      */
     testEnterCommitsTheEditOnce() {
+      var specs = this.editorSpecs().filter(spec => spec.name != "CheckBox");
       ["save", "cancel", "nothing"].forEach(function (blurAction) {
-        this.editorSpecs().forEach(function (spec) {
+        specs.forEach(function (spec) {
           var label = spec.name + " (" + blurAction + ")";
           var run = this.changeACell(spec, blurAction);
           var edits = [];
@@ -267,6 +271,43 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
           this.flush();
 
           this.assertFalse(run.scroller.isEditing(), label + ": edit ended");
+          this.assertEquals(
+            spec.edited,
+            run.model.getValue(0, 0),
+            label + ": the edit was written"
+          );
+
+          this.assertEquals(1, edits.length, label + ": dataEdited fired once");
+          this.assertEquals(spec.value, edits[0].oldValue, label + ": oldValue");
+          this.assertEquals(spec.edited, edits[0].value, label + ": value");
+        }, this);
+      }, this);
+    },
+
+    /**
+     * flushEditor without `cancel` writes the value and keeps the edit open:
+     * the focus stays in the editor, so no blur action runs, and the value is
+     * written and reported once.
+     */
+    testFlushEditorKeepsTheEditOpen() {
+      ["save", "cancel", "nothing"].forEach(function (blurAction) {
+        this.editorSpecs().forEach(function (spec) {
+          var label = spec.name + " (" + blurAction + ")";
+          var run = this.changeACell(spec, blurAction);
+          var editor = run.scroller._cellEditor;
+          var edits = [];
+          run.table.addListener("dataEdited", e => edits.push(e.getData()));
+
+          run.scroller.flushEditor();
+          this.flush();
+
+          this.assertTrue(run.scroller.isEditing(), label + ": edit open");
+          this.assertIdentical(
+            editor,
+            run.scroller._cellEditor,
+            label + ": same editor"
+          );
+
           this.assertEquals(
             spec.edited,
             run.model.getValue(0, 0),
