@@ -12,6 +12,9 @@
   between tables: give each table its own new renderer. (#10884)
 
 ## Fixes
+- A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
+  unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
+  It now says `Only literal string arguments to require() are supported, found 42`.
 - Saving a table cell with `flushEditor()` while the edit goes on moved the
   focus from the cell editor to the table. With `cellEditorBlurAction` set to
   `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
@@ -22,11 +25,28 @@
   edit and saves the value, as Enter does in every other table cell editor.
   Before, Enter only toggled the checkbox and the edit stayed open. Space still
   toggles the checkbox, and checkboxes outside tables are not affected.
+
 - With the Simple and Indigo themes, opening a date chooser or the popup of a
   date field logged `Invalid value for property qx.ui.core.Widget.textColor:
   datechooser-background`, and the calendar and other widgets shown at the same
   time stayed unstyled. Both themes show the date chooser as before again;
   IndigoDark keeps its readable week day header and week numbers.
+
+- Disposing a table model right after `destroy()` of its table could throw
+  `TypeError: Cannot read properties of null (reading '0')` a moment later
+  (Firefox: `can't access property 0, ... is null`). The table now ignores the
+  late column update when its model is already disposed.
+
+## Fixes
+- Unit tests that return a promise, such as `async` test methods compiled for
+  older browsers, were reported as passed at once: a failed assertion after an
+  `await` or a rejected promise did not show up. The test runner now waits for
+  the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
+  and reports a rejection or a timeout as a failed test.
+- After a test's `wait()` had timed out, a late `resume()` was reported as a
+  second failure, "resume() called before wait()", and a late
+  `resumeHandler()` could end the next test early. Such late calls are now
+  ignored with a warning.
 
 # 8.0.0-beta.2
 
