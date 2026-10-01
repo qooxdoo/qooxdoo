@@ -10,6 +10,9 @@
 ## Fixes
 - When a `runTests` listener or `beforeTests()` in compile.js failed while `qx test` ran its web
   server, `qx test` printed `Running unit tests` and then kept running without showing the error. It now prints `Error while running tests: ...` and exits with an error.
+- A failing `afterStart` listener in compile.js went unreported: `qx test` exited with 0 and `qx serve`
+  showed nothing. `qx test` now prints `Error while running tests: ...` and exits with an error; `qx serve`
+  prints `Error in an afterStart listener: ...` and keeps serving.
 
 # 8.0.0-beta.2
 

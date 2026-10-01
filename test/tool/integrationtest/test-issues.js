@@ -476,10 +476,15 @@ test("afterProcessFinished callback", async () => {
 });
 
 
-test("qx test exits with an error when a runTests listener fails", async () => {
+/**
+ * Runs `qx test` in the testListenerError fixture and checks that it fails and
+ * reports the error of the listener selected by `failIn`
+ */
+async function testListenerFailure(failIn) {
   await testUtils.deleteRecursive("test-issues/testListenerError/compiled");
   let testProcess = child_process.spawn(testUtils.getCompiler(), ["test", "--listen-port=18979"], {
     cwd: "test-issues/testListenerError",
+    env: { ...process.env, FAIL_IN: failIn },
     shell: true
   });
   let output = "";
@@ -493,10 +498,47 @@ test("qx test exits with an error when a runTests listener fails", async () => {
     });
     assert.notEqual(exitCode, "timeout", "qx test did not exit within 120s: " + output);
     assert.notEqual(exitCode, 0, "qx test must fail: " + output);
-    assert.ok(output.includes("runTests listener failed"), "Should report the error: " + output);
+    assert.ok(output.includes(`${failIn} listener failed`), "Should report the error: " + output);
   } finally {
     clearTimeout(timer);
     kill(testProcess.pid, "SIGKILL");
   }
+}
+
+test("qx test exits with an error when a runTests listener fails", async () => {
+  await testListenerFailure("runTests");
 });
 
+test("qx test exits with an error when an afterStart listener fails", async () => {
+  await testListenerFailure("afterStart");
+});
+
+test("qx serve reports a failing afterStart listener and keeps serving", async () => {
+  await testUtils.deleteRecursive("test-issues/testListenerError/compiled");
+  let serveProcess = child_process.spawn(testUtils.getCompiler(), ["serve", "--listen-port=18980"], {
+    cwd: "test-issues/testListenerError",
+    env: { ...process.env, FAIL_IN: "afterStart" },
+    shell: true
+  });
+  let output = "";
+  let timer;
+  try {
+    await new Promise((resolve, reject) => {
+      let onData = data => {
+        output += data.toString();
+        if (output.includes("afterStart listener failed")) {
+          resolve();
+        }
+      };
+      serveProcess.stdout.on("data", onData);
+      serveProcess.stderr.on("data", onData);
+      serveProcess.on("close", code => reject(new Error(`qx serve exited with ${code}: ${output}`)));
+      timer = setTimeout(() => reject(new Error("qx serve did not report the error within 120s: " + output)), 120000);
+    });
+    let response = await fetch("http://localhost:18980/");
+    assert.equal(response.status, 200, "qx serve should keep serving");
+  } finally {
+    clearTimeout(timer);
+    kill(serveProcess.pid, "SIGKILL");
+  }
+});
