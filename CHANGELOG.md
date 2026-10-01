@@ -54,6 +54,11 @@
   for myapp`. It is now shown as `ERROR: Cannot find library required to create application for myapp`;
   without `--feedback` only the wording changes.
 
+## Fixes
+- After the warning `Cannot find font with name NoSuchFont` (an unknown name in `@usefont`),
+  `qx compile` also left out every font from `provides.fonts` that came after the unknown one,
+  so the application started without them. Now only the unknown font is skipped.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
