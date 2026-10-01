@@ -59,6 +59,12 @@
   `qx compile` also left out every font from `provides.fonts` that came after the unknown one,
   so the application started without them. Now only the unknown font is skipped.
 
+## Fixes
+- `polyfill.js` in the source target referred to `minified.js.map`, a file the compiler never wrote.
+  Browser developer tools could not load it, and `--coverage` runs of the test runner reported
+  `An error occurred while trying to read the map file at minified.js.map`. The source target now writes
+  `polyfill.js.map` next to it, so developer tools show the original core-js code.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
