@@ -1,0 +1,21 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "unknownfont",
+    "summary": "Application that uses an unknown font before a known one",
+    "description": "An unknown font name must not stop the fonts after it from being added",
+    "license": "MIT license",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "unknownfont",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^8.0.0"
+  }
+}

@@ -45,10 +45,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
      * @Override
      */
     async writeSourceCodeToStream(ws) {
-      await this.__write(
-        path.join(require.resolve("core-js-bundle"), "../minified.js"),
-        ws
-      );
+      await this.__write(path.join(this.__getCoreJsDir(), "minified.js"), ws);
 
       await new Promise(resolve => {
         ws.write("\n", resolve);
@@ -59,12 +56,52 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
       );
     },
 
+    /**
+     * @Override
+     *
+     * Only the source target writes polyfill.js to disk; it gets core-js-bundle's
+     * source map, which still fits because minified.js is written first and unchanged.
+     * The build target embeds the polyfills, without a map, in index.js
+     */
+    async writeToDisk() {
+      await super.writeToDisk();
+      if (!this.isNeedsWriteToDisk()) {
+        return;
+      }
+      let filename = this.getFilename();
+      let coreJsDir = this.__getCoreJsDir();
+      let map = JSON.parse(
+        await fs.readFileAsync(path.join(coreJsDir, "minified.js.map"), "utf8")
+      );
+
+      // The map's only source is called "0", but it is core-js-bundle's index.js
+      map.file = path.basename(filename);
+      map.sources = ["core-js-bundle/index.js"];
+      map.sourcesContent = [
+        await fs.readFileAsync(path.join(coreJsDir, "index.js"), "utf8")
+      ];
+
+      await fs.appendFileAsync(
+        filename,
+        `//# sourceMappingURL=${path.basename(filename)}.map\n`,
+        "utf8"
+      );
+      await fs.writeFileAsync(filename + ".map", JSON.stringify(map), "utf8");
+    },
+
+    __getCoreJsDir() {
+      return path.dirname(require.resolve("core-js-bundle"));
+    },
+
     async __write(srcFilename, ws) {
+      // core-js-bundle's minified.js ends with `//# sourceMappingURL=minified.js.map`;
+      //  writeToDisk adds a reference to polyfill.js.map instead
       let rs = fs.createReadStream(srcFilename, "utf8");
+      let strip = new qx.tool.utils.Utils.StripSourceMapTransform();
       await new Promise((resolve, reject) => {
-        rs.on("end", resolve);
+        strip.on("end", resolve);
         rs.on("error", reject);
-        rs.pipe(ws, { end: false });
+        rs.pipe(strip).pipe(ws, { end: false });
       });
     },
 

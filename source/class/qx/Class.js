@@ -698,10 +698,11 @@ qx.Bootstrap.define("qx.Class", {
       // This is a class
       subclass.$$type = "Class";
 
-      // If its class type was specified, save it
-      if (config.type) {
-        subclass.$$classtype = config.type;
-      }
+      // Save its class type, even when none was specified: with static
+      // inheritance an unset type would be read through the prototype chain
+      // from the superclass, and every concrete subclass of an abstract class
+      // would count as abstract itself.
+      subclass.$$classtype = config.type || null;
 
       // Ensure there's something unique to compare constructors to.
       if (!config.construct) {

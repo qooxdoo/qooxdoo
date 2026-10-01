@@ -6,6 +6,64 @@
   semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
+- A table now disposes its row renderer (`dataRowRenderer`) when you replace it
+  with another one, not only when the table itself is disposed. A renderer that
+  was replaced cannot be set again later, and one renderer cannot be shared
+  between tables: give each table its own new renderer. (#10884)
+
+## Fixes
+- A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
+  unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
+  It now says `Only literal string arguments to require() are supported, found 42`.
+- Saving a table cell with `flushEditor()` while the edit goes on moved the
+  focus from the cell editor to the table. With `cellEditorBlurAction` set to
+  `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
+  it closed the editor, and with `nothing` the editor stayed open without focus.
+
+- With the Simple and Indigo themes, opening a date chooser or the popup of a
+  date field logged `Invalid value for property qx.ui.core.Widget.textColor:
+  datechooser-background`, and the calendar and other widgets shown at the same
+  time stayed unstyled. Both themes show the date chooser as before again;
+  IndigoDark keeps its readable week day header and week numbers.
+
+- Disposing a table model right after `destroy()` of its table could throw
+  `TypeError: Cannot read properties of null (reading '0')` a moment later
+  (Firefox: `can't access property 0, ... is null`). The table now ignores the
+  late column update when its model is already disposed.
+
+## Fixes
+- Unit tests that return a promise, such as `async` test methods compiled for
+  older browsers, were reported as passed at once: a failed assertion after an
+  `await` or a rejected promise did not show up. The test runner now waits for
+  the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
+  and reports a rejection or a timeout as a failed test.
+- After a test's `wait()` had timed out, a late `resume()` was reported as a
+  second failure, "resume() called before wait()", and a late
+  `resumeHandler()` could end the next test early. Such late calls are now
+  ignored with a warning.
+
+## Fixes
+- `qx serve` and `qx test` ignored `serve.listenPort` in `compile.json` and
+  always reported `Web server started, please browse to http://localhost:8080`.
+  They now listen on that port. `--listen-port` (`-p`) on the command line still
+  takes precedence, and 8080 stays the default when neither is set.
+
+## Fixes
+- When `qx compile` could not write an application because it found no library for the
+  application class, `--feedback` showed this as `Warning: Cannot find the application library
+  for myapp`. It is now shown as `ERROR: Cannot find library required to create application for myapp`;
+  without `--feedback` only the wording changes.
+
+## Fixes
+- After the warning `Cannot find font with name NoSuchFont` (an unknown name in `@usefont`),
+  `qx compile` also left out every font from `provides.fonts` that came after the unknown one,
+  so the application started without them. Now only the unknown font is skipped.
+
+## Fixes
+- `polyfill.js` in the source target referred to `minified.js.map`, a file the compiler never wrote.
+  Browser developer tools could not load it, and `--coverage` runs of the test runner reported
+  `An error occurred while trying to read the map file at minified.js.map`. The source target now writes
+  `polyfill.js.map` next to it, so developer tools show the original core-js code.
 
 ## Fixes
 - When a `runTests` listener or `beforeTests()` in compile.js failed while `qx test` ran its web

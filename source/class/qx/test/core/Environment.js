@@ -257,14 +257,14 @@ qx.Class.define("qx.test.core.Environment", {
     },
 
     testLocale() {
-      if (
-        qx.core.Environment.get("browser.name") === "firefox" &&
-        parseFloat(qx.core.Environment.get("browser.version")) >= 146
-      ) {
-        this.assertEquals("", qx.core.Environment.get("locale"));
-      }
-      else {
-        this.assertNotEquals("", qx.core.Environment.get("locale"));
+      var locale = qx.core.Environment.get("locale");
+      this.assertString(locale);
+      // some Firefox versions report navigator.language as the string "undefined"
+      this.assertNotEquals("undefined", locale);
+
+      var navLocale = navigator.userLanguage || navigator.language;
+      if (navLocale && navLocale !== "undefined") {
+        this.assertEquals(navLocale.split("-")[0].toLowerCase(), locale);
       }
     },
 
