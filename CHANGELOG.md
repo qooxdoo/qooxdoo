@@ -17,14 +17,12 @@
   `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
   it closed the editor, and with `nothing` the editor stayed open without focus.
 
-## Fixes
 - With the Simple and Indigo themes, opening a date chooser or the popup of a
   date field logged `Invalid value for property qx.ui.core.Widget.textColor:
   datechooser-background`, and the calendar and other widgets shown at the same
   time stayed unstyled. Both themes show the date chooser as before again;
   IndigoDark keeps its readable week day header and week numbers.
 
-## Fixes
 - Disposing a table model right after `destroy()` of its table could throw
   `TypeError: Cannot read properties of null (reading '0')` a moment later
   (Firefox: `can't access property 0, ... is null`). The table now ignores the
