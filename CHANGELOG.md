@@ -48,6 +48,12 @@
   They now listen on that port. `--listen-port` (`-p`) on the command line still
   takes precedence, and 8080 stays the default when neither is set.
 
+## Fixes
+- When `qx compile` could not write an application because it found no library for the
+  application class, `--feedback` showed this as `Warning: Cannot find the application library
+  for myapp`. It is now shown as `ERROR: Cannot find library required to create application for myapp`;
+  without `--feedback` only the wording changes.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

@@ -259,8 +259,6 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.compiler.requireLiteralArguments":
           "Only literal string arguments to require() are supported, found %1",
 
-        "qx.tool.compiler.target.missingAppLibrary":
-          "Cannot find the application library for %1",
         "qx.tool.compiler.webfonts.noResources":
           "Assets required for webfont %1 are not available in application %2, consider using @asset to include %3",
         "qx.tool.compiler.target.missingBootJs":
