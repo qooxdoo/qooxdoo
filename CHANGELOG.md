@@ -7,6 +7,11 @@
   `Sub.STATIC = ...` shadows it on the subclass, and mutations stay isolated.
   Previously statics were strictly per-class and not visible on subclasses.
 
+## Fixes
+- In the build target, browser developer tools placed code at the start of a source line, such as
+  `qx.Class.define` at the top of a class file, one column too far to the right. Source maps now keep
+  the first column of a line.
+
 # 8.0.0-beta.2
 
 ## Breaking changes
