@@ -11,6 +11,10 @@
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.
+- Saving a table cell with `flushEditor()` while the edit goes on moved the
+  focus from the cell editor to the table. With `cellEditorBlurAction` set to
+  `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
+  it closed the editor, and with `nothing` the editor stayed open without focus.
 
 # 8.0.0-beta.2
 

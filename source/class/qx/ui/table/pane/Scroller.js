@@ -1913,10 +1913,12 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
           .getTableModel()
           .setValue(this.__focusedCol, this.__focusedRow, value);
 
-        // Returning the focus to the table is right for Enter, but wrong when
-        // the flush is itself the result of the focus leaving: it would take
-        // the focus back off whatever the user just moved to.
-        if (!this.__flushingOnFocusLoss) {
+        // Returning the focus to the table is right when the edit ends, as on
+        // Enter. It is wrong when the edit goes on: the focus leaving the
+        // editor would run the blur action and end the edit. And it is wrong
+        // when the flush is itself the result of the focus leaving: it would
+        // take the focus back off whatever the user just moved to.
+        if (cancel && !this.__flushingOnFocusLoss) {
           this.__table.focus();
         }
 
