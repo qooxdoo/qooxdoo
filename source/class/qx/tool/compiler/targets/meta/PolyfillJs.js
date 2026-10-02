@@ -74,12 +74,18 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
         await fs.readFileAsync(path.join(coreJsDir, "minified.js.map"), "utf8")
       );
 
-      // The map's only source is called "0", but it is core-js-bundle's index.js
+      // The map's only source is called "0", but it is core-js-bundle's index.js; name
+      //  it by its path, as the maps of the classes do, so that tools such as coverage
+      //  reporters find the real file
+      let indexJs = path.join(coreJsDir, "index.js");
+      let target = this._appMeta.getTarget();
       map.file = path.basename(filename);
-      map.sources = ["core-js-bundle/index.js"];
-      map.sourcesContent = [
-        await fs.readFileAsync(path.join(coreJsDir, "index.js"), "utf8")
+      map.sources = [
+        target.getSourceMapRelativePaths && target.getSourceMapRelativePaths()
+          ? path.relative("", indexJs)
+          : indexJs
       ];
+      map.sourcesContent = [await fs.readFileAsync(indexJs, "utf8")];
 
       await fs.appendFileAsync(
         filename,

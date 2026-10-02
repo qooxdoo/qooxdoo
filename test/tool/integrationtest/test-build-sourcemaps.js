@@ -168,6 +168,11 @@ test("polyfill.js in the source target maps back to the core-js sources", async 
   );
   const rawMap = JSON.parse(await fsPromises.readFile(path.join(appOutputDir, "polyfill.js.map"), "utf8"));
   assert.equal(rawMap.file, "polyfill.js");
+  assert.equal(
+    path.resolve(rawMap.sources[0]),
+    path.join(path.dirname(require.resolve("core-js-bundle")), "index.js"),
+    "polyfill.js.map should name the core-js source by its path"
+  );
   const consumer = await new SourceMapConsumer(rawMap);
 
   // A property name is not mangled by the minifier, so it must be at the mapped

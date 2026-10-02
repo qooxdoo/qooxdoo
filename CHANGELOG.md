@@ -64,6 +64,10 @@
   Browser developer tools could not load it, and `--coverage` runs of the test runner reported
   `An error occurred while trying to read the map file at minified.js.map`. The source target now writes
   `polyfill.js.map` next to it, so developer tools show the original core-js code.
+- With `qx test --coverage` (qxl.testtapper 4.1.6 or later), coverage reports listed a file
+  `compiled/source/<app>/core-js-bundle/index.js` that does not exist, and its 29,000 core-js statements
+  lowered the totals. `polyfill.js.map` now names the real core-js file in `node_modules`, which nyc
+  leaves out of its reports by default.
 
 # 8.0.0-beta.2
 
