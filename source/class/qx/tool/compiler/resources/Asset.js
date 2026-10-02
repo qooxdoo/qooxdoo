@@ -196,6 +196,11 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
         }
       }
 
+      let hotDeploy = target.getHotDeploy();
+      if (hotDeploy) {
+        hotDeploy.requiredFile(destFilename);
+      }
+
       let destStat = qx.tool.utils.files.Utils.safeStatSync(destFilename);
       if (destStat) {
         let filenames = [this.getSourceFilename()];

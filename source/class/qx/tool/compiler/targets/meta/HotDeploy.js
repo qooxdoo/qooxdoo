@@ -8,6 +8,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
     super();
     this.__maker = maker;
     maker.addListener("writingApplications", this.__onWritingApplications, this);
+    this.__syncDatabase = {};
   },
 
   properties: {
@@ -39,11 +40,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
   },
 
   members: {
-    /** @type{Object<String, Boolean>} list of files to deploy */
-    __filesToDeploy: null,
+    /** @type{Object<String, Boolean>} list of files to be copied during deploy */
+    __requiredFiles: null,
+
+    /** @type{Object<String, Boolean>} list of files that have been written to disk */
+    __writtenFiles: null,
 
     /** @type{Object} SSH configuration for the deployment, passed to ssh2 `Client.connect` */
     __sshConfig: null,
+
+    __syncDatabase: null,
 
     /**
      * Apply for `destination` property.
@@ -92,18 +98,19 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
      * Event handler for when the maker is about to write applications.
      */
     __onWritingApplications() {
-      this.__filesToDeploy = {};
+      this.__requiredFiles = {};
+      this.__writtenFiles = {};
     },
 
     /**
-     * Event handler for when the maker has finished writing applications.
+     * Syncs all required files to the destination
      */
     async deploy() {
       let dest = this.getDestination();
       if (this.__sshConfig) {
         await this.__sendViaSsh();
       } else {
-        for (let filename in this.__filesToDeploy) {
+        for (let filename in this.__requiredFiles) {
           if (this.getVerbose()) {
             qx.tool.compiler.Console.getInstance().info("Deploying file: ", filename);
           }
@@ -118,90 +125,37 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
     },
 
     /**
-     * Deploy the tracked files via SSH.
+     * Syncs the written files to the deployment destination.
      */
-    async __sendViaSsh() {
-      const { Client } = require("ssh2");
-      const util = require("util");
+    async syncDeploy() {
+      let dest = this.getDestination();
+      if (!this.__writtenFiles || Object.keys(this.__writtenFiles).length === 0) {
+        return;
+      }
 
-      const copyFiles = async (conn, sftp) => {
-        const readdir = util.promisify(sftp.readdir.bind(sftp));
-        const open = util.promisify(sftp.open.bind(sftp));
-        const close = util.promisify(sftp.close.bind(sftp));
-        const mkdir = util.promisify(sftp.mkdir.bind(sftp));
-        const exec = util.promisify(conn.exec.bind(sftp));
-
-        let directoryNames = {};
-        for (let filename in this.__filesToDeploy) {
-          let parentDir = path.dirname(filename);
-          let segs = parentDir.split(path.sep);
-          let tmp = "";
-          for (let seg of segs) {
-            if (tmp.length) tmp += "/";
-            tmp += seg;
-            directoryNames[tmp] = true;
-          }
-        }
-        directoryNames = Object.keys(directoryNames).sort();
-
-        let remoteDirectories = {};
-
-        const populateRemoteDirectories = async directoryName => {
-          let directoryFiles = remoteDirectories[directoryName];
-          if (!directoryFiles) {
-            directoryFiles = remoteDirectories[directoryName] = {};
-            try {
-              let remoteDirContents = await readdir(directoryName);
-              for (let file of remoteDirContents) {
-                directoryFiles[file.filename] = file;
-              }
-            } catch (ex) {
-              //
-            }
-          }
-        };
-
-        for (let directoryName of directoryNames) {
-          let parentDir = path.dirname(directoryName);
-          await populateRemoteDirectories(parentDir);
-          await populateRemoteDirectories(directoryName);
-          let parentDirFiles = remoteDirectories[parentDir];
-          if (parentDirFiles[path.basename(directoryName)]) {
-            continue;
-          }
-
-          try {
-            await mkdir(directoryName, {});
-          } catch (ex) {
-            //
-          }
-        }
-
-        for (let filename in this.__filesToDeploy) {
-          let dirname = path.dirname(filename);
-          let remoteFiles = remoteDirectories[dirname];
-          let remoteFile = remoteFiles[path.basename(filename)];
-          if (remoteFile) {
-            let stat = fs.statSync(filename);
-            let localTime = Math.round(stat.mtimeMs / 1000);
-            let remoteTime = remoteFile.attrs.mtime;
-            if (localTime <= remoteTime) {
-              continue;
-            }
-          }
-
+      if (this.__sshConfig) {
+        await this.__connectToSsh(async (conn, sftp) => {
+          await this.__syncFiles(sftp, this.__writtenFiles);
+          this.__writtenFiles = {};
+        });
+      } else {
+        for (let filename in this.__writtenFiles) {
           if (this.getVerbose()) {
             qx.tool.compiler.Console.getInstance().info("Deploying file: ", filename);
           }
-          let handle = await open(filename, "w", {});
-          let ws = sftp.createWriteStream(filename);
-          let rs = fs.createReadStream(filename);
-          let promise = new qx.Promise();
-          ws.on("close", () => promise.resolve());
-          rs.pipe(ws);
-          await promise;
-          await close(handle);
+          await qx.tool.utils.Utils.makeParentDir(filename);
+          await qx.tool.utils.files.Utils.copyFile(filename, path.join(this.getDestination(), filename));
         }
+      }
+    },
+
+    /**
+     * Deploy the tracked files via SSH.
+     */
+    async __sendViaSsh() {
+      await this.__connectToSsh(async (conn, sftp) => {
+        await this.__syncFiles(sftp, this.__requiredFiles);
+        this.__writtenFiles = {};
 
         if (this.getVerbose()) {
           qx.tool.compiler.Console.getInstance().info("Executing remote command: ", this.getCommand());
@@ -225,7 +179,129 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
             });
           });
         }
+      });
+    },
+
+    /**
+     * Syncs files to remote server, checking modifiation times to avoid unnecessary transfers.
+     *
+     * @param {ssh2.SFTP} sftp SFTP client instance.
+     * @param {String[]} filenames Array of local filenames to sync to the remote server.
+     */
+    async __syncFiles(sftp, filenames) {
+      const util = require("util");
+      const crypto = require("crypto");
+
+      const readdir = util.promisify(sftp.readdir.bind(sftp));
+      const open = util.promisify(sftp.open.bind(sftp));
+      const close = util.promisify(sftp.close.bind(sftp));
+      const mkdir = util.promisify(sftp.mkdir.bind(sftp));
+
+      const getShaOfFile = async filename => {
+        let data = await fs.readFileAsync(filename);
+        let hash = crypto.createHash("sha256");
+        hash.setEncoding("hex");
+        hash.write(data);
+        hash.end();
+        let sha = hash.read();
+        return sha;
       };
+
+      let directoryNames = {};
+      for (let filename in filenames) {
+        let parentDir = path.dirname(filename);
+        let segs = parentDir.split(path.sep);
+        let tmp = "";
+        for (let seg of segs) {
+          if (tmp.length) tmp += "/";
+          tmp += seg;
+          directoryNames[tmp] = true;
+        }
+      }
+      directoryNames = Object.keys(directoryNames).sort();
+
+      let remoteDirectories = {};
+
+      const populateRemoteDirectories = async directoryName => {
+        let directoryFiles = remoteDirectories[directoryName];
+        if (!directoryFiles) {
+          directoryFiles = remoteDirectories[directoryName] = {};
+          try {
+            let remoteDirContents = await readdir(directoryName);
+            for (let file of remoteDirContents) {
+              directoryFiles[file.filename] = file;
+            }
+          } catch (ex) {
+            //
+          }
+        }
+      };
+
+      for (let directoryName of directoryNames) {
+        let parentDir = path.dirname(directoryName);
+        await populateRemoteDirectories(parentDir);
+        await populateRemoteDirectories(directoryName);
+        let parentDirFiles = remoteDirectories[parentDir];
+        if (parentDirFiles[path.basename(directoryName)]) {
+          continue;
+        }
+
+        try {
+          await mkdir(directoryName, {});
+        } catch (ex) {
+          //
+        }
+      }
+
+      for (let filename in filenames) {
+        let dirname = path.dirname(filename);
+        let remoteFiles = remoteDirectories[dirname];
+
+        // Check for identical modified time
+        let remoteFile = remoteFiles[path.basename(filename)];
+        if (remoteFile) {
+          let stat = fs.statSync(filename);
+          let localTime = Math.round(stat.mtimeMs / 1000);
+          let remoteTime = remoteFile.attrs.mtime;
+          if (localTime <= remoteTime) {
+            continue;
+          }
+        }
+
+        // Check for identical file content using SHA; this is not saved to disk, but it is a lot faster
+        // than uploading.  The issue is that the make process will often re-write files unnecessarily and
+        // end up with identical content, even if the modified time has changed.
+        let fileSha = await getShaOfFile(filename);
+        let fileInfo = this.__syncDatabase[filename];
+        if (!fileInfo) {
+          fileInfo = this.__syncDatabase[filename] = {};
+        }
+        if (fileSha === fileInfo.sha) {
+          continue;
+        }
+        fileInfo.sha = fileSha;
+
+        if (this.getVerbose()) {
+          qx.tool.compiler.Console.getInstance().info("Deploying file: ", filename);
+        }
+        let handle = await open(filename, "w", {});
+        let ws = sftp.createWriteStream(filename);
+        let rs = fs.createReadStream(filename);
+        let promise = new qx.Promise();
+        ws.on("close", () => promise.resolve());
+        rs.pipe(ws);
+        await promise;
+        await close(handle);
+      }
+    },
+
+    /**
+     * Connects to SSH and call the provided callback with the SSH connection and SFTP session.
+     *
+     * @param {AsyncFunction} cb
+     */
+    async __connectToSsh(cb) {
+      const { Client } = require("ssh2");
 
       let conn = new Client();
       let promise = new qx.Promise();
@@ -234,7 +310,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
           if (err) {
             throw err;
           }
-          copyFiles(conn, sftp)
+          cb(conn, sftp)
             .then(() => {
               conn.end();
               promise.resolve();
@@ -264,7 +340,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
      * @param {String} filename
      */
     writtenFile(filename) {
-      this.__filesToDeploy[filename] = true;
+      this.__requiredFiles[filename] = true;
+      this.__writtenFiles[filename] = true;
     },
 
     /**
@@ -275,7 +352,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
      * @param {String} filename
      */
     requiredFile(filename) {
-      this.__filesToDeploy[filename] = true;
+      this.__requiredFiles[filename] = true;
     }
   }
 });

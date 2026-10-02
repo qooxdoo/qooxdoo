@@ -693,6 +693,18 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     },
 
     /**
+     * Application meta, must have previously been initialized with a call to `getOrCreateAppMeta()`
+     *
+     * @returns {qx.tool.compiler.meta.ApplicationMeta}
+     */
+    getAppMeta() {
+      if (!this.__appMeta) {
+        throw new Error("Application meta has not been created yet");
+      }
+      return this.__appMeta;
+    },
+
+    /**
      * Returns a list of all of the assets required by all classes
      * @param target {qx.tool.compiler.targets.Target} the current target
      * @param resManager  {qx.tool.compiler.resources.Manager} the resource manager

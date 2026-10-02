@@ -507,7 +507,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         await this.__writeDeprecatedWebFonts(application, appMeta, assets);
         await this.__writeManifestFonts(application, appMeta, assets, bootPackage);
       }
-      await this._writeApplication(this.getHotDeploy());
+      await this._writeApplication();
       this.__appMeta = null;
     },
 
@@ -856,10 +856,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
     /**
      * Writes the application
-     *
-     * @param hotDeploy {qx.tool.compiler.targets.meta.HotDeploy?} the hotDeploy for written files
      */
-    async _writeApplication(hotDeploy) {
+    async _writeApplication() {
       var t = this;
 
       let appMeta = this.getAppMeta();
@@ -872,6 +870,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         return;
       }
 
+      let hotDeploy = this.getHotDeploy();
       let bootMeta = appMeta.getBootMetaJs();
       for (let arr = appMeta.getPackages(), i = 0; i < arr.length; i++) {
         let pkg = arr[i];
@@ -884,7 +883,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
       await appMeta.getBootMetaJs().unwrap().writeToDisk(hotDeploy);
 
-      await this._writeIndexHtml(hotDeploy);
+      await this._writeIndexHtml();
 
       if (!t.isWriteCompileInfo()) {
         return;
@@ -919,13 +918,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
     /**
      * Called to generate index.html
-     *
-     * @param hotDeploy {qx.tool.compiler.targets.meta.HotDeploy?} the hotDeploy for written files
      */
-    async _writeIndexHtml(hotDeploy) {
+    async _writeIndexHtml() {
       var t = this;
       let appMeta = this.getAppMeta();
       var application = appMeta.getApplication();
+      let hotDeploy = this.getHotDeploy();
 
       if (!application.isBrowserApp()) {
         return;
