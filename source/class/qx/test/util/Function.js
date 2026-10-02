@@ -21,7 +21,21 @@ qx.Class.define("qx.test.util.Function", {
   include: qx.dev.unit.MMock,
 
   members: {
+    /*
+     * The debounced callback runs on a setInterval tick. With real timers a
+     * busy browser can run the test's own wait() timeout before that tick,
+     * so the tests drive a fake clock instead.
+     */
+    setUp() {
+      this.getSandbox().useFakeTimers();
+    },
+
+    tearDown() {
+      this.getSandbox().restore();
+    },
+
     testDebounce() {
+      var clock = this.getSandbox().clock;
       var test = this.stub();
 
       var debouncedTest = qx.util.Function.debounce(test, 10);
@@ -29,17 +43,21 @@ qx.Class.define("qx.test.util.Function", {
       debouncedTest(true);
       this.assertNotCalled(test);
       debouncedTest(false);
-      this.wait(
-        250,
-        function () {
-          this.assertCalledOnce(test);
-          this.assertCalledWith(test, false);
-        },
-        this
-      );
+
+      // first tick only notices the calls, the second one fires
+      clock.tick(10);
+      this.assertNotCalled(test);
+      clock.tick(10);
+      this.assertCalledOnce(test);
+      this.assertCalledWith(test, false);
+
+      // the interval is cleared, nothing fires later
+      clock.tick(250);
+      this.assertCalledOnce(test);
     },
 
     testImmediateDebounce() {
+      var clock = this.getSandbox().clock;
       var test = this.stub();
 
       var debouncedTest = qx.util.Function.debounce(test, 10, true);
@@ -51,14 +69,10 @@ qx.Class.define("qx.test.util.Function", {
       debouncedTest(false);
       debouncedTest(true);
       debouncedTest(false);
-      this.wait(
-        250,
-        function () {
-          this.assertCalledTwice(test);
-          this.assertCalledWith(test, false);
-        },
-        this
-      );
+
+      clock.tick(250);
+      this.assertCalledTwice(test);
+      this.assertCalledWith(test, false);
     }
   }
 });
