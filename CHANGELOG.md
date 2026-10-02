@@ -60,6 +60,8 @@
   so the application started without them. Now only the unknown font is skipped.
 
 ## Fixes
+- The compiler showed no messages from the qooxdoo logger, so errors such as
+  `Unhandled promise rejection: ...` went unseen. They are printed again, in color unless `--colorize=false` is given.
 - `polyfill.js` in the source target referred to `minified.js.map`, a file the compiler never wrote.
   Browser developer tools could not load it, and `--coverage` runs of the test runner reported
   `An error occurred while trying to read the map file at minified.js.map`. The source target now writes

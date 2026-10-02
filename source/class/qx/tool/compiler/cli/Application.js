@@ -53,6 +53,8 @@ qx.Class.define("qx.tool.compiler.cli.Application", {
   },
 
   defer(statics) {
+    // include & register the log appender, or qx.log output is lost
+    qx.log.appender.NodeConsole;
     qx.log.Logger.setLevel("error");
   }
 });
