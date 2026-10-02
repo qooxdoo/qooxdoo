@@ -20,6 +20,12 @@
   `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
   it closed the editor, and with `nothing` the editor stayed open without focus.
 
+## Fixes
+- Pressing Enter in a table cell that is edited with a checkbox now ends the
+  edit and saves the value, as Enter does in every other table cell editor.
+  Before, Enter only toggled the checkbox and the edit stayed open. Space still
+  toggles the checkbox, and checkboxes outside tables are not affected.
+
 - With the Simple and Indigo themes, opening a date chooser or the popup of a
   date field logged `Invalid value for property qx.ui.core.Widget.textColor:
   datechooser-background`, and the calendar and other widgets shown at the same

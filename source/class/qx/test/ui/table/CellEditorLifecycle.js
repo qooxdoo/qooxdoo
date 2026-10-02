@@ -340,6 +340,51 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
           spec.name + ": nothing was written"
         );
       }, this);
+    },
+
+    /**
+     * In the CheckBox editor Space toggles the checkbox, as it does anywhere,
+     * but Enter is the table's: it ends the edit with the value the checkbox
+     * shows, instead of toggling it once more.
+     */
+    testCheckBoxEditorKeys() {
+      var spec = this.editorSpecs().find(spec => spec.name == "CheckBox");
+      var run = this.changeACell(spec, "nothing");
+      var checkbox = run.scroller._cellEditor.getChildren()[0];
+      var edits = [];
+      run.table.addListener("dataEdited", e => edits.push(e.getData()));
+      var keyboard = qx.event.Registration.getManager(window).getHandler(
+        qx.event.handler.Keyboard
+      );
+
+      var press = function (key) {
+        ["keydown", "keyup"].forEach(function (type) {
+          keyboard._fireSequenceEvent(
+            new window.KeyboardEvent(type, { key: key }),
+            type,
+            key
+          );
+        });
+        this.flush();
+      }.bind(this);
+
+      press("Space");
+      this.assertTrue(run.scroller.isEditing(), "Space: the edit is open");
+      this.assertFalse(checkbox.getValue(), "Space: toggled off");
+      press("Space");
+      this.assertTrue(checkbox.getValue(), "Space: toggled on");
+      this.assertEquals(0, edits.length, "Space: nothing committed");
+
+      press("Enter");
+      this.assertFalse(run.scroller.isEditing(), "Enter: the edit ended");
+      this.assertTrue(run.model.getValue(0, 0), "Enter: the edit was written");
+      this.assertEquals(1, edits.length, "Enter: dataEdited fired once");
+      this.assertFalse(edits[0].oldValue, "Enter: oldValue");
+      this.assertTrue(edits[0].value, "Enter: value");
+      this.assertTrue(
+        qx.ui.core.FocusHandler.getInstance().isFocused(run.table),
+        "Enter: the table has the focus"
+      );
     }
   }
 });
