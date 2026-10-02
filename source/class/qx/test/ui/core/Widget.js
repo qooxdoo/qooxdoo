@@ -277,37 +277,42 @@ qx.Class.define("qx.test.ui.core.Widget", {
 
       outer.add(inner2);
 
-      var scrollTop = null;
-
       var listener1 = scroll.addListener("disappear", function (ev) {
         var child = this.getChildren()[0].getChildren()[1];
         this.scrollChildIntoView(child);
         this.setVisibility("visible");
       });
 
-      var listener2 = scroll.addListener("appear", function (ev) {
-        var scrollPane = this._getChildren()[0];
-        scrollTop = scrollPane.getContentElement().getDomElement().scrollTop;
-      });
+      // Hide the scroll container once it has been rendered and check the
+      // scroll position when it reappears. Fixed delays do not work here:
+      // on a busy browser the first rendering alone can take longer than
+      // the time the test waited.
+      var rendered = false;
+      var listener2 = scroll.addListener(
+        "appear",
+        function (ev) {
+          if (!rendered) {
+            rendered = true;
+            scroll.setVisibility("hidden");
+            return;
+          }
 
-      qx.event.Timer.once(
-        function () {
-          scroll.setVisibility("hidden");
-        },
-        this,
-        250
-      );
+          var scrollPane = scroll._getChildren()[0];
+          var scrollTop = scrollPane
+            .getContentElement()
+            .getDomElement().scrollTop;
 
-      this.wait(
-        1000,
-        function () {
-          this.assert(scrollTop > 0, "Child was not scrolled!");
-          scroll.removeListenerById(listener1);
-          scroll.removeListenerById(listener2);
-          scroll.destroy();
+          this.resume(function () {
+            this.assert(scrollTop > 0, "Child was not scrolled!");
+            scroll.removeListenerById(listener1);
+            scroll.removeListenerById(listener2);
+            scroll.destroy();
+          }, this);
         },
         this
       );
+
+      this.wait();
     },
 
     testReleaseChildControl() {
