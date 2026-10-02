@@ -208,9 +208,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
           qx.tool.compiler.Console.info(`Running ${test.getName()}`);
           await test.execute();
         }
-        // for bash exitcode is not allowed to be more then 255!
-        // We must exit the process here because serve runs infinite!
-        process.exit(Math.min(255, this.getExitCode()));
       });
 
       if (this.__needsServer()) {
@@ -220,7 +217,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         // compile only
         await qx.tool.compiler.cli.commands.Compile.prototype.process.call(this);
         // since the server is not started, manually fire the event necessary for firing the "runTests" event
-        await this.fireDataEventAsync("afterStart");
+        try {
+          await this.fireDataEventAsync("afterStart");
+        } catch (ex) {
+          this._onAfterStartError(ex);
+          return;
+        }
+        this._onAfterStartDone();
       }
     },
 
@@ -230,6 +233,17 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         (this.getNeedsServer() ||
           this.__tests.some(test => test.getNeedsServer()))
       );
+    },
+
+    /**
+     * @Override
+     *
+     * Exits once the tests and all other "afterStart" listeners have finished
+     */
+    _onAfterStartDone() {
+      // for bash exitcode is not allowed to be more then 255!
+      // We must exit the process here because serve runs infinite!
+      process.exit(Math.min(255, this.getExitCode()));
     },
 
     /**

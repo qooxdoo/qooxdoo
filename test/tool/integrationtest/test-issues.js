@@ -508,7 +508,7 @@ async function testListenerFailure(failIn) {
     });
     assert.notEqual(exitCode, "timeout", "qx test did not exit within 120s: " + output);
     assert.notEqual(exitCode, 0, "qx test must fail: " + output);
-    assert.ok(output.includes(`${failIn} listener failed`), "Should report the error: " + output);
+    assert.ok(output.includes(`Error while running tests: Error: ${failIn} listener failed`), "Should report the error: " + output);
   } finally {
     clearTimeout(timer);
     kill(testProcess.pid, "SIGKILL");
@@ -521,6 +521,10 @@ test("qx test exits with an error when a runTests listener fails", async () => {
 
 test("qx test exits with an error when an afterStart listener fails", async () => {
   await testListenerFailure("afterStart");
+});
+
+test("qx test waits for a slow afterStart listener added after its own and reports its error", async () => {
+  await testListenerFailure("lateAfterStart");
 });
 
 test("qx serve reports a failing afterStart listener and keeps serving", async () => {

@@ -253,9 +253,17 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
           await this.fireEventAsync("afterStart");
         } catch (ex) {
           this._onAfterStartError(ex);
+          return;
         }
+        this._onAfterStartDone();
       });
     },
+
+    /**
+     * Called when all listeners of the "afterStart" event have finished; `qx serve`
+     * keeps serving
+     */
+    _onAfterStartDone() {},
 
     /**
      * Called when a listener of the "afterStart" event fails; `qx serve` reports
