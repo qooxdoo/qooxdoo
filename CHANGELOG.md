@@ -71,6 +71,16 @@
   `An error occurred while trying to read the map file at minified.js.map`. The source target now writes
   `polyfill.js.map` next to it, so developer tools show the original core-js code.
 
+## Fixes
+- When a `runTests` listener or `beforeTests()` in compile.js failed while `qx test` ran its web
+  server, `qx test` printed `Running unit tests` and then kept running without showing the error. It now prints `Error while running tests: ...` and exits with an error.
+- A failing `afterStart` listener in compile.js went unreported: `qx test` exited with 0 and `qx serve`
+  showed nothing. `qx test` now prints `Error while running tests: ...` and exits with an error; `qx serve`
+  prints `Error in an afterStart listener: ...` and keeps serving.
+- `qx test` exited as soon as its tests had finished, even when another `afterStart` listener in
+  compile.js was still running, so an error of that listener never showed up. `qx test` now waits for all
+  `afterStart` listeners before it exits.
+
 # 8.0.0-beta.2
 
 ## Breaking changes

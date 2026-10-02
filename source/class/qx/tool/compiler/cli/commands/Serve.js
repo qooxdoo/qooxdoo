@@ -243,14 +243,38 @@ qx.Class.define("qx.tool.compiler.cli.commands.Serve", {
           qx.tool.compiler.Console.log("Error when starting web server: " + e);
         }
       });
-      server.listen(listenPort, () => {
+      server.listen(listenPort, async () => {
         qx.tool.compiler.Console.print(
           "qx.tool.compiler.cli.serve.webStarted",
           "http://localhost:" + listenPort
         );
 
-        this.fireEvent("afterStart");
+        try {
+          await this.fireEventAsync("afterStart");
+        } catch (ex) {
+          this._onAfterStartError(ex);
+          return;
+        }
+        this._onAfterStartDone();
       });
+    },
+
+    /**
+     * Called when all listeners of the "afterStart" event have finished; `qx serve`
+     * keeps serving
+     */
+    _onAfterStartDone() {},
+
+    /**
+     * Called when a listener of the "afterStart" event fails; `qx serve` reports
+     * the error and keeps serving
+     *
+     * @param ex {Error} the error of the listener
+     */
+    _onAfterStartError(ex) {
+      qx.tool.compiler.Console.error(
+        "Error in an afterStart listener: " + (ex.stack || ex)
+      );
     },
 
     __showStartpage: null,
