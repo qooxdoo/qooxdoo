@@ -33,7 +33,7 @@ function getCompiler(buildVersion="build") {
 async function runCompiler(dir, ...cmd) {
   let result = await runCommand(dir, getCompiler(), "compile", "--machine-readable", ...cmd);
   result.messages = [];
-  result.output.split("\n").forEach(line => {
+  result.output.split(/\r?\n/).forEach(line => {
     let m = line.match(/^\#\#([^:]+):\[(.*)\]$/);
     if (m) {
       let args = m[2].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
@@ -58,7 +58,7 @@ async function runCompiler(dir, ...cmd) {
 async function debugCompiler(dir, ...cmd) {
   let result = await runCommand(dir, getCompiler("source"), "compile", "--machine-readable", ...cmd);
   result.messages = [];
-  result.output.split("\n").forEach(line => {
+  result.output.split(/\r?\n/).forEach(line => {
     let m = line.match(/^\#\#([^:]+):\[(.*)\]$/);
     if (m) {
       let args = m[2].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
@@ -95,19 +95,23 @@ async function runCommand(dir, ...args) {
         error: "",
         messages: null
     };
+    // Keep the output as it was written, so that lines split across chunks are joined up
+    //  again and lines in separate chunks stay separate lines
+    proc.stdout.setEncoding("utf8");
+    proc.stderr.setEncoding("utf8");
     proc.stdout.on('data', (data) => {
-      data = data.toString().trim();
-      console.log(data);
+      console.log(data.trim());
       result.output += data;
     });
     proc.stderr.on('data', (data) => {
-      data = data.toString().trim();
-      console.error(data);
+      console.error(data.trim());
       result.error += data;
     });
 
     proc.on('close', code => {
       result.exitCode = code;
+      result.output = result.output.trim();
+      result.error = result.error.trim();
       resolve(result);
     });
     proc.on('error', err => {

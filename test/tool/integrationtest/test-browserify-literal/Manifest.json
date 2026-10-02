@@ -1,0 +1,16 @@
+{
+  "info": {
+    "name": "test-browserify-literal",
+    "version": "1.0.0",
+    "title": "Test Non-String Require",
+    "summary": "Test application for the warning about require() with a literal that is not a string",
+    "license": "MIT"
+  },
+  "provides": {
+    "namespace": "testliteral",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  }
+}

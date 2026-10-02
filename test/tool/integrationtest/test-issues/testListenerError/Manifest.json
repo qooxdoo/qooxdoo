@@ -1,0 +1,21 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "testlistenererror",
+    "summary": "Application whose compile.js has a failing runTests listener",
+    "description": "qx test must report the error and exit instead of running forever",
+    "license": "MIT license",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "testlistenererror",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^8.0.0"
+  }
+}

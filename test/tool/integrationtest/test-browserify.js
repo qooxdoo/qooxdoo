@@ -199,3 +199,16 @@ test("Missing npm module is handled gracefully (ignoreMissing equivalent)", asyn
     throw ex;
   }
 });
+
+test("require() with a non-string literal gives a matching warning", async () => {
+  const testDirLiteral = path.join(__dirname, "test-browserify-literal");
+  await testUtils.deleteRecursive(path.join(testDirLiteral, "compiled"));
+  const result = await testUtils.runCompiler(testDirLiteral);
+  const allOutput = result.output + (result.error || "");
+  assert.ok(result.exitCode === 0, `Compile should succeed: ${allOutput}`);
+  assert.ok(
+    allOutput.includes("Only literal string arguments to require() are supported, found 42"),
+    `Compiler should warn about require(42): ${allOutput}`
+  );
+  assert.ok(!allOutput.includes("Wrong class name or filename"), `Wrong warning text: ${allOutput}`);
+});
