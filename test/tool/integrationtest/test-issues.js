@@ -31,6 +31,16 @@ test("--app-name compiles only the selected app (#553)", async () => {
   }
 });
 
+test("runCompiler collects machine-readable messages", async () => {
+  await testUtils.deleteRecursive("test-issues/issue553/compiled");
+  let result = await testUtils.runCompiler("test-issues/issue553", "--app-name=issue553two");
+  let ids = result.messages.map(msg => msg.id);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeBegins"), "Missing makeBegins: " + result.output);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeEnds"), "Missing makeEnds: " + result.output);
+  let writing = result.messages.find(msg => msg.id == "qx.tool.compiler.cli.compile.writingApplication");
+  assert.deepEqual(writing && writing.args, ["issue553two"], "Wrong writingApplication: " + result.output);
+});
+
 test("Node apps output index.js not index.html (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553_node/compiled");
@@ -489,5 +499,86 @@ test("Object.values is not polyfilled for modern node targets (#692)", async () 
   } catch(ex) {
     throw ex;
   }
+});
+
+/**
+ * Runs `qx test` in the testListenerError fixture and checks that it fails and
+ * reports the error of the listener selected by `failIn`
+ */
+async function testListenerFailure(failIn) {
+  await testUtils.deleteRecursive("test-issues/testListenerError/compiled");
+  let testProcess = child_process.spawn(testUtils.getCompiler(), ["test", "--listen-port=18979"], {
+    cwd: "test-issues/testListenerError",
+    env: { ...process.env, FAIL_IN: failIn },
+    shell: true
+  });
+  let output = "";
+  testProcess.stdout.on("data", data => (output += data.toString()));
+  testProcess.stderr.on("data", data => (output += data.toString()));
+  let timer;
+  try {
+    let exitCode = await new Promise(resolve => {
+      testProcess.on("close", resolve);
+      timer = setTimeout(() => resolve("timeout"), 120000);
+    });
+    assert.notEqual(exitCode, "timeout", "qx test did not exit within 120s: " + output);
+    assert.notEqual(exitCode, 0, "qx test must fail: " + output);
+    assert.ok(output.includes(`Error while running tests: Error: ${failIn} listener failed`), "Should report the error: " + output);
+  } finally {
+    clearTimeout(timer);
+    kill(testProcess.pid, "SIGKILL");
+  }
+}
+
+test("qx test exits with an error when a runTests listener fails", async () => {
+  await testListenerFailure("runTests");
+});
+
+test("qx test exits with an error when an afterStart listener fails", async () => {
+  await testListenerFailure("afterStart");
+});
+
+test("qx test waits for a slow afterStart listener added after its own and reports its error", async () => {
+  await testListenerFailure("lateAfterStart");
+});
+
+test("qx serve reports a failing afterStart listener and keeps serving", async () => {
+  await testUtils.deleteRecursive("test-issues/testListenerError/compiled");
+  let serveProcess = child_process.spawn(testUtils.getCompiler(), ["serve", "--listen-port=18980"], {
+    cwd: "test-issues/testListenerError",
+    env: { ...process.env, FAIL_IN: "afterStart" },
+    shell: true
+  });
+  let output = "";
+  let timer;
+  try {
+    await new Promise((resolve, reject) => {
+      let onData = data => {
+        output += data.toString();
+        if (output.includes("afterStart listener failed")) {
+          resolve();
+        }
+      };
+      serveProcess.stdout.on("data", onData);
+      serveProcess.stderr.on("data", onData);
+      serveProcess.on("close", code => reject(new Error(`qx serve exited with ${code}: ${output}`)));
+      timer = setTimeout(() => reject(new Error("qx serve did not report the error within 120s: " + output)), 120000);
+    });
+    let response = await fetch("http://localhost:18980/");
+    assert.equal(response.status, 200, "qx serve should keep serving");
+  } finally {
+    clearTimeout(timer);
+    kill(serveProcess.pid, "SIGKILL");
+  }
+});
+test("Unknown font does not drop the fonts after it", async () => {
+  await testUtils.deleteRecursive("test-issues/unknownFont/compiled");
+  let result = await testUtils.runCompiler("test-issues/unknownFont");
+  let allOutput = result.output + result.error;
+  assert.ok(result.exitCode === 0, "Compile should succeed: " + allOutput);
+  assert.ok(allOutput.includes("Cannot find font with name NoSuchFont"), "Should report the unknown font: " + allOutput);
+  let indexJs = await fsPromises.readFile("test-issues/unknownFont/compiled/source/unknownfont/index.js", "utf8");
+  assert.ok(indexJs.includes("fontBootstrap['JosefinSlab']"), "Font after the unknown one is missing");
+  assert.ok(!indexJs.includes("fontBootstrap['NoSuchFont']"), "Unknown font must not be added");
 });
 

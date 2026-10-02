@@ -912,6 +912,31 @@ qx.Class.define("qx.test.Class", {
         }
       }
       this.assertEquals(1, mfooCount, "getMixins must not duplicate inherited mixin");
+    },
+
+    testClassTypeDoesNotLeakViaPrototypeChain() {
+      var ns = "qx.test.__TypeLeak_" + Date.now();
+      var Base = qx.Class.define(ns + ".Base", {
+        extend: qx.dev.unit.TestCase,
+        type: "abstract"
+      });
+
+      var Sub = qx.Class.define(ns + ".Sub", {
+        extend: Base,
+        members: {
+          testNothing() {}
+        }
+      });
+
+      this.assertEquals("abstract", Base.$$classtype, "Base must stay abstract");
+      this.assertNotEquals("abstract", Sub.$$classtype, "Concrete subclass must not inherit the abstract type");
+
+      // The test runner skips abstract classes; it must still find the concrete subclass
+      var suite = new qx.dev.unit.TestSuite();
+      suite.addTestNamespace({ Base: Base, Sub: Sub });
+      var names = suite.getTestClasses().map(clazz => clazz.getName());
+      suite.dispose();
+      this.assertArrayEquals([ns + ".Sub"], names, "Test suite must pick up the concrete subclass only");
     }
   }
 });

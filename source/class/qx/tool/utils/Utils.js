@@ -220,21 +220,32 @@ qx.Class.define("qx.tool.utils.Utils", {
         env: env
       });
 
-      proc.stdout.on("data", data => {
-        data = data.toString().trim();
-        options.log(data);
-        if (options.onConsole) {
-          options.onConsole(data, "stdout");
-        }
-      });
-      proc.stderr.on("data", data => {
-        data = data.toString().trim();
-        options.error(data);
-        if (options.onConsole) {
-          options.onConsole(data, "stderr");
-        }
-      });
+      // Output arrives in chunks which can end in the middle of a line; `log` and `error`
+      //  are called once per complete line, and `onConsole` gets the chunks as they are,
+      //  line breaks included
+      const lineSplitter = (stream, type, callback) => {
+        let pending = "";
+        stream.setEncoding("utf8");
+        stream.on("data", data => {
+          if (options.onConsole) {
+            options.onConsole(data, type);
+          }
+          let lines = (pending + data).split(/\r?\n/);
+          pending = lines.pop();
+          lines.forEach(line => callback(line));
+        });
+        return () => {
+          if (pending) {
+            callback(pending);
+          }
+          pending = "";
+        };
+      };
+      let flushOutput = lineSplitter(proc.stdout, "stdout", options.log);
+      let flushError = lineSplitter(proc.stderr, "stderr", options.error);
       proc.on("close", code => {
+        flushOutput();
+        flushError();
         if (options.onClose) {
           options.onClose(code);
         }
@@ -251,11 +262,11 @@ qx.Class.define("qx.tool.utils.Utils", {
      * `exitCode`, the `output`, potential `error`s, and additional `messages`.
      * @param {String} cwd The current working directory
      * @param {String} args One or more command line arguments, including the
-     * command itself
+     * command itself; the first argument that is not a string is used as the options
      * @return {{exitCode: Number, output: String, error: *, messages: *}}
      */
     async runCommand(cwd, ...args) {
-      let options = {};
+      let options = null;
 
       if (typeof cwd == "object") {
         options = qx.lang.Object.clone(cwd);
@@ -269,6 +280,9 @@ qx.Class.define("qx.tool.utils.Utils", {
           }
           return false;
         });
+        if (!options) {
+          options = {};
+        }
         if (!options.cwd) {
           options.cwd = cwd;
         }
@@ -297,6 +311,8 @@ qx.Class.define("qx.tool.utils.Utils", {
         };
 
         options.onClose = code => {
+          result.output = result.output.trim();
+          result.error = result.error.trim();
           result.exitCode = code;
           resolve(result);
         };
@@ -484,21 +500,6 @@ qx.Class.define("qx.tool.utils.Utils", {
 
       dir = path.dirname(dir);
       return dir;
-    },
-
-    /**
-     * Detects whether the command line explicit set an option (as opposed to yargs
-     * providing a default value).  Note that this does not handle aliases, use the
-     * actual, full option name.
-     *
-     * @param option {String} the name of the option, eg "listen-port"
-     * @return {Boolean}
-     */
-    isExplicitArg(option) {
-      function searchForOption(option) {
-        return process.argv.indexOf(option) > -1;
-      }
-      return searchForOption(`-${option}`) || searchForOption(`--${option}`);
     }
   },
 

@@ -20,7 +20,7 @@ function getCompiler(buildVersion = "build") {
 
 function parseMessages(result) {
   result.messages = [];
-  for (const line of result.output.split("\n")) {
+  for (const line of result.output.split(/\r?\n/)) {
     const m = line.match(/^##([^:]+):\[(.*)\]$/);
     if (!m) continue;
     const raw = m[2].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
@@ -56,19 +56,23 @@ async function runCommand(dir, ...args) {
       shell: process.platform === "win32"
     });
     let result = { exitCode: null, output: "", error: "", messages: null };
-    proc.stdout.on("data", data => { 
-      data = data.toString().trim(); 
-      console.log(data); 
-      result.output += data; 
+    // Keep the output as it was written, so that lines split across chunks are joined up
+    //  again and lines in separate chunks stay separate lines
+    proc.stdout.setEncoding("utf8");
+    proc.stderr.setEncoding("utf8");
+    proc.stdout.on("data", data => {
+      console.log(data.trim());
+      result.output += data;
     });
-    proc.stderr.on("data", data => { 
-      data = data.toString().trim(); 
-      console.error(data); 
-      result.error += data; 
+    proc.stderr.on("data", data => {
+      console.error(data.trim());
+      result.error += data;
     });
-    proc.on("close", code => { 
-      result.exitCode = code; 
-      resolve(result); 
+    proc.on("close", code => {
+      result.exitCode = code;
+      result.output = result.output.trim();
+      result.error = result.error.trim();
+      resolve(result);
     });
     proc.on("error", reject);
   });

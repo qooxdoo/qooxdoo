@@ -17,6 +17,8 @@ async function simpleParsePo(filename) {
   return po;
 }
 
+const PO_FILE = "test-translation/tranapp/source/translation/en.po";
+
 async function prepare() {
    await testUtils.deleteRecursive("test-translation/tranapp/compiled");
    await testUtils.safeDelete("test-translation/tranapp/source/translation/en.po");
@@ -28,6 +30,8 @@ msgstr "lib-override-replaced-value"
 }
 
 test("test translation file update", async () => {
+  // en.po is tracked by git, but the compiler rewrites it and does not keep the order of the entries
+  let originalPo = await fsPromises.readFile(PO_FILE, "utf8");
   try {
     let result;
     await prepare();
@@ -60,8 +64,8 @@ test("test translation file update", async () => {
     let data = await fsPromises.readFile("test-translation/tranapp/compiled/source/tranapp/package-0.js", "utf8");
     assert.ok(!!data.match(/lib-override-replaced-value/));
 
-  }catch(ex) {
-    throw ex;
+  } finally {
+    await fsPromises.writeFile(PO_FILE, originalPo, "utf8");
   }
 });
 

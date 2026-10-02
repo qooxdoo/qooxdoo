@@ -122,13 +122,14 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
 
     /**
      * Mount a one-cell table wired to `spec`'s editor with the given blur
-     * action, start editing, make the change, then move the focus off it.
+     * action, start editing and make the change, leaving the edit open.
      *
      * @param spec {Map} an entry from {@link #editorSpecs}.
      * @param blurAction {String} the cellEditorBlurAction to apply.
-     * @return {Map} the pane scroller that did the editing, and the table model.
+     * @return {Map} the table, the pane scroller doing the editing, the table
+     *   model, and a text field outside the table to move the focus to.
      */
-    blurAnEdit(spec, blurAction) {
+    changeACell(spec, blurAction) {
       var model = new qx.ui.table.model.Simple();
       model.setColumns(["Editable"]);
       model.setData([[spec.value]]);
@@ -154,10 +155,44 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
       this.flush();
 
       spec.edit(scroller._cellEditor);
-      elsewhere.focus();
+
+      return {
+        table: table,
+        scroller: scroller,
+        model: model,
+        elsewhere: elsewhere
+      };
+    },
+
+    /**
+     * Change a cell as {@link #changeACell} does, then move the focus off the
+     * editor.
+     *
+     * @param spec {Map} an entry from {@link #editorSpecs}.
+     * @param blurAction {String} the cellEditorBlurAction to apply.
+     * @return {Map} the pane scroller that did the editing, and the table model.
+     */
+    blurAnEdit(spec, blurAction) {
+      var run = this.changeACell(spec, blurAction);
+      run.elsewhere.focus();
       this.flush();
 
-      return { scroller: scroller, model: model };
+      return { scroller: run.scroller, model: run.model };
+    },
+
+    /**
+     * Press Enter the way the keyboard handler delivers it: a keydown on the
+     * element that holds the focus, which is the open cell editor, bubbling
+     * up to the table.
+     */
+    pressEnter() {
+      qx.event.Registration.getManager(window)
+        .getHandler(qx.event.handler.Keyboard)
+        ._fireSequenceEvent(
+          new window.KeyboardEvent("keydown", { key: "Enter" }),
+          "keydown",
+          "Enter"
+        );
     },
 
     setUp() {
@@ -215,6 +250,78 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
     },
 
     /**
+     * Enter commits the edit and hands the focus back to the table. That focus
+     * change is the focus leaving the editor, but it is the commit's own doing,
+     * not a second reason to commit: whatever the blur action, the edit is
+     * written once and reported once, with the value it replaced.
+     *
+     * The CheckBox editor is left out: its checkbox takes Enter as a toggle
+     * and stops the key there, so Enter never reaches the table.
+     */
+    testEnterCommitsTheEditOnce() {
+      var specs = this.editorSpecs().filter(spec => spec.name != "CheckBox");
+      ["save", "cancel", "nothing"].forEach(function (blurAction) {
+        specs.forEach(function (spec) {
+          var label = spec.name + " (" + blurAction + ")";
+          var run = this.changeACell(spec, blurAction);
+          var edits = [];
+          run.table.addListener("dataEdited", e => edits.push(e.getData()));
+
+          this.pressEnter();
+          this.flush();
+
+          this.assertFalse(run.scroller.isEditing(), label + ": edit ended");
+          this.assertEquals(
+            spec.edited,
+            run.model.getValue(0, 0),
+            label + ": the edit was written"
+          );
+
+          this.assertEquals(1, edits.length, label + ": dataEdited fired once");
+          this.assertEquals(spec.value, edits[0].oldValue, label + ": oldValue");
+          this.assertEquals(spec.edited, edits[0].value, label + ": value");
+        }, this);
+      }, this);
+    },
+
+    /**
+     * flushEditor without `cancel` writes the value and keeps the edit open:
+     * the focus stays in the editor, so no blur action runs, and the value is
+     * written and reported once.
+     */
+    testFlushEditorKeepsTheEditOpen() {
+      ["save", "cancel", "nothing"].forEach(function (blurAction) {
+        this.editorSpecs().forEach(function (spec) {
+          var label = spec.name + " (" + blurAction + ")";
+          var run = this.changeACell(spec, blurAction);
+          var editor = run.scroller._cellEditor;
+          var edits = [];
+          run.table.addListener("dataEdited", e => edits.push(e.getData()));
+
+          run.scroller.flushEditor();
+          this.flush();
+
+          this.assertTrue(run.scroller.isEditing(), label + ": edit open");
+          this.assertIdentical(
+            editor,
+            run.scroller._cellEditor,
+            label + ": same editor"
+          );
+
+          this.assertEquals(
+            spec.edited,
+            run.model.getValue(0, 0),
+            label + ": the edit was written"
+          );
+
+          this.assertEquals(1, edits.length, label + ": dataEdited fired once");
+          this.assertEquals(spec.value, edits[0].oldValue, label + ": oldValue");
+          this.assertEquals(spec.edited, edits[0].value, label + ": value");
+        }, this);
+      }, this);
+    },
+
+    /**
      * The default, and what every table that never sets the property gets: the
      * focus leaving means nothing, and the edit stays open on the cell.
      */
@@ -233,6 +340,51 @@ qx.Class.define("qx.test.ui.table.CellEditorLifecycle", {
           spec.name + ": nothing was written"
         );
       }, this);
+    },
+
+    /**
+     * In the CheckBox editor Space toggles the checkbox, as it does anywhere,
+     * but Enter is the table's: it ends the edit with the value the checkbox
+     * shows, instead of toggling it once more.
+     */
+    testCheckBoxEditorKeys() {
+      var spec = this.editorSpecs().find(spec => spec.name == "CheckBox");
+      var run = this.changeACell(spec, "nothing");
+      var checkbox = run.scroller._cellEditor.getChildren()[0];
+      var edits = [];
+      run.table.addListener("dataEdited", e => edits.push(e.getData()));
+      var keyboard = qx.event.Registration.getManager(window).getHandler(
+        qx.event.handler.Keyboard
+      );
+
+      var press = function (key) {
+        ["keydown", "keyup"].forEach(function (type) {
+          keyboard._fireSequenceEvent(
+            new window.KeyboardEvent(type, { key: key }),
+            type,
+            key
+          );
+        });
+        this.flush();
+      }.bind(this);
+
+      press("Space");
+      this.assertTrue(run.scroller.isEditing(), "Space: the edit is open");
+      this.assertFalse(checkbox.getValue(), "Space: toggled off");
+      press("Space");
+      this.assertTrue(checkbox.getValue(), "Space: toggled on");
+      this.assertEquals(0, edits.length, "Space: nothing committed");
+
+      press("Enter");
+      this.assertFalse(run.scroller.isEditing(), "Enter: the edit ended");
+      this.assertTrue(run.model.getValue(0, 0), "Enter: the edit was written");
+      this.assertEquals(1, edits.length, "Enter: dataEdited fired once");
+      this.assertFalse(edits[0].oldValue, "Enter: oldValue");
+      this.assertTrue(edits[0].value, "Enter: value");
+      this.assertTrue(
+        qx.ui.core.FocusHandler.getInstance().isFocused(run.table),
+        "Enter: the table has the focus"
+      );
     }
   }
 });

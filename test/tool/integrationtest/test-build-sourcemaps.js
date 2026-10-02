@@ -119,3 +119,84 @@ test("embedded package sourcemaps stay aligned in build target", async () => {
     throw ex;
   }
 });
+
+/**
+ * Lists the `sourceMappingURL` references in the JavaScript files of an application
+ * directory whose map file does not exist.
+ *
+ * @param {string} appOutputDir directory of the compiled application
+ * @returns {Promise<string[]>} "file.js -> map" for every missing map
+ */
+async function findMissingSourceMaps(appOutputDir) {
+  const missing = [];
+  for (const name of await fsPromises.readdir(appOutputDir)) {
+    if (!name.endsWith(".js")) {
+      continue;
+    }
+    const text = await fsPromises.readFile(path.join(appOutputDir, name), "utf8");
+    for (const match of text.matchAll(/^\/\/#\s*sourceMappingURL=([^?\s]+)/gm)) {
+      if (!fs.existsSync(path.join(appOutputDir, match[1]))) {
+        missing.push(`${name} -> ${match[1]}`);
+      }
+    }
+  }
+  return missing;
+}
+
+for (const target of ["source", "build"]) {
+  test(`every sourceMappingURL in the ${target} target points to a map that exists`, async () => {
+    await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+    const result = await testUtils.runCompiler(APP_DIR, `--target=${target}`);
+    assert.equal(result.exitCode, 0, testUtils.reportError(result));
+
+    const appOutputDir = path.join(APP_DIR, "compiled", target, "testsourcemap");
+    if (target == "source") {
+      // The build target embeds the polyfills in index.js
+      assert.ok(fs.existsSync(path.join(appOutputDir, "polyfill.js")), "polyfill.js should be written");
+    }
+    const missing = await findMissingSourceMaps(appOutputDir);
+    assert.deepEqual(missing, [], `Missing source maps: ${missing.join(", ")}`);
+  });
+}
+
+test("polyfill.js in the source target maps back to the core-js sources", async () => {
+  await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+  const result = await testUtils.runCompiler(APP_DIR, "--target=source");
+  assert.equal(result.exitCode, 0, testUtils.reportError(result));
+
+  const appOutputDir = path.join(APP_DIR, "compiled", "source", "testsourcemap");
+  const jsLines = (await fsPromises.readFile(path.join(appOutputDir, "polyfill.js"), "utf8")).split("\n");
+  assert.ok(
+    jsLines.includes("//# sourceMappingURL=polyfill.js.map"),
+    "polyfill.js should refer to polyfill.js.map"
+  );
+  const rawMap = JSON.parse(await fsPromises.readFile(path.join(appOutputDir, "polyfill.js.map"), "utf8"));
+  assert.equal(rawMap.file, "polyfill.js");
+  assert.equal(
+    path.resolve(rawMap.sources[0]),
+    path.join(path.dirname(require.resolve("core-js-bundle")), "index.js"),
+    "polyfill.js.map should name the core-js source by its path"
+  );
+  const consumer = await new SourceMapConsumer(rawMap);
+
+  // A property name is not mangled by the minifier, so it must be at the mapped
+  //  position in polyfill.js and in the original source
+  const NAME = "getOwnPropertyDescriptor";
+  let checked = 0;
+  consumer.eachMapping(mapping => {
+    if (mapping.name !== NAME) {
+      return;
+    }
+    const generatedLine = jsLines[mapping.generatedLine - 1];
+    if (generatedLine.substr(mapping.generatedColumn, NAME.length) !== NAME) {
+      return;
+    }
+    assert.ok(mapping.source.endsWith("core-js-bundle/index.js"), `unexpected source ${mapping.source}`);
+    const content = consumer.sourceContentFor(mapping.source, true);
+    assert.ok(content, "the map should contain the core-js source");
+    const originalLine = content.split("\n")[mapping.originalLine - 1];
+    assert.equal(originalLine.substr(mapping.originalColumn, NAME.length), NAME);
+    checked++;
+  });
+  assert.ok(checked > 0, `no mapping of ${NAME} found in polyfill.js.map`);
+});

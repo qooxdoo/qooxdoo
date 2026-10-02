@@ -298,19 +298,22 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.addListenerOnce("loaded", () => {
         image.resetSource();
         image.setSource(source);
+
+        // the first load goes over the network and may take longer than
+        // any fixed delay, so check when the second load has finished
+        image.addListenerOnce("loaded", () => {
+          this.resume(() => {
+            this.assertCalledTwice(spyhandler);
+            // use a timeout to dispose the image because it needs to
+            // end its processing after the event has been fired.
+            window.setTimeout(function () {
+              image.destroy();
+            });
+          });
+        });
       });
 
-      this.wait(
-        500,
-        function () {
-          this.assertCalledTwice(spyhandler);
-          // use a timeout to dispose the image because it needs to
-          // end its processing after the event has been fired.
-          window.setTimeout(function () {
-            image.destroy();
-          });
-        }.bind(this)
-      );
+      this.wait();
     },
 
     testLoadedEventForManagedImage() {
@@ -373,20 +376,23 @@ qx.Class.define("qx.test.ui.basic.Image", {
         // load thrice
         image.resetSource();
         image.setSource(source);
+
+        // the first load goes over the network and may take longer than
+        // any fixed delay; the third load fires "loaded" after the second
+        // one has fired "aborted"
+        image.addListenerOnce("loaded", () => {
+          this.resume(() => {
+            this.assertCalledOnce(spyhandler);
+            // use a timeout to dispose the image because it needs to
+            // end its processing after the event has been fired.
+            window.setTimeout(function () {
+              image.destroy();
+            });
+          });
+        });
       });
 
-      this.wait(
-        500,
-        function () {
-          //even if we called setSource thrice, the loaded event must be called only twice
-          this.assertCalledOnce(spyhandler);
-          // use a timeout to dispose the image because it needs to
-          // end its processing after the event has been fired.
-          window.setTimeout(function () {
-            image.destroy();
-          });
-        }.bind(this)
-      );
+      this.wait();
     },
 
     testWebFontImage() {
