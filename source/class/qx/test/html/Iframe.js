@@ -98,21 +98,22 @@ qx.Class.define("qx.test.html.Iframe", {
       // As soon as the original frame has loaded,
       // fake user-action and browse
       var source = this.__destSource;
-      frame.addListenerOnce("load", function () {
+      frame.addListenerOnce("load", () => {
         qx.html.Element.flush();
         qx.bom.Iframe.setSource(frame.getDomElement(), source);
+
+        // the "navigate" event that updates the source comes right
+        // before the "load" event of the new page
+        frame.addListenerOnce("load", () => {
+          this.resume(function () {
+            this.assertMatch(frame.getSource(), "/blank.html$");
+          });
+        });
       });
 
       qx.html.Element.flush();
 
-      // Give changed frame some time to load
-      this.wait(
-        500,
-        function () {
-          this.assertMatch(frame.getSource(), "/blank.html$");
-        },
-        this
-      );
+      this.wait();
     },
 
     "test: skip setting source if frame is already on URL"() {
