@@ -523,21 +523,6 @@ qx.Class.define("qx.tool.utils.Utils", {
 
       dir = path.dirname(dir);
       return dir;
-    },
-
-    /**
-     * Detects whether the command line explicit set an option (as opposed to yargs
-     * providing a default value).  Note that this does not handle aliases, use the
-     * actual, full option name.
-     *
-     * @param option {String} the name of the option, eg "listen-port"
-     * @return {Boolean}
-     */
-    isExplicitArg(option) {
-      function searchForOption(option) {
-        return process.argv.indexOf(option) > -1;
-      }
-      return searchForOption(`-${option}`) || searchForOption(`--${option}`);
     }
   },
 
