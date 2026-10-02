@@ -8,7 +8,7 @@ const path = require("path");
 
 // Skip entire file if on Linux
 if (os.platform() === 'linux') {
-  console.log('Skipping this test file on Linux.');
+  test("qx package publish", { skip: "not run on Linux" }, () => {});
   return;
 }
 
