@@ -341,16 +341,42 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       if (this.__isListeningForAssetChanges) {
         return;
       }
+      let hasHotDeploys = false;
+      for (let maker of this.__makers) {
+        if (maker.getTarget().getHotDeploy()) {
+          hasHotDeploys = true;
+          break;
+        }
+      }
+      let debounceHotDeploy = null;
+      if (hasHotDeploys) {
+        debounceHotDeploy = new qx.tool.utils.Debounce(async () => {
+          for (let maker of this.__makers) {
+            let hotDeploy = maker.getTarget().getHotDeploy();
+            if (hotDeploy) {
+              await hotDeploy.syncDeploy();
+            }
+          }
+        }, 100);
+      }
       this.__isListeningForAssetChanges = true;
       this.__resourceManager.addListener("assetChanged", async evt => {
         let asset = evt.getData();
         for (let maker of this.__makers) {
+          let target = maker.getTarget();
           for (let app of maker.getApplications()) {
             let appMeta = app.getAppMeta();
             if (appMeta.usesAsset(asset)) {
               await appMeta.syncOneAsset(asset);
+              let hotDeploy = target.getHotDeploy();
+              if (hotDeploy) {
+                await hotDeploy.writtenFile(asset.getDestFilename(target));
+              }
             }
           }
+        }
+        if (debounceHotDeploy) {
+          debounceHotDeploy.trigger();
         }
       });
       this.__resourceManager.addListener("assetRemoved", async evt => {
