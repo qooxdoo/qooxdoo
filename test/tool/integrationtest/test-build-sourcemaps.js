@@ -120,6 +120,34 @@ test("embedded package sourcemaps stay aligned in build target", async () => {
   }
 });
 
+test("build target keeps mappings to column 0 of a source line", async () => {
+  await testUtils.deleteRecursive(path.join(APP_DIR, "compiled"));
+  const result = await testUtils.runCompiler(APP_DIR, "--target=build", "--save-unminified");
+  assert.equal(result.exitCode, 0, testUtils.reportError(result));
+
+  // `qx.Class.define(...)` starts at line 1, column 0 of Application.js
+  const DEFINE_PATTERN = /qx\.Class\.define\("testsourcemap\.Application"/;
+  const appOutputDir = path.join(APP_DIR, "compiled", "build", "testsourcemap");
+  for (const name of ["index.js.unminified", "index.js"]) {
+    const generatedPosition = getPatternPosition(path.join(appOutputDir, name), DEFINE_PATTERN);
+    const rawMap = JSON.parse(await fsPromises.readFile(path.join(appOutputDir, name + ".map"), "utf8"));
+    const consumer = await new SourceMapConsumer(rawMap);
+    const originalPosition = consumer.originalPositionFor({
+      line: generatedPosition.line,
+      column: generatedPosition.column - 1
+    });
+    assert.ok(
+      originalPosition.source && originalPosition.source.endsWith("/source/class/testsourcemap/Application.js"),
+      `${name}: should map to testsourcemap/Application.js, not ${originalPosition.source}`
+    );
+    assert.deepEqual(
+      { line: originalPosition.line, column: originalPosition.column },
+      { line: 1, column: 0 },
+      `${name}: qx.Class.define should map to line 1, column 0`
+    );
+  }
+});
+
 /**
  * Lists the `sourceMappingURL` references in the JavaScript files of an application
  * directory whose map file does not exist.
