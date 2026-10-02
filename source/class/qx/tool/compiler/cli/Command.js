@@ -42,6 +42,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
           argv.verbose || false
         );
         qx.log.Logger.setLevel(argv.loglevel);
+        qx.log.appender.NodeConsole.setUseColors(argv.colorize);
         cls.argv = argv;
         let res = await cls.process();
         await cls.getCompilerApi().afterProcessFinished(cls, res);
