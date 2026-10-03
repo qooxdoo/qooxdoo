@@ -850,6 +850,83 @@ qx.Class.define("qx.test.Mixin", {
       qx.Class.undefine("qx.DIBase2");
     },
 
+    /**
+     * With qx.Class.staticInheritance, subclasses inherit the statics of their
+     * superclass - including the internal $$mixinBaseClassMethods cache and the
+     * $mixinBases map. Once a common ancestor owns them, sibling classes which
+     * include the same mixin must not share them, otherwise the mixin's super()
+     * resolves to whichever sibling populated the shared storage first.
+     */
+    testMixinBaseNotSharedBetweenSiblingClasses() {
+      qx.Class.define("qx.SBRootBase", {
+        extend: qx.core.Object,
+        members: {
+          seed() {
+            return "seed";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MSBSeed", {
+        members: {
+          seed() {
+            return super.seed() + " [seed]";
+          }
+        }
+      });
+
+      qx.Class.define("qx.SBRoot", { extend: qx.SBRootBase, include: [qx.MSBSeed] });
+
+      qx.Class.define("qx.SBParentA", {
+        extend: qx.SBRoot,
+        members: {
+          describe() {
+            return "A";
+          }
+        }
+      });
+      qx.Class.define("qx.SBParentB", {
+        extend: qx.SBRoot,
+        members: {
+          describe() {
+            return "B";
+          }
+        }
+      });
+
+      qx.Mixin.define("qx.MSBShared", {
+        members: {
+          describe() {
+            return super.describe() + " [shared]";
+          }
+        }
+      });
+
+      qx.Class.define("qx.SBChildA", { extend: qx.SBParentA, include: [qx.MSBShared] });
+      qx.Class.define("qx.SBChildB", { extend: qx.SBParentB, include: [qx.MSBShared] });
+
+      // Populates the mixin storage on the common ancestor qx.SBRoot
+      var root = new qx.SBRoot();
+      this.assertEquals("seed [seed]", root.seed());
+
+      var a = new qx.SBChildA();
+      var b = new qx.SBChildB();
+      this.assertEquals("A [shared]", a.describe());
+      this.assertEquals("B [shared]", b.describe());
+
+      root.dispose();
+      a.dispose();
+      b.dispose();
+      qx.Class.undefine("qx.SBChildA");
+      qx.Class.undefine("qx.SBChildB");
+      qx.Class.undefine("qx.MSBShared");
+      qx.Class.undefine("qx.SBParentA");
+      qx.Class.undefine("qx.SBParentB");
+      qx.Class.undefine("qx.SBRoot");
+      qx.Class.undefine("qx.MSBSeed");
+      qx.Class.undefine("qx.SBRootBase");
+    },
+
     testDoubleMixin() {
       qx.Class.define("qx.D", {
         extend: qx.core.Object,
