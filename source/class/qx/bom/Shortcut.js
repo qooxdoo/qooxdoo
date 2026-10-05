@@ -259,6 +259,11 @@ qx.Class.define("qx.bom.Shortcut", {
               this.__key = identifier;
           }
         }
+      } else {
+        // clearing the shortcut must clear the key parsed from the previous
+        // value as well, otherwise it keeps matching key events
+        this.__modifier = {};
+        this.__key = null;
       }
 
       return true;

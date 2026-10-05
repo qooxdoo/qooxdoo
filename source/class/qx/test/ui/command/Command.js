@@ -358,6 +358,17 @@ qx.Class.define("qx.test.ui.command.Command", {
       this.assertEquals("Ctrl+X", cmd.toString());
       cmd.dispose();
       this.assertEquals("qx.ui.command.Command[undefined]", cmd.toString());
+    },
+
+    testClearShortcut() {
+      // for bug #10904
+      var cmd = new qx.ui.command.Command("Ctrl+X");
+
+      cmd.setShortcut(null);
+      this.assertNull(cmd.getShortcut());
+      this.assertEquals("", cmd.toString());
+
+      cmd.dispose();
     }
   }
 });
