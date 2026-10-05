@@ -17,8 +17,14 @@
 ************************************************************************ */
 qx.Class.define("qx.test.ui.table.Table", {
   extend: qx.test.ui.LayoutTestCase,
+  include: qx.dev.unit.MMock,
 
   members: {
+    tearDown() {
+      this.base(arguments);
+      this.getSandbox().restore();
+    },
+
     createModel() {
       var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns(["ID", "A number", "String", "A date", "Boolean"]);
@@ -520,6 +526,74 @@ qx.Class.define("qx.test.ui.table.Table", {
 
       tableSimple.destroy();
       tableModelSimple.dispose();
+    },
+
+    /**
+     * Issue #10892
+     */
+    testScrollerSchedulesNoTimerTicks() {
+      // the listener is wired in the constructor, so stub before building
+      var tick = this.stub(qx.ui.table.pane.Scroller.prototype, "_oninterval");
+
+      var shownModel = this.createModel();
+      var shown = new qx.ui.table.Table(shownModel);
+      this.getRoot().add(shown);
+      this.flush();
+
+      // a table which is never shown never disappears either, so nothing
+      // ever stopped its timer
+      var hiddenModel = this.createModel();
+      var hidden = new qx.ui.table.Table(hiddenModel);
+
+      // and setting the timeout to 0 used to make the timer fire as fast as
+      // the browser allows instead of clearing it
+      hidden._getPaneScrollerArr()[0].setScrollTimeout(0);
+
+      this.wait(
+        400,
+        function () {
+          this.assertEquals(
+            0,
+            tick.callCount,
+            "A scroller must not wake the main thread while nothing happens."
+          );
+
+          shown.destroy();
+          shownModel.dispose();
+          hidden.destroy();
+          hiddenModel.dispose();
+        },
+        this
+      );
+    },
+
+    /**
+     * Issue #10892: scrolling updates the content synchronously, it never
+     * depended on the timer.
+     */
+    testScrollingUpdatesTheContent() {
+      var model = this.createModel();
+      model.setData(this.createRandomRows(1000));
+      var table = new qx.ui.table.Table(model).set({
+        width: 300,
+        height: 100
+      });
+
+      this.getRoot().add(table);
+      this.flush();
+
+      var scroller = table._getPaneScrollerArr()[0];
+      this.assertEquals(0, scroller.getTablePane().getFirstVisibleRow());
+
+      scroller.setScrollY(400 * table.getRowHeight());
+      this.assertEquals(
+        400,
+        scroller.getTablePane().getFirstVisibleRow(),
+        "Scrolling must update the pane without waiting for a timer."
+      );
+
+      table.destroy();
+      model.dispose();
     }
   }
 });
