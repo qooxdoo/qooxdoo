@@ -111,6 +111,7 @@ qx.Class.define("qx.bom.Shortcut", {
   members: {
     __modifier: "",
     __key: "",
+    __listening: false,
 
     /*
     ---------------------------------------------------------------------------
@@ -161,9 +162,20 @@ qx.Class.define("qx.bom.Shortcut", {
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applyEnabled(value, old) {
-      if (value) {
+    /**
+     * Registers or removes the document key listeners, so that a shortcut only
+     * listens while it is enabled and actually has a key to match.
+     */
+    __syncListeners() {
+      var listening = this.getEnabled() && !!this.__key;
+
+      if (listening === this.__listening) {
+        return;
+      }
+
+      this.__listening = listening;
+
+      if (listening) {
         qx.event.Registration.addListener(
           document.documentElement,
           "keydown",
@@ -192,6 +204,11 @@ qx.Class.define("qx.bom.Shortcut", {
           this
         );
       }
+    },
+
+    // property apply
+    _applyEnabled(value, old) {
+      this.__syncListeners();
     },
 
     // property apply
@@ -265,6 +282,8 @@ qx.Class.define("qx.bom.Shortcut", {
         this.__modifier = {};
         this.__key = null;
       }
+
+      this.__syncListeners();
 
       return true;
     },

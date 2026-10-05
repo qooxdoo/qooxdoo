@@ -369,6 +369,31 @@ qx.Class.define("qx.test.ui.command.Command", {
       this.assertEquals("", cmd.toString());
 
       cmd.dispose();
+    },
+
+    testNoKeyListenersWithoutShortcut() {
+      // for bug #10893
+      var el = document.documentElement;
+      var manager = qx.event.Registration.getManager(el);
+      var count = function (type) {
+        var listeners = manager.getListeners(el, type, false);
+        return listeners ? listeners.length : 0;
+      };
+
+      var keyDown = count("keydown");
+      var keyPress = count("keypress");
+
+      var commands = [];
+      for (var i = 0; i < 5; i++) {
+        commands.push(new qx.ui.command.Command());
+      }
+
+      this.assertEquals(keyDown, count("keydown"));
+      this.assertEquals(keyPress, count("keypress"));
+
+      commands.forEach(function (cmd) {
+        cmd.dispose();
+      });
     }
   }
 });
