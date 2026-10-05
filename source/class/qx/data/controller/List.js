@@ -1116,6 +1116,13 @@ qx.Class.define("qx.data.controller.List", {
    */
 
   destruct() {
+    // the model outlives the controller, so its listener has to go
+    var model = this.getModel();
+    if (this.__changeModelListenerId != null && model && !model.isDisposed()) {
+      model.removeListenerById(this.__changeModelListenerId);
+      this.__changeModelListenerId = null;
+    }
+
     this.__lookupTable = this.__onUpdate = this.__boundProperties = null;
     this.__boundPropertiesReverse = null;
 

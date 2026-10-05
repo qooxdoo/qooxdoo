@@ -1636,6 +1636,46 @@ qx.Class.define("qx.test.data.controller.List", {
       this.__setUpString();
       this.__model.splice(0, 5, "A", "B", "C", "D", "E");
       this.assertEquals("E", this.__list.getChildren()[4].getLabel());
+    },
+
+    testDisposeDetachesFromModel() {
+      var model = new qx.data.Array(["a", "b", "c"]);
+      var controller = new qx.data.controller.List(model, this.__list);
+      this.flush();
+
+      var update = this.spy(controller, "update");
+      controller.dispose();
+      model.push("d");
+
+      this.assertFalse(
+        update.called,
+        "update() called on the disposed controller."
+      );
+
+      this.assertFalse(
+        model.hasListener("change"),
+        "The disposed controller still listens to the model."
+      );
+
+      model.dispose();
+    },
+
+    testDisposeDetachesFromSelection() {
+      var model = new qx.data.Array(["a", "b", "c"]);
+      var selection = new qx.data.Array();
+      var controller = new qx.data.controller.List(model, this.__list);
+      controller.setSelection(selection);
+      this.flush();
+
+      controller.dispose();
+
+      this.assertFalse(
+        selection.hasListener("change"),
+        "The disposed controller still listens to the selection array."
+      );
+
+      selection.dispose();
+      model.dispose();
     }
   }
 });
