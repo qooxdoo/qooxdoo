@@ -149,6 +149,29 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       });
     },
 
+    /**
+     * Returns a transport which is not connected to a server: its `send()` is
+     * a stub which the test configures, and responses are injected by firing
+     * the transport's "message" event.
+     * @return {qx.io.transport.Xhr}
+     */
+    createStubbedTransport() {
+      const transport = new qx.io.transport.Xhr("http://test.local");
+      this.stub(transport, "send");
+      return transport;
+    },
+
+    /**
+     * Returns an exception with which a stubbed transport can fail a request
+     * @return {qx.io.exception.Transport}
+     */
+    createTransportException() {
+      return new qx.io.exception.Transport(
+        "Transport failed",
+        qx.io.exception.Transport.FAILED
+      );
+    },
+
     tearDown() {
       this.getSandbox().restore();
       this.req.dispose();
@@ -388,6 +411,74 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         },
         this
       );
+    },
+
+    /**
+     * Issue #10889
+     */
+    "test: dispose removes the listener on the transport"() {
+      const transport = new qx.io.transport.Xhr("http://test.local");
+      const client = new qx.io.jsonrpc.Client(transport);
+      this.assertTrue(
+        transport.hasListener("message"),
+        "Client should listen for messages on its transport."
+      );
+
+      client.dispose();
+      this.assertFalse(
+        transport.hasListener("message"),
+        "A disposed client must not be left reachable through its transport."
+      );
+
+      transport.dispose();
+    },
+
+    /**
+     * Issue #10889
+     */
+    async "test: a request which fails at the transport is released"() {
+      this.resetId();
+      const transport = this.createStubbedTransport();
+      transport.send.callsFake(() =>
+        Promise.reject(this.createTransportException())
+      );
+
+      const client = new qx.io.jsonrpc.Client(transport);
+      const request = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
+      try {
+        await client.send(request);
+        throw new Error("send() should have been rejected.");
+      } catch (e) {
+        this.assertInstance(e, qx.io.exception.Transport);
+      }
+
+      // the failed request must no longer be pending, so a late response
+      // carrying its id is reported as a duplicate instead of resolving it
+      const response = new qx.io.jsonrpc.protocol.Result(
+        request.getId(),
+        "too late"
+      );
+
+      let exception;
+      try {
+        transport.fireDataEvent("message", response.toString());
+      } catch (e) {
+        exception = e;
+      }
+      this.assertInstance(
+        exception,
+        qx.io.exception.Transport,
+        "A response to a request which already failed should be rejected."
+      );
+
+      this.assertEquals(
+        qx.io.exception.Transport.DUPLICATE_ID,
+        exception.code,
+        "The failed request should have been marked as handled."
+      );
+
+      client.dispose();
+      transport.dispose();
     }
   }
 });

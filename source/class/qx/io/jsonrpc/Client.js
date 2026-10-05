@@ -69,8 +69,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     super();
     this.selectTransport(transportOrUri);
     // listen for incoming messages
-    this.getTransport().addListener("message", evt =>
-      this.handleIncoming(evt.getData())
+    this.__transportListenerId = this.getTransport().addListener(
+      "message",
+      evt => this.handleIncoming(evt.getData())
     );
 
     if (!methodPrefix) {
@@ -107,6 +108,11 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * A cache of the requests which have been sent out and are still pending
      */
     __requests: null,
+
+    /**
+     * The id of the listener which is registered on the transport
+     */
+    __transportListenerId: null,
 
     /**
      * If a service name has been configured, prepend it to the method name,
@@ -228,7 +234,11 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         return qx.Promise.resolve()
       } else  {
         // default behavior in v7: return promise from transport
-        return transportPromise;
+        return transportPromise.catch(error => {
+          // the requests will never be responded to, release them
+          requests.forEach(request => (this.__requests[request.getId()] = true));
+          throw error;
+        });
       }
     },
 
@@ -391,6 +401,16 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       // mark request as handled (and remove reference so it can be gc'ed)
       this.__requests[id] = true;
     }
+  },
+
+  destruct() {
+    // the listener keeps the client reachable from the transport, which
+    // typically outlives it
+    const transport = this.getTransport();
+    if (transport && !transport.isDisposed()) {
+      transport.removeListenerById(this.__transportListenerId);
+    }
+    this.__requests = null;
   },
 
   environment: {
