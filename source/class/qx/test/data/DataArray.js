@@ -982,7 +982,7 @@ qx.Class.define("qx.test.data.DataArray", {
           );
 
           self.assertEquals(
-            1,
+            3,
             e.getData().end,
             "Wrong end index in the event. (add)"
           );
@@ -1150,6 +1150,30 @@ qx.Class.define("qx.test.data.DataArray", {
         "Change event not fired!"
       );
 
+      a.dispose();
+    },
+
+    testSpliceUpdatesMovedBinding() {
+      var a = new qx.data.Array("a", "b", "c", "d");
+      var label = new qx.test.data.singlevalue.TextFieldDummy();
+      a.bind("[3]", label, "value");
+      this.assertEquals("d", label.getValue(), "Binding not set up.");
+
+      a.splice(0, 0, "x").dispose();
+      this.assertEquals(
+        "c",
+        label.getValue(),
+        "Binding behind the splice not updated. (add)"
+      );
+
+      a.splice(0, 1, "y", "z").dispose();
+      this.assertEquals(
+        "b",
+        label.getValue(),
+        "Binding behind the splice not updated. (add/remove)"
+      );
+
+      label.dispose();
       a.dispose();
     },
 

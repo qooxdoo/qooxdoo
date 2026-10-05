@@ -402,14 +402,18 @@ qx.Class.define("qx.data.Array", {
 
         if (returnArray.length == 0) {
           type = "add";
-          end = startIndex + addedItems.length;
+          end = this.length - 1;
         } else if (addedItems.length == 0) {
           type = "remove";
           end = this.length - 1;
         } else {
           type = "add/remove";
+          // every item behind the splice keeps its place only as long as
+          // exactly as many items went in as came out
           end =
-            startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+            addedItems.length == returnArray.length
+              ? startIndex + addedItems.length - 1
+              : Math.max(oldLength, this.length) - 1;
         }
 
         this.fireDataEvent(
