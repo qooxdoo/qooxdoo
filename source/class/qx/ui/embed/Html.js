@@ -169,6 +169,9 @@ qx.Class.define("qx.ui.embed.Html", {
 
       // check if text color already set - if so this local value has higher priority
       if (this.getTextColor() != null) {
+        // clone first, the map belongs to the font and is shared with
+        // every other widget using it
+        styles = qx.lang.Object.clone(styles);
         delete styles["color"];
       }
 
