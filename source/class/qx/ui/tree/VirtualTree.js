@@ -939,12 +939,7 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
         }
 
         if (this.isNodeOpen(root)) {
-          var visibleChildren = this.__getVisibleChildrenFrom(
-            root,
-            nestedLevel
-          );
-
-          lookupTable = lookupTable.concat(visibleChildren);
+          this.__getVisibleChildrenFrom(root, nestedLevel, lookupTable);
         }
       }
 
@@ -958,40 +953,44 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
     },
 
     /**
-     * Helper method to get all visible children form the passed parent node.
-     * The algorithm implements a depth-first search with a complexity:
-     * <code>O(n)</code> and <code>n</code> are all visible items.
+     * Helper method to append all visible children form the passed parent
+     * node to the passed array. The algorithm implements a depth-first search
+     * with a complexity: <code>O(n)</code> and <code>n</code> are all visible
+     * items.
+     *
+     * The result is appended to the passed array rather than returned and
+     * concatenated, so that the rows collected so far are not copied again
+     * for every branch that is visited.
      *
      * @param node {qx.core.Object} The start node to start search.
      * @param nestedLevel {Integer} The nested level from the start node.
-     * @return {Array} All visible children form the parent.
+     * @param visible {Array} Collects all visible children form the parent.
      */
-    __getVisibleChildrenFrom(node, nestedLevel) {
-      var visible = [];
+    __getVisibleChildrenFrom(node, nestedLevel, visible) {
       nestedLevel++;
 
       if (!this.isNode(node)) {
-        return visible;
+        return;
       }
 
       var children = node.get(this.getChildProperty());
       if (children == null) {
-        return visible;
+        return;
       }
-
-      // clone children to keep original model unmodified
-      children = children.copy();
 
       var delegate = this.getDelegate();
       var filter = qx.util.Delegate.getMethod(delegate, "filter");
       var sorter = qx.util.Delegate.getMethod(delegate, "sorter");
 
+      // work on a native copy, so that the model is left unmodified and the
+      // traversal is unaffected by what the delegate does
+      children = children.toArray().slice();
       if (sorter != null) {
         children.sort(sorter);
       }
 
-      for (var i = 0; i < children.getLength(); i++) {
-        var child = children.getItem(i);
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
 
         if (filter && !filter(child)) {
           continue;
@@ -1002,12 +1001,7 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
           visible.push(child);
 
           if (this.isNodeOpen(child)) {
-            var visibleChildren = this.__getVisibleChildrenFrom(
-              child,
-              nestedLevel
-            );
-
-            visible = visible.concat(visibleChildren);
+            this.__getVisibleChildrenFrom(child, nestedLevel, visible);
           }
         } else {
           if (this.isShowLeafs()) {
@@ -1016,11 +1010,6 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
           }
         }
       }
-
-      // dispose children clone
-      children.dispose();
-
-      return visible;
     },
 
     /**
