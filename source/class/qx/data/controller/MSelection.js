@@ -455,6 +455,24 @@ qx.Mixin.define("qx.data.controller.MSelection", {
   */
 
   destruct() {
+    // the selection array and the target outlive the controller, so their
+    // listeners have to go
+    var selection = this.getSelection();
+    if (
+      this.__selectionArrayListenerId != null &&
+      selection &&
+      !selection.isDisposed()
+    ) {
+      selection.removeListenerById(this.__selectionArrayListenerId);
+      this.__selectionArrayListenerId = null;
+    }
+
+    var target = this.getTarget();
+    if (this.__selectionListenerId != null && target && !target.isDisposed()) {
+      target.removeListenerById(this.__selectionListenerId);
+      this.__selectionListenerId = null;
+    }
+
     if (this.__ownSelection) {
       this.__ownSelection.dispose();
     }
