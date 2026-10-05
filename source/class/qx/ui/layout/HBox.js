@@ -204,16 +204,12 @@ qx.Class.define("qx.ui.layout.HBox", {
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse =
-        this.__widths &&
-        this.__widths.length != length &&
-        this.__flexs &&
-        this.__widths;
       var props;
 
-      // Sparse array (keep old one if lengths has not been modified)
-      var widths = reuse ? this.__widths : new Array(length);
-      var flexs = reuse ? this.__flexs : new Array(length);
+      // Sparse arrays, always rebuilt: a reused array keeps the entry of
+      // whichever child sat at that index before
+      var widths = new Array(length);
+      var flexs = new Array(length);
 
       // Reverse support
       if (this.getReversed()) {
@@ -238,10 +234,8 @@ qx.Class.define("qx.ui.layout.HBox", {
       }
 
       // Store data
-      if (!reuse) {
-        this.__widths = widths;
-        this.__flexs = flexs;
-      }
+      this.__widths = widths;
+      this.__flexs = flexs;
 
       this.__enableFlex = enableFlex;
       this.__children = children;
