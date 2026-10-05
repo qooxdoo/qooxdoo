@@ -725,7 +725,10 @@ qx.Bootstrap.define("qx.Class", {
           // its own (empty) metadata slots so they shadow the parent's and the
           // metadata stays strictly per-class. This includes the mixin base
           // storage used by qx.Mixin.baseClassMethod, otherwise sibling classes
-          // including the same mixin would resolve super() to each other's base.
+          // including the same mixin would resolve super() to each other's base,
+          // and the singleton cache used by getInstance(), otherwise a singleton
+          // subclass would return its parent's instance.
+          subclass.$$instance = undefined;
           subclass.$$objects = null;
           subclass.$$events = null;
           subclass.$$includes = null;
