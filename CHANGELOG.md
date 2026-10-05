@@ -37,6 +37,11 @@ toggles the checkbox, and checkboxes outside tables are not affected.
 to be invalid JSON is now valid: strings containing control characters and object keys
 containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
 as bare tokens a server cannot parse. Other payloads are sent exactly as before. (#10900)
+- A transport failure of a `qx.io.jsonrpc.Client` with
+`qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` on used to reject every request the
+client still had in flight rather than those of the message which failed, and the next failure
+then never settled its own request at all. A failure now rejects the requests of the failed
+message, each of them exactly once. (#10890)
 
 # v7.0.0
 
