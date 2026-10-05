@@ -225,6 +225,38 @@ qx.Class.define("qx.test.Class", {
       qx.Class.undefine("qx.Single1");
     },
 
+    /**
+     * With qx.Class.staticInheritance, subclasses inherit the statics of their
+     * superclass - including the $$instance cache used by getInstance(). A
+     * singleton extending another singleton must get its own instance, even
+     * if the parent's instance already exists.
+     */
+    testSingletonSubclassGetsOwnInstance() {
+      qx.Class.define("qx.SingleBase", {
+        extend: qx.core.Object,
+        type: "singleton"
+      });
+
+      qx.Class.define("qx.SingleSub", {
+        extend: qx.SingleBase,
+        type: "singleton"
+      });
+
+      // Populates the singleton cache on the parent first
+      var base = qx.SingleBase.getInstance();
+      var sub = qx.SingleSub.getInstance();
+
+      this.assertNotIdentical(base, sub, "subclass must not return the parent's singleton instance");
+      this.assertInstance(sub, qx.SingleSub);
+      this.assertIdentical(sub, qx.SingleSub.getInstance());
+      this.assertIdentical(base, qx.SingleBase.getInstance());
+
+      base.dispose();
+      sub.dispose();
+      qx.Class.undefine("qx.SingleSub");
+      qx.Class.undefine("qx.SingleBase");
+    },
+
     testInvalidImplicitStatic() {
       // different error message if no "extend" key was configured
       if (this.isDebugOn()) {
