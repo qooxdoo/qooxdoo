@@ -172,7 +172,42 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       );
     },
 
+    /**
+     * The value of "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+     * which `tearDown()` has to restore, or null if it was not changed
+     */
+    __forwardRejection: null,
+
+    /**
+     * Switches on "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest",
+     * which is the behavior of v8. The old value is restored in `tearDown()`.
+     */
+    enableForwardTransportPromiseRejection() {
+      if (
+        qx.core.Environment.get("qx.environment.allowRuntimeMutations") ===
+        false
+      ) {
+        this.skip(
+          "Runtime mutations are disabled, cannot switch to the v8 behavior."
+        );
+      }
+      this.__forwardRejection = qx.core.Environment.get(
+        "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+      );
+      qx.core.Environment.set(
+        "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest",
+        true
+      );
+    },
+
     tearDown() {
+      if (this.__forwardRejection !== null) {
+        qx.core.Environment.set(
+          "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest",
+          this.__forwardRejection
+        );
+        this.__forwardRejection = null;
+      }
       this.getSandbox().restore();
       this.req.dispose();
     },
@@ -479,6 +514,90 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
 
       client.dispose();
       transport.dispose();
+    },
+
+    /**
+     * Issue #10890
+     */
+    async "test: every request which fails at the transport is rejected"() {
+      this.resetId();
+      this.enableForwardTransportPromiseRejection();
+      const transport = this.createStubbedTransport();
+      transport.send.callsFake(() =>
+        Promise.reject(this.createTransportException())
+      );
+
+      const client = new qx.io.jsonrpc.Client(transport);
+      const promises = [];
+      for (let i = 1; i <= 3; i++) {
+        let promise = client.sendRequest("foo", [i]);
+        this.observePromise(promise);
+        promises.push(promise);
+        // let each failure be handled before the next request is sent
+        await new Promise(resolve => qx.event.Timer.once(resolve, null, 20));
+      }
+      this.wait(300, () => {
+        promises.forEach((promise, index) =>
+          this.assertPromiseRejected(
+            promise,
+            `The promise of failed request ${index + 1} should be rejected.`
+          )
+        );
+
+        client.dispose();
+        transport.dispose();
+      });
+    },
+
+    /**
+     * Issue #10890
+     */
+    async "test: a transport failure does not reject other pending requests"() {
+      this.resetId();
+      this.enableForwardTransportPromiseRejection();
+      const transport = this.createStubbedTransport();
+      const client = new qx.io.jsonrpc.Client(transport);
+
+      // this request is sent out fine and is waiting for its response
+      transport.send.returns(qx.Promise.resolve());
+      const pending = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
+      await client.send(pending);
+      this.observePromise(pending.getPromise());
+
+      // this one fails at the transport
+      transport.send.callsFake(() =>
+        Promise.reject(this.createTransportException())
+      );
+      const failing = new qx.io.jsonrpc.protocol.Request("foo", ["baz"]);
+      await client.send(failing);
+      this.observePromise(failing.getPromise());
+
+      // the response to the first request only arrives after that failure
+      const response = new qx.io.jsonrpc.protocol.Result(
+        pending.getId(),
+        "Hello World!"
+      );
+
+      qx.event.Timer.once(
+        () => transport.fireDataEvent("message", response.toString()),
+        this,
+        50
+      );
+
+      this.wait(300, () => {
+        this.assertPromiseRejected(
+          failing.getPromise(),
+          "The promise of the failed request should be rejected."
+        );
+
+        this.assertPromiseFulfilled(
+          pending.getPromise(),
+          "A transport failure must not reject a request which is still in flight."
+        );
+
+        client.dispose();
+        transport.dispose();
+      });
     }
   }
 });

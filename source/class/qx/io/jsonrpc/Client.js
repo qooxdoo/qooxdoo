@@ -138,8 +138,10 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      */
     _throwTransportException(exception) {
       this.fireDataEvent("error", exception);
-      this.__requests.forEach(request => {
+      this.__requests.forEach((request, id) => {
         if (request instanceof qx.io.jsonrpc.protocol.Request) {
+          // release the request first, its promise can only be rejected once
+          this.__requests[id] = true;
           // this rejects the request's promise
           request.handleTransportException(exception);
         }
@@ -228,7 +230,12 @@ qx.Class.define("qx.io.jsonrpc.Client", {
               error
             );
           }
-          this._throwTransportException(error)
+          // only the requests of this message have failed; releasing them
+          // before they are rejected keeps a later failure from rejecting
+          // them a second time
+          requests.forEach(request => (this.__requests[request.getId()] = true));
+          this.fireDataEvent("error", error);
+          requests.forEach(request => request.handleTransportException(error));
         })
         // return a resolved promise so that the actual completion of the transport is not awaited
         return qx.Promise.resolve()
