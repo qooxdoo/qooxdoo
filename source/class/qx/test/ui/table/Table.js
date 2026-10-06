@@ -17,14 +17,8 @@
 ************************************************************************ */
 qx.Class.define("qx.test.ui.table.Table", {
   extend: qx.test.ui.LayoutTestCase,
-  include: qx.dev.unit.MMock,
 
   members: {
-    tearDown() {
-      super.tearDown();
-      this.getSandbox().restore();
-    },
-
     createModel() {
       var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns(["ID", "A number", "String", "A date", "Boolean"]);
@@ -529,9 +523,6 @@ qx.Class.define("qx.test.ui.table.Table", {
     },
 
     /**
-     * Issue #10892
-     */
-    /**
      * The intervals of the timers started while the given function runs.
      *
      * @param fn {Function} function to run
@@ -554,6 +545,9 @@ qx.Class.define("qx.test.ui.table.Table", {
       return intervals;
     },
 
+    /**
+     * Issue #10892
+     */
     testScrollerStartsNoTimer() {
       // Assert on what would wake the main thread - a timer being started -
       // rather than on the handler, which this fix leaves wired to nothing.
@@ -567,6 +561,21 @@ qx.Class.define("qx.test.ui.table.Table", {
         }),
 
         "building a table must start no timer"
+      );
+
+      // showing it ran _onAppear, which started the timer as well. The rest
+      // of a first layout starts timers of its own, so this one looks for a
+      // timer at the scroll timeout rather than for silence.
+      var scrollTimeout = table._getPaneScrollerArr()[0].getScrollTimeout();
+      var whileShowing = this.__intervalsStartedBy(function () {
+        this.getRoot().add(table);
+        this.flush();
+      });
+
+      this.assertFalse(
+        whileShowing.includes(scrollTimeout),
+        "showing a table must not start a timer at the scroll timeout, started: " +
+          whileShowing.join(", ")
       );
 
       // setting the timeout to 0 used to make the timer fire as fast as the
