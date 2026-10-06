@@ -152,6 +152,20 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     },
 
     /**
+     * Marks the given requests as settled, so that neither a later transport
+     * failure nor a late response can settle them a second time. The client
+     * may have been disposed while they were in flight, in which case there is
+     * no longer a map to release them from.
+     * @param {qx.io.jsonrpc.protocol.Request[]} requests
+     * @private
+     */
+    __releaseRequests(requests) {
+      if (this.__requests) {
+        requests.forEach(request => (this.__requests[request.getId()] = true));
+      }
+    },
+
+    /**
      * Send the given JSON-RPC message object using the configured transport
      *
      * @param {qx.io.jsonrpc.protocol.Message|qx.io.jsonrpc.protocol.Batch} message
@@ -232,8 +246,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
           }
           // only the requests of this message have failed; releasing them
           // before they are rejected keeps a later failure from rejecting
-          // them a second time
-          requests.forEach(request => (this.__requests[request.getId()] = true));
+          // them a second time. The client may be gone by now, but their own
+          // promises still have to be rejected
+          this.__releaseRequests(requests);
           this.fireDataEvent("error", error);
           requests.forEach(request => request.handleTransportException(error));
         })
@@ -242,8 +257,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       } else  {
         // default behavior in v7: return promise from transport
         return transportPromise.catch(error => {
-          // the requests will never be responded to, release them
-          requests.forEach(request => (this.__requests[request.getId()] = true));
+          // the requests will never be responded to, release them, and let
+          // the caller see the transport error even if the client is gone
+          this.__releaseRequests(requests);
           throw error;
         });
       }
