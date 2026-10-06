@@ -34,7 +34,34 @@ qx.Class.define("qx.io.jsonrpc.protocol.Message", {
      * @return {String}
      */
     toString() {
-      return qx.util.Serializer.toJson(this);
+      const message = {};
+      const properties = qx.util.PropertyUtil.getAllProperties(
+        this.constructor
+      );
+
+      for (const name in properties) {
+        // ignore property groups
+        if (properties[name].group != undefined) {
+          continue;
+        }
+        message[name] = this.get(name);
+      }
+
+      // the replacer keeps the support for qooxdoo objects and localized
+      // strings which qx.util.Serializer provides, and writes an unset
+      // property as null rather than dropping the key, as it did
+      return JSON.stringify(message, (key, value) => {
+        if (value === undefined) {
+          return null;
+        }
+        if (value instanceof qx.core.Object) {
+          return qx.util.Serializer.toNativeObject(value);
+        }
+        if (value instanceof qx.type.BaseString) {
+          return value.toString();
+        }
+        return value;
+      });
     },
 
     /**
