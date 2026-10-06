@@ -1549,14 +1549,6 @@ qx.Class.define("qx.html.Node", {
       }
 
       if (this._domNode) {
-        if (
-          listener.$$wrapped_callback &&
-          listener.$$wrapped_callback[type + this.toHashCode()]
-        ) {
-          var callback = listener.$$wrapped_callback[type + this.toHashCode()];
-          delete listener.$$wrapped_callback[type + this.toHashCode()];
-          listener = callback;
-        }
         qx.event.Registration.removeListener(
           this._domNode,
           type,
@@ -1575,9 +1567,12 @@ qx.Class.define("qx.html.Node", {
         for (var key in values) {
           entry = values[key];
 
-          // Optimized for performance: Testing references first
+          // Optimized for performance: Testing references first. A listener
+          // added with addListenerOnce is in here as the wrapper, so it has to
+          // be matched through the wrapper's back-reference as well
           if (
-            entry.listener === listener &&
+            (entry.listener === listener ||
+              entry.listener.$$onceOf === listener) &&
             entry.self === self &&
             entry.capture === capture &&
             entry.type === type
