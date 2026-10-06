@@ -21,7 +21,7 @@ qx.Class.define("qx.test.ui.table.Table", {
 
   members: {
     tearDown() {
-      this.base(arguments);
+      super.tearDown();
       this.getSandbox().restore();
     },
 
@@ -531,40 +531,57 @@ qx.Class.define("qx.test.ui.table.Table", {
     /**
      * Issue #10892
      */
-    testScrollerSchedulesNoTimerTicks() {
-      // the listener is wired in the constructor, so stub before building
-      var tick = this.stub(qx.ui.table.pane.Scroller.prototype, "_oninterval");
+    /**
+     * The intervals of the timers started while the given function runs.
+     *
+     * @param fn {Function} function to run
+     * @return {Integer[]} one entry per qx.event.Timer#start
+     */
+    __intervalsStartedBy(fn) {
+      var intervals = [];
+      var start = qx.event.Timer.prototype.start;
+      qx.event.Timer.prototype.start = function () {
+        intervals.push(this.getInterval());
+        return start.apply(this, arguments);
+      };
 
-      var shownModel = this.createModel();
-      var shown = new qx.ui.table.Table(shownModel);
-      this.getRoot().add(shown);
-      this.flush();
+      try {
+        fn.call(this);
+      } finally {
+        qx.event.Timer.prototype.start = start;
+      }
 
-      // a table which is never shown never disappears either, so nothing
-      // ever stopped its timer
-      var hiddenModel = this.createModel();
-      var hidden = new qx.ui.table.Table(hiddenModel);
+      return intervals;
+    },
 
-      // and setting the timeout to 0 used to make the timer fire as fast as
-      // the browser allows instead of clearing it
-      hidden._getPaneScrollerArr()[0].setScrollTimeout(0);
+    testScrollerStartsNoTimer() {
+      // Assert on what would wake the main thread - a timer being started -
+      // rather than on the handler, which this fix leaves wired to nothing.
+      var model = this.createModel();
+      var table;
 
-      this.wait(
-        400,
-        function () {
-          this.assertEquals(
-            0,
-            tick.callCount,
-            "A scroller must not wake the main thread while nothing happens."
-          );
+      this.assertArrayEquals(
+        [],
+        this.__intervalsStartedBy(function () {
+          table = new qx.ui.table.Table(model);
+        }),
 
-          shown.destroy();
-          shownModel.dispose();
-          hidden.destroy();
-          hiddenModel.dispose();
-        },
-        this
+        "building a table must start no timer"
       );
+
+      // setting the timeout to 0 used to make the timer fire as fast as the
+      // browser allows instead of clearing it
+      this.assertArrayEquals(
+        [],
+        this.__intervalsStartedBy(function () {
+          table._getPaneScrollerArr()[0].setScrollTimeout(0);
+        }),
+
+        "setScrollTimeout(0) must start no timer"
+      );
+
+      table.destroy();
+      model.dispose();
     },
 
     /**
