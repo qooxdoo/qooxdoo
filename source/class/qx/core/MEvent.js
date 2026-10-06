@@ -81,19 +81,23 @@ qx.Mixin.define("qx.core.MEvent", {
         self.removeListenerById(id);
         listener.call(context, e);
       };
-      // check for wrapped callback storage
-      if (!listener.$$wrapped_callback) {
-        listener.$$wrapped_callback = {};
-      }
-      // store the call for each type in case the listener is
-      // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type + this.toHashCode()] = callback;
+      // the registry entry is the only place the wrapper lives, so every way a
+      // registration can end releases it: firing, removeListener,
+      // removeListenerById and disposing the target [BUG #10887]. The
+      // back-reference is what lets removeListener find the wrapper for the
+      // function the caller passed in, one registration at a time
+      // [BUG #8038, #9627]
+      callback.$$onceOf = listener;
       id = this.addListener(type, callback, context, capture);
       return id;
     },
 
     /**
      * Remove event listener from this object
+     *
+     * Every registration of the listener for the type and phase is removed,
+     * whether it was added with {@link #addListener} or wrapped by
+     * {@link #addListenerOnce}.
      *
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
@@ -104,15 +108,6 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     removeListener(type, listener, self, capture) {
       if (!this.$$disposed) {
-        // special handling for wrapped once listener
-        if (
-          listener.$$wrapped_callback &&
-          listener.$$wrapped_callback[type + this.$$hash]
-        ) {
-          var callback = listener.$$wrapped_callback[type + this.$$hash];
-          delete listener.$$wrapped_callback[type + this.$$hash];
-          listener = callback;
-        }
         return this.__Registration.removeListener(
           this,
           type,
