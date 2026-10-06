@@ -173,6 +173,24 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
     },
 
     /**
+     * Makes the given stubbed transport accept a message and fail it only after
+     * a delay, i.e. while the request is still in flight
+     * @param {qx.io.transport.Xhr} transport
+     */
+    failTransportAfterDelay(transport) {
+      transport.send.callsFake(
+        () =>
+          new Promise((resolve, reject) =>
+            qx.event.Timer.once(
+              () => reject(this.createTransportException()),
+              this,
+              50
+            )
+          )
+      );
+    },
+
+    /**
      * The value of "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
      * which `tearDown()` has to restore, or null if it was not changed
      */
@@ -183,20 +201,36 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
      * which is the behavior of v8. The old value is restored in `tearDown()`.
      */
     enableForwardTransportPromiseRejection() {
+      this.setForwardTransportPromiseRejection(true);
+    },
+
+    /**
+     * Switches "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest" to the
+     * given value, i.e. to the behavior of v8 (`true`) or of v7 (`false`), so
+     * that a test does not depend on which of them the build defaults to. Does
+     * nothing if the value is already the requested one; the old value is
+     * restored in `tearDown()`.
+     * @param {Boolean} value
+     */
+    setForwardTransportPromiseRejection(value) {
+      const current = qx.core.Environment.get(
+        "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+      );
+      if (current === value) {
+        return;
+      }
       if (
         qx.core.Environment.get("qx.environment.allowRuntimeMutations") ===
         false
       ) {
         this.skip(
-          "Runtime mutations are disabled, cannot switch to the v8 behavior."
+          "Runtime mutations are disabled, cannot switch the forwarding behavior."
         );
       }
-      this.__forwardRejection = qx.core.Environment.get(
-        "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
-      );
+      this.__forwardRejection = current;
       qx.core.Environment.set(
         "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest",
-        true
+        value
       );
     },
 
@@ -598,6 +632,66 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         client.dispose();
         transport.dispose();
       });
+    },
+
+    /**
+     * Issue #10890
+     */
+    "test: a request in flight when the client is disposed is rejected"() {
+      this.resetId();
+      this.enableForwardTransportPromiseRejection();
+      const transport = this.createStubbedTransport();
+      this.failTransportAfterDelay(transport);
+
+      const client = new qx.io.jsonrpc.Client(transport);
+      const request = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
+      let rejectedWith;
+      request.getPromise().catch(error => (rejectedWith = error));
+      client.send(request);
+
+      // the client is gone before the transport fails, as it is when the user
+      // navigates away from a page with a request in flight
+      client.dispose();
+
+      this.wait(300, () => {
+        this.assertInstance(
+          rejectedWith,
+          qx.io.exception.Transport,
+          "A request in flight when its client was disposed must still be rejected with the transport error."
+        );
+
+        transport.dispose();
+      });
+    },
+
+    /**
+     * Issue #10890
+     */
+    async "test: a transport failure after dispose is reported to the caller"() {
+      this.resetId();
+      // v7 behavior: the transport error is reported by send()'s promise
+      this.setForwardTransportPromiseRejection(false);
+      const transport = this.createStubbedTransport();
+      this.failTransportAfterDelay(transport);
+
+      const client = new qx.io.jsonrpc.Client(transport);
+      const request = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
+      const sent = client.send(request);
+      client.dispose();
+
+      let exception;
+      try {
+        await sent;
+      } catch (e) {
+        exception = e;
+      }
+      this.assertInstance(
+        exception,
+        qx.io.exception.Transport,
+        "The caller must see the transport error, not a failure of the disposed client."
+      );
+
+      transport.dispose();
     }
   }
 });
