@@ -54,7 +54,14 @@
       "exclude": [
         "qx.tool.*",
         "qx.test.tool.*",
-        "qx.test.compiler.*"
+        "qx.test.compiler.*",
+        "qx.test.ui.list.*",
+        "qx.test.ui.form.virtual.*",
+        "qx.test.ui.form.VirtualSelectBox",
+        "qx.test.ui.form.AbstractVirtualBox",
+        "qx.test.ui.tree.virtual.*",
+        "qx.test.ui.treevirtual.*",
+        "qx.test.ui.virtual.*"
       ]
     }
   ],
