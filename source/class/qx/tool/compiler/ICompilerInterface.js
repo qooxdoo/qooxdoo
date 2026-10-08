@@ -116,8 +116,7 @@ qx.Interface.define("qx.tool.compiler.ICompilerInterface", {
      *
      * The event data is an object with the following properties:
      *  application {qx.tool.compiler.app.Application} the app being minified
-     *  part: {String} the part being minified
-     *  filename: {String} the part filename
+     *  filename: {String} the filename of the JavaScript being minified
      */
     minifyingApplication: "qx.event.type.Data",
 
@@ -126,8 +125,7 @@ qx.Interface.define("qx.tool.compiler.ICompilerInterface", {
      *
      * The event data is an object with the following properties:
      *  application {qx.tool.compiler.app.Application} the app being minified
-     *  part: {String} the part being minified
-     *  filename: {String} the part filename
+     *  filename: {String} the filename of the JavaScript being minified
      */
     minifiedApplication: "qx.event.type.Data"
   },

@@ -63,6 +63,10 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
 
     compiler.addListener("making", () => qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.makeBegins"));
     compiler.addListener("made", () => qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.makeEnds"));
+    compiler.addListener("minifyingApplication", evt => {
+      let { application, filename } = evt.getData();
+      qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.minifyingApplication", application.getName(), filename);
+    });
 
     compiler.addListener("classNeedsToBeCompiled", this.__onClassNeedsToBeCompiled, this);
     compiler.addListener("compilingClass", this.__onCompilingClass, this);
