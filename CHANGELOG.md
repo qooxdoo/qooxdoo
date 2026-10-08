@@ -17,6 +17,13 @@ The compiler has received an overhaul, which includes the following changes:
 
 ## Breaking changes
 
+- `qx.tool.compiler.cli.api.AbstractApi#require` (used by a library's `compile.js`) now
+  resolves modules with the standard Node resolution from the project directory, so hoisted
+  packages and npm workspaces are found. Modules the project does not provide are installed
+  into a separate npm project in `qx_packages/.npm` instead of the project itself, so the
+  project's `package.json`, lockfile and `node_modules` are no longer changed.
+  `AbstractApi#loadNpmModule` has been removed.
+
 - Subclasses now inherit static methods and properties from their superclass via
   the constructor prototype chain, matching native JavaScript `class extends`
   semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
