@@ -804,7 +804,10 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         let maker = analyzer.getMaker();
         let makerState = this.__makerStateByHashCode[maker.toHashCode()];
         maker.onClassCompiled(classname);
-        for (let app of maker.getApplications()) {
+        // Classes compiled on behalf of the maker's running analysis are included in the current make,
+        //  so they must not trigger another make
+        let awaited = analyzer.isAwaitingClass(classname);
+        for (let app of awaited ? [] : maker.getApplications()) {
           let dependencies = app.getDependencies() || [];
           if (dependencies.includes(classname) || app.getRequiredClasses().includes(classname) || app.getTheme() == classname) {
             makerState.dirty = true;

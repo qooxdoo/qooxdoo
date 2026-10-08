@@ -188,6 +188,9 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
      */
     __cachedClassInfo: null,
 
+    /** @type {Boolean} true while `analyzeClasses` is running */
+    __analysing: false,
+
     /** @type {Library[]} All libraries */
     __libraries: null,
 
@@ -471,6 +474,30 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
      * dependent classes are loaded
      */
     async analyzeClasses() {
+      this.__analysing = true;
+      try {
+        await this.__analyzeClassesImpl();
+      } finally {
+        this.__analysing = false;
+      }
+    },
+
+    /**
+     * Whether the currently running `analyzeClasses` is still waiting for the result of compiling
+     * the given class; if so, the result will be included in the current make and the maker does
+     * not need to be restarted.
+     *
+     * @param {String} classname
+     * @return {Boolean}
+     */
+    isAwaitingClass(classname) {
+      return this.__analysing && !!this.__cachedClassInfo && this.__cachedClassInfo[classname] === undefined;
+    },
+
+    /**
+     * Implementation of `analyzeClasses`
+     */
+    async __analyzeClassesImpl() {
       this.__db ??= {};
 
       // Bootstrap the list of classes to compile with the initial set of classes, and then
