@@ -2232,22 +2232,6 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           padding: [0, 10, 10, 10]
         };
       }
-    },
-
-    /*
-      --------------------
-      VIRTUAL SELECTBOX
-      --------------------
-    */
-
-    "list-search-highlight": {
-      style(states) {
-        return {
-          backgroundColor: "rgba(255, 251, 0, 0.53)",
-          textDecorationStyle: "dotted",
-          textDecorationLine: "underline"
-        };
-      }
     }
   }
 });
