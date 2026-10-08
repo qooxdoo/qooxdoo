@@ -37,6 +37,7 @@ test("runCompiler collects machine-readable messages", async () => {
   let ids = result.messages.map(msg => msg.id);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeBegins"), "Missing makeBegins: " + result.output);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeEnds"), "Missing makeEnds: " + result.output);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.allDone"), "Missing allDone: " + result.output);
   let writing = result.messages.find(msg => msg.id == "qx.tool.compiler.cli.compile.writingApplication");
   assert.deepEqual(writing && writing.args, ["issue553two"], "Wrong writingApplication: " + result.output);
 });

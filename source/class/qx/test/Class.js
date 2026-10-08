@@ -19,7 +19,7 @@
 /**
  * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer.*)
  * @ignore(qx.DeferFoo, qx.Empty, qx.FuncName, qx.MyClass, qx.MyMixin)
- * @ignore(qx.Single1.*, qx.test.u.u.*)
+ * @ignore(qx.Single1.*, qx.SingleBase.*, qx.SingleSub.*, qx.test.u.u.*)
  * @ignore(qx.Insect, qx.Butterfly, qx.Firefly, qx.Grasshopper, qx.Bug)
 
  */

@@ -32,8 +32,8 @@ Instances of `qx.tool.cli.commands.Compile` and its subclasses fire the followin
 - `making`: Fired when making of apps begins. Data: the `Maker` instance.
 - `made`: Fired when making of apps is done. Data: the `Maker` instance.
 - `allDone`: Fired once when all makers have finished — after the last `made` event.
-- `minifyingApplication`: Fired when minification begins.
-- `minifiedApplication`: Fired when minification is done.
+- `minifyingApplication`: Fired when minification begins. Data: `{application, filename}` (`filename` is the JavaScript file being minified).
+- `minifiedApplication`: Fired when minification is done. Data: `{application, filename}`.
 - `saveDatabase`: Fired when the database is being saved.
 - `writingApplications`: Fired when application writing starts. Data: array of `{application, analyzer, maker}` for all apps that need recompilation.
 - `writingApplication`: Fired when writing of single application starts. Data: `{application, analyzer, maker}`.
