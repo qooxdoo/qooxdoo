@@ -52,7 +52,39 @@ qx.Class.define("qx.tool.compiler.Compiler", {
     new qx.tool.compiler.feedback.ConsoleFeedback(this);
   },
 
+  environment: {
+    /** Name of the custom compiler class; null = standard compiler */
+    "qx.tool.compiler.Compiler.compilerClass": null
+  },
+
   events: {
+    /** Fired when a maker is added, data is {qx.tool.compiler.Maker} */
+    addMaker: "qx.event.type.Data",
+
+    /** Fired when the compiler starts up */
+    starting: "qx.event.type.Event",
+
+    /** Fired when the initial compilation has completed */
+    started: "qx.event.type.Event",
+
+    /** Fired when the meta database is about to be configured with libraries and environment checks */
+    metaDbConfiguring: "qx.event.type.Event",
+
+    /** Fired when the meta database has been configured */
+    metaDbConfigured: "qx.event.type.Event",
+
+    /** Fired when the discovered classes have been added to the meta database */
+    addedDiscoveredClasses: "qx.event.type.Event",
+
+    /** Fired when the meta data has been written to disk, data is {qx.tool.compiler.meta.MetaDatabase} */
+    writtenMetaData: "qx.event.type.Data",
+
+    /** Fired when file changes have been detected and recompilation starts */
+    changesDetected: "qx.event.type.Event",
+
+    /** Fired when a class needs to be compiled, data is {maker, classname} */
+    classNeedsToBeCompiled: "qx.event.type.Data",
+
     /** Fired when class discovery starts, data is {qx.tool.compiler.meta.Discovery} */
     discoveryStarted: "qx.event.type.Data",
 
@@ -496,7 +528,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         }
 
         var target = maker.getTarget();
-        analyzer.addListener("compilingClass", e => this.dispatchEvent(e.clone()));
         analyzer.addListener("compiledClass", e => this.dispatchEvent(e.clone()));
         analyzer.addListener("saveDatabase", e => this.dispatchEvent(e.clone()));
         target.addListener("checkEnvironment", e => this.dispatchEvent(e.clone()));
@@ -527,6 +558,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         let promises = this.__makers.map(maker => this.__makeMaker(maker));
         await Promise.all(promises);
         console.log("All makers made");
+        this.fireEvent("started");
       } catch (ex) {
         console.error("Error during compilation: " + ex.stack);
         throw ex;
