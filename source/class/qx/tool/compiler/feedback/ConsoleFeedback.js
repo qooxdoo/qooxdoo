@@ -54,12 +54,15 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
 
     let watchStartMsgSent = false;
     compiler.addListener("allDone", () => {
-      qx.tool.compiler.Console.log("All applications ready.");
+      qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.allDone");
       if (!watchStartMsgSent && compiler.isWatch()) {
         watchStartMsgSent = true;
         qx.tool.compiler.Console.log("Start watching for changes...");
       }
     });
+
+    compiler.addListener("making", () => qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.makeBegins"));
+    compiler.addListener("made", () => qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.makeEnds"));
 
     compiler.addListener("classNeedsToBeCompiled", this.__onClassNeedsToBeCompiled, this);
     compiler.addListener("compilingClass", this.__onCompilingClass, this);
@@ -150,6 +153,9 @@ qx.Class.define("qx.tool.compiler.feedback.ConsoleFeedback", {
       let maker = e.getData();
       let id = maker.getTarget().getOutputDir();
       maker.addListener("writingApplications", () => qx.tool.compiler.Console.log(`${id}: Writing applications...`));
+      maker.addListener("writingApplication", evt =>
+        qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.writingApplication", evt.getData().application.getName())
+      );
       maker.addListener("writtenApplication", evt =>
         qx.tool.compiler.Console.log(`${id}: Written application ${evt.getData().application.getName()}...`)
       );

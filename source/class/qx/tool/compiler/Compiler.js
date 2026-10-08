@@ -557,7 +557,6 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         // while this make is still running, which caused a premature "allDone" event.
         let promises = this.__makers.map(maker => this.__makeMaker(maker));
         await Promise.all(promises);
-        console.log("All makers made");
         this.fireEvent("started");
       } catch (ex) {
         console.error("Error during compilation: " + ex.stack);
@@ -966,7 +965,8 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       "qx.tool.compiler.cli.compile.minifyingApplication": "Minifying %1 %2",
       "qx.tool.compiler.cli.compile.compiledClass": "Compiled class %1 in %2s",
       "qx.tool.compiler.cli.compile.makeBegins": "Making applications...",
-      "qx.tool.compiler.cli.compile.makeEnds": "Applications are made"
+      "qx.tool.compiler.cli.compile.makeEnds": "Applications are made",
+      "qx.tool.compiler.cli.compile.allDone": "All applications ready."
     });
 
     qx.tool.compiler.Console.addMessageIds(
