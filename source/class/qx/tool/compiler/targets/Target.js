@@ -507,6 +507,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         await this.__writeDeprecatedWebFonts(application, appMeta, assets);
         await this.__writeManifestFonts(application, appMeta, assets, bootPackage);
       }
+      if (analyzer.getApplicationTypes().indexOf("node") > -1) {
+        let hotDeploy = this.getHotDeploy();
+        if (hotDeploy) {
+          hotDeploy.requiredFile("package.json");
+        }
+      }
       await this._writeApplication();
       this.__appMeta = null;
     },
