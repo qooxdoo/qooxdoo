@@ -584,9 +584,6 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       var requiredLibs = {};
       this.__loadDeps.forEach(classname => {
         let classInfo = analyzer.getDbClassInfo(classname) || null;
-        if (!classInfo) {
-          debugger;
-        }
         if (classInfo.fatalCompileError) {
           return;
         }

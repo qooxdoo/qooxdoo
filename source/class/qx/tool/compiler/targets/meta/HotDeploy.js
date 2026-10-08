@@ -213,7 +213,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
         let segs = parentDir.split(path.sep);
         let tmp = "";
         for (let seg of segs) {
-          if (tmp.length) tmp += "/";
+          if (tmp.length) {
+            tmp += "/";
+          }
           tmp += seg;
           directoryNames[tmp] = true;
         }
