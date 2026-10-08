@@ -309,7 +309,7 @@ qx.Class.define("qx.tool.compiler.Maker", {
       let compileEnv = analyzer.getEnvironment();
 
       if (!this.isNoErase() && analyzer.isContextChanged()) {
-        this.error("enviroment changed - delete output dir");
+        qx.tool.compiler.Console.info("Environment changed - deleting output dir");
         await this.eraseOutputDir();
         await qx.tool.utils.Utils.makeParentDir(this.getOutputDir());
         await analyzer.resetDatabase();
