@@ -21,6 +21,7 @@
  * *********************************************************************** */
 
 var path = require("path");
+var upath = require("upath");
 
 var fs = require("fs");
 
@@ -350,9 +351,11 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @returns {qx.tool.compiler.app.Library|null} the best matching library or null if none found
      */
     findBestLibraryForFilename(filename, libraries) {
+      // Callers use `upath`, so normalize both sides to forward slashes (otherwise nothing matches on Windows)
+      filename = upath.normalize(filename);
       let best = null;
       for (let library of libraries) {
-        let libRootDir = path.resolve(library.getRootDir()) + path.sep;
+        let libRootDir = upath.resolve(library.getRootDir()) + "/";
         if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.rootDir.length)) {
           best = { library, rootDir: libRootDir };
         }
@@ -369,9 +372,11 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @returns {String}
      */
     findBestPath(filename, libraryPaths) {
+      // Callers use `upath`, so normalize both sides to forward slashes (otherwise nothing matches on Windows)
+      filename = upath.normalize(filename);
       let best = null;
       for (let libraryPath of libraryPaths) {
-        let libRootDir = path.resolve(libraryPath) + path.sep;
+        let libRootDir = upath.resolve(libraryPath) + "/";
         if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.length)) {
           best = libraryPath;
         }
