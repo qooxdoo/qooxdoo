@@ -164,7 +164,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
 
               original: {
                 line: mapping.originalLine || 1,
-                column: mapping.originalColumn || 1
+                column: mapping.originalColumn || 0
               },
 
               source: mapping.source || js.getFilename()

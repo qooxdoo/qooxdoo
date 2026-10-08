@@ -698,10 +698,11 @@ qx.Bootstrap.define("qx.Class", {
       // This is a class
       subclass.$$type = "Class";
 
-      // If its class type was specified, save it
-      if (config.type) {
-        subclass.$$classtype = config.type;
-      }
+      // Save its class type, even when none was specified: with static
+      // inheritance an unset type would be read through the prototype chain
+      // from the superclass, and every concrete subclass of an abstract class
+      // would count as abstract itself.
+      subclass.$$classtype = config.type || null;
 
       // Ensure there's something unique to compare constructors to.
       if (!config.construct) {
@@ -722,7 +723,12 @@ qx.Bootstrap.define("qx.Class", {
           // `class Sub extends Base`. But it would also let the parent's
           // internal `$$` metadata leak into the subclass. Give every subclass
           // its own (empty) metadata slots so they shadow the parent's and the
-          // metadata stays strictly per-class.
+          // metadata stays strictly per-class. This includes the mixin base
+          // storage used by qx.Mixin.baseClassMethod, otherwise sibling classes
+          // including the same mixin would resolve super() to each other's base,
+          // and the singleton cache used by getInstance(), otherwise a singleton
+          // subclass would return its parent's instance.
+          subclass.$$instance = undefined;
           subclass.$$objects = null;
           subclass.$$events = null;
           subclass.$$includes = null;
@@ -730,6 +736,8 @@ qx.Bootstrap.define("qx.Class", {
           subclass.$$implements = null;
           subclass.$$flatImplements = null;
           subclass.$$annotations = null;
+          subclass.$$mixinBaseClassMethods = null;
+          subclass.$mixinBases = null;
         }
       }
 

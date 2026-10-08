@@ -197,10 +197,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
           await test.execute();
         }
         await this.fireDataEventAsync("runTests", this);
-        // for bash exitcode is not allowed to be more then 255!
-        process.exitCode = Math.min(255, this.getExitCode());
-        // We must exit the process here because serve runs infinite!
-        process.exit();
       });
 
       // setNeedsServer so that it is usable in compile.js
@@ -212,12 +208,40 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         // compile only
         await qx.tool.compiler.cli.commands.Compile.prototype.process.call(this);
         // since the server is not started, manually fire the event necessary for firing the "runTests" event
-        await this.fireEventAsync("afterStart");
+        try {
+          await this.fireEventAsync("afterStart");
+        } catch (ex) {
+          this._onAfterStartError(ex);
+          return;
+        }
+        this._onAfterStartDone();
       }
     },
 
     __needsServer() {
       return !this.argv.disableWebserver && (this.getNeedsServer() || this.__tests.some(test => test.getNeedsServer()));
+    },
+
+    /**
+     * @Override
+     *
+     * Exits once the tests and all other "afterStart" listeners have finished
+     */
+    _onAfterStartDone() {
+      // for bash exitcode is not allowed to be more then 255!
+      // We must exit the process here because serve runs infinite!
+      process.exit(Math.min(255, this.getExitCode()));
+    },
+
+    /**
+     * @Override
+     *
+     * The tests run in an "afterStart" listener, so `qx test` must end with an error
+     */
+    _onAfterStartError(ex) {
+      qx.tool.compiler.Console.error("Error while running tests: " + (ex.stack || ex));
+
+      process.exit(1);
     }
   }
 });

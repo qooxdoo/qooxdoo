@@ -225,6 +225,38 @@ qx.Class.define("qx.test.Class", {
       qx.Class.undefine("qx.Single1");
     },
 
+    /**
+     * With qx.Class.staticInheritance, subclasses inherit the statics of their
+     * superclass - including the $$instance cache used by getInstance(). A
+     * singleton extending another singleton must get its own instance, even
+     * if the parent's instance already exists.
+     */
+    testSingletonSubclassGetsOwnInstance() {
+      qx.Class.define("qx.SingleBase", {
+        extend: qx.core.Object,
+        type: "singleton"
+      });
+
+      qx.Class.define("qx.SingleSub", {
+        extend: qx.SingleBase,
+        type: "singleton"
+      });
+
+      // Populates the singleton cache on the parent first
+      var base = qx.SingleBase.getInstance();
+      var sub = qx.SingleSub.getInstance();
+
+      this.assertNotIdentical(base, sub, "subclass must not return the parent's singleton instance");
+      this.assertInstance(sub, qx.SingleSub);
+      this.assertIdentical(sub, qx.SingleSub.getInstance());
+      this.assertIdentical(base, qx.SingleBase.getInstance());
+
+      base.dispose();
+      sub.dispose();
+      qx.Class.undefine("qx.SingleSub");
+      qx.Class.undefine("qx.SingleBase");
+    },
+
     testInvalidImplicitStatic() {
       // different error message if no "extend" key was configured
       if (this.isDebugOn()) {
@@ -912,6 +944,31 @@ qx.Class.define("qx.test.Class", {
         }
       }
       this.assertEquals(1, mfooCount, "getMixins must not duplicate inherited mixin");
+    },
+
+    testClassTypeDoesNotLeakViaPrototypeChain() {
+      var ns = "qx.test.__TypeLeak_" + Date.now();
+      var Base = qx.Class.define(ns + ".Base", {
+        extend: qx.dev.unit.TestCase,
+        type: "abstract"
+      });
+
+      var Sub = qx.Class.define(ns + ".Sub", {
+        extend: Base,
+        members: {
+          testNothing() {}
+        }
+      });
+
+      this.assertEquals("abstract", Base.$$classtype, "Base must stay abstract");
+      this.assertNotEquals("abstract", Sub.$$classtype, "Concrete subclass must not inherit the abstract type");
+
+      // The test runner skips abstract classes; it must still find the concrete subclass
+      var suite = new qx.dev.unit.TestSuite();
+      suite.addTestNamespace({ Base: Base, Sub: Sub });
+      var names = suite.getTestClasses().map(clazz => clazz.getName());
+      suite.dispose();
+      this.assertArrayEquals([ns + ".Sub"], names, "Test suite must pick up the concrete subclass only");
     }
   }
 });

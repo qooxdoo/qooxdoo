@@ -550,9 +550,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           addLibraryFonts(library);
         }
       });
-      if (!addLibraryFonts) {
-        return;
-      }
       addLibraryFonts(appLibrary);
 
       const loadFont = async (library, font) => {
@@ -608,8 +605,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       let fontNames = application.getFonts();
       for (let fontName of fontNames) {
         let font = analyzer.getFont(fontName);
+        // Unknown fonts are reported as `qx.tool.compiler.fonts.unresolved` by the class that uses them
         if (!font) {
-          return;
+          continue;
         }
         let resources = font.getApplicationFontData();
         for (var key in resources) {

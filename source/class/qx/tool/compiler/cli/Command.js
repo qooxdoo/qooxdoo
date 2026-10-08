@@ -40,6 +40,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         await cls.setCompilerApi(qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi());
         qx.tool.compiler.Console.getInstance().setVerbose(argv.verbose || false);
         qx.log.Logger.setLevel(argv.loglevel);
+        qx.log.appender.NodeConsole.setUseColors(argv.colorize);
         cls.argv = argv;
         let res = await cls.process();
         await cls.getCompilerApi().afterProcessFinished(cls, res);

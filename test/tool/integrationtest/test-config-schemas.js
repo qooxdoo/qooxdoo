@@ -2,13 +2,15 @@ const qx = require("../../../compiled/node/build/compilerLibrary");
 const { rm } = require("fs").promises;
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
-const assert = require("assert");
+const { test } = require("node:test");
+const assert = require("node:assert");
+
+process.chdir(__dirname);
 
 const appNamespace = "testConfigSchemaApp";
 
-(async () => {
+test("config file schemas", async () => {
   try {
-    console.info("Running config file schema tests...");
     // delete existing app
     if (await fs.existsAsync(appNamespace) && await fs.statAsync(appNamespace)) {
       await rm(appNamespace, { recursive: true, force: true });
@@ -62,12 +64,9 @@ const appNamespace = "testConfigSchemaApp";
     const compilerConfig = await qx.tool.config.Compile.getInstance().load();
     assert.strictEqual(compilerConfig.getValue("applications.0.name"), appNamespace);
 
+  } finally {
     // delete the test app
-    process.chdir("..");
+    process.chdir(__dirname);
     await rm(appNamespace, { recursive: true, force: true });
-    console.info("All tests passed.");
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
   }
-})();
+});
