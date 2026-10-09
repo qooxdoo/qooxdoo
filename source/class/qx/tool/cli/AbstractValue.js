@@ -95,7 +95,13 @@ qx.Class.define("qx.tool.cli.AbstractValue", {
       init: null,
       nullable: true,
       apply: "_applyValue"
-    }
+    },
+    
+    /** whether this should be hidden in the usage statement */
+    hidden: { 
+      init: false,
+      check: "Boolean"
+    } 
   },
 
   members: {

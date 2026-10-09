@@ -805,393 +805,429 @@ window.qx = Object.assign(window.qx || {}, {
 //
 qx.Bootstrap.define("qx.Bootstrap", {
   type: "static",
-  statics: Object.assign(
-    {
-      /** Timestamp of qooxdoo based application startup */
-      LOADSTART: qx.$$start || new Date(),
 
-      /**
-       * Mapping for early use of the qx.debug environment setting.
-       */
-      DEBUG: (function () {
-        // make sure to reflect all changes here to the environment class!
-        var debug = true;
-        if (qx.$$environment && qx.$$environment["qx.debug"] === false) {
-          debug = false;
-        }
+  /*
+   * NOTE: The compiler in v7.9.2 and earlier does not support the `statics` or `members` in a class
+   * definition to be anything except an object literal.  This means that we have to specify all members
+   * explicitly - please see the end of `statics`.
+   *
+   * This may seem odd, but it is necessary to allow the compiler to be bootstrapped from a known-good
+   * compiler - ie we have to be able to compile this code with older compilers, so therefore we have to
+   * have explicit object literals.
+   */
+  statics: {
+    /** Timestamp of qooxdoo based application startup */
+    LOADSTART: qx.$$start || new Date(),
 
-        return debug;
-      })(),
+    /**
+     * Mapping for early use of the qx.debug environment setting.
+     */
+    DEBUG: (function () {
+      // make sure to reflect all changes here to the environment class!
+      var debug = true;
+      if (qx.$$environment && qx.$$environment["qx.debug"] === false) {
+        debug = false;
+      }
 
-      /**
-       * Minimal accessor API for the environment settings given from
-       * the generator.
-       *
-       * WARNING: This method only should be used if the {@link
-       * qx["core"]["Environment"]} class is not loaded!
-       *
-       * @param key {String}
-       *   The key to get the value from.
-       *
-       * @return {var}
-       *   The value of the setting or <code>undefined</code>.
-       */
-      getEnvironmentSetting(key) {
-        if (qx.$$environment) {
-          return qx.$$environment[key];
-        }
+      return debug;
+    })(),
 
-        return undefined;
-      },
+    /**
+     * Minimal accessor API for the environment settings given from
+     * the generator.
+     *
+     * WARNING: This method only should be used if the {@link
+     * qx["core"]["Environment"]} class is not loaded!
+     *
+     * @param key {String}
+     *   The key to get the value from.
+     *
+     * @return {var}
+     *   The value of the setting or <code>undefined</code>.
+     */
+    getEnvironmentSetting(key) {
+      if (qx.$$environment) {
+        return qx.$$environment[key];
+      }
 
-      /**
-       * Minimal mutator for the environment settings given from the
-       * generator. It checks for the existence of the environment settings
-       * and sets the key if its not given from the generator. If a setting
-       * is available from the generator, the setting will be ignored.
-       *
-       * WARNING: This method only should be used if the
-       * {@link qx.core.Environment} class is not loaded!
-       *
-       * @param key {String} The key of the setting.
-       * @param value {var} The value for the setting.
-       */
-      setEnvironmentSetting(key, value) {
-        if (!qx.$$environment) {
-          qx.$$environment = {};
-        }
+      return undefined;
+    },
 
-        if (qx.$$environment[key] === undefined) {
-          qx.$$environment[key] = value;
-        }
-      },
+    /**
+     * Minimal mutator for the environment settings given from the
+     * generator. It checks for the existence of the environment settings
+     * and sets the key if its not given from the generator. If a setting
+     * is available from the generator, the setting will be ignored.
+     *
+     * WARNING: This method only should be used if the
+     * {@link qx.core.Environment} class is not loaded!
+     *
+     * @param key {String} The key of the setting.
+     * @param value {var} The value for the setting.
+     */
+    setEnvironmentSetting(key, value) {
+      if (!qx.$$environment) {
+        qx.$$environment = {};
+      }
 
-      /**
-       * Private list of classes which have a defer method that
-       * needs to be executed
-       */
-      __pendingDefers: [],
+      if (qx.$$environment[key] === undefined) {
+        qx.$$environment[key] = value;
+      }
+    },
 
-      /**
-       * Adds a callback for a class so that it's defer method can be
-       * called, either after all classes are loaded or when absolutely
-       * necessary because of load-time requirements of other classes.
-       *
-       * @param clazz {Class}
-       *   Class to add a callback to
-       *
-       * @param cb {Function}
-       *   Callback function
-       */
-      addPendingDefer(clazz, cb) {
-        if (qx.$$loader && qx.$$loader.delayDefer) {
-          this.__pendingDefers.push(clazz);
-          clazz.$$pendingDefer = cb;
-        } else {
+    /**
+     * Private list of classes which have a defer method that
+     * needs to be executed
+     */
+    __pendingDefers: [],
+
+    /**
+     * Adds a callback for a class so that it's defer method can be
+     * called, either after all classes are loaded or when absolutely
+     * necessary because of load-time requirements of other classes.
+     *
+     * @param clazz {Class}
+     *   Class to add a callback to
+     *
+     * @param cb {Function}
+     *   Callback function
+     */
+    addPendingDefer(clazz, cb) {
+      if (qx.$$loader && qx.$$loader.delayDefer) {
+        this.__pendingDefers.push(clazz);
+        clazz.$$pendingDefer = cb;
+      } else {
+        cb.call(clazz);
+      }
+    },
+
+    /**
+     * Executes the defer methods for classes which are required by the
+     * dependency information in dbClassInfo (which is a map in the format
+     * generated by qxcompiler). Defer methods are of course only executed
+     * once but they are always put off until absolutely necessary to
+     * avoid potential side effects and recursive and/or difficult to
+     * resolve dependencies.
+     *
+     * @param dbClassInfo {Object}
+     *   qxcompiler map
+     */
+    executePendingDefers(dbClassInfo) {
+      let execute;
+      let executeForDbClassInfo;
+      let executeForClassName;
+      let getByName;
+
+      execute = function (clazz) {
+        let cb = clazz.$$pendingDefer;
+        if (cb) {
+          delete clazz.$$pendingDefer;
+          clazz.$$deferComplete = true;
           cb.call(clazz);
         }
-      },
+      };
 
-      /**
-       * Executes the defer methods for classes which are required by the
-       * dependency information in dbClassInfo (which is a map in the format
-       * generated by qxcompiler). Defer methods are of course only executed
-       * once but they are always put off until absolutely necessary to
-       * avoid potential side effects and recursive and/or difficult to
-       * resolve dependencies.
-       *
-       * @param dbClassInfo {Object}
-       *   qxcompiler map
-       */
-      executePendingDefers(dbClassInfo) {
-        let execute;
-        let executeForDbClassInfo;
-        let executeForClassName;
-        let getByName;
-
-        execute = function (clazz) {
-          let cb = clazz.$$pendingDefer;
-          if (cb) {
-            delete clazz.$$pendingDefer;
-            clazz.$$deferComplete = true;
-            cb.call(clazz);
-          }
-        };
-
-        executeForDbClassInfo = function (dbClassInfo) {
-          if (dbClassInfo.environment) {
-            let required = dbClassInfo.environment.required;
-            if (required) {
-              for (let key in required) {
-                let info = required[key];
-                if (info.load && info.className) {
-                  executeForClassName(info.className);
-                }
+      executeForDbClassInfo = function (dbClassInfo) {
+        if (dbClassInfo.environment) {
+          let required = dbClassInfo.environment.required;
+          if (required) {
+            for (let key in required) {
+              let info = required[key];
+              if (info.load && info.className) {
+                executeForClassName(info.className);
               }
             }
           }
+        }
 
-          for (let key in dbClassInfo.dependsOn) {
-            let depInfo = dbClassInfo.dependsOn[key];
-            if (depInfo.require || depInfo.usage === "dynamic") {
-              executeForClassName(key);
-            }
+        for (let key in dbClassInfo.dependsOn) {
+          let depInfo = dbClassInfo.dependsOn[key];
+          if (depInfo.require || depInfo.usage === "dynamic") {
+            executeForClassName(key);
           }
-        };
+        }
+      };
 
-        executeForClassName = function (className) {
-          let clazz = getByName(className);
-          if (!clazz) {
-            return;
-          }
-
-          if (clazz.$$deferComplete) {
-            return;
-          }
-          let dbClassInfo = clazz.$$dbClassInfo;
-          if (dbClassInfo) {
-            executeForDbClassInfo(dbClassInfo);
-          }
-          execute(clazz);
-        };
-
-        getByName = function (name) {
-          let clazz = qx.Bootstrap.getByName(name);
-          if (!clazz) {
-            let splits = name.split(".");
-            let part = splits[0];
-            let root = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
-            let tmp = root;
-
-            for (let i = 0, len = splits.length - 1; tmp && i < len; i++, part = splits[i]) {
-              tmp = tmp[part];
-            }
-            if (tmp != root) {
-              clazz = tmp;
-            }
-          }
-          return clazz;
-        };
-
-        if (!dbClassInfo) {
-          let pendingDefers = this.__pendingDefers;
-          this.__pendingDefers = [];
-          pendingDefers.forEach(execute);
+      executeForClassName = function (className) {
+        let clazz = getByName(className);
+        if (!clazz) {
           return;
         }
 
-        executeForDbClassInfo(dbClassInfo);
-      },
+        if (clazz.$$deferComplete) {
+          return;
+        }
+        let dbClassInfo = clazz.$$dbClassInfo;
+        if (dbClassInfo) {
+          executeForDbClassInfo(dbClassInfo);
+        }
+        execute(clazz);
+      };
 
-      /*
+      getByName = function (name) {
+        let clazz = qx.Bootstrap.getByName(name);
+        if (!clazz) {
+          let splits = name.split(".");
+          let part = splits[0];
+          let root = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
+          let tmp = root;
+
+          for (let i = 0, len = splits.length - 1; tmp && i < len; i++, part = splits[i]) {
+            tmp = tmp[part];
+          }
+          if (tmp != root) {
+            clazz = tmp;
+          }
+        }
+        return clazz;
+      };
+
+      if (!dbClassInfo) {
+        let pendingDefers = this.__pendingDefers;
+        this.__pendingDefers = [];
+        pendingDefers.forEach(execute);
+        return;
+      }
+
+      executeForDbClassInfo(dbClassInfo);
+    },
+
+    /*
        -----------------------------------------------------------------------
        OBJECT UTILITY FUNCTIONS
        -----------------------------------------------------------------------
        */
 
-      /**
-       * Get the number of own properties in the object.
-       *
-       * @param map {Object}
-       *   the map
-       *
-       * @return {Integer}
-       *   number of objects in the map
-       *
-       * @lint ignoreUnused(key)
-       */
-      objectGetLength(map) {
-        return qx.Bootstrap.keys(map).length;
+    /**
+     * Get the number of own properties in the object.
+     *
+     * @param map {Object}
+     *   the map
+     *
+     * @return {Integer}
+     *   number of objects in the map
+     *
+     * @lint ignoreUnused(key)
+     */
+    objectGetLength(map) {
+      return qx.Bootstrap.keys(map).length;
+    },
+
+    /**
+     * Inserts all keys of the source object into the target
+     * objects. Attention: The target map gets modified.
+     *
+     * @param target {Object}
+     *   target object
+     *
+     * @param source {Object}
+     *   object to be merged
+     *
+     * @param overwrite {Boolean ? true}
+     *   If enabled existing keys will be overwritten
+     *
+     * @return {Object}
+     *   Target with merged values from the source object
+     */
+    objectMergeWith(target, source, overwrite) {
+      if (overwrite === undefined) {
+        overwrite = true;
+      }
+
+      for (let key in source) {
+        if (overwrite || target[key] === undefined) {
+          target[key] = source[key];
+        }
+      }
+
+      return target;
+    },
+
+    /**
+     * IE does not return "shadowed" keys even if they are defined directly
+     * in the object.
+     *
+     * @internal
+     * @type {String[]}
+     */
+    _shadowedKeys: ["isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf", "propertyIsEnumerable", "constructor"],
+
+    /**
+     * Get the keys of a map as array as returned by a "for ... in"
+     * statement.
+     *
+     * @signature function(map)
+     *
+     * @internal
+     *
+     * @param map {Object}
+     *   the map
+     *
+     * @return {Array}
+     *   array of the keys of the map
+     */
+    keys: {
+      ES5: Object.keys,
+
+      BROKEN_IE(map) {
+        if (map === null || (typeof map !== "object" && typeof map !== "function")) {
+          throw new TypeError("Object.keys requires an object as argument.");
+        }
+
+        let arr = [];
+        let hasOwnProperty = Object.prototype.hasOwnProperty;
+        for (let key in map) {
+          if (hasOwnProperty.call(map, key)) {
+            arr.push(key);
+          }
+        }
+
+        // IE does not return "shadowed" keys even if they are
+        // defined directly in the object. This is incompatible
+        // with the ECMA standard!! This is why this checks are
+        // needed.
+        var shadowedKeys = qx.Bootstrap._shadowedKeys;
+        for (let i = 0, a = shadowedKeys, l = a.length; i < l; i++) {
+          if (hasOwnProperty.call(map, a[i])) {
+            arr.push(a[i]);
+          }
+        }
+
+        return arr;
       },
 
-      /**
-       * Inserts all keys of the source object into the target
-       * objects. Attention: The target map gets modified.
-       *
-       * @param target {Object}
-       *   target object
-       *
-       * @param source {Object}
-       *   object to be merged
-       *
-       * @param overwrite {Boolean ? true}
-       *   If enabled existing keys will be overwritten
-       *
-       * @return {Object}
-       *   Target with merged values from the source object
-       */
-      objectMergeWith(target, source, overwrite) {
-        if (overwrite === undefined) {
-          overwrite = true;
+      default(map) {
+        if (map === null || (typeof map !== "object" && typeof map !== "function")) {
+          throw new TypeError("Object.keys requires an object as argument.");
         }
 
-        for (let key in source) {
-          if (overwrite || target[key] === undefined) {
-            target[key] = source[key];
+        let arr = [];
+
+        let hasOwnProperty = Object.prototype.hasOwnProperty;
+        for (let key in map) {
+          if (hasOwnProperty.call(map, key)) {
+            arr.push(key);
           }
         }
 
-        return target;
-      },
-
-      /**
-       * IE does not return "shadowed" keys even if they are defined directly
-       * in the object.
-       *
-       * @internal
-       * @type {String[]}
-       */
-      _shadowedKeys: ["isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf", "propertyIsEnumerable", "constructor"],
-
-      /**
-       * Get the keys of a map as array as returned by a "for ... in"
-       * statement.
-       *
-       * @signature function(map)
-       *
-       * @internal
-       *
-       * @param map {Object}
-       *   the map
-       *
-       * @return {Array}
-       *   array of the keys of the map
-       */
-      keys: {
-        ES5: Object.keys,
-
-        BROKEN_IE(map) {
-          if (map === null || (typeof map !== "object" && typeof map !== "function")) {
-            throw new TypeError("Object.keys requires an object as argument.");
-          }
-
-          let arr = [];
-          let hasOwnProperty = Object.prototype.hasOwnProperty;
-          for (let key in map) {
-            if (hasOwnProperty.call(map, key)) {
-              arr.push(key);
+        return arr;
+      }
+    }[
+      typeof Object.keys === "function"
+        ? "ES5"
+        : (function () {
+            for (let key in { toString: 1 }) {
+              return key;
             }
-          }
+          })() !== "toString"
+        ? "BROKEN_IE"
+        : "default"
+    ],
 
-          // IE does not return "shadowed" keys even if they are
-          // defined directly in the object. This is incompatible
-          // with the ECMA standard!! This is why this checks are
-          // needed.
-          var shadowedKeys = qx.Bootstrap._shadowedKeys;
-          for (let i = 0, a = shadowedKeys, l = a.length; i < l; i++) {
-            if (hasOwnProperty.call(map, a[i])) {
-              arr.push(a[i]);
-            }
-          }
-
-          return arr;
-        },
-
-        default(map) {
-          if (map === null || (typeof map !== "object" && typeof map !== "function")) {
-            throw new TypeError("Object.keys requires an object as argument.");
-          }
-
-          let arr = [];
-
-          let hasOwnProperty = Object.prototype.hasOwnProperty;
-          for (let key in map) {
-            if (hasOwnProperty.call(map, key)) {
-              arr.push(key);
-            }
-          }
-
-          return arr;
-        }
-      }[
-        typeof Object.keys === "function"
-          ? "ES5"
-          : (function () {
-              for (let key in { toString: 1 }) {
-                return key;
-              }
-            })() !== "toString"
-          ? "BROKEN_IE"
-          : "default"
-      ],
-
-      /*
+    /*
     -----------------------------------------------------------------------
     LOGGING UTILITY FUNCTIONS
     -----------------------------------------------------------------------
     */
 
-      $$logs: [],
+    $$logs: [],
 
-      /**
-       * Sending a message at level "debug" to the logger.
-       *
-       * @param object {Object}
-       *   Contextual object (either instance or static class)
-       *
-       * @param message {var}
-       *   Any number of arguments supported. An argument may have any
-       *   JavaScript data type. All data is serialized immediately and does
-       *   not keep references to other objects.
-       */
-      debug(object, message) {
-        qx.Bootstrap.$$logs.push(["debug", arguments]);
-      },
-
-      /**
-       * Sending a message at level "info" to the logger.
-       *
-       * @param object {Object}
-       *   Contextual object (either instance or static class)
-       *
-       * @param message {var}
-       *   Any number of arguments supported. An argument may have any
-       *   JavaScript data type. All data is serialized immediately and does
-       *   not keep references to other objects.
-       */
-      info(object, message) {
-        qx.Bootstrap.$$logs.push(["info", arguments]);
-      },
-
-      /**
-       * Sending a message at level "warn" to the logger.
-       *
-       * @param object {Object}
-       *   Contextual object (either instance or static class)
-       *
-       * @param message {var}
-       *   Any number of arguments supported. An argument may have any
-       *   JavaScript data type. All data is serialized immediately and does
-       *   not keep references to other objects.
-       */
-      warn(object, message) {
-        qx.Bootstrap.$$logs.push(["warn", arguments]);
-      },
-
-      /**
-       * Sending a message at level "error" to the logger.
-       *
-       * @param object {Object}
-       *   Contextual object (either instance or static class)
-       *
-       * @param message {var}
-       *   Any number of arguments supported. An argument may have any
-       *   JavaScript data type. All data is serialized immediately and does
-       *   not keep references to other objects.
-       */
-      error(object, message) {
-        qx.Bootstrap.$$logs.push(["error", arguments]);
-      },
-
-      /**
-       * Prints the current stack trace at level "info"
-       *
-       * @param object {Object}
-       *   Contextual object (either instance or static class)
-       */
-      trace(object) {}
+    /**
+     * Sending a message at level "debug" to the logger.
+     *
+     * @param object {Object}
+     *   Contextual object (either instance or static class)
+     *
+     * @param message {var}
+     *   Any number of arguments supported. An argument may have any
+     *   JavaScript data type. All data is serialized immediately and does
+     *   not keep references to other objects.
+     */
+    debug(object, message) {
+      qx.Bootstrap.$$logs.push(["debug", arguments]);
     },
 
-    qx.Bootstrap
-  )
+    /**
+     * Sending a message at level "info" to the logger.
+     *
+     * @param object {Object}
+     *   Contextual object (either instance or static class)
+     *
+     * @param message {var}
+     *   Any number of arguments supported. An argument may have any
+     *   JavaScript data type. All data is serialized immediately and does
+     *   not keep references to other objects.
+     */
+    info(object, message) {
+      qx.Bootstrap.$$logs.push(["info", arguments]);
+    },
+
+    /**
+     * Sending a message at level "warn" to the logger.
+     *
+     * @param object {Object}
+     *   Contextual object (either instance or static class)
+     *
+     * @param message {var}
+     *   Any number of arguments supported. An argument may have any
+     *   JavaScript data type. All data is serialized immediately and does
+     *   not keep references to other objects.
+     */
+    warn(object, message) {
+      qx.Bootstrap.$$logs.push(["warn", arguments]);
+    },
+
+    /**
+     * Sending a message at level "error" to the logger.
+     *
+     * @param object {Object}
+     *   Contextual object (either instance or static class)
+     *
+     * @param message {var}
+     *   Any number of arguments supported. An argument may have any
+     *   JavaScript data type. All data is serialized immediately and does
+     *   not keep references to other objects.
+     */
+    error(object, message) {
+      qx.Bootstrap.$$logs.push(["error", arguments]);
+    },
+
+    /**
+     * Prints the current stack trace at level "info"
+     *
+     * @param object {Object}
+     *   Contextual object (either instance or static class)
+     */
+    trace(object) {},
+
+    $$undeclared: qx.Bootstrap.$$undeclared,
+    $$registry: qx.Bootstrap.$$registry,
+    _allowedStaticKeys: qx.Bootstrap._allowedStaticKeys,
+    _allowedNonStaticKeys: qx.Bootstrap._allowedNonStaticKeys,
+    define: qx.Bootstrap.define,
+    extendClass: qx.Bootstrap.extendClass,
+    _extend: qx.Bootstrap._extend,
+    undefine: qx.Bootstrap.undefine,
+    addMembers: qx.Bootstrap.addMembers,
+    genericToString: qx.Bootstrap.genericToString,
+    bind: qx.Bootstrap.bind,
+    getInstance: qx.Bootstrap.getInstance,
+    createNamespace: qx.Bootstrap.createNamespace,
+    setRoot: qx.Bootstrap.setRoot,
+    getDisplayName: qx.Bootstrap.getDisplayName,
+    setDisplayName: qx.Bootstrap.setDisplayName,
+    setDisplayNames: qx.Bootstrap.setDisplayNames,
+    base: qx.Bootstrap.base,
+    getClass: qx.Bootstrap.getClass,
+    getByName: qx.Bootstrap.getByName,
+    isString: qx.Bootstrap.isString,
+    isArray: qx.Bootstrap.isArray,
+    isObject: qx.Bootstrap.isObject,
+    isFunction: qx.Bootstrap.isFunction,
+    isFunctionOrAsyncFunction: qx.Bootstrap.isFunctionOrAsyncFunction,
+    isQxCoreObject: qx.Bootstrap.isQxCoreObject,
+    firstUp: qx.Bootstrap.firstUp,
+    firstLow: qx.Bootstrap.firstLow,
+    _classToTypeMap: qx.Bootstrap._classToTypeMap
+  }
 });

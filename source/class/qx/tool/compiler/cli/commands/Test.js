@@ -136,9 +136,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
             qx.tool.compiler.Console.info(`Test '${test.getName()}' passed.`);
           }
         } else if (test.getName()) {
-          qx.tool.compiler.Console.error(
-            `Test '${test.getName()}' failed with exit code ${exitCode}.`
-          );
+          qx.tool.compiler.Console.error(`Test '${test.getName()}' failed with exit code ${exitCode}.`);
         }
         // overwrite error code only in case of errors
         if (exitCode !== 0) {
@@ -161,12 +159,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
       this.argv["feedback"] = false;
       this.argv["show-startpage"] = false;
       // check for special test compiler config
-      if (
-        !this.argv.configFile &&
-        fs.existsSync(
-          path.join(process.cwd(), qx.tool.compiler.cli.commands.Test.CONFIG_FILENAME)
-        )
-      ) {
+      if (!this.argv.configFile && fs.existsSync(path.join(process.cwd(), qx.tool.compiler.cli.commands.Test.CONFIG_FILENAME))) {
         this.argv.configFile = qx.tool.compiler.cli.commands.Test.CONFIG_FILENAME;
       }
       this.addListener("changeExitCode", evt => {
@@ -180,8 +173,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         if (
           !this.hasListener("runTests") &&
           this.__tests.length === 0 &&
-          (!this.getCompilerApi() ||
-            typeof this.getCompilerApi().beforeTests != "function")
+          (!this.getCompilerApi() || typeof this.getCompilerApi().beforeTests != "function")
         ) {
           qx.tool.compiler.Console.error(
             `No tests are registered! You need to either register tests, or install a testrunner.
@@ -197,20 +189,19 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         if (this.argv.verbose) {
           console.log(this.argv);
         }
-        await this.fireDataEventAsync("runTests", this);
-        if (
-          this.getCompilerApi() &&
-          typeof this.getCompilerApi().beforeTests == "function"
-        ) {
+        if (this.getCompilerApi() && typeof this.getCompilerApi().beforeTests == "function") {
           await this.getCompilerApi().beforeTests(this);
         }
         for (let test of this.__tests) {
           qx.tool.compiler.Console.info(`Running ${test.getName()}`);
           await test.execute();
         }
+        await this.fireDataEventAsync("runTests", this);
       });
 
-      if (this.__needsServer()) {
+      // setNeedsServer so that it is usable in compile.js
+      this.setNeedsServer(this.__needsServer());
+      if (this.getNeedsServer()) {
         // start server
         await super.process();
       } else {
@@ -218,7 +209,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
         await qx.tool.compiler.cli.commands.Compile.prototype.process.call(this);
         // since the server is not started, manually fire the event necessary for firing the "runTests" event
         try {
-          await this.fireDataEventAsync("afterStart");
+          await this.fireEventAsync("afterStart");
         } catch (ex) {
           this._onAfterStartError(ex);
           return;
@@ -228,11 +219,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
     },
 
     __needsServer() {
-      return (
-        !this.argv.disableWebserver &&
-        (this.getNeedsServer() ||
-          this.__tests.some(test => test.getNeedsServer()))
-      );
+      return !this.argv.disableWebserver && (this.getNeedsServer() || this.__tests.some(test => test.getNeedsServer()));
     },
 
     /**
@@ -252,9 +239,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Test", {
      * The tests run in an "afterStart" listener, so `qx test` must end with an error
      */
     _onAfterStartError(ex) {
-      qx.tool.compiler.Console.error(
-        "Error while running tests: " + (ex.stack || ex)
-      );
+      qx.tool.compiler.Console.error("Error while running tests: " + (ex.stack || ex));
 
       process.exit(1);
     }

@@ -79,7 +79,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
         configFilename: compileJsonFilename
       }));
       compilerApi.addListener("changeCommand", this.__notifyLibraries, this);
-      
+
       // Boot the compiler API, load the compile.json and create configuration data
       await compilerApi.load();
       let config = compilerApi.getConfiguration();
@@ -94,20 +94,13 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
         let lockfile = qx.tool.config.Lockfile.config.fileName;
         try {
           var name = path.join(path.dirname(defaultConfigFilename), lockfile);
-          lockfileContent =
-            (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
+          lockfileContent = (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
         } catch (ex) {
           // Nothing
         }
         // check semver-type compatibility (i.e. compatible as long as major version stays the same)
-        let schemaVersion = semver.coerce(
-          qx.tool.config.Lockfile.getInstance().getVersion(),
-          true
-        ).raw;
-        let fileVersion =
-          lockfileContent && lockfileContent.version
-            ? semver.coerce(lockfileContent.version, true).raw
-            : "1.0.0";
+        let schemaVersion = semver.coerce(qx.tool.config.Lockfile.getInstance().getVersion(), true).raw;
+        let fileVersion = lockfileContent && lockfileContent.version ? semver.coerce(lockfileContent.version, true).raw : "1.0.0";
         if (semver.major(schemaVersion) > semver.major(fileVersion)) {
           if (argv.force) {
             let config = {
@@ -135,9 +128,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
                   await installer.installFromLocaPath(lib.path, lib.uri);
                 }
               } else if (argv.verbose) {
-                qx.tool.compiler.Console.info(
-                  `>>> ${lib.uri}@${lib.repo_tag} is already installed.`
-                );
+                qx.tool.compiler.Console.info(`>>> ${lib.uri}@${lib.repo_tag} is already installed.`);
               }
             }
             lockfileContent = await installer.getLockfileData();
@@ -171,9 +162,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
       let needLibraries = !argv.clean;
       // check if libraries are loaded
       if (config.libraries && needLibraries) {
-        let neededLibraries = config.libraries.filter(
-          libData => !fs.existsSync(libData + "/Manifest.json")
-        );
+        let neededLibraries = config.libraries.filter(libData => !fs.existsSync(libData + "/Manifest.json"));
 
         if (neededLibraries.length) {
           if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
@@ -182,9 +171,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
                 neededLibraries.join("\n     ")
             );
           }
-          qx.tool.compiler.Console.info(
-            "One or more libraries not found - trying to install them from library repository..."
-          );
+          qx.tool.compiler.Console.info("One or more libraries not found - trying to install them from library repository...");
 
           const installer = new qx.tool.compiler.cli.commands.package.Install();
 
@@ -234,18 +221,9 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
         let lineNumber = lines[0].split("evalmachine.<anonymous>:")[1];
         if (lineNumber !== undefined) {
           lines.shift();
-          throw new Error(
-            "Error while reading " +
-              aPath +
-              " at line " +
-              lineNumber +
-              "\n" +
-              lines.join("\n")
-          );
+          throw new Error("Error while reading " + aPath + " at line " + lineNumber + "\n" + lines.join("\n"));
         } else {
-          throw new Error(
-            "Error while reading " + aPath + "\n" + lines.join("\n")
-          );
+          throw new Error("Error while reading " + aPath + "\n" + lines.join("\n"));
         }
       }
     },
@@ -253,7 +231,7 @@ qx.Class.define("qx.tool.compiler.cli.ConfigLoader", {
     async __notifyLibraries() {
       let arr = this.getCompilerApi().getLibraryApis();
       for (const libraryApi of arr) {
-         await libraryApi.load();
+        await libraryApi.load();
       }
       this.getCompilerApi().afterLibrariesLoaded();
     },

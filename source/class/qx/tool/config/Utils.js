@@ -183,6 +183,14 @@ qx.Class.define("qx.tool.config.Utils", {
       };
 
       const getQxPathImpl = async () => {
+        let parentCompilerPath = process.env.QOOXDOO_PARENT_COMPILER_PATH;
+        if (parentCompilerPath) {
+          let res = await scanAncestors(path.parse(parentCompilerPath).dir);
+          if (res) {
+            return res;
+          }
+        }
+        
         // 1. Look for the parent directory of the currently running command (eg `qx`)
         let res = await scanAncestors(path.parse(require.main.filename).dir);
         if (res) {

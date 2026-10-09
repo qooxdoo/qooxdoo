@@ -21,9 +21,9 @@
  * *********************************************************************** */
 
 var path = require("path");
+var upath = require("upath");
 
 var fs = require("fs");
-var async = require("async");
 
 var log = qx.tool.utils.LogManager.createLog("library");
 
@@ -36,8 +36,6 @@ qx.Class.define("qx.tool.compiler.app.Library", {
 
   construct() {
     super();
-    this.__knownSymbols = {};
-    this.__sourceFileExtensions = {};
     this.__environmentChecks = {};
   },
 
@@ -120,11 +118,18 @@ qx.Class.define("qx.tool.compiler.app.Library", {
   },
 
   members: {
-    __knownSymbols: null,
-    __sourceFileExtensions: null,
     __promiseLoadManifest: null,
     __environmentChecks: null,
     __fontsData: null,
+
+    /**
+     *
+     * @param {string} classname
+     * @returns {boolean} Whether the classname belongs to this library
+     */
+    isClass(classname) {
+      return classname.startsWith(this.getNamespace() + ".");
+    },
 
     /**
      * Transform for rootDir; converts it to an absolute path
@@ -147,27 +152,20 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       if (this.__promiseLoadManifest) {
         return this.__promiseLoadManifest;
       }
-      return (this.__promiseLoadManifest =
-        this.__loadManifestImpl(loadFromDir));
+      return (this.__promiseLoadManifest = this.__loadManifestImpl(loadFromDir));
     },
 
     async __loadManifestImpl(loadFromDir) {
       var Console = qx.tool.compiler.Console.getInstance();
       let rootDir = loadFromDir;
 
-      rootDir = await qx.tool.utils.files.Utils.correctCase(
-        path.resolve(loadFromDir)
-      );
+      rootDir = await qx.tool.utils.files.Utils.correctCase(path.resolve(loadFromDir));
 
       this.setRootDir(rootDir);
-      let data = await qx.tool.utils.Json.loadJsonAsync(
-        rootDir + "/Manifest.json"
-      );
+      let data = await qx.tool.utils.Json.loadJsonAsync(rootDir + "/Manifest.json");
 
       if (!data) {
-        throw new Error(
-          Console.decode("qx.tool.compiler.library.emptyManifest", rootDir)
-        );
+        throw new Error(Console.decode("qx.tool.compiler.library.emptyManifest", rootDir));
       }
       this.setNamespace(data.provides.namespace);
       this.setVersion(data.info.version);
@@ -193,27 +191,13 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       const fixLibraryPath = async dir => {
         let d = path.resolve(rootDir, dir);
         if (!fs.existsSync(d)) {
-          this.warn(
-            Console.decode(
-              "qx.tool.compiler.library.cannotFindPath",
-              this.getNamespace(),
-              dir
-            )
-          );
+          this.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", this.getNamespace(), dir));
 
           return dir;
         }
         let correctedDir = await qx.tool.utils.files.Utils.correctCase(d);
-        if (
-          correctedDir.substring(0, rootDir.length + 1) !=
-          rootDir + path.sep
-        ) {
-          this.warn(
-            Console.decode(
-              "qx.tool.compiler.library.cannotCorrectCase",
-              rootDir
-            )
-          );
+        if (correctedDir.substring(0, rootDir.length + 1) != rootDir + path.sep) {
+          this.warn(Console.decode("qx.tool.compiler.library.cannotCorrectCase", rootDir));
 
           return dir;
         }
@@ -244,9 +228,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       if (data.provides.webfonts) {
         let fonts = [];
         if (data.provides.webfonts.length) {
-          qx.tool.compiler.Console.print(
-            "qx.tool.compiler.webfonts.deprecated"
-          );
+          qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.deprecated", rootDir);
         }
         data.provides.webfonts.forEach(wf => {
           var font = new qx.tool.compiler.app.WebFont(this).set(wf);
@@ -267,10 +249,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         this.setRequires(data.requires);
       }
       if (data.provides && data.provides.boot) {
-        qx.tool.compiler.Console.print(
-          "qx.tool.compiler.cli.compile.deprecatedProvidesBoot",
-          rootDir
-        );
+        qx.tool.compiler.Console.print("qx.tool.compiler.cli.compile.deprecatedProvidesBoot", rootDir);
       }
     },
 
@@ -284,108 +263,6 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     },
 
     /**
-     * Scans the filing system looking for classes; there are occasions (ie Qooxdoo's qxWeb module)
-     * where the class name does not comply with the namespace, this method is used to find those
-     * files and also to prepopulate the known symbols list
-     * @param cb {Function} (err, classes) returns an array of class names
-     */
-    scanForClasses(cb) {
-      var t = this;
-      var classes = [];
-      function scanDir(folder, packageName, cb) {
-        fs.readdir(folder, function (err, filenames) {
-          if (err) {
-            cb(err);
-            return;
-          }
-
-          async.each(
-            filenames,
-            function (filename, cb) {
-              if (filename[0] == ".") {
-                cb();
-                return;
-              }
-              fs.stat(path.join(folder, filename), function (err, stat) {
-                if (err || !stat) {
-                  cb(err);
-                  return;
-                }
-
-                if (stat.isDirectory()) {
-                  var tmp = packageName;
-                  if (tmp.length) {
-                    tmp += ".";
-                  }
-                  tmp += filename;
-                  scanDir(path.join(folder, filename), tmp, cb);
-                  return;
-                }
-
-                // Make sure it looks like a file
-                var match = filename.match(/(.*)(\.\w+)$/);
-                if (!match) {
-                  log.trace("Skipping file " + folder + "/" + filename);
-                  cb();
-                  return;
-                }
-
-                // Class name
-                var className = match[1];
-                var extension = match[2];
-                if (packageName.length) {
-                  className = packageName + "." + className;
-                }
-
-                if (className.match(/__init__/)) {
-                  cb();
-                  return;
-                }
-                if (extension == ".js" || extension == ".ts") {
-                  t.__knownSymbols[className] = "class";
-                  t.__sourceFileExtensions[className] = extension;
-                  classes.push(className);
-                } else {
-                  t.__knownSymbols[filename] = "resource";
-                }
-                if (Boolean(packageName) && !t.__knownSymbols[packageName]) {
-                  t.__knownSymbols[packageName] = "package";
-                  var pos;
-                  tmp = packageName;
-                  while ((pos = tmp.lastIndexOf(".")) > -1) {
-                    tmp = tmp.substring(0, pos);
-                    t.__knownSymbols[tmp] = "package";
-                  }
-                }
-
-                cb();
-              });
-            },
-            cb
-          );
-        });
-      }
-
-      let rootDir = path.join(t.getRootDir(), t.getSourcePath());
-      if (!fs.existsSync(rootDir)) {
-        let Console = qx.tool.compiler.Console.getInstance();
-        qx.tool.compiler.Console.warn(
-          Console.decode(
-            "qx.tool.compiler.library.cannotFindPath",
-            t.getNamespace(),
-            rootDir
-          )
-        );
-
-        cb(null, []);
-        return;
-      }
-      scanDir(rootDir, "", function (err) {
-        cb(err, classes);
-      });
-    },
-
-    /**
      * Detects whether the filename is one of the library's fonts
      *
      * @param {String} filename
@@ -395,16 +272,12 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       let isWebFont = false;
       if (filename.endsWith("svg")) {
         let fonts = this.getWebFonts() || [];
-        isWebFont = fonts.find(webFont =>
-          webFont.getResources().find(resource => resource == filename)
-        );
+        isWebFont = fonts.find(webFont => webFont.getResources().find(resource => resource == filename));
 
         if (!isWebFont) {
           for (let fontId in this.__fontsData) {
             let fontData = this.__fontsData[fontId];
-            isWebFont = (fontData.fontFaces || []).find(fontFace =>
-              (fontFace.paths || []).find(resource => resource == filename)
-            );
+            isWebFont = (fontData.fontFaces || []).find(fontFace => (fontFace.paths || []).find(resource => resource == filename));
 
             if (isWebFont) {
               break;
@@ -413,106 +286,6 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         }
       }
       return isWebFont;
-    },
-
-    /**
-     * Detects the type of a symbol, "class", "resource", "package", "environment", or null if not found
-     *
-     * @param {String} name
-     * @return {{symbolType,name,className}?}
-     */
-    getSymbolType(name) {
-      if (!name.length) {
-        return null;
-      }
-      var t = this;
-
-      var type = this.__knownSymbols[name];
-
-      if (type) {
-        return {
-          symbolType: t.__knownSymbols[name],
-          className: type == "class" ? name : null,
-          name: name
-        };
-      }
-
-      function testEnvironment(check) {
-        if (!check) {
-          return null;
-        }
-        let match = false;
-        if (check.startsWith) {
-          match = name.startsWith(check.matchString);
-        } else {
-          match = name == check.matchString;
-        }
-        if (match) {
-          return {
-            symbolType: "environment",
-            className: check.className,
-            name: name
-          };
-        }
-        return null;
-      }
-
-      let result = testEnvironment(this.__environmentChecks[name]);
-      if (result) {
-        return result;
-      }
-      for (let key in this.__environmentChecks) {
-        let check = this.__environmentChecks[key];
-        if (check.startsWith) {
-          result = testEnvironment(check);
-          if (result !== null) {
-            return result;
-          }
-        }
-      }
-
-      var tmp = name;
-      var pos;
-      while ((pos = tmp.lastIndexOf(".")) > -1) {
-        tmp = tmp.substring(0, pos);
-        type = this.__knownSymbols[tmp];
-        if (type) {
-          if (type == "class") {
-            return { symbolType: "member", className: tmp, name: name };
-          }
-          return null;
-        }
-      }
-
-      return null;
-    },
-
-    /**
-     * Checks whether the classname is an actual class, in this library
-     *
-     * @param classname {String} classname to look for
-     * @return {Boolean}
-     */
-    isClass(classname) {
-      var type = this.__knownSymbols[classname];
-      return type === "class";
-    },
-
-    /**
-     * Returns all known symbols as a map indexed by symbol name
-     */
-    getKnownSymbols() {
-      return this.__knownSymbols;
-    },
-
-    /**
-     * Returns the original extension of the class file that implemented the
-     * given class name.
-     *
-     * @param {String} className
-     */
-    getSourceFileExtension(className) {
-      return this.__sourceFileExtensions[className];
     },
 
     /**
@@ -543,6 +316,15 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      */
     getThemeFilename(filename) {
       return path.join(this.getRootDir(), this.getThemePath(), filename);
+    },
+
+    /**
+     * Returns the environment checks defined in the manifest
+     *
+     * @returns
+     */
+    getEnvironmentChecks() {
+      return this.__environmentChecks;
     }
   },
 
@@ -557,6 +339,49 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       let lib = new qx.tool.compiler.app.Library();
       await lib.loadManifest(rootDir);
       return lib;
+    },
+
+    /**
+     * Find the library for a given filename, and makes the best choice where there are
+     * multiple libraries (ie overlapping on disk), in which case it chooses the one with
+     * the longest root directory path.
+     *
+     * @param {String} filename
+     * @param {qx.tool.compiler.app.Library[]} libraries
+     * @returns {qx.tool.compiler.app.Library|null} the best matching library or null if none found
+     */
+    findBestLibraryForFilename(filename, libraries) {
+      // Callers use `upath`, so normalize both sides to forward slashes (otherwise nothing matches on Windows)
+      filename = upath.normalize(filename);
+      let best = null;
+      for (let library of libraries) {
+        let libRootDir = upath.resolve(library.getRootDir()) + "/";
+        if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.rootDir.length)) {
+          best = { library, rootDir: libRootDir };
+        }
+      }
+      return best ? best.library : null;
+    },
+
+    /**
+     * Finds the best matching library path for a given filename; this means finding
+     * the library path that contains the file and has the longest matching prefix.
+     *
+     * @param {String} filename
+     * @param {String[]} libraryPaths
+     * @returns {String}
+     */
+    findBestPath(filename, libraryPaths) {
+      // Callers use `upath`, so normalize both sides to forward slashes (otherwise nothing matches on Windows)
+      filename = upath.normalize(filename);
+      let best = null;
+      for (let libraryPath of libraryPaths) {
+        let libRootDir = upath.resolve(libraryPath) + "/";
+        if (filename.startsWith(libRootDir) && (!best || libRootDir.length > best.length)) {
+          best = libraryPath;
+        }
+      }
+      return best;
     }
   }
 });

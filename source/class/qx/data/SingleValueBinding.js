@@ -286,16 +286,16 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
       if (oldValue) {
         //Delete old source's bindings if there was one
-        delete SingleValueBinding.__bindingsBySource[oldValue.toHashCode()][this.toHashCode()];
-        if (qx.lang.Object.isEmpty(SingleValueBinding.__bindingsBySource[oldValue.toHashCode()])) {
-          delete SingleValueBinding.__bindingsBySource[oldValue.toHashCode()];
+        delete oldValue[SingleValueBinding.__SymbolBindingsInfo].source[this.toHashCode()];
+        if (!SingleValueBinding.getAllBindingsForObject(oldValue).length) {
+          delete oldValue[SingleValueBinding.__SymbolBindingsInfo];
         }
       }
 
       if (value) {
         //Store the binding
-        SingleValueBinding.__bindingsBySource[value.toHashCode()] ??= {};
-        SingleValueBinding.__bindingsBySource[value.toHashCode()][this.toHashCode()] = this;
+        value[SingleValueBinding.__SymbolBindingsInfo] ??= { source: {}, target: {} };
+        value[SingleValueBinding.__SymbolBindingsInfo].source[this.toHashCode()] = this;
 
         //Set the input on the first segment of the source path
         let out = this.__sourceSegments[0].setInput(value);
@@ -358,16 +358,15 @@ qx.Class.define("qx.data.SingleValueBinding", {
       const SingleValueBinding = qx.data.SingleValueBinding;
 
       if (oldValue) {
-        delete SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()][this.toHashCode()];
-        if (qx.lang.Object.isEmpty(SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()])) {
-          delete SingleValueBinding.__bindingsByTarget[oldValue.toHashCode()];
+        delete oldValue[SingleValueBinding.__SymbolBindingsInfo].target[this.toHashCode()];
+        if (!SingleValueBinding.getAllBindingsForObject(oldValue).length) {
+          delete oldValue[SingleValueBinding.__SymbolBindingsInfo];
         }
       }
 
       if (value) {
-        const SingleValueBinding = qx.data.SingleValueBinding;
-        SingleValueBinding.__bindingsByTarget[value.toHashCode()] ??= {};
-        SingleValueBinding.__bindingsByTarget[value.toHashCode()][this.toHashCode()] = this;
+        value[SingleValueBinding.__SymbolBindingsInfo] ??= { source: {}, target: {} };
+        value[SingleValueBinding.__SymbolBindingsInfo].target[this.toHashCode()] = this;
 
         let out = this.__targetSegments[0].setInput(value);
         this.__initPromise = Promise.resolve(out);
@@ -460,11 +459,17 @@ qx.Class.define("qx.data.SingleValueBinding", {
   },
 
   statics: {
-    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
-    __bindingsBySource: {},
-
-    /** @type {Object<String,Object<String,Binding>>} map of maps, outer map is indexed by object hash, inner is indexed by binding hash */
-    __bindingsByTarget: {},
+    /**
+     * This symbol is used to store information about bindings on the source/target objects,
+     * so that we don't need a global registry,
+     * which means objects can be garbage collected.
+     * 
+     * If an object is either a source or a target of a binding, its property with this symbol will have the following type:
+     * @typedef {Object} BindingsInfo
+     * @property {Object.<string, qx.data.SingleValueBinding>} source The bindings where the object is the source, indexed by the binding's hash code
+     * @property {Object.<string, qx.data.SingleValueBinding>} target The bindings where the object is the target, indexed by the binding's hash code
+     */
+    __SymbolBindingsInfo: Symbol("qx.data.SingleValueBinding.__SymbolBindingsInfo"),
 
     /**
      * @see {qx.data.SingleValueBinding#construct} for parameters
@@ -588,36 +593,13 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     getAllBindingsForObject(object) {
       const SingleValueBinding = qx.data.SingleValueBinding;
-      let allBindings = {
-        ...(SingleValueBinding.__bindingsBySource[object.toHashCode()] ?? {}),
-        ...(SingleValueBinding.__bindingsByTarget[object.toHashCode()] ?? {})
-      };
-      return Object.values(allBindings).map(binding => binding.asRecord());
-    },
-
-    /**
-     * Returns a map containing for every bound object an array of data binding
-     * information. The key of the map is the hash code of the bound objects.
-     * Every binding is represented by an array containing id, sourceObject,
-     * sourceEvent, targetObject and targetProperty.
-     *
-     * @return {Object<string, BindingInfo>} Map containing all bindings.
-     *
-     * @typedef {[qx.data.SingleValueBinding, qx.core.Object, string, qx.core.Object, string]} BindingInfo
-     * Stores the binding ID, source object, source path, target object and target path respectively.
-     */
-    getAllBindings() {
-      let bindings = qx.data.SingleValueBinding.__bindingsBySource;
-
-      let result = {};
-      for (let [objectHash, objectBindings] of Object.entries(bindings)) {
-        let objectBindingsArray = [];
-        for (let [bindingHash, binding] of Object.entries(objectBindings)) {
-          objectBindingsArray.push([binding, binding.getSource(), binding.getSourcePath(), binding.getTarget(), binding.getTargetPath()]);
-        }
-        result[objectHash] = objectBindingsArray;
+      let bindingsInfo  = object[SingleValueBinding.__SymbolBindingsInfo];
+      if (!bindingsInfo) {
+        return [];
       }
-      return result;
+      
+      let bindings = Object.values({...bindingsInfo.source, ...bindingsInfo.target});
+      return bindings.map(binding => binding.asRecord());
     },
 
     /**
@@ -635,23 +617,26 @@ qx.Class.define("qx.data.SingleValueBinding", {
     removeRelatedBindings(object, relatedObject) {
       const SingleValueBinding = qx.data.SingleValueBinding;
 
-      let bySourceObject = SingleValueBinding.__bindingsBySource[object.toHashCode()];
-
-      if (bySourceObject) {
-        Object.values(bySourceObject).forEach(binding => {
-          if (binding.getTarget() === relatedObject) {
-            binding.dispose();
-          }
-        });
+      if (!object[SingleValueBinding.__SymbolBindingsInfo]) {
+        return;
       }
 
-      let byRelatedObject = SingleValueBinding.__bindingsBySource[relatedObject.toHashCode()];
-      if (byRelatedObject) {
-        Object.values(byRelatedObject).forEach(binding => {
-          if (binding.getTarget() === object) {
-            binding.dispose();
-          }
-        });
+      for (let binding of Object.values(object[SingleValueBinding.__SymbolBindingsInfo].source)) {
+        if (binding.getTarget() === relatedObject) {
+          binding.dispose();
+        }
+      }
+
+      //by this point, we may have removed all bindings,
+      //so we need to check again if the bindings property is still present
+      if (!object[SingleValueBinding.__SymbolBindingsInfo]) {
+        return;
+      }
+      
+      for (let binding of Object.values(object[SingleValueBinding.__SymbolBindingsInfo].target)) {
+        if (binding.getSource() === relatedObject) {
+          binding.dispose();
+        }
       }
     },
 

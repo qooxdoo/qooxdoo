@@ -70,11 +70,14 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["class", "name"],
         "additionalProperties": false,
         "properties": {
           "class": {
             "description": "The class name of the main application class (it typically inherits from `qx.application.Standalone` for web applications)",
+            "type": "string"
+          },
+          "compilerClass": {
+            "description": "The class name of the compiler class to use for this application (it typically inherits from `qx.tool.compiler.Compiler`); this is only valid for applications of type `compiler`",
             "type": "string"
           },
           "theme": {
@@ -160,7 +163,7 @@
           },
           "type": {
             "description": "The type of application",
-            "pattern": "^(browser|node|rhino)$",
+            "pattern": "^(browser|node|rhino|compiler)$",
             "default": "browser"
           },
           "loaderTemplate": {
@@ -192,7 +195,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["type", "outputPath"],
+        "required": ["type"],
         "additionalProperties": false,
         "properties": {
           "type": {
@@ -208,7 +211,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^(browser|node|rhino)$"
+              "pattern": "^(browser|node|rhino|compiler)$"
             }
           },
           "application-names": {
@@ -224,10 +227,6 @@
           },
           "deployPath": {
             "description": "The folder where the deploy outputs to.",
-            "type": "string"
-          },
-          "proxySourcePath": {
-            "description": "The folder containing proxy classes (normally machine generated) to take precedence over those found in normal library sources",
             "type": "string"
           },
           "targetClass": {
@@ -324,6 +323,52 @@
           },
           "parts": {
             "$ref": "#/properties/parts"
+          }
+        }
+      }
+    },
+    "targetDefaults": {
+      "type": "object",
+      "description": "Defaults for each type of target (ie source vs build)",
+      "properties": {
+        "source": {
+          "description": "Defaults for source targets",
+          "properties": {
+            "environment": {
+              "$ref": "#/properties/environment"
+            },
+            "babel": {
+              "$ref": "#/properties/babel"
+            },
+            "fonts": {
+              "$ref": "#/properties/targets/items/properties/fonts"
+            },
+            "addCreatedAt": {
+              "type": "boolean"
+            },
+            "verboseCreatedAt": {
+              "type": "boolean"
+            }
+          }
+        },
+        "build": {
+          "description": "Defaults for build targets",
+          "properties": {
+            "environment": {
+              "$ref": "#/properties/environment"
+            },
+            "babel": {
+              "$ref": "#/properties/babel"
+            },
+            "fonts": {
+              "$ref": "#/properties/targets/items/properties/fonts"
+            },
+            "addCreatedAt": {
+              "type": "boolean"
+            },
+            "verboseCreatedAt": {
+              "type": "boolean"
+            }
           }
         }
       }
@@ -456,11 +501,6 @@
           }
         }
       }
-    },
-    "babelOptions": {
-      "type": "object",
-      "description": "** DEPRECATED - See babel.options instead",
-      "deprecated": true
     },
     "browserify": {
       "type": "object",

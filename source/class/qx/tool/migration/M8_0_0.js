@@ -69,10 +69,10 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       // This is informational only - always announce this breaking change
       this.announce(
         "*** IMPORTANT: qx.ui.table.Table Breaking Change ***\n" +
-        "Setting model data while the table is editing will now raise an error.\n" +
-        "Please review your code to ensure that table edits are completed or\n" +
-        "cancelled before refreshing table model data.\n" +
-        "See: https://github.com/qooxdoo/qooxdoo/blob/master/CHANGELOG.md#breaking-changes"
+          "Setting model data while the table is editing will now raise an error.\n" +
+          "Please review your code to ensure that table edits are completed or\n" +
+          "cancelled before refreshing table model data.\n" +
+          "See: https://github.com/qooxdoo/qooxdoo/blob/master/CHANGELOG.md#breaking-changes"
       );
       // Informational only — cannot be auto-detected, so no markAsPending
     },
@@ -85,10 +85,10 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       // Inform about deprecated APIs
       this.announce(
         "*** INFO: Deprecated APIs ***\n" +
-        "The following APIs are deprecated and may be removed in future versions:\n" +
-        "- qx.lang.normalize.Date (deprecated since v7.0) - Use native Date methods\n" +
-        "- qx.lang.String.startsWith/endsWith (deprecated since v6.0) - Use native String methods\n\n" +
-        "Please review your code for usage of these deprecated APIs."
+          "The following APIs are deprecated and may be removed in future versions:\n" +
+          "- qx.lang.normalize.Date (deprecated since v7.0) - Use native Date methods\n" +
+          "- qx.lang.String.startsWith/endsWith (deprecated since v6.0) - Use native String methods\n\n" +
+          "Please review your code for usage of these deprecated APIs."
       );
     },
 
@@ -101,9 +101,9 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       if (!(await fs.existsAsync(sourceDir))) {
         this.announce(
           "*** IMPORTANT: `async: true` Property Attribute Removed ***\n" +
-          "The `async: true` key in property definitions is no longer supported in v8.\n" +
-          "All properties now automatically support async access methods.\n\n" +
-          "Remove `async: true` from all property definitions."
+            "The `async: true` key in property definitions is no longer supported in v8.\n" +
+            "All properties now automatically support async access methods.\n\n" +
+            "Remove `async: true` from all property definitions."
         );
         this.markAsPending("Remove `async: true` from property definitions");
         return;
@@ -121,10 +121,14 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       let dryRun = this.getRunner().getDryRun();
 
       const message =
-        "*** " + (dryRun ? "DRY RUN: " : "") + "`async: true` Property Attribute ***\n" +
+        "*** " +
+        (dryRun ? "DRY RUN: " : "") +
+        "`async: true` Property Attribute ***\n" +
         "The `async: true` key in property definitions is no longer supported in v8.\n" +
         "All properties automatically support async access via setXxxAsync() etc.\n\n" +
-        "The following files " + (dryRun ? "contain" : "were fixed by removing") + " `async: true`:\n" +
+        "The following files " +
+        (dryRun ? "contain" : "were fixed by removing") +
+        " `async: true`:\n" +
         files.map(f => `  - ${f.relativePath}`).join("\n");
       this.announce(message);
 
@@ -152,21 +156,21 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         // No source directory, just give general warning
         this.announce(
           "*** IMPORTANT: Constructor Initialization Order ***\n" +
-          "Classes extending qx.core.Object MUST call super() or this.base(arguments)\n" +
-          "in their constructor BEFORE calling any property setters.\n\n" +
-          "Property values set before the parent constructor will be reset!\n\n" +
-          "Example - BROKEN (v7 style):\n" +
-          "  construct(width, height) {\n" +
-          "    this.setWidth(width);   // Will be lost!\n" +
-          "    this.setHeight(height);\n" +
-          "    this.base(arguments);\n" +
-          "  }\n\n" +
-          "Example - CORRECT (v8):\n" +
-          "  construct(width, height) {\n" +
-          "    this.base(arguments);   // Call parent first\n" +
-          "    this.setWidth(width);   // Now set properties\n" +
-          "    this.setHeight(height);\n" +
-          "  }"
+            "Classes extending qx.core.Object MUST call super() or this.base(arguments)\n" +
+            "in their constructor BEFORE calling any property setters.\n\n" +
+            "Property values set before the parent constructor will be reset!\n\n" +
+            "Example - BROKEN (v7 style):\n" +
+            "  construct(width, height) {\n" +
+            "    this.setWidth(width);   // Will be lost!\n" +
+            "    this.setHeight(height);\n" +
+            "    this.base(arguments);\n" +
+            "  }\n\n" +
+            "Example - CORRECT (v8):\n" +
+            "  construct(width, height) {\n" +
+            "    this.base(arguments);   // Call parent first\n" +
+            "    this.setWidth(width);   // Now set properties\n" +
+            "    this.setHeight(height);\n" +
+            "  }"
         );
         this.markAsPending("Review constructor initialization order");
         return;
@@ -181,7 +185,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       // Report findings
       if (issues.length > 0) {
-        let message = "*** IMPORTANT: Constructor Property Setter Order ***\n" +
+        let message =
+          "*** IMPORTANT: Constructor Property Setter Order ***\n" +
           "Property setters (this.setXxx()) must be called AFTER super() or this.base().\n" +
           "The following issues were found:\n\n";
 
@@ -197,7 +202,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           }
         }
 
-        message += "\nMove all super() or this.base(arguments) calls to the beginning of your\n" +
+        message +=
+          "\nMove all super() or this.base(arguments) calls to the beginning of your\n" +
           "constructors, before any property setters.\n\n" +
           "In v8, property values set before the parent constructor will be reset when\n" +
           "the parent constructor executes, causing unexpected behavior.";
@@ -207,13 +213,12 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       } else {
         this.announce(
           "*** INFO: Constructor Initialization Order Check ***\n" +
-          "No constructor property setter ordering issues detected in your codebase.\n\n" +
-          "Note: Classes extending qx.core.Object must call super() or this.base()\n" +
-          "before calling any property setters in their constructor."
+            "No constructor property setter ordering issues detected in your codebase.\n\n" +
+            "Note: Classes extending qx.core.Object must call super() or this.base()\n" +
+            "before calling any property setters in their constructor."
         );
       }
     },
-
 
     /**
      * Migrate compile.js from yargs to CLI classes
@@ -231,18 +236,18 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       if (content.includes("getYargsCommand") || content.includes("yargs")) {
         this.announce(
           "*** IMPORTANT: CLI System Breaking Change ***\n" +
-          "The CLI system has been migrated from yargs to custom CLI classes.\n" +
-          "If your compile.js extends commands, you need to update the syntax.\n\n" +
-          "Old syntax:\n" +
-          "  let yargs = qx.tool.cli.commands.Test.getYargsCommand;\n" +
-          "  qx.tool.cli.commands.Test.getYargsCommand = () => { ... };\n\n" +
-          "New syntax:\n" +
-          "  let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;\n" +
-          "  qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {\n" +
-          "    let cmd = await originalCreateCliCommand.call(this, clazz);\n" +
-          "    cmd.addFlag(new qx.tool.cli.Flag(...));\n" +
-          "  };\n\n" +
-          "See CHANGELOG.md for detailed migration guide."
+            "The CLI system has been migrated from yargs to custom CLI classes.\n" +
+            "If your compile.js extends commands, you need to update the syntax.\n\n" +
+            "Old syntax:\n" +
+            "  let yargs = qx.tool.cli.commands.Test.getYargsCommand;\n" +
+            "  qx.tool.cli.commands.Test.getYargsCommand = () => { ... };\n\n" +
+            "New syntax:\n" +
+            "  let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;\n" +
+            "  qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {\n" +
+            "    let cmd = await originalCreateCliCommand.call(this, clazz);\n" +
+            "    cmd.addFlag(new qx.tool.cli.Flag(...));\n" +
+            "  };\n\n" +
+            "See CHANGELOG.md for detailed migration guide."
         );
         this.markAsPending("Manual migration of compile.js yargs API required");
       }
@@ -295,8 +300,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       if (!(await fs.existsAsync(sourceDir))) {
         this.announce(
           "*** IMPORTANT: instance.name No Longer Available ***\n" +
-          "The predefined instance.name variable is no longer available.\n" +
-          "Please replace all uses of instance.name with instance.classname."
+            "The predefined instance.name variable is no longer available.\n" +
+            "Please replace all uses of instance.name with instance.classname."
         );
         return;
       }
@@ -311,7 +316,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       // Report findings
       if (usages.length > 0) {
-        let message = "*** IMPORTANT: Instance .name Field Usage Detected ***\n" +
+        let message =
+          "*** IMPORTANT: Instance .name Field Usage Detected ***\n" +
           "The automatic .name field on object instances is no longer available in v8.\n" +
           "The following usages were found:\n\n";
 
@@ -322,7 +328,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           }
         }
 
-        message += "\nPlease replace .name with .classname on all Qooxdoo object instances.\n" +
+        message +=
+          "\nPlease replace .name with .classname on all Qooxdoo object instances.\n" +
           "Examples:\n" +
           "  - this.name → this.classname\n" +
           "  - widget.name → widget.classname\n" +
@@ -336,9 +343,9 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       } else {
         this.announce(
           "*** INFO: Instance .name Field Check ***\n" +
-          "No uses of the .name field on instances detected in your codebase.\n\n" +
-          "Note: The automatic .name field is no longer available in v8.\n" +
-          "Use .classname instead to get the class name of an instance."
+            "No uses of the .name field on instances detected in your codebase.\n\n" +
+            "Note: The automatic .name field is no longer available in v8.\n" +
+            "Use .classname instead to get the class name of an instance."
         );
       }
     },
@@ -352,9 +359,9 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       if (!(await fs.existsAsync(sourceDir))) {
         this.announce(
           "*** INFO: Property/Member Namespace Change ***\n" +
-          "In v8, properties and members now share the same namespace.\n" +
-          "Refining a property in a subclass now adds it to the\n" +
-          "subclass prototype instead of modifying it in place."
+            "In v8, properties and members now share the same namespace.\n" +
+            "Refining a property in a subclass now adds it to the\n" +
+            "subclass prototype instead of modifying it in place."
         );
         return;
       }
@@ -366,7 +373,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       // Report findings
       if (conflicts.length > 0) {
-        let message = "*** IMPORTANT: Property/Member Conflicts Detected ***\n" +
+        let message =
+          "*** IMPORTANT: Property/Member Conflicts Detected ***\n" +
           "In v8, properties and members share the same namespace.\n" +
           "The following conflicts were found:\n\n";
 
@@ -386,7 +394,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           }
         }
 
-        message += "\nYou must rename either the property or the member/static to resolve conflicts.\n" +
+        message +=
+          "\nYou must rename either the property or the member/static to resolve conflicts.\n" +
           "Typical solution: Rename the member method (e.g., 'name' → 'getName' or '_name')";
 
         this.announce(message);
@@ -394,10 +403,10 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       } else {
         this.announce(
           "*** INFO: Property/Member Namespace Check ***\n" +
-          "No property/member conflicts detected in your codebase.\n\n" +
-          "Note: In v8, properties and members now share the same namespace.\n" +
-          "Refining a property in a subclass now adds it to the subclass\n" +
-          "prototype instead of modifying it in place."
+            "No property/member conflicts detected in your codebase.\n\n" +
+            "Note: In v8, properties and members now share the same namespace.\n" +
+            "Refining a property in a subclass now adds it to the subclass\n" +
+            "prototype instead of modifying it in place."
         );
       }
     },
@@ -408,13 +417,13 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
     async migrateNodeVersion() {
       this.announce(
         "*** IMPORTANT: Node.js Version Requirement ***\n" +
-        "qooxdoo v8 requires Node.js >= 20.0.0 for the compiler.\n" +
-        "This is due to the migration from ESLint 8 to ESLint 9.\n\n" +
-        "ESLint configuration in compile.json is automatically converted\n" +
-        "from the old format to the new Flat Config format.\n\n" +
-        "Plugin names must now be complete:\n" +
-        "  Old: '@qooxdoo/qx'\n" +
-        "  New: '@qooxdoo/eslint-plugin-qx' or full import"
+          "qooxdoo v8 requires Node.js >= 20.0.0 for the compiler.\n" +
+          "This is due to the migration from ESLint 8 to ESLint 9.\n\n" +
+          "ESLint configuration in compile.json is automatically converted\n" +
+          "from the old format to the new Flat Config format.\n\n" +
+          "Plugin names must now be complete:\n" +
+          "  Old: '@qooxdoo/qx'\n" +
+          "  New: '@qooxdoo/eslint-plugin-qx' or full import"
       );
       if (!semver.gte(process.versions.node, "20.0.0")) {
         this.markAsPending("Verify Node.js version >= 20.0.0");
@@ -427,11 +436,11 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
     async migrateLocaleAPI() {
       this.announce(
         "*** INFO: qx.locale Implementation Change ***\n" +
-        "qx.locale classes now use the native Internationalization API\n" +
-        "instead of the Common Locale Data Repository (CLDR) package.\n" +
-        "This significantly reduces package size but may cause minor\n" +
-        "differences in formatting for some locales.\n\n" +
-        "Please test your locale-specific functionality if you use it."
+          "qx.locale classes now use the native Internationalization API\n" +
+          "instead of the Common Locale Data Repository (CLDR) package.\n" +
+          "This significantly reduces package size but may cause minor\n" +
+          "differences in formatting for some locales.\n\n" +
+          "Please test your locale-specific functionality if you use it."
       );
     },
 
@@ -445,13 +454,13 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         // No source directory, just give general warning
         this.announce(
           "*** IMPORTANT: qx.ui.form.Form.add() Name Parameter ***\n" +
-          "In v8, the name parameter of qx.ui.form.Form.add() MUST\n" +
-          "start with a lowercase letter to avoid property binding errors.\n\n" +
-          "Example:\n" +
-          "  // Wrong:\n" +
-          "  form.add(widget, 'Label', null, 'MyField');\n\n" +
-          "  // Correct:\n" +
-          "  form.add(widget, 'Label', null, 'myField');"
+            "In v8, the name parameter of qx.ui.form.Form.add() MUST\n" +
+            "start with a lowercase letter to avoid property binding errors.\n\n" +
+            "Example:\n" +
+            "  // Wrong:\n" +
+            "  form.add(widget, 'Label', null, 'MyField');\n\n" +
+            "  // Correct:\n" +
+            "  form.add(widget, 'Label', null, 'myField');"
         );
         this.markAsPending("Review form.add() name parameters");
         return;
@@ -470,7 +479,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
             const stat = await fs.statAsync(fullPath);
             if (stat.isDirectory()) {
               jsFiles = jsFiles.concat(await findJsFiles(fullPath));
-            } else if (entry.endsWith('.js')) {
+            } else if (entry.endsWith(".js")) {
               jsFiles.push(fullPath);
             }
           }
@@ -488,10 +497,10 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       for (const file of jsFiles) {
         try {
-          const content = await fs.readFileAsync(file, 'utf8');
+          const content = await fs.readFileAsync(file, "utf8");
 
           // Check if file contains form.add() calls
-          if (content.includes('.add(')) {
+          if (content.includes(".add(")) {
             // Look for uppercase name parameters
             const matches = [...content.matchAll(uppercaseNamePattern)];
 
@@ -511,7 +520,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       // Report findings
       if (foundIssues.length > 0) {
-        let message = "*** IMPORTANT: Found Potential form.add() Issues ***\n" +
+        let message =
+          "*** IMPORTANT: Found Potential form.add() Issues ***\n" +
           "The following files contain .add() calls with uppercase names.\n" +
           "In v8, form.add() name parameters MUST start with lowercase!\n\n";
 
@@ -522,7 +532,8 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           }
         }
 
-        message += "\nExample fix:\n" +
+        message +=
+          "\nExample fix:\n" +
           "  // Wrong:\n" +
           "  form.add(widget, 'Label', null, 'MyField');\n\n" +
           "  // Correct:\n" +
@@ -534,9 +545,9 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         // No issues found, but still warn as we might have missed some
         this.announce(
           "*** INFO: qx.ui.form.Form.add() Name Parameter ***\n" +
-          "No obvious issues found, but please note:\n" +
-          "In v8, the name parameter of form.add() MUST start with\n" +
-          "a lowercase letter to avoid property binding errors."
+            "No obvious issues found, but please note:\n" +
+            "In v8, the name parameter of form.add() MUST start with\n" +
+            "a lowercase letter to avoid property binding errors."
         );
       }
     },
@@ -559,7 +570,6 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       }
     },
 
-
     /**
      * Unified method to scan source files for multiple issues in one pass
      * This scans each file only once and performs all AST-based checks
@@ -579,13 +589,13 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       for (const file of jsFiles) {
         try {
-          const content = await fs.readFileAsync(file, 'utf8');
+          const content = await fs.readFileAsync(file, "utf8");
 
           // Quick pre-filter: skip files that don't need analysis
           const needsQxDefineCheck = content.match(/qx\.(Class|Mixin)\.define/);
-          const needsNameCheck = content.includes('.name');
-          const needsConstructorCheck = content.includes('construct');
-          const needsAsyncCheck = needsQxDefineCheck && content.includes('async');
+          const needsNameCheck = content.includes(".name");
+          const needsConstructorCheck = content.includes("construct");
+          const needsAsyncCheck = needsQxDefineCheck && content.includes("async");
 
           if (!needsQxDefineCheck && !needsNameCheck) {
             continue;
@@ -660,9 +670,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         } catch (e) {
           // Log parse errors but continue with other files
           if (this.getRunner().getVerbose()) {
-            qx.tool.compiler.Console.warn(
-              `Could not parse ${path.relative(process.cwd(), file)}: ${e.message}`
-            );
+            qx.tool.compiler.Console.warn(`Could not parse ${path.relative(process.cwd(), file)}: ${e.message}`);
           }
         }
       }
@@ -682,7 +690,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           const stat = await fs.statAsync(fullPath);
           if (stat.isDirectory()) {
             jsFiles = jsFiles.concat(await this.__findJsFiles(fullPath));
-          } else if (entry.endsWith('.js')) {
+          } else if (entry.endsWith(".js")) {
             jsFiles.push(fullPath);
           }
         }
@@ -783,9 +791,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         return names;
       }
 
-      const propertiesNode = configObj.properties.find(
-        prop => this.__getKeyName(prop.key) === "properties"
-      );
+      const propertiesNode = configObj.properties.find(prop => this.__getKeyName(prop.key) === "properties");
 
       if (propertiesNode && propertiesNode.value && propertiesNode.value.type === "ObjectExpression") {
         propertiesNode.value.properties.forEach(prop => {
@@ -810,9 +816,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         return names;
       }
 
-      const membersNode = configObj.properties.find(
-        prop => this.__getKeyName(prop.key) === "members"
-      );
+      const membersNode = configObj.properties.find(prop => this.__getKeyName(prop.key) === "members");
 
       if (membersNode && membersNode.value && membersNode.value.type === "ObjectExpression") {
         membersNode.value.properties.forEach(prop => {
@@ -840,9 +844,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         return names;
       }
 
-      const staticsNode = configObj.properties.find(
-        prop => this.__getKeyName(prop.key) === "statics"
-      );
+      const staticsNode = configObj.properties.find(prop => this.__getKeyName(prop.key) === "statics");
 
       if (staticsNode && staticsNode.value && staticsNode.value.type === "ObjectExpression") {
         staticsNode.value.properties.forEach(prop => {
@@ -874,10 +876,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
           const node = path.node;
 
           // Check if it's accessing .name property (not computed like obj["name"])
-          if (node.property &&
-              !node.computed &&
-              (node.property.name === "name" || node.property.value === "name")) {
-
+          if (node.property && !node.computed && (node.property.name === "name" || node.property.value === "name")) {
             // Get the object being accessed
             const objectName = node.object.name || self.__collapseMemberExpression(node.object);
 
@@ -923,8 +922,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       }
 
       // 3. Skip known JavaScript built-in objects that have .name
-      const builtInObjects = ["window", "document", "console", "Function", "Error",
-                              "constructor", "arguments", "event"];
+      const builtInObjects = ["window", "document", "console", "Function", "Error", "constructor", "arguments", "event"];
       if (builtInObjects.includes(objectName)) {
         return false;
       }
@@ -951,8 +949,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
 
       // Find the construct method (it's a direct property of the config object, not in members)
       const constructMethod = configObj.properties.find(
-        prop => (prop.type === "ObjectMethod" || prop.type === "ObjectProperty") &&
-                this.__getKeyName(prop.key) === "construct"
+        prop => (prop.type === "ObjectMethod" || prop.type === "ObjectProperty") && this.__getKeyName(prop.key) === "construct"
       );
 
       if (!constructMethod) {
@@ -963,9 +960,11 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
       let body;
       if (constructMethod.type === "ObjectMethod") {
         body = constructMethod.body;
-      } else if (constructMethod.type === "ObjectProperty" &&
-                 constructMethod.value &&
-                 constructMethod.value.type === "FunctionExpression") {
+      } else if (
+        constructMethod.type === "ObjectProperty" &&
+        constructMethod.value &&
+        constructMethod.value.type === "FunctionExpression"
+      ) {
         body = constructMethod.value.body;
       }
 
@@ -993,9 +992,7 @@ qx.Class.define("qx.tool.migration.M8_0_0", {
         // Check for super() or this.base(arguments)
         if (callee.type === "Super") {
           superFound = true;
-        } else if (callee.type === "MemberExpression" &&
-                   callee.object &&
-                   callee.object.type === "ThisExpression") {
+        } else if (callee.type === "MemberExpression" && callee.object && callee.object.type === "ThisExpression") {
           const methodName = callee.property.name || callee.property.value;
 
           if (methodName === "base") {

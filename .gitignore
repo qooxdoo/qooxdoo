@@ -46,3 +46,5 @@ npm-debug.log
 compiled-zen
 compiled-master
 compiled-v8
+known-good/compile-with-known-good.sh
+

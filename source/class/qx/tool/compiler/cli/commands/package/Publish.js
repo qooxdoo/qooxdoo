@@ -87,7 +87,6 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         })
       );
 
-
       cmd.addFlag(
         new qx.tool.cli.Flag("create-index").set({
           shortCode: "i",
@@ -163,37 +162,25 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       try {
         status = await qx.tool.utils.Utils.exec("git status --porcelain");
       } catch (e) {
-        throw new qx.tool.utils.Utils.UserError(
-          "Cannot determine remote repository."
-        );
+        throw new qx.tool.utils.Utils.UserError("Cannot determine remote repository.");
       }
       this.debug(status);
       if (status.trim() !== "") {
-        throw new qx.tool.utils.Utils.UserError(
-          "Please commit or stash all remaining changes first."
-        );
+        throw new qx.tool.utils.Utils.UserError("Please commit or stash all remaining changes first.");
       }
-      status = await qx.tool.utils.Utils.exec(
-        "git status --porcelain --branch"
-      );
+      status = await qx.tool.utils.Utils.exec("git status --porcelain --branch");
 
       this.debug(status);
       if (status.includes("ahead")) {
-        throw new qx.tool.utils.Utils.UserError(
-          "Please push all local commits to GitHub first."
-        );
+        throw new qx.tool.utils.Utils.UserError("Please push all local commits to GitHub first.");
       }
 
       // get current branch
       let currentBranch;
       try {
-        currentBranch = (
-          await qx.tool.utils.Utils.exec("git branch --show-current")
-        ).trim();
+        currentBranch = (await qx.tool.utils.Utils.exec("git branch --show-current")).trim();
       } catch (e) {
-        throw new qx.tool.utils.Utils.UserError(
-          "Cannot determine current branch."
-        );
+        throw new qx.tool.utils.Utils.UserError("Cannot determine current branch.");
       }
 
       // token
@@ -211,9 +198,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         ]);
 
         if (!response.token) {
-          qx.tool.compiler.Console.error(
-            "You have not provided a GitHub token."
-          );
+          qx.tool.compiler.Console.error("You have not provided a GitHub token.");
 
           return;
         }
@@ -222,9 +207,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       }
       let token = github.token;
       if (!token) {
-        throw new qx.tool.utils.Utils.UserError(
-          `GitHub access token required.`
-        );
+        throw new qx.tool.utils.Utils.UserError(`GitHub access token required.`);
       }
       const octokit = new Octokit({
         auth: token
@@ -246,9 +229,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         await registryModel.load();
         libraries = registryModel.getValue("libraries");
         for (let library of libraries) {
-          let manifestModel = await new qx.tool.config.Abstract(
-            qx.tool.config.Manifest.config
-          )
+          let manifestModel = await new qx.tool.config.Abstract(qx.tool.config.Manifest.config)
             .set({ baseDir: path.join(cwd, library.path) })
             .load();
           manifestModels.push(manifestModel);
@@ -263,10 +244,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         mainManifestModel = await qx.tool.config.Manifest.getInstance().load();
         manifestModels.push(mainManifestModel);
         // prevent accidental publication of demo manifest.
-        if (
-          !argv.force &&
-          mainManifestModel.getValue("provides.namespace").includes(".demo")
-        ) {
+        if (!argv.force && mainManifestModel.getValue("provides.namespace").includes(".demo")) {
           throw new qx.tool.utils.Utils.UserError(
             "This seems to be the library demo. Please go into the library root directory to publish the library."
           );
@@ -281,17 +259,13 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         // use user-supplied value
         new_version = semver.coerce(argv.useVersion);
         if (!new_version) {
-          throw new qx.tool.utils.Utils.UserError(
-            `${argv.useVersion} is not a valid version number.`
-          );
+          throw new qx.tool.utils.Utils.UserError(`${argv.useVersion} is not a valid version number.`);
         }
         new_version = new_version.toString();
       } else {
         // use version number from manifest and increment it
         if (!semver.valid(old_version)) {
-          throw new qx.tool.utils.Utils.UserError(
-            "Invalid version number in Manifest. Must be a valid semver version (x.y.z)."
-          );
+          throw new qx.tool.utils.Utils.UserError("Invalid version number in Manifest. Must be a valid semver version (x.y.z).");
         }
         if (!argv.type) {
           argv.type = semver.prerelease(old_version) ? "prerelease" : "patch";
@@ -309,17 +283,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       let tag = `v${new_version}`;
       let url;
       try {
-        url = (
-          await qx.tool.utils.Utils.exec("git config --get remote.origin.url")
-        ).trim();
+        url = (await qx.tool.utils.Utils.exec("git config --get remote.origin.url")).trim();
       } catch (e) {
-        throw new qx.tool.utils.Utils.UserError(
-          "Cannot determine remote repository."
-        );
+        throw new qx.tool.utils.Utils.UserError("Cannot determine remote repository.");
       }
-      let repo_name = url
-        .replace(/(https:\/\/github.com\/|git@github.com:)/, "")
-        .replace(/\.git/, "");
+      let repo_name = url.replace(/(https:\/\/github.com\/|git@github.com:)/, "").replace(/\.git/, "");
       let [owner, repo] = repo_name.split(/\//);
       if (argv.verbose) {
         this.debug(`>>> Repository:  ${repo_name}`);
@@ -330,9 +298,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         repoExists = true;
       } catch (e) {}
       if (repoExists) {
-        throw new qx.tool.utils.Utils.UserError(
-          `A release with tag '${tag} already exists.'`
-        );
+        throw new qx.tool.utils.Utils.UserError(`A release with tag '${tag} already exists.'`);
       }
 
       // get topics, this will also check credentials
@@ -357,11 +323,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
           semver_range = "^" + qxVersion;
         } else {
           // get current semver range -> backward-compatible
-          semver_range = mainManifestModel.getValue(
-            "requires.@qooxdoo/framework"
-          );
+          semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
 
-          if (!semver.satisfies(qxVersion, semver_range, { loose: true })) {
+          if (!qx.tool.utils.Utils.versionSatisfies(qxVersion, semver_range, { loose: true })) {
             // make it compatible with current version
             semver_range = `^${qxVersion} || ${semver_range}`;
           }
@@ -369,11 +333,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       }
 
       // prompt user to confirm branch if not master/main
-      if (
-        !argv.noninteractive &&
-        currentBranch !== "master" &&
-        currentBranch !== "main"
-      ) {
+      if (!argv.noninteractive && currentBranch !== "master" && currentBranch !== "main") {
         let branchQuestion = {
           type: "confirm",
           name: "useBranch",
@@ -408,18 +368,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
 
       // update Manifest(s)
       for (let manifestModel of manifestModels) {
-        manifestModel
-          .setValue("requires.@qooxdoo/framework", semver_range)
-          .setValue("info.version", new_version);
+        manifestModel.setValue("requires.@qooxdoo/framework", semver_range).setValue("info.version", new_version);
         if (argv.dryRun) {
           if (!argv.quiet) {
-            qx.tool.compiler.Console.info(
-              `Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`
-            );
+            qx.tool.compiler.Console.info(`Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`);
 
-            qx.tool.compiler.Console.info(
-              JSON.stringify(manifestModel.getData(), null, 2)
-            );
+            qx.tool.compiler.Console.info(JSON.stringify(manifestModel.getData(), null, 2));
           }
         } else {
           manifestModel.save();
@@ -432,9 +386,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         let data = await qx.tool.utils.Json.loadJsonAsync(package_json_path);
         data.version = new_version;
         if (this.argv.dryRun) {
-          qx.tool.compiler.Console.info(
-            "Dry run: Not changing package.json version..."
-          );
+          qx.tool.compiler.Console.info("Dry run: Not changing package.json version...");
         } else {
           await qx.tool.utils.Json.saveJsonAsync(package_json_path, data);
           if (!this.argv.quiet) {
@@ -449,9 +401,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       });
 
       if (argv.dryRun) {
-        qx.tool.compiler.Console.info(
-          `Dry run: not creating tag and release '${tag}' of ${repo_name}...`
-        );
+        qx.tool.compiler.Console.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
 
         return;
       }
@@ -475,9 +425,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
       }
 
       if (!argv.quiet) {
-        qx.tool.compiler.Console.info(
-          `Creating tag and release '${tag}' of ${repo_name}...`
-        );
+        qx.tool.compiler.Console.info(`Creating tag and release '${tag}' of ${repo_name}...`);
       }
 
       // commit and push
@@ -526,28 +474,20 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         qx.tool.compiler.Console.info("Creating index file...");
       }
 
-      const files = await glob(
-        qx.tool.config.Manifest.config.fileName,
-        { matchBase: true }
-      );
+      let manifestFilenames = await glob(qx.tool.config.Manifest.config.fileName, { matchBase: true });
 
-      if (!files || !files.length) {
-        throw new qx.tool.utils.Utils.UserError(
-          "No Manifest.json files could be found"
-        );
+      if (!manifestFilenames || !manifestFilenames.length) {
+        throw new qx.tool.utils.Utils.UserError("No Manifest.json files could be found");
       }
 
       let mainpath;
-      if (files.length > 1) {
-        let choices = files.map(p => {
-          let m = qx.tool.utils.Json.parseJson(
-            fs.readFileSync(path.join(process.cwd(), p), "utf-8")
-          );
+      if (manifestFilenames.length > 1) {
+        let choices = manifestFilenames.map(manifestFilename => {
+          let manifestJson = qx.tool.utils.Json.parseJson(fs.readFileSync(path.join(process.cwd(), manifestFilename), "utf-8"));
 
           return {
-            name:
-              m.info.name + (m.info.summary ? ": " + m.info.summary : ""),
-            value: p
+            name: manifestJson.info.name + (manifestJson.info.summary ? ": " + manifestJson.info.summary : ""),
+            value: manifestFilename
           };
         });
         let answer = await inquirer.prompt({
@@ -560,8 +500,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         mainpath = answer.mainpath;
       }
       let data = {
-        libraries: files.map(p =>
-          files.length > 1 && p === mainpath
+        libraries: manifestFilenames.map(p =>
+          manifestFilenames.length > 1 && p === mainpath
             ? {
                 path: path.dirname(p),
                 main: true
@@ -582,9 +522,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.Publish", {
         await registryModel.load(data);
         await registryModel.save();
         if (!argv.quiet) {
-          qx.tool.compiler.Console.info(
-            `Created index file ${registryModel.getRelativeDataPath()}'.`
-          );
+          qx.tool.compiler.Console.info(`Created index file ${registryModel.getRelativeDataPath()}'.`);
         }
       }
     }

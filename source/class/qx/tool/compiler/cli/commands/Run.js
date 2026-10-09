@@ -129,7 +129,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Run", {
       });
 
       this.addListener("writtenApplication", evt => {
-        if (app === evt.getData()) {
+        if (app.name === evt.getData()) {
           restartNeeded = true;
         }
       });

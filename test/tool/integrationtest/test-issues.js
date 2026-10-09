@@ -4,11 +4,11 @@ const fs = require("fs");
 const kill = require("tree-kill");
 const child_process = require("child_process");
 const testUtils = require("../../../bin/tools/utils");
-const fsPromises = testUtils.fsPromises;
+const fsPromises = require("fs").promises;
 process.chdir(__dirname);
 
 
-test("Issue553", async () => {
+test("Multi-app compile generates per-app boot (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553");
@@ -20,7 +20,7 @@ test("Issue553", async () => {
   }
 });
 
-test("Issue553 single app", async () => {
+test("--app-name compiles only the selected app (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553", "--app-name=issue553two");
@@ -37,11 +37,12 @@ test("runCompiler collects machine-readable messages", async () => {
   let ids = result.messages.map(msg => msg.id);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeBegins"), "Missing makeBegins: " + result.output);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeEnds"), "Missing makeEnds: " + result.output);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.allDone"), "Missing allDone: " + result.output);
   let writing = result.messages.find(msg => msg.id == "qx.tool.compiler.cli.compile.writingApplication");
   assert.deepEqual(writing && writing.args, ["issue553two"], "Wrong writingApplication: " + result.output);
 });
 
-test("Issue553 Node", async () => {
+test("Node apps output index.js not index.html (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553_node/compiled");
     await testUtils.runCompiler("test-issues/issue553_node");
@@ -81,7 +82,7 @@ test("Dynamic parameter", async () => {
   }
 });
 
-test("Issue440", async () => {
+test("Compile errors and --warn-as-error set the exit code (#440)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue440/compiled");
     let code = await fsPromises.readFile("test-issues/issue440/source/class/issue440/Application.js", "utf8");
@@ -97,7 +98,7 @@ test("Issue440", async () => {
     result = await testUtils.runCompiler("test-issues/issue440");
     assert.ok(result.exitCode === 1);
 
-    code[errorLine] = "new abc.ClassNoDef(); //This is an error";
+    code[errorLine] = "new abc.ClassNoDef(); //This is an error";    
     await fsPromises.writeFile("test-issues/issue440/source/class/issue440/Application.js", code.join("\n"), "utf8");
     result = await testUtils.runCompiler("test-issues/issue440", "--warnAsError");
     assert.ok(result.exitCode === 1);
@@ -138,7 +139,7 @@ test("testLegalSCSS", async () => {
   }
 });
 
-test("Issue715", async () => {
+test("Private members are mangled in build output (#715)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue715/compiled");
     await testUtils.runCompiler("test-issues/issue715", "--target=build", "--minify=off");
@@ -154,7 +155,7 @@ test("Issue715", async () => {
   }
 });
 
-test("Issue10407 - Compiler should warn about nonexistent classes", async () => {
+test("Warns about nonexistent classes (#10407)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -185,7 +186,7 @@ test("Issue10407 - Compiler should warn about nonexistent classes", async () => 
   }
 });
 
-test("Issue10407 - Compiler should fail with --warnAsError", async () => {
+test("--warn-as-error fails on unresolved classes (#10407)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -198,7 +199,7 @@ test("Issue10407 - Compiler should fail with --warnAsError", async () => {
   }
 });
 
-test("Issue10407 - Watch mode should detect new unresolved classes in new files", async () => {
+test("Watch detects unresolved classes in new files (#10407)", async () => {
   const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
 
   try {
@@ -226,7 +227,7 @@ test("Issue10407 - Watch mode should detect new unresolved classes in new files"
       if (data.includes("Start watching")) {
         watchStarted = true;
       }
-      if (fileModified && data.includes("Applications are made")) {
+      if (fileModified && data.includes("All applications ready.")) {
         recompiled = true;
       }
     });
@@ -342,7 +343,7 @@ qx.Class.define("issue10407watch.WatchTestClass", {
   }
 });
 
-test("Issue10407 - Watch mode should detect unresolved classes in modified files", async () => {
+test("Watch detects unresolved classes in modified files (#10407)", async () => {
   const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
   let originalContent = "";
 
@@ -374,7 +375,7 @@ test("Issue10407 - Watch mode should detect unresolved classes in modified files
       if (data.includes("Start watching")) {
         watchStarted = true;
       }
-      if (fileModified && data.includes("Applications are made")) {
+      if (fileModified && data.includes("All applications ready.")) {
         recompiled = true;
       }
     });
@@ -485,6 +486,21 @@ test("afterProcessFinished callback", async () => {
   }
 });
 
+test("Object.values is not polyfilled for modern node targets (#692)", async () => {
+  try {
+    await testUtils.deleteRecursive("test-issues/issue692/compiled");
+    let result = await testUtils.runCompiler("test-issues/issue692");
+    assert.ok(result.exitCode === 0, "Compilation should succeed");
+
+    // Run the compiled node application: its main() asserts that Object.values is the
+    // native implementation (not a `for (var ...)` polyfill) and prints "OK" on success.
+    let run = await testUtils.runCommand("test-issues/issue692", "node", "compiled/source/issue692/index.js");
+    assert.ok(run.exitCode === 0, "The compiled node app should run without an assertion error");
+    assert.ok(run.output.match(/OK/), "The compiled node app should print OK (Object.values must not be polyfilled)");
+  } catch(ex) {
+    throw ex;
+  }
+});
 
 /**
  * Runs `qx test` in the testListenerError fixture and checks that it fails and

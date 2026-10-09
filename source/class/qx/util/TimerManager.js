@@ -82,7 +82,17 @@ qx.Class.define("qx.util.TimerManager", {
     __timerData: {},
 
     /** Next timer id value is determined by incrementing this */
-    __timerId: 0
+    __timerId: 0,
+
+    /**
+     * Sleeps for a duration, returning a promise that resolves when the sleep is done
+     *
+     * @param {Integer} duration time in ms to sleep for
+     * @returns
+     */
+    async sleep(duration) {
+      return new Promise(resolve => setTimeout(resolve, duration));
+    }
   },
 
   members: {

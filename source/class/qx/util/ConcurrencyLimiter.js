@@ -21,6 +21,13 @@ qx.Class.define("qx.util.ConcurrencyLimiter", {
     this.__running = 0;
   },
 
+  events: {
+    /**
+     * Fired when the queue becomes empty.
+     */
+    empty: "qx.event.type.Event"
+  },
+
   members: {
     /**
      * @type {TaskEntry<*>[]}
@@ -71,6 +78,9 @@ qx.Class.define("qx.util.ConcurrencyLimiter", {
         .then(resolve, reject)
         .finally(() => {
           this.__running--;
+          if (this.__queue.length === 0 && this.__running === 0) {
+            this.fireEvent("empty");
+          }
           this.__checkQueue();
         });
     }

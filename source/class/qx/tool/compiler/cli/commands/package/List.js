@@ -37,7 +37,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       let cmd = await qx.tool.compiler.cli.Command.createCliCommand(clazz);
       cmd.set({
         name: "list",
-        description: 'if no repository name is given, lists all available packages that are compatible with the project\'s qooxdoo version ("--all" lists incompatible ones as well). Otherwise, list all compatible packages.'
+        description:
+          'if no repository name is given, lists all available packages that are compatible with the project\'s qooxdoo version ("--all" lists incompatible ones as well). Otherwise, list all compatible packages.'
       });
 
       cmd.addArgument(
@@ -130,7 +131,8 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       cmd.addFlag(
         new qx.tool.cli.Flag("uris-only").set({
           shortCode: "u",
-          description: "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries.",
+          description:
+            "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries.",
           type: "boolean",
           value: false
         })
@@ -172,19 +174,17 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       try {
         qxVersion = await this.getAppQxVersion();
       } catch (ex) {
-        throw new qx.tool.utils.Utils.UserError("Cannot determine a qooxdoo version to show packages only for this version, because you are not in a project directory.");
+        throw new qx.tool.utils.Utils.UserError(
+          "Cannot determine a qooxdoo version to show packages only for this version, because you are not in a project directory."
+        );
       }
       let num_compat_repos = await this.__createIndexes(qxVersion);
       if (this.argv.verbose) {
-        this.debug(
-          `>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qxVersion}`
-        );
+        this.debug(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qxVersion}`);
       }
 
       if (num_compat_repos === 0 && !this.argv.all && !this.argv.quiet) {
-        qx.tool.compiler.Console.info(
-          `Currently, no packages compatible with qooxdoo version ${qxVersion} exist.`
-        );
+        qx.tool.compiler.Console.info(`Currently, no packages compatible with qooxdoo version ${qxVersion} exist.`);
 
         return;
       }
@@ -193,9 +193,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       let repo = this.argv.repository;
       if (repo) {
         if (!repos_cache.list.includes(repo)) {
-          throw new qx.tool.utils.Utils.UserError(
-            `Repository ${repo} does not exist or is not a qooxdoo package repo.`
-          );
+          throw new qx.tool.utils.Utils.UserError(`Repository ${repo} does not exist or is not a qooxdoo package repo.`);
         }
         if (this.__libraries[repo] && this.__libraries[repo].length) {
           let columnify_options = {
@@ -243,15 +241,10 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
                 if (index) {
                   let previousRow = data[index - 1];
                   for (let key of Object.getOwnPropertyNames(row).reverse()) {
-                    if (
-                      ["compatibility", "required_qx_version"].indexOf(key) > -1
-                    ) {
+                    if (["compatibility", "required_qx_version"].indexOf(key) > -1) {
                       continue;
                     }
-                    if (
-                      row[key] === previousRow[key] &&
-                      row.name === previousRow.name
-                    ) {
+                    if (row[key] === previousRow[key] && row.name === previousRow.name) {
                       row[key] = "";
                     }
                   }
@@ -263,15 +256,11 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
               // as JSON
               qx.tool.compiler.Console.info(JSON.stringify(data, null, 2));
             } else {
-              qx.tool.compiler.Console.info(
-                columnify(pretty, columnify_options)
-              );
+              qx.tool.compiler.Console.info(columnify(pretty, columnify_options));
             }
           }
         } else if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(
-            `Repository ${repo} does not contain suitable qooxdoo libraries.`
-          );
+          qx.tool.compiler.Console.info(`Repository ${repo} does not contain suitable qooxdoo libraries.`);
         }
         return;
       }
@@ -284,21 +273,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         this.argv.noheaders = true;
         this.argv.libraries = true;
       } else if (this.argv.short) {
-        columns = [
-          "uri",
-          "installedVersion",
-          "latestVersion",
-          "latestCompatible"
-        ];
+        columns = ["uri", "installedVersion", "latestVersion", "latestCompatible"];
       } else {
-        columns = [
-          "uri",
-          "name",
-          "description",
-          "installedVersion",
-          "latestVersion",
-          "latestCompatible"
-        ];
+        columns = ["uri", "name", "description", "installedVersion", "latestVersion", "latestCompatible"];
       }
       if (this.argv.namespace || this.argv.installed) {
         columns.splice(1, 0, "namespace");
@@ -330,11 +307,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       // filter by compatibility unless --all
       let list = this.argv.all
         ? this.__repositories
-        : this.__repositories.filter(
-            item =>
-              item.latestCompatible ||
-              (this.argv.installed && item.name === localPathRepoName)
-          );
+        : this.__repositories.filter(item => item.latestCompatible || (this.argv.installed && item.name === localPathRepoName));
 
       // sort
       list.sort((l, r) => {
@@ -352,20 +325,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         for (let library of this.__libraries[repo.name]) {
           if (!semver.valid(library.version)) {
             if (this.argv.verbose) {
-              qx.tool.compiler.Console.warn(
-                `>>> Ignoring '${repo.name}' ${library.name}': invalid version format '${library.version}'.`
-              );
+              qx.tool.compiler.Console.warn(`>>> Ignoring '${repo.name}' ${library.name}': invalid version format '${library.version}'.`);
             }
             continue;
           }
-          if (
-            repo.name === localPathRepoName ||
-            semver.eq(library.version, repo.latestVersion)
-          ) {
-            let uri =
-              repo.name === this.self(arguments).localPathRepoName
-                ? library.path
-                : path.join(repo.name, library.path || "");
+          if (repo.name === localPathRepoName || semver.eq(library.version, repo.latestVersion)) {
+            let uri = repo.name === this.self(arguments).localPathRepoName ? library.path : path.join(repo.name, library.path || "");
             repo_libs.push({
               type: "library",
               uri,
@@ -381,14 +346,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         }
 
         // add title to multiple-library repos
-        if (
-          repo_libs.length > 1 &&
-          !(
-            this.argv.libraries ||
-            this.argv.short ||
-            repo.name === localPathRepoName
-          )
-        ) {
+        if (repo_libs.length > 1 && !(this.argv.libraries || this.argv.short || repo.name === localPathRepoName)) {
           expanded_list.push({
             type: "repository",
             uri: repo.name,
@@ -399,12 +357,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
             latestCompatible: repo.latestCompatible
           });
 
-          if (
-            !this.argv.json &&
-            !this.argv.installed &&
-            !this.argv.match &&
-            !this.argv.urisOnly
-          ) {
+          if (!this.argv.json && !this.argv.installed && !this.argv.match && !this.argv.urisOnly) {
             // add an indent to group libraries in a repository
             repo_libs = repo_libs.map(lib => {
               lib.uri = "| " + lib.uri;
@@ -417,19 +370,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
       // filter by regular expression if requested
       if (this.argv.match) {
         let exp = new RegExp(this.argv.match, "i");
-        expanded_list = expanded_list.filter(
-          lib =>
-            lib.uri.match(exp) ||
-            lib.name.match(exp) ||
-            lib.description.match(exp)
-        );
+        expanded_list = expanded_list.filter(lib => lib.uri.match(exp) || lib.name.match(exp) || lib.description.match(exp));
       }
 
       // show only installed libraries if requested
       if (this.argv.installed) {
-        expanded_list = expanded_list.filter(lib =>
-          Boolean(lib.installedVersion)
-        );
+        expanded_list = expanded_list.filter(lib => Boolean(lib.installedVersion));
       }
 
       // output list
@@ -438,24 +384,18 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         qx.tool.compiler.Console.info(JSON.stringify(expanded_list, null, 2));
       } else if (!this.argv.quiet) {
         // as columns
-        qx.tool.compiler.Console.info(
-          columnify(expanded_list, columnify_options)
-        );
+        qx.tool.compiler.Console.info(columnify(expanded_list, columnify_options));
 
         if (!this.argv.noheaders) {
           qx.tool.compiler.Console.info();
-          qx.tool.compiler.Console.info(
-            "Note on columns: LATEST: Latest release that can be installed with this CLI;"
-          );
+          qx.tool.compiler.Console.info("Note on columns: LATEST: Latest release that can be installed with this CLI;");
 
           qx.tool.compiler.Console.info(
             "                 COMPATIBLE: Latest release that is semver-compatible with the qooxdoo version used."
           );
 
           if (!this.argv.all) {
-            qx.tool.compiler.Console.info(
-              "To see all libraries, including potentially incompatible ones, use 'qx package list --all'."
-            );
+            qx.tool.compiler.Console.info("To see all libraries, including potentially incompatible ones, use 'qx package list --all'.");
           }
         }
       }
@@ -490,15 +430,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
         let libData = await this.getLockfileData();
         for (let lib of libData.libraries) {
           if (!lib.repo_name) {
-            let manifest_path = path.join(
-              process.cwd(),
-              lib.path,
-              qx.tool.config.Manifest.config.fileName
-            );
+            let manifest_path = path.join(process.cwd(), lib.path, qx.tool.config.Manifest.config.fileName);
 
-            let manifest = await qx.tool.utils.Json.loadJsonAsync(
-              manifest_path
-            );
+            let manifest = await qx.tool.utils.Json.loadJsonAsync(manifest_path);
 
             let info = manifest.info;
             this.__libraries[localPathRepoName].push({
@@ -506,11 +440,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
               namespace: manifest.provides.namespace,
               summary: info.summary,
               version: "v" + info.version,
-              compatibility: semver.satisfies(
-                qooxdoo_version,
-                manifest.requires["qooxdoo-sdk"],
-                true
-              ),
+              compatibility: qx.tool.utils.Utils.versionSatisfies(qooxdoo_version, manifest.requires["qooxdoo-sdk"], true),
 
               path: path.relative(process.cwd(), path.dirname(manifest_path)),
               installedVersion: "v" + info.version,
@@ -533,15 +463,9 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
 
         // filter out repositories that are deprecated or should not be listed unless --all
         let d = repo_data.description;
-        if (
-          !this.argv.all &&
-          d &&
-          (d.includes("(deprecated)") || d.includes("(unlisted)"))
-        ) {
+        if (!this.argv.all && d && (d.includes("(deprecated)") || d.includes("(unlisted)"))) {
           if (this.argv.verbose) {
-            qx.tool.compiler.Console.warn(
-              `>>> Ignoring ${repo_name}: Deprecated or unlisted. `
-            );
+            qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name}: Deprecated or unlisted. `);
           }
           continue;
         }
@@ -562,9 +486,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
             let installedVersion = false;
             if (info === undefined) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(
-                  `>>> Ignoring ${repo_name} ${tag_name}: Undefined info field. `
-                );
+                qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name} ${tag_name}: Undefined info field. `);
               }
               continue;
             }
@@ -596,10 +518,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
             }
 
             // installed from GitHub?
-            let installed = await this.getInstalledLibraryTag(
-              repo_name,
-              library_name
-            );
+            let installed = await this.getInstalledLibraryTag(repo_name, library_name);
 
             if (installed) {
               installedVersion = installed;
@@ -612,11 +531,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
             }
 
             // check compatibility of library
-            let compatibility = semver.satisfies(
-              qooxdoo_version,
-              qx_versions,
-              true
-            );
+            let compatibility = qx.tool.utils.Utils.versionSatisfies(qooxdoo_version, qx_versions, true);
 
             // prepare indexes
             if (this.__libraries[repo_name] === undefined) {
@@ -627,16 +542,12 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
             // 1) must be semver-compatible with the qooxdoo version
             // 2) must be the higher than any other version found so far
             // 3) should not be a pre-release unless there are no other compatible releases
-            let latestCompatibleRelease =
-              this.__latestCompatible[qooxdoo_version][repo_name];
-            let latestCompatibleVersion = latestCompatibleRelease
-              ? latestCompatibleRelease.replace(/v/, "")
-              : undefined;
+            let latestCompatibleRelease = this.__latestCompatible[qooxdoo_version][repo_name];
+            let latestCompatibleVersion = latestCompatibleRelease ? latestCompatibleRelease.replace(/v/, "") : undefined;
             if (
               compatibility === true &&
               (latestCompatibleRelease === undefined ||
-                (semver.gt(tag_version, latestCompatibleVersion, false) &&
-                  (!prerelease || this.argv.prereleases)))
+                (semver.gt(tag_version, latestCompatibleVersion, false) && (!prerelease || this.argv.prereleases)))
             ) {
               this.__latestCompatible[qooxdoo_version][repo_name] = tag_name;
               hasCompatibleRelease = true;
@@ -666,9 +577,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.package.List", {
           description,
           installedVersion: repoInstalledVersion,
           latestVersion,
-          latestCompatible: hasCompatibleRelease
-            ? this.__latestCompatible[qooxdoo_version][repo_name]
-            : false
+          latestCompatible: hasCompatibleRelease ? this.__latestCompatible[qooxdoo_version][repo_name] : false
         });
       }
       return num_compat_repos;

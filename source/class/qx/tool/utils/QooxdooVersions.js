@@ -41,9 +41,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      */
     async _getTags() {
       if (!this.__githubTags) {
-        this.__githubTags = await qx.tool.utils.Http.getJson(
-          "https://api.github.com/repos/qooxdoo/qooxdoo/tags"
-        );
+        this.__githubTags = await qx.tool.utils.Http.getJson("https://api.github.com/repos/qooxdoo/qooxdoo/tags");
       }
       return this.__githubTags;
     },
@@ -54,11 +52,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
      * @returns {String}
      */
     __getFilename() {
-      return path.join(
-        qx.tool.compiler.cli.ConfigDb.getDirectory(),
-        "versions",
-        "versions.txt"
-      );
+      return path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "versions", "versions.txt");
     },
 
     /**
@@ -87,11 +81,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
       if (!this.__db) {
         await fs.promises.unlink(this.__getFilename());
       } else {
-        await fs.promises.writeFile(
-          this.__getFilename(),
-          JSON.stringify(this.__db, null, 2),
-          "utf8"
-        );
+        await fs.promises.writeFile(this.__getFilename(), JSON.stringify(this.__db, null, 2), "utf8");
       }
     },
 
@@ -101,14 +91,11 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
     async clean() {
       this.__db = {};
       try {
-        await fs.promises.rm(
-          path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "versions"),
-          {
-            recursive: true,
-            force: true
-          }
-        );
-      }catch(ex) {
+        await fs.promises.rm(path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "versions"), {
+          recursive: true,
+          force: true
+        });
+      } catch (ex) {
         // Nothing - exception is thrown if the directory does not exist
       }
     },
@@ -124,7 +111,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
       const Console = qx.tool.compiler.Console.getInstance();
 
       let defaultVersion = await qx.tool.config.Utils.getQxVersion();
-      if (semver.satisfies(defaultVersion, versionToMatch)) {
+      if (qx.tool.utils.Utils.versionSatisfies(defaultVersion, versionToMatch)) {
         let qxpath = await this.getQxPath();
         return qxpath;
       }
@@ -143,12 +130,8 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
         let match = tag.name.match(/^v([0-9]+\.[0-9]+\.[0-9]+)$/);
         if (match) {
           let version = match[1];
-          if (semver.satisfies(version, versionToMatch)) {
-            let dirname = path.join(
-              qx.tool.compiler.cli.ConfigDb.getDirectory(),
-              "versions",
-              "v" + version
-            );
+          if (qx.tool.utils.Utils.versionSatisfies(version, versionToMatch)) {
+            let dirname = path.join(qx.tool.compiler.cli.ConfigDb.getDirectory(), "versions", "v" + version);
 
             if (!fs.existsSync(path.join(dirname, ".download-success"))) {
               await fs.promises.rm(dirname, {
@@ -157,27 +140,15 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
               });
 
               let zipFilename = dirname + ".zip";
-              Console.log(
-                `Downloading Qooxdoo v${version} to satisfy ${versionToMatch}...`
-              );
+              Console.log(`Downloading Qooxdoo v${version} to satisfy ${versionToMatch}...`);
 
-              await qx.tool.utils.Http.downloadToFile(
-                tag.zipball_url,
-                zipFilename
-              );
+              await qx.tool.utils.Http.downloadToFile(tag.zipball_url, zipFilename);
 
               await qx.tool.utils.Zip.unzip(zipFilename, null, filename =>
-                filename.replace(
-                  /^qooxdoo-qooxdoo-[a-z0-9]+\//,
-                  dirname + path.sep
-                )
+                filename.replace(/^qooxdoo-qooxdoo-[a-z0-9]+\//, dirname + path.sep)
               );
 
-              await fs.promises.writeFile(
-                path.join(dirname, ".download-success"),
-                new Date().toString(),
-                "utf-8"
-              );
+              await fs.promises.writeFile(path.join(dirname, ".download-success"), new Date().toString(), "utf-8");
             }
             this.__db.versions[versionToMatch] = path.resolve(dirname);
             await this.save();
@@ -185,9 +156,7 @@ qx.Class.define("qx.tool.utils.QooxdooVersions", {
           }
         }
       }
-      throw new Error(
-        `Cannot find a released version of Qooxdoo which is compatible with ${versionToMatch}`
-      );
+      throw new Error(`Cannot find a released version of Qooxdoo which is compatible with ${versionToMatch}`);
     }
   }
 });

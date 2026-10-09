@@ -44,7 +44,7 @@ qx.Class.define("qx.tool.compiler.resources.ResourceLoader", {
     __manager: null,
 
     /**
-     * Detects whether the file needs to be recompiled/coverted/analysed/ etc; this should
+     * Detects whether the file needs to be recompiled/coverted/analyzed/ etc; this should
      * not take any time or be asynchronous, if you need to do any real work it should be
      * in `compile` because that is throttled.
      *

@@ -60,15 +60,6 @@ In many cases, the destructors are for classes which are typically used as
 singletons and need not be tracked - for example the various `qx.event.handler.*`
 and qx.event.dispatch.* classes.
 
-There is one remaining global list of objects which could benefit from
-refactoring - `qx.data.SingleValueBinding` keeps a global lookup of every bound
-object, so any listeners to or from an object property will prevent that object
-from being garbage collected. This could be modified so that the bindings are
-stored with the object, rather than in a global list indexed by hash code, but
-note that even when binding a single property, the target object also has links
-back to the source object; this means that unless both source and target are
-unbound, the binding will prevent garbage collection of both objects.
-
 The net effect of this patch is that automatic garbage collection is now
 possible, with the proviso that (a) if you must release any bindings manually,
 and (b) you must observe any “shutdown” requirements of classes.

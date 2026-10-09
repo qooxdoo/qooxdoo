@@ -1,7 +1,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert");
 const testUtils = require("../../../bin/tools/utils");
-const fsPromises = testUtils.fsPromises;
+const fsPromises = require("fs").promises;
 require("process").chdir(__dirname);
 
 test("test externals", async () => {

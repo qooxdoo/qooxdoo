@@ -1,6 +1,29 @@
 # Upcoming
 
+## v8 compiler update
+
+### Changes
+
+The compiler has received an overhaul, which includes the following changes:
+
+- Made compiler multithreaded to improve performance. This adds the `nJobs` or `j` flag into the Qooxdoo CLI, which controls the number of threads used, just like in the GNU `make` command.
+
+- **Custom compiler:** It is now possible for the user to extend the default Qooxdoo compiler and implement custom behavior. This allows them to do things like add in a pre-compilation or source transformation stage for their source code before the code is passed down to the compiler, which adds the possiblity of supporting custom languages. The default Qooxdoo compiler would then compile the user-defined compiler, and then it would launch that compiler as a child process and then that would take over the compilation.
+
+- **Proxy classes removed** - In the compiler API, it was possible to add a `proxies` path to a target, which told the compiler to prefer classes from that directory over the main source tree. This was useful for cases where we have a class that is supposed to run on the server but we also wanted to 'mimic' objects of that class on the client. The client class definition would be slightly different from the server definition, for example the method bodies would simply be replaced by calls to the server which invoke the methods on the server. This was removed because it meant that the proxy generation had to be handled independently of the compiler, which meant the user had to write their own proxy generator app, with its own watcher etc. The introduction of the custom compiler means that the compiler takes care of most of these problems.
+
+- **Meta data** - Meta data, which is stored in `compiled/meta` by default is now always generated,
+  whereas previously it was only generated if TypeScript was enabled in the `qx compile` command.
+
 ## Breaking changes
+
+- `qx.tool.compiler.cli.api.AbstractApi#require` (used by a library's `compile.js`) now
+  resolves modules with the standard Node resolution from the project directory, so hoisted
+  packages and npm workspaces are found. Modules the project does not provide are installed
+  into a separate npm project in `qx_packages/.npm` instead of the project itself, so the
+  project's `package.json`, lockfile and `node_modules` are no longer changed.
+  `AbstractApi#loadNpmModule` has been removed.
+
 - Subclasses now inherit static methods and properties from their superclass via
   the constructor prototype chain, matching native JavaScript `class extends`
   semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
@@ -10,6 +33,9 @@
   with another one, not only when the table itself is disposed. A renderer that
   was replaced cannot be set again later, and one renderer cannot be shared
   between tables: give each table its own new renderer. (#10884)
+
+- The virtual UI framework has been deprecated and moved into the [deprecated.qx.ui.list](https://github.com/qooxdoo/deprecated.qx.ui.list) repo;
+  this mainly affects the `qx.ui.list.*`, `qx.ui.virtual.*`, `qx.ui.treevirtual.*` classes but there are a few more as well.
 
 ## Fixes
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
@@ -92,35 +118,60 @@
   `qx.Class.define` at the top of a class file, one column too far to the right. Source maps now keep
   the first column of a line.
 
+# 8.0.0-beta.3
+
+## Breaking changes
+
+- Removed `qx.data.SingleValueBinding.getAllBindings` as a consequence of the above,
+  and also because there is no practical use case for it.
+
+- Removed method `qx.event.Manager.getAllListeners` as a consequence of the above,
+  and also because there is no practical use case for it.
+
+- Removed `qx.tool.utils.json.*` - please use better supported tools (eg JSON5)
+
+- Removed `qx.tool.utils.files.FindFiles`
+
+- Changed `qx.tool.utils.Utils` to remove `mkpath` and `makeDirs` (please use node's `fs` methods instead);
+  removed `mkParentPath` (please use `mkParentDir` instead); `BabelHelpers.collectJson` no longer exists
+
 # 8.0.0-beta.2
 
 ## Breaking changes
+
+- Bindings (made using class qx.data.SingleValueBinding) are now no longer stored in a global registry,
+  because this prevented their source and target objects from being garbage-collected without manually disposing them first.
+- Event listener callbacks are now stored in their target objects themselves instead of a global registry,
+  because this prevented objects with event listeners from being garbage collected unless they were manually disposed,
+  and also prevented any objects in the closures of the listeners' callbacks from being garbage collected as well.
 - Removed `async: true` key from property definition because now all properties have `setAsync` methods,
-which can be used to await the apply function's return value and the event handlers when a property is set. 
-The meaning of this setting wasn't very clear, also given that we now have async property storage.
+  which can be used to await the apply function's return value and the event handlers when a property is set.
+  The meaning of this setting wasn't very clear, also given that we now have async property storage.
 - Only properties with storages that support `getAsync` will support `getPropertyAsync` on the object,
-because there is no point calling `getAsync` if the storage is synchronous.
-If the user calls `getAsync` in this case, a warning will be shown and the value will be fetched synchronously.
+  because there is no point calling `getAsync` if the storage is synchronous.
+  If the user calls `getAsync` in this case, a warning will be shown and the value will be fetched synchronously.
 - Changed the behaviour of `MBinding.bindAsync`.
-Previously, the only different between `bind` and `bindAsync` was that `bindAsync` always returned a promise,
-whereas `bind` only returned a promise if it had to do something asynchronously.
-Now, `bindAsync` will call `setAsync` when setting the target path's property while `bind` always calls `set`.
-If we call `bind` and have to get a property asynchronously,
-a warning will be shown telling the user to use `bindAsync`.
+  Previously, the only different between `bind` and `bindAsync` was that `bindAsync` always returned a promise,
+  whereas `bind` only returned a promise if it had to do something asynchronously.
+  Now, `bindAsync` will call `setAsync` when setting the target path's property while `bind` always calls `set`.
+  If we call `bind` and have to get a property asynchronously,
+  a warning will be shown telling the user to use `bindAsync`.
 - If a property with a storage that supports `getAsync` has an `init` value or an `initFunction`,
-a warning will be shown because if an object with that property has no user value for the property yet,
-calling `getAsync` will return the init value but it's supposed to return the result of `storage.getAsync()`.
+  a warning will be shown because if an object with that property has no user value for the property yet,
+  calling `getAsync` will return the init value but it's supposed to return the result of `storage.getAsync()`.
 - `qx.Class.getProperties` now requires a Qooxdoo class, whereas before it could sometimes work on any class.
 
 # v8.0.0_beta
 
 ## Fixes
+
 - Restored `clone()` method in `qx.core.Object` that was accidentally removed. The method has been adapted to work with the new v8 property system.
 - Improved `assertInterface()` to detect and report when parameters are in wrong order. If you accidentally swap the object and interface parameters, you now get a helpful error message explaining the correct usage.
 
 - Fixed an issue where if an event handler is added using addListenerOnce returns a promise then that promise is ignored.
 
 ## Known Issues
+
 - **qxWeb constructor warning:** You may see a console warning: "The constructor of class 'qxWeb' returned a different instance than 'this'". This is expected behavior due to qxWeb's factory pattern (similar to jQuery) and does not affect functionality. This warning will be addressed in a future release.
 
 ## New Features
@@ -128,9 +179,11 @@ calling `getAsync` will return the init value but it's supposed to return the re
 - **Apply method initialization (opt-in):** v8 introduces the ability to automatically call property `apply` methods during object construction when properties have `init` values. This is **disabled by default** to maintain backward compatibility with v7 behavior.
 
   **Default behavior (v7 compatible):**
+
   - `apply` methods are NOT called during initialization (same as v7)
 
   **How to enable new behavior (opt-in):** If you want apply methods to execute during construction, set this environment variable in your `compile.json`:
+
   ```json
   "environment": {
     "qx.core.property.Property.applyDuringConstruct": true
@@ -145,38 +198,42 @@ calling `getAsync` will return the init value but it's supposed to return the re
 - Added class `qx.dev.LeakDetector`, which allows us to track the construction/destruction of qooxdoo objects.
 
 - **Bindings:** The implementation of the bindings system has been overhauled, which added the following features:
+
   - **Asynchronous bindings:** It is now possible to bind asynchronous properties, i.e. if a property on a binding's source or target chain needs to be `get` (gotten) asynchronously,
-  the value continues propagating along the chain only after the value has been resolved. 
-  The method `bindAsync` resolves when the intial value has been set on the target object.
+    the value continues propagating along the chain only after the value has been resolved.
+    The method `bindAsync` resolves when the intial value has been set on the target object.
   - **Bindings are first-class objects** The class `qx.data.SingleValueBinding` is now instantiable and is instantiated under the hood when calling `object.bind()`.
-  The return value of `qx.core.Object.prototype.bind` or `SingleValueBinding.bind` is the `SingleValueBinding` object itself.
-  Disposing of the object will dispose of the binding and all the associated listeners.
-  This makes things easier because you don't have to keep track of the binding's object and the binding ID.
-  This also makes debugging with bindings easier because the objects representing the path segments of either the source or target (`AbstractSegment`)
-  store a reference to the binding object, and `SingleValueBinding` has a specialized method `toString` which shows the binding's objects and source/target paths.
+    The return value of `qx.core.Object.prototype.bind` or `SingleValueBinding.bind` is the `SingleValueBinding` object itself.
+    Disposing of the object will dispose of the binding and all the associated listeners.
+    This makes things easier because you don't have to keep track of the binding's object and the binding ID.
+    This also makes debugging with bindings easier because the objects representing the path segments of either the source or target (`AbstractSegment`)
+    store a reference to the binding object, and `SingleValueBinding` has a specialized method `toString` which shows the binding's objects and source/target paths.
 
 - **Properties** The implementation of properties has been overhauled, which brought the following changes:
+
   - **Properties are first-class objects** They are now implemented using the class `qx.core.property.Property` (each Qooxdoo class has an instance of `qx.core.property.Property` for each of its properties).
-  This system no longer uses dynamic code generation for setters and getters which was there for performance reasons,
-  which makes things much easier to debug and maintain.
-  It is possible to obtain the property object by calling `qx.Class.getByProperty(clazz, name)`.
-  The user can then interrogate those objects to obtain information about the properties.
-  Qooxdoo can also 'sniff' out pseudo properties (i.e. manually-defined properties by get/set/reset methods and an event)
-  and create property objects for those as well,
-  making it easier to find out about properties using reflection.
+    This system no longer uses dynamic code generation for setters and getters which was there for performance reasons,
+    which makes things much easier to debug and maintain.
+    It is possible to obtain the property object by calling `qx.Class.getByProperty(clazz, name)`.
+    The user can then interrogate those objects to obtain information about the properties.
+    Qooxdoo can also 'sniff' out pseudo properties (i.e. manually-defined properties by get/set/reset methods and an event)
+    and create property objects for those as well,
+    making it easier to find out about properties using reflection.
 
   - **Custom property storages** The old property system only supported storing the property values in the program's memory. However, it is now possible for the user to define a custom property storage, which supports asynchronous getting and setting. This can be useful for ORMs where properties are persisted in the database and we may wish to load them on demand, or in browser situtations where getting a property will require a server round-trip, meaning the getter has to be asynchronous.
 
-  - **Init functions** Until now, if the user wanted to `init` a property to a complex object (e.g. array) as opposed to a primitive datatype (like string), they've had to set `deferredInit: true` in the definition and call `init` in the constructor. Now however, they can now define an `initFunction` in the property which returns the `init` value, thus making code simpler. 
+  - **Init functions** Until now, if the user wanted to `init` a property to a complex object (e.g. array) as opposed to a primitive datatype (like string), they've had to set `deferredInit: true` in the definition and call `init` in the constructor. Now however, they can now define an `initFunction` in the property which returns the `init` value, thus making code simpler.
 
   - **Native property access** - It is now possible to set and get a property value natively, by doing `object.myProperty` and `object.myProperty = value` instead of `object.getMyProperty()` and `object.setMyProperty(value)` respectively.
 
   - **Templated checks** - It is now possible to include template types in property checks using chevrons, for example `check: "Array<string>`. The text in the chevrons is purely for documentation purposes only and it not used by the runtime type checker.
+
 ## Breaking changes
 
 - **Constructor calls:** In v8, classes that extend `qx.core.Object` (or any subclass) MUST call `super()` in their constructor before accessing properties or setting property values. If `super()` is not called, you will see warnings like `"No $$propertyValues on [ClassName]: possibly missing call to super() in the constructor"`. Make sure all your constructors include a `super()` call at the beginning.
 
   Example:
+
   ```javascript
   construct() {
     super();  // Required in v8!
@@ -187,6 +244,7 @@ calling `getAsync` will return the init value but it's supposed to return the re
 - **Property setters must be called AFTER parent constructor:** In v8, any property setters called BEFORE `super()` or `this.base(arguments)` will be reset when the parent constructor executes. You must move all property setter calls to occur after the parent constructor invocation.
 
   **v7 (worked but now broken in v8):**
+
   ```javascript
   construct(svg, width, height) {
     this.setWidth(width);   // These values will be lost!
@@ -196,6 +254,7 @@ calling `getAsync` will return the init value but it's supposed to return the re
   ```
 
   **v8 (correct approach):**
+
   ```javascript
   construct(svg, width, height) {
     this.base(arguments);   // Call parent first!
@@ -207,6 +266,7 @@ calling `getAsync` will return the init value but it's supposed to return the re
 - **Form.add() name parameter must be lowercase:** In v8, the third parameter (name) of `qx.ui.form.Form.add()` must be lowercase to avoid property binding errors. Mixed case or uppercase names will cause issues.
 
   **Example:**
+
   ```javascript
   // Wrong - will cause binding errors
   form.add(widget, "My Label", null, "MyField");
@@ -216,7 +276,8 @@ calling `getAsync` will return the init value but it's supposed to return the re
   ```
 
 - Moves from yArgs to own cli classes. If you use compile.js to add commands to existing commands syntax changed:
-Old:
+  Old:
+
 ```
 async load() {
     let yargs = qx.tool.cli.commands.Test.getYargsCommand;
@@ -228,15 +289,17 @@ async load() {
         default: false
     };
     }
-}  
+}
 ```
+
 New:
+
 ```
 async load() {
     let originalCreateCliCommand = qx.tool.compiler.cli.commands.Test.createCliCommand;
     qx.tool.compiler.cli.commands.Test.createCliCommand = async function(clazz) {
     let cmd = await originalCreateCliCommand.call(this, clazz);
-    
+
     cmd.addFlag(
         new qx.tool.cli.Flag("diag").set({
         description: "show diagnostic output",
@@ -245,14 +308,13 @@ async load() {
         })
     );
     }
-}        
+}
 
 ```
-   
 
 - Setting model data for a `qx.ui.table.Table` when the table is still editing will
-now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
-that the table edits are completed or cancelled before refreshing table model data.
+  now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
+  that the table edits are completed or cancelled before refreshing table model data.
 
 - Properties and members are now in the same namespace. Formerly, a class could have a member variable and a property with the same name, and there was no conflict. Now, since properties are native and can be manipulated as normal members, the properties and members use the same namespace, so a single name can not be defined in both.
 
@@ -271,42 +333,48 @@ that the table edits are completed or cancelled before refreshing table model da
 - Because the entire class and property system was rewritten, there may be other obscure backward-compatibility changes that pop up. Those listed above are the only ones that reared their heads while confirming that the entire qooxdoo test suite successfully runs to completion.
 
 - in `qx.util.PropertyUtil`, it was previously possible to get and set theme and user values, independently of the proper property mechanism; this is no longer
-  allowed, although there are ways to detect if a user or theme value is set.  The methods in this class now return instances of `qx.core.property.Property` (or maps etc) and not the POJOs used in previous versions of Qooxdoo. 
+  allowed, although there are ways to detect if a user or theme value is set. The methods in this class now return instances of `qx.core.property.Property` (or maps etc) and not the POJOs used in previous versions of Qooxdoo.
 
 - in `qx.ui.core.MExecutable`, bindings are setup to copy between the command and the widget, which are then overwritten by theme values; why this happens is not
   explaiuned, and IMHO changes the property values in unexpected ways (and will be overwritten by subsequent property changes anyway). This no longer happens, and ordinary bindings are used instead
 
 - migration from ESLint 8 → ESLint 9.<br>
-    This requires **Node.js >= 20.00.0** for the compiler.<br>
-    Plugin resolution changes, plugin names must be complete<br>
-    - Old: `@qooxdoo/qx`
-    - New: `@qooxdoo/eslint-plugin-qx` or full import
+  This requires **Node.js >= 20.00.0** for the compiler.<br>
+  Plugin resolution changes, plugin names must be complete<br>
 
-    Main features of Flat Config
-    1. Array structure: eslintConfig is now an array of config objects instead of a single object
-    2. ignores: Replaces ignorePatterns, as a separate config object
-    3. languageOptions: Combines parserOptions, globals and env
-    4. files: Specifies which files the config affects
-    5. plugins: Plugin configuration directly in the config object
-    6. Multiple config objects: Allows different rules for different file patterns
+  - Old: `@qooxdoo/qx`
+  - New: `@qooxdoo/eslint-plugin-qx` or full import
 
-     Old (ESLint < 9):
-    ```
+  Main features of Flat Config
+
+  1. Array structure: eslintConfig is now an array of config objects instead of a single object
+  2. ignores: Replaces ignorePatterns, as a separate config object
+  3. languageOptions: Combines parserOptions, globals and env
+  4. files: Specifies which files the config affects
+  5. plugins: Plugin configuration directly in the config object
+  6. Multiple config objects: Allows different rules for different file patterns
+
+  Old (ESLint < 9):
+
+  ```
   "eslintConfig": {
-    "extends": [...],
-    "rules": {...}
+  "extends": [...],
+  "rules": {...}
   }
-    ```
+  ```
+
   New (ESLint >= 9 Flat Config):
-    ```
+
+  ```
   "eslintConfig": [
-    { "ignores": [...] },
-    { "files": [...], "rules": {...} }
+  { "ignores": [...] },
+  { "files": [...], "rules": {...} }
   ]
-    ```
-    ✅ Old `eslintConfig` in `compile.json` is automatically converted<br/>
-    ✅ All existing Qooxdoo-specific rules are retained<br/>
-    ✅ No changes to existing projects required (except Node.js version)
+  ```
+
+  ✅ Old `eslintConfig` in `compile.json` is automatically converted<br/>
+  ✅ All existing Qooxdoo-specific rules are retained<br/>
+  ✅ No changes to existing projects required (except Node.js version)
 
 - `qx.locale` classes implemented with [Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) instead of [Common Locale Data Repository](http://cldr.unicode.org) npm package which is installed with a lot of CLDR xml files. This change reduces a installed qooxdoo package size significantly. There may be some differences for some locales. For example, `getDateTimeFormat` method for `de_DE` and `yM` format gives `M/y` instead of `MM/y` of the CLDR implementation.
 
@@ -323,9 +391,9 @@ that the table edits are completed or cancelled before refreshing table model da
 ## Bugfixes
 
 - `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
-`qx.event.Idle` tick when the target widget is disposed before the placing widget
-disappears (e.g. a popup left open while its target's window is closed). The
-live-update loop now stops and releases its idle listener when the target is disposed.
+  `qx.event.Idle` tick when the target widget is disposed before the placing widget
+  disappears (e.g. a popup left open while its target's window is closed). The
+  live-update loop now stops and releases its idle listener when the target is disposed.
 
 # v7.0.0
 

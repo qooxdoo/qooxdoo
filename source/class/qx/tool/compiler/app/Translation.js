@@ -22,9 +22,6 @@
 
 var fs = require("fs");
 
-const { promisify } = require("util");
-const readFile = promisify(fs.readFile);
-
 var log = qx.tool.utils.LogManager.createLog("translation");
 
 /**
@@ -81,14 +78,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      */
     getPoFilename() {
       var library = this.getLibrary();
-      return (
-        library.getRootDir() +
-        "/" +
-        library.getTranslationPath() +
-        "/" +
-        this.getLocale() +
-        ".po"
-      );
+      return library.getRootDir() + "/" + library.getTranslationPath() + "/" + this.getLocale() + ".po";
     },
 
     /**
@@ -117,187 +107,162 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         return t.__onRead;
       }
 
-      return (t.__onRead = new Promise((resolve, reject) => {
-        t.__translations = {};
-        t.__headers = {};
-        var poFile = this.getPoFilename();
+      t.__translations = {};
+      t.__headers = {};
+      var poFile = this.getPoFilename();
 
-        fs.stat(poFile, function (err, stat) {
-          if (err) {
-            if (err.code == "ENOENT") {
-              resolve();
-              return undefined;
+      return (t.__onRead = (async () => {
+        let stat = await qx.tool.utils.files.Utils.safeStat(poFile);
+        if (!stat) {
+          return;
+        }
+        t.__mtime = stat.mtime;
+
+        const data = await fs.promises.readFile(poFile, { encoding: "utf8" });
+        var entry = null;
+        var lastKey = null;
+
+        function saveEntry() {
+          if (entry) {
+            var key;
+            if (entry.msgctxt) {
+              key = entry.msgctxt + ":" + entry.msgid;
+            } else {
+              key = entry.msgid;
             }
-            reject(err);
-            return undefined;
+            t.__translations[key] = entry;
           }
-          t.__mtime = stat.mtime;
-          return readFile(poFile, { encoding: "utf8" }).then(data => {
-            var entry = null;
-            var lastKey = null;
+          entry = null;
+          lastKey = null;
+        }
 
-            function saveEntry() {
-              if (entry) {
-                var key;
-                if (entry.msgctxt) {
-                  key = entry.msgctxt + ":" + entry.msgid;
-                } else {
-                  key = entry.msgid;
+        function set(key, value, append) {
+          var index = null;
+          var m = key.match(/^([^[]+)\[([0-9]+)\]$/);
+          value = value.replace(/\\t/g, "\t").replace(/\\r/g, "\r").replace(/\\n/g, "\n").replace(/\\"/g, '"');
+          if (m) {
+            key = m[1];
+            index = parseInt(m[2]);
+            if (entry[key] === undefined) {
+              entry[key] = [];
+            }
+            if (!append || typeof entry[key][index] !== "string") {
+              entry[key][index] = value;
+            } else {
+              entry[key][index] += value;
+            }
+          } else if (!append || typeof entry[key] !== "string") {
+            entry[key] = value;
+          } else {
+            entry[key] += value;
+          }
+        }
+
+        data.split("\n").forEach(function (line, lineNo) {
+          line = line.trim();
+          if (!line) {
+            saveEntry();
+            return;
+          }
+
+          if (!entry) {
+            entry = {};
+          }
+
+          // Comment?
+          var m = line.match(/^#([^ ]?) (.*)$/);
+          if (m) {
+            var type = m[1];
+            var comment = m[2];
+            var key;
+            if (!entry.comments) {
+              entry.comments = {};
+            }
+            switch (type) {
+              case "":
+                entry.comments.translator = comment;
+                break;
+
+              case ".":
+                entry.comments.extracted = comment;
+                break;
+
+              case ":":
+                if (!entry.comments.reference) {
+                  entry.comments.reference = {};
                 }
-                t.__translations[key] = entry;
-              }
-              entry = null;
-              lastKey = null;
+                {
+                  const ref = entry.comments.reference;
+                  ((comment && comment.match(/[\w/\.]+:\d+/g)) || []).forEach(entry => {
+                    const split = entry.split(":");
+                    const classname = split[0];
+                    const lineNo = parseInt(split[1], 10);
+                    if (!ref[classname]) {
+                      ref[classname] = [lineNo];
+                    } else if (!ref[classname].includes(lineNo)) {
+                      ref[classname].push(lineNo);
+                    }
+                  });
+                }
+                break;
+
+              case ",":
+                entry.comments.flags = comment.split(",");
+                break;
+
+              case "|":
+                m = comment.match(/^([^\s]+)\s+(.*)$/);
+                if (m) {
+                  if (!entry.previous) {
+                    entry.previous = {};
+                  }
+                  var tmp = m[1];
+                  if (tmp == "msgctxt" || tmp == "msgid") {
+                    entry[tmp] = m[2];
+                  } else {
+                    log.warn("Cannot interpret line " + (lineNo + 1));
+                  }
+                } else {
+                  log.warn("Cannot interpret line " + (lineNo + 1));
+                }
+                break;
             }
 
-            function set(key, value, append) {
-              var index = null;
-              var m = key.match(/^([^[]+)\[([0-9]+)\]$/);
-              value = value
-                .replace(/\\t/g, "\t")
-                .replace(/\\r/g, "\r")
-                .replace(/\\n/g, "\n")
-                .replace(/\\"/g, '"');
-              if (m) {
-                key = m[1];
-                index = parseInt(m[2]);
-                if (entry[key] === undefined) {
-                  entry[key] = [];
-                }
-                if (!append || typeof entry[key][index] !== "string") {
-                  entry[key][index] = value;
-                } else {
-                  entry[key][index] += value;
-                }
-              } else if (!append || typeof entry[key] !== "string") {
-                entry[key] = value;
-              } else {
-                entry[key] += value;
-              }
+            return;
+          }
+
+          if (line[0] == '"' && line[line.length - 1] == '"') {
+            line = line.substring(1, line.length - 1);
+            if (!lastKey.match(/^.*\[\d+\]$/) && (lastKey === null || entry[lastKey] === undefined)) {
+              log.error("Cannot interpret line because there is no key to append to, line " + (lineNo + 1));
+            } else {
+              set(lastKey, line, true);
             }
+            return;
+          }
 
-            data.split("\n").forEach(function (line, lineNo) {
-              line = line.trim();
-              if (!line) {
-                saveEntry();
-                return;
-              }
+          // Part of the translation
+          if (line == "#") {
+            return;
+          }
+          m = line.match(/^([^\s]+)\s+(.*)$/);
+          if (!m) {
+            log.warn("Cannot interpret line " + (lineNo + 1));
+            return;
+          }
 
-              if (!entry) {
-                entry = {};
-              }
-
-              // Comment?
-              var m = line.match(/^#([^ ]?) (.*)$/);
-              if (m) {
-                var type = m[1];
-                var comment = m[2];
-                var key;
-                if (!entry.comments) {
-                  entry.comments = {};
-                }
-                switch (type) {
-                  case "":
-                    entry.comments.translator = comment;
-                    break;
-
-                  case ".":
-                    entry.comments.extracted = comment;
-                    break;
-
-                  case ":":
-                    if (!entry.comments.reference) {
-                      entry.comments.reference = {};
-                    }
-                    {
-                      const ref = entry.comments.reference;
-                      (
-                        (comment && comment.match(/[\w/\.]+:\d+/g)) ||
-                        []
-                      ).forEach(entry => {
-                        const split = entry.split(":");
-                        const classname = split[0];
-                        const lineNo = parseInt(split[1], 10);
-                        if (!ref[classname]) {
-                          ref[classname] = [lineNo];
-                        } else if (!ref[classname].includes(lineNo)) {
-                          ref[classname].push(lineNo);
-                        }
-                      });
-                    }
-                    break;
-
-                  case ",":
-                    entry.comments.flags = comment.split(",");
-                    break;
-
-                  case "|":
-                    m = comment.match(/^([^\s]+)\s+(.*)$/);
-                    if (m) {
-                      if (!entry.previous) {
-                        entry.previous = {};
-                      }
-                      var tmp = m[1];
-                      if (tmp == "msgctxt" || tmp == "msgid") {
-                        entry[tmp] = m[2];
-                      } else {
-                        log.warn("Cannot interpret line " + (lineNo + 1));
-                      }
-                    } else {
-                      log.warn("Cannot interpret line " + (lineNo + 1));
-                    }
-                    break;
-                }
-
-                return;
-              }
-
-              if (line[0] == '"' && line[line.length - 1] == '"') {
-                line = line.substring(1, line.length - 1);
-                if (
-                  !lastKey.match(/^.*\[\d+\]$/) &&
-                  (lastKey === null || entry[lastKey] === undefined)
-                ) {
-                  log.error(
-                    "Cannot interpret line because there is no key to append to, line " +
-                      (lineNo + 1)
-                  );
-                } else {
-                  set(lastKey, line, true);
-                }
-                return;
-              }
-
-              // Part of the translation
-              if (line == "#") {
-                return;
-              }
-              m = line.match(/^([^\s]+)\s+(.*)$/);
-              if (!m) {
-                log.warn("Cannot interpret line " + (lineNo + 1));
-                return;
-              }
-
-              key = lastKey = m[1];
-              var value = m[2];
-              if (
-                value.length >= 2 &&
-                value[0] == '"' &&
-                value[value.length - 1] == '"'
-              ) {
-                value = value.substring(1, value.length - 1);
-                set(key, value);
-              }
-            });
-
-            if (entry) {
-              saveEntry();
-            }
-
-            resolve();
-          });
+          key = lastKey = m[1];
+          var value = m[2];
+          if (value.length >= 2 && value[0] == '"' && value[value.length - 1] == '"') {
+            value = value.substring(1, value.length - 1);
+            set(key, value);
+          }
         });
-      }));
+
+        if (entry) {
+          saveEntry();
+        }
+      })());
     },
 
     /**
@@ -319,11 +284,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         if (value === undefined || value === null) {
           return;
         }
-        value = value
-          .replace(/\t/g, "\\t")
-          .replace(/\r/g, "\\r")
-          .replace(/\n/g, "\\n")
-          .replace(/"/g, '\\"');
+        value = value.replace(/\t/g, "\\t").replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/"/g, '\\"');
         lines.push(key + ' "' + value + '"');
       }
 
@@ -395,9 +356,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         lines.push("");
       }
       var data = lines.join("\n");
-      return qx.tool.utils.Promisify.fs.writeFileAsync(filename, data, {
-        encoding: "utf8"
-      });
+      return fs.promises.writeFile(filename, data, { encoding: "utf8" });
     },
 
     /**
