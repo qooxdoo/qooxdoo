@@ -1154,19 +1154,17 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
     // validate //////////////////////
     testValidateDataBindingSelection() {
       "use strict";
-      var vsb = new qx.ui.form.VirtualSelectBox();
-      vsb.setRequired(true);
-      this.__manager.add(vsb);
+      var field = new qx.test.ui.form.fixture.DataSelectionField();
+      field.setRequired(true);
+      this.__manager.add(field);
       this.__manager.validate();
-      this.assertFalse(vsb.isValid());
+      this.assertFalse(field.isValid());
 
-      var m = qx.data.marshal.Json.createModel(["a", "b"]);
-      vsb.setModel(m);
+      field.getSelection().push("a");
       this.__manager.validate();
-      this.assertTrue(vsb.isValid());
+      this.assertTrue(field.isValid());
 
-      vsb.dispose();
-      m.dispose();
+      field.dispose();
     }
   }
 });
