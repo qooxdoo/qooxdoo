@@ -331,19 +331,22 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.addListenerOnce("loaded", () => {
         image.resetSource();
         image.setSource(source);
+
+        // the first load may take longer than any fixed delay,
+        // so check when the second load has finished
+        image.addListenerOnce("loaded", () => {
+          this.resume(() => {
+            this.assertCalledTwice(spyhandler);
+            // use a timeout to dispose the image because it needs to
+            // end its processing after the event has been fired.
+            window.setTimeout(function () {
+              image.destroy();
+            });
+          });
+        });
       });
 
-      this.wait(
-        500,
-        function () {
-          this.assertCalledTwice(spyhandler);
-          // use a timeout to dispose the image because it needs to
-          // end its processing after the event has been fired.
-          window.setTimeout(function () {
-            image.destroy();
-          });
-        }.bind(this)
-      );
+      this.wait();
     },
 
     testAbortedEventForUnmanagedImage() {
