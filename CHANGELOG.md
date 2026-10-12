@@ -38,6 +38,10 @@ The compiler has received an overhaul, which includes the following changes:
   this mainly affects the `qx.ui.list.*`, `qx.ui.virtual.*`, `qx.ui.treevirtual.*` classes but there are a few more as well.
 
 ## Fixes
+- `qx compile -u` rewrote the `#:` line of a message used in several classes on every
+  compile, naming only one of those classes and a different one each time, and fresh
+  builds could write new messages in a different order. The `.po` files now stay unchanged
+  when no message changed, and the `#:` line lists every class that uses the message.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.
