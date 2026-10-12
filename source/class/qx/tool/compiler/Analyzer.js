@@ -719,7 +719,11 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
             unusedEntries[msgid] = true;
           }
 
-          for (let classname of this.__classes) {
+          // Collect references from all classes, and visit classes in a fixed order;
+          //  this.__classes is in the (nondeterministic) order in which compilation finished
+          let referencedMsgids = new Set();
+          let classnames = this.__classes.slice().sort();
+          for (let classname of classnames) {
             let isAppClass = appLibrary.isClass(classname);
             let classLibrary = (!isAppClass && libraries.find(lib => lib.isClass(classname))) || null;
             if (!isAppClass && !classLibrary) {
@@ -774,7 +778,10 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
                 entry.comments = {};
               }
               entry.comments.extracted = src.comment;
-              entry.comments.reference = {};
+              if (!referencedMsgids.has(src.msgid)) {
+                referencedMsgids.add(src.msgid);
+                entry.comments.reference = {};
+              }
               let ref = entry.comments.reference;
               const fileName = classname.replace(/\./g, "/") + ".js";
               const fnAddReference = lineNo => {
@@ -783,7 +790,7 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
                   arr = ref[fileName] = [];
                 }
 
-                if (!arr.includes(src.lineNo)) {
+                if (!arr.includes(lineNo)) {
                   arr.push(lineNo);
                 }
               };
