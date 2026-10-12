@@ -49,6 +49,9 @@ The compiler has received an overhaul, which includes the following changes:
 - When `qx compile -u` could not write a `.po` file, for example because it was read-only,
   the build showed `Unhandled promise rejection: Error: EACCES` and still reported
   `All applications ready`. The error now stops the build like any other write error.
+- `qx compile -u` marked the header of every `.po` file (the entry with `msgid ""`) with
+  `#. NO LONGER USED`, and deleted a header that had no comments and an empty `msgstr`.
+  The header is now left alone, and the next `qx compile -u` removes a mark left by older versions.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.

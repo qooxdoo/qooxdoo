@@ -718,6 +718,13 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
           for (let msgid in translation.getEntries()) {
             unusedEntries[msgid] = true;
           }
+          // The header (msgid "") is never used by code; undo the mark that earlier versions put on it
+          delete unusedEntries[""];
+          let header = translation.getEntry("");
+          if (header?.comments?.extracted == "NO LONGER USED") {
+            delete header.comments.extracted;
+            delete header.comments.reference;
+          }
 
           // Collect references from all classes, and visit classes in a fixed order;
           //  this.__classes is in the (nondeterministic) order in which compilation finished
