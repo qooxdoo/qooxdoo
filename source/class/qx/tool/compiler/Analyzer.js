@@ -777,10 +777,13 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
               if (!entry.comments) {
                 entry.comments = {};
               }
-              entry.comments.extracted = src.comment;
+              // Keep the first hint (in class order); a plain tr() elsewhere must not erase it
               if (!referencedMsgids.has(src.msgid)) {
                 referencedMsgids.add(src.msgid);
                 entry.comments.reference = {};
+                entry.comments.extracted = src.comment;
+              } else if (!entry.comments.extracted) {
+                entry.comments.extracted = src.comment;
               }
               let ref = entry.comments.reference;
               const fileName = classname.replace(/\./g, "/") + ".js";

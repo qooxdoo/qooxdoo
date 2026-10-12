@@ -269,7 +269,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * Writes the .po file
      */
     async write() {
-      this.writeTo(this.getPoFilename());
+      await this.writeTo(this.getPoFilename());
     },
 
     /**

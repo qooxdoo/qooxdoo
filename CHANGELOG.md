@@ -42,6 +42,13 @@ The compiler has received an overhaul, which includes the following changes:
   compile, naming only one of those classes and a different one each time, and fresh
   builds could write new messages in a different order. The `.po` files now stay unchanged
   when no message changed, and the `#:` line lists every class that uses the message.
+- `qx compile -u` dropped the translator hint (`#.` line) from a `trc()` message when
+  another class used the same text with plain `tr()`, and with different hints in several
+  classes the hint of the last class won. The `.po` file now keeps the hint of the first
+  class, in class name order.
+- When `qx compile -u` could not write a `.po` file, for example because it was read-only,
+  the build showed `Unhandled promise rejection: Error: EACCES` and still reported
+  `All applications ready`. The error now stops the build like any other write error.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.
