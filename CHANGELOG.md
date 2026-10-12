@@ -52,6 +52,10 @@ The compiler has received an overhaul, which includes the following changes:
 - `qx compile -u` marked the header of every `.po` file (the entry with `msgid ""`) with
   `#. NO LONGER USED`, and deleted a header that had no comments and an empty `msgstr`.
   The header is now left alone, and the next `qx compile -u` removes a mark left by older versions.
+- `qx compile -u` kept only the last `# ` translator comment line of an entry and only the
+  last `#, ` flags line, so a `fuzzy` flag on its own line could disappear. It also dropped
+  `#| ` lines, and a `#| msgctxt` line became an invalid `msgctxt ""old ctx""` line. All these
+  lines are now kept.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.

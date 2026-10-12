@@ -180,7 +180,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
             }
             switch (type) {
               case "":
-                entry.comments.translator = comment;
+                entry.comments.translator = entry.comments.translator ? entry.comments.translator + "\n" + comment : comment;
                 break;
 
               case ".":
@@ -207,7 +207,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                 break;
 
               case ",":
-                entry.comments.flags = comment.split(",");
+                entry.comments.flags = (entry.comments.flags || []).concat(comment.split(","));
                 break;
 
               case "|":
@@ -216,12 +216,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                   if (!entry.previous) {
                     entry.previous = {};
                   }
-                  var tmp = m[1];
-                  if (tmp == "msgctxt" || tmp == "msgid") {
-                    entry[tmp] = m[2];
-                  } else {
-                    log.warn("Cannot interpret line " + (lineNo + 1));
-                  }
+                  // Kept verbatim (still quoted) and written back as is
+                  entry.previous[m[1]] = m[2];
                 } else {
                   log.warn("Cannot interpret line " + (lineNo + 1));
                 }
@@ -292,7 +288,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         var entry = t.__translations[msgid];
         if (entry.comments) {
           if (entry.comments.translator) {
-            lines.push("# " + entry.comments.translator);
+            entry.comments.translator.split("\n").forEach(line => lines.push("# " + line));
           }
           if (entry.comments.extracted) {
             lines.push("#. " + entry.comments.extracted);
@@ -334,6 +330,9 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           }
           if (entry.comments.flags) {
             lines.push("#, " + entry.comments.flags.join(","));
+          }
+          for (let key in entry.previous) {
+            lines.push("#| " + key + " " + entry.previous[key]);
           }
         } else {
           lines.push("#");
