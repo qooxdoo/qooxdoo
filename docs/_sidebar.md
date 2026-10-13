@@ -98,6 +98,7 @@
         - [SASS compilation](/development/compiler/internals/Sass.md)
         - [Metadata](/development/compiler/internals/MetaData.md)
         - [Dependencies](/development/compiler/internals/Dependencies.md)
+        - [Custom compiler](/development/compiler/internals/CustomCompiler.md)
   - [Jsx](/development/Jsx/)
     - [QxJsx Syntax](/development/Jsx/QxJsx.md)
     - [Server Side Rendering](/development/Jsx/SSR.md)
