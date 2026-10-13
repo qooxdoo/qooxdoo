@@ -56,6 +56,10 @@ The compiler has received an overhaul, which includes the following changes:
   last `#, ` flags line, so a `fuzzy` flag on its own line could disappear. It also dropped
   `#| ` lines, and a `#| msgctxt` line became an invalid `msgctxt ""old ctx""` line. All these
   lines are now kept.
+- `qx compile -u` deleted obsolete entries (the `#~` lines that `msgmerge` keeps at the end of a
+  `.po` file) together with their comments, and wrote an invalid entry with only
+  `#. NO LONGER USED` and `msgstr ""` in their place. Obsolete entries are now kept unchanged at
+  the end of the file.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.

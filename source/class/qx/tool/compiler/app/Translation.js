@@ -43,6 +43,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
     }
     this.__translations = {};
     this.__headers = {};
+    this.__obsolete = [];
   },
 
   properties: {
@@ -69,6 +70,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
   members: {
     __translations: null,
     __headers: null,
+    __obsolete: null,
     __mtime: 0,
     __onRead: null,
 
@@ -109,6 +111,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
 
       t.__translations = {};
       t.__headers = {};
+      t.__obsolete = [];
       var poFile = this.getPoFilename();
 
       return (t.__onRead = (async () => {
@@ -121,9 +124,14 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         const data = await fs.promises.readFile(poFile, { encoding: "utf8" });
         var entry = null;
         var lastKey = null;
+        var rawLines = [];
+        var isObsolete = false;
 
         function saveEntry() {
-          if (entry) {
+          if (entry && isObsolete) {
+            // Obsolete entry (`#~` lines), kept verbatim with its comments and written back at the end
+            t.__obsolete.push(rawLines);
+          } else if (entry) {
             var key;
             if (entry.msgctxt) {
               key = entry.msgctxt + ":" + entry.msgid;
@@ -134,6 +142,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           }
           entry = null;
           lastKey = null;
+          rawLines = [];
+          isObsolete = false;
         }
 
         function set(key, value, append) {
@@ -167,6 +177,11 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
 
           if (!entry) {
             entry = {};
+          }
+          rawLines.push(line);
+          if (line.startsWith("#~")) {
+            isObsolete = true;
+            return;
           }
 
           // Comment?
@@ -353,6 +368,9 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           write("msgstr", entry.msgstr || "");
         }
         lines.push("");
+      }
+      for (let obsoleteLines of t.__obsolete) {
+        lines.push(...obsoleteLines, "");
       }
       var data = lines.join("\n");
       return fs.promises.writeFile(filename, data, { encoding: "utf8" });
