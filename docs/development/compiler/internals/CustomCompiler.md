@@ -135,11 +135,20 @@ need `application-types` for this to work.
 ### 3. Make the compiler's npm dependencies available
 
 The custom compiler runs from your project directory, so Node.js resolves its
-`require()` calls from *your* `node_modules`. All dependencies of the Qooxdoo
-compiler (see the `dependencies` in Qooxdoo's `package.json`) must therefore be
-installed in your project. You can either copy them into your `package.json`,
-or - if you use Qooxdoo from a Git checkout inside your project - declare that
-checkout as an npm workspace, which lets npm install its dependencies for you:
+`require()` calls from *your* `node_modules`, and all dependencies of the
+Qooxdoo compiler (see the `dependencies` in Qooxdoo's `package.json`) must be
+installed there.
+
+**Qooxdoo installed from npm:** if `@qooxdoo/framework` is a dependency (or
+devDependency) of your project, there is nothing to do. The compiler's
+dependencies are regular dependencies of that package, and npm installs them
+into your `node_modules`. Make sure that you run the compiler of that same
+package (`npx qx`), so that the installed versions match the compiler.
+
+**Qooxdoo from a Git checkout inside your project:** its dependencies are not
+installed automatically. Either copy them into your `package.json`, or declare
+the checkout as an npm workspace, which lets npm install its dependencies for
+you:
 
 ```json
 {
@@ -150,7 +159,8 @@ checkout as an npm workspace, which lets npm install its dependencies for you:
 If you copy them, `devDependencies` are sufficient: the custom compiler only
 runs while you build, never as part of your deployed application. That keeps
 the compiler's dependencies out of a production install (`npm ci --omit=dev`),
-as long as you do not compile there.
+as long as you do not compile there. Keep the versions in line with the
+`package.json` of the checkout when you update it.
 
 ### 4. Write the compiler class
 
