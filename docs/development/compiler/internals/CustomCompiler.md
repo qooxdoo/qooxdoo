@@ -147,6 +147,11 @@ checkout as an npm workspace, which lets npm install its dependencies for you:
 }
 ```
 
+If you copy them, `devDependencies` are sufficient: the custom compiler only
+runs while you build, never as part of your deployed application. That keeps
+the compiler's dependencies out of a production install (`npm ci --omit=dev`),
+as long as you do not compile there.
+
 ### 4. Write the compiler class
 
 Extend `qx.tool.compiler.Compiler` and override `addMaker`. The CLI calls
