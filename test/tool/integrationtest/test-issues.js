@@ -204,7 +204,8 @@ const WATCH_CLEAN_MARKER = "// This application starts clean without errors.";
 
 /**
  * Runs `qx compile --watch` in the issue10407-watch fixture, calls `modify` once the watcher
- * has started and waits until the output matches `expected`.
+ * has started and waits until the output matches `expected`. `modify` gets a function
+ * `waitFor(match, what)` to wait for output of its own between its changes.
  *
  * It waits for the expected message itself and not for "All applications ready.", because that
  * is also printed for a batch of changes which needs no compile (eg a new class file which is
@@ -251,7 +252,7 @@ async function watchUntil(modify, expected) {
     await waitFor(/Start watching/, "Watch mode did not start");
     // Give the file watchers a moment to settle
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await modify();
+    await modify(waitFor);
     await waitFor(expected, "Watch mode did not report " + expected);
   } finally {
     await new Promise(resolve => kill(watchProcess.pid, "SIGKILL", resolve));
@@ -287,6 +288,38 @@ qx.Class.define("issue10407watch.WatchTestClass", {
       await fsPromises.writeFile(
         WATCH_APP_FILE,
         appContent.replace(WATCH_CLEAN_MARKER, WATCH_CLEAN_MARKER + "\n      var testClass = new issue10407watch.WatchTestClass();"),
+        "utf8"
+      );
+    }, /qx\.nonexistent\.WatchModeTestClass/);
+  } finally {
+    await fsPromises.writeFile(WATCH_APP_FILE, appContent, "utf8");
+    await testUtils.safeDelete(newClassPath);
+  }
+});
+
+test("Watch compiles a new class when the file using it is saved first (#10407)", async () => {
+  const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
+  let appContent = await fsPromises.readFile(WATCH_APP_FILE, "utf8");
+  try {
+    await watchUntil(async waitFor => {
+      await fsPromises.writeFile(
+        WATCH_APP_FILE,
+        appContent.replace(WATCH_CLEAN_MARKER, WATCH_CLEAN_MARKER + "\n      var testClass = new issue10407watch.WatchTestClass();"),
+        "utf8"
+      );
+      await waitFor(/Unresolved use of symbol issue10407watch\.WatchTestClass/, "Watch mode did not compile Application.js");
+      await fsPromises.writeFile(
+        newClassPath,
+        `qx.Class.define("issue10407watch.WatchTestClass", {
+  extend: qx.core.Object,
+
+  members: {
+    testMethod: function() {
+      return new qx.nonexistent.WatchModeTestClass();
+    }
+  }
+});
+`,
         "utf8"
       );
     }, /qx\.nonexistent\.WatchModeTestClass/);
