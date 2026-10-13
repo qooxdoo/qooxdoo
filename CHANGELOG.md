@@ -38,6 +38,12 @@ The compiler has received an overhaul, which includes the following changes:
   this mainly affects the `qx.ui.list.*`, `qx.ui.virtual.*`, `qx.ui.treevirtual.*` classes but there are a few more as well.
 
 ## Fixes
+- `qx compile --watch` did not pick up a new class when the file that uses it was saved
+  before the new class file: it kept warning `Unresolved use of symbol` for the new class
+  and left it out of the application until the compiler was restarted.
+- `qx compile --watch` printed `All applications ready.` while it was still writing the
+  application, when a second change that needs no compile came in during a rebuild. It
+  now prints the message only once the rebuild has finished.
 - `qx compile -u` rewrote the `#:` line of a message used in several classes on every
   compile, naming only one of those classes and a different one each time, and fresh
   builds could write new messages in a different order. The `.po` files now stay unchanged
