@@ -639,7 +639,10 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         }
       }
 
-      if (!compilationRequired) {
+      // A make that is still running, or that classes still compiling will start, fires "allDone" when it is finished
+      let busy =
+        Object.keys(this.__compilingClasses).length > 0 || Object.values(this.__makerStateByHashCode).some(makerState => makerState.promise);
+      if (!compilationRequired && !busy) {
         await this.fireEventAsync("allDone");
       }
     },
