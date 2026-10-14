@@ -6,12 +6,22 @@
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
+- A `Date` in the params of a JSON-RPC request is now sent as an ISO 8601 string such as
+`"2024-01-02T03:04:05.678Z"`, where it used to be sent as `Date#toString()`
+(`"Tue Jan 02 2024 03:04:05 GMT+0000 (…)"`, without milliseconds). A server which parsed
+the old format has to accept the ISO format. (#10900)
+
 ## Bugfixes
 
 - `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
 `qx.event.Idle` tick when the target widget is disposed before the placing widget
 disappears (e.g. a popup left open while its target's window is closed). The
 live-update loop now stops and releases its idle listener when the target is disposed.
+
+- JSON-RPC requests are now serialized with `JSON.stringify`, so a request body which used
+to be invalid JSON is now valid: strings containing control characters and object keys
+containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
+as bare tokens a server cannot parse. Other payloads are sent exactly as before. (#10900)
 
 # v7.0.0
 
