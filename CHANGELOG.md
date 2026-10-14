@@ -16,6 +16,11 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- `splice()` on a `qx.data.Array` with a negative start, such as `splice(-1, 1, "y")`, fired a
+  `change` event with `start: -1` and a `changeBubble` event named `-1`; a start beyond the end
+  was also passed on unchanged. An item inserted at such a start reported its own changes under
+  the wrong index, for example `list[10].name` instead of `list[1].name`. Both events now carry
+  the real position, as the native array `splice()` computes it.
 - When a theme change turned an icon alias from an image into a font icon, the
   repaint stopped with `el.setValue is not a function` and the widgets restyled
   after it kept the old look. In the other direction the font icon element

@@ -898,6 +898,41 @@ qx.Class.define("qx.test.data.DataArray", {
       a.dispose();
     },
 
+    testSpliceNormalizesStartIndex() {
+      // negative start counts from the end
+      var a = new qx.data.Array("a", "b", "c", "d");
+      var change = null;
+      var bubble = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(-1, 1, "y").dispose();
+      this.assertEquals(3, change.start, "Wrong start index (negative start).");
+      this.assertEquals(3, change.end, "Wrong end index (negative start).");
+      this.assertEquals("3", bubble.name, "Wrong bubble name (negative start).");
+      this.assertEquals("y", a.getItem(3));
+      a.dispose();
+
+      // start beyond the length is clamped to the length
+      a = new qx.data.Array("a", "b", "c");
+      change = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.splice(10, 0, "x").dispose();
+      this.assertEquals(3, change.start, "Wrong start index (start beyond length).");
+      this.assertEquals(3, change.end, "Wrong end index (start beyond length).");
+      a.dispose();
+
+      // the inserted item bubbles its changes under its real index
+      var model = qx.data.marshal.Json.createModel({ list: [{ name: "a" }] }, true);
+      var item = qx.data.marshal.Json.createModel({ name: "b" }, true);
+      model.getList().splice(10, 0, item).dispose();
+      bubble = null;
+      model.addListener("changeBubble", e => (bubble = e.getData()));
+      item.setName("c");
+      this.assertEquals("list[1].name", bubble.name, "Wrong bubble name of inserted item.");
+      model.dispose();
+      item.dispose();
+    },
+
     testSpliceEventNoChange() {
       var a = new qx.data.Array(1, 2, 3);
       this.assertEventNotFired(

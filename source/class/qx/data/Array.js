@@ -411,6 +411,12 @@ qx.Class.define("qx.data.Array", {
       // store the old length
       var oldLength = this.__array.length;
 
+      // normalize the start index the way the native splice does, so the
+      // events report the real position instead of the raw argument
+      startIndex = Math.trunc(Number(startIndex)) || 0;
+      startIndex = startIndex < 0 ? Math.max(oldLength + startIndex, 0) : Math.min(startIndex, oldLength);
+      arguments[0] = startIndex;
+
       // invoke the slice on the array
       var returnArray = this.__array.splice.apply(this.__array, arguments);
 
