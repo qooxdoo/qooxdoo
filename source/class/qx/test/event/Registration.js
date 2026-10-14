@@ -18,9 +18,10 @@
 
 /**
  * @ignore(Foo)
+ * @ignore(WeakRef)
  */
 
-/* global Foo */
+/* global Foo, WeakRef */
 qx.Class.define("qx.test.event.Registration", {
   extend: qx.dev.unit.TestCase,
 
@@ -149,21 +150,67 @@ qx.Class.define("qx.test.event.Registration", {
     },
 
     /**
+     * Defines the target class the addListenerOnce tests fire on, on first use:
+     * the compiler takes one class per file, and several tests need it.
+     *
      * @ignore(Foo)
      */
-    "test addListenerOnce: same callback"() {
-      qx.Class.define("Foo", {
-        extend: qx.core.Object,
-        events: {
-          bar: "qx.event.type.Event"
-        },
+    __defineFoo() {
+      if (!qx.Class.getByName("Foo")) {
+        qx.Class.define("Foo", {
+          extend: qx.core.Object,
+          events: {
+            bar: "qx.event.type.Event"
+          },
 
-        members: {
-          fireBar() {
-            this.fireDataEvent("bar");
+          members: {
+            fireBar() {
+              this.fireDataEvent("bar");
+            },
+
+            /** A listener shared by every instance, as in BUG #10887 */
+            onBar(e) {}
           }
-        }
-      });
+        });
+      }
+    },
+
+    /**
+     * @param target {qx.core.Object} the event target
+     * @param type {String} name of the event type
+     * @return {Integer} registrations the event registry holds for the bubbling
+     *   phase of that type
+     */
+    __countListeners(target, type) {
+      var listeners = qx.event.Registration.getManager(target).getListeners(
+        target,
+        type,
+        false
+      );
+
+      return listeners ? listeners.length : 0;
+    },
+
+    /**
+     * The invariant {@link qx.core.MEvent#addListenerOnce} has to keep: the
+     * registry entry is the only place a registration lives, so once it has
+     * ended nothing is left on the listener function, which may be shared
+     * between targets and would then outlive every one of them [BUG #10887],
+     * and nothing is left on the target either.
+     *
+     * @param listener {Function} the function passed to addListenerOnce
+     * @param target {qx.core.Object} the event target
+     * @param targetKeys {String[]} the target's own keys before the registration
+     * @return {String[]} what the registration left outside the registry
+     */
+    __stateOutsideRegistry(listener, target, targetKeys) {
+      return Object.keys(listener).concat(
+        Object.keys(target).filter(key => !targetKeys.includes(key))
+      );
+    },
+
+    "test addListenerOnce: same callback"() {
+      this.__defineFoo();
 
       var f1 = new Foo();
       var f2 = new Foo();
@@ -186,6 +233,173 @@ qx.Class.define("qx.test.event.Registration", {
 
       this.assertEquals(1, called[f1.toHashCode()]);
       this.assertEquals(1, called[f2.toHashCode()]);
+    },
+
+    "test addListenerOnce: the registration is gone once it has fired"() {
+      this.__defineFoo();
+      var target = new Foo();
+      target.toHashCode(); // the hash is not leftover state, so take it first
+      var targetKeys = Object.keys(target);
+
+      var calls = 0;
+      var listener = function (e) {
+        calls++;
+      };
+
+      target.addListenerOnce("bar", listener, target);
+      this.assertEquals(1, this.__countListeners(target, "bar"));
+
+      target.fireBar();
+      target.fireBar();
+
+      this.assertEquals(1, calls, "the listener did not run exactly once");
+      this.assertEquals(
+        0,
+        this.__countListeners(target, "bar"),
+        "the fired registration is still in the registry"
+      );
+
+      var left = this.__stateOutsideRegistry(listener, target, targetKeys);
+      this.assertArrayEquals(
+        [],
+        left,
+        "firing left [" + left.join(", ") + "] outside the registry"
+      );
+
+      target.dispose();
+    },
+
+    "test addListenerOnce: the registration is gone after removeListener"() {
+      this.__defineFoo();
+      var target = new Foo();
+      target.toHashCode();
+      var targetKeys = Object.keys(target);
+
+      var calls = 0;
+      var listener = function (e) {
+        calls++;
+      };
+
+      target.addListenerOnce("bar", listener, target);
+      this.assertTrue(target.removeListener("bar", listener, target));
+
+      target.fireBar();
+
+      this.assertEquals(0, calls, "the removed listener ran");
+      this.assertEquals(
+        0,
+        this.__countListeners(target, "bar"),
+        "the removed registration is still in the registry"
+      );
+
+      var left = this.__stateOutsideRegistry(listener, target, targetKeys);
+      this.assertArrayEquals(
+        [],
+        left,
+        "removeListener left [" + left.join(", ") + "] outside the registry"
+      );
+
+      target.dispose();
+    },
+
+    "test addListenerOnce: the registration is gone after removeListenerById"() {
+      this.__defineFoo();
+      var target = new Foo();
+      target.toHashCode();
+      var targetKeys = Object.keys(target);
+
+      var calls = 0;
+      var listener = function (e) {
+        calls++;
+      };
+
+      var id = target.addListenerOnce("bar", listener, target);
+      this.assertTrue(target.removeListenerById(id));
+
+      target.fireBar();
+
+      this.assertEquals(0, calls, "the removed listener ran");
+      this.assertEquals(
+        0,
+        this.__countListeners(target, "bar"),
+        "the removed registration is still in the registry"
+      );
+
+      var left = this.__stateOutsideRegistry(listener, target, targetKeys);
+      this.assertArrayEquals(
+        [],
+        left,
+        "removeListenerById left [" + left.join(", ") + "] outside the registry"
+      );
+
+      target.dispose();
+    },
+
+    "test addListenerOnce: the same listener added twice for one type"() {
+      this.__defineFoo();
+      var target = new Foo();
+
+      var calls = 0;
+      var listener = function (e) {
+        calls++;
+      };
+
+      target.addListenerOnce("bar", listener, target);
+      target.addListenerOnce("bar", listener, target);
+
+      this.assertEquals(
+        2,
+        this.__countListeners(target, "bar"),
+        "the second registration replaced the first"
+      );
+
+      // one call removes every registration that matches, wrapped or not
+      this.assertTrue(target.removeListener("bar", listener, target));
+
+      this.assertEquals(
+        0,
+        this.__countListeners(target, "bar"),
+        "a registration survived removeListener"
+      );
+
+      target.fireBar();
+      this.assertEquals(0, calls, "a removed listener ran");
+
+      target.dispose();
+    },
+
+    async "test addListenerOnce: a shared listener does not retain its targets"() {
+      if (typeof WeakRef !== "function" || typeof window.gc !== "function") {
+        this.skip("needs WeakRef and a browser started with --expose-gc");
+      }
+
+      this.__defineFoo();
+      var listener = Foo.prototype.onBar;
+      var refs = [];
+      var target;
+
+      for (var i = 0; i < 20; i++) {
+        target = new Foo();
+        target.addListenerOnce("bar", listener, target);
+        if (i % 2) {
+          target.fireBar();
+        }
+        refs.push(new WeakRef(target));
+        target.dispose();
+      }
+      target = null;
+
+      // a WeakRef keeps its target alive for the rest of the current job
+      await new Promise(resolve => window.setTimeout(resolve, 50));
+      window.gc();
+
+      var alive = refs.filter(ref => ref.deref() !== undefined);
+
+      this.assertEquals(
+        0,
+        alive.length,
+        alive.length + " of 20 disposed targets are still reachable"
+      );
     }
   }
 });

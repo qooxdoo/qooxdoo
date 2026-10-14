@@ -703,6 +703,9 @@ qx.Class.define("qx.event.Manager", {
     /**
      * Remove an event listener from an event target.
      *
+     * Removes every entry that matches, including the ones
+     * {@link qx.core.MEvent#addListenerOnce} wrapped around the listener.
+     *
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -753,7 +756,13 @@ qx.Class.define("qx.event.Manager", {
       }
       var deleted = false;
 
-      for (const [entryKey, entry] of entryMap.entries().filter(([eK, e]) => e.handler === listener && e.context === self)) {
+      for (const [entryKey, entry] of entryMap
+        .entries()
+        .filter(
+          ([eK, e]) =>
+            (e.handler === listener || e.handler.$$onceOf === listener) &&
+            e.context === self
+        )) {
         deleted = true;
         entryMap.delete(entryKey);
         this.__addToBlacklist(entryKey);
