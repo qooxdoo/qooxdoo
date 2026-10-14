@@ -933,6 +933,24 @@ qx.Class.define("qx.test.data.DataArray", {
       item.dispose();
     },
 
+    testSpliceWithoutAmount() {
+      var a = new qx.data.Array("a", "b", "c", "d");
+      var change = null;
+      var bubble = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(2).dispose();
+      this.assertArrayEquals(["a", "b"], a.toArray());
+      this.assertNotNull(change, "Change event not fired.");
+      this.assertEquals("remove", change.type);
+      this.assertEquals(2, change.start);
+      this.assertArrayEquals(["c", "d"], change.removed);
+      this.assertNotNull(bubble, "changeBubble event not fired.");
+      this.assertEquals("2-3", bubble.name);
+      this.assertArrayEquals(["c", "d"], bubble.old);
+      a.dispose();
+    },
+
     testSpliceEventNoChange() {
       var a = new qx.data.Array(1, 2, 3);
       this.assertEventNotFired(
