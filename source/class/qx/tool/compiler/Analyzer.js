@@ -718,8 +718,19 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
           for (let msgid in translation.getEntries()) {
             unusedEntries[msgid] = true;
           }
+          // The header (msgid "") is never used by code; undo the mark that earlier versions put on it
+          delete unusedEntries[""];
+          let header = translation.getEntry("");
+          if (header?.comments?.extracted == "NO LONGER USED") {
+            delete header.comments.extracted;
+            delete header.comments.reference;
+          }
 
-          for (let classname of this.__classes) {
+          // Collect references from all classes, and visit classes in a fixed order;
+          //  this.__classes is in the (nondeterministic) order in which compilation finished
+          let referencedMsgids = new Set();
+          let classnames = this.__classes.slice().sort();
+          for (let classname of classnames) {
             let isAppClass = appLibrary.isClass(classname);
             let classLibrary = (!isAppClass && libraries.find(lib => lib.isClass(classname))) || null;
             if (!isAppClass && !classLibrary) {
@@ -773,8 +784,14 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
               if (!entry.comments) {
                 entry.comments = {};
               }
-              entry.comments.extracted = src.comment;
-              entry.comments.reference = {};
+              // Keep the first hint (in class order); a plain tr() elsewhere must not erase it
+              if (!referencedMsgids.has(src.msgid)) {
+                referencedMsgids.add(src.msgid);
+                entry.comments.reference = {};
+                entry.comments.extracted = src.comment;
+              } else if (!entry.comments.extracted) {
+                entry.comments.extracted = src.comment;
+              }
               let ref = entry.comments.reference;
               const fileName = classname.replace(/\./g, "/") + ".js";
               const fnAddReference = lineNo => {
@@ -783,7 +800,7 @@ qx.Class.define("qx.tool.compiler.Analyzer", {
                   arr = ref[fileName] = [];
                 }
 
-                if (!arr.includes(src.lineNo)) {
+                if (!arr.includes(lineNo)) {
                   arr.push(lineNo);
                 }
               };

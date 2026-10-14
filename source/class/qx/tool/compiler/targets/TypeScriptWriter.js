@@ -744,7 +744,6 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       LayoutItem: "qx.ui.core.LayoutItem",
       Widget: "qx.ui.core.Widget",
       Decorator: "qx.ui.decoration.Decorator",
-      MWidgetController: "qx.ui.list.core.MWidgetController",
       AbstractTreeItem: "qx.ui.tree.core.AbstractTreeItem",
       IDesktop: "qx.ui.window.IDesktop",
       IWindowManager: "qx.ui.window.IWindowManager",

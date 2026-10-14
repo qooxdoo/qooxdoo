@@ -38,6 +38,34 @@ The compiler has received an overhaul, which includes the following changes:
   this mainly affects the `qx.ui.list.*`, `qx.ui.virtual.*`, `qx.ui.treevirtual.*` classes but there are a few more as well.
 
 ## Fixes
+- `qx compile --watch` did not pick up a new class when the file that uses it was saved
+  before the new class file: it kept warning `Unresolved use of symbol` for the new class
+  and left it out of the application until the compiler was restarted.
+- `qx compile --watch` printed `All applications ready.` while it was still writing the
+  application, when a second change that needs no compile came in during a rebuild. It
+  now prints the message only once the rebuild has finished.
+- `qx compile -u` rewrote the `#:` line of a message used in several classes on every
+  compile, naming only one of those classes and a different one each time, and fresh
+  builds could write new messages in a different order. The `.po` files now stay unchanged
+  when no message changed, and the `#:` line lists every class that uses the message.
+- `qx compile -u` dropped the translator hint (`#.` line) from a `trc()` message when
+  another class used the same text with plain `tr()`, and with different hints in several
+  classes the hint of the last class won. The `.po` file now keeps the hint of the first
+  class, in class name order.
+- When `qx compile -u` could not write a `.po` file, for example because it was read-only,
+  the build showed `Unhandled promise rejection: Error: EACCES` and still reported
+  `All applications ready`. The error now stops the build like any other write error.
+- `qx compile -u` marked the header of every `.po` file (the entry with `msgid ""`) with
+  `#. NO LONGER USED`, and deleted a header that had no comments and an empty `msgstr`.
+  The header is now left alone, and the next `qx compile -u` removes a mark left by older versions.
+- `qx compile -u` kept only the last `# ` translator comment line of an entry and only the
+  last `#, ` flags line, so a `fuzzy` flag on its own line could disappear. It also dropped
+  `#| ` lines, and a `#| msgctxt` line became an invalid `msgctxt ""old ctx""` line. All these
+  lines are now kept.
+- `qx compile -u` deleted obsolete entries (the `#~` lines that `msgmerge` keeps at the end of a
+  `.po` file) together with their comments, and wrote an invalid entry with only
+  `#. NO LONGER USED` and `msgstr ""` in their place. Obsolete entries are now kept unchanged at
+  the end of the file.
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.

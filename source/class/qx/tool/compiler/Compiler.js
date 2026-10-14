@@ -573,6 +573,7 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       this.fireEvent("changesDetected");
       let changedFiles = this.__changedFiles;
       let added = [];
+      let newClassnames = [];
       this.__changedFiles = {};
 
       await Promise.all(
@@ -587,6 +588,9 @@ qx.Class.define("qx.tool.compiler.Compiler", {
               return;
             }
             added.push(classname);
+            if (!metaDb.getMetaData(classname)) {
+              newClassnames.push(classname);
+            }
             await metaDb.addFile(filename, true);
           } else {
             await metaDb.removeFile(filename);
@@ -604,20 +608,41 @@ qx.Class.define("qx.tool.compiler.Compiler", {
 
       let compilationRequired = false;
       for (let maker of this.__makers) {
-        for (let app of maker.getApplications()) {
-          let dependencies = app.getDependencies() || [];
-          for (let classname of added) {
-            if (dependencies.includes(classname) || app.getRequiredClasses().includes(classname) || app.getTheme() == classname) {
-              compilationRequired = true;
-              this.compileClass(maker.getAnalyzer(), classname, true);
-              this.fireDataEvent("classNeedsToBeCompiled", { maker, classname });
-              break;
+        let analyzer = maker.getAnalyzer();
+        let toCompile = new Set(added);
+
+        // A new class is not a dependency of any application yet, because the classes which use it could
+        //  not resolve it when they were compiled; recompile those so that they pick it up
+        if (newClassnames.length) {
+          for (let classname of analyzer.getCompiledClassnames()) {
+            let unresolved = analyzer.getDbClassInfo(classname).unresolved || [];
+            if (unresolved.some(item => newClassnames.some(name => item.name == name || item.name.startsWith(name + ".")))) {
+              toCompile.add(classname);
             }
+          }
+        }
+
+        for (let classname of toCompile) {
+          let isUsed = maker
+            .getApplications()
+            .some(
+              app =>
+                (app.getDependencies() || []).includes(classname) ||
+                app.getRequiredClasses().includes(classname) ||
+                app.getTheme() == classname
+            );
+          if (isUsed) {
+            compilationRequired = true;
+            this.compileClass(analyzer, classname, true);
+            this.fireDataEvent("classNeedsToBeCompiled", { maker, classname });
           }
         }
       }
 
-      if (!compilationRequired) {
+      // A make that is still running, or that classes still compiling will start, fires "allDone" when it is finished
+      let busy =
+        Object.keys(this.__compilingClasses).length > 0 || Object.values(this.__makerStateByHashCode).some(makerState => makerState.promise);
+      if (!compilationRequired && !busy) {
         await this.fireEventAsync("allDone");
       }
     },

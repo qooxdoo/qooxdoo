@@ -43,6 +43,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
     }
     this.__translations = {};
     this.__headers = {};
+    this.__obsolete = [];
   },
 
   properties: {
@@ -69,6 +70,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
   members: {
     __translations: null,
     __headers: null,
+    __obsolete: null,
     __mtime: 0,
     __onRead: null,
 
@@ -109,6 +111,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
 
       t.__translations = {};
       t.__headers = {};
+      t.__obsolete = [];
       var poFile = this.getPoFilename();
 
       return (t.__onRead = (async () => {
@@ -121,9 +124,14 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         const data = await fs.promises.readFile(poFile, { encoding: "utf8" });
         var entry = null;
         var lastKey = null;
+        var rawLines = [];
+        var isObsolete = false;
 
         function saveEntry() {
-          if (entry) {
+          if (entry && isObsolete) {
+            // Obsolete entry (`#~` lines), kept verbatim with its comments and written back at the end
+            t.__obsolete.push(rawLines);
+          } else if (entry) {
             var key;
             if (entry.msgctxt) {
               key = entry.msgctxt + ":" + entry.msgid;
@@ -134,6 +142,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           }
           entry = null;
           lastKey = null;
+          rawLines = [];
+          isObsolete = false;
         }
 
         function set(key, value, append) {
@@ -168,6 +178,11 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           if (!entry) {
             entry = {};
           }
+          rawLines.push(line);
+          if (line.startsWith("#~")) {
+            isObsolete = true;
+            return;
+          }
 
           // Comment?
           var m = line.match(/^#([^ ]?) (.*)$/);
@@ -180,7 +195,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
             }
             switch (type) {
               case "":
-                entry.comments.translator = comment;
+                entry.comments.translator = entry.comments.translator ? entry.comments.translator + "\n" + comment : comment;
                 break;
 
               case ".":
@@ -207,7 +222,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                 break;
 
               case ",":
-                entry.comments.flags = comment.split(",");
+                entry.comments.flags = (entry.comments.flags || []).concat(comment.split(","));
                 break;
 
               case "|":
@@ -216,12 +231,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                   if (!entry.previous) {
                     entry.previous = {};
                   }
-                  var tmp = m[1];
-                  if (tmp == "msgctxt" || tmp == "msgid") {
-                    entry[tmp] = m[2];
-                  } else {
-                    log.warn("Cannot interpret line " + (lineNo + 1));
-                  }
+                  // Kept verbatim (still quoted) and written back as is
+                  entry.previous[m[1]] = m[2];
                 } else {
                   log.warn("Cannot interpret line " + (lineNo + 1));
                 }
@@ -269,7 +280,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * Writes the .po file
      */
     async write() {
-      this.writeTo(this.getPoFilename());
+      await this.writeTo(this.getPoFilename());
     },
 
     /**
@@ -292,7 +303,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         var entry = t.__translations[msgid];
         if (entry.comments) {
           if (entry.comments.translator) {
-            lines.push("# " + entry.comments.translator);
+            entry.comments.translator.split("\n").forEach(line => lines.push("# " + line));
           }
           if (entry.comments.extracted) {
             lines.push("#. " + entry.comments.extracted);
@@ -335,6 +346,9 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           if (entry.comments.flags) {
             lines.push("#, " + entry.comments.flags.join(","));
           }
+          for (let key in entry.previous) {
+            lines.push("#| " + key + " " + entry.previous[key]);
+          }
         } else {
           lines.push("#");
         }
@@ -354,6 +368,9 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           write("msgstr", entry.msgstr || "");
         }
         lines.push("");
+      }
+      for (let obsoleteLines of t.__obsolete) {
+        lines.push(...obsoleteLines, "");
       }
       var data = lines.join("\n");
       return fs.promises.writeFile(filename, data, { encoding: "utf8" });
