@@ -520,6 +520,106 @@ qx.Class.define("qx.test.ui.table.Table", {
 
       tableSimple.destroy();
       tableModelSimple.dispose();
+    },
+
+    /**
+     * The intervals of the timers started while the given function runs.
+     *
+     * @param fn {Function} function to run
+     * @return {Integer[]} one entry per qx.event.Timer#start
+     */
+    __intervalsStartedBy(fn) {
+      var intervals = [];
+      var start = qx.event.Timer.prototype.start;
+      qx.event.Timer.prototype.start = function () {
+        intervals.push(this.getInterval());
+        return start.apply(this, arguments);
+      };
+
+      try {
+        fn.call(this);
+      } finally {
+        qx.event.Timer.prototype.start = start;
+      }
+
+      return intervals;
+    },
+
+    /**
+     * Issue #10892
+     */
+    testScrollerStartsNoTimer() {
+      // Assert on what would wake the main thread - a timer being started -
+      // rather than on the handler, which this fix leaves wired to nothing.
+      var model = this.createModel();
+      var table;
+
+      this.assertArrayEquals(
+        [],
+        this.__intervalsStartedBy(function () {
+          table = new qx.ui.table.Table(model);
+        }),
+
+        "building a table must start no timer"
+      );
+
+      // showing it ran _onAppear, which started the timer as well. The rest
+      // of a first layout starts timers of its own, so this one looks for a
+      // timer at the scroll timeout rather than for silence.
+      var scrollTimeout = table._getPaneScrollerArr()[0].getScrollTimeout();
+      var whileShowing = this.__intervalsStartedBy(function () {
+        this.getRoot().add(table);
+        this.flush();
+      });
+
+      this.assertFalse(
+        whileShowing.includes(scrollTimeout),
+        "showing a table must not start a timer at the scroll timeout, started: " +
+          whileShowing.join(", ")
+      );
+
+      // setting the timeout to 0 used to make the timer fire as fast as the
+      // browser allows instead of clearing it
+      this.assertArrayEquals(
+        [],
+        this.__intervalsStartedBy(function () {
+          table._getPaneScrollerArr()[0].setScrollTimeout(0);
+        }),
+
+        "setScrollTimeout(0) must start no timer"
+      );
+
+      table.destroy();
+      model.dispose();
+    },
+
+    /**
+     * Issue #10892: scrolling updates the content synchronously, it never
+     * depended on the timer.
+     */
+    testScrollingUpdatesTheContent() {
+      var model = this.createModel();
+      model.setData(this.createRandomRows(1000));
+      var table = new qx.ui.table.Table(model).set({
+        width: 300,
+        height: 100
+      });
+
+      this.getRoot().add(table);
+      this.flush();
+
+      var scroller = table._getPaneScrollerArr()[0];
+      this.assertEquals(0, scroller.getTablePane().getFirstVisibleRow());
+
+      scroller.setScrollY(400 * table.getRowHeight());
+      this.assertEquals(
+        400,
+        scroller.getTablePane().getFirstVisibleRow(),
+        "Scrolling must update the pane without waiting for a timer."
+      );
+
+      table.destroy();
+      model.dispose();
     }
   }
 });

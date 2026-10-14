@@ -132,10 +132,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     this.addListener("pointerout", this._onPointerout, this);
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
-
-    this.__timer = new qx.event.Timer();
-    this.__timer.addListener("interval", this._oninterval, this);
-    this.initScrollTimeout();
   },
 
   /*
@@ -311,12 +307,14 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
 
     /**
      * Interval time (in milliseconds) for the table update timer.
-     * Setting this to 0 clears the timer.
+     *
+     * @deprecated {7.10} There is no update timer any more, because it could
+     *   never do any work: scrolling updates the content synchronously. The
+     *   property has no effect.
      */
     scrollTimeout: {
       check: "Integer",
-      init: 100,
-      apply: "_applyScrollTimeout"
+      init: 100
     },
 
     appearance: {
@@ -345,7 +343,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     __table: null,
 
     __updateInterval: null,
-    __updateContentPlanned: null,
     __onintervalWrapper: null,
 
     _moveColumn: null,
@@ -380,8 +377,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
     __clipperContainer: null,
     __focusIndicator: null,
     __top: null,
-
-    __timer: null,
 
     __focusIndicatorPointerDownListener: null,
     __cellEditorFocusoutListener: null,
@@ -798,7 +793,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      * Event handler for the scroller's appear event
      */
     _onAppear() {
-      // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
     },
 
@@ -806,7 +800,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      * Event handler for the disappear event
      */
     _onDisappear() {
-      // before the scroller disappears we need to stop it
       this._stopInterval();
     },
 
@@ -1696,7 +1689,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      */
     setFocusedCell(col, row) {
       if (!this.isEditing()) {
-        this.__tablePane.setFocusedCell(col, row, this.__updateContentPlanned);
+        this.__tablePane.setFocusedCell(col, row, false);
 
         this.__focusedCol = col;
         this.__focusedRow = row;
@@ -2330,27 +2323,21 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       return this.getPaneClipper();
     },
 
-    // property apply method
-    _applyScrollTimeout(value, old) {
-      this._startInterval(value);
-    },
-
     /**
-     * Starts the current running interval
+     * Does nothing, there is no update timer any more.
      *
-     * @param timeout {Integer} The timeout between two table updates
+     * @param timeout {Integer} ignored
+     *
+     * @deprecated {7.10}
      */
-    _startInterval(timeout) {
-      this.__timer.setInterval(timeout);
-      this.__timer.start();
-    },
+    _startInterval(timeout) {},
 
     /**
-     * stops the current running interval
+     * Does nothing, there is no update timer any more.
+     *
+     * @deprecated {7.10}
      */
-    _stopInterval() {
-      this.__timer.stop();
-    },
+    _stopInterval() {},
 
     /**
      * Does a postponed update of the content.
@@ -2358,23 +2345,15 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
      * @see #_updateContent
      */
     _postponedUpdateContent() {
-      //this.__updateContentPlanned = true;
       this._updateContent();
     },
 
     /**
-     * Timer event handler. Periodically checks whether a table update is
-     * required. The update interval is controlled by the {@link #scrollTimeout}
-     * property.
+     * Does nothing, there is no update timer any more.
      *
-     * @signature function()
+     * @deprecated {7.10}
      */
-    _oninterval: qx.event.GlobalError.observeMethod(function () {
-      if (this.__updateContentPlanned && !this.__tablePane._layoutPending) {
-        this.__updateContentPlanned = false;
-        this._updateContent();
-      }
-    }),
+    _oninterval() {},
 
     /**
      * Updates the content. Sets the right section the table pane should show and
@@ -2451,8 +2430,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
   */
 
   destruct() {
-    this._stopInterval();
-
     // this object was created by the table on init so we have to clean it up.
     var tablePaneModel = this.getTablePaneModel();
     if (tablePaneModel) {
@@ -2469,7 +2446,6 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       "__header",
       "__tablePane",
       "__top",
-      "__timer",
       "__clipperContainer"
     );
   }
