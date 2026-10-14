@@ -186,6 +186,64 @@ qx.Class.define("qx.test.event.Registration", {
 
       this.assertEquals(1, called[f1.toHashCode()]);
       this.assertEquals(1, called[f2.toHashCode()]);
+    },
+
+    /**
+     * Registers two listeners that record that they ran.
+     *
+     * @param ran {Array} collects the name of every listener that ran
+     * @return {qx.data.Array} the target the listeners were added to
+     */
+    __targetWithTwoListeners(ran) {
+      var target = new qx.data.Array();
+
+      target.addListener("change", function (e) {
+        ran.push("A");
+      });
+
+      target.addListener("change", function (e) {
+        ran.push("B");
+      });
+
+      return target;
+    },
+
+    "test getListeners: the result is a copy"() {
+      var ran = [];
+      var target = this.__targetWithTwoListeners(ran);
+      var manager = qx.event.Registration.getManager(target);
+
+      var copy = manager.getListeners(target, "change", false);
+      this.assertEquals(2, copy.length);
+      copy.splice(0, 1);
+      delete copy[0];
+      copy.length = 0;
+
+      target.push(1);
+      this.assertEquals("AB", ran.join(""), "a listener was unregistered");
+      this.assertEquals(
+        2,
+        manager.getListeners(target, "change", false).length,
+        "the registry was changed"
+      );
+
+      target.dispose();
+    },
+
+    "test getAllListeners: the result is a copy"() {
+      var ran = [];
+      var target = this.__targetWithTwoListeners(ran);
+      var manager = qx.event.Registration.getManager(target);
+
+      var copy =
+        manager.getAllListeners()[target.toHashCode()]["change|bubble"];
+      this.assertEquals(2, copy.length);
+      copy.splice(0, 1);
+
+      target.push(1);
+      this.assertEquals("AB", ran.join(""), "a listener was unregistered");
+
+      target.dispose();
     }
   }
 });
