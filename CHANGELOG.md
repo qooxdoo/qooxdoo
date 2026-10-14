@@ -16,6 +16,10 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- `splice()` on a `qx.data.Array` with an amount larger than the items behind the start, such as
+  `splice(2, 100)` on five items, named its `changeBubble` event `2-101` instead of `2-4`. With a
+  start at the end, such as `splice(3, 5)` on three items, it fired `change` and `changeBubble`
+  although nothing was removed; it now fires neither.
 - `splice()` on a `qx.data.Array` without an amount, such as `splice(2)`, removed all items from
   that position on but fired no `change` and no `changeBubble` event. Bindings to an index such
   as `items[2]`, tree controllers and selections that listen to the array kept the removed items.

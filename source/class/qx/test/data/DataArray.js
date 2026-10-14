@@ -951,6 +951,23 @@ qx.Class.define("qx.test.data.DataArray", {
       a.dispose();
     },
 
+    testSpliceAmountBeyondEnd() {
+      // only the items that really exist are reported as removed
+      var a = new qx.data.Array("a", "b", "c", "d", "e");
+      var bubble = null;
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(2, 100).dispose();
+      this.assertArrayEquals(["a", "b"], a.toArray());
+      this.assertEquals("2-4", bubble.name, "Wrong name in the bubble event.");
+      a.dispose();
+
+      // removing nothing behind the end is no change
+      a = new qx.data.Array("a", "b", "c");
+      this.assertEventNotFired(a, "change", () => a.splice(3, 5).dispose(), "Change event fired!");
+      this.assertEventNotFired(a, "changeBubble", () => a.splice(3, 5).dispose(), "changeBubble event fired!");
+      a.dispose();
+    },
+
     testSpliceEventNoChange() {
       var a = new qx.data.Array(1, 2, 3);
       this.assertEventNotFired(

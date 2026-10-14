@@ -417,9 +417,12 @@ qx.Class.define("qx.data.Array", {
       startIndex = startIndex < 0 ? Math.max(oldLength + startIndex, 0) : Math.min(startIndex, oldLength);
       arguments[0] = startIndex;
 
-      // without an amount, the native splice removes everything from the start on
+      // without an amount, the native splice removes everything from the start on;
+      // otherwise it removes no more items than there are behind the start
       if (arguments.length == 1) {
         amount = oldLength - startIndex;
+      } else {
+        amount = Math.min(Math.max(Math.trunc(Number(amount)) || 0, 0), oldLength - startIndex);
       }
 
       // invoke the slice on the array
