@@ -42,10 +42,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
     this.__translations = {};
     this.__javascriptMetas = [];
     this.__classnames = [];
-    this.__javascript = new qx.tool.compiler.targets.meta.PackageJavascript(
-      this.__appMeta,
-      this
-    );
+    this.__javascript = new qx.tool.compiler.targets.meta.PackageJavascript(this.__appMeta, this);
   },
 
   properties: {
@@ -257,6 +254,19 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
     },
 
     /**
+     * Updates the HotDeploy with classes used by this package
+     *
+     * @param {qx.tool.compiler.targets.meta.HotDeploy} hotDeploy
+     */
+    updateHotDeploy(hotDeploy) {
+      if (!this.isEmbedAllJavascript()) {
+        for (let javascriptMeta of this.__javascriptMetas) {
+          hotDeploy.requiredFile(javascriptMeta.getFilename());
+        }
+      }
+    },
+
+    /**
      * Writes the data into the configuration which is passed to the loader template
      *
      * @param packages {Object} the `qx.$$packages` object data
@@ -268,17 +278,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
 
       let appRoot = this.__appMeta.getApplicationRoot();
       let target = this.__appMeta.getTarget();
-      let privateArtifacts =
-        target.isPrivateArtifacts() &&
-        this.__appMeta.getApplication().getType() == "browser";
+      let privateArtifacts = target.isPrivateArtifacts() && this.__appMeta.getApplication().getType() == "browser";
       let transpiledDir = path.join(target.getOutputDir(), "transpiled");
       let resourceDir = path.join(target.getOutputDir(), "resource");
       const toUri = filename => {
-        if (
-          privateArtifacts &&
-          (filename.startsWith(transpiledDir) ||
-            filename.startsWith(resourceDir))
-        ) {
+        if (privateArtifacts && (filename.startsWith(transpiledDir) || filename.startsWith(resourceDir))) {
           let uri = path.relative(target.getOutputDir(), filename);
           return uri;
         }

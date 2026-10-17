@@ -15,7 +15,7 @@ required libraries and npm modules), since they are not included in Qooxdoo (see
 
 Since the tests are responding to an event, the usual pattern of communicating
 the test results back to the runtime via exceptions does not work. Instead,
-instances of `qx.tool.cli.api.Test` are used, which need to be registered
+instances of `qx.tool.compiler.cli.api.Test` are used, which need to be registered
 and are then configured to reflect the outcome of the test. See the following
 example:
 
@@ -24,7 +24,7 @@ example:
 
 ```javascript
 qx.Class.define("myapp.compile.LibraryApi", {
-  extend: qx.tool.cli.api.LibraryApi,
+  extend: qx.tool.compiler.cli.api.LibraryApi,
 
   members: {
     async load() {
@@ -40,7 +40,7 @@ qx.Class.define("myapp.compile.LibraryApi", {
     async __appTesting(evt) {
       // register test
       const cmd = evt.getData();
-      const test = new qx.tool.cli.api.Test("Open page in browsers");
+      const test = new qx.tool.compiler.cli.api.Test("Open page in browsers");
       cmd.registerTest(test);
       let href = `http://localhost:8080/`;
 

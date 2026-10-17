@@ -6,7 +6,7 @@ const testUtils = require("../../../bin/tools/utils");
 
 test("Checks rotateUnique", async () => {
   await testUtils.deleteRecursive("test-rotate-unique");
-  await testUtils.fsPromises.mkdir("test-rotate-unique");
+  await fs.promises.mkdir("test-rotate-unique");
 
   for (var i = 1; i < 6; i++) {
    await qx.tool.utils.files.Utils.safeUnlink("test-rotate-unique/log.txt." + i);

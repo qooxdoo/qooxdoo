@@ -78,7 +78,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
   },
 
   members: {
-    __partsLookup : undefined,
+    __partsLookup: undefined,
 
     /** {qx.tool.compiler.targets.Target} the target */
     __target: null,
@@ -166,23 +166,59 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     },
 
     /**
-     * Returns the Analyser
+     * Returns the Analyzer
      *
-     * @return {qx.tool.compiler.Analyser}
+     * @return {qx.tool.compiler.Analyzer}
      */
-    getAnalyser() {
-      return this.__application.getAnalyser();
+    getAnalyzer() {
+      return this.__application.getAnalyzer();
+    },
+
+    /**
+     * Detects if an asset is used by the application; only provides valid information after `syncAssets` has been called
+     *
+     * @param {qx.tool.compiler.resources.Asset} asset
+     * @returns {Boolean} true if the asset is used, false otherwise
+     */
+    usesAsset(asset) {
+      return this.__usedAssets && this.__usedAssets[asset.toUri()] !== undefined;
     },
 
     /**
      * Syncs all assets into the output directory
      */
     async syncAssets() {
+      this.__usedAssets = {};
+      for (let pkg of this.__packages) {
+        for (let asset of pkg.getAssets()) {
+          this.__usedAssets[asset.toUri()] = asset;
+        }
+      }
       for (let i = 0; i < this.__packages.length; i++) {
         let pkg = this.__packages[i];
-        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, asset =>
-          asset.sync(this.__target)
-        );
+        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, async asset => {
+          try {
+            return await asset.synchronizeAssetIntoTarget(this.__target);
+          } catch (ex) {
+            qx.tool.compiler.Console.error("Failed to synchronize asset " + asset.toUri() + ": " + ex.message);
+          }
+        });
+      }
+    },
+
+    /**
+     * Synchronizes a single asset, if it is used by the packages in this application.  Does nothing if the asset is not used by any package.
+     *
+     * @param {qx.tool.compiler.resource.Asset} asset
+     * @returns
+     */
+    async syncOneAsset(asset) {
+      for (let i = 0; i < this.__packages.length; i++) {
+        let pkg = this.__packages[i];
+        if (pkg.getAssets().includes(asset)) {
+          await asset.synchronizeAssetIntoTarget(this.__target);
+          return;
+        }
       }
     },
 
@@ -201,9 +237,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
      * @return {qx.tool.compiler.app.Library}
      */
     getAppLibrary() {
-      let appLibrary = this.__application
-        .getAnalyser()
-        .getLibraryFromClassname(this.__application.getClassName());
+      let appLibrary = this.__application.getAnalyzer().getCompiler().findLibraryForClassname(this.__application.getClassName());
       return appLibrary;
     },
 
@@ -270,11 +304,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
      * @return {Part}
      */
     createPart(name) {
-      let part = new qx.tool.compiler.targets.meta.Part(
-        this.getTarget(),
-        name,
-        this.__parts.length
-      );
+      let part = new qx.tool.compiler.targets.meta.Part(this.getTarget(), name, this.__parts.length);
 
       this.__parts.push(part);
       this.__partsLookup[name] = part;
@@ -314,10 +344,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
      * @return {Package}
      */
     createPackage() {
-      let pkg = new qx.tool.compiler.targets.meta.Package(
-        this,
-        this.__packages.length
-      );
+      let pkg = new qx.tool.compiler.targets.meta.Package(this, this.__packages.length);
 
       this.__packages.push(pkg);
       return pkg;

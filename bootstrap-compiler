@@ -1,27 +1,29 @@
 #!/usr/bin/env node
 
 const utils = require("./bin/tools/utils");
-(async function() {
+(async function () {
   let options = utils.defaultOptions();
   for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
-    if (arg == "--no-clean")
+    if (arg == "--no-clean") {
       options.clean = false;
-    else if (arg.startsWith("--target="))
+    } else if (arg.startsWith("--target=")) {
       options.target = arg.substring(9);
-    else if (arg == "--incVersion")
+    } else if (arg == "--incVersion") {
       options.incVersion = true;
-    else if (arg.startsWith("--"))
+    } else if (arg == "--initial-only") {
+      options.initialOnly = true;
+    } else if (arg == "--debug") {
+      utils.setDebug(true);
+    } else if (arg.startsWith("--")) {
       console.error("Invalid argument " + arg);
-    else
-      version = arg;
+    } else {
+      options.version = arg;
+    }
   }
 
   if (!options.version) {
-     options.version = require("./package.json").version;
+    options.version = require("./package.json").version;
   }
   process.exit(await utils.bootstrapCompiler(options));
 })();
-
-
-

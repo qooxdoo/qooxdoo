@@ -180,9 +180,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
             (states.checked ? "-checked" : "") +
             (states.disabled ? "-disabled" : "") +
             (!states.disabled && states.hovered ? "-hovered" : ""),
-          textColor: states.disabled
-            ? "text-disabled-on-primary"
-            : "text-on-primary"
+          textColor: states.disabled ? "text-disabled-on-primary" : "text-on-primary"
         };
       }
     },
@@ -237,9 +235,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          textColor: states.disabled
-            ? "text-disabled-on-primary"
-            : "text-on-primary"
+          textColor: states.disabled ? "text-disabled-on-primary" : "text-on-primary"
         };
       }
     },
@@ -249,9 +245,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          textColor: states.disabled
-            ? "text-disabled-on-primary"
-            : "text-on-primary"
+          textColor: states.disabled ? "text-disabled-on-primary" : "text-on-primary"
         };
       }
     },
@@ -293,9 +287,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          textColor: states.disabled
-            ? "text-disabled-on-primary"
-            : "text-on-primary"
+          textColor: states.disabled ? "text-disabled-on-primary" : "text-on-primary"
         };
       }
     },
@@ -352,11 +344,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           decorator: decorator,
           padding: padding,
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : states.showingPlaceholder
-            ? "text-hint-on-surface"
-            : undefined
+          textColor: states.disabled ? "text-disabled-on-surface" : states.showingPlaceholder ? "text-hint-on-surface" : undefined
         };
       }
     },
@@ -385,11 +373,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           decorator: decorator,
           padding: padding,
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : states.showingPlaceholder
-            ? "text-hint-on-surface"
-            : undefined
+          textColor: states.disabled ? "text-disabled-on-surface" : states.showingPlaceholder ? "text-hint-on-surface" : undefined
         };
       }
     },
@@ -484,9 +468,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          icon: qx.theme.tangible.Image.URLS[
-            "arrow-" + (states.vertical ? "down" : "right")
-          ]
+          icon: qx.theme.tangible.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
         };
       }
     },
@@ -497,9 +479,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          icon: qx.theme.tangible.Image.URLS[
-            "arrow-" + (states.vertical ? "up" : "left")
-          ]
+          icon: qx.theme.tangible.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
         };
       }
     },
@@ -588,18 +568,14 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "atom",
       style(states) {
         return {
-          decorator: states.first
-            ? "table-header-cell-first"
-            : "table-header-cell",
+          decorator: states.first ? "table-header-cell-first" : "table-header-cell",
           minWidth: 13,
           font: "bold",
           paddingTop: 3,
           paddingLeft: 5,
           cursor: states.disabled ? undefined : "pointer",
           sortIcon: states.sorted
-            ? qx.theme.tangible.Image.URLS[
-                "table-" + (states.sortedAscending ? "ascending" : "descending")
-              ]
+            ? qx.theme.tangible.Image.URLS["table-" + (states.sortedAscending ? "ascending" : "descending")]
             : undefined
         };
       }
@@ -674,75 +650,6 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
     /*
     ---------------------------------------------------------------------------
-      TREEVIRTUAL
-    ---------------------------------------------------------------------------
-    */
-
-    treevirtual: {
-      include: "framebox",
-      alias: "table",
-      style(states, superStyles) {
-        return {
-          padding: [superStyles.padding[0] + 2, superStyles.padding[1] + 1]
-        };
-      }
-    },
-
-    "treevirtual-folder": {
-      style(states) {
-        return {
-          icon: states.opened
-            ? qx.theme.tangible.Image.URLS["folder-open"]
-            : qx.theme.tangible.Image.URLS["folder"],
-          opacity: states.drag ? 0.5 : undefined
-        };
-      }
-    },
-
-    "treevirtual-file": {
-      include: "treevirtual-folder",
-      alias: "treevirtual-folder",
-
-      style(states) {
-        return {
-          icon: qx.theme.tangible.Image.URLS["file"],
-          opacity: states.drag ? 0.5 : undefined
-        };
-      }
-    },
-
-    "treevirtual-blank": {
-      style(states) {
-        return { icon: qx.theme.tangible.Image.URLS["blank"] };
-      }
-    },
-
-    "treevirtual-contract": {
-      style(states) {
-        return { icon: qx.theme.tangible.Image.URLS["tree-minus"] };
-      }
-    },
-
-    "treevirtual-expand": {
-      style(states) {
-        return { icon: qx.theme.tangible.Image.URLS["tree-plus"] };
-      }
-    },
-
-    "treevirtual-only-contract": "treevirtual-contract",
-    "treevirtual-only-expand": "treevirtual-expand",
-    "treevirtual-start-contract": "treevirtual-contract",
-    "treevirtual-start-expand": "treevirtual-expand",
-    "treevirtual-end-contract": "treevirtual-contract",
-    "treevirtual-end-expand": "treevirtual-expand",
-    "treevirtual-cross-contract": "treevirtual-contract",
-    "treevirtual-cross-expand": "treevirtual-expand",
-    "treevirtual-line": "treevirtual-blank",
-    "treevirtual-end": "treevirtual-blank",
-    "treevirtual-cross": "treevirtual-blank",
-
-    /*
-    ---------------------------------------------------------------------------
       RESIZER
     ---------------------------------------------------------------------------
     */
@@ -770,10 +677,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
     "splitpane/splitter/knob": {
       style(states) {
         return {
-          source:
-            qx.theme.tangible.Image.URLS[
-              "knob-" + (states.horizontal ? "horizontal" : "vertical")
-            ],
+          source: qx.theme.tangible.Image.URLS["knob-" + (states.horizontal ? "horizontal" : "vertical")],
 
           padding: 0
         };
@@ -805,8 +709,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           iconColumnWidth: 16,
           arrowColumnWidth: 4,
           padding: 1,
-          placementModeY:
-            states.submenu || states.contextmenu ? "best-fit" : "keep-align"
+          placementModeY: states.submenu || states.contextmenu ? "best-fit" : "keep-align"
         };
 
         if (states.submenu) {
@@ -841,9 +744,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          icon: qx.theme.tangible.Image.URLS[
-            "arrow-up" + (states.hovered ? "-invert" : "")
-          ]
+          icon: qx.theme.tangible.Image.URLS["arrow-up" + (states.hovered ? "-invert" : "")]
         };
       }
     },
@@ -853,9 +754,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          icon: qx.theme.tangible.Image.URLS[
-            "arrow-down" + (states.hovered ? "-invert" : "")
-          ]
+          icon: qx.theme.tangible.Image.URLS["arrow-down" + (states.hovered ? "-invert" : "")]
         };
       }
     },
@@ -879,9 +778,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           backgroundColor: states.selected ? "primary-selected" : undefined,
-          textColor: states.selected
-            ? "text-on-primary"
-            : "text-primary-on-surface",
+          textColor: states.selected ? "text-on-primary" : "text-primary-on-surface",
           padding: [2, 6]
         };
       }
@@ -893,9 +790,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           alignY: "middle",
-          textColor: states.selected
-            ? "text-icon-on-primary"
-            : "text-icon-on-surface"
+          textColor: states.selected ? "text-icon-on-primary" : "text-icon-on-surface"
         };
       }
     },
@@ -928,10 +823,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         return {
-          source:
-            qx.theme.tangible.Image.URLS[
-              "arrow-right" + (states.selected ? "-invert" : "")
-            ],
+          source: qx.theme.tangible.Image.URLS["arrow-right" + (states.selected ? "-invert" : "")],
 
           alignY: "middle"
         };
@@ -1003,85 +895,10 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
     "menubar-button/icon": {
       style(states) {
         return {
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : states.pressed || states.hovered
-            ? "text-on-primary"
-            : "text-on-surface"
+          textColor: states.disabled ? "text-disabled-on-surface" : states.pressed || states.hovered ? "text-on-primary" : "text-on-surface"
         };
       }
     },
-
-    /*
-    ---------------------------------------------------------------------------
-      VIRTUAL WIDGETS
-    ---------------------------------------------------------------------------
-    */
-    "virtual-list": "list",
-    "virtual-list/row-layer": "row-layer",
-
-    "row-layer": "widget",
-    "column-layer": "widget",
-
-    "group-item": {
-      include: "label",
-      alias: "label",
-
-      style(states) {
-        return {
-          padding: 4,
-          backgroundColor: "primary",
-          textColor: "text-on-primary",
-          font: "bold"
-        };
-      }
-    },
-
-    "virtual-selectbox": "selectbox",
-    "virtual-selectbox/dropdown": "popup",
-    "virtual-selectbox/dropdown/list": { alias: "virtual-list" },
-
-    "virtual-combobox": "combobox",
-    "virtual-combobox/dropdown": "popup",
-    "virtual-combobox/dropdown/list": { alias: "virtual-list" },
-
-    "virtual-tree": {
-      include: "tree",
-      alias: "tree",
-
-      style(states) {
-        return { itemHeight: 21 };
-      }
-    },
-
-    "virtual-tree-folder": "tree-folder",
-    "virtual-tree-file": "tree-file",
-
-    cell: {
-      style(states) {
-        return {
-          backgroundColor: states.selected ? "primary-selected" : "surface",
-          textColor: states.selected
-            ? "text-on-primary"
-            : "text-primary-on-surface",
-          padding: [3, 6]
-        };
-      }
-    },
-
-    "cell-string": "cell",
-    "cell-number": {
-      include: "cell",
-      style(states) {
-        return { textAlign: "right" };
-      }
-    },
-
-    "cell-image": "cell",
-    "cell-boolean": "cell",
-    "cell-atom": "cell",
-    "cell-date": "cell",
-    "cell-html": "cell",
 
     /*
     ---------------------------------------------------------------------------
@@ -1158,9 +975,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
     radiobutton: {
       style(states) {
         return {
-          icon: qx.theme.tangible.Image.URLS[
-            states.checked ? "radiobutton-checked" : "radiobutton-unchecked"
-          ],
+          icon: qx.theme.tangible.Image.URLS[states.checked ? "radiobutton-checked" : "radiobutton-unchecked"],
 
           paddingTop: 2,
           textColor: states.disabled
@@ -1207,11 +1022,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           icon: qx.theme.tangible.Image.URLS[
-            states.checked
-              ? "checkbox-checked"
-              : states.undetermined
-              ? "checkbox-undetermined"
-              : "checkbox-blank"
+            states.checked ? "checkbox-checked" : states.undetermined ? "checkbox-undetermined" : "checkbox-blank"
           ],
 
           textColor: states.disabled
@@ -1459,19 +1270,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           gap: 4,
           padding: padding,
-          backgroundColor: useSelectionState
-            ? states.disabled
-              ? "primary-disabled"
-              : "primary"
-            : "transparent",
-          textColor: useSelectionState
-            ? "text-on-primary"
-            : "text-primary-on-surface",
-          decorator: states.lead
-            ? "lead-item"
-            : states.dragover
-            ? "dragover"
-            : undefined,
+          backgroundColor: useSelectionState ? (states.disabled ? "primary-disabled" : "primary") : "transparent",
+          textColor: useSelectionState ? "text-on-primary" : "text-primary-on-surface",
+          decorator: states.lead ? "lead-item" : states.dragover ? "dragover" : undefined,
           opacity: states.drag ? 0.5 : undefined
         };
       }
@@ -1584,12 +1385,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       include: "image",
       style(states) {
         return {
-          source: states.opened
-            ? qx.theme.tangible.Image.URLS["tree-minus"]
-            : qx.theme.tangible.Image.URLS["tree-plus"],
-          textColor: states.selected
-            ? "text-on-primary"
-            : "text-primary-on-surface"
+          source: states.opened ? qx.theme.tangible.Image.URLS["tree-minus"] : qx.theme.tangible.Image.URLS["tree-plus"],
+          textColor: states.selected ? "text-on-primary" : "text-primary-on-surface"
         };
       }
     },
@@ -1598,17 +1395,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           padding: [2, 8, 2, 5],
-          icon: states.opened
-            ? qx.theme.tangible.Image.URLS["folder-open"]
-            : qx.theme.tangible.Image.URLS["folder"],
-          backgroundColor: states.selected
-            ? states.disables
-              ? "primary-disabled"
-              : "primary-selected"
-            : "surface",
-          textColor: states.selected
-            ? "text-on-primary"
-            : "text-disabled-on-primary",
+          icon: states.opened ? qx.theme.tangible.Image.URLS["folder-open"] : qx.theme.tangible.Image.URLS["folder"],
+          backgroundColor: states.selected ? (states.disables ? "primary-disabled" : "primary-selected") : "surface",
+          textColor: states.selected ? "text-on-primary" : "text-disabled-on-primary",
           iconOpened: qx.theme.tangible.Image.URLS["folder-open"],
           opacity: states.drag ? 0.5 : undefined
         };
@@ -1620,9 +1409,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           padding: [0, 4, 0, 0],
-          textColor: states.selected
-            ? "text-icon-on-primary"
-            : "text-primary-on-surface"
+          textColor: states.selected ? "text-icon-on-primary" : "text-primary-on-surface"
         };
       }
     },
@@ -1631,9 +1418,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           padding: [1, 2],
-          textColor: states.selected
-            ? "text-on-primary"
-            : "text-primary-on-surface"
+          textColor: states.selected ? "text-on-primary" : "text-primary-on-surface"
         };
       }
     },
@@ -1670,11 +1455,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           contentPadding: [10, 10, 10, 10],
           backgroundColor: "surface",
-          decorator: states.maximized
-            ? undefined
-            : states.active
-            ? "window-active"
-            : "window"
+          decorator: states.maximized ? undefined : states.active ? "window-active" : "window"
         };
       }
     },
@@ -1801,11 +1582,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           backgroundColor: "surface",
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : states.invalid
-            ? "error"
-            : undefined,
+          textColor: states.disabled ? "text-disabled-on-surface" : states.invalid ? "error" : undefined,
           padding: [2, 10]
         };
       }
@@ -1868,9 +1645,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           decorator: "datechooser-weekday",
           font: states.weekend ? "bold" : "default",
           textAlign: "center",
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : "text-primary-on-surface",
+          textColor: states.disabled ? "text-disabled-on-surface" : "text-primary-on-surface",
           backgroundColor: "surface",
           paddingTop: 2
         };
@@ -1889,11 +1664,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
             : states.otherMonth
             ? "text-disabled-on-surface"
             : undefined,
-          backgroundColor: states.selected
-            ? states.disabled
-              ? "primary-disabled"
-              : "primary"
-            : undefined,
+          backgroundColor: states.selected ? (states.disabled ? "primary-disabled" : "primary") : undefined,
           padding: states.today ? [1, 3] : [2, 4]
         };
       }
@@ -1905,9 +1676,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           textAlign: "center",
           textColor: "text-primary-on-surface",
           padding: [2, 4],
-          decorator: states.header
-            ? "datechooser-week-header"
-            : "datechooser-week"
+          decorator: states.header ? "datechooser-week-header" : "datechooser-week"
         };
       }
     },
@@ -2032,12 +1801,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           margin = [7, 0, 7, 3];
         }
         var decorator = "toolbar-button";
-        if (
-          states.hovered ||
-          states.pressed ||
-          states.focused ||
-          states.checked
-        ) {
+        if (states.hovered || states.pressed || states.focused || states.checked) {
           decorator += "-hovered";
         }
         decorator += "-left";
@@ -2060,12 +1824,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           margin = [7, 3, 7, 0];
         }
         var decorator = "toolbar-button";
-        if (
-          states.hovered ||
-          states.pressed ||
-          states.focused ||
-          states.checked
-        ) {
+        if (states.hovered || states.pressed || states.focused || states.checked) {
           decorator += "-hovered";
         }
         decorator += "-right";
@@ -2246,9 +2005,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         return {
           zIndex: states.checked ? 10 : 5,
           decorator: decorator,
-          textColor: states.disabled
-            ? "text-disabled-on-surface"
-            : "text-primary-on-surface",
+          textColor: states.disabled ? "text-disabled-on-surface" : "text-primary-on-surface",
           font: states.checked ? "bold" : undefined,
           padding: padding,
           cursor: "pointer"
@@ -2473,22 +2230,6 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           padding: [0, 10, 10, 10]
-        };
-      }
-    },
-
-    /*
-      --------------------
-      VIRTUAL SELECTBOX
-      --------------------
-    */
-
-    "list-search-highlight": {
-      style(states) {
-        return {
-          backgroundColor: "rgba(255, 251, 0, 0.53)",
-          textDecorationStyle: "dotted",
-          textDecorationLine: "underline"
         };
       }
     }

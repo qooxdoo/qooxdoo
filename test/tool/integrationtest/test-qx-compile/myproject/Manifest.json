@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "myproject",
+    "summary": "Test project for custom compiler --clean forwarding",
+    "description": "Verifies that --clean is not forwarded to the spawned custom compiler",
+    "homepage": "undefined",
+    "license": "MIT",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "myproject",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^8.0.0"
+  }
+}

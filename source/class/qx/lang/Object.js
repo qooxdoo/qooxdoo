@@ -154,6 +154,22 @@ qx.Bootstrap.define("qx.lang.Object", {
     },
 
     /**
+     * Like Array.prototype.map but for objects
+     * i.e. maps the values of the object through the given function
+     * @param {Object} object 
+     * @param {Mapper} mapper 
+     * @returns {Object} Mapped object
+     * 
+     * @callback Mapper
+     * @param {*} value The value of the current key
+     * @param {string} key The current key
+     * @returns {*} The mapped value
+     */
+    map(object, mapper) {
+      return Object.fromEntries(Object.entries(object).map(([key, value]) => [key, mapper(value, key)]));
+    },
+
+    /**
      * Internal recursive comparison function for equals
      *
      * @param object1 {Object} the object that is compared to

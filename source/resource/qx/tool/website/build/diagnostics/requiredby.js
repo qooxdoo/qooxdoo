@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   var db;
-  var CLASSES = {};
+  var classesLookup = {};
+
+  let infoByClass = {};
 
   function show(name, list) {
-    var def = db.classInfo[name];
+    var def = infoByClass[name];
     if (!def || !def.requiredBy) return;
     for (var depName in def.requiredBy) {
-      if (!CLASSES[depName]) continue;
+      if (!classesLookup[depName]) continue;
       var li = document.createElement('li');
       li.textContent = depName;
       li.setAttribute("data-classname", depName);
@@ -62,6 +64,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  /**
+   * 
+   * @param {string} name 
+   * @returns {Promise<Object>}
+   */
+  function getClassInfo(name) {
+    const doit = async () => {
+      let classPath = name.replace(/\./g, "/") + ".json";
+      let def = await window.qxcli.get(query.targetDir + "/transpiled/" + classPath);
+      return def;
+    }
+    if (infoByClass[name] === undefined) {
+      infoByClass[name] = doit().then(info => (infoByClass[name] = info));
+    }
+    return infoByClass[name];
+  }
+
+  /**
+   * 
+   * @param {string} name 
+   * @returns {Promise<Object>}
+   */
+  function getClassInfo(name) {
+    const doit = async () => {
+      let classPath = name.replace(/\./g, "/") + ".json";
+      let def = await window.qxcli.get(query.targetDir + "/transpiled/" + classPath);
+      return def;
+    }
+    if (infoByClass[name] === undefined) {
+      infoByClass[name] = doit().then(info => (infoByClass[name] = info));
+    }
+    return infoByClass[name];
+  }
+
   var query = window.qxcli.query;
   window.qxcli
     .get(query.targetDir + "/db.json")
@@ -71,17 +107,17 @@ document.addEventListener('DOMContentLoaded', function () {
         query.targetDir + "/" + query.appDir + "/compile-info.json"
       );
     })
-    .then(function (tmp) {
+    .then(async function (tmp) {
       appDb = tmp;
       appDb.parts.forEach(function (part) {
-        part.classes.forEach(classname => (CLASSES[classname] = true));
+        part.classes.forEach(classname => (classesLookup[classname] = true));
       });
 
-      for (var name in db.classInfo) {
-        var def = db.classInfo[name];
+      for (var name in classesLookup) {
+        var def = await getClassInfo(name);
         if (def.dependsOn) {
           for (var depName in def.dependsOn) {
-            var depDef = db.classInfo[depName];
+            var depDef = await getClassInfo(depName);
             if (!depDef.requiredBy) depDef.requiredBy = {};
             depDef.requiredBy[name] = {
               load: def.dependsOn[depName].load

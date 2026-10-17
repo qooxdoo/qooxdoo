@@ -27,7 +27,7 @@ const path = require("upath");
  * @ignore(loadSass)
  */
 /* global loadSass */
-const sass = loadSass();
+const sass = window["loadSass"]();
 const fs = qx.tool.utils.Promisify.fs;
 
 qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
@@ -46,46 +46,25 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
     getDestFilename(target, asset) {
       let filename;
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
-        filename = path.join(
-          target.getOutputDir(),
-          "resource",
-          asset.getFilename().replace(/\bscss\b/g, "css")
-        );
+        filename = path.join(target.getOutputDir(), "resource", asset.getFilename().replace(/\bscss\b/g, "css"));
       } else {
-        filename = path.join(
-          target.getOutputDir(),
-          "resource",
-          asset.getFilename().replace(/\.scss$/, ".css")
-        );
+        filename = path.join(target.getOutputDir(), "resource", asset.getFilename().replace(/\.scss$/, ".css"));
       }
       return filename;
     },
 
     async convert(target, asset, srcFilename, destFilename, isThemeFile) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
-        let copyFilename = path.join(
-          target.getOutputDir(),
-          "resource",
-          asset.getFilename()
-        );
+        let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
 
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
-        return this.legacyMobileSassConvert(
-          target,
-          asset,
-          srcFilename,
-          destFilename
-        );
+        return this.legacyMobileSassConvert(target, asset, srcFilename, destFilename);
       }
 
-      let scssFile = new qx.tool.compiler.resources.ScssFile(
-        target,
-        asset.getLibrary(),
-        asset.getFilename()
-      );
+      let scssFile = new qx.tool.compiler.resources.ScssFile(target, asset.getLibrary(), asset.getFilename());
 
       scssFile.setThemeFile(isThemeFile);
       return scssFile.compile(destFilename);
@@ -97,16 +76,12 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
      */
     async legacyMobileSassConvert(target, asset, srcFilename, destFilename) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
-        let copyFilename = path.join(
-          target.getOutputDir(),
-          "resource",
-          asset.getFilename()
-        );
+        let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
 
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
-      let qooxdooPath = target.getAnalyser().getQooxdooPath();
+      let qooxdooPath = target.getAnalyzer().getQooxdooPath();
       let data = await fs.readFileAsync(srcFilename, "utf8");
       if (!data || !data.trim()) {
         await fs.writeFileAsync(destFilename, "");

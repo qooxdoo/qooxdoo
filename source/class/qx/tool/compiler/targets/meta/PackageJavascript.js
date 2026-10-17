@@ -34,10 +34,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
    * Constructor
    */
   construct(appMeta, pkg) {
-    super(
-      appMeta,
-      `${appMeta.getApplicationRoot()}package-${pkg.getPackageIndex()}.js`
-    );
+    super(appMeta, `${appMeta.getApplicationRoot()}package-${pkg.getPackageIndex()}.js`);
 
     this.__pkg = pkg;
   },
@@ -50,8 +47,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
   },
 
   members: {
-    __pkg : undefined,
-    
+    __pkg: undefined,
+
     __sourceMapOffsets: null,
 
     /*
@@ -71,12 +68,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
           ext = ext.substring(1);
         }
         let fileInfo = asset.getFileInfo();
-        var arr = (data.resources[asset.getFilename()] = [
-          fileInfo.width,
-          fileInfo.height,
-          ext,
-          asset.getLibrary().getNamespace()
-        ]);
+        var arr = (data.resources[asset.getFilename()] = [fileInfo.width, fileInfo.height, ext, asset.getLibrary().getNamespace()]);
 
         if (fileInfo.composite !== undefined) {
           arr.push(fileInfo.composite);
@@ -102,30 +94,20 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
           }
           resolve();
         });
-        ws.write(
-          `//# sourceMappingURL=${path.basename(
-            this.getFilename()
-          )}.map?dt=${new Date().getTime()}\n`
-        );
+        ws.write(`//# sourceMappingURL=${path.basename(this.getFilename())}.map?dt=${new Date().getTime()}\n`);
       }
 
-      ws.write(
-        `qx.$$packageData['${this.__pkg.getPackageIndex()}'] = ${JSON.stringify(
-          data,
-          null,
-          2
-        )};\n`
-      );
+      ws.write(`qx.$$packageData['${this.__pkg.getPackageIndex()}'] = ${JSON.stringify(data, null, 2)};\n`);
     },
 
     /*
      * @Override
      */
-    async writeToDisk() {
-      await super.writeToDisk();
+    async writeToDisk(hotDeploy) {
+      await super.writeToDisk(hotDeploy);
       if (!this.__pkg.isEmbedAllJavascript()) {
         for (let i = 0; i < this.__pkg.getJavascriptMetas().length; i++) {
-          await this.__pkg.getJavascriptMetas()[i].unwrap().writeToDisk();
+          await this.__pkg.getJavascriptMetas()[i].unwrap().writeToDisk(hotDeploy);
         }
       }
     },
@@ -138,14 +120,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
         return null;
       }
       if (this.__sourceMapOffsets === null) {
-        throw new Error(
-          `Cannot get the source map for ${this} until the stream has been written`
-        );
+        throw new Error(`Cannot get the source map for ${this} until the stream has been written`);
       }
-      return this._copySourceMap(
-        this.__pkg.getJavascriptMetas(),
-        this.__sourceMapOffsets
-      );
+      return this._copySourceMap(this.__pkg.getJavascriptMetas(), this.__sourceMapOffsets);
     }
   }
 });
