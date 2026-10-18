@@ -518,10 +518,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
         throw new Error("Expected node object or node id");
       }
 
-      // First, recursively remove all children
-      for (var i = this._nodeArr[nodeId].children.length - 1; i >= 0; i--) {
-        this.prune(this._nodeArr[nodeId].children[i], true);
-      }
+      // First, recursively remove all children.  Each child is dropped from
+      // its parent's children list by emptying that list in one go, rather
+      // than searching for each child in turn, which would be quadratic.
+      this.__pruneDescendants(nodeId);
 
       // Now remove ourself, if requested. (Don't try to remove the root node)
       if (bSelfAlso && nodeId != 0) {
@@ -539,6 +539,35 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
         // with null so its index just becomes unused.
         this._nodeArr[nodeId] = null;
       }
+    },
+
+    /**
+     * Remove, recursively, all of a node's descendants, and empty the
+     * children list of every node that is visited.
+     *
+     * @param nodeId {Integer}
+     *   The node whose descendants are to be removed.
+     */
+    __pruneDescendants(nodeId) {
+      var children = this._nodeArr[nodeId].children;
+
+      for (var i = 0; i < children.length; i++) {
+        var childNodeId = children[i];
+        this.__pruneDescendants(childNodeId);
+
+        // Delete the child from the selections list, if it's in it.
+        if (this._selections[childNodeId]) {
+          delete this._selections[childNodeId];
+        }
+
+        // We can't splice the node itself out, because that would muck up the
+        // nodeId == index correspondence.  Instead, just replace the node
+        // with null so its index just becomes unused.
+        this._nodeArr[childNodeId] = null;
+      }
+
+      // Every child has just been removed, so the list is empty
+      children.length = 0;
     },
 
     /**
