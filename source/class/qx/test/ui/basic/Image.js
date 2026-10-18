@@ -389,6 +389,60 @@ qx.Class.define("qx.test.ui.basic.Image", {
       );
     },
 
+    /**
+     * A theme change can make an alias resolve to a font icon where it
+     * resolved to an image before. The decorator is re-applied at that point,
+     * so the content element has to be switched before the new source is
+     * applied to it.
+     */
+    testReapplyDecoratorAfterAliasChangedFromImageToFont() {
+      this._initWebFont();
+      var aliases = qx.util.AliasManager.getInstance();
+      aliases.add("qx.test.icon", "qx/icon/Tango/32/places/folder.png");
+
+      try {
+        var image = new qx.ui.basic.Image("qx.test.icon");
+        this.addAutoDispose(image);
+        this.getRoot().add(image);
+        this.flush();
+        this.assertInstance(image.getContentElement(), qx.html.Image);
+
+        aliases.add("qx.test.icon", "@FontAwesome/heart");
+        image.setDecorator("main");
+        this.flush();
+
+        this.assertInstance(image.getContentElement(), qx.html.Label);
+        this.assertEquals(
+          String.fromCharCode(61444),
+          image.getContentElement().getValue()
+        );
+      } finally {
+        aliases.remove("qx.test.icon");
+      }
+    },
+
+    testReapplyDecoratorAfterAliasChangedFromFontToImage() {
+      this._initWebFont();
+      var aliases = qx.util.AliasManager.getInstance();
+      aliases.add("qx.test.icon", "@FontAwesome/heart");
+
+      try {
+        var image = new qx.ui.basic.Image("qx.test.icon");
+        this.addAutoDispose(image);
+        this.getRoot().add(image);
+        this.flush();
+        this.assertInstance(image.getContentElement(), qx.html.Label);
+
+        aliases.add("qx.test.icon", "qx/icon/Tango/32/places/folder.png");
+        image.setDecorator("main");
+        this.flush();
+
+        this.assertInstance(image.getContentElement(), qx.html.Image);
+      } finally {
+        aliases.remove("qx.test.icon");
+      }
+    },
+
     testWebFontImage() {
       this._initWebFont();
 
