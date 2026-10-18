@@ -25,6 +25,10 @@ IndigoDark keeps its readable week day header and week numbers.
 disappears (e.g. a popup left open while its target's window is closed). The
 live-update loop now stops and releases its idle listener when the target is disposed.
 
+- Pressing Enter in a table cell that is edited with a checkbox now ends the
+edit and saves the value, as Enter does in every other table cell editor.
+Before, Enter only toggled the checkbox and the edit stayed open. Space still
+toggles the checkbox, and checkboxes outside tables are not affected.
 - JSON-RPC requests are now serialized with `JSON.stringify`, so a request body which used
 to be invalid JSON is now valid: strings containing control characters and object keys
 containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
