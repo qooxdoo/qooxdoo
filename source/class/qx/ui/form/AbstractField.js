@@ -478,6 +478,9 @@ qx.Class.define("qx.ui.form.AbstractField", {
 
       // check if text color already set - if so this local value has higher priority
       if (this.getTextColor() != null) {
+        // clone first, the map belongs to the font and is shared with
+        // every other widget using it
+        styles = qx.lang.Object.clone(styles);
         delete styles["color"];
       }
 
@@ -496,10 +499,12 @@ qx.Class.define("qx.ui.form.AbstractField", {
 
       // the font will adjust automatically on native placeholders
       if (this.__useQxPlaceholder) {
-        // don't apply the color to the placeholder
-        delete styles["color"];
+        // don't apply the color to the placeholder, on a clone so the
+        // font's own map keeps it
+        var placeholderStyles = qx.lang.Object.clone(styles);
+        delete placeholderStyles["color"];
         // apply the font to the placeholder
-        this._getPlaceholderElement().setStyles(styles);
+        this._getPlaceholderElement().setStyles(placeholderStyles);
       }
 
       // Compute text size

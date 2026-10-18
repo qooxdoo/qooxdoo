@@ -183,6 +183,62 @@ qx.Class.define("qx.test.ui.basic.Label", {
       font1.dispose();
     },
 
+    testApplyFontKeepsColorInSharedFont() {
+      var font = new qx.bom.Font();
+      font.setColor("#FF0000");
+
+      var colored = new qx.ui.basic.Label("colored");
+      colored.setTextColor("#00FF00");
+      colored.setFont(font);
+
+      var plain = new qx.ui.basic.Label("plain");
+      plain.setTextColor(null);
+      plain.setFont(font);
+
+      this.getRoot().add(colored);
+      this.getRoot().add(plain);
+      this.flush();
+
+      this.assertEquals(
+        "#FF0000",
+        plain.getContentElement().getStyle("color"),
+        "A label with its own text color must not remove the color from the shared font."
+      );
+
+      colored.destroy();
+      plain.destroy();
+      font.dispose();
+    },
+
+    testApplyFontKeepsColorInDefaultStyles() {
+      var coloredFont = new qx.bom.Font();
+      var plainFont = new qx.bom.Font();
+      plainFont.setColor("#FF0000");
+
+      // resetting the font of a label which has a text color reads the
+      // default styles
+      var colored = new qx.ui.basic.Label("colored");
+      colored.setTextColor("#00FF00");
+      colored.setFont(coloredFont);
+      colored.setFont(null);
+
+      var plain = new qx.ui.basic.Label("plain");
+      plain.setTextColor(null);
+      plain.setFont(plainFont);
+      plain.setFont(null);
+
+      this.assertEquals(
+        "",
+        plain.getContentElement().getStyle("color"),
+        "Resetting the font must clear the color, which needs the default styles intact."
+      );
+
+      colored.destroy();
+      plain.destroy();
+      coloredFont.dispose();
+      plainFont.dispose();
+    },
+
     testBuddy() {
       var label = new qx.ui.basic.Label();
       var textfield1 = new qx.ui.form.TextField();
