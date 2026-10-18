@@ -6,7 +6,19 @@
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.
 
+- A `Date` in the params of a JSON-RPC request is now sent as an ISO 8601 string such as
+`"2024-01-02T03:04:05.678Z"`, where it used to be sent as `Date#toString()`
+(`"Tue Jan 02 2024 03:04:05 GMT+0000 (…)"`, without milliseconds). A server which parsed
+the old format has to accept the ISO format. (#10900)
+
 ## Bugfixes
+
+- With the Simple and Indigo themes, opening a date chooser or the popup of a
+date field logged `Error in the 'Appearance' queue: ... Error in property
+textColor of class qx.ui.basic.Label in method setThemedTextColor with incoming
+value 'datechooser-background': Is invalid!`, and the calendar and other widgets
+shown at the same time stayed unstyled. Both themes show the date chooser as before again;
+IndigoDark keeps its readable week day header and week numbers.
 
 - `qx.ui.core.MPlacement#placeToWidget` with `liveupdate` no longer throws on every
 `qx.event.Idle` tick when the target widget is disposed before the placing widget
@@ -17,6 +29,14 @@ live-update loop now stops and releases its idle listener when the target is dis
 `TypeError: Cannot read properties of null (reading '0')` a moment later
 (Firefox: `can't access property 0, ... is null`). The table now ignores the
 late column update when its model is already disposed.
+- Pressing Enter in a table cell that is edited with a checkbox now ends the
+edit and saves the value, as Enter does in every other table cell editor.
+Before, Enter only toggled the checkbox and the edit stayed open. Space still
+toggles the checkbox, and checkboxes outside tables are not affected.
+- JSON-RPC requests are now serialized with `JSON.stringify`, so a request body which used
+to be invalid JSON is now valid: strings containing control characters and object keys
+containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
+as bare tokens a server cannot parse. Other payloads are sent exactly as before. (#10900)
 
 # v7.0.0
 

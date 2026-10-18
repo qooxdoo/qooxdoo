@@ -46,6 +46,17 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox", {
         value: cellInfo.value
       });
 
+      // Enter belongs to the table, which ends the edit on it as it does for
+      // every other editor. A checkbox would take it as a toggle and stop it
+      // there, so only Space is left to the checkbox. Its keyup handler acts
+      // only on a key its keydown handler has pressed.
+      checkbox.removeListener("keydown", checkbox._onKeyDown);
+      checkbox.addListener("keydown", function (e) {
+        if (e.getKeyIdentifier() != "Enter") {
+          this._onKeyDown(e);
+        }
+      });
+
       editor.add(checkbox);
 
       // propagate focus

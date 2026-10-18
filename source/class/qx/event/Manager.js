@@ -275,34 +275,13 @@ qx.Class.define("qx.event.Manager", {
       var entryMap = targetMap.get(entryKey);
 
       if (entryMap && entryMap.size > 0) {
-        var listeners = [...entryMap.values()];
-
-        return new Proxy(listeners, {
-          deleteProperty(target, property) {
-            if (property !== "length") {
-              var listener = target[property];
-              entryMap.delete(listener.unique);
-            }
-            delete target[property];
-            return true;
-          },
-          set(target, property, value, receiver) {
-            if (property !== "length") {
-              if (!value.unique) {
-                throw new Error("Cannot store a listener without a unique id. Use addListener()");
-              }
-              entryMap[value.unique] = value;
-            }
-            target[property] = value;
-            return true;
-          }
-        });
+        return [...entryMap.values()];
       }
       return null;
     },
 
     /**
-     * Returns all registered listeners.
+     * Returns a copy of all registered listeners.
      *
      * @internal
      *
@@ -313,30 +292,7 @@ qx.Class.define("qx.event.Manager", {
         this.__listeners.entries().map(
           ([targetKey, targetMap]) => [targetKey, Object.fromEntries(
             targetMap.entries().map(
-              ([entryKey, entryMap]) => {
-                var listeners = [...entryMap.values()];
-                var proxy = new Proxy(listeners, {
-                  deleteProperty(target, property) {
-                    if (property !== "length") {
-                      var listener = target[property];
-                      entryMap.delete(listener.unique);
-                    }
-                    delete target[property];
-                    return true;
-                  },
-                  set(target, property, value, receiver) {
-                    if (property !== "length") {
-                      if (!value.unique) {
-                        throw new Error("Cannot store a listener without a unique id. Use addListener()");
-                      }
-                      entryMap[value.unique] = value;
-                    }
-                    target[property] = value;
-                    return true;
-                  }
-                })
-                return [entryKey, proxy];
-              }
+              ([entryKey, entryMap]) => [entryKey, [...entryMap.values()]]
             )
           )]
         )

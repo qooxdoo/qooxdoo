@@ -1554,15 +1554,18 @@ qx.Class.define("qx.ui.core.Widget", {
         return this.__emptyChildren;
       }
 
+      // Copy the children only once the first excluded child is found, and
+      // then collect the remaining relevant ones, so that the common case
+      // still returns the original array and nothing is searched or spliced.
       var layoutChildren;
       for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         if (child.hasUserBounds() || child.isExcluded()) {
           if (layoutChildren == null) {
-            layoutChildren = children.concat();
+            layoutChildren = children.slice(0, i);
           }
-
-          qx.lang.Array.remove(layoutChildren, child);
+        } else if (layoutChildren != null) {
+          layoutChildren.push(child);
         }
       }
 
