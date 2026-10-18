@@ -108,6 +108,7 @@ qx.Mixin.define("qx.data.controller.MSelection", {
     // set the semaphore-like variable for the selection change
     _modifingSelection: 0,
     __selectionListenerId: null,
+    __selectionListenerTarget: null,
     __selectionArrayListenerId: null,
     __ownSelection: null,
 
@@ -265,6 +266,8 @@ qx.Mixin.define("qx.data.controller.MSelection", {
       if (this.__selectionListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionListenerId);
       }
+      this.__selectionListenerId = null;
+      this.__selectionListenerTarget = null;
 
       if (value != null) {
         // if a selection API is supported
@@ -278,6 +281,7 @@ qx.Mixin.define("qx.data.controller.MSelection", {
             this._changeTargetSelection,
             this
           );
+          this.__selectionListenerTarget = value;
         }
       }
     },
@@ -455,6 +459,28 @@ qx.Mixin.define("qx.data.controller.MSelection", {
   */
 
   destruct() {
+    // the selection array and the target outlive the controller, so their
+    // listeners have to go
+    var selection = this.getSelection();
+    if (
+      this.__selectionArrayListenerId != null &&
+      selection &&
+      !selection.isDisposed()
+    ) {
+      selection.removeListenerById(this.__selectionArrayListenerId);
+      this.__selectionArrayListenerId = null;
+    }
+
+    // the class destructor runs first and dereferences the target property,
+    // so getTarget() is already null here: use the widget the listener was
+    // added to
+    var target = this.__selectionListenerTarget;
+    if (this.__selectionListenerId != null && target && !target.isDisposed()) {
+      target.removeListenerById(this.__selectionListenerId);
+    }
+    this.__selectionListenerId = null;
+    this.__selectionListenerTarget = null;
+
     if (this.__ownSelection) {
       this.__ownSelection.dispose();
     }
