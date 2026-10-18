@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     steps:
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
       - uses: octokit/graphql-action@v2.x
         id: get_repo_names
         with:
@@ -31,7 +31,7 @@ jobs:
           d = d.search.edges.map(item=>item.node.name);
           console.log(JSON.stringify(d,null,0));
           HEREDOC
-          echo "::set-output name=repos::$(cat data.json)"
+          echo "repos=$(cat data.json)" >> "$GITHUB_OUTPUT"
     outputs:
       repos: ${{ steps.transform.outputs.repos }}
 
