@@ -115,7 +115,11 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
           if (!(err instanceof qx.io.exception.Exception)) {
             throw err;
           }
-          this.assertEquals(exception, err.code, `Error code does not match.  Expected ${exception}, got ${err.code}.`);
+          this.assertEquals(
+            exception,
+            err.code,
+            `Error code does not match.  Expected ${exception}, got ${err.code}.`
+          );
         } else {
           this.assertInstance(
             err,
@@ -132,19 +136,25 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       client.send(message_out).catch(errorCallback);
       this.wait(100, () => {
         // in case of a transport error, ...
-        const n = qx.core.Environment.select("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest", {
-          true: 1, // ... we are rejecting the request promise only, v8 default
-          false: 2 // ... both request promise and transport promise are rejected, v7 default
-        })
+        const n = qx.core.Environment.select(
+          "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest",
+          {
+            true: 1, // ... we are rejecting the request promise only, v8 default
+            false: 2 // ... both request promise and transport promise are rejected, v7 default
+          }
+        );
         if (
           // the request promise will not be rejected because it already is rejected in this special case
           exception === qx.io.exception.Transport.DUPLICATE_ID ||
           // or the send promise will not be rejected because we have a server-side error, v7 default only
-          (exception === qx.io.exception.Protocol && !qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"))
+          (exception === qx.io.exception.Protocol &&
+            !qx.core.Environment.get(
+              "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+            ))
         ) {
           this.assertCallCount(errorCallback, n);
         } else {
-          this.assertCallCount(errorCallback, n+1);
+          this.assertCallCount(errorCallback, n + 1);
         }
       });
     },
@@ -427,7 +437,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         spy(message);
       });
       client.sendNotification("ping");
-      this.wait(100, () => this.assertCalledTwice(spy) );
+      this.wait(100, () => this.assertCalledTwice(spy));
     },
 
     /**
@@ -637,7 +647,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
     /**
      * Issue #10890
      */
-    "test: a request in flight when the client is disposed is rejected"() {
+    "test: a transport failure after dispose does not re-settle the request"() {
       this.resetId();
       this.enableForwardTransportPromiseRejection();
       const transport = this.createStubbedTransport();
@@ -647,6 +657,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       const request = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
       let rejectedWith;
       request.getPromise().catch(error => (rejectedWith = error));
+      const settle = this.spy(request, "handleTransportException");
       client.send(request);
 
       // the client is gone before the transport fails, as it is when the user
@@ -654,14 +665,52 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
       client.dispose();
 
       this.wait(300, () => {
+        // the dispose cancelled it first, and a promise settles only once, so
+        // the later failure must not reject it again - that throws inside the
+        // rejection handler and escapes as an unhandled rejection
+        this.assertCalledOnce(settle);
         this.assertInstance(
           rejectedWith,
-          qx.io.exception.Transport,
-          "A request in flight when its client was disposed must still be rejected with the transport error."
+          qx.io.exception.Cancel,
+          "A request in flight when its client was disposed must be settled."
         );
 
         transport.dispose();
       });
+    },
+
+    /**
+     * Issue #10889
+     */
+    async "test: a request in flight when the client is disposed is settled"() {
+      this.resetId();
+      const transport = this.createStubbedTransport();
+      // the transport accepts the message and the endpoint never answers it
+      transport.send.callsFake(() => Promise.resolve());
+
+      const client = new qx.io.jsonrpc.Client(transport);
+      const pending = client.sendRequest("foo", ["bar"]);
+
+      client.dispose();
+
+      const timeout = new qx.Promise(resolve =>
+        window.setTimeout(() => resolve("NEVER SETTLED"), 500)
+      );
+
+      let outcome;
+      try {
+        outcome = await qx.Promise.race([pending, timeout]);
+      } catch (e) {
+        outcome = e;
+      }
+
+      this.assertInstance(
+        outcome,
+        qx.io.exception.Cancel,
+        "A request left in flight by a disposed client must be cancelled."
+      );
+
+      transport.dispose();
     },
 
     /**
