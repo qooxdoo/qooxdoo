@@ -19,12 +19,12 @@
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.
+
 - Saving a table cell with `flushEditor()` while the edit goes on moved the
   focus from the cell editor to the table. With `cellEditorBlurAction` set to
   `save` this ended the edit and fired `dataEdited` a second time, with `cancel`
   it closed the editor, and with `nothing` the editor stayed open without focus.
 
-## Fixes
 - Pressing Enter in a table cell that is edited with a checkbox now ends the
   edit and saves the value, as Enter does in every other table cell editor.
   Before, Enter only toggled the checkbox and the edit stayed open. Space still
@@ -41,62 +41,59 @@
   (Firefox: `can't access property 0, ... is null`). The table now ignores the
   late column update when its model is already disposed.
 
-## Fixes
 - Unit tests that return a promise, such as `async` test methods compiled for
   older browsers, were reported as passed at once: a failed assertion after an
   `await` or a rejected promise did not show up. The test runner now waits for
   the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
   and reports a rejection or a timeout as a failed test.
+
 - After a test's `wait()` had timed out, a late `resume()` was reported as a
   second failure, "resume() called before wait()", and a late
   `resumeHandler()` could end the next test early. Such late calls are now
   ignored with a warning.
 
-## Fixes
 - `qx serve` and `qx test` ignored `serve.listenPort` in `compile.json` and
   always reported `Web server started, please browse to http://localhost:8080`.
   They now listen on that port. `--listen-port` (`-p`) on the command line still
   takes precedence, and 8080 stays the default when neither is set.
 
-## Fixes
 - When `qx compile` could not write an application because it found no library for the
   application class, `--feedback` showed this as `Warning: Cannot find the application library
   for myapp`. It is now shown as `ERROR: Cannot find library required to create application for myapp`;
   without `--feedback` only the wording changes.
 
-## Fixes
 - After the warning `Cannot find font with name NoSuchFont` (an unknown name in `@usefont`),
   `qx compile` also left out every font from `provides.fonts` that came after the unknown one,
   so the application started without them. Now only the unknown font is skipped.
 
-## Fixes
 - The compiler showed no messages from the qooxdoo logger, so errors such as
   `Unhandled promise rejection: ...` went unseen. They are printed again, in color unless `--colorize=false` is given.
+
 - `polyfill.js` in the source target referred to `minified.js.map`, a file the compiler never wrote.
   Browser developer tools could not load it, and `--coverage` runs of the test runner reported
   `An error occurred while trying to read the map file at minified.js.map`. The source target now writes
   `polyfill.js.map` next to it, so developer tools show the original core-js code.
+
 - With `qx test --coverage` (qxl.testtapper 4.1.6 or later), coverage reports listed a file
   `compiled/source/<app>/core-js-bundle/index.js` that does not exist, and its 29,000 core-js statements
   lowered the totals. `polyfill.js.map` now names the real core-js file in `node_modules`, which nyc
   leaves out of its reports by default.
 
-## Fixes
 - When a `runTests` listener or `beforeTests()` in compile.js failed while `qx test` ran its web
   server, `qx test` printed `Running unit tests` and then kept running without showing the error. It now prints `Error while running tests: ...` and exits with an error.
+
 - A failing `afterStart` listener in compile.js went unreported: `qx test` exited with 0 and `qx serve`
   showed nothing. `qx test` now prints `Error while running tests: ...` and exits with an error; `qx serve`
   prints `Error in an afterStart listener: ...` and keeps serving.
+
 - `qx test` exited as soon as its tests had finished, even when another `afterStart` listener in
   compile.js was still running, so an error of that listener never showed up. `qx test` now waits for all
   `afterStart` listeners before it exits.
 
-## Fixes
 - In the build target, browser developer tools placed code at the start of a source line, such as
   `qx.Class.define` at the top of a class file, one column too far to the right. Source maps now keep
   the first column of a line.
 
-## Fixes
 - JSON-RPC requests are now serialized with `JSON.stringify`, so a request body which used
   to be invalid JSON is now valid: strings containing control characters and object keys
   containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
