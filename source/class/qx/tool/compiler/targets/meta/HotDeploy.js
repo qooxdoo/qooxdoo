@@ -197,6 +197,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
       const close = util.promisify(sftp.close.bind(sftp));
       const mkdir = util.promisify(sftp.mkdir.bind(sftp));
       const unlink = util.promisify(sftp.unlink.bind(sftp));
+      const chmod = util.promisify(sftp.chmod.bind(sftp));
 
       const getShaOfFile = async filename => {
         let data = await fs.readFileAsync(filename);
@@ -262,8 +263,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
 
         // Check for identical modified time
         let remoteFile = remoteFiles[path.basename(filename)];
+        let stat = qx.tool.utils.files.Utils.safeStatSync(filename);
         if (remoteFile) {
-          let stat = qx.tool.utils.files.Utils.safeStatSync(filename);
           if (!stat) {
             try {
               await unlink(filename);
@@ -303,6 +304,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.HotDeploy", {
         rs.pipe(ws);
         await promise;
         await close(handle);
+        await chmod(filename, stat.mode);
       }
     },
 
