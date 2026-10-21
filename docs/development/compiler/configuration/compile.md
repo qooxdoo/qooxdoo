@@ -418,6 +418,9 @@ and the server where the class need to be slightly different on the client.
 
 It is a more powerful alternative to the compile.js compiler API.
 
+This section is a short reference; see [Custom compiler](../internals/CustomCompiler.md) for
+how it works in detail, a complete example, debugging tips and known limitations.
+
 To define a custom compiler, you need to first create an application in the `applications` section for your compiler 
 and set the `type` to be `"compiler"` like so:
 ```json5  

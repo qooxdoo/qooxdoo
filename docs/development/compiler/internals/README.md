@@ -12,4 +12,6 @@
 
 - [How the compiler check class dependencies](Dependencies.md)
 
+- [Writing a custom compiler and source transformers](CustomCompiler.md)
+
 
