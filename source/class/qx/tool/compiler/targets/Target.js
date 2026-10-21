@@ -875,7 +875,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         return;
       }
 
-      let hotDeploy = this.getHotDeploy();
+      let hotDeploy = application.getDeploy() ? this.getHotDeploy() : null;
       let bootMeta = appMeta.getBootMetaJs();
       for (let arr = appMeta.getPackages(), i = 0; i < arr.length; i++) {
         let pkg = arr[i];
@@ -928,7 +928,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       var t = this;
       let appMeta = this.getAppMeta();
       var application = appMeta.getApplication();
-      let hotDeploy = this.getHotDeploy();
+      let hotDeploy = application.getDeploy() ? this.getHotDeploy() : null;
 
       if (!application.isBrowserApp()) {
         return;

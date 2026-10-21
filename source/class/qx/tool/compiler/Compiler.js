@@ -397,6 +397,9 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         for (let maker of this.__makers) {
           let target = maker.getTarget();
           for (let app of maker.getApplications()) {
+            if (!app.getDeploy()) {
+              continue;
+            }
             let appMeta = app.getAppMeta();
             let usesAsset = appMeta.usesAsset(asset);
             if (!usesAsset && added) {
