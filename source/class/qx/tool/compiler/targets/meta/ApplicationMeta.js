@@ -20,6 +20,8 @@
  *
  * ************************************************************************/
 
+const fs = require("fs");
+
 /**
  * ApplicationMeta collects all the data about an application being compiled by a target,
  * in a form easily navigated and well documented.
@@ -348,6 +350,25 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
 
       this.__packages.push(pkg);
       return pkg;
+    },
+
+    /**
+     * Erases all packages, resetting the list of packages to empty; this needs to be done at the
+     * start of a generaying an application, otherwise we end up with stale files and if watching,
+     * we end up with a never ending increasing list of package files.
+     */
+    async eraseAllPackages() {
+      let filenames = await fs.promises.readdir(this.getApplicationRoot());
+      for (let filename of filenames) {
+        if (filename.match(/^package-.*\.js/)) {
+          try {
+            await fs.promises.unlink(`${this.getApplicationRoot()}/${filename}`);
+          } catch (e) {
+            // ignore errors
+          }
+        }
+      }
+      this.__packages = [];
     },
 
     /**

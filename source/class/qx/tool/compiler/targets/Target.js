@@ -350,6 +350,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
       this.__appMeta = application.getOrCreateAppMeta(this);
       let appMeta = this.__appMeta;
+      await appMeta.eraseAllPackages();
       appMeta.setAddTimestampsToUrls(this.getAddTimestampsToUrls());
 
       let targetUri = "";
@@ -829,7 +830,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       appMeta.getPackages().forEach(pkg => {
         pkg.getClassnames().forEach(classname => {
           var dbClassInfo = analyzer.getDbClassInfo(classname);
-          if (!dbClassInfo.translations) {
+          if (!dbClassInfo || !dbClassInfo.translations) {
             return;
           }
           t.getLocales().forEach(localeId => {
