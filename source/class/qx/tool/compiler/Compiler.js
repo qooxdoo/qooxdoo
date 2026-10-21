@@ -393,12 +393,22 @@ qx.Class.define("qx.tool.compiler.Compiler", {
       }
       this.__isListeningForAssetChanges = true;
       this.__resourceManager.addListener("assetChanged", async evt => {
-        let asset = evt.getData();
+        let { asset, added } = evt.getData();
         for (let maker of this.__makers) {
           let target = maker.getTarget();
           for (let app of maker.getApplications()) {
             let appMeta = app.getAppMeta();
-            if (appMeta.usesAsset(asset)) {
+            let usesAsset = appMeta.usesAsset(asset);
+            if (!usesAsset && added) {
+              let assetUris = app.getAssetUris(target, this.__resourceManager, appMeta.getEnvironment());
+              let assets = this.__resourceManager.getAssetsForPaths(assetUris);
+              if (assets.indexOf(asset) != -1) {
+                let bootPackage = appMeta.getPackages()[0];
+                bootPackage.addAsset(asset);
+                usesAsset = true;
+              }
+            }
+            if (usesAsset) {
               await appMeta.syncOneAsset(asset);
               let hotDeploy = target.getHotDeploy();
               if (hotDeploy) {
@@ -415,7 +425,14 @@ qx.Class.define("qx.tool.compiler.Compiler", {
         let asset = evt.getData();
         for (let maker of this.__makers) {
           let target = maker.getTarget();
+          let hotDeploy = target.getHotDeploy();
           await asset.deleteAssetFromTarget(target);
+          if (hotDeploy) {
+            await hotDeploy.writtenFile(asset.getDestFilename(target));
+          }
+        }
+        if (debounceHotDeploy) {
+          debounceHotDeploy.trigger();
         }
       });
     },
@@ -641,7 +658,8 @@ qx.Class.define("qx.tool.compiler.Compiler", {
 
       // A make that is still running, or that classes still compiling will start, fires "allDone" when it is finished
       let busy =
-        Object.keys(this.__compilingClasses).length > 0 || Object.values(this.__makerStateByHashCode).some(makerState => makerState.promise);
+        Object.keys(this.__compilingClasses).length > 0 ||
+        Object.values(this.__makerStateByHashCode).some(makerState => makerState.promise);
       if (!compilationRequired && !busy) {
         await this.fireEventAsync("allDone");
       }

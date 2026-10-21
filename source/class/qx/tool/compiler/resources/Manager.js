@@ -175,21 +175,23 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         var relFile = filename.substring(rootDir.length + 1).replace(/\\/g, "/");
         let assetUri = qx.tool.compiler.resources.Asset.calculateUri(library, relFile);
         let asset = this.__assets[assetUri];
+        let added = false;
         if (asset) {
           asset.getFileInfo().mtime = fs.statSync(filename).mtime;
         } else {
+          added = true;
           let fileInfo = resources[relFile];
           if (!fileInfo) {
             fileInfo = resources[relFile] = {};
           }
           fileInfo.resourcePath = context.resourcePath;
           fileInfo.mtime = fs.statSync(filename).mtime;
-          let asset = new qx.tool.compiler.resources.Asset(library, relFile, fileInfo);
+          asset = new qx.tool.compiler.resources.Asset(library, relFile, fileInfo);
           this.__addAsset(asset);
         }
         delete unconfirmed[relFile];
         debounceSaveDatabase.trigger();
-        this.fireDataEvent("assetChanged", asset);
+        this.fireDataEvent("assetChanged", { asset, added });
       };
 
       const onResourceFileRemoved = evt => {
