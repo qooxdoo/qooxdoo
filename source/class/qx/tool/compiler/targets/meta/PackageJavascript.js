@@ -94,7 +94,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
           }
           resolve();
         });
-        ws.write(`//# sourceMappingURL=${path.basename(this.getFilename())}.map?dt=${new Date().getTime()}\n`);
+        let hash = strip.getHash();
+        ws.write(`//# sourceMappingURL=${path.basename(this.getFilename())}.map?dt=${hash}\n`);
       }
 
       ws.write(`qx.$$packageData['${this.__pkg.getPackageIndex()}'] = ${JSON.stringify(data, null, 2)};\n`);

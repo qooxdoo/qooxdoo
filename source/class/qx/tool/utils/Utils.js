@@ -19,6 +19,7 @@ const path = require("upath");
 const fs = require("fs");
 const child_process = require("child_process");
 const psTree = require("ps-tree");
+const crypto = require("crypto");
 
 /**
  * @ignore(process)
@@ -534,6 +535,8 @@ qx.Class.define("qx.tool.utils.Utils", {
       constructor(options) {
         super(options);
         this.__lastLine = "";
+        this.__hash = crypto.createHash("sha256");
+        this.__hash.setEncoding("hex");
       }
 
       _transform(chunk, encoding, callback) {
@@ -547,6 +550,7 @@ qx.Class.define("qx.tool.utils.Utils", {
           str = "";
         }
         str = str.replace(/\n\/\/\#\s*sourceMappingURL=.*$/m, "");
+        this.__hash.write(str);
         this.push(str);
         callback();
       }
@@ -555,8 +559,13 @@ qx.Class.define("qx.tool.utils.Utils", {
         let str = this.__lastLine;
         this.__lastLine = null;
         str = str.replace(/\n\/\/\#\s*sourceMappingURL=.*$/m, "");
+        this.__hash.write(str);
         this.push(str);
         callback();
+      }
+
+      getHash() {
+        return this.__hash.digest("hex");
       }
     }
 
