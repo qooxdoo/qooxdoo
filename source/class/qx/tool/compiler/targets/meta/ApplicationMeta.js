@@ -358,7 +358,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
      * we end up with a never ending increasing list of package files.
      */
     async eraseAllPackages() {
-      let filenames = await fs.promises.readdir(this.getApplicationRoot());
+      let filenames;
+      try {
+        filenames = await fs.promises.readdir(this.getApplicationRoot());
+      } catch (ex) {
+        if (ex.code === "ENOENT") {
+          filenames = [];
+        } else {
+          throw ex;
+        }
+      }
       for (let filename of filenames) {
         if (filename.match(/^package-.*\.js/)) {
           try {
