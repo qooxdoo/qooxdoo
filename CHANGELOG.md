@@ -16,6 +16,10 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- When a theme change turned an icon alias from an image into a font icon, the
+  repaint stopped with `el.setValue is not a function` and the widgets restyled
+  after it kept the old look. In the other direction the font icon element
+  stayed in place and the image was drawn wrongly. (#10971)
 - A `require()` call with a literal argument that is not a string, such as `require(42)`, gave the
   unrelated warning `Wrong class name or filename - expected to find at least 42 but only found [%2]`.
   It now says `Only literal string arguments to require() are supported, found 42`.
