@@ -193,6 +193,11 @@
               "glyphs": {
                 "type": "string",
                 "description": "JSON mapping that lists the glyphs to use (see `qx export-glyphs`)"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9.-]+$",
+                "description": "Version identifier appended to the font URLs as query string to force browsers to reload the font after it changed"
               }
             }
           }
