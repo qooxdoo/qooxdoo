@@ -228,10 +228,8 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
         }
 
         let fontFormat = match[1];
+        // `load()` has already appended the version to the paths
         let url = fontFace.paths[i];
-        if (this.getVersion()) {
-          url += "?" + this.getVersion();
-        }
 
         fontFaceSrcRules.push({
           url: url,
