@@ -316,6 +316,9 @@ However, a better example is often to use the actual fonts from a CDN - to do th
 include multiple `@font-face` declarations, and while there would normally be only one font family in the CSS that's not actually a requirement.  When you use 
 "css", you must provide the "family" array to tell Qooxdoo which families are provided.
 
+Browsers cache font files aggressively, so a changed font file may not be picked up; set the optional `"version"` key (letters, digits, dots and
+dashes only, eg `"version": "1.2.0"`) and it is appended as a query string to the font and CSS URLs, forcing browsers to reload the font when you change it.
+
 
 #### Using fonts
 Once you've added a font to your library or application, the final step is that you need to tell the compiler which classes need that font - use the `@usefont` jsdoc, which is similar to `@asset` - for example:

@@ -132,7 +132,17 @@
         },
         "fonts": {
           "type": "object",
-          "description": "Defines fonts provided by"
+          "description": "Defines fonts provided by",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9.-]+$",
+                "description": "Version identifier appended to the font URLs as query string to force browsers to reload the font after it changed"
+              }
+            }
+          }
         },
         "webfonts": {
           "type": "array",

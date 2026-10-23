@@ -82,6 +82,18 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       init: null,
       nullable: true,
       check: "Array"
+    },
+
+    /**
+     * Version identifier appended to the font URLs as query string, to force browsers to reload
+     * the font after it changed (see `qx.bom.webfonts.WebFontLoader#version`)
+     */
+    version: {
+      init: null,
+      nullable: true,
+      check(value) {
+        return value === null || (typeof value === "string" && /^[a-zA-Z0-9.-]+$/.test(value));
+      }
     }
   },
 
@@ -103,7 +115,8 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
         "css",
         "fontFaces",
         "glyphs",
-        "family"
+        "family",
+        "version"
       ].forEach(name => {
         if (data.hasOwnProperty(name)) {
           toSet[name] = data[name];
@@ -170,6 +183,9 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       }
       if (this.getComparisonString() !== null) {
         font.comparisonString = this.getComparisonString();
+      }
+      if (this.getVersion() !== null) {
+        font.version = this.getVersion();
       }
 
       return (res +=

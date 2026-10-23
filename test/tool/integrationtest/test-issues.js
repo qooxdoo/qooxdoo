@@ -472,3 +472,25 @@ test("Unknown font does not drop the fonts after it", async () => {
   assert.ok(!indexJs.includes("fontBootstrap['NoSuchFont']"), "Unknown font must not be added");
 });
 
+test("Font version in Manifest.json is validated and passed to the font loader", async () => {
+  const Ajv = require("ajv");
+  const schema = require("../../../source/resource/qx/tool/compiler/schema/Manifest-2-0-0.json");
+  const validate = new Ajv({ allErrors: true, strict: false }).compile(schema);
+  let manifest = JSON.parse(await fsPromises.readFile("test-issues/webfontVersion/Manifest.json", "utf8"));
+  assert.ok(validate(manifest), "Manifest with font version should validate: " + JSON.stringify(validate.errors));
+  manifest.provides.fonts.VersionedFont.version = "1.2.3?x=y";
+  assert.ok(!validate(manifest), "Font version with illegal characters must be rejected");
+
+  await testUtils.deleteRecursive("test-issues/webfontVersion/compiled");
+  let result = await testUtils.runCompiler("test-issues/webfontVersion");
+  assert.ok(result.exitCode === 0, "Compile should succeed: " + result.output + result.error);
+  let indexJs = await fsPromises.readFile("test-issues/webfontVersion/compiled/source/webfontversion/index.js", "utf8");
+  const getFontBootstrap = name => {
+    let match = indexJs.match(new RegExp("fontBootstrap\\['" + name + "'\\]=(\\{[^;]*\\});"));
+    assert.ok(match, "Font " + name + " is missing");
+    return JSON.parse(match[1]);
+  };
+  assert.strictEqual(getFontBootstrap("VersionedFont").version, "1.2.3");
+  assert.ok(!("version" in getFontBootstrap("JosefinSlab")), "Font without version must not get one");
+});
+

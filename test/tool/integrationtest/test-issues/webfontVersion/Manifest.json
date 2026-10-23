@@ -1,0 +1,33 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "webfontversion",
+    "summary": "Application that uses a font with a version",
+    "description": "The version of a font must reach the font loader at runtime",
+    "license": "MIT license",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "webfontversion",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation",
+    "fonts": {
+      "VersionedFont": {
+        "family": ["Josefin Slab"],
+        "fontFaces": [
+          {
+            "fontFamily": "Josefin Slab",
+            "paths": ["qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff", "qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf"]
+          }
+        ],
+        "version": "1.2.3"
+      }
+    }
+  },
+  "requires": {
+    "@qooxdoo/framework": "^8.0.0"
+  }
+}
