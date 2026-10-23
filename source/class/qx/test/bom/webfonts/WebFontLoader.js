@@ -23,10 +23,7 @@ qx.Class.define("qx.test.bom.webfonts.WebFontLoader", {
           continue;
         }
         for (let rule of rules) {
-          if (
-            rule.cssText.startsWith("@font-face") &&
-            rule.cssText.includes(fontFamily)
-          ) {
+          if (rule.cssText.startsWith("@font-face") && rule.cssText.includes(fontFamily)) {
             return rule.cssText;
           }
         }
