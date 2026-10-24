@@ -69,8 +69,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     super();
     this.selectTransport(transportOrUri);
     // listen for incoming messages
-    this.getTransport().addListener("message", evt =>
-      this.handleIncoming(evt.getData())
+    this.__transportListenerId = this.getTransport().addListener(
+      "message",
+      evt => this.handleIncoming(evt.getData())
     );
 
     if (!methodPrefix) {
@@ -109,6 +110,11 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     __requests: null,
 
     /**
+     * The id of the listener which is registered on the transport
+     */
+    __transportListenerId: null,
+
+    /**
      * If a service name has been configured, prepend it to the method name,
      * unless it has already been prefixed
      * @param {String} method
@@ -132,14 +138,34 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      */
     _throwTransportException(exception) {
       this.fireDataEvent("error", exception);
-      this.__requests.forEach(request => {
+      this.__requests.forEach((request, id) => {
         if (request instanceof qx.io.jsonrpc.protocol.Request) {
+          // release the request first, its promise can only be rejected once
+          this.__requests[id] = true;
           // this rejects the request's promise
           request.handleTransportException(exception);
         }
       });
-      if (!qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest")){
+      if (
+        !qx.core.Environment.get(
+          "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+        )
+      ) {
         throw exception; // will be removed in v8 since it is not caught anywhere
+      }
+    },
+
+    /**
+     * Marks the given requests as settled, so that neither a later transport
+     * failure nor a late response can settle them a second time. The client
+     * may have been disposed while they were in flight, in which case there is
+     * no longer a map to release them from.
+     * @param {qx.io.jsonrpc.protocol.Request[]} requests
+     * @private
+     */
+    __releaseRequests(requests) {
+      if (this.__requests) {
+        requests.forEach(request => (this.__requests[request.getId()] = true));
       }
     },
 
@@ -209,9 +235,13 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       }
 
       // send it async, using transport-specific implementation
-      const transportPromise = this.getTransport().send(message.toString())
+      const transportPromise = this.getTransport().send(message.toString());
 
-      if (qx.core.Environment.get("qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest")) {
+      if (
+        qx.core.Environment.get(
+          "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
+        )
+      ) {
         // forward rejections to the requests' promises, which will be standard behavior in v8
         transportPromise.catch(error => {
           // wrap error in transport exception
@@ -222,13 +252,30 @@ qx.Class.define("qx.io.jsonrpc.Client", {
               error
             );
           }
-          this._throwTransportException(error)
-        })
+          // only the requests of this message have failed, and of those only
+          // the ones still waiting can be rejected: a promise settles once,
+          // and dispose(), a response or an earlier failure may have settled
+          // them already. The map is gone once the client is disposed, which
+          // is itself one of those cases
+          const pending = this.__requests
+            ? requests.filter(
+                request => this.__requests[request.getId()] === request
+              )
+            : [];
+          this.__releaseRequests(pending);
+          this.fireDataEvent("error", error);
+          pending.forEach(request => request.handleTransportException(error));
+        });
         // return a resolved promise so that the actual completion of the transport is not awaited
-        return qx.Promise.resolve()
-      } else  {
+        return qx.Promise.resolve();
+      } else {
         // default behavior in v7: return promise from transport
-        return transportPromise;
+        return transportPromise.catch(error => {
+          // the requests will never be responded to, release them, and let
+          // the caller see the transport error even if the client is gone
+          this.__releaseRequests(requests);
+          throw error;
+        });
       }
     },
 
@@ -391,6 +438,29 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       // mark request as handled (and remove reference so it can be gc'ed)
       this.__requests[id] = true;
     }
+  },
+
+  destruct() {
+    // the listener keeps the client reachable from the transport, which
+    // typically outlives it
+    const transport = this.getTransport();
+    if (transport && !transport.isDisposed()) {
+      transport.removeListenerById(this.__transportListenerId);
+    }
+
+    // nothing can answer the requests which are still in flight now that the
+    // transport listener is gone, so cancel them rather than leave their
+    // callers awaiting a promise which can never settle
+    this.__requests.forEach(request => {
+      if (request instanceof qx.io.jsonrpc.protocol.Request) {
+        request.handleTransportException(
+          new qx.io.exception.Cancel(
+            "The client was disposed before the request was answered."
+          )
+        );
+      }
+    });
+    this.__requests = null;
   },
 
   environment: {
