@@ -50,6 +50,14 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling", {
     /** Fires after the value was modified */
     changeValue: "qx.event.type.Data",
 
+    /**
+     * Fires before the selection is modified. The data is the new selection
+     * (an empty array when the selection is reset), the old data is the
+     * current selection. Calling <code>preventDefault()</code> keeps the
+     * current selection.
+     */
+    beforeChangeSelection: "qx.event.type.Data",
+
     /** Fires after the selection was modified */
     changeSelection: "qx.event.type.Data"
   },
@@ -205,6 +213,28 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling", {
     },
 
     /**
+     * Event listener for <code>beforeChangeSelected</code> event on single
+     * selection manager.
+     *
+     * @param e {qx.event.type.Data} Data event.
+     */
+    _onBeforeChangeSelected(e) {
+      var newValue = e.getData();
+      var oldValue = e.getOldData();
+
+      if (
+        !this.fireDataEvent(
+          "beforeChangeSelection",
+          newValue == null ? [] : [newValue],
+          oldValue == null ? [] : [oldValue],
+          true
+        )
+      ) {
+        e.preventDefault();
+      }
+    },
+
+    /**
      * Return the selection manager if it is already exists, otherwise creates
      * the manager.
      *
@@ -231,6 +261,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling", {
         // false auto-selects the first item and fires "changeSelected". If the
         // listener is not yet attached, that initial selection event is lost and
         // e.g. RadioGroup never propagates the selection to its items.
+        this.__manager.addListener("beforeChangeSelected", this._onBeforeChangeSelected, this);
         this.__manager.addListener("changeSelected", this._onChangeSelected, this);
 
         this.__manager.set({
