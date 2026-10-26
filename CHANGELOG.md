@@ -102,6 +102,18 @@
   to be invalid JSON is now valid: strings containing control characters and object keys
   containing `"` or `\` are escaped, and `NaN` and `Infinity` are sent as `null` rather than
   as bare tokens a server cannot parse. Other payloads are sent exactly as before. (#10900)
+- A transport failure of a `qx.io.jsonrpc.Client` with
+  `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` on used to reject every request the
+  client still had in flight rather than those of the message which failed, and the next failure
+  then never settled its own request at all. A failure now rejects the requests of the failed
+  message, each of them exactly once. (#10890)
+- `qx.io.jsonrpc.Client` no longer keeps itself alive through its transport: the "message"
+  listener it registers there is removed when the client is disposed, so a client created per
+  request is collected instead of leaking for the life of the page. Disposing a client now also
+  rejects the requests it still has in flight with `qx.io.exception.Cancel`, whose callers used
+  to await a response which could no longer be delivered, and a request which failed at the
+  transport is released from the pending map, so a late response to it is reported as a
+  `DUPLICATE_ID` transport error rather than resolving it. (#10889)
 
 # 8.0.0-beta.2
 
