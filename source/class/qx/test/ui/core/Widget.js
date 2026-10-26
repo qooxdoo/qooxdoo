@@ -190,7 +190,7 @@ qx.Class.define("qx.test.ui.core.Widget", {
     },
 
     testScrollChildIntoViewChangesScheduled() {
-      var msg, scrollPane, scrollTopInitial, scrollTop;
+      var scrollPane, scrollTopInitial;
 
       var scroll = new qx.ui.container.Scroll().set({
         width: 100,
@@ -229,24 +229,29 @@ qx.Class.define("qx.test.ui.core.Widget", {
       inner1.setHeight(200);
       scroll.scrollChildIntoView(inner2);
 
-      qx.event.Timer.once(
-        function () {
-          scrollTop = scrollPane.getContentElement().getDomElement().scrollTop;
-        },
-        this,
-        250
-      );
+      // the scheduled scroll is applied by the next automatic flush (an
+      // animation frame, which a busy or hidden browser may delay), and the
+      // pane reports each new scroll position with a "scrollY" event
+      var getScrollTop = () =>
+        scrollPane.getContentElement().getDomElement().scrollTop;
+      var listenerId = scrollPane.addListener("scrollY", () => {
+        if (getScrollTop() > scrollTopInitial) {
+          scrollPane.removeListenerById(listenerId);
+          this.resume(() => scroll.destroy());
+        }
+      });
 
       this.wait(
-        500,
+        5000,
         function () {
-          msg =
+          scrollPane.removeListenerById(listenerId);
+          var msg =
             "Must scroll further down, but was: " +
             scrollTopInitial +
             " is: " +
-            scrollTop;
-          this.assert(scrollTop > scrollTopInitial, msg);
+            getScrollTop();
           scroll.destroy();
+          this.fail(msg);
         },
         this
       );
@@ -491,6 +496,77 @@ qx.Class.define("qx.test.ui.core.Widget", {
       w._add(new qx.ui.container.Composite());
 
       w.dispose();
+    },
+
+    __createComposite(childCount) {
+      var composite = new qx.ui.container.Composite();
+      for (var i = 0; i < childCount; i++) {
+        composite.add(new qx.ui.core.Widget());
+      }
+
+      return composite;
+    },
+
+    testGetLayoutChildrenWithoutExcludedChildren() {
+      var w = this.__createComposite(3);
+
+      this.assertIdentical(
+        w.getChildren(),
+        w.getLayoutChildren(),
+        "The child list itself must be returned if nothing is excluded"
+      );
+
+      var empty = new qx.ui.container.Composite();
+      this.assertArrayEquals([], empty.getLayoutChildren());
+
+      w.destroy();
+      empty.destroy();
+    },
+
+    testGetLayoutChildrenWithExcludedChildren() {
+      var w = this.__createComposite(5);
+      var children = w.getChildren().concat();
+
+      // excluded at the start, in the middle and at the end
+      children[0].exclude();
+      children[2].exclude();
+      children[4].exclude();
+
+      var layoutChildren = w.getLayoutChildren();
+      this.assertArrayEquals([children[1], children[3]], layoutChildren);
+      this.assertNotIdentical(
+        w.getChildren(),
+        layoutChildren,
+        "The child list must not be handed out once a child is excluded"
+      );
+
+      // hidden children are still layout relevant
+      children[1].hide();
+      this.assertArrayEquals([children[1], children[3]], w.getLayoutChildren());
+
+      children[0].show();
+      children[2].show();
+      children[4].show();
+      this.assertIdentical(w.getChildren(), w.getLayoutChildren());
+
+      w.destroy();
+    },
+
+    testGetLayoutChildrenWithUserBounds() {
+      var w = this.__createComposite(3);
+      var children = w.getChildren().concat();
+
+      children[1].setUserBounds(0, 0, 10, 10);
+      this.assertArrayEquals([children[0], children[2]], w.getLayoutChildren());
+
+      children[0].setUserBounds(0, 0, 10, 10);
+      children[2].exclude();
+      this.assertArrayEquals([], w.getLayoutChildren());
+
+      children[1].resetUserBounds();
+      this.assertArrayEquals([children[1]], w.getLayoutChildren());
+
+      w.destroy();
     }
   }
 });

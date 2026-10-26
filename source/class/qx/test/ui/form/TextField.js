@@ -78,6 +78,29 @@ qx.Class.define("qx.test.ui.form.TextField", {
       this.assertEquals("", s);
     },
 
+    "test: text color keeps the color in a shared font"() {
+      var font = new qx.bom.Font();
+      font.setColor("#FF0000");
+
+      this.__field.setTextColor("#00FF00");
+      this.__field.setFont(font);
+
+      var plain = new qx.ui.form.TextField();
+      plain.setTextColor(null);
+      plain.setFont(font);
+      this.getRoot().add(plain);
+      this.flush();
+
+      this.assertEquals(
+        "#FF0000",
+        plain.getContentElement().getStyle("color"),
+        "A field with its own text color must not remove the color from the shared font."
+      );
+
+      plain.destroy();
+      font.dispose();
+    },
+
     __field: null
   }
 });

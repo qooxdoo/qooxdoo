@@ -194,16 +194,12 @@ qx.Class.define("qx.ui.layout.VBox", {
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse =
-        this.__heights &&
-        this.__heights.length != length &&
-        this.__flexs &&
-        this.__heights;
       var props;
 
-      // Sparse array (keep old one if lengths has not been modified)
-      var heights = reuse ? this.__heights : new Array(length);
-      var flexs = reuse ? this.__flexs : new Array(length);
+      // Sparse arrays, always rebuilt: a reused array keeps the entry of
+      // whichever child sat at that index before
+      var heights = new Array(length);
+      var flexs = new Array(length);
 
       // Reverse support
       if (this.getReversed()) {
@@ -228,10 +224,8 @@ qx.Class.define("qx.ui.layout.VBox", {
       }
 
       // Store data
-      if (!reuse) {
-        this.__heights = heights;
-        this.__flexs = flexs;
-      }
+      this.__heights = heights;
+      this.__flexs = flexs;
 
       this.__enableFlex = enableFlex;
       this.__children = children;
