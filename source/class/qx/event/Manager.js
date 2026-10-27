@@ -277,32 +277,7 @@ qx.Class.define("qx.event.Manager", {
       var entryMap = targetMap.get(entryKey);
 
       if (entryMap && entryMap.size > 0) {
-        var listeners = [...entryMap.values()];
-
-        if (qx.core.Environment.get("runtime.name") == "rhino") {
-          return listeners;
-        }
-
-        return new Proxy(listeners, {
-          deleteProperty(target, property) {
-            if (property !== "length") {
-              var listener = target[property];
-              entryMap.delete(listener.unique);
-            }
-            delete target[property];
-            return true;
-          },
-          set(target, property, value, receiver) {
-            if (property !== "length") {
-              if (!value.unique) {
-                throw new Error("Cannot store a listener without a unique id. Use addListener()");
-              }
-              entryMap[value.unique] = value;
-            }
-            target[property] = value;
-            return true;
-          }
-        });
+        return [...entryMap.values()];
       }
       return null;
     },
@@ -664,6 +639,9 @@ qx.Class.define("qx.event.Manager", {
     /**
      * Remove an event listener from an event target.
      *
+     * Removes every entry that matches, including the ones
+     * {@link qx.core.MEvent#addListenerOnce} wrapped around the listener.
+     *
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -714,7 +692,13 @@ qx.Class.define("qx.event.Manager", {
       }
       var deleted = false;
 
-      for (const [entryKey, entry] of entryMap.entries().filter(([eK, e]) => e.handler === listener && e.context === self)) {
+      for (const [entryKey, entry] of entryMap
+        .entries()
+        .filter(
+          ([eK, e]) =>
+            (e.handler === listener || e.handler.$$onceOf === listener) &&
+            e.context === self
+        )) {
         deleted = true;
         entryMap.delete(entryKey);
         this.__addToBlacklist(entryKey);
