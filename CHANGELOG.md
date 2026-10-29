@@ -19,6 +19,8 @@
 - `pop()` on a `qx.data.Array` fired its `change` event with `start` and `end` one below the item it
   removed: popping from `["a", "b", "c"]` reported `start: 1` instead of `2`. The event now names
   the index of the removed item.
+- `pop()` on an empty `qx.data.Array` fired `change` and `changeBubble` events that removed an
+  `undefined` item. It now fires nothing, as `shift()` already did.
 - `splice()` on a `qx.data.Array` with an amount larger than the items behind the start, such as
   `splice(2, 100)` on five items, named its `changeBubble` event `2-101` instead of `2-4`. With a
   start at the end, such as `splice(3, 5)` on three items, it fired `change` and `changeBubble`

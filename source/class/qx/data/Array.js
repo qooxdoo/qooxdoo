@@ -232,6 +232,11 @@ qx.Class.define("qx.data.Array", {
      * @return {var} The last element of the array.
      */
     pop() {
+      // ignore on empty arrays
+      if (this.__length == 0) {
+        return;
+      }
+
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener

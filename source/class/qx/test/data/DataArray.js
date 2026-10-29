@@ -560,6 +560,16 @@ qx.Class.define("qx.test.data.DataArray", {
       a.dispose();
     },
 
+    testPopEmpty() {
+      var a = new qx.data.Array();
+      var fired = 0;
+      a.addListener("change", () => fired++);
+      a.addListener("changeBubble", () => fired++);
+      this.assertUndefined(a.pop(), "Pop on an empty array must return undefined.");
+      this.assertEquals(0, fired, "Pop on an empty array must not fire change events.");
+      a.dispose();
+    },
+
     testPopEvent() {
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
