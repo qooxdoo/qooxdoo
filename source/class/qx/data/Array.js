@@ -244,11 +244,12 @@ qx.Class.define("qx.data.Array", {
         item: this
       });
 
+      // the removed item was at the index which is now the length
       this.fireDataEvent(
         "change",
         {
-          start: this.__length - 1,
-          end: this.__length - 1,
+          start: this.__length,
+          end: this.__length,
           type: "remove",
           removed: [item],
           added: []

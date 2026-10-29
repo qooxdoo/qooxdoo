@@ -16,6 +16,9 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- `pop()` on a `qx.data.Array` fired its `change` event with `start` and `end` one below the item it
+  removed: popping from `["a", "b", "c"]` reported `start: 1` instead of `2`. The event now names
+  the index of the removed item.
 - `splice()` on a `qx.data.Array` with an amount larger than the items behind the start, such as
   `splice(2, 100)` on five items, named its `changeBubble` event `2-101` instead of `2-4`. With a
   start at the end, such as `splice(3, 5)` on three items, it fired `change` and `changeBubble`
