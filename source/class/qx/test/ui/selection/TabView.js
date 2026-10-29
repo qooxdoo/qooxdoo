@@ -100,6 +100,37 @@ qx.Class.define("qx.test.ui.selection.TabView", {
       );
     },
 
+    testBeforeChangeSelection() {
+      var pages = this._widget.getChildren();
+      var selected = this._selection[0];
+      var events = [];
+      var veto = true;
+
+      this._widget.addListener("beforeChangeSelection", e => {
+        events.push([e.getData(), e.getOldData()]);
+        if (veto) {
+          e.preventDefault();
+        }
+      });
+
+      pages[2].getButton().execute();
+      this.assertArrayEquals([pages[2]], events[0][0]);
+      this.assertArrayEquals([selected], events[0][1]);
+      this.assertArrayEquals([selected], this._widget.getSelection());
+      this.assertFalse(pages[2].getButton().getValue());
+      this.assertTrue(selected.getButton().getValue());
+      this.assertTrue(selected.isVisible());
+
+      this._widget.setSelection([pages[3]]);
+      this.assertArrayEquals([pages[3]], events[1][0]);
+      this.assertArrayEquals([selected], this._widget.getSelection());
+
+      veto = false;
+      pages[2].getButton().execute();
+      this.assertArrayEquals([pages[2]], this._widget.getSelection());
+      this.assertTrue(pages[2].getButton().getValue());
+    },
+
     _createTestElement(name) {
       return new qx.ui.tabview.Page(name);
     }
