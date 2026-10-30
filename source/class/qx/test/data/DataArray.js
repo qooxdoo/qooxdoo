@@ -820,7 +820,9 @@ qx.Class.define("qx.test.data.DataArray", {
 
     testSpliceUpdatesMovedBinding() {
       var a = new qx.data.Array("a", "b", "c", "d");
-      var label = new qx.test.data.singlevalue.TextFieldDummy();
+      // a plain model as target: the node test app excludes the
+      // qx.test.data.singlevalue classes
+      var label = qx.data.marshal.Json.createModel({ value: null });
       a.bind("[3]", label, "value");
       this.assertEquals("d", label.getValue(), "Binding not set up.");
 
