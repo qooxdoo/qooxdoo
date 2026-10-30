@@ -560,6 +560,16 @@ qx.Class.define("qx.test.data.DataArray", {
       a.dispose();
     },
 
+    testPopEmpty() {
+      var a = new qx.data.Array();
+      var fired = 0;
+      a.addListener("change", () => fired++);
+      a.addListener("changeBubble", () => fired++);
+      this.assertUndefined(a.pop(), "Pop on an empty array must return undefined.");
+      this.assertEquals(0, fired, "Pop on an empty array must not fire change events.");
+      a.dispose();
+    },
+
     testPopEvent() {
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
@@ -571,9 +581,9 @@ qx.Class.define("qx.test.data.DataArray", {
           a.pop();
         },
         function (e) {
-          self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+          self.assertEquals(2, e.getData().start, "Wrong start index in the event.");
 
-          self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+          self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
 
           self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
 
@@ -810,7 +820,9 @@ qx.Class.define("qx.test.data.DataArray", {
 
     testSpliceUpdatesMovedBinding() {
       var a = new qx.data.Array("a", "b", "c", "d");
-      var label = new qx.test.data.singlevalue.TextFieldDummy();
+      // a plain model as target: the node test app excludes the
+      // qx.test.data.singlevalue classes
+      var label = qx.data.marshal.Json.createModel({ value: null });
       a.bind("[3]", label, "value");
       this.assertEquals("d", label.getValue(), "Binding not set up.");
 
@@ -895,6 +907,76 @@ qx.Class.define("qx.test.data.DataArray", {
         "changeBubble event not fired!"
       );
 
+      a.dispose();
+    },
+
+    testSpliceNormalizesStartIndex() {
+      // negative start counts from the end
+      var a = new qx.data.Array("a", "b", "c", "d");
+      var change = null;
+      var bubble = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(-1, 1, "y").dispose();
+      this.assertEquals(3, change.start, "Wrong start index (negative start).");
+      this.assertEquals(3, change.end, "Wrong end index (negative start).");
+      this.assertEquals("3", bubble.name, "Wrong bubble name (negative start).");
+      this.assertEquals("y", a.getItem(3));
+      a.dispose();
+
+      // start beyond the length is clamped to the length
+      a = new qx.data.Array("a", "b", "c");
+      change = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.splice(10, 0, "x").dispose();
+      this.assertEquals(3, change.start, "Wrong start index (start beyond length).");
+      this.assertEquals(3, change.end, "Wrong end index (start beyond length).");
+      a.dispose();
+
+      // the inserted item bubbles its changes under its real index
+      var model = qx.data.marshal.Json.createModel({ list: [{ name: "a" }] }, true);
+      var item = qx.data.marshal.Json.createModel({ name: "b" }, true);
+      model.getList().splice(10, 0, item).dispose();
+      bubble = null;
+      model.addListener("changeBubble", e => (bubble = e.getData()));
+      item.setName("c");
+      this.assertEquals("list[1].name", bubble.name, "Wrong bubble name of inserted item.");
+      model.dispose();
+      item.dispose();
+    },
+
+    testSpliceWithoutAmount() {
+      var a = new qx.data.Array("a", "b", "c", "d");
+      var change = null;
+      var bubble = null;
+      a.addListener("change", e => (change = e.getData()));
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(2).dispose();
+      this.assertArrayEquals(["a", "b"], a.toArray());
+      this.assertNotNull(change, "Change event not fired.");
+      this.assertEquals("remove", change.type);
+      this.assertEquals(2, change.start);
+      this.assertArrayEquals(["c", "d"], change.removed);
+      this.assertNotNull(bubble, "changeBubble event not fired.");
+      this.assertEquals("2-3", bubble.name);
+      this.assertArrayEquals(["c", "d"], bubble.old);
+      a.dispose();
+    },
+
+    testSpliceAmountBeyondEnd() {
+      // only the items that really exist are reported as removed
+      var a = new qx.data.Array("a", "b", "c", "d", "e");
+      var bubble = null;
+      a.addListener("changeBubble", e => (bubble = e.getData()));
+      a.splice(2, 100).dispose();
+      this.assertArrayEquals(["a", "b"], a.toArray());
+      this.assertEquals("2-4", bubble.name, "Wrong name in the bubble event.");
+      a.dispose();
+
+      // removing nothing behind the end is no change
+      a = new qx.data.Array("a", "b", "c");
+      this.assertEventNotFired(a, "change", () => a.splice(3, 5).dispose(), "Change event fired!");
+      this.assertEventNotFired(a, "changeBubble", () => a.splice(3, 5).dispose(), "changeBubble event fired!");
       a.dispose();
     },
 

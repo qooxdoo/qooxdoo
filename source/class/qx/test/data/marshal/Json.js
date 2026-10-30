@@ -1189,8 +1189,10 @@ qx.Class.define("qx.test.data.marshal.Json", {
       model.splice(1, 1, model.getItem(0));
       this.assertCalledOnce(spy);
 
+      // splice(1, 1, ...) on one item removes nothing and appends the item,
+      // so it now sits at [0] and [1] and its change bubbles for both
       model.getItem(0).setLabel("pistole");
-      this.assertCalledTwice(spy);
+      this.assertCallCount(spy, 3);
     },
 
     testGetArrayClassSimple() {

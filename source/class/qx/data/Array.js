@@ -239,6 +239,11 @@ qx.Class.define("qx.data.Array", {
      * @return {var} The last element of the array.
      */
     pop() {
+      // ignore on empty arrays
+      if (this.__length == 0) {
+        return;
+      }
+
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener
@@ -251,11 +256,12 @@ qx.Class.define("qx.data.Array", {
         item: this
       });
 
+      // the removed item was at the index which is now the length
       this.fireDataEvent(
         "change",
         {
-          start: this.__length - 1,
-          end: this.__length - 1,
+          start: this.__length,
+          end: this.__length,
           type: "remove",
           removed: [item],
           added: []
@@ -417,6 +423,20 @@ qx.Class.define("qx.data.Array", {
     splice(startIndex, amount, varargs) {
       // store the old length
       var oldLength = this.__array.length;
+
+      // normalize the start index the way the native splice does, so the
+      // events report the real position instead of the raw argument
+      startIndex = Math.trunc(Number(startIndex)) || 0;
+      startIndex = startIndex < 0 ? Math.max(oldLength + startIndex, 0) : Math.min(startIndex, oldLength);
+      arguments[0] = startIndex;
+
+      // without an amount, the native splice removes everything from the start on;
+      // otherwise it removes no more items than there are behind the start
+      if (arguments.length == 1) {
+        amount = oldLength - startIndex;
+      } else {
+        amount = Math.min(Math.max(Math.trunc(Number(amount)) || 0, 0), oldLength - startIndex);
+      }
 
       // invoke the slice on the array
       var returnArray = this.__array.splice.apply(this.__array, arguments);
