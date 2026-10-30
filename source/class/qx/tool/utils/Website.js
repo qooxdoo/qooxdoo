@@ -50,11 +50,25 @@ qx.Class.define("qx.tool.utils.Website", {
   construct(options = {}) {
     qx.core.Object.apply(this, arguments);
     const self = qx.tool.utils.Website;
-    let p = qx.util.ResourceManager.getInstance().toUri(
-      "qx/tool/website/.gitignore"
-    );
 
-    p = path.dirname(p);
+    // Do not use a dotfile as a marker: `.gitignore` is not guaranteed to
+    // survive packaging/copying, and when it is missing `toUri()` returns the
+    // resource id unchanged.  A relative source dir would then be resolved
+    // again by Metalsmith, producing e.g. "qx/tool/website/qx/tool/website/src".
+    let marker = qx.util.ResourceManager.getInstance().toUri(
+      "qx/tool/website/src/index.html"
+    );
+    if (!path.isAbsolute(marker)) {
+      let resourceUri = qx.util.LibraryManager.getInstance().get(
+        "qx",
+        "resourceUri"
+      );
+      if (resourceUri) {
+        marker = path.join(resourceUri, "qx/tool/website/src/index.html");
+      }
+    }
+
+    let p = path.dirname(path.dirname(marker));
     this.initSourceDir(p);
     this.initTargetDir(path.join(p, "build"));
     this.initAppsNamespace(self.APP_NAMESPACE);
