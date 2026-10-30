@@ -1,5 +1,5 @@
 const qx = require("../../../compiled/node/build/compilerLibrary");
-const { rimraf } = require("rimraf");
+const { rm } = require("fs").promises;
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const { test } = require("node:test");
@@ -13,7 +13,7 @@ test("config file schemas", async () => {
   try {
     // delete existing app
     if (await fs.existsAsync(appNamespace) && await fs.statAsync(appNamespace)) {
-      await rimraf(appNamespace);
+      await rm(appNamespace, { recursive: true, force: true });
     }
     // create a test app
     let create = new qx.tool.compiler.cli.commands.Create();
@@ -67,6 +67,6 @@ test("config file schemas", async () => {
   } finally {
     // delete the test app
     process.chdir(__dirname);
-    await rimraf(appNamespace);
+    await rm(appNamespace, { recursive: true, force: true });
   }
 });

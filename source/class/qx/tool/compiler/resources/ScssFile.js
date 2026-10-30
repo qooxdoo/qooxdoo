@@ -28,7 +28,7 @@ const path = require("upath");
  * @ignore(loadSass)
  */
 /* global loadSass */
-const sass = loadSass();
+const sass = window["loadSass"]();
 
 /**
  * @ignore(process)
@@ -76,10 +76,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       this.__outputDir = path.dirname(outputFilename);
       this.__absLocations = {};
 
-      let inputFileData = await this.loadSource(
-        this.__filename,
-        this.__library
-      );
+      let inputFileData = await this.loadSource(this.__filename, this.__library);
 
       await new qx.Promise((resolve, reject) => {
         sass.render(
@@ -109,24 +106,14 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
             },
 
             functions: {
-              "qooxdooUrl($filename, $url)": ($filename, $url, done) =>
-                this.__qooxdooUrlImpl($filename, $url, done)
+              "qooxdooUrl($filename, $url)": ($filename, $url, done) => this.__qooxdooUrlImpl($filename, $url, done)
             }
           },
 
           (error, result) => {
             if (error) {
               qx.tool.compiler.Console.error(
-                "Error status " +
-                  error.status +
-                  " in " +
-                  this.__filename +
-                  "[" +
-                  error.line +
-                  "," +
-                  error.column +
-                  "]: " +
-                  error.message
+                "Error status " + error.status + " in " + this.__filename + "[" + error.line + "," + error.column + "]: " + error.message
               );
 
               resolve(error); // NOT reject
@@ -134,13 +121,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
             }
 
             fs.writeFileAsync(outputFilename, result.css.toString(), "utf8")
-              .then(() =>
-                fs.writeFileAsync(
-                  outputFilename + ".map",
-                  result.map.toString(),
-                  "utf8"
-                )
-              )
+              .then(() => fs.writeFileAsync(outputFilename + ".map", result.map.toString(), "utf8"))
               .then(() => resolve(null))
               .catch(reject);
           }
@@ -150,7 +131,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       return Object.keys(this.__sourceFiles);
     },
 
-    _analyseFilename(url, currentFilename) {
+    _analyzeFilename(url, currentFilename) {
       var m = url.match(/^([a-z0-9_.]+):(\/?[^\/].*)/);
       if (m) {
         return {
@@ -179,25 +160,15 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       // Must be relative to current file
       let dir = path.dirname(currentFilename);
       let filename = path.resolve(dir, url);
-      let library = this.__target
-        .getAnalyser()
-        .getLibraries()
-        .find(library =>
-          filename.startsWith(path.resolve(library.getRootDir()))
-        );
+      let library = qx.tool.compiler.app.Library.findBestLibraryForFilename(filename, this.__target.getAnalyzer().getLibraries());
 
       if (!library) {
-        qx.tool.compiler.Console.error(
-          "Cannot find library for " + url + " in " + currentFilename
-        );
+        qx.tool.compiler.Console.error("Cannot find library for " + url + " in " + currentFilename);
 
         return null;
       }
 
-      let libResourceDir = path.join(
-        library.getRootDir(),
-        this.isThemeFile() ? library.getThemePath() : library.getResourcePath()
-      );
+      let libResourceDir = path.join(library.getRootDir(), this.isThemeFile() ? library.getThemePath() : library.getResourcePath());
 
       return {
         namespace: library.getNamespace(),
@@ -215,11 +186,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
     async loadSource(filename, library) {
       filename = path.relative(
         process.cwd(),
-        path.resolve(
-          this.isThemeFile()
-            ? library.getThemeFilename(filename)
-            : library.getResourceFilename(filename)
-        )
+        path.resolve(this.isThemeFile() ? library.getThemeFilename(filename) : library.getResourceFilename(filename))
       );
 
       let absFilename = filename;
@@ -249,71 +216,51 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
 
       let contents = await fs.readFileAsync(absFilename, "utf8");
       let promises = [];
-      contents = contents.replace(
-        /@import\s+["']([^;]+)["']/gi,
-        (match, p1, offset) => {
-          let pathInfo = this._analyseFilename(p1, absFilename);
+      contents = contents.replace(/@import\s+["']([^;]+)["']/gi, (match, p1, offset) => {
+        let pathInfo = this._analyzeFilename(p1, absFilename);
+        if (pathInfo.externalUrl) {
+          return '@import "' + pathInfo.externalUrl + '"';
+        }
+        let newLibrary = this.__target.getAnalyzer().findLibrary(pathInfo.namespace);
+        if (!newLibrary) {
+          qx.tool.compiler.Console.error("Cannot find file to import, url=" + p1 + " in file " + absFilename);
+
+          return null;
+        }
+        promises.push(this.loadSource(pathInfo.filename, newLibrary));
+        let filename = this.isThemeFile()
+          ? newLibrary.getThemeFilename(pathInfo.filename)
+          : newLibrary.getResourceFilename(pathInfo.filename);
+        return '@import "' + path.relative(process.cwd(), filename) + '"';
+      });
+
+      contents = contents.replace(/\burl\s*\(\s*([^\)]+)*\)/gi, (match, url) => {
+        let c = url[0];
+        if (c === "'" || c === '"') {
+          url = url.substring(1);
+        }
+        c = url[url.length - 1];
+        if (c === "'" || c === '"') {
+          url = url.substring(0, url.length - 1);
+        }
+        //return `qooxdooUrl("${filename}", "${url}")`;
+        let pathInfo = this._analyzeFilename(url, filename);
+
+        if (pathInfo) {
           if (pathInfo.externalUrl) {
-            return '@import "' + pathInfo.externalUrl + '"';
+            return `url("${pathInfo.externalUrl}")`;
           }
-          let newLibrary = this.__target
-            .getAnalyser()
-            .findLibrary(pathInfo.namespace);
-          if (!newLibrary) {
-            qx.tool.compiler.Console.error(
-              "Cannot find file to import, url=" +
-                p1 +
-                " in file " +
-                absFilename
-            );
 
-            return null;
+          if (pathInfo.namespace) {
+            let targetFile = path.relative(process.cwd(), path.join(this.__target.getOutputDir(), "resource", pathInfo.filename));
+
+            let relative = path.relative(this.__outputDir, targetFile);
+            return `url("${relative}")`;
           }
-          promises.push(this.loadSource(pathInfo.filename, newLibrary));
-          let filename = this.isThemeFile()
-            ? newLibrary.getThemeFilename(pathInfo.filename)
-            : newLibrary.getResourceFilename(pathInfo.filename);
-          return '@import "' + path.relative(process.cwd(), filename) + '"';
         }
-      );
 
-      contents = contents.replace(
-        /\burl\s*\(\s*([^\)]+)*\)/gi,
-        (match, url) => {
-          let c = url[0];
-          if (c === "'" || c === '"') {
-            url = url.substring(1);
-          }
-          c = url[url.length - 1];
-          if (c === "'" || c === '"') {
-            url = url.substring(0, url.length - 1);
-          }
-          //return `qooxdooUrl("${filename}", "${url}")`;
-          let pathInfo = this._analyseFilename(url, filename);
-
-          if (pathInfo) {
-            if (pathInfo.externalUrl) {
-              return `url("${pathInfo.externalUrl}")`;
-            }
-
-            if (pathInfo.namespace) {
-              let targetFile = path.relative(
-                process.cwd(),
-                path.join(
-                  this.__target.getOutputDir(),
-                  "resource",
-                  pathInfo.filename
-                )
-              );
-
-              let relative = path.relative(this.__outputDir, targetFile);
-              return `url("${relative}")`;
-            }
-          }
-
-          return `url("${url}")`;
-        }
-      );
+        return `url("${url}")`;
+      });
 
       this.__sourceFiles[absFilename] = contents;
       this.__importAs[filename] = absFilename;
@@ -330,7 +277,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       let currentFilename = $filename.getValue();
       let url = $url.getValue();
 
-      let pathInfo = this._analyseFilename(url, currentFilename);
+      let pathInfo = this._analyzeFilename(url, currentFilename);
 
       if (pathInfo) {
         if (pathInfo.externalUrl) {
@@ -338,14 +285,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
         }
 
         if (pathInfo.namespace) {
-          let targetFile = path.relative(
-            process.cwd(),
-            path.join(
-              this.__target.getOutputDir(),
-              "resource",
-              pathInfo.filename
-            )
-          );
+          let targetFile = path.relative(process.cwd(), path.join(this.__target.getOutputDir(), "resource", pathInfo.filename));
 
           let relative = path.relative(this.__outputDir, targetFile);
           return sass.types.String("url(" + relative + ")");

@@ -4,11 +4,11 @@ const fs = require("fs");
 const kill = require("tree-kill");
 const child_process = require("child_process");
 const testUtils = require("../../../bin/tools/utils");
-const fsPromises = testUtils.fsPromises;
+const fsPromises = require("fs").promises;
 process.chdir(__dirname);
 
 
-test("Issue553", async () => {
+test("Multi-app compile generates per-app boot (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553");
@@ -20,7 +20,7 @@ test("Issue553", async () => {
   }
 });
 
-test("Issue553 single app", async () => {
+test("--app-name compiles only the selected app (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553/compiled");
     await testUtils.runCompiler("test-issues/issue553", "--app-name=issue553two");
@@ -37,11 +37,12 @@ test("runCompiler collects machine-readable messages", async () => {
   let ids = result.messages.map(msg => msg.id);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeBegins"), "Missing makeBegins: " + result.output);
   assert.ok(ids.includes("qx.tool.compiler.cli.compile.makeEnds"), "Missing makeEnds: " + result.output);
+  assert.ok(ids.includes("qx.tool.compiler.cli.compile.allDone"), "Missing allDone: " + result.output);
   let writing = result.messages.find(msg => msg.id == "qx.tool.compiler.cli.compile.writingApplication");
   assert.deepEqual(writing && writing.args, ["issue553two"], "Wrong writingApplication: " + result.output);
 });
 
-test("Issue553 Node", async () => {
+test("Node apps output index.js not index.html (#553)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue553_node/compiled");
     await testUtils.runCompiler("test-issues/issue553_node");
@@ -81,7 +82,7 @@ test("Dynamic parameter", async () => {
   }
 });
 
-test("Issue440", async () => {
+test("Compile errors and --warn-as-error set the exit code (#440)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue440/compiled");
     let code = await fsPromises.readFile("test-issues/issue440/source/class/issue440/Application.js", "utf8");
@@ -97,7 +98,7 @@ test("Issue440", async () => {
     result = await testUtils.runCompiler("test-issues/issue440");
     assert.ok(result.exitCode === 1);
 
-    code[errorLine] = "new abc.ClassNoDef(); //This is an error";
+    code[errorLine] = "new abc.ClassNoDef(); //This is an error";    
     await fsPromises.writeFile("test-issues/issue440/source/class/issue440/Application.js", code.join("\n"), "utf8");
     result = await testUtils.runCompiler("test-issues/issue440", "--warnAsError");
     assert.ok(result.exitCode === 1);
@@ -138,7 +139,7 @@ test("testLegalSCSS", async () => {
   }
 });
 
-test("Issue715", async () => {
+test("Private members are mangled in build output (#715)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue715/compiled");
     await testUtils.runCompiler("test-issues/issue715", "--target=build", "--minify=off");
@@ -154,7 +155,7 @@ test("Issue715", async () => {
   }
 });
 
-test("Issue10407 - Compiler should warn about nonexistent classes", async () => {
+test("Warns about nonexistent classes (#10407)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -185,7 +186,7 @@ test("Issue10407 - Compiler should warn about nonexistent classes", async () => 
   }
 });
 
-test("Issue10407 - Compiler should fail with --warnAsError", async () => {
+test("--warn-as-error fails on unresolved classes (#10407)", async () => {
   try {
     await testUtils.deleteRecursive("test-issues/issue10407/compiled");
 
@@ -198,68 +199,76 @@ test("Issue10407 - Compiler should fail with --warnAsError", async () => {
   }
 });
 
-test("Issue10407 - Watch mode should detect new unresolved classes in new files", async () => {
-  const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
+const WATCH_APP_FILE = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
+const WATCH_CLEAN_MARKER = "// This application starts clean without errors.";
+
+/**
+ * Runs `qx compile --watch` in the issue10407-watch fixture, calls `modify` once the watcher
+ * has started and waits until the output matches `expected`. `modify` gets a function
+ * `waitFor(match, what)` to wait for output of its own between its changes.
+ *
+ * It waits for the expected message itself and not for "All applications ready.", because that
+ * is also printed for a batch of changes which needs no compile (eg a new class file which is
+ * picked up before the edit that uses it). The watcher is killed and has exited before this
+ * returns, so that the next test can delete its output directory (Windows keeps files locked
+ * until the process is gone).
+ */
+async function watchUntil(modify, expected) {
+  await testUtils.deleteRecursive("test-issues/issue10407-watch/compiled");
+  let watchProcess = child_process.spawn(testUtils.getCompiler(), ["compile", "--watch"], {
+    cwd: "test-issues/issue10407-watch",
+    shell: true
+  });
+  let exited = new Promise(resolve => watchProcess.on("close", resolve));
+  let output = "";
+  let waiting = null;
+  const onData = data => {
+    console.log(data.toString().trim());
+    output += data.toString();
+    if (waiting && waiting.match.test(output)) {
+      waiting.resolve();
+    }
+  };
+  watchProcess.stdout.on("data", onData);
+  watchProcess.stderr.on("data", onData);
+  const waitFor = (match, what) =>
+    new Promise((resolve, reject) => {
+      let timer = setTimeout(() => reject(new Error(`${what} within 120s: ${output}`)), 120000);
+      exited.then(code => reject(new Error(`qx compile --watch exited with ${code}: ${output}`)));
+      waiting = {
+        match,
+        resolve() {
+          clearTimeout(timer);
+          waiting = null;
+          resolve();
+        }
+      };
+      if (match.test(output)) {
+        waiting.resolve();
+      }
+    });
 
   try {
-    await testUtils.deleteRecursive("test-issues/issue10407-watch/compiled");
-
-    // Start watch mode in background
-    let watchProcess = child_process.spawn(testUtils.getCompiler(),
-      ["compile", "--watch"],
-      {
-        cwd: "test-issues/issue10407-watch",
-        shell: true
-      }
-    );
-
-    let output = "";
-    let errorOutput = "";
-    let watchStarted = false;
-    let fileModified = false;
-    let recompiled = false;
-
-    watchProcess.stdout.on('data', (data) => {
-      data = data.toString().trim();
-      console.log(data);
-      output += data + "\n";
-      if (data.includes("Start watching")) {
-        watchStarted = true;
-      }
-      if (fileModified && data.includes("Applications are made")) {
-        recompiled = true;
-      }
-    });
-
-    watchProcess.stderr.on('data', (data) => {
-      data = data.toString().trim();
-      console.error(data);
-      errorOutput += data + "\n";
-    });
-
-    // Wait for watch mode to start (max 40s)
-    const maxWait = 40000;
-    const checkInterval = 1000;
-    let waited = 0;
-    while (!watchStarted && waited < maxWait) {
-      await new Promise(resolve => setTimeout(resolve, checkInterval));
-      waited += checkInterval;
-    }
-
-    if (!watchStarted) {
-      kill(watchProcess.pid, 'SIGKILL');
-      if (fs.existsSync(newClassPath)) {
-        await fsPromises.unlink(newClassPath);
-      }
-      assert.fail("Watch mode did not start within 40s");
-      return;
-    }
-
-    // Give it a bit more time to stabilize
+    await waitFor(/Start watching/, "Watch mode did not start");
+    // Give the file watchers a moment to settle
     await new Promise(resolve => setTimeout(resolve, 2000));
+    await modify(waitFor);
+    await waitFor(expected, "Watch mode did not report " + expected);
+  } finally {
+    await new Promise(resolve => kill(watchProcess.pid, "SIGKILL", resolve));
+    await exited;
+  }
+}
 
-    // Create a new file with nonexistent class reference
-    const newClassContent = `/* Test class for watch mode */
+test("Watch detects unresolved classes in new files (#10407)", async () => {
+  const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
+  let appContent = await fsPromises.readFile(WATCH_APP_FILE, "utf8");
+  try {
+    await watchUntil(async () => {
+      // Create a new file with nonexistent class reference
+      await fsPromises.writeFile(
+        newClassPath,
+        `/* Test class for watch mode */
 qx.Class.define("issue10407watch.WatchTestClass", {
   extend: qx.core.Object,
 
@@ -271,187 +280,68 @@ qx.Class.define("issue10407watch.WatchTestClass", {
     }
   }
 });
-`;
+`,
+        "utf8"
+      );
 
-    await fsPromises.writeFile(newClassPath, newClassContent, "utf8");
-
-    // Also modify Application.js to reference the new class so it gets compiled
-    const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
-    let appContent = await fsPromises.readFile(appFilePath, "utf8");
-    const modifiedAppContent = appContent.replace(
-      '// This application starts clean without errors.',
-      '// This application starts clean without errors.\n      var testClass = new issue10407watch.WatchTestClass();'
-    );
-    await fsPromises.writeFile(appFilePath, modifiedAppContent, "utf8");
-    fileModified = true;
-
-    // Wait for recompilation after file change (max 15s)
-    waited = 0;
-    const recompileMaxWait = 15000;
-    while (!recompiled && waited < recompileMaxWait) {
-      await new Promise(resolve => setTimeout(resolve, checkInterval));
-      waited += checkInterval;
-    }
-
-    if (!recompiled) {
-      console.warn("Warning: Recompilation did not complete within 15s");
-    }
-
-    // Kill watch process
-    kill(watchProcess.pid, 'SIGKILL');
-
-    // Give it time to cleanup
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Restore Application.js
-    await fsPromises.writeFile(appFilePath, appContent, "utf8");
-
-    // Check output for warning about the new unresolved class
-    const combinedOutput = output + errorOutput;
-    assert.ok(
-      combinedOutput.match(/unresolved.*qx\.nonexistent\.WatchModeTestClass/i) ||
-      combinedOutput.match(/qx\.nonexistent\.WatchModeTestClass/i),
-      "Watch mode should warn about newly added unresolved class in new file"
-    );
-
-    // Cleanup: remove the test file
-    if (fs.existsSync(newClassPath)) {
-      await fsPromises.unlink(newClassPath);
-    }
-
-  } catch(ex) {
-    // Cleanup on error
-    const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
-    try {
-      let appContent = await fsPromises.readFile(appFilePath, "utf8");
-      if (appContent.includes("issue10407watch.WatchTestClass")) {
-        appContent = appContent.replace(/\n\s*var testClass = new issue10407watch\.WatchTestClass\(\);/, '');
-        await fsPromises.writeFile(appFilePath, appContent, "utf8");
-      }
-    } catch(restoreEx) {
-      // Ignore restore errors
-    }
-    if (fs.existsSync(newClassPath)) {
-      try {
-        await fsPromises.unlink(newClassPath);
-      } catch(cleanupEx) {
-        // Ignore cleanup errors
-      }
-    }
-    throw ex;
+      // Also modify Application.js to reference the new class so it gets compiled
+      await fsPromises.writeFile(
+        WATCH_APP_FILE,
+        appContent.replace(WATCH_CLEAN_MARKER, WATCH_CLEAN_MARKER + "\n      var testClass = new issue10407watch.WatchTestClass();"),
+        "utf8"
+      );
+    }, /qx\.nonexistent\.WatchModeTestClass/);
+  } finally {
+    await fsPromises.writeFile(WATCH_APP_FILE, appContent, "utf8");
+    await testUtils.safeDelete(newClassPath);
   }
 });
 
-test("Issue10407 - Watch mode should detect unresolved classes in modified files", async () => {
-  const appFilePath = "test-issues/issue10407-watch/source/class/issue10407watch/Application.js";
-  let originalContent = "";
-
+test("Watch compiles a new class when the file using it is saved first (#10407)", async () => {
+  const newClassPath = "test-issues/issue10407-watch/source/class/issue10407watch/WatchTestClass.js";
+  let appContent = await fsPromises.readFile(WATCH_APP_FILE, "utf8");
   try {
-    await testUtils.deleteRecursive("test-issues/issue10407-watch/compiled");
+    await watchUntil(async waitFor => {
+      await fsPromises.writeFile(
+        WATCH_APP_FILE,
+        appContent.replace(WATCH_CLEAN_MARKER, WATCH_CLEAN_MARKER + "\n      var testClass = new issue10407watch.WatchTestClass();"),
+        "utf8"
+      );
+      await waitFor(/Unresolved use of symbol issue10407watch\.WatchTestClass/, "Watch mode did not compile Application.js");
+      await fsPromises.writeFile(
+        newClassPath,
+        `qx.Class.define("issue10407watch.WatchTestClass", {
+  extend: qx.core.Object,
 
-    // Read original file content
-    originalContent = await fsPromises.readFile(appFilePath, "utf8");
-
-    // Start watch mode in background
-    let watchProcess = child_process.spawn(testUtils.getCompiler(),
-      ["compile", "--watch"],
-      {
-        cwd: "test-issues/issue10407-watch",
-        shell: true
-      }
-    );
-
-    let output = "";
-    let errorOutput = "";
-    let watchStarted = false;
-    let fileModified = false;
-    let recompiled = false;
-
-    watchProcess.stdout.on('data', (data) => {
-      data = data.toString().trim();
-      console.log(data);
-      output += data + "\n";
-      if (data.includes("Start watching")) {
-        watchStarted = true;
-      }
-      if (fileModified && data.includes("Applications are made")) {
-        recompiled = true;
-      }
-    });
-
-    watchProcess.stderr.on('data', (data) => {
-      data = data.toString().trim();
-      console.error(data);
-      errorOutput += data + "\n";
-    });
-
-    // Wait for watch mode to start (max 40s)
-    const maxWait = 40000;
-    const checkInterval = 1000;
-    let waited = 0;
-    while (!watchStarted && waited < maxWait) {
-      await new Promise(resolve => setTimeout(resolve, checkInterval));
-      waited += checkInterval;
+  members: {
+    testMethod: function() {
+      return new qx.nonexistent.WatchModeTestClass();
     }
+  }
+});
+`,
+        "utf8"
+      );
+    }, /qx\.nonexistent\.WatchModeTestClass/);
+  } finally {
+    await fsPromises.writeFile(WATCH_APP_FILE, appContent, "utf8");
+    await testUtils.safeDelete(newClassPath);
+  }
+});
 
-    if (!watchStarted) {
-      kill(watchProcess.pid, 'SIGKILL');
-      await fsPromises.writeFile(appFilePath, originalContent, "utf8");
-      assert.fail("Watch mode did not start within 40s");
-      return;
-    }
-
-    // Give it a bit more time to stabilize
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    // Modify existing file to add a new unresolved class reference
-    const modifiedContent = originalContent.replace(
-      '// This application starts clean without errors.',
-      '// This application starts clean without errors.\n      var watchObj = new qx.watch.ModifiedFileTestClass();'
-    );
-
-    await fsPromises.writeFile(appFilePath, modifiedContent, "utf8");
-    fileModified = true;
-
-    // Wait for recompilation after file change (max 15s)
-    waited = 0;
-    const recompileMaxWait = 15000;
-    while (!recompiled && waited < recompileMaxWait) {
-      await new Promise(resolve => setTimeout(resolve, checkInterval));
-      waited += checkInterval;
-    }
-
-    if (!recompiled) {
-      console.warn("Warning: Recompilation did not complete within 15s");
-    }
-
-    // Kill watch process
-    kill(watchProcess.pid, 'SIGKILL');
-
-    // Give it time to cleanup
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Restore original file
-    await fsPromises.writeFile(appFilePath, originalContent, "utf8");
-
-    // Check output for warning about the new unresolved class
-    const combinedOutput = output + errorOutput;
-    assert.ok(
-      combinedOutput.match(/unresolved.*qx\.watch\.ModifiedFileTestClass/i) ||
-      combinedOutput.match(/qx\.watch\.ModifiedFileTestClass/i),
-      "Watch mode should warn about unresolved class in modified file"
-    );
-
-  } catch(ex) {
-    // Restore original file on error
-    if (originalContent) {
-      try {
-        await fsPromises.writeFile(appFilePath, originalContent, "utf8");
-      } catch(cleanupEx) {
-        // Ignore cleanup errors
-      }
-    }
-    throw ex;
+test("Watch detects unresolved classes in modified files (#10407)", async () => {
+  let appContent = await fsPromises.readFile(WATCH_APP_FILE, "utf8");
+  try {
+    await watchUntil(async () => {
+      // Modify existing file to add a new unresolved class reference
+      await fsPromises.writeFile(
+        WATCH_APP_FILE,
+        appContent.replace(WATCH_CLEAN_MARKER, WATCH_CLEAN_MARKER + "\n      var watchObj = new qx.watch.ModifiedFileTestClass();"),
+        "utf8"
+      );
+    }, /qx\.watch\.ModifiedFileTestClass/);
+  } finally {
+    await fsPromises.writeFile(WATCH_APP_FILE, appContent, "utf8");
   }
 });
 
@@ -485,6 +375,21 @@ test("afterProcessFinished callback", async () => {
   }
 });
 
+test("Object.values is not polyfilled for modern node targets (#692)", async () => {
+  try {
+    await testUtils.deleteRecursive("test-issues/issue692/compiled");
+    let result = await testUtils.runCompiler("test-issues/issue692");
+    assert.ok(result.exitCode === 0, "Compilation should succeed");
+
+    // Run the compiled node application: its main() asserts that Object.values is the
+    // native implementation (not a `for (var ...)` polyfill) and prints "OK" on success.
+    let run = await testUtils.runCommand("test-issues/issue692", "node", "compiled/source/issue692/index.js");
+    assert.ok(run.exitCode === 0, "The compiled node app should run without an assertion error");
+    assert.ok(run.output.match(/OK/), "The compiled node app should print OK (Object.values must not be polyfilled)");
+  } catch(ex) {
+    throw ex;
+  }
+});
 
 /**
  * Runs `qx test` in the testListenerError fixture and checks that it fails and
@@ -565,5 +470,27 @@ test("Unknown font does not drop the fonts after it", async () => {
   let indexJs = await fsPromises.readFile("test-issues/unknownFont/compiled/source/unknownfont/index.js", "utf8");
   assert.ok(indexJs.includes("fontBootstrap['JosefinSlab']"), "Font after the unknown one is missing");
   assert.ok(!indexJs.includes("fontBootstrap['NoSuchFont']"), "Unknown font must not be added");
+});
+
+test("Font version in Manifest.json is validated and passed to the font loader", async () => {
+  const Ajv = require("ajv");
+  const schema = require("../../../source/resource/qx/tool/compiler/schema/Manifest-2-0-0.json");
+  const validate = new Ajv({ allErrors: true, strict: false }).compile(schema);
+  let manifest = JSON.parse(await fsPromises.readFile("test-issues/webfontVersion/Manifest.json", "utf8"));
+  assert.ok(validate(manifest), "Manifest with font version should validate: " + JSON.stringify(validate.errors));
+  manifest.provides.fonts.VersionedFont.version = "1.2.3?x=y";
+  assert.ok(!validate(manifest), "Font version with illegal characters must be rejected");
+
+  await testUtils.deleteRecursive("test-issues/webfontVersion/compiled");
+  let result = await testUtils.runCompiler("test-issues/webfontVersion");
+  assert.ok(result.exitCode === 0, "Compile should succeed: " + result.output + result.error);
+  let indexJs = await fsPromises.readFile("test-issues/webfontVersion/compiled/source/webfontversion/index.js", "utf8");
+  const getFontBootstrap = name => {
+    let match = indexJs.match(new RegExp("fontBootstrap\\['" + name + "'\\]=(\\{[^;]*\\});"));
+    assert.ok(match, "Font " + name + " is missing");
+    return JSON.parse(match[1]);
+  };
+  assert.strictEqual(getFontBootstrap("VersionedFont").version, "1.2.3");
+  assert.ok(!("version" in getFontBootstrap("JosefinSlab")), "Font without version must not get one");
 });
 

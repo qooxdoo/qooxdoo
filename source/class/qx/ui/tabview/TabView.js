@@ -63,6 +63,7 @@ qx.Class.define("qx.ui.tabview.TabView", {
     // Create manager
     var mgr = (this.__radioGroup = this._createRadioGroupInstance());
     mgr.setWrap(false);
+    mgr.addListener("beforeChangeSelection", this._onBeforeChangeSelection, this);
     mgr.addListener("changeSelection", this._onChangeSelection, this);
 
     // Initialize bar position
@@ -83,6 +84,15 @@ qx.Class.define("qx.ui.tabview.TabView", {
   */
 
   events: {
+    /**
+     * Fires before the selected page changes. The data is an array with the
+     * page to select (empty when the selection is reset), the old data is an
+     * array with the currently selected page. Calling
+     * <code>preventDefault()</code> keeps the current page. The event is
+     * also fired when the selected page is removed.
+     */
+    beforeChangeSelection: "qx.event.type.Data",
+
     /** Fires after the selection was modified */
     changeSelection: "qx.event.type.Data",
 
@@ -568,16 +578,21 @@ qx.Class.define("qx.ui.tabview.TabView", {
     },
 
     /**
-     * Event handler for <code>beforeChangeSelection</code>.
+     * Event handler for <code>beforeChangeSelection</code> of the radio group.
+     * Fires the event with the pages of the buttons and vetoes the change if
+     * a listener prevents it.
      *
-     * @param e {qx.event.type.Event} Data event.
+     * @param e {qx.event.type.Data} Data event.
      */
     _onBeforeChangeSelection(e) {
+      var toPages = buttons => buttons.map(button => button.getUserData("page"));
+
       if (
-        !this.fireNonBubblingEvent(
+        !this.fireDataEvent(
           "beforeChangeSelection",
-          qx.event.type.Event,
-          [false, true]
+          toPages(e.getData()),
+          toPages(e.getOldData()),
+          true
         )
       ) {
         e.preventDefault();

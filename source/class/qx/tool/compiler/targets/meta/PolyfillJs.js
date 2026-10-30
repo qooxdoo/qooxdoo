@@ -63,8 +63,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
      * source map, which still fits because minified.js is written first and unchanged.
      * The build target embeds the polyfills, without a map, in index.js
      */
-    async writeToDisk() {
-      await super.writeToDisk();
+    async writeToDisk(hotDeploy) {
+      await super.writeToDisk(hotDeploy);
       if (!this.isNeedsWriteToDisk()) {
         return;
       }
@@ -93,6 +93,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
         "utf8"
       );
       await fs.writeFileAsync(filename + ".map", JSON.stringify(map), "utf8");
+      if (hotDeploy) {
+        hotDeploy.writtenFile(filename + ".map");
+      }
     },
 
     __getCoreJsDir() {

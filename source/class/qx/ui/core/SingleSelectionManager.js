@@ -60,6 +60,14 @@ qx.Class.define("qx.ui.core.SingleSelectionManager", {
   */
 
   events: {
+    /**
+     * Fires before the selection is modified. The data is the element to
+     * select (<code>null</code> for an empty selection), the old data is the
+     * currently selected element. Calling <code>preventDefault()</code> keeps
+     * the current selection.
+     */
+    beforeChangeSelected: "qx.event.type.Data",
+
     /** Fires after the selection was modified */
     changeSelected: "qx.event.type.Data"
   },
@@ -235,6 +243,13 @@ qx.Class.define("qx.ui.core.SingleSelectionManager", {
       }
 
       if (newSelected !== null && newSelected === oldSelected) {
+        return;
+      }
+
+      if (
+        newSelected !== oldSelected &&
+        !this.fireDataEvent("beforeChangeSelected", newSelected, oldSelected, true)
+      ) {
         return;
       }
 

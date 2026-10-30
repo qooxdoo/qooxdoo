@@ -38,9 +38,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         argv.$cmd = cmd.getName();
         await qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi().setCommandAsync(cls);
         await cls.setCompilerApi(qx.tool.compiler.cli.ConfigLoader.getInstance().getCompilerApi());
-        qx.tool.compiler.Console.getInstance().setVerbose(
-          argv.verbose || false
-        );
+        qx.tool.compiler.Console.getInstance().setVerbose(argv.verbose || false);
         qx.log.Logger.setLevel(argv.loglevel);
         qx.log.appender.NodeConsole.setUseColors(argv.colorize);
         cls.argv = argv;
@@ -69,7 +67,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         new qx.tool.cli.Flag("loglevel").set({
           description: "sets the log level",
           value: "info",
-          type: ["debug", "info", "warn", "error"],
+          type: ["debug", "info", "warn", "error"]
         })
       );
 
@@ -93,8 +91,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
 
       cmd.addFlag(
         new qx.tool.cli.Flag("colorize").set({
-          description:
-            "colorize log output to the console using ANSI color codes",
+          description: "colorize log output to the console using ANSI color codes",
           value: true,
           type: "boolean"
         })
@@ -107,6 +104,9 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       for await (const cls of Object.keys(rootClass)) {
         let c = rootClass[cls];
         if (!c) {
+          continue;
+        }
+        if (!qx.Class.isSubClassOf(c, qx.tool.compiler.cli.Command)) {
           continue;
         }
         if (!c.createCliCommand) {
@@ -136,6 +136,9 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
   members: {
     argv: null,
 
+    /**
+     * @abstract
+     */
     async process() {
       throw new Error("Abstract method call");
     },
@@ -154,9 +157,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
       const semaphore = path.join(process.cwd(), ".qxmigrationcheck");
       try {
         await fsp.stat(semaphore);
-        this.debug(
-          `Not checking migration because check is already in progress.`
-        );
+        this.debug(`Not checking migration because check is already in progress.`);
       } catch (e) {
         // run migration in dry-run mode
         await fsp.writeFile(semaphore, "");
@@ -169,8 +170,8 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
         if (pending) {
           qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
-            `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n` +
-            `*** and '(npx) qx migrate' to apply the changes.`
+              `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n` +
+              `*** and '(npx) qx migrate' to apply the changes.`
           );
 
           if (!process.env.IGNORE_MIGRATION_WARNING) {
@@ -238,11 +239,7 @@ qx.Class.define("qx.tool.compiler.cli.Command", {
      * @returns {String}
      */
     getTargetType() {
-      return (
-        this.argv.target ||
-        this.getCompilerApi().getConfiguration().defaultTarget ||
-        "source"
-      );
+      return this.argv.target || this.getCompilerApi().getConfiguration().defaultTarget || "source";
     }
   }
 });

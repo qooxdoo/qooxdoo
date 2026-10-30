@@ -93,9 +93,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
      * Opens the output
      */
     async open() {
-      let stat = await qx.tool.utils.files.Utils.safeStat(
-        this.__outputFilename
-      );
+      let stat = await qx.tool.utils.files.Utils.safeStat(this.__outputFilename);
 
       if (stat) {
         let hash = crypto.createHash("sha256");
@@ -156,12 +154,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
 
           this.__generator.addMapping(mapping);
         });
-        map.sources.forEach(origSource =>
-          this.__generator.setSourceContent(
-            source,
-            map.sourceContentFor(origSource)
-          )
-        );
+        map.sources.forEach(origSource => this.__generator.setSourceContent(source, map.sourceContentFor(origSource)));
       }
 
       this.__lineOffset += numLines;
@@ -171,20 +164,14 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
      * Closes the output
      */
     async close() {
-      this.__write(
-        "\n//# sourceMappingURL=" + path.basename(this.__mapFilename) + "\n"
-      );
+      this.__write("\n//# sourceMappingURL=" + path.basename(this.__mapFilename) + "\n");
 
       this.__ws.end();
       this.__hash.end();
       var hashValue = this.__hash.read();
       if (!this.__existingHashValue || hashValue !== this.__existingHashValue) {
         await fs.renameAsync(this.__tmpFilename, this.__outputFilename);
-        await fs.writeFileAsync(
-          this.__mapFilename,
-          JSON.stringify(JSON.parse(this.__generator.toString()), null, 2),
-          "utf8"
-        );
+        await fs.writeFileAsync(this.__mapFilename, JSON.stringify(JSON.parse(this.__generator.toString()), null, 2), "utf8");
 
         return true;
       }

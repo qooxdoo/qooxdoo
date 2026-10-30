@@ -101,14 +101,14 @@ Options:
   --set                     sets an environment value for the compilation
                             key="value" (with value getting evaluated as js)
                                                                         [array]
-  --set-env                 sets an environment value for the application
-                                                                        [array]
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]
   --app-name                sets the name of the current application    [string]
   --library                 adds a library                               [array]
   --watch                   enables continuous compilation              [boolean]
+  --hot-deploy              deploy files to a remote destination
+  --ssh-key                 where to find the private ssh key for deployment
   --verbose                 enables additional progress output to console
                                                                         [boolean]
 ```
@@ -116,6 +116,40 @@ Options:
 The compiler relies on the information contained in `compile.json`.
 Documentation for the `compile.json` format is
 [here](../compiler/configuration/compile.md) .
+
+
+## Hot Deployment
+
+When developing, it is often useful to publish files onto another location, for example
+a web server.  You can use a facility called "Hot Deployment" which will copy the compiled
+output for the target to another location, which can be remote if delivered by SSH.
+
+The basic syntax is:
+
+```
+qx compile --hot-deploy=destination [--ssh-key=myprivatekeyfile]
+```
+
+If the `--hot-deploy` destination is in the form "ssh://[username[:password]]@hostname:/directory",
+then the files are copied to your ssh server (i.e. the same as using the `scp` or `rsync` commands).
+Instead of using a password in plain text, you can use a private key.  For example:
+
+```
+qx compile --hot-deploy=ssh://webserveraccount@myserver:/var/www --ssh-key=~/.ssh/id_rsa
+```
+
+This copies the files using the `webserveraccount` user on the `myserver` host and installs them in
+`/var/www`; in order to login, is uses the private key in your home directories `.ssh` folder.
+
+This uses the same mechanism as being able to type `ssh webserveraccount@myserver` in a terminal.
+
+Finally, you can instruct the compiler to run a command after the deployment is complete by
+using the `--hot-deploy-cmd`, eg:
+
+```
+qx compile --hot-deploy=ssh://webserveraccount@myserver:/var/www --ssh-key=~/.ssh/id_rsa --hot-deploy-cmd='./restart-database.sh'
+```
+
 
 ## ES6Ify
 The `qx es6ify` command is a tool that aims to help you upgrade your ES5 syntax to ES6 - it 

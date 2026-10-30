@@ -17,6 +17,7 @@
  *
  *    Authors:
  *      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+ *      * Henner Kollmann (henner.kollmann@gmx.de, @hkollmann)
  *
  * *********************************************************************** */
 const path = require("path");
@@ -51,38 +52,89 @@ qx.Class.define("qx.tool.compiler.cli.api.AbstractApi", {
     },
 
     /**
+     * Loads an npm module, resolving it with the standard Node module
+     * resolution starting at the current working directory, so hoisted
+     * packages, npm workspaces and nested `node_modules` are found.
      *
-     * helper to load an npm module. Check if it can be loaded before
-     * If not install the module with 'npm install --no-package-lock' to the current library
+     * A module that the project does not provide is installed into a
+     * separate npm project inside the project's `qx_packages` directory,
+     * so the project's own `package.json`, lockfile and `node_modules` are
+     * never changed.
      *
-     * @param module {String} module to check
+     * @param module {String} name of the npm module to load
+     * @return {var} the exports of the module
+     * @throws {qx.tool.utils.Utils.UserError} if the module cannot be installed
      */
     require(module) {
-      let mod = path.join(process.cwd(), "node_modules");
-      if (!fs.existsSync(mod)) {
-        fs.mkdirSync(mod);
+      let resolved = this.__resolveNpmModule(module, process.cwd());
+      if (!resolved) {
+        let npmDir = this._getLocalNpmDir();
+        resolved = this.__resolveNpmModule(module, npmDir);
+        if (!resolved) {
+          try {
+            this._installNpmModule(module, npmDir);
+          } catch (ex) {
+            throw new qx.tool.utils.Utils.UserError(
+              `The npm module '${module}' is required but could not be installed into ${npmDir}: ${ex.message}. Please run: npm install --save-dev ${module}`
+            );
+          }
+          resolved = this.__resolveNpmModule(module, npmDir);
+        }
+        if (!resolved) {
+          throw new qx.tool.utils.Utils.UserError(
+            `The npm module '${module}' is required but not installed. Please run: npm install --save-dev ${module}`
+          );
+        }
       }
-      mod = path.join(mod, module);
-      let exists = fs.existsSync(mod);
-      if (!exists) {
-        this.loadNpmModule(module);
-      }
-      return require(mod);
+      return require(resolved);
     },
+
     /**
+     * Resolves an npm module from a directory
      *
-     * install an npm module with 'npm install --no-save --no-package-lock' to the current library
-     *
-     * @param module {String} module to load
+     * @param module {String} name of the npm module
+     * @param dir {String} directory to start the resolution from
+     * @return {String|null} path of the module's entry point, null if not found
      */
-    loadNpmModule(module) {
+    __resolveNpmModule(module, dir) {
+      try {
+        return require.resolve(module, { paths: [dir] });
+      } catch (ex) {
+        if (ex.code !== "MODULE_NOT_FOUND") {
+          throw ex;
+        }
+        return null;
+      }
+    },
+
+    /**
+     * Directory of the npm project that receives modules the project does
+     * not provide itself
+     *
+     * @return {String} absolute path
+     */
+    _getLocalNpmDir() {
+      return path.join(process.cwd(), qx.tool.compiler.cli.commands.Package.cache_dir, ".npm");
+    },
+
+    /**
+     * Installs an npm module into a separate npm project. The module is
+     * saved in that project's `package.json` and lockfile, so later
+     * installs do not remove modules that were installed before.
+     *
+     * @param module {String} name of the npm module
+     * @param npmDir {String} directory of the npm project
+     */
+    _installNpmModule(module, npmDir) {
       const { execSync } = require("child_process");
-      // since npm 7 --no-save deletes the node_modules folder
-      // see https://github.com/npm/cli/pull/3907
-      //       let s = `npm install --no-save --no-package-lock ${module}`;
-      let s = `npm install --no-package-lock ${module}`;
-      qx.tool.compiler.Console.info(s);
-      execSync(s, {
+      fs.mkdirSync(npmDir, { recursive: true });
+      let packageJson = path.join(npmDir, "package.json");
+      if (!fs.existsSync(packageJson)) {
+        fs.writeFileSync(packageJson, JSON.stringify({ private: true }, null, 2) + "\n");
+      }
+      let cmd = `npm install --prefix "${npmDir}" ${module}`;
+      qx.tool.compiler.Console.info(cmd);
+      execSync(cmd, {
         stdio: "inherit"
       });
     }

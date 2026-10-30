@@ -303,6 +303,13 @@ qx.Class.define("qx.ui.form.RadioGroup", {
       } else if (this.getSelection()[0] == item) {
         this.resetSelection();
       }
+
+      // a "beforeChangeSelection" listener may have vetoed the change, so the
+      // item has to return to the state matching the selection
+      var selected = this.getSelection()[0] === item;
+      if (item.get(groupedProperty) !== selected) {
+        item.set(groupedProperty, selected);
+      }
     },
 
     /*

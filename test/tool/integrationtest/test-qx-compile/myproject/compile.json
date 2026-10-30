@@ -1,0 +1,32 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "application-types": ["compiler"]
+    },
+    {
+      "type": "source",
+      "outputPath": "compiled/source"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "libraries": [
+    ".",
+    "../../../../.."
+  ],
+  "applications": [
+    {
+      "type": "compiler",
+      "compilerClass": "myproject.CustomCompiler",
+      "name": "custom-compiler"
+    },
+    {
+      "class": "myproject.Application",
+      "type": "node",
+      "name": "myapp"
+    }
+  ]
+}

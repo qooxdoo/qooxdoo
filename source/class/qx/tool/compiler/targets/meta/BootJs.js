@@ -43,7 +43,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
   },
 
   members: {
-    __embeddedJsLookup : undefined,
+    __embeddedJsLookup: undefined,
 
     __embeddedJs: null,
     __sourceMapOffsets: null,
@@ -58,6 +58,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
       if (!this.__embeddedJsLookup[jsMeta.toHashCode()]) {
         this.__embeddedJs.push(jsMeta);
         this.__embeddedJsLookup[jsMeta.toHashCode()] = jsMeta;
+      }
+    },
+
+    /*
+     * @Override
+     */
+    async writeToDisk(hotDeploy) {
+      await super.writeToDisk(hotDeploy);
+      if (hotDeploy && this.isNeedsWriteToDisk()) {
+        this._appMeta.getPackages().forEach(pkg => pkg.updateHotDeploy(hotDeploy));
       }
     },
 
@@ -101,9 +111,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
 
       var MAP = {
         EnvSettings: appMeta.getEnvironment(),
-        Libraries: appMeta
-          .getLibraries()
-          .map(library => library.getNamespace()),
+        Libraries: appMeta.getLibraries().map(library => library.getNamespace()),
         SourceUri: appMeta.getSourceUri(),
         ResourceUri: appMeta.getResourceUri(),
         Resources: appMeta.getResources(),
@@ -127,10 +135,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
       appMeta.getPackages().forEach(pkg => pkg.serializeInto(MAP.Packages));
 
       if (application.getType() !== "browser") {
-        MAP.TranspiledPath = path.relative(
-          appRootDir,
-          path.join(target.getOutputDir(), "transpiled")
-        );
+        MAP.TranspiledPath = path.relative(appRootDir, path.join(target.getOutputDir(), "transpiled"));
       }
 
       appMeta
@@ -168,10 +173,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
             }
           }
 
-          var newLine =
-            line.substring(0, match.index) +
-            replace +
-            line.substring(match.index + keyword.length + 3);
+          var newLine = line.substring(0, match.index) + replace + line.substring(match.index + keyword.length + 3);
           line = newLine;
         }
         if (line.match(/^\s*delayDefer:\s*false\b/)) {
@@ -186,14 +188,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
      */
     async getSourceMap() {
       if (this.__sourceMapOffsets === null) {
-        throw new Error(
-          `Cannot get the source map for ${this} until the stream has been written`
-        );
+        throw new Error(`Cannot get the source map for ${this} until the stream has been written`);
       }
-      let res = await this._copySourceMap(
-        this.__embeddedJs,
-        this.__sourceMapOffsets
-      );
+      let res = await this._copySourceMap(this.__embeddedJs, this.__sourceMapOffsets);
 
       let target = this._appMeta.getTarget();
       for (let i = 0; i < res.sources.length; i++) {

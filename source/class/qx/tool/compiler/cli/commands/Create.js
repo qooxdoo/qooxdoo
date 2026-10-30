@@ -227,7 +227,7 @@ qx.Class.define("qx.tool.compiler.cli.commands.Create", {
         // handle special cases
         switch (var_name) {
           case "namespace":
-            // match valid javascript object accessor TODO: allow unicode characters
+            // match valid javascript object accessor
             if (!value.match(/^([a-zA-Z_$][0-9a-zA-Z_$]*\.?)+$/)) {
               throw new qx.tool.utils.Utils.UserError(
                 `Illegal characters in namespace "${value}."`

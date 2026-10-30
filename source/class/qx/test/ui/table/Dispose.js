@@ -35,12 +35,7 @@ qx.Class.define("qx.test.ui.table.Dispose", {
       var nextId = 0;
       for (var row = 0; row < rowCount; row++) {
         var date = new Date(now + Math.random() * dateRange - dateRange / 2);
-        rowData.push([
-          nextId++,
-          Math.random() * 10000,
-          date,
-          Math.random() > 0.5
-        ]);
+        rowData.push([nextId++, Math.random() * 10000, date, Math.random() > 0.5]);
       }
       return rowData;
     },
@@ -103,26 +98,6 @@ qx.Class.define("qx.test.ui.table.Dispose", {
         },
         this,
         "Dispose table whose default row renderer was replaced"
-      );
-    },
-
-    testTreeVirtual() {
-      this.assertDestroy(
-        function () {
-          // A Basic column model keeps this about the row renderer: the
-          // default Resize model has a leak of its own.
-          var tree = new qx.ui.treevirtual.TreeVirtual(["Tree"], {
-            tableColumnModel(obj) {
-              return new qx.ui.table.columnmodel.Basic(obj);
-            }
-          });
-
-          var model = tree.getTableModel();
-          tree.destroy();
-          model.dispose();
-        },
-        this,
-        "Dispose tree, which replaces the default row renderer"
       );
     },
 

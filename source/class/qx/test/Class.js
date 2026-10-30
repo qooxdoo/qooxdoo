@@ -19,7 +19,7 @@
 /**
  * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer.*)
  * @ignore(qx.DeferFoo, qx.Empty, qx.FuncName, qx.MyClass, qx.MyMixin)
- * @ignore(qx.Single1.*, qx.test.u.u.*)
+ * @ignore(qx.Single1.*, qx.SingleBase.*, qx.SingleSub.*, qx.test.u.u.*)
  * @ignore(qx.Insect, qx.Butterfly, qx.Firefly, qx.Grasshopper, qx.Bug)
 
  */
@@ -819,6 +819,46 @@ qx.Class.define("qx.test.Class", {
       this.assertEquals(200, boundValue, "Value should be retrievable directly");
 
       instance.dispose();
+    },
+
+    testEventAnnotationStoredInAnnotations() {
+      this.require(["qx.debug"]);
+      let marker = {};
+      let C = qx.Class.define(null, {
+        extend: qx.core.Object,
+        events: {
+          "@myEvent": marker,
+          myEvent: "qx.event.type.Data"
+        }
+      });
+      this.assertUndefined(C.$$events["@myEvent"]);
+      this.assertNotUndefined(C.$$annotations?.events?.myEvent);
+      this.assertArrayEquals([marker], C.$$annotations.events.myEvent);
+    },
+
+    testEventAnnotationNotInEvents() {
+      let C = qx.Class.define(null, {
+        extend: qx.core.Object,
+        events: {
+          "@myEvent": {},
+          myEvent: "qx.event.type.Data"
+        }
+      });
+      let keys = Object.keys(C.$$events);
+      this.assertFalse(keys.includes("@myEvent"));
+      this.assertTrue(keys.includes("myEvent"));
+    },
+
+    testEventAnnotationForMissingEventThrows() {
+      this.require(["qx.debug"]);
+      this.assertException(() => {
+        qx.Class.define(null, {
+          extend: qx.core.Object,
+          events: {
+            "@ghost": {}
+          }
+        });
+      }, Error);
     },
 
     testStaticInheritance() {

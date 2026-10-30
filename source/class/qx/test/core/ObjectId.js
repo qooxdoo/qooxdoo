@@ -210,7 +210,7 @@ qx.Class.define("qx.test.core.ObjectId", {
     },
 
     ensureNullPermissible() {
-      const Clazz = qx.Clazz.define("demo.NullPermissible", {
+      const Clazz = qx.Class.define("demo.NullPermissible", {
         objects: {
           objects() {
             return null;

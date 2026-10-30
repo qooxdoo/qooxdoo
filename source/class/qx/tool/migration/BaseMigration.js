@@ -71,10 +71,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
      * @return {Promise<String>}
      */
     async getQxVersion() {
-      return (
-        (await this.getRunner().getQxVersion()) ||
-        qx.tool.config.Utils.getQxVersion()
-      );
+      return (await this.getRunner().getQxVersion()) || qx.tool.config.Utils.getQxVersion();
     },
 
     /**
@@ -167,10 +164,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
     async checkFilesToRename(fileList) {
       let filesToRename = [];
       for (let [newPath, oldPath] of fileList) {
-        if (
-          !(await fs.existsAsync(newPath)) &&
-          (await fs.existsAsync(oldPath))
-        ) {
+        if (!(await fs.existsAsync(newPath)) && (await fs.existsAsync(oldPath))) {
           filesToRename.push([newPath, oldPath]);
         }
       }
@@ -209,24 +203,15 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
       qx.core.Assert.assertArray(replaceInFilesArr);
       let dryRun = this.getRunner().getDryRun();
       for (let replaceInFiles of replaceInFilesArr) {
-        if (
-          await this.checkFilesContain(
-            replaceInFiles.files,
-            replaceInFiles.from
-          )
-        ) {
+        if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
           if (dryRun) {
-            this.announce(
-              `In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`
-            );
+            this.announce(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
 
             this.markAsPending();
             continue;
           }
           try {
-            this.debug(
-              `Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`
-            );
+            this.debug(`Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
 
             await replaceInFile(replaceInFiles);
             this.markAsApplied();
@@ -247,16 +232,10 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
      * @private
      * @return {Promise<void>}
      */
-    async updateDependencyUnlessDryRun(
-      manifestModel,
-      dependencyName,
-      semverRange
-    ) {
+    async updateDependencyUnlessDryRun(manifestModel, dependencyName, semverRange) {
       const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
       if (this.getRunner().getDryRun()) {
-        this.announce(
-          `Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`
-        );
+        this.announce(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
 
         this.markAsPending();
       } else {
@@ -276,13 +255,9 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
     async updateQxDependencyUnlessDryRun(manifestModel) {
       let qxVersion = await this.getQxVersion();
       let qxRange = manifestModel.getValue("requires.@qooxdoo/framework");
-      if (!semver.satisfies(qxVersion, qxRange)) {
+      if (!qx.tool.utils.Utils.versionSatisfies(qxVersion, qxRange)) {
         qxRange = `^${qxVersion}`;
-        await this.updateDependencyUnlessDryRun(
-          manifestModel,
-          "@qooxdoo/framework",
-          qxRange
-        );
+        await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/framework", qxRange);
       }
     },
 
@@ -297,14 +272,10 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
       qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
-          this.markAsPending(
-            `Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`
-          );
+          this.markAsPending(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
         } else {
           configModel.setValue("$schema", schemaUri);
-          this.markAsApplied(
-            `Schema version for ${configModel.getDataPath()} updated.`
-          );
+          this.markAsApplied(`Schema version for ${configModel.getDataPath()} updated.`);
         }
       }
     },

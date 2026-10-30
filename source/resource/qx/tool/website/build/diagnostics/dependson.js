@@ -1,10 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
   var db;
   var appDb;
-  var CLASSES = {};
+  var clasesLookup = {};
   var expanded = {};
 
-  function expand(parent) {
+  let infoByClass = {};
+
+  /**
+   * 
+   * @param {string} name 
+   * @returns {Promise<Object>}
+   */
+  function getClassInfo(name) {
+    const doit = async () => {
+      let classPath = name.replace(/\./g, "/") + ".json";
+      let def = await window.qxcli.get(query.targetDir + "/transpiled/" + classPath);
+      return def;
+    }
+    if (infoByClass[name] === undefined) {
+      infoByClass[name] = doit().then(info => (infoByClass[name] = info));
+    }
+    return infoByClass[name];
+  }
+
+  async function expand(parent) {
     var className = parent.getAttribute("data-classname");
     var ul = parent.querySelector("ul");
 
@@ -15,15 +34,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     ul = document.createElement('ul');
     parent.appendChild(ul);
-    show(className, ul);
+    await show(className, ul);
     updateDisplay();
   }
 
-  function show(name, list) {
-    var def = db.classInfo[name];
+  async function show(name, list) {
+    var def = await getClassInfo(name);
     if (!def || !def.dependsOn) return;
     for (var depName in def.dependsOn) {
-      if (!CLASSES[depName]) {
+      if (!clasesLookup[depName]) {
         continue;
       }
       var isLoad = def.dependsOn[depName].load;
@@ -55,23 +74,24 @@ document.addEventListener('DOMContentLoaded', function () {
       if (expanded[classname]) {
         return;
       }
-      expand(li);
-      let childUl = li.querySelector("ul");
-      if (childUl) {
-        showAll(childUl);
-      }
+      expand(li).then(() => {
+        let childUl = li.querySelector("ul");
+        if (childUl) {
+          showAll(childUl);
+        }
+      });
     });
   }
   window.showAll = showAll;
 
-  function selectClass(name) {
+  async function selectClass(name) {
     let root = document.getElementById("root");
     let h3 = document.createElement('h3');
     h3.textContent = name + " Depends On";
     root.appendChild(h3);
     var ul = document.createElement('ul');
     root.appendChild(ul);
-    show(name, ul);
+    await show(name, ul);
   }
 
   function updateDisplay() {
@@ -109,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(function (tmp) {
       appDb = tmp;
       appDb.parts.forEach(function (part) {
-        part.classes.forEach(classname => (CLASSES[classname] = true));
+        part.classes.forEach(classname => (clasesLookup[classname] = true));
       });
       selectClass(window.qxcli.query.appClass);
       document.getElementById("show").addEventListener('change', updateDisplay);

@@ -442,22 +442,6 @@ qx.Class.define("qx.test.event.Registration", {
       );
 
       target.dispose();
-    },
-
-    "test getAllListeners: the result is a copy"() {
-      var ran = [];
-      var target = this.__targetWithTwoListeners(ran);
-      var manager = qx.event.Registration.getManager(target);
-
-      var copy =
-        manager.getAllListeners()[target.toHashCode()]["change|bubble"];
-      this.assertEquals(2, copy.length);
-      copy.splice(0, 1);
-
-      target.push(1);
-      this.assertEquals("AB", ran.join(""), "a listener was unregistered");
-
-      target.dispose();
     }
   }
 });

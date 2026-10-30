@@ -89,6 +89,64 @@ qx.Class.define("qx.test.ui.form.RadioGroup", {
       composite.destroy();
     },
 
+    testBeforeChangeSelection() {
+      var [first, second, third] = this.__radioButtons;
+      var events = [];
+      var veto = false;
+
+      this.__radioGroup.setSelection([first]);
+      this.__radioGroup.addListener("beforeChangeSelection", e => {
+        events.push([e.getData(), e.getOldData()]);
+        if (veto) {
+          e.preventDefault();
+        }
+      });
+
+      this.__radioGroup.setSelection([first]);
+      this.assertEquals(0, events.length, "No event without a change");
+
+      this.__radioGroup.selectNext();
+      this.assertArrayEquals([second], events[0][0]);
+      this.assertArrayEquals([first], events[0][1]);
+      this.assertTrue(this.__radioGroup.isSelected(second));
+
+      veto = true;
+      this.__radioGroup.setSelection([third]);
+      this.assertArrayEquals([third], events[1][0]);
+      this.assertTrue(this.__radioGroup.isSelected(second));
+      this.assertFalse(third.getValue());
+
+      this.__radioGroup.resetSelection();
+      this.assertArrayEquals([], events[2][0]);
+      this.assertArrayEquals([second], events[2][1]);
+      this.assertTrue(this.__radioGroup.isSelected(second));
+    },
+
+    testBeforeChangeSelectionVetoRestoresItem() {
+      var [first, second] = this.__radioButtons;
+      var events = [];
+
+      this.__radioGroup.setSelection([first]);
+      this.__radioGroup.addListener("beforeChangeSelection", e => {
+        events.push(e.getData());
+        e.preventDefault();
+      });
+
+      // a click toggles the button itself before the group is asked
+      second.execute();
+      this.assertArrayEquals([second], events[0]);
+      this.assertTrue(this.__radioGroup.isSelected(first));
+      this.assertFalse(second.getValue());
+      this.assertEquals("false", String(second.getContentElement().getAttribute("aria-checked")));
+      this.assertTrue(first.getValue());
+
+      // with an empty selection allowed, clicking the selected button deselects it
+      first.execute();
+      this.assertArrayEquals([], events[1]);
+      this.assertTrue(this.__radioGroup.isSelected(first));
+      this.assertTrue(first.getValue());
+    },
+
     /**
      * @ignore(qx.test.ui.form.RadioGroupTest)
      */
