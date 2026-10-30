@@ -16,6 +16,24 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- `pop()` on a `qx.data.Array` fired its `change` event with `start` and `end` one below the item it
+  removed: popping from `["a", "b", "c"]` reported `start: 1` instead of `2`. The event now names
+  the index of the removed item.
+- `pop()` on an empty `qx.data.Array` fired `change` and `changeBubble` events that removed an
+  `undefined` item. It now fires nothing, as `shift()` already did.
+- `splice()` on a `qx.data.Array` with an amount larger than the items behind the start, such as
+  `splice(2, 100)` on five items, named its `changeBubble` event `2-101` instead of `2-4`. With a
+  start at the end, such as `splice(3, 5)` on three items, it fired `change` and `changeBubble`
+  although nothing was removed; it now fires neither.
+- `splice()` on a `qx.data.Array` without an amount, such as `splice(2)`, removed all items from
+  that position on but fired no `change` and no `changeBubble` event. Bindings to an index such
+  as `items[2]`, tree controllers and selections that listen to the array kept the removed items.
+  Both events are now fired.
+- `splice()` on a `qx.data.Array` with a negative start, such as `splice(-1, 1, "y")`, fired a
+  `change` event with `start: -1` and a `changeBubble` event named `-1`; a start beyond the end
+  was also passed on unchanged. An item inserted at such a start reported its own changes under
+  the wrong index, for example `list[10].name` instead of `list[1].name`. Both events now carry
+  the real position, as the native array `splice()` computes it.
 - When a theme change turned an icon alias from an image into a font icon, the
   repaint stopped with `el.setValue is not a function` and the widgets restyled
   after it kept the old look. In the other direction the font icon element
