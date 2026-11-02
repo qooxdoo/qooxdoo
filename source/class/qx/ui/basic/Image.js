@@ -250,6 +250,14 @@ qx.Class.define("qx.ui.basic.Image", {
 
       var source = this.__sourceToDisplay;
       source = qx.util.AliasManager.getInstance().resolve(source);
+
+      // The source can resolve to another kind than before, e.g. an alias
+      // that changed from an image to a font icon with a theme change. The
+      // content element has to match before the source is applied to it.
+      if (source) {
+        this.__checkForContentElementSwitch(source);
+      }
+
       var el = this.getContentElement();
       if (this.__wrapper) {
         el = el.getChild(0);

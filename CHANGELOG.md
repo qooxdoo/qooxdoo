@@ -59,6 +59,11 @@ and reports a rejection or a timeout as a failed test.
 second failure, "resume() called before wait()", and a late
 `resumeHandler()` could end the next test early. Such late calls are now
 ignored with a warning.
+- When `compile.json` sets `serve.listenPort`, `qx serve` and `qx test` ignored
+`-p 9000`, `-p9000` and `--listen-port=9000` and still reported
+`Web server started, please browse to http://localhost:<port from compile.json>`.
+Only `--listen-port 9000` worked. Every spelling of the option now takes precedence
+over `compile.json`.
 
 # v7.0.0
 
