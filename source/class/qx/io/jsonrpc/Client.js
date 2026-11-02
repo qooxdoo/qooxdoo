@@ -83,6 +83,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     }
     this.setParser(parser);
     this.__requests = [];
+    this.__reportedExceptions = new WeakSet();
   },
 
   properties: {
@@ -113,6 +114,12 @@ qx.Class.define("qx.io.jsonrpc.Client", {
      * The id of the listener which is registered on the transport
      */
     __transportListenerId: null,
+
+    /**
+     * Exceptions thrown by {@link #handleIncoming} for which the "error"
+     * event has already been fired
+     */
+    __reportedExceptions: null,
 
     /**
      * If a service name has been configured, prepend it to the method name,
@@ -244,6 +251,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
       ) {
         // forward rejections to the requests' promises, which will be standard behavior in v8
         transportPromise.catch(error => {
+          const reported = this.__reportedExceptions.has(error);
           // wrap error in transport exception
           if (!(error instanceof qx.io.exception.Transport)) {
             error = new qx.io.exception.Transport(
@@ -263,7 +271,9 @@ qx.Class.define("qx.io.jsonrpc.Client", {
               )
             : [];
           this.__releaseRequests(pending);
-          this.fireDataEvent("error", error);
+          if (!reported) {
+            this.fireDataEvent("error", error);
+          }
           pending.forEach(request => request.handleTransportException(error));
         });
         // return a resolved promise so that the actual completion of the transport is not awaited
@@ -337,20 +347,64 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     },
 
     /**
-     * Receives and handles an incoming JSON-RPC compliant message data
+     * Receives and handles an incoming JSON-RPC compliant message data.
+     *
+     * Each error fires the "error" event. An error which concerns a pending
+     * request rejects that request's promise only. Any other error, such as
+     * unparseable data or a response with an unknown id, is thrown after all
+     * messages have been handled. Transports which deliver the response
+     * from within `send()`, such as HTTP, then reject the requests which
+     * were sent with it; pending requests sent by other calls are not affected.
+     *
      * @param {String} json JSON data
+     * @throws {qx.io.exception.Transport} For an error which does not concern a pending request
      */
     handleIncoming(json) {
       if (qx.core.Environment.get("qx.io.jsonrpc.debug")) {
         this.debug("<<< Incoming json-rpc message: " + json);
       }
       let message;
+      let unhandledException = null;
+      const handleException = e => {
+        this.fireDataEvent("error", e);
+        let request;
+        if (
+          e instanceof qx.io.exception.Transport &&
+          e.code === qx.io.exception.Transport.INVALID_MSG_DATA &&
+          e.data &&
+          e.data.message
+        ) {
+          request = this.__requests[e.data.message.id];
+        }
+        if (request instanceof qx.io.jsonrpc.protocol.Request) {
+          // release the request first, its promise can only be rejected once
+          this.__requests[request.getId()] = true;
+          request.handleTransportException(e);
+        } else if (!unhandledException) {
+          unhandledException = e;
+        }
+      };
       try {
         message = this.getParser().parse(json);
-        // act on each message
-        this.handleMessage(message);
       } catch (e) {
-        this._throwTransportException(e);
+        handleException(e);
+      }
+      try {
+        // act on each message, so that an error in one of them does not
+        // prevent the others in a batch from being handled
+        let messages =
+          message instanceof qx.io.jsonrpc.protocol.Batch
+            ? message.getBatch().toArray()
+            : message
+              ? [message]
+              : [];
+        messages.forEach(msg => {
+          try {
+            this.handleMessage(msg);
+          } catch (e) {
+            handleException(e);
+          }
+        });
       } finally {
         // cleanup
         if (message instanceof qx.io.jsonrpc.protocol.Batch) {
@@ -358,6 +412,11 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         } else if (message instanceof qx.io.jsonrpc.protocol.Message) {
           this._cleanup(message);
         }
+      }
+      if (unhandledException) {
+        // the "error" event has already been fired for it
+        this.__reportedExceptions.add(unhandledException);
+        throw unhandledException;
       }
     },
 
