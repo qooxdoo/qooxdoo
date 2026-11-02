@@ -441,6 +441,137 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
     },
 
     /**
+     * Creates a client with a PostMessage transport whose endpoint discards
+     * all outgoing messages; incoming messages are passed to `handleIncoming()`
+     * @return {qx.io.jsonrpc.Client}
+     */
+    createPostMessageClient() {
+      const endpoint = {
+        addEventListener() {},
+        postMessage() {}
+      };
+      return new qx.io.jsonrpc.Client(
+        new qx.io.transport.PostMessage(endpoint)
+      );
+    },
+
+    /**
+     * Passes the given data to the client's `handleIncoming()` method
+     * @param {qx.io.jsonrpc.Client} client
+     * @param {String} json
+     * @return {Error|null} The exception thrown, if any
+     */
+    receive(client, json) {
+      try {
+        client.handleIncoming(json);
+      } catch (e) {
+        return e;
+      }
+      return null;
+    },
+
+    async "test: incoming error without a pending request does not reject other requests"() {
+      this.resetId();
+      const client = this.createPostMessageClient();
+      const errorSpy = this.spy();
+      client.addListener("error", evt => errorSpy(evt.getData()));
+      const request1 = new qx.io.jsonrpc.protocol.Request("foo", []);
+      const request2 = new qx.io.jsonrpc.protocol.Request("bar", []);
+      await client.send(request1);
+      await client.send(request2);
+      const promise1 = request1.getPromise();
+      const promise2 = request2.getPromise();
+      this.observePromise(promise1);
+      this.observePromise(promise2);
+      promise1.catch(() => {});
+      promise2.catch(() => {});
+      const exceptions = [
+        "helloworld!",
+        JSON.stringify({ jsonrpc: "2.0", result: 1, id: 99 })
+      ].map(json => this.receive(client, json));
+      await new Promise(resolve => setTimeout(resolve, 10));
+      this.assertPromisePending(promise1);
+      this.assertPromisePending(promise2);
+      this.assertCallCount(errorSpy, 2);
+      // an error which concerns no pending request is thrown for the transport
+      exceptions.forEach(e => this.assertInstance(e, qx.io.exception.Transport));
+      // a malformed response to request 2 rejects request 2 only
+      this.assertNull(
+        this.receive(client, JSON.stringify({ jsonrpc: "2.0", id: 2 }))
+      );
+      this.assertCallCount(errorSpy, 3);
+      this.receive(
+        client,
+        JSON.stringify({ jsonrpc: "2.0", result: "OK", id: 1 })
+      );
+      await new Promise(resolve => setTimeout(resolve, 10));
+      this.assertPromiseFulfilled(promise1);
+      this.assertEquals("OK", await promise1);
+      this.assertPromiseRejected(promise2);
+    },
+
+    async "test: an unknown id in a batch does not stop the other responses"() {
+      this.resetId();
+      const client = this.createPostMessageClient();
+      client.addListener("error", () => {});
+      const request = new qx.io.jsonrpc.protocol.Request("foo", []);
+      await client.send(request);
+      const promise = request.getPromise();
+      this.observePromise(promise);
+      promise.catch(() => {});
+      this.receive(
+        client,
+        JSON.stringify([
+          { jsonrpc: "2.0", result: 1, id: 99 },
+          { jsonrpc: "2.0", result: "OK", id: 1 }
+        ])
+      );
+      await new Promise(resolve => setTimeout(resolve, 10));
+      this.assertPromiseFulfilled(promise);
+      this.assertEquals("OK", await promise);
+    },
+
+    "test: an invalid HTTP response rejects only the requests sent with it"() {
+      this.resetId();
+      this.setUpFakeServer();
+      // the response to request 1 is invalid, request 2 is answered later
+      this.getServer().respondWith("POST", /.*/, xhr => {
+        const id = JSON.parse(xhr.requestBody).id;
+        xhr.respond(
+          200,
+          { "Content-Type": "application/json; charset=utf-8" },
+          id === 1
+            ? "helloworld!"
+            : JSON.stringify({ jsonrpc: "2.0", result: "OK", id })
+        );
+      });
+      this.getServer().autoRespond = false;
+      const client = new qx.io.jsonrpc.Client("http://jsonrpc");
+      const errorSpy = this.spy();
+      client.addListener("error", evt => errorSpy(evt.getData()));
+      const request1 = new qx.io.jsonrpc.protocol.Request("foo", []);
+      const request2 = new qx.io.jsonrpc.protocol.Request("bar", []);
+      const promise1 = request1.getPromise();
+      const promise2 = request2.getPromise();
+      this.observePromise(promise1);
+      this.observePromise(promise2);
+      promise1.catch(() => {});
+      promise2.catch(() => {});
+      client.send(request1);
+      client.send(request2);
+      this.getServer().respond();
+      this.wait(100, () => {
+        this.assertPromiseRejected(promise1);
+        this.assertPromiseFulfilled(promise2);
+        this.assertCalledOnce(errorSpy);
+        this.assertEquals(
+          qx.io.exception.Transport.INVALID_JSON,
+          errorSpy.getCall(0).args[0].code
+        );
+      });
+    },
+
+    /**
      * Issue #10739
      */
     testIssue10739() {

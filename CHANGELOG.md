@@ -16,6 +16,11 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- One bad message from a JSON-RPC server, such as data that is not JSON or a response with an
+  unknown `id`, made `qx.io.jsonrpc.Client` reject every request still waiting for its answer, even
+  requests answered later in the same batch response. Now it fires the `error` event once and fails
+  only the request it belongs to: over HTTP the request it answers, over a WebSocket or postMessage
+  connection none, where it shows as an uncaught error in the browser console.
 - `pop()` on a `qx.data.Array` fired its `change` event with `start` and `end` one below the item it
   removed: popping from `["a", "b", "c"]` reported `start: 1` instead of `2`. The event now names
   the index of the removed item.
