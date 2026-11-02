@@ -716,8 +716,10 @@ qx.Class.define("qx.event.Manager", {
         .entries()
         .filter(
           ([eK, e]) =>
-            (e.handler === listener || e.handler.$$onceOf === listener) &&
-            e.context === self
+            (e.handler === listener && e.context === self) ||
+            (e.handler.$$onceOf === listener &&
+              (e.context === self ||
+                (self == null && e.handler.$$onceDefaultContext)))
         )) {
         deleted = true;
         entryMap.delete(entryKey);
