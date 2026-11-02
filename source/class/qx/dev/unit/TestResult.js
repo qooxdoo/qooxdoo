@@ -82,6 +82,26 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties: {
+    /**
+     * Time in milliseconds to wait for a tearDown that returns a promise.
+     * <code>null</code> means the default delay of
+     * {@link qx.dev.unit.TestCase#wait}, scaled by
+     * <code>qx.test.delay.scale</code>.
+     */
+    tearDownTimeout: {
+      check: "Integer",
+      nullable: true,
+      init: null
+    }
+  },
+
+  /*
+  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -107,6 +127,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   members: {
     _timeout: null,
+    __active: null,
 
     /**
      * Run the test
@@ -121,6 +142,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
     run(test, testFunction, self, resume) {
       if (!this._timeout) {
         this._timeout = {};
+        this.__active = {};
       }
 
       var testClass = test.getTestClass();
@@ -138,6 +160,17 @@ qx.Class.define("qx.dev.unit.TestResult", {
       }
 
       if (resume && !this._timeout[test.getFullName()]) {
+        if (!this.__active[test.getFullName()]) {
+          // e.g. the wait timed out before resume() came
+          this.warn(
+            "Ignoring resume() of " +
+              test.getFullName() +
+              ": the test has already ended"
+          );
+
+          return undefined;
+        }
+
         this._timeout[test.getFullName()] = "failed";
         var qxEx = new qx.type.BaseError(
           "Error in asynchronous test",
@@ -145,10 +178,11 @@ qx.Class.define("qx.dev.unit.TestResult", {
         );
 
         this._createError("failure", [qxEx], test);
-        this.fireDataEvent("endTest", test);
+        this.__endTest(test);
         return undefined;
       }
 
+      this.__active[test.getFullName()] = true;
       this.fireDataEvent("startTest", test);
 
       if (qx.core.Environment.get("qx.debug.dispose")) {
@@ -163,7 +197,10 @@ qx.Class.define("qx.dev.unit.TestResult", {
         delete this._timeout[test.getFullName()];
       } else {
         try {
-          test.setUp();
+          var setUpResult = test.setUp();
+          if (qx.lang.Type.isPromise(setUpResult)) {
+            this.__waitForSetUp(test, setUpResult);
+          }
         } catch (ex) {
           if (ex instanceof qx.dev.unit.AsyncWrapper) {
             if (this._timeout[test.getFullName()]) {
@@ -197,28 +234,17 @@ qx.Class.define("qx.dev.unit.TestResult", {
             }
             return undefined;
           } else {
-            try {
-              this.tearDown(test);
-            } catch (except) {
-              /* Any exceptions here are likely caused by setUp having failed
-               previously, so we'll ignore them. */
-            }
-
-            if (ex.classname == "qx.dev.unit.RequirementError") {
-              this._createError("skip", [ex], test);
-              this.fireDataEvent("endTest", test);
-            } else {
-              if (
-                ex instanceof qx.type.BaseError &&
-                ex.message == qx.type.BaseError.DEFAULTMESSAGE
-              ) {
-                ex.message = "setUp failed";
+            /* Any exceptions in tearDown are likely caused by setUp having
+             failed previously, so we'll ignore them. */
+            this.__tearDownThen(test, function () {
+              if (ex.classname == "qx.dev.unit.RequirementError") {
+                this._createError("skip", [ex], test);
               } else {
-                ex.message = "setUp failed: " + ex.message;
+                this.__prefixMessage(ex, "setUp failed");
+                this._createError("error", [ex], test);
               }
-              this._createError("error", [ex], test);
-              this.fireDataEvent("endTest", test);
-            }
+              this.__endTest(test);
+            });
 
             return undefined;
           }
@@ -265,39 +291,29 @@ qx.Class.define("qx.dev.unit.TestResult", {
           error = false;
           this._createError("endMeasurement", [ex], test);
         } else {
-          try {
-            this.tearDown(test);
-          } catch (except) {}
-          if (ex.classname == "qx.core.AssertionError") {
-            this._createError("failure", [ex], test);
-            this.fireDataEvent("endTest", test);
-          } else if (ex.classname == "qx.dev.unit.RequirementError") {
-            this._createError("skip", [ex], test);
-            this.fireDataEvent("endTest", test);
-          } else {
-            this._createError("error", [ex], test);
-            this.fireDataEvent("endTest", test);
-          }
+          this.__tearDownThen(test, function () {
+            if (ex.classname == "qx.core.AssertionError") {
+              this._createError("failure", [ex], test);
+            } else if (ex.classname == "qx.dev.unit.RequirementError") {
+              this._createError("skip", [ex], test);
+            } else {
+              this._createError("error", [ex], test);
+            }
+            this.__endTest(test);
+          });
         }
       }
 
       if (!error) {
-        try {
-          this.tearDown(test);
-          this.fireDataEvent("endTest", test);
-        } catch (ex) {
-          if (
-            ex instanceof qx.type.BaseError &&
-            ex.message == qx.type.BaseError.DEFAULTMESSAGE
-          ) {
-            ex.message = "tearDown failed";
-          } else {
-            ex.message = "tearDown failed: " + ex.message;
+        this.__tearDownThen(test, function (ex, timedOut) {
+          if (ex) {
+            if (!timedOut) {
+              this.__prefixMessage(ex, "tearDown failed");
+            }
+            this._createError("error", [ex], test);
           }
-
-          this._createError("error", [ex], test);
-          this.fireDataEvent("endTest", test);
-        }
+          this.__endTest(test);
+        });
       }
 
       /*
@@ -307,6 +323,131 @@ qx.Class.define("qx.dev.unit.TestResult", {
       */
 
       return returnValue;
+    },
+
+    /**
+     * Fire "endTest". A resume() of the test is ignored after this, until
+     * the test is started again.
+     *
+     * @param test {qx.dev.unit.TestFunction} The test
+     */
+    __endTest(test) {
+      delete this.__active[test.getFullName()];
+      this.fireDataEvent("endTest", test);
+    },
+
+    /**
+     * Wait for a promise returned by <code>setUp</code>, then run the test.
+     * A rejection is reported as a failed <code>setUp</code>.
+     *
+     * @param test {qx.dev.unit.TestFunction} The test
+     * @param promise {Promise} The promise returned by <code>setUp</code>
+     */
+    __waitForSetUp(test, promise) {
+      var inst = test.getTestClass();
+      var that = this;
+      promise.then(
+        function () {
+          if (inst.getTestFunc() === test) {
+            inst.resumeSetUp();
+          }
+        },
+        function (reason) {
+          if (inst.getTestFunc() !== test) {
+            return;
+          }
+          inst.resume(function () {
+            var ex = qx.dev.unit.TestFunction.toError(reason);
+            if (
+              !(ex instanceof qx.dev.unit.AsyncWrapper) &&
+              ex.classname != "qx.dev.unit.RequirementError"
+            ) {
+              that.__prefixMessage(ex, "setUp failed");
+            }
+            throw ex;
+          });
+        }
+      );
+
+      // throws the AsyncWrapper that makes run() wait for resumeSetUp()
+      inst.wait();
+    },
+
+    /**
+     * Run {@link #tearDown}, then call <code>callback</code>. If tearDown
+     * returns a promise, the callback is called when it has settled, or
+     * after {@link #tearDownTimeout}.
+     *
+     * @param test {qx.dev.unit.TestFunction} The test
+     * @param callback {Function} Called in the context of this object with
+     *   the exception of tearDown, or with <code>null</code>. The second
+     *   argument is <code>true</code> if tearDown did not finish in time.
+     */
+    __tearDownThen(test, callback) {
+      var result;
+      try {
+        result = this.tearDown(test);
+      } catch (ex) {
+        callback.call(this, ex);
+        return;
+      }
+
+      if (!qx.lang.Type.isPromise(result)) {
+        callback.call(this, null);
+        return;
+      }
+
+      var settled = false;
+      var delay = this.getTearDownTimeout();
+      if (delay === null) {
+        // the default delay of wait(), scaled by qx.test.delay.scale
+        var wrapper = new qx.dev.unit.AsyncWrapper();
+        delay = wrapper.getDelay();
+        wrapper.dispose();
+      }
+
+      var timer = qx.event.Timer.once(
+        function () {
+          settled = true;
+          callback.call(
+            this,
+            new Error("tearDown did not finish within " + delay + " ms"),
+            true
+          );
+        },
+        this,
+        delay
+      );
+
+      var settle = ex => {
+        if (!settled) {
+          settled = true;
+          timer.stop();
+          timer.dispose();
+          callback.call(this, ex);
+        }
+      };
+      result.then(
+        () => settle(null),
+        reason => settle(qx.dev.unit.TestFunction.toError(reason))
+      );
+    },
+
+    /**
+     * Put a prefix in front of the message of an exception.
+     *
+     * @param ex {Error} The exception
+     * @param prefix {String} The prefix, e.g. "setUp failed"
+     */
+    __prefixMessage(ex, prefix) {
+      if (
+        ex instanceof qx.type.BaseError &&
+        ex.message == qx.type.BaseError.DEFAULTMESSAGE
+      ) {
+        ex.message = prefix;
+      } else {
+        ex.message = prefix + ": " + ex.message;
+      }
     },
 
     /**
@@ -399,16 +540,40 @@ qx.Class.define("qx.dev.unit.TestResult", {
      * Calls the generic tearDown method on the test class, then the specific
      * tearDown for the test, if one is defined.
      *
+     * If one of them returns a promise, the next step waits for it.
+     *
      * @param test {Object} The test object (first argument of {@link #run})
+     * @return {Promise|undefined} A promise if tearDown is asynchronous
      */
     tearDown(test) {
-      test.tearDown();
       var testClass = test.getTestClass();
       var specificTearDown =
         "tearDown" + qx.lang.String.firstUp(test.getName());
-      if (testClass[specificTearDown]) {
-        testClass[specificTearDown]();
-      }
+      var steps = [
+        () => test.tearDown(),
+        () => testClass[specificTearDown] && testClass[specificTearDown](),
+        () => this.__afterTearDown(test)
+      ];
+
+      var next = () => {
+        while (steps.length) {
+          var result = steps.shift()();
+          if (qx.lang.Type.isPromise(result)) {
+            return result.then(next);
+          }
+        }
+        return undefined;
+      };
+      return next();
+    },
+
+    /**
+     * Dispose the objects of the test and report undisposed objects.
+     *
+     * @param test {Object} The test object (first argument of {@link #run})
+     */
+    __afterTearDown(test) {
+      var testClass = test.getTestClass();
       testClass.doAutoDispose();
 
       if (
@@ -440,5 +605,6 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
   destruct() {
     this._timeout = null;
+    this.__active = null;
   }
 });

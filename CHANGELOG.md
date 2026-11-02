@@ -49,6 +49,16 @@ rejects the requests it still has in flight with `qx.io.exception.Cancel`, whose
 to await a response which could no longer be delivered, and a request which failed at the
 transport is released from the pending map, so a late response to it is reported as a
 `DUPLICATE_ID` transport error rather than resolving it. (#10889)
+- Unit tests that return a promise, such as `async` test methods compiled for
+older browsers, were reported as passed at once: a failed assertion after an
+`await` or a rejected promise did not show up. The test runner now waits for
+the promise of a test, `setUp` and `tearDown` (at most as long as `wait()`),
+and reports a rejection or a timeout as a failed test.
+
+- After a test's `wait()` had timed out, a late `resume()` was reported as a
+second failure, "resume() called before wait()", and a late
+`resumeHandler()` could end the next test early. Such late calls are now
+ignored with a warning.
 - When `compile.json` sets `serve.listenPort`, `qx serve` and `qx test` ignored
 `-p 9000`, `-p9000` and `--listen-port=9000` and still reported
 `Web server started, please browse to http://localhost:<port from compile.json>`.
