@@ -16,6 +16,9 @@
   the old format has to accept the ISO format. (#10900)
 
 ## Fixes
+- A listener added with `addListenerOnce()` without a context could not be removed with
+  `removeListener()` without a context: the call returned `false` and the listener still fired
+  once. This also applies to listeners on a `qx.html.Element`.
 - One bad message from a JSON-RPC server, such as data that is not JSON or a response with an
   unknown `id`, made `qx.io.jsonrpc.Client` reject every request still waiting for its answer, even
   requests answered later in the same batch response. Now it fires the `error` event once and fails

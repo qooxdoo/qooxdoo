@@ -65,6 +65,19 @@ qx.Class.define("qx.test.core.Object", {
       this.assertFalse(this.hasListener("testAddListenerOnce", false));
     },
 
+    testRemoveListenerOnceWithoutContext() {
+      var listener = function () {};
+      this.addListenerOnce("testRemoveListenerOnceWithoutContext", listener);
+      this.assertTrue(this.hasListener("testRemoveListenerOnceWithoutContext"));
+      this.assertTrue(this.removeListener("testRemoveListenerOnceWithoutContext", listener));
+      this.assertFalse(this.hasListener("testRemoveListenerOnceWithoutContext"));
+
+      // removing with the target as explicit context keeps working
+      this.addListenerOnce("testRemoveListenerOnceWithoutContext", listener);
+      this.assertTrue(this.removeListener("testRemoveListenerOnceWithoutContext", listener, this));
+      this.assertFalse(this.hasListener("testRemoveListenerOnceWithoutContext"));
+    },
+
     testAddListenerOnceWithSameListener() {
       var called = 0;
       var listener = function () {

@@ -127,6 +127,28 @@ qx.Class.define("qx.test.html.Element", {
       el.dispose();
     },
 
+    testRemoveListenerOnceWithoutContext() {
+      var listener = function () {};
+
+      // flush at end
+      var el = new qx.html.Element();
+      el.addListenerOnce("click", listener);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListener("click", listener);
+      this.assertFalse(el.hasListener("click", false));
+      qx.html.Element.flush();
+      el.dispose();
+
+      // flush after create
+      el = new qx.html.Element();
+      qx.html.Element.flush();
+      el.addListenerOnce("click", listener);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListener("click", listener);
+      this.assertFalse(el.hasListener("click", false));
+      el.dispose();
+    },
+
     testAddListenerOnce() {
       var el = new qx.html.Element("div", {
         width: "100px"

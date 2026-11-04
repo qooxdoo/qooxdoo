@@ -1571,9 +1571,10 @@ qx.Class.define("qx.html.Node", {
           // added with addListenerOnce is in here as the wrapper, so it has to
           // be matched through the wrapper's back-reference as well
           if (
-            (entry.listener === listener ||
-              entry.listener.$$onceOf === listener) &&
-            entry.self === self &&
+            ((entry.listener === listener && entry.self === self) ||
+              (entry.listener.$$onceOf === listener &&
+                (entry.self === self ||
+                  (self == null && entry.listener.$$onceDefaultContext)))) &&
             entry.capture === capture &&
             entry.type === type
           ) {

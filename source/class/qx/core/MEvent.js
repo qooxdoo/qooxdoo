@@ -73,7 +73,8 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     addListenerOnce(type, listener, context, capture) {
       var self = this; // self is needed to remove the listener inside the callback
-      if (!context) {
+      var defaultContext = !context;
+      if (defaultContext) {
         context = this;
       }
       var id; // store id in closure context
@@ -88,6 +89,9 @@ qx.Mixin.define("qx.core.MEvent", {
       // function the caller passed in, one registration at a time
       // [BUG #8038, #9627]
       callback.$$onceOf = listener;
+      // the wrapper is registered with this object as context when the caller
+      // gives none, so removeListener without a context has to find it too
+      callback.$$onceDefaultContext = defaultContext;
       id = this.addListener(type, callback, context, capture);
       return id;
     },
