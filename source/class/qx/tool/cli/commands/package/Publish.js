@@ -20,7 +20,7 @@ const path = require("upath");
 const process = require("process");
 const { Octokit } = require("@octokit/rest");
 const semver = require("semver");
-const inquirer = require("inquirer");
+const inquirer = require("inquirer").default;
 const glob = require("glob");
 
 /**

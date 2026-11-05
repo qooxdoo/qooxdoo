@@ -18,7 +18,7 @@
 ************************************************************************ */
 const fs = require("fs");
 const path = require("upath");
-const inquirer = require("inquirer");
+const inquirer = require("inquirer").default;
 
 /**
  * Create a new qooxdoo project. This will assemble the information needed to create the
