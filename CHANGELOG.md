@@ -1,6 +1,10 @@
 # Upcoming
 
 ## Breaking changes
+- The environment setting `qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest` has been removed,
+  as announced for 8.0. `qx.io.jsonrpc.Client#send()` now always resolves, and a transport error
+  rejects the requests of the failed message instead; setting it to `false` in `compile.json` no
+  longer brings back the v7 behaviour.
 - The protected method `_throwTransportException()` of `qx.io.jsonrpc.Client` has been removed,
   as announced in its documentation. Nothing in the client called it any more, so a subclass which
   overrode it to see transport errors should listen to the client's `error` event instead.
