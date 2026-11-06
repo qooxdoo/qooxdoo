@@ -138,31 +138,6 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     },
 
     /**
-     * Fires "error" event and rejects the pending requests' promises.
-     * The method will be renamed and made private in v8.
-     * @param exception
-     * @private
-     */
-    _throwTransportException(exception) {
-      this.fireDataEvent("error", exception);
-      this.__requests.forEach((request, id) => {
-        if (request instanceof qx.io.jsonrpc.protocol.Request) {
-          // release the request first, its promise can only be rejected once
-          this.__requests[id] = true;
-          // this rejects the request's promise
-          request.handleTransportException(exception);
-        }
-      });
-      if (
-        !qx.core.Environment.get(
-          "qx.io.jsonrpc.forwardTransportPromiseRejectionToRequest"
-        )
-      ) {
-        throw exception; // will be removed in v8 since it is not caught anywhere
-      }
-    },
-
-    /**
      * Marks the given requests as settled, so that neither a later transport
      * failure nor a late response can settle them a second time. The client
      * may have been disposed while they were in flight, in which case there is

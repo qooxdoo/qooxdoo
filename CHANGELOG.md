@@ -1,6 +1,9 @@
 # Upcoming
 
 ## Breaking changes
+- The protected method `_throwTransportException()` of `qx.io.jsonrpc.Client` has been removed,
+  as announced in its documentation. Nothing in the client called it any more, so a subclass which
+  overrode it to see transport errors should listen to the client's `error` event instead.
 - Subclasses now inherit static methods and properties from their superclass via
   the constructor prototype chain, matching native JavaScript `class extends`
   semantics: reading `Sub.STATIC` resolves to the superclass value, assigning
