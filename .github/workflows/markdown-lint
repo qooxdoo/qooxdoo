@@ -19,7 +19,6 @@ const remark = require('remark');
 const fsPromises = require('fs').promises;
 const process = require('process');
 const util = require('util');
-const glob = util.promisify(require('glob'));
 const report = require('vfile-reporter');
 const stringify = require('remark-stringify');
 const exec = util.promisify(require('child_process').exec);
@@ -75,9 +74,8 @@ let files = process.argv.slice(3);
       files = String(stdout).split("\n").filter(file => file.endsWith(".md"));
     }
   } else if (files[0] === "all") {
-    files = await glob("**/*.md", {
-      ignore: ["node_modules/**/*.md","_*" ]
-    });
+    const { stdout } = await exec('git ls-files "*.md"');
+    files = String(stdout).split("\n").filter(file => file && !file.startsWith("_"));
   }
   if (files.length === 0) {
     console.info("Nothing to do: no markdown files to lint.");

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 echo "Installing markdown linter dependencies..."
+# pinned to the last CommonJS releases, newer ones are ESM only and break require() in markdown-lint
 npm install \
-  glob prettier \
-  remark remark-lint-no-dead-urls remark-normalize-headings \
-  remark-parse remark-stringify remark-validate-links vfile-reporter
+  prettier@2 \
+  remark@13 remark-lint-no-dead-urls@1 remark-normalize-headings@2 \
+  remark-parse@9 remark-stringify@9 remark-validate-links@10 vfile-reporter@6
