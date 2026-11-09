@@ -537,8 +537,10 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               });
             });
             find(dayContext, "type", "stand-alone", function (row) {
+              var narrowDayWidth = find(row.dayWidth, "type", "narrow");
+
               cldr["cldr_day_stand-alone_narrow_fri"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "fri",
                 getText
@@ -546,7 +548,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "F";
               cldr["cldr_day_stand-alone_narrow_mon"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "mon",
                 getText
@@ -554,7 +556,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "M";
               cldr["cldr_day_stand-alone_narrow_sat"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "sat",
                 getText
@@ -562,7 +564,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "S";
               cldr["cldr_day_stand-alone_narrow_sun"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "sun",
                 getText
@@ -570,7 +572,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "S";
               cldr["cldr_day_stand-alone_narrow_thu"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "thu",
                 getText
@@ -578,7 +580,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "T";
               cldr["cldr_day_stand-alone_narrow_tue"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "tue",
                 getText
@@ -586,7 +588,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
               // "T";
               cldr["cldr_day_stand-alone_narrow_wed"] = find(
-                row.dayWidth[0].day,
+                narrowDayWidth.day,
                 "type",
                 "wed",
                 getText
