@@ -186,6 +186,10 @@ The compiler has received an overhaul, which includes the following changes:
   to await a response which could no longer be delivered, and a request which failed at the
   transport is released from the pending map, so a late response to it is reported as a
   `DUPLICATE_ID` transport error rather than resolving it. (#10889)
+- `reset` on a themeable or inheritable property with an `init` value kept the init value as
+  user value, so the theme value and the value inherited from the parent no longer applied:
+  after `resetSource()` an image ignored the `source` of its appearance, and a toolbar part
+  ignored the toolbar's `showFeatures`. As in qooxdoo 7, `reset` now removes the user value.
 
 # 8.0.0-beta.3
 
