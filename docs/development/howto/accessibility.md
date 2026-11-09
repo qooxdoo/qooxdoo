@@ -14,6 +14,10 @@ as well as you as a developer.
 - Search for suitable ARIA roles
 - Implement necessary ARIA attributes according to the specification; use examples to orient the reader
 - Use widget functions setAriaLabel(label) {}, addAriaLabelledBy(...labelWidgets) {}, addAriaDescribedBy(...describingWidgets) {}
+- Use `setAriaRole(role)` and `setAriaAttribute(name, value)` for everything else, e.g. `setAriaRole("gridcell")`,
+  `setAriaAttribute("expanded", false)` or `setAriaAttribute("activedescendant", cellWidget)`. The name is given without
+  the `aria-` prefix; `null` removes the attribute, `false` is written as `"false"`, and widgets are referenced by
+  their id, which is assigned if needed
 
 ### Make views/forms, e.g. dialogs, more accessible
 
