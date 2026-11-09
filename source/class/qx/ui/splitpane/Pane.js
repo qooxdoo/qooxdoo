@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.splitpane.Pane", {
      */
     _applyOrientation(value, old) {
       // ARIA attrs
-      this.getContentElement().setAttribute("aria-orientation", value);
+      this.setAriaAttribute("orientation", value);
 
       var slider = this.getChildControl("slider");
       var splitter = this.getChildControl("splitter");

@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.tabview.TabView", {
     }
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "tablist");
+    this.setAriaRole("tablist");
   },
 
   /*

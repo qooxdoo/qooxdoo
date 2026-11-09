@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.table.Table", {
     }
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "grid");
+    this.setAriaRole("grid");
   },
 
   /*
@@ -1297,7 +1297,7 @@ qx.Class.define("qx.ui.table.Table", {
         this._updateStatusBar();
 
         // ARIA attrs
-        this.getContentElement().setAttribute("aria-rowcount", rowCount);
+        this.setAriaAttribute("rowcount", rowCount);
       }
 
       const colCount = this.getTableModel().getColumnCount();
@@ -1306,7 +1306,7 @@ qx.Class.define("qx.ui.table.Table", {
         this.__lastColCount = colCount;
 
         // ARIA attrs
-        this.getContentElement().setAttribute("aria-colcount", colCount);
+        this.setAriaAttribute("colcount", colCount);
       }
     },
 
@@ -1608,7 +1608,7 @@ qx.Class.define("qx.ui.table.Table", {
         // ARIA attrs
         const cellId =
           "qooxdoo-table-cell-" + this.toHashCode() + "-" + row + "-" + col;
-        this.getContentElement().setAttribute("aria-activedescendant", cellId);
+        this.setAriaAttribute("activedescendant", cellId);
       }
     },
 

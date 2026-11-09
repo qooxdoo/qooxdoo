@@ -3395,7 +3395,7 @@ qx.Class.define("qx.ui.core.Widget", {
      * - a widget, or an array of widgets and id strings, becomes a space separated
      *   id list for reference attributes like `labelledby`, `owns`, `controls` or
      *   `activedescendant`; widgets without an id get one, duplicates are dropped,
-     *   an empty array removes the attribute
+     *   an empty array removes the attribute; disposed widgets are left out
      *
      * The attribute is set without any property machinery, so it is cheap enough for
      * widgets which are rendered many times, e.g. cells of a grid.
@@ -3489,6 +3489,7 @@ qx.Class.define("qx.ui.core.Widget", {
       }
       if (Array.isArray(value)) {
         const ids = new Set(value.map(item => (item instanceof qx.ui.core.Widget ? this.__getAriaId(item) : item)));
+        ids.delete(null);
         return ids.size ? [...ids].join(" ") : null;
       }
       if (qx.lang.Type.isBoolean(value) || qx.lang.Type.isNumber(value)) {
@@ -3501,10 +3502,13 @@ qx.Class.define("qx.ui.core.Widget", {
      * Returns the id of a widget's content element and assigns one if it has none yet.
      *
      * @param widget {qx.ui.core.Widget} the referenced widget
-     * @return {String} the id
+     * @return {String|null} the id, or `null` if the widget is disposed
      */
     __getAriaId(widget) {
       const contentEl = widget.getContentElement();
+      if (!contentEl) {
+        return null;
+      }
       let id = contentEl.getAttribute("id");
       if (!id) {
         id = `label-${widget.toHashCode()}`;

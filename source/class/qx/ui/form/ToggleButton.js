@@ -61,9 +61,8 @@ qx.Class.define("qx.ui.form.ToggleButton", {
     this.addListener("execute", this._onExecute, this);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
-    contentEl.setAttribute("role", "button");
-    contentEl.setAttribute("aria-pressed", false);
+    this.setAriaRole("button");
+    this.setAriaAttribute("pressed", false);
   },
 
   /*
@@ -173,7 +172,7 @@ qx.Class.define("qx.ui.form.ToggleButton", {
         }
       }
 
-      this.getContentElement().setAttribute("aria-pressed", ariaPressed);
+      this.setAriaAttribute("pressed", ariaPressed);
     },
 
     /**

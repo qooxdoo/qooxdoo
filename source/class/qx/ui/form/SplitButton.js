@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.form.SplitButton", {
     super();
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "button");
+    this.setAriaRole("button");
 
     this._setLayout(new qx.ui.layout.HBox());
 

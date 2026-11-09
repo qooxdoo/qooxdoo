@@ -48,10 +48,9 @@ qx.Class.define("qx.ui.form.CheckBox", {
     this.setValue(false);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
-    contentEl.setAttribute("role", "checkbox");
-    contentEl.removeAttribute("aria-pressed");
-    contentEl.setAttribute("aria-checked", false);
+    this.setAriaRole("checkbox");
+    this.setAriaAttribute("pressed", null);
+    this.setAriaAttribute("checked", false);
   },
 
   /*
@@ -108,7 +107,7 @@ qx.Class.define("qx.ui.form.CheckBox", {
       }
 
       // ARIA attrs
-      this.getContentElement().setAttribute("aria-checked", ariaChecked);
+      this.setAriaAttribute("checked", ariaChecked);
     }
   }
 });

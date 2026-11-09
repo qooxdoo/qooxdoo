@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.form.ComboBox", {
     this._createChildControl("button");
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "combobox");
+    this.setAriaRole("combobox");
 
     this.addListener("tap", this._onTap);
 
@@ -307,21 +307,11 @@ qx.Class.define("qx.ui.form.ComboBox", {
       }
 
       // Set aria-activedescendant
-      const textFieldContentEl =
-        this.getChildControl("textfield").getContentElement();
-      if (!textFieldContentEl) {
+      const textField = this.getChildControl("textfield");
+      if (!textField.getContentElement()) {
         return;
       }
-      const currentContentEl =
-        current && current[0] ? current[0].getContentElement() : null;
-      if (currentContentEl) {
-        textFieldContentEl.setAttribute(
-          "aria-activedescendant",
-          currentContentEl.getAttribute("id")
-        );
-      } else {
-        textFieldContentEl.removeAttribute("aria-activedescendant");
-      }
+      textField.setAriaAttribute("activedescendant", current?.[0]);
     },
 
     // overridden
@@ -380,10 +370,10 @@ qx.Class.define("qx.ui.form.ComboBox", {
       // ARIA attrs
       const old = e.getOldData() ? list.findItem(e.getOldData(), false) : null;
       if (old && old !== current) {
-        old.getContentElement().setAttribute("aria-selected", false);
+        old.setAriaAttribute("selected", false);
       }
       if (current) {
-        current.getContentElement().setAttribute("aria-selected", true);
+        current.setAriaAttribute("selected", true);
       }
 
       // Fire event
