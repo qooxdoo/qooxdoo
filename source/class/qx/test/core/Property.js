@@ -778,6 +778,52 @@ qx.Class.define("qx.test.core.Property", {
       inst.dispose();
     },
 
+    testResetRemovesUserValue() {
+      qx.Class.undefine("qx.test.core.property.TestResetThemed");
+      qx.Class.define("qx.test.core.property.TestResetThemed", {
+        extend: qx.core.Object,
+        properties: {
+          source: {
+            init: null,
+            nullable: true,
+            themeable: true,
+            event: "changeSource",
+            apply: "_applySource"
+          }
+        },
+        members: {
+          applyCount: 0,
+          _applySource() {
+            this.applyCount++;
+          }
+        }
+      });
+
+      let obj = new qx.test.core.property.TestResetThemed();
+      let eventCount = 0;
+      obj.addListener("changeSource", () => eventCount++);
+      let applyCount = obj.applyCount;
+
+      obj.resetSource();
+      this.assertEquals(applyCount, obj.applyCount, "reset without change must not apply");
+      obj.setThemedSource("themed");
+      this.assertEquals("themed", obj.getSource(), "theme value must apply after reset");
+
+      obj.setSource("user");
+      obj.resetSource();
+      this.assertEquals("themed", obj.getSource(), "theme value must apply after the user value is reset");
+
+      obj.setSource("themed");
+      obj.resetSource();
+      this.assertEquals(applyCount + 3, obj.applyCount, "reset must only apply when the value changes");
+      this.assertEquals(3, eventCount, "reset must only fire when the value changes");
+
+      obj.resetThemedSource();
+      this.assertNull(obj.getSource(), "init value must apply without theme value");
+
+      obj.dispose();
+    },
+
     testInit() {
       // now test the init functions
       var self = this;

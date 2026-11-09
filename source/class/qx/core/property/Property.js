@@ -916,6 +916,17 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
+     * Determines what `reset` leaves in the storage. Themeable properties drop the user value, so that
+     * the theme value applies again; storing the init value would hide the theme value for good.
+     *
+     * @param {*} initValue
+     * @returns {*} the value to store
+     */
+    __resetUserValue(initValue) {
+      return this.isThemeable() ? undefined : initValue;
+    },
+
+    /**
      * Sets the actual value of the property, synchronously.
      *
      * @param {qx.core.Object} thisObj
@@ -974,7 +985,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
       //Modify the value in the underlying storage
       if (method == "reset") {
         if (scope == "user") {
-          this.__storage.set(thisObj, this, value);
+          this.__storage.set(thisObj, this, this.__resetUserValue(value));
         } else if (scope == "themed") {
           if (value === undefined) {
             delete state.themeValue;            
@@ -1116,7 +1127,7 @@ qx.Bootstrap.define("qx.core.property.Property", {
 
       //Actually modify the underlying storage
       if (method == "reset") {
-        this.__storage.set(thisObj, this, value);
+        this.__storage.set(thisObj, this, this.__resetUserValue(value));
         value = this.__getImpl(thisObj, true);
       } else {
         if (scope == "user") {
