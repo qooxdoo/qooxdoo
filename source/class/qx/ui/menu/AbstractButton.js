@@ -339,22 +339,12 @@ qx.Class.define("qx.ui.menu.AbstractButton", {
       }
 
       // ARIA attrs
-      const contentEl = this.getContentElement();
-      if (!contentEl) {
+      if (!this.getContentElement()) {
         return;
       }
-      if (value) {
-        contentEl.setAttribute("aria-haspopup", "menu");
-        contentEl.setAttribute("aria-expanded", value.isVisible());
-        contentEl.setAttribute(
-          "aria-controls",
-          value.getContentElement().getAttribute("id")
-        );
-      } else {
-        contentEl.removeAttribute("aria-haspopup");
-        contentEl.removeAttribute("aria-expanded");
-        contentEl.removeAttribute("aria-controls");
-      }
+      this.setAriaAttribute("haspopup", value ? "menu" : null);
+      this.setAriaAttribute("expanded", value ? value.isVisible() : null);
+      this.setAriaAttribute("controls", value);
     },
 
     /**

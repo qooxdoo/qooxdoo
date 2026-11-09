@@ -618,8 +618,13 @@ qx.Class.define("qx.test.ui.core.Widget", {
       w.setAriaAttribute("owns", []);
       this.assertNull(w.getAriaAttribute("owns"));
 
-      w.dispose();
       withoutId.dispose();
+      w.setAriaAttribute("owns", [withoutId, withId]);
+      this.assertEquals("cell-1", w.getAriaAttribute("owns"), "disposed widgets are left out");
+      w.setAriaAttribute("activedescendant", withoutId);
+      this.assertNull(w.getAriaAttribute("activedescendant"));
+
+      w.dispose();
       withId.dispose();
     },
 

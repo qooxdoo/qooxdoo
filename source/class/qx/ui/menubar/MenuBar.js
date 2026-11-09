@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.menubar.MenuBar", {
     super();
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "menubar");
+    this.setAriaRole("menubar");
   },
 
   /*

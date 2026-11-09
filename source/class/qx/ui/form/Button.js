@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.form.Button", {
     }
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "button");
+    this.setAriaRole("button");
 
     // Add listeners
     this.addListener("pointerover", this._onPointerOver);
