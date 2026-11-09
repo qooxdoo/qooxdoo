@@ -824,6 +824,30 @@ qx.Class.define("qx.test.core.Property", {
       obj.dispose();
     },
 
+    testResetInheritsAgain() {
+      qx.Class.undefine("qx.test.core.property.TestResetInherited");
+      qx.Class.define("qx.test.core.property.TestResetInherited", {
+        extend: qx.test.core.InheritanceDummy,
+        properties: {
+          features: { init: "both", inheritable: true }
+        }
+      });
+
+      let parent = new qx.test.core.property.TestResetInherited();
+      let child = new qx.test.core.property.TestResetInherited();
+      parent.setFeatures("label");
+      parent.add(child);
+
+      child.setFeatures("icon");
+      child.resetFeatures();
+      this.assertEquals("label", child.getFeatures(), "parent value must apply after reset");
+      parent.setFeatures("icon");
+      this.assertEquals("icon", child.getFeatures(), "child must follow the parent after reset");
+
+      parent.dispose();
+      child.dispose();
+    },
+
     testInit() {
       // now test the init functions
       var self = this;

@@ -916,14 +916,15 @@ qx.Bootstrap.define("qx.core.property.Property", {
     },
 
     /**
-     * Determines what `reset` leaves in the storage. Themeable properties drop the user value, so that
-     * the theme value applies again; storing the init value would hide the theme value for good.
+     * Determines what `reset` leaves in the storage. Themeable and inheritable properties drop the
+     * user value, so that the theme or the parent value applies again; storing the init value would
+     * hide them for good.
      *
      * @param {*} initValue
      * @returns {*} the value to store
      */
     __resetUserValue(initValue) {
-      return this.isThemeable() ? undefined : initValue;
+      return this.isThemeable() || this.isInheritable() ? undefined : initValue;
     },
 
     /**
