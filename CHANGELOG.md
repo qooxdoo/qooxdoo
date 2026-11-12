@@ -65,6 +65,13 @@ ignored with a warning.
 Only `--listen-port 9000` worked. Every spelling of the option now takes precedence
 over `compile.json`.
 
+# v7.9.4
+
+## Breaking changes
+
+- qx lint accepts only @qooxdoo/qx, @qooxdoo/qx/browser, and @qooxdoo/jsdoc-disable
+in eslintConfig.extends, and --use-eslintrc is gone
+
 # v7.0.0
 
 ## Breaking changes

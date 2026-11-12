@@ -319,7 +319,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             manifests = data.libraries || data.contribs; // to do remove data.contribs. eventually, only there for BC
           } catch (e) {
             // no qooxdoo.json
-            if (e.message.match(/404/)) {
+            if (e.status === 404) {
               if (this.argv.verbose) {
                 this.debug(`>>> No qooxdoo.json`);
               }
