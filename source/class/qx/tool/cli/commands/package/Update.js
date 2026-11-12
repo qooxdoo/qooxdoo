@@ -353,7 +353,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 "base64"
               ).toString("utf8");
             } catch (e) {
-              if (e.message.match(/404/)) {
+              if (e.status === 404) {
                 if (this.argv.verbose) {
                   qx.tool.compiler.Console.warn(`!!!  File does not exist.`);
                 }

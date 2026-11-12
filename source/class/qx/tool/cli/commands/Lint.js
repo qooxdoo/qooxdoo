@@ -145,7 +145,9 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         } else if (configName === "@qooxdoo/jsdoc-disable") {
           flatConfigs.push(require("@qooxdoo/eslint-config-jsdoc-disable"));
         } else {
-          throw new Error(`Unsupported flat ESLint config: ${configName}`);
+          throw new qx.tool.utils.Utils.UserError(
+            `eslintConfig.extends in compile.json: "${configName}" is not supported with ESLint 9. Use "@qooxdoo/qx", "@qooxdoo/qx/browser" or "@qooxdoo/jsdoc-disable".`
+          );
         }
       }
       flatConfigs.push({

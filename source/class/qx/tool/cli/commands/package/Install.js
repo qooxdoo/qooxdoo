@@ -78,6 +78,10 @@ async function downloadAndExtractZip(url, targetPath) {
               return;
             }
             const output = fsNative.createWriteStream(entryPath);
+            readStream.on("error", error => {
+              zipFile.close();
+              reject(error);
+            });
             readStream.pipe(output);
             output.on("close", () => zipFile.readEntry());
             output.on("error", error => {
