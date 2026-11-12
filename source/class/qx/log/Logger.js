@@ -601,7 +601,13 @@ qx.Bootstrap.define("qx.log.Logger", {
               break;
             }
 
-            appenders[filter.appenderName] = this.__appendersByName[filter.appenderName];
+            if (filter.appenderName === null) {
+              for (let appenderName in this.__appendersByName) {
+                appenders[appenderName] = this.__appendersByName[appenderName];
+              }
+            } else if (this.__appendersByName[filter.appenderName]) {
+              appenders[filter.appenderName] = this.__appendersByName[filter.appenderName];
+            }
           }
           continue;
         }
