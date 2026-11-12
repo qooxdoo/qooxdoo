@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.table.pane.Header", {
     this.__paneScroller = paneScroller;
 
     // ARIA attrs
-    this.getContentElement().setAttribute("role", "row");
+    this.setAriaRole("row");
   },
 
   /*

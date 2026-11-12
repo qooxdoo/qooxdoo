@@ -43,9 +43,7 @@ qx.Class.define("qx.ui.menu.Menu", {
     root.add(this);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
-    contentEl.setAttribute("role", "menu");
-    contentEl.setAttribute("id", "menu-" + this.toHashCode());
+    this.setAriaRole("menu");
 
     // Register pointer listeners
     this.addListener("pointerover", this._onPointerOver);
@@ -434,22 +432,11 @@ qx.Class.define("qx.ui.menu.Menu", {
       }
 
       // ARIA attrs
-      const opener = this.__getRootOpener();
-      const contentEl = opener
-        ? opener.getContentElement()
-        : this.getContentElement();
-      if (!contentEl) {
+      const target = this.__getRootOpener() ?? this;
+      if (!target.getContentElement()) {
         return;
       }
-      const valueContentEl = value ? value.getContentElement() : null;
-      if (valueContentEl) {
-        contentEl.setAttribute(
-          "aria-activedescendant",
-          valueContentEl.getAttribute("id")
-        );
-      } else {
-        contentEl.removeAttribute("aria-activedescendant");
-      }
+      target.setAriaAttribute("activedescendant", value);
     },
 
     // property apply
@@ -466,16 +453,10 @@ qx.Class.define("qx.ui.menu.Menu", {
     // property apply
     _applyOpener(value, old) {
       // ARIA attrs
-      const contentEl = this.getContentElement();
-      if (!contentEl) {
+      if (!this.getContentElement()) {
         return;
       }
-      if (value && value.getContentElement()) {
-        contentEl.setAttribute("aria-labelledby", "");
-        this.addAriaLabelledBy(value);
-      } else {
-        contentEl.removeAttribute("aria-labelledby");
-      }
+      this.setAriaAttribute("labelledby", value);
     },
 
     // property apply
@@ -642,9 +623,7 @@ qx.Class.define("qx.ui.menu.Menu", {
     _afterAddChild(child) {
       // Some childs, e.g. Seperators, are no meaningful menu items
       if (child instanceof qx.ui.menu.AbstractButton) {
-        const contentEl = child.getContentElement();
-        contentEl.setAttribute("id", "menu-item-" + child.toHashCode());
-        contentEl.setAttribute("role", "menuitem");
+        child.setAriaRole("menuitem");
       }
     },
 

@@ -52,19 +52,13 @@ qx.Class.define("qx.ui.tabview.Page", {
 
     // ARIA attrs
     const btn = this.getButton();
-    const pageId = "page-" + this.toHashCode();
-    const btnId = "btn-" + pageId + btn.toHashCode();
-    const contentEl = this.getContentElement();
-    contentEl.setAttribute("id", pageId);
-    contentEl.setAttribute("role", "tabpanel");
-    contentEl.setAttribute("aria-labelledBy", btnId);
-    contentEl.setAttribute("aria-expanded", false);
+    this.setAriaRole("tabpanel");
+    this.setAriaAttribute("labelledby", btn);
+    this.setAriaAttribute("expanded", false);
 
-    const btnContentEl = btn.getContentElement();
-    btnContentEl.setAttribute("id", btnId);
-    btnContentEl.setAttribute("role", "tab");
-    btnContentEl.setAttribute("aria-selected", false);
-    btnContentEl.setAttribute("aria-controls", pageId);
+    btn.setAriaRole("tab");
+    btn.setAriaAttribute("selected", false);
+    btn.setAriaAttribute("controls", this);
     btn.addListener("changeValue", this._onBtnChangeValue, this);
   },
 
@@ -216,8 +210,8 @@ qx.Class.define("qx.ui.tabview.Page", {
      */
     _onBtnChangeValue(e) {
       const val = e.getData();
-      this.getContentElement().setAttribute("aria-expanded", val, true); // Set third argument to true -> direct Update
-      this.getButton().getContentElement().setAttribute("aria-selected", val);
+      this.setAriaAttribute("expanded", val);
+      this.getButton().setAriaAttribute("selected", val);
     },
 
     /*

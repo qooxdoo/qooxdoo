@@ -41,9 +41,8 @@ qx.Class.define("qx.ui.menu.CheckBox", {
     super();
 
     // ARIA attrs
-    const contenEl = this.getContentElement();
-    contenEl.setAttribute("role", "checkbox");
-    contenEl.setAttribute("aria-checked", false);
+    this.setAriaRole("checkbox");
+    this.setAriaAttribute("checked", false);
 
     // Initialize with incoming arguments
     if (label != null) {
@@ -103,7 +102,7 @@ qx.Class.define("qx.ui.menu.CheckBox", {
       value ? this.addState("checked") : this.removeState("checked");
 
       // ARIA attrs
-      this.getContentElement().setAttribute("aria-checked", Boolean(value));
+      this.setAriaAttribute("checked", Boolean(value));
     },
 
     /**

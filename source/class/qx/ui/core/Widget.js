@@ -3367,12 +3367,63 @@ qx.Class.define("qx.ui.core.Widget", {
     */
 
     /**
+     * Sets the ARIA role of this widget, e.g. `"grid"`, `"row"` or `"gridcell"`.
+     *
+     * @param role {String|null} WAI-ARIA role; `null` removes the role
+     */
+    setAriaRole(role) {
+      this.getContentElement().setAttribute("role", role ?? null);
+    },
+
+    /**
+     * Returns the ARIA role of this widget.
+     *
+     * @return {String|null} the role, or `null` if none is set
+     */
+    getAriaRole() {
+      return this.getContentElement().getAttribute("role") ?? null;
+    },
+
+    /**
+     * Sets the ARIA attribute `aria-<name>` on the content element.
+     *
+     * The value is written as text:
+     * - `null` or `undefined` removes the attribute
+     * - `true` and `false` become `"true"` and `"false"`; `false` is kept because for
+     *   attributes like `checked`, `expanded`, `pressed` or `selected` a missing
+     *   attribute means "not applicable", not "false"
+     * - a widget, or an array of widgets and id strings, becomes a space separated
+     *   id list for reference attributes like `labelledby`, `owns`, `controls` or
+     *   `activedescendant`; widgets without an id get one, duplicates are dropped,
+     *   an empty array removes the attribute; disposed widgets are left out
+     *
+     * The attribute is set without any property machinery, so it is cheap enough for
+     * widgets which are rendered many times, e.g. cells of a grid.
+     *
+     * @param name {String} attribute name without the `aria-` prefix, e.g. `"expanded"` or `"rowindex"`
+     * @param value {String|Number|Boolean|qx.ui.core.Widget|Array|null} the value
+     */
+    setAriaAttribute(name, value) {
+      this.getContentElement().setAttribute(this.__getAriaAttributeName(name), this.__toAriaValue(value));
+    },
+
+    /**
+     * Returns the ARIA attribute `aria-<name>` as it is written to the DOM.
+     *
+     * @param name {String} attribute name without the `aria-` prefix
+     * @return {String|null} the value, or `null` if the attribute is not set
+     */
+    getAriaAttribute(name) {
+      return this.getContentElement().getAttribute(this.__getAriaAttributeName(name)) ?? null;
+    },
+
+    /**
      * Sets the string which labels this widget. This will be read out by screenreaders. Needed if there is no
      * readable text/label in this widget which would automatically act as aria-label.
-     * @param label {String} Labelling Text
+     * @param label {String|null} Labelling Text; `null` removes the label
      */
     setAriaLabel(label) {
-      this.getContentElement().setAttribute("aria-label", label);
+      this.setAriaAttribute("label", label);
     },
 
     /**
@@ -3383,7 +3434,7 @@ qx.Class.define("qx.ui.core.Widget", {
      * @param labelWidgets {qx.ui.core.Widget[]} Indefinite Number of labelling Widgets
      */
     addAriaLabelledBy(...labelWidgets) {
-      this.__addAriaXBy(labelWidgets, "aria-labelledby");
+      this.__addAriaReferences("labelledby", labelWidgets);
     },
 
     /**
@@ -3392,41 +3443,78 @@ qx.Class.define("qx.ui.core.Widget", {
      * @param describingWidgets {qx.ui.core.Widget[]} Indefinite Number of describing Widgets
      */
     addAriaDescribedBy(...describingWidgets) {
-      this.__addAriaXBy(describingWidgets, "aria-describedby");
+      this.__addAriaReferences("describedby", describingWidgets);
     },
 
     /**
-     * Sets either aria-labelledby or aria-describedby
-     * @param widgets {qx.ui.core.Widget[]} Indefinite Number of widgets
-     * @param ariaAttr {String} aria-labelledby | aria-describedby
+     * Appends widgets to an ARIA id list, e.g. `aria-labelledby`.
+     *
+     * @param name {String} attribute name without the `aria-` prefix
+     * @param widgets {qx.ui.core.Widget[]} widgets to append
      */
-    __addAriaXBy(widgets, ariaAttr) {
-      if (!["aria-labelledby", "aria-describedby"].includes(ariaAttr)) {
-        throw new Error("Only aria-labelledby or aria-describedby allowed!");
-      }
-      let idArr = [];
+    __addAriaReferences(name, widgets) {
       for (const widget of widgets) {
         if (!(widget instanceof qx.ui.core.Widget)) {
           throw new Error("Given widget " + widget + " is not an instance of qx.ui.core.Widget!");
         }
-        const contentEl = widget.getContentElement();
-        let widgetId = contentEl.getAttribute("id");
-        if (!widgetId) {
-          widgetId = `label-${widget.toHashCode()}`;
-          contentEl.setAttribute("id", widgetId);
-        }
-        if (!idArr.includes(widgetId)) {
-          idArr.push(widgetId);
+      }
+      const current = this.getAriaAttribute(name);
+      this.setAriaAttribute(name, [...(current ? current.split(" ") : []), ...widgets]);
+    },
+
+    /**
+     * Builds the attribute name for {@link #setAriaAttribute} and {@link #getAriaAttribute}.
+     *
+     * @param name {String} attribute name without the `aria-` prefix
+     * @return {String} the full attribute name
+     */
+    __getAriaAttributeName(name) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (name.startsWith("aria-")) {
+          throw new Error(`Pass the ARIA attribute name without the "aria-" prefix: "${name}"`);
         }
       }
-      if (idArr.length === 0) {
-        return;
+      return "aria-" + name;
+    },
+
+    /**
+     * Converts a value for {@link #setAriaAttribute} into the text written to the DOM.
+     *
+     * @param value {String|Number|Boolean|qx.ui.core.Widget|Array|null} the value
+     * @return {String|null} the text, or `null` to remove the attribute
+     */
+    __toAriaValue(value) {
+      if (value instanceof qx.ui.core.Widget) {
+        return this.__getAriaId(value);
       }
-      const idStr = idArr.join(" ");
-      const contentEl = this.getContentElement();
-      let res = contentEl.getAttribute(ariaAttr);
-      res = res ? `${res} ${idStr}` : idStr;
-      contentEl.setAttribute(ariaAttr, res);
+      if (Array.isArray(value)) {
+        const ids = new Set(value.map(item => (item instanceof qx.ui.core.Widget ? this.__getAriaId(item) : item)));
+        ids.delete(null);
+        return ids.size ? [...ids].join(" ") : null;
+      }
+      if (qx.lang.Type.isBoolean(value) || qx.lang.Type.isNumber(value)) {
+        return String(value);
+      }
+      return value ?? null;
+    },
+
+    /**
+     * Returns the id of a widget's content element and assigns one if it has none yet.
+     *
+     * @param widget {qx.ui.core.Widget} the referenced widget
+     * @return {String|null} the id, or `null` if the widget is disposed
+     */
+    __getAriaId(widget) {
+      const contentEl = widget.getContentElement();
+      if (!contentEl) {
+        return null;
+      }
+      let id = contentEl.getAttribute("id");
+      if (!id) {
+        id = `label-${widget.toHashCode()}`;
+        contentEl.setAttribute("id", id);
+      }
+      return id;
     },
 
     /*

@@ -567,6 +567,91 @@ qx.Class.define("qx.test.ui.core.Widget", {
       this.assertArrayEquals([children[1]], w.getLayoutChildren());
 
       w.destroy();
+    },
+
+    testAriaAttributeValues() {
+      var w = new qx.ui.core.Widget();
+      this.getRoot().add(w);
+      w.setAriaRole("gridcell");
+      w.setAriaAttribute("expanded", false);
+      w.setAriaAttribute("rowindex", 0);
+      w.setAriaAttribute("label", "Name");
+      this.flush();
+
+      var el = w.getContentElement().getDomElement();
+      this.assertEquals("gridcell", el.getAttribute("role"));
+      this.assertEquals("false", el.getAttribute("aria-expanded"), "false must be kept, not removed");
+      this.assertEquals("false", w.getAriaAttribute("expanded"));
+      this.assertEquals("0", el.getAttribute("aria-rowindex"));
+
+      // a loose comparison of the stored value would take false for 0 and skip the update
+      w.setAriaAttribute("rowindex", false);
+      w.setAriaRole(null);
+      w.setAriaAttribute("expanded", null);
+      w.setAriaAttribute("label", undefined);
+      this.flush();
+
+      this.assertEquals("false", el.getAttribute("aria-rowindex"));
+      this.assertFalse(el.hasAttribute("role"));
+      this.assertFalse(el.hasAttribute("aria-expanded"));
+      this.assertFalse(el.hasAttribute("aria-label"));
+      this.assertNull(w.getAriaRole());
+      this.assertNull(w.getAriaAttribute("expanded"));
+
+      w.destroy();
+    },
+
+    testAriaAttributeReferences() {
+      var w = new qx.ui.core.Widget();
+      var withoutId = new qx.ui.core.Widget();
+      var withId = new qx.ui.core.Widget();
+      withId.getContentElement().setAttribute("id", "cell-1");
+
+      w.setAriaAttribute("activedescendant", withoutId);
+      var generatedId = withoutId.getContentElement().getAttribute("id");
+      this.assertString(generatedId);
+      this.assertEquals(generatedId, w.getAriaAttribute("activedescendant"));
+
+      w.setAriaAttribute("owns", [withId, "row-2", withoutId, withId, "row-2"]);
+      this.assertEquals("cell-1 row-2 " + generatedId, w.getAriaAttribute("owns"));
+
+      w.setAriaAttribute("owns", []);
+      this.assertNull(w.getAriaAttribute("owns"));
+
+      withoutId.dispose();
+      w.setAriaAttribute("owns", [withoutId, withId]);
+      this.assertEquals("cell-1", w.getAriaAttribute("owns"), "disposed widgets are left out");
+      w.setAriaAttribute("activedescendant", withoutId);
+      this.assertNull(w.getAriaAttribute("activedescendant"));
+
+      w.dispose();
+      withId.dispose();
+    },
+
+    testAddAriaLabelledBy() {
+      var w = new qx.ui.core.Widget();
+      var label = new qx.ui.core.Widget();
+      label.getContentElement().setAttribute("id", "label-a");
+      w.setAriaAttribute("labelledby", "heading");
+
+      w.addAriaLabelledBy(label);
+      w.addAriaLabelledBy(label);
+      this.assertEquals("heading label-a", w.getAriaAttribute("labelledby"));
+
+      this.assertException(() => w.addAriaDescribedBy("label-a"), Error, "not an instance of qx.ui.core.Widget");
+      this.assertNull(w.getAriaAttribute("describedby"));
+
+      w.dispose();
+      label.dispose();
+    },
+
+    testAriaAttributeRejectsPrefix() {
+      if (!qx.core.Environment.get("qx.debug")) {
+        return;
+      }
+      var w = new qx.ui.core.Widget();
+      this.assertException(() => w.setAriaAttribute("aria-expanded", true), Error, 'without the "aria-" prefix');
+      w.dispose();
     }
   }
 });

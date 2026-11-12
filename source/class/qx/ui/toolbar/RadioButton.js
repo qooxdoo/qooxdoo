@@ -39,10 +39,9 @@ qx.Class.define("qx.ui.toolbar.RadioButton", {
 
     // ARIA attrs
     // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
-    const contentEl = this.getContentElement();
-    contentEl.setAttribute("role", "radio");
-    contentEl.setAttribute("aria-checked", false);
-    contentEl.removeAttribute("aria-pressed");
+    this.setAriaRole("radio");
+    this.setAriaAttribute("checked", false);
+    this.setAriaAttribute("pressed", null);
   },
 
   /*
@@ -63,9 +62,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton", {
       super._applyValue(value, old);
 
       // ARIA attrs
-      const contentEl = this.getContentElement();
-      contentEl.removeAttribute("aria-pressed");
-      contentEl.setAttribute("aria-checked", Boolean(value));
+      this.setAriaAttribute("pressed", null);
+      this.setAriaAttribute("checked", Boolean(value));
 
       if (value) {
         var grp = this.getGroup();
