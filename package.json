@@ -71,9 +71,9 @@
     "@metalsmith/layouts": "^2.7.0",
     "@metalsmith/markdown": "^1.10.0",
     "@octokit/rest": "^20.0.2",
-    "@qooxdoo/eslint-config-jsdoc-disable": "^1.0.3",
-    "@qooxdoo/eslint-config-qx": "^2.0.1",
-    "@qooxdoo/eslint-plugin-qx": "^1.2.22",
+    "@qooxdoo/eslint-config-jsdoc-disable": "^2.0.3",
+    "@qooxdoo/eslint-config-qx": "^3.0.1",
+    "@qooxdoo/eslint-plugin-qx": "^2.0.1",
     "ajv": "^8.12.0",
     "app-module-path": "^2.2.0",
     "async": "^2.6.3",
@@ -86,19 +86,17 @@
     "console-control-strings": "^1.1.0",
     "core-js-bundle": "^3.33.1",
     "dot": "^1.1.3",
-    "download": "^6.0.0",
     "es6-promise-pool": "^2.5.0",
-    "eslint": "^8.51.0",
+    "eslint": "^9.31.0",
     "eslint-formatter-codeframe": "^7.32.1",
-    "eslint-plugin-jsdoc": "46.8.2",
+    "eslint-plugin-jsdoc": "^51.4.1",
     "express": "^4.18.2",
     "fontkit": "^2.0.2",
     "gauge": "^2.7.4",
     "get-value": "^3.0.1",
-    "github-api": "^3.4.0",
     "glob": "^7.1.6",
-    "image-size": "^0.8.3",
-    "inquirer": "^7.3.3",
+    "image-size": "^2.0.4",
+    "inquirer": "^12.11.1",
     "json-stable-stringify": "^1.0.2",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.6.1",
@@ -121,12 +119,13 @@
     "upath": "^1.2.0",
     "update-notifier": "^6.0.2",
     "xml2js": "^0.6.2",
-    "yargs": "^15.4.1"
+    "yargs": "^15.4.1",
+    "yauzl": "^3.4.0"
   },
   "devDependencies": {
     "dirsum": "^0.1.1",
     "source-map-support": "^0.5.21",
     "tape": "^5.7.1"
   },
-  "engine": "node >= 12"
+  "engine": "node >= 20.11.0"
 }

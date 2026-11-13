@@ -20,7 +20,7 @@
  *
  * *********************************************************************** */
 
-var imageSize = qx.tool.utils.Promisify.promisify(require("image-size"));
+var imageSizeFromFile = require("image-size/fromFile").imageSizeFromFile;
 
 var log = qx.tool.utils.LogManager.createLog("resource-manager");
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
       let fileInfo = asset.getFileInfo();
       log.trace("Getting size of " + filename);
       try {
-        let dimensions = await imageSize(filename);
+        let dimensions = await imageSizeFromFile(filename);
         fileInfo.width = dimensions.width;
         fileInfo.height = dimensions.height;
       } catch (ex) {

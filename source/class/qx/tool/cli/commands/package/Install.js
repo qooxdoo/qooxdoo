@@ -16,12 +16,91 @@
 
 ************************************************************************ */
 
-const download = require("download");
+const fsNative = require("fs");
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 const process = require("process");
 const semver = require("semver");
 const rimraf = require("rimraf");
+const yauzl = require("yauzl");
+const { pipeline } = require("stream/promises");
+
+async function downloadAndExtractZip(url, targetPath) {
+  const fetch = (await import("node-fetch")).default;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Download failed with status ${response.status}`);
+  }
+
+  const archivePath = path.join(targetPath, ".archive.zip");
+  await pipeline(response.body, fsNative.createWriteStream(archivePath));
+
+  await new Promise((resolve, reject) => {
+    yauzl.open(archivePath, { lazyEntries: true }, (error, zipFile) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      zipFile.readEntry();
+      zipFile.on("entry", entry => {
+        const entryParts = entry.fileName.split(/[\\/]/).filter(Boolean).slice(1);
+        const entryPath = path.resolve(targetPath, ...entryParts);
+        const relativePath = path.relative(targetPath, entryPath);
+        if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+          zipFile.close();
+          reject(new Error(`Archive entry escapes target directory: ${entry.fileName}`));
+          return;
+        }
+
+        if (/\/$/.test(entry.fileName)) {
+          fsNative.mkdir(entryPath, { recursive: true }, mkdirError => {
+            if (mkdirError) {
+              zipFile.close();
+              reject(mkdirError);
+              return;
+            }
+            zipFile.readEntry();
+          });
+          return;
+        }
+
+        fsNative.mkdir(path.dirname(entryPath), { recursive: true }, mkdirError => {
+          if (mkdirError) {
+            zipFile.close();
+            reject(mkdirError);
+            return;
+          }
+          zipFile.openReadStream(entry, (streamError, readStream) => {
+            if (streamError) {
+              zipFile.close();
+              reject(streamError);
+              return;
+            }
+            const output = fsNative.createWriteStream(entryPath);
+            readStream.on("error", error => {
+              zipFile.close();
+              reject(error);
+            });
+            readStream.pipe(output);
+            output.on("close", () => zipFile.readEntry());
+            output.on("error", error => {
+              zipFile.close();
+              reject(error);
+            });
+          });
+        });
+      });
+      zipFile.on("end", () => {
+        zipFile.close();
+        fsNative.unlink(archivePath, unlinkError =>
+          unlinkError ? reject(unlinkError) : resolve()
+        );
+      });
+      zipFile.on("error", reject);
+    });
+  });
+}
 
 /**
  * Installs a package
@@ -773,7 +852,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
           );
         }
         try {
-          await download(url, download_path, { extract: true, strip: 1 });
+          await downloadAndExtractZip(url, download_path);
         } catch (e) {
           // remove download path so that failed downloads do not result in empty folder
           if (this.argv.verbose) {

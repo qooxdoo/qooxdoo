@@ -2,6 +2,10 @@
 
 ## Breaking changes
 
+- The compiler now needs Node.js 20.11 or newer.
+- qx lint accepts only @qooxdoo/qx, @qooxdoo/qx/browser, and @qooxdoo/jsdoc-disable
+in eslintConfig.extends, and --use-eslintrc is gone
+
 - (>=v8.0.0) Setting model data for a `qx.ui.table.Table` when the table is still editing will
 now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
 that the table edits are completed or cancelled before refreshing table model data.

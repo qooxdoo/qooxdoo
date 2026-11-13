@@ -42,12 +42,6 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
             default: "off"
           },
 
-          "use-eslintrc": {
-            describe: "Use the .eslintrc file for configuration, if it exists",
-            type: "boolean",
-            default: true
-          },
-
           cache: {
             describe: "operate only on changed files",
             type: "boolean",
@@ -134,11 +128,42 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       };
 
       lintOptions.parserOptions.sourceType = "script";
+      const flatConfigs = [];
+      for (const configName of lintOptions.extends) {
+        if (configName === "@qooxdoo/qx/browser") {
+          flatConfigs.push(require("@qooxdoo/eslint-config-qx/browser"));
+        } else if (configName === "@qooxdoo/qx") {
+          if (!lintOptions.extends.includes("@qooxdoo/qx/browser")) {
+            flatConfigs.push(require("@qooxdoo/eslint-config-qx"));
+          }
+        } else if (configName === "@qooxdoo/jsdoc-disable") {
+          flatConfigs.push(require("@qooxdoo/eslint-config-jsdoc-disable"));
+        } else {
+          throw new qx.tool.utils.Utils.UserError(
+            `eslintConfig.extends in compile.json: "${configName}" is not supported with ESLint 9. Use "@qooxdoo/qx", "@qooxdoo/qx/browser" or "@qooxdoo/jsdoc-disable".`
+          );
+        }
+      }
+      flatConfigs.push({
+        languageOptions: {
+          parser: require("@babel/eslint-parser"),
+          parserOptions: lintOptions.parserOptions,
+          globals: lintOptions.globals
+        },
+        rules: Object.assign({}, lintOptions.rules, {
+          "no-implicit-globals": "off",
+          "no-console": "off"
+        }),
+        linterOptions: {
+          reportUnusedDisableDirectives: "off",
+          reportUnusedInlineConfigs: "off"
+        }
+      });
       let linter = new ESLint({
         cwd: helperFilePath,
         cache: this.argv.cache || false,
-        baseConfig: lintOptions,
-        useEslintrc: this.argv.useEslintrc,
+        overrideConfig: flatConfigs.flat(),
+        overrideConfigFile: true,
         fix: this.argv.fix
       });
 
@@ -147,6 +172,22 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         qx.tool.compiler.Console.info(JSON.stringify(fileConfig, null, "  "));
       } else {
         let report = await linter.lintFiles(files);
+        // ESLint 9 reports duplicate inline directives in bundled legacy sources;
+        // these were tolerated by the previous ESLint version.
+        for (const result of report) {
+          result.messages = result.messages.filter(
+            message =>
+              !message.message.includes(
+                "is already configured by another configuration comment"
+              )
+          );
+          result.errorCount = result.messages.filter(
+            message => message.severity === 2
+          ).length;
+          result.warningCount = result.messages.filter(
+            message => message.severity === 1
+          ).length;
+        }
         report.errorCount = 0;
         report.warningCount = 0;
         for (const r of report) {

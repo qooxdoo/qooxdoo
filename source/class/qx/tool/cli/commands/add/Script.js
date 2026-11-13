@@ -19,7 +19,7 @@
 const fs = require("fs");
 const process = require("process");
 const path = require("upath");
-const inquirer = require("inquirer");
+const inquirer = require("inquirer").default;
 /**
  * Add a new script file to the current project, to be loaded by the qooxdoo boot loader
  *
