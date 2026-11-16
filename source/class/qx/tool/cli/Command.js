@@ -66,11 +66,19 @@ qx.Class.define("qx.tool.cli.Command", {
     },
     
     /** whether this should be hidden in the usage statement */
-    hidden: { 
+    hidden: {
       init: false,
       check: "Boolean"
-    } 
+    },
 
+    /**
+     * Whether everything after this command's name is passed through unparsed (including `--help`
+     * and positional arguments), eg to hand it on to another program; see `getPassThroughArgs`
+     */
+    passThrough: {
+      init: false,
+      check: "Boolean"
+    }
   },
 
   members: {
@@ -88,6 +96,18 @@ qx.Class.define("qx.tool.cli.Command", {
 
     /** @type{String[]?} list of error messages */
     __errors: null,
+
+    /** @type{String[]} arguments after the name of a `passThrough` command */
+    __passThroughArgs: null,
+
+    /**
+     * Returns the unparsed arguments after the name of a `passThrough` command
+     *
+     * @returns {String[]}
+     */
+    getPassThroughArgs() {
+      return this.__passThroughArgs ?? [];
+    },
 
     /**
      * Adds a sub command
@@ -193,10 +213,9 @@ qx.Class.define("qx.tool.cli.Command", {
         qx.lang.Array.removeAt(argv, 0);
       }
 
-      let exe = argv[0];
-      let pos = exe.lastIndexOf(path.sep);
-      if (pos > -1) { exe = exe.substring(pos + 1); }
-      this.setName(exe);
+      if (!this.getName() || this.getName() == "*") {
+        this.setName(path.basename(argv[0]));
+      }
 
       let argvIndex = 1;
       function fnGetMore(index, rebase) {
@@ -361,6 +380,15 @@ qx.Class.define("qx.tool.cli.Command", {
      */
     parse(cmdName, fnGetMore) {
       let argvIndex = 0;
+      if (this.isPassThrough()) {
+        this.__passThroughArgs = [];
+        for (let value = fnGetMore(argvIndex); value !== null; value = fnGetMore(++argvIndex)) {
+          this.__passThroughArgs.push(value);
+        }
+        fnGetMore(argvIndex, true);
+        return this;
+      }
+
       function nextCmdName() {
         let value = fnGetMore(argvIndex++);
         if (value && value[0] == "-") { value = null; }
@@ -495,6 +523,8 @@ qx.Class.define("qx.tool.cli.Command", {
             if (argument.isArray() && scanningForArguments) {
               done = true; // Exit the parsing loop to let array collect all remaining values
             }
+          } else if (!this.__relaxedCheck) {
+            this._error(`Unknown command or argument ${value} passed to ${this}`);
           }
         }
       }

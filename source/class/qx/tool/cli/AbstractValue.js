@@ -1,5 +1,3 @@
-const { assertAccessor } = require("@babel/types");
-
 /* ************************************************************************
 
    qooxdoo - the new era of web development
