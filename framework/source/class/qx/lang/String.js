@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.lang.String",
      */
     __hyphenationMap : {},
 
-    /** @type{Map<char, String} character types, key is the character and the vaklue is `upper`, `lower`, or `digit` */
+    /** @type {Map} character types, key is the character and the value is `upper`, `lower`, or `digit` */
     __characterTypes: null,
 
     /**
@@ -151,30 +151,30 @@ qx.Bootstrap.define("qx.lang.String",
 
     /**
      * Detects whether the string is all upper case
-     * @param {String} str 
-     * @returns {Boolean}
+     * @param str {String}
+     * @return {Boolean}
      */
-     isUpperCase(str) {
+    isUpperCase: function(str) {
       return qx.lang.String.__characterRx.upper.test(str);
     },
 
 
     /**
      * Detects whether the string is all lower case
-     * @param {String} str 
-     * @returns {Boolean}
+     * @param str {String}
+     * @return {Boolean}
      */
-     isLowerCase(str) {
+    isLowerCase: function(str) {
       return qx.lang.String.__characterRx.lower.test(str);
     },
 
 
     /**
      * Detects whether the string is all digits
-     * @param {String} str 
-     * @returns {Boolean}
+     * @param str {String}
+     * @return {Boolean}
      */
-     isDigits(str) {
+    isDigits: function(str) {
       return qx.lang.String.__characterRx.digit.test(str);
     },
 
@@ -431,11 +431,11 @@ qx.Bootstrap.define("qx.lang.String",
     }
   },
 
-  defer(statics) {
+  defer: function(statics) {
     statics.__characterRx = {
       upper: RegExp(/^\p{General_Category=Uppercase_Letter}+$/u),
       lower: RegExp(/^\p{General_Category=Lowercase_Letter}+$/u),
       digit: RegExp(/^\p{General_Category=Decimal_Number}+$/u)
     };
-  },
+  }
 });
