@@ -382,6 +382,52 @@ qx.Class.define("qx.test.tool.cli.Command", {
       this.assertEquals("desktop", cmd.getFlag("type").getValue());
       this.assertEquals("indigo", cmd.getFlag("theme").getValue());
       this.assertEquals("Tango", cmd.getFlag("icontheme").getValue());
+    },
+
+    testParseRootKeepsGivenName() {
+      let named = new qx.tool.cli.Command("vzaweb");
+      named.parseRoot(["index.js"]);
+      this.assertEquals("vzaweb", named.getName());
+
+      for (let name of ["*", ""]) {
+        let unnamed = new qx.tool.cli.Command(name);
+        unnamed.parseRoot(["index.js"]);
+        this.assertEquals("index.js", unnamed.getName());
+      }
+    },
+
+    testParsePassThrough() {
+      let rootCmd = new qx.tool.cli.Command("qx");
+      rootCmd.addFlag(new qx.tool.cli.Flag("verbose").set({ type: "boolean" }));
+      let subCmd = new qx.tool.cli.Command("vzaweb").set({ passThrough: true });
+      rootCmd.addSubcommand(subCmd);
+
+      let result = rootCmd.parseRoot(["qx", "--verbose", "vzaweb", "db", "--help", "--database", "x"]);
+
+      this.assertEquals(subCmd, result);
+      this.assertArrayEquals(["db", "--help", "--database", "x"], subCmd.getPassThroughArgs());
+      this.assertFalse(subCmd.getFlag("help").getValue());
+      this.assertTrue(rootCmd.getFlag("verbose").getValue());
+      this.assertNull(subCmd.getErrors());
+      this.assertNull(rootCmd.getErrors());
+    },
+
+    testParseUnexpectedPositional() {
+      let rootCmd = new qx.tool.cli.Command("vzaweb");
+      let status = new qx.tool.cli.Command("status");
+      rootCmd.addSubcommand(status);
+
+      let result = rootCmd.parseRoot(["vzaweb", "updtae"]);
+      this.assertEquals(rootCmd, result);
+      this.assertMatch(rootCmd.getErrors()[0], /Unknown command or argument updtae/);
+
+      rootCmd = new qx.tool.cli.Command("vzaweb");
+      status = new qx.tool.cli.Command("status");
+      rootCmd.addSubcommand(status);
+
+      result = rootCmd.parseRoot(["vzaweb", "status", "foo"]);
+      this.assertEquals(status, result);
+      this.assertMatch(status.getErrors()[0], /Unknown command or argument foo/);
     }
   }
 });
